@@ -299,7 +299,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Editing
 				Sector s;
 				
 				// Check on which side of the linedef the mouse is
-				float side = l.SideOfLine(mousemappos);
+				double side = l.SideOfLine(mousemappos);
 				if(side > 0)
 				{
 					// Is there a sidedef here?
@@ -317,8 +317,8 @@ namespace CodeImp.DoomBuilder.BuilderModes.Editing
 				if((v != null) && (t != null))
 				{
 					// Highlight closest
-					float vd = v.DistanceToSq(mousemappos);
-					float td = t.DistanceToSq(mousemappos);
+					double vd = v.DistanceToSq(mousemappos);
+					double td = t.DistanceToSq(mousemappos);
 					if(vd < td) Highlight(v); else Highlight(t);
 				}
 				// Vertex in range?
@@ -336,7 +336,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Editing
 				else
 				{
 					// Linedef within in range?
-					float ld = l.DistanceTo(mousemappos, true);
+					double ld = l.DistanceTo(mousemappos, true);
 					if(ld < (LINEDEF_HIGHLIGHT_RANGE / renderer.Scale))
 					{
 						// Highlight line

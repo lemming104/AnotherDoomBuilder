@@ -109,13 +109,13 @@ namespace CodeImp.DoomBuilder.Statistics
 			exampleimage = new ResourceImage("CodeImp.DoomBuilder.Plugins.ImageDrawingExample.exampleimage.png");
 
 			// The image is not always directly loaded. Call this to ensure that the image is loaded immediately.
-			exampleimage.LoadImage();
+			exampleimage.LoadImageNow();
 			if(exampleimage.LoadFailed) throw new Exception("Unable to load the exampleimage.png resource!");
 
 			// After loading, the image is usable by the GDI (GetBitmap() function) but we want to use
 			// it for rendering in the working area. We must call CreateTexture to tranfer the image to
 			// the vido memory as texture.
-			exampleimage.CreateTexture();
+			//exampleimage.CreateTexture();
 			
 			// This tells the renderer how to display the map.
 			// The renderer works with several different layers, each with its own purpose
