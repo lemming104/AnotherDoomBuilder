@@ -4,98 +4,81 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>CodeImp.DoomBuilder</RootNamespace>
     <StartupObject>CodeImp.DoomBuilder.General</StartupObject>
+    
     <ApplicationIcon>Resources\UDB2.ico</ApplicationIcon>
-    <Win32Resource></Win32Resource>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWindowsForms>true</UseWindowsForms>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    
     <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Update="Controls\ArgumentBox.cs" SubType="UserControl" />
-    <Compile Update="Controls\CommandPaletteControl.cs" SubType="UserControl" />
-    <Compile Update="Controls\ExternalCommandControl.cs" SubType="UserControl" />
-    <Compile Update="Controls\PlaceholderToolStripTextBox.cs" SubType="Component" />
-    <Compile Update="Controls\SidedefPartLightControl.cs" SubType="UserControl" />
-    <Compile Update="Controls\ToastControl.cs" SubType="UserControl" />
-    <Compile Update="Controls\ToolStripActionButton.cs" SubType="Component" />
-    <Compile Update="Controls\TransparentTrackBar.cs" SubType="Component" />
-    <Compile Update="Controls\Scripting\ScriptDocumentTab.cs" SubType="Component" />
-    <Compile Update="Controls\Scripting\ScriptEditorPanel.cs" SubType="UserControl" />
-    <Compile Update="Controls\Scripting\ScriptFileDocumentTab.cs" SubType="Component" />
-    <Compile Update="Controls\Scripting\ScriptLumpDocumentTab.cs" SubType="Component" />
-    <Compile Update="Controls\PairedFloatControl.cs" SubType="UserControl" />
     <Compile Update="Controls\ActionSelectorControl.cs" SubType="UserControl" />
-    <Compile Update="Controls\AngleControl.cs" SubType="UserControl" />
-    <Compile Update="Controls\AutoSelectTextbox.cs" SubType="Component" />
-    <Compile Update="Controls\CheckboxArrayControl.cs" SubType="UserControl" />
-    <Compile Update="Controls\ButtonsNumericTextbox.cs" SubType="UserControl" />
-    <Compile Update="Controls\ColorControl.cs" SubType="UserControl" />
-    <Compile Update="Controls\FieldsEditorControl.cs" SubType="UserControl" />
-    <Compile Update="Controls\FlatSelectorControl.cs" SubType="UserControl" />
-    <Compile Update="Controls\ImageBrowserControl.cs" SubType="UserControl" />
-    <Compile Update="Controls\ImageSelectorControl.cs" SubType="UserControl" />
-    <Compile Update="Controls\LinedefInfoPanel.cs" SubType="UserControl" />
-    <Compile Update="Controls\NumericTextbox.cs" SubType="Component" />
-    <Compile Update="Controls\OptimizedListView.cs" SubType="Component" />
-    <Compile Update="Controls\RenderTargetControl.cs" SubType="Component" />
-    <Compile Update="Controls\ResourceListView.cs" SubType="Component" />
-    <Compile Update="Controls\ResourceListEditor.cs" SubType="UserControl" />
-    <Compile Update="Controls\SectorInfoPanel.cs" SubType="UserControl" />
-    <Compile Update="Controls\TextureSelectorControl.cs" SubType="UserControl" />
-    <Compile Update="Controls\ThingInfoPanel.cs" SubType="UserControl" />
-    <Compile Update="Controls\VertexInfoPanel.cs" SubType="UserControl" />
-    <Compile Update="Controls\ImageSelectorPanel.cs" SubType="Component" />
-    <Compile Update="Controls\TransparentLabel.cs" SubType="Component" />
-    <Compile Update="Controls\Scripting\ScriptResourceDocumentTab.cs" SubType="Component" />
-    <Compile Update="Controls\VisualStudioTabControl.cs" SubType="Component" />
     <Compile Update="Controls\ActionSpecialHelpButton.cs" SubType="UserControl" />
+    <Compile Update="Controls\AngleControl.cs" SubType="UserControl" />
+    <Compile Update="Controls\AngleControlEx.cs" SubType="UserControl" />
+    <Compile Update="Controls\ArgumentBox.cs" SubType="UserControl" />
     <Compile Update="Controls\ArgumentsControl.cs" SubType="UserControl" />
+    <Compile Update="Controls\AutoSelectTextbox.cs" SubType="Component" />
     <Compile Update="Controls\BufferedTreeView.cs" SubType="Component" />
+    <Compile Update="Controls\ButtonsNumericTextbox.cs" SubType="UserControl" />
+    <Compile Update="Controls\CheckboxArrayControl.cs" SubType="UserControl" />
+    <Compile Update="Controls\CheckedColoredListBox.cs" SubType="Component" />
     <Compile Update="Controls\CollapsibleSplitContainer.cs" SubType="Component" />
+    <Compile Update="Controls\ColorControl.cs" SubType="UserControl" />
+    <Compile Update="Controls\ColorFieldsControl.cs" SubType="UserControl" />
     <Compile Update="Controls\ColoredComboBox.cs" SubType="Component" />
+    <Compile Update="Controls\CommandPaletteControl.cs" SubType="UserControl" />
     <Compile Update="Controls\CommentEditor.cs" SubType="UserControl" />
+    <Compile Update="Controls\ConfigurablePictureBox.cs" SubType="Component" />
     <Compile Update="Controls\DebugConsole.cs" SubType="UserControl" />
     <Compile Update="Controls\DockersControl.cs" SubType="UserControl" />
     <Compile Update="Controls\DockersTabsControl.cs" SubType="Component" />
-    <Compile Update="Controls\ConfigurablePictureBox.cs" SubType="Component" />
+    <Compile Update="Controls\ExternalCommandControl.cs" SubType="UserControl" />
+    <Compile Update="Controls\FieldsEditorControl.cs" SubType="UserControl" />
+    <Compile Update="Controls\FlatSelectorControl.cs" SubType="UserControl" />
     <Compile Update="Controls\HintsPanel.cs" SubType="UserControl" />
+    <Compile Update="Controls\ImageBrowserControl.cs" SubType="UserControl" />
+    <Compile Update="Controls\ImageSelectorControl.cs" SubType="UserControl" />
+    <Compile Update="Controls\ImageSelectorPanel.cs" SubType="Component" />
+    <Compile Update="Controls\LinedefInfoPanel.cs" SubType="UserControl" />
+    <Compile Update="Controls\MultiSelectTreeview.cs" SubType="Component" />
+    <Compile Update="Controls\NumericTextbox.cs" SubType="Component" />
+    <Compile Update="Controls\OptimizedListView.cs" SubType="Component" />
+    <Compile Update="Controls\PairedFieldsControl.cs" SubType="UserControl" />
+    <Compile Update="Controls\PairedFloatControl.cs" SubType="UserControl" />
+    <Compile Update="Controls\PairedIntControl.cs" SubType="UserControl" />
     <Compile Update="Controls\PasteOptionsControl.cs" SubType="UserControl" />
+    <Compile Update="Controls\PlaceholderToolStripTextBox.cs" SubType="Component" />
+    <Compile Update="Controls\RenderTargetControl.cs" SubType="Component" />
+    <Compile Update="Controls\ResourceListEditor.cs" SubType="UserControl" />
+    <Compile Update="Controls\ResourceListView.cs" SubType="Component" />
+    <Compile Update="Controls\Scripting\ScriptDocumentTab.cs" SubType="Component" />
     <Compile Update="Controls\Scripting\ScriptEditorControl.cs" SubType="UserControl" />
+    <Compile Update="Controls\Scripting\ScriptEditorPanel.cs" SubType="UserControl" />
     <Compile Update="Controls\Scripting\ScriptEditorPreviewControl.cs" SubType="UserControl" />
+    <Compile Update="Controls\Scripting\ScriptFileDocumentTab.cs" SubType="Component" />
+    <Compile Update="Controls\Scripting\ScriptLumpDocumentTab.cs" SubType="Component" />
+    <Compile Update="Controls\Scripting\ScriptResourceDocumentTab.cs" SubType="Component" />
+    <Compile Update="Controls\SectorInfoPanel.cs" SubType="UserControl" />
     <Compile Update="Controls\SectorSlopeControl.cs" SubType="UserControl" />
+    <Compile Update="Controls\SidedefPartLightControl.cs" SubType="UserControl" />
     <Compile Update="Controls\StatisticsControl.cs" SubType="UserControl" />
+    <Compile Update="Controls\TagSelector.cs" SubType="UserControl" />
+    <Compile Update="Controls\TagsSelector.cs" SubType="UserControl" />
+    <Compile Update="Controls\TextureSelectorControl.cs" SubType="UserControl" />
     <Compile Update="Controls\ThingBrowserControl.cs" SubType="UserControl" />
+    <Compile Update="Controls\ThingInfoPanel.cs" SubType="UserControl" />
+    <Compile Update="Controls\ToastControl.cs" SubType="UserControl" />
+    <Compile Update="Controls\ToolStripActionButton.cs" SubType="Component" />
     <Compile Update="Controls\ToolStripCheckBox.cs" SubType="Component" />
     <Compile Update="Controls\ToolStripNumericUpDown.cs" SubType="Component" />
+    <Compile Update="Controls\TransparentLabel.cs" SubType="Component" />
     <Compile Update="Controls\TransparentListView.cs" SubType="Component" />
     <Compile Update="Controls\TransparentPanel.cs" SubType="Component" />
-    <Compile Update="Controls\AngleControlEx.cs" SubType="UserControl" />
-    <Compile Update="Controls\ColorFieldsControl.cs" SubType="UserControl" />
-    <Compile Update="Controls\TagsSelector.cs" SubType="UserControl" />
-    <Compile Update="Controls\CheckedColoredListBox.cs" SubType="Component" />
-    <Compile Update="Controls\MultiSelectTreeview.cs" SubType="Component" />
-    <Compile Update="Controls\PairedFieldsControl.cs" SubType="UserControl" />
-    <Compile Update="Controls\PairedIntControl.cs" SubType="UserControl" />
-    <Compile Update="Controls\TagSelector.cs" SubType="UserControl" />
+    <Compile Update="Controls\TransparentTrackBar.cs" SubType="Component" />
+    <Compile Update="Controls\VertexInfoPanel.cs" SubType="UserControl" />
+    <Compile Update="Controls\VisualStudioTabControl.cs" SubType="Component" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\ClassicRendering.png" />
@@ -104,6 +87,7 @@
     <Content Include="Resources\Light_animate.png" />
     <Content Include="Resources\Model.png" />
     <Content Include="Resources\Model_selected.png" />
+    <EmbeddedResource Include="Resources\Actions.cfg" />
     <EmbeddedResource Include="Resources\Black.png" />
     <EmbeddedResource Include="Resources\CommentInfo.png" />
     <EmbeddedResource Include="Resources\CommentProblem.png" />
@@ -117,8 +101,11 @@
     <EmbeddedResource Include="Resources\Hourglass3D.png" />
     <EmbeddedResource Include="Resources\Lexers.cfg" />
     <EmbeddedResource Include="Resources\MissingSky3D.png" />
+    <EmbeddedResource Include="Resources\MissingTexture3D.png" />
     <EmbeddedResource Include="Resources\MissingThing.png" />
     <EmbeddedResource Include="Resources\Nothing.png" />
+    <EmbeddedResource Include="Resources\SkySphere.md3" />
+    <EmbeddedResource Include="Resources\ThingTexture2D.png" />
     <EmbeddedResource Include="Resources\UDMF.cfg" />
     <EmbeddedResource Include="Resources\UnknownTexture3D.png" />
     <EmbeddedResource Include="Resources\UnknownThing.png" />
@@ -127,10 +114,6 @@
     <EmbeddedResource Include="Resources\things2d.shader" />
     <EmbeddedResource Include="Resources\world3d.shader" />
     <EmbeddedResource Include="Resources\world3d_skybox.shader" />
-    <EmbeddedResource Include="Resources\SkySphere.md3" />
-    <EmbeddedResource Include="Resources\Actions.cfg" />
-    <EmbeddedResource Include="Resources\ThingTexture2D.png" />
-    <EmbeddedResource Include="Resources\MissingTexture3D.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Management" Version="10.0.6" />
@@ -177,41 +160,4 @@
       <IsAsset>true</IsAsset>
     </None>
   </ItemGroup>
-  <Target Name="CleanOutputDirectory" BeforeTargets="BeforeBuild">
-    <Message Text="Cleaning output directory: $(OutputPath)" Importance="high" />
-    <RemoveDir Directories="$(OutputPath)" Condition="Exists('$(OutputPath)')" />
-  </Target>
-  <Target Name="CopyAssetsToBuildFolder" AfterTargets="AfterBuild">
-    <ItemGroup>
-      <AssetsToCopy Include="@(None)" Condition="'%(None.IsAsset)' == 'true'" />
-    </ItemGroup>
-    <Message Importance="High" Text="Copying Assets to: $(OutputPath)" />
-    <Copy SourceFiles="@(AssetsToCopy)" DestinationFiles="$(OutputPath)%(Link)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" />
-  </Target>
-  <Target Name="GenerateGitVersion" BeforeTargets="BeforeCompile">
-    <Exec Command="git rev-list --count HEAD" ConsoleToMSBuild="true" StandardOutputImportance="low" IgnoreExitCode="true">
-      <Output TaskParameter="ConsoleOutput" PropertyName="GitCommitCount" />
-    </Exec>
-    <Exec Command="git rev-parse --short=7 HEAD" ConsoleToMSBuild="true" StandardOutputImportance="low" IgnoreExitCode="true">
-      <Output TaskParameter="ConsoleOutput" PropertyName="GitCommitHash" />
-    </Exec>
-    <PropertyGroup>
-      <GitCommitCount Condition="'$(GitCommitCount)' == '' Or $(GitCommitCount.StartsWith('fatal'))">unknown</GitCommitCount>
-      <GitCommitHash Condition="'$(GitCommitHash)' == '' Or $(GitCommitHash.StartsWith('fatal'))">unknown</GitCommitHash>
-      <FullVersion>3.0.0.$(GitCommitCount)</FullVersion>
-      <VersionFilePath>$(IntermediateOutputPath)GeneratedVersionInfo.cs</VersionFilePath>
-    </PropertyGroup>
-    <ItemGroup>
-      <VersionLines Include="using System.Reflection%3b" />
-      <VersionLines Include="using CodeImp.DoomBuilder%3b" />
-      <VersionLines Include="[assembly: AssemblyVersion(&quot;$(FullVersion)&quot;)]" />
-      <VersionLines Include="[assembly: AssemblyFileVersion(&quot;$(FullVersion)&quot;)]" />
-      <VersionLines Include="[assembly: AssemblyHash(&quot;$(GitCommitHash)&quot;)]" />
-    </ItemGroup>
-    <WriteLinesToFile File="$(VersionFilePath)" Lines="@(VersionLines)" Overwrite="true" WriteOnlyWhenDifferent="true" />
-    <ItemGroup>
-      <Compile Include="$(VersionFilePath)" />
-    </ItemGroup>
-    <Message Importance="high" Text="Got build version from Git: $(FullVersion) (saved to temporary compile-time file $(VersionFilePath))" />
-  </Target>
 </Project>

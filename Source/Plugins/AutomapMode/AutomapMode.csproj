@@ -3,8 +3,6 @@
     <TargetFramework>net472</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>CodeImp.DoomBuilder.AutomapMode</RootNamespace>
-    <StartupObject></StartupObject>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWindowsForms>true</UseWindowsForms>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
     <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>

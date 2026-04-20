@@ -3,8 +3,6 @@
     <TargetFramework>net472</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>CodeImp.DoomBuilder.Plugins.ImageDrawingExample</RootNamespace>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   
   <ItemGroup>

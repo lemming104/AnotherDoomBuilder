@@ -3,7 +3,7 @@
     <TargetFramework>net472</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>CodeImp.DoomBuilder.TagExplorer</RootNamespace>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
     <UseWindowsForms>true</UseWindowsForms>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
     <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>

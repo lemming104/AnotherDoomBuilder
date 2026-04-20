@@ -3,10 +3,9 @@
     <TargetFramework>net472</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>CodeImp.DoomBuilder.USDF</RootNamespace>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
     <UseWindowsForms>true</UseWindowsForms>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-    <OutputPath>..\..\..\Build\Plugins\</OutputPath>
     <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
   <ItemGroup>
