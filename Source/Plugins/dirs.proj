@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.Build.Traversal">
+  <ItemGroup>
+    <ProjectReference Include="C:\git\AnotherDoomBuilder\Source\Plugins\3DFloorMode\ThreeDFloorMode.csproj" />
+    <ProjectReference Include="C:\git\AnotherDoomBuilder\Source\Plugins\AutomapMode\AutomapMode.csproj" />
+    <ProjectReference Include="C:\git\AnotherDoomBuilder\Source\Plugins\BlockmapExplorer\BlockmapExplorer.csproj" />
+    <ProjectReference Include="C:\git\AnotherDoomBuilder\Source\Plugins\BuilderEffects\BuilderEffects.csproj" />
+    <ProjectReference Include="C:\git\AnotherDoomBuilder\Source\Plugins\BuilderModes\BuilderModes.csproj" />
+    <ProjectReference Include="C:\git\AnotherDoomBuilder\Source\Plugins\ColorPicker\ColorPicker.csproj" />
+    <ProjectReference Include="C:\git\AnotherDoomBuilder\Source\Plugins\CommentsPanel\CommentsPanel.csproj" />
+    <ProjectReference Include="C:\git\AnotherDoomBuilder\Source\Plugins\ImageDrawingExample\ImageDrawingExample.csproj" />
+    <ProjectReference Include="C:\git\AnotherDoomBuilder\Source\Plugins\NodesViewer\NodesViewer.csproj" />
+    <ProjectReference Include="C:\git\AnotherDoomBuilder\Source\Plugins\SoundPropagationMode\SoundPropagation.csproj" />
+    <ProjectReference Include="C:\git\AnotherDoomBuilder\Source\Plugins\StairSectorBuilder\StairSectorBuilder.csproj" />
+    <ProjectReference Include="C:\git\AnotherDoomBuilder\Source\Plugins\TagExplorer\TagExplorer.csproj" />
+    <ProjectReference Include="C:\git\AnotherDoomBuilder\Source\Plugins\TagRange\TagRange.csproj" />
+    <ProjectReference Include="C:\git\AnotherDoomBuilder\Source\Plugins\UDBScript\UDBScript.csproj" />
+    <ProjectReference Include="C:\git\AnotherDoomBuilder\Source\Plugins\USDF\USDF.csproj" />
+    <ProjectReference Include="C:\git\AnotherDoomBuilder\Source\Plugins\VisplaneExplorer\VisplaneExplorer.csproj" />
+    <ProjectReference Include="C:\git\AnotherDoomBuilder\Source\Plugins\WadAuthorMode\WadAuthorMode.csproj" />
+  </ItemGroup>
+</Project>

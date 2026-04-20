@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.Build.Traversal">
+  <ItemGroup>
+    <!--<ProjectReference Include="Native\BuilderNative.vcxproj" />-->
+    <ProjectReference Include="Core\Builder.csproj" />
+    <ProjectReference Include="Plugins\dirs.proj" />
+    <!--<ProjectReference Include="Tests\Builder.Tests\Builder.Tests.csproj" />-->
+  </ItemGroup>
+</Project>
