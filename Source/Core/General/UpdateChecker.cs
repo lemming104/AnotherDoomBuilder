@@ -1,7 +1,9 @@
 ﻿#region ================== Namespaces
 
+using SharpCompress.Archives;
 using SharpCompress.Archives.SevenZip;
-//using SharpCompress.Common;
+using SharpCompress.Common;
+using SharpCompress.Factories;
 using SharpCompress.Readers;
 using System;
 using System.Collections.Generic;
@@ -219,16 +221,15 @@ namespace CodeImp.DoomBuilder
                 // Unpack update
                 try
                 {
-                    using (SevenZipArchive arc = SevenZipArchive.Open(stream))
+                    using (IArchive archive = ArchiveFactory.OpenArchive(stream))
                     {
-                        if (!arc.IsComplete) return "downloaded Updater package is not complete.";
-                        IReader reader = arc.ExtractAllEntries();
+                        if (!archive.IsComplete) return "downloaded Updater package is not complete.";
+                        IReader reader = archive.ExtractAllEntries();
 
-                        // Unpack all
                         while (reader.MoveToNextEntry())
                         {
                             if (reader.Entry.IsDirectory) continue; // Shouldn't be there, but who knows...
-                            reader.WriteEntryToDirectory(General.AppPath, new ExtractionOptions() { ExtractFullPath = true, Overwrite = true });
+                            reader.WriteEntryToDirectory(General.AppPath, new ExtractionOptions(extractFullPath: true, overwrite: true));
                         }
                     }
                 }
