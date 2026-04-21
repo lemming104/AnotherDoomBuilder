@@ -26,51 +26,51 @@ using System;
 
 namespace CodeImp.DoomBuilder.BuilderModes.Interface
 {
-	public partial class ChangeMapElementIndexForm : DelayedForm
-	{
-		private int currentindex;
-		private int maxindex;
+    public partial class ChangeMapElementIndexForm : DelayedForm
+    {
+        private int currentindex;
+        private int maxindex;
 
-		public ChangeMapElementIndexForm(string typetitle, int currentindex, int maxindex)
-		{
-			InitializeComponent();
+        public ChangeMapElementIndexForm(string typetitle, int currentindex, int maxindex)
+        {
+            InitializeComponent();
 
-			Text = $"Change {typetitle} index";
+            Text = $"Change {typetitle} index";
 
-			this.currentindex = currentindex;
-			this.maxindex = maxindex;
+            this.currentindex = currentindex;
+            this.maxindex = maxindex;
 
-			lbCurrentIndex.Text = currentindex.ToString();
-			lbMaximumIndex.Text = maxindex.ToString();
-			bntNewIndex.Text = "0";
-		}
+            lbCurrentIndex.Text = currentindex.ToString();
+            lbMaximumIndex.Text = maxindex.ToString();
+            bntNewIndex.Text = "0";
+        }
 
-		public int GetNewIndex()
-		{
-			return bntNewIndex.GetResult(0);
-		}
+        public int GetNewIndex()
+        {
+            return bntNewIndex.GetResult(0);
+        }
 
-		private void bntNewIndex_WhenTextChanged(object sender, EventArgs e)
-		{
-			int targetindex = bntNewIndex.GetResult(0);
+        private void bntNewIndex_WhenTextChanged(object sender, EventArgs e)
+        {
+            int targetindex = bntNewIndex.GetResult(0);
 
-			if(targetindex > maxindex)
-			{
-				toolTip.SetToolTip(pbWarning, "The new index is too high");
-				btnOk.Enabled = false;
-				pbWarning.Visible = true;
-			}
-			else if(targetindex == currentindex)
-			{
-				toolTip.SetToolTip(pbWarning, "The new and old indices are the same");
-				btnOk.Enabled = false;
-				pbWarning.Visible = true;
-			}
-			else
-			{
-				btnOk.Enabled = true;
-				pbWarning.Visible = false;
-			}
-		}
-	}
+            if (targetindex > maxindex)
+            {
+                toolTip.SetToolTip(pbWarning, "The new index is too high");
+                btnOk.Enabled = false;
+                pbWarning.Visible = true;
+            }
+            else if (targetindex == currentindex)
+            {
+                toolTip.SetToolTip(pbWarning, "The new and old indices are the same");
+                btnOk.Enabled = false;
+                pbWarning.Visible = true;
+            }
+            else
+            {
+                btnOk.Enabled = true;
+                pbWarning.Visible = false;
+            }
+        }
+    }
 }

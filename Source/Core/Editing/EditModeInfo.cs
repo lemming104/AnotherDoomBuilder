@@ -16,213 +16,207 @@
 
 #region ================== Namespaces
 
-using System;
-using System.Drawing;
-using System.IO;
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Plugins;
 using CodeImp.DoomBuilder.Rendering;
 using CodeImp.DoomBuilder.VisualModes;
+using System;
+using System.Drawing;
+using System.IO;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Editing
 {
-	internal class EditModeInfo : IComparable<EditModeInfo>
-	{
-		#region ================== Constants
+    internal class EditModeInfo : IComparable<EditModeInfo>
+    {
+        #region ================== Constants
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		// Mode type
-		private Plugin plugin;
-		private readonly Type type;
-		private readonly EditModeAttribute attribs;
-		
-		// Mode switching
-		private readonly BeginActionAttribute switchactionattr;
-		private ActionDelegate switchactiondel;
+        // Mode type
 
-		// Mode button
-		private readonly Image buttonimage;
-		private readonly string buttondesc;
-		private readonly int buttonorder = int.MaxValue;
+        // Mode switching
+        private ActionDelegate switchactiondel;
 
-		//mxd. Disposing
-		private bool isdisposed;
-		
-		#endregion
+        // Mode button
+        private readonly int buttonorder = int.MaxValue;
 
-		#region ================== Properties
+        //mxd. Disposing
+        private bool isdisposed;
 
-		public Plugin Plugin { get { return plugin; } }
-		public Type Type { get { return type; } }
-		public bool IsOptional { get { return ((switchactionattr != null) || (buttonimage != null)) && attribs.Optional; } }
-		public BeginActionAttribute SwitchAction { get { return switchactionattr; } }
-		public Image ButtonImage { get { return buttonimage; } }
-		public string ButtonDesc { get { return buttondesc; } }
-		public EditModeAttribute Attributes { get { return attribs; } }
-		
-		#endregion
+        #endregion
 
-		#region ================== Constructor / Disposer
+        #region ================== Properties
 
-		// Constructor
-		public EditModeInfo(Plugin plugin, Type type, EditModeAttribute attr)
-		{
-			// Initialize
-			this.plugin = plugin;
-			this.type = type;
-			this.attribs = attr;
-			
-			// Make switch action info
-			if(!string.IsNullOrEmpty(attribs.SwitchAction))
-				switchactionattr = new BeginActionAttribute(attribs.SwitchAction);
-			
-			// Make button info
-			if(!string.IsNullOrEmpty(attr.ButtonImage))
-			{
-				using(Stream stream = plugin.GetResourceStream(attr.ButtonImage))
-				{
-					if(stream != null)
-					{
-						buttonimage = Image.FromStream(stream);
-						buttondesc = attr.DisplayName + (attribs.IsDeprecated ? " (deprecated)" : "");
-						buttonorder = attr.ButtonOrder;
-					}
-				}
-			}
-			
-			// We have no destructor
-			GC.SuppressFinalize(this);
-		}
+        public Plugin Plugin { get; private set; }
+        public Type Type { get; }
+        public bool IsOptional { get { return ((SwitchAction != null) || (ButtonImage != null)) && Attributes.Optional; } }
+        public BeginActionAttribute SwitchAction { get; }
+        public Image ButtonImage { get; }
+        public string ButtonDesc { get; }
+        public EditModeAttribute Attributes { get; }
 
-		// Disposer
-		public void Dispose()
-		{
-			// Not already disposed?
-			if(!isdisposed)
-			{
-				// Dispose
-				UnbindSwitchAction();
-				if(buttonimage != null) buttonimage.Dispose();
+        #endregion
 
-				// Clean up
-				plugin = null;
+        #region ================== Constructor / Disposer
 
-				// Done
-				isdisposed = true;
-			}
-		}
-		
-		#endregion
+        // Constructor
+        public EditModeInfo(Plugin plugin, Type type, EditModeAttribute attr)
+        {
+            // Initialize
+            this.Plugin = plugin;
+            this.Type = type;
+            this.Attributes = attr;
 
-		#region ================== Methods
-		
-		// This binds the action to switch to this editing mode
-		public void BindSwitchAction()
-		{
-			if((switchactiondel == null) && (switchactionattr != null))
-			{
-				switchactiondel = UserSwitchToMode;
-				General.Actions.BindBeginDelegate(plugin.Assembly, switchactiondel, switchactionattr);
-			}
-		}
-		
-		// This unbind the switch action
-		public void UnbindSwitchAction()
-		{
-			if(switchactiondel != null)
-			{
-				General.Actions.UnbindBeginDelegate(plugin.Assembly, switchactiondel, switchactionattr);
-				switchactiondel = null;
-			}
-		}
-		
-		// This switches to the mode by user command (when user presses shortcut key)
-		public void UserSwitchToMode()
-		{
-			// Only when a map is opened
-			if(General.Map != null)
-			{
-				//mxd. Not the same mode?
-				if(type != General.Editing.Mode.GetType())
-				{
-					// Switching from volatile mode to a different volatile mode?
-					if((General.Editing.Mode != null) && General.Editing.Mode.Attributes.Volatile && this.attribs.Volatile)
-					{
-						// First cancel previous volatile mode
-						General.Editing.CancelVolatileMode();
-					}
-					
-					// Create instance
-					EditMode newmode = plugin.CreateObject<EditMode>(type);
+            // Make switch action info
+            if (!string.IsNullOrEmpty(Attributes.SwitchAction))
+                SwitchAction = new BeginActionAttribute(Attributes.SwitchAction);
 
-					//mxd. Switch mode?
-					if(newmode != null) General.Editing.ChangeMode(newmode);
-				}
-				// When in VisualMode and switching to the same VisualMode, switch back to the previous classic mode
-				else if(General.Editing.Mode is VisualMode)
-				{
-					// Switch back to last classic mode
-					General.Editing.ChangeMode(General.Editing.PreviousClassicMode.Name);
-				}
-				//mxd. Switch between view floor and view ceiling textures?
-				else if(General.Editing.Mode is ClassicMode && General.Settings.SwitchViewModes)
-				{
-					ClassicMode.SetViewMode(General.Map.Renderer2D.ViewMode == ViewMode.FloorTextures ? ViewMode.CeilingTextures : ViewMode.FloorTextures);
-				}
-			}
-		}
-		
-		// This switches to the mode
-		public void SwitchToMode()
-		{
-			// Only when a map is opened
-			if(General.Map != null)
-			{
-				// Create instance
-				EditMode newmode = plugin.CreateObject<EditMode>(type);
+            // Make button info
+            if (!string.IsNullOrEmpty(attr.ButtonImage))
+            {
+                using (Stream stream = plugin.GetResourceStream(attr.ButtonImage))
+                {
+                    if (stream != null)
+                    {
+                        ButtonImage = Image.FromStream(stream);
+                        ButtonDesc = attr.DisplayName + (Attributes.IsDeprecated ? " (deprecated)" : "");
+                        buttonorder = attr.ButtonOrder;
+                    }
+                }
+            }
 
-				//mxd. Switch mode?
-				if(newmode != null) General.Editing.ChangeMode(newmode);
-			}
-		}
+            // We have no destructor
+            GC.SuppressFinalize(this);
+        }
 
-		// This switches to the mode with arguments
-		public void SwitchToMode(object[] args)
-		{
-			// Only when a map is opened
-			if(General.Map != null)
-			{
-				// Create instance
-				EditMode newmode = plugin.CreateObjectA<EditMode>(type, args);
+        // Disposer
+        public void Dispose()
+        {
+            // Not already disposed?
+            if (!isdisposed)
+            {
+                // Dispose
+                UnbindSwitchAction();
+                if (ButtonImage != null) ButtonImage.Dispose();
 
-				// Switch mode
-				if(!General.Editing.ChangeMode(newmode))
-				{
-					// When cancelled, dispose mode
-					newmode.Dispose();
-				}
-			}
-		}
-		
-		// String representation
-		public override string ToString()
-		{
-			return attribs.DisplayName;
-		}
+                // Clean up
+                Plugin = null;
 
-		// Compare by button order
-		public int CompareTo(EditModeInfo other)
-		{
-			if(this.buttonorder > other.buttonorder) return 1;
-			if(this.buttonorder < other.buttonorder) return -1;
-			return 0;
-		}
-		
-		#endregion
-	}
+                // Done
+                isdisposed = true;
+            }
+        }
+
+        #endregion
+
+        #region ================== Methods
+
+        // This binds the action to switch to this editing mode
+        public void BindSwitchAction()
+        {
+            if ((switchactiondel == null) && (SwitchAction != null))
+            {
+                switchactiondel = UserSwitchToMode;
+                General.Actions.BindBeginDelegate(Plugin.Assembly, switchactiondel, SwitchAction);
+            }
+        }
+
+        // This unbind the switch action
+        public void UnbindSwitchAction()
+        {
+            if (switchactiondel != null)
+            {
+                General.Actions.UnbindBeginDelegate(Plugin.Assembly, switchactiondel, SwitchAction);
+                switchactiondel = null;
+            }
+        }
+
+        // This switches to the mode by user command (when user presses shortcut key)
+        public void UserSwitchToMode()
+        {
+            // Only when a map is opened
+            if (General.Map != null)
+            {
+                //mxd. Not the same mode?
+                if (Type != General.Editing.Mode.GetType())
+                {
+                    // Switching from volatile mode to a different volatile mode?
+                    if ((General.Editing.Mode != null) && General.Editing.Mode.Attributes.Volatile && this.Attributes.Volatile)
+                    {
+                        // First cancel previous volatile mode
+                        General.Editing.CancelVolatileMode();
+                    }
+
+                    // Create instance
+                    EditMode newmode = Plugin.CreateObject<EditMode>(Type);
+
+                    //mxd. Switch mode?
+                    if (newmode != null) General.Editing.ChangeMode(newmode);
+                }
+                // When in VisualMode and switching to the same VisualMode, switch back to the previous classic mode
+                else if (General.Editing.Mode is VisualMode)
+                {
+                    // Switch back to last classic mode
+                    General.Editing.ChangeMode(General.Editing.PreviousClassicMode.Name);
+                }
+                //mxd. Switch between view floor and view ceiling textures?
+                else if (General.Editing.Mode is ClassicMode && General.Settings.SwitchViewModes)
+                {
+                    ClassicMode.SetViewMode(General.Map.Renderer2D.ViewMode == ViewMode.FloorTextures ? ViewMode.CeilingTextures : ViewMode.FloorTextures);
+                }
+            }
+        }
+
+        // This switches to the mode
+        public void SwitchToMode()
+        {
+            // Only when a map is opened
+            if (General.Map != null)
+            {
+                // Create instance
+                EditMode newmode = Plugin.CreateObject<EditMode>(Type);
+
+                //mxd. Switch mode?
+                if (newmode != null) General.Editing.ChangeMode(newmode);
+            }
+        }
+
+        // This switches to the mode with arguments
+        public void SwitchToMode(object[] args)
+        {
+            // Only when a map is opened
+            if (General.Map != null)
+            {
+                // Create instance
+                EditMode newmode = Plugin.CreateObjectA<EditMode>(Type, args);
+
+                // Switch mode
+                if (!General.Editing.ChangeMode(newmode))
+                {
+                    // When cancelled, dispose mode
+                    newmode.Dispose();
+                }
+            }
+        }
+
+        // String representation
+        public override string ToString()
+        {
+            return Attributes.DisplayName;
+        }
+
+        // Compare by button order
+        public int CompareTo(EditModeInfo other)
+        {
+            if (this.buttonorder > other.buttonorder) return 1;
+            if (this.buttonorder < other.buttonorder) return -1;
+            return 0;
+        }
+
+        #endregion
+    }
 }

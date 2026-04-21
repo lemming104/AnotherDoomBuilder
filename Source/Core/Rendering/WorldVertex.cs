@@ -26,41 +26,41 @@ namespace CodeImp.DoomBuilder.Rendering
     // WorldVertex
     [StructLayout(LayoutKind.Sequential)]
     public struct WorldVertex
-	{
-		// Vertex format
-		public const int Stride = 36; //mxd: 9 * 4, was 6 * 4
+    {
+        // Vertex format
+        public const int Stride = 36; //mxd: 9 * 4, was 6 * 4
 
-		// Members
-		public float x;
-		public float y;
-		public float z;
-		public int c;
-		public float u;
-		public float v;
+        // Members
+        public float x;
+        public float y;
+        public float z;
+        public int c;
+        public float u;
+        public float v;
 
-		//mxd
-		public float nx;
-		public float ny;
-		public float nz;
+        //mxd
+        public float nx;
+        public float ny;
+        public float nz;
 
-		// Constructor
-		public WorldVertex(float x, float y, float z, int c, float u, float v)
-		{
-			this.x = x;
-			this.y = y;
-			this.z = z;
-			this.c = c;
-			this.u = u;
-			this.v = v;
+        // Constructor
+        public WorldVertex(float x, float y, float z, int c, float u, float v)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.c = c;
+            this.u = u;
+            this.v = v;
 
-			//mxd
-			this.nx = 0.0f;
-			this.ny = 0.0f;
-			this.nz = 0.0f;
-		}
+            //mxd
+            this.nx = 0.0f;
+            this.ny = 0.0f;
+            this.nz = 0.0f;
+        }
 
-		// Constructor
-		/*public WorldVertex(float x, float y, float z, int c, Vector2D t)
+        // Constructor
+        /*public WorldVertex(float x, float y, float z, int c, Vector2D t)
 		{
 			this.x = x;
 			this.y = y;
@@ -75,8 +75,8 @@ namespace CodeImp.DoomBuilder.Rendering
 			this.nz = 0.0f;
 		}*/
 
-		// Constructor
-		/*public WorldVertex(Vector3D p, int c, float u, float v)
+        // Constructor
+        /*public WorldVertex(Vector3D p, int c, float u, float v)
 		{
 			this.x = p.x;
 			this.y = p.y;
@@ -91,24 +91,24 @@ namespace CodeImp.DoomBuilder.Rendering
 			this.nz = 0.0f;
 		}*/
 
-		// Constructor
-		public WorldVertex(Vector3D p, int c, Vector2D t)
-		{
-			this.x = (float)p.x;
-			this.y = (float)p.y;
-			this.z = (float)p.z;
-			this.c = c;
-			this.u = (float)t.x;
-			this.v = (float)t.y;
+        // Constructor
+        public WorldVertex(Vector3D p, int c, Vector2D t)
+        {
+            this.x = (float)p.x;
+            this.y = (float)p.y;
+            this.z = (float)p.z;
+            this.c = c;
+            this.u = (float)t.x;
+            this.v = (float)t.y;
 
-			//mxd
-			this.nx = 0.0f;
-			this.ny = 0.0f;
-			this.nz = 0.0f;
-		}
+            //mxd
+            this.nx = 0.0f;
+            this.ny = 0.0f;
+            this.nz = 0.0f;
+        }
 
-		// Constructor
-		/*public WorldVertex(float x, float y, float z, float u, float v)
+        // Constructor
+        /*public WorldVertex(float x, float y, float z, float u, float v)
 		{
 			this.x = x;
 			this.y = y;
@@ -123,8 +123,8 @@ namespace CodeImp.DoomBuilder.Rendering
 			this.nz = 0.0f;
 		}*/
 
-		// Constructor
-		/*public WorldVertex(float x, float y, float z, Vector2D t)
+        // Constructor
+        /*public WorldVertex(float x, float y, float z, Vector2D t)
 		{
 			this.x = x;
 			this.y = y;
@@ -139,8 +139,8 @@ namespace CodeImp.DoomBuilder.Rendering
 			this.nz = 0.0f;
 		}*/
 
-		// Constructor
-		/*public WorldVertex(Vector3D p, float u, float v)
+        // Constructor
+        /*public WorldVertex(Vector3D p, float u, float v)
 		{
 			this.x = p.x;
 			this.y = p.y;
@@ -155,8 +155,8 @@ namespace CodeImp.DoomBuilder.Rendering
 			this.nz = 0.0f;
 		}*/
 
-		// Constructor
-		/*public WorldVertex(Vector3D p, Vector2D t)
+        // Constructor
+        /*public WorldVertex(Vector3D p, Vector2D t)
 		{
 			this.x = p.x;
 			this.y = p.y;
@@ -171,8 +171,8 @@ namespace CodeImp.DoomBuilder.Rendering
 			this.nz = 0.0f;
 		}*/
 
-		// Constructor
-		/*public WorldVertex(float x, float y, float z, int c)
+        // Constructor
+        /*public WorldVertex(float x, float y, float z, int c)
 		{
 			this.x = x;
 			this.y = y;
@@ -187,8 +187,8 @@ namespace CodeImp.DoomBuilder.Rendering
 			this.nz = 0.0f;
 		}*/
 
-		// Constructor
-		/*public WorldVertex(Vector3D p, int c)
+        // Constructor
+        /*public WorldVertex(Vector3D p, int c)
 		{
 			this.x = p.x;
 			this.y = p.y;
@@ -203,36 +203,36 @@ namespace CodeImp.DoomBuilder.Rendering
 			this.nz = 0.0f;
 		}*/
 
-		// Constructor
-		public WorldVertex(float x, float y, float z)
-		{
-			this.x = x;
-			this.y = y;
-			this.z = z;
-			this.c = -1;
-			this.u = 0.0f;
-			this.v = 0.0f;
+        // Constructor
+        public WorldVertex(float x, float y, float z)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.c = -1;
+            this.u = 0.0f;
+            this.v = 0.0f;
 
-			//mxd
-			this.nx = 0.0f;
-			this.ny = 0.0f;
-			this.nz = 0.0f;
-		}
+            //mxd
+            this.nx = 0.0f;
+            this.ny = 0.0f;
+            this.nz = 0.0f;
+        }
 
-		// Constructor
-		public WorldVertex(Vector3D p)
-		{
-			this.x = (float)p.x;
-			this.y = (float)p.y;
-			this.z = (float)p.z;
-			this.c = -1;
-			this.u = 0.0f;
-			this.v = 0.0f;
+        // Constructor
+        public WorldVertex(Vector3D p)
+        {
+            this.x = (float)p.x;
+            this.y = (float)p.y;
+            this.z = (float)p.z;
+            this.c = -1;
+            this.u = 0.0f;
+            this.v = 0.0f;
 
-			//mxd
-			this.nx = 0.0f;
-			this.ny = 0.0f;
-			this.nz = 0.0f;
-		}
-	}
+            //mxd
+            this.nx = 0.0f;
+            this.ny = 0.0f;
+            this.nz = 0.0f;
+        }
+    }
 }

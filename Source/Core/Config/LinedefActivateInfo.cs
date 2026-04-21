@@ -22,66 +22,63 @@ using System;
 
 namespace CodeImp.DoomBuilder.Config
 {
-	public class LinedefActivateInfo : IComparable<LinedefActivateInfo>
-	{
-		#region ================== Constants
+    public class LinedefActivateInfo : IComparable<LinedefActivateInfo>
+    {
+        #region ================== Constants
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		// Properties
-		private int intkey;
-		private string key;
-		private string title;
-		private bool istrigger;
-		
-		#endregion
+        // Properties
+        private int intkey;
 
-		#region ================== Properties
+        #endregion
 
-		public int Index { get { return intkey; } }
-		public string Key { get { return key; } }
-		public string Title { get { return title; } }
-		public bool IsTrigger { get { return istrigger; } }
+        #region ================== Properties
 
-		#endregion
+        public int Index { get { return intkey; } }
+        public string Key { get; }
+        public string Title { get; }
+        public bool IsTrigger { get; }
 
-		#region ================== Constructor / Disposer
+        #endregion
 
-		// Constructor
-		internal LinedefActivateInfo(string key, string title, bool istrigger)
-		{
-			// Initialize
-			this.key = key;
-			this.title = title;
-			this.istrigger = istrigger;
-			
-			// Try parsing key as int for comparison
-			if(!int.TryParse(key, out intkey)) intkey = 0;
-			
-			// We have no destructor
-			GC.SuppressFinalize(this);
-		}
+        #region ================== Constructor / Disposer
 
-		#endregion
+        // Constructor
+        internal LinedefActivateInfo(string key, string title, bool istrigger)
+        {
+            // Initialize
+            this.Key = key;
+            this.Title = title;
+            this.IsTrigger = istrigger;
 
-		#region ================== Methods
+            // Try parsing key as int for comparison
+            if (!int.TryParse(key, out intkey)) intkey = 0;
 
-		// This presents the item as string
-		public override string ToString()
-		{
-			return title;
-		}
+            // We have no destructor
+            GC.SuppressFinalize(this);
+        }
 
-		// This compares against another activate info
-		public int CompareTo(LinedefActivateInfo other)
-		{
-			if(this.intkey < other.intkey) return -1;
-			else if(this.intkey > other.intkey) return 1;
-			else return 0;
-		}
-		
-		#endregion
-	}
+        #endregion
+
+        #region ================== Methods
+
+        // This presents the item as string
+        public override string ToString()
+        {
+            return Title;
+        }
+
+        // This compares against another activate info
+        public int CompareTo(LinedefActivateInfo other)
+        {
+            if (this.intkey < other.intkey) return -1;
+            else if (this.intkey > other.intkey) return 1;
+            else return 0;
+        }
+
+        #endregion
+    }
 }

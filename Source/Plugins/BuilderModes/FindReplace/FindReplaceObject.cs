@@ -16,93 +16,90 @@
 
 #region ================== Namespaces
 
-using System.Collections.Generic;
-using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Geometry;
+using CodeImp.DoomBuilder.Map;
+using System.Collections.Generic;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
-	internal class FindReplaceObject
-	{
-		#region ================== Variables
+    internal class FindReplaceObject
+    {
+        #region ================== Variables
 
-		private object obj;
-		private string title;
+        #endregion
 
-		#endregion
+        #region ================== Properties
 
-		#region ================== Properties
+        public object Object { get; set; }
+        public Sector Sector { get { return (Sector)Object; } }
+        public Linedef Linedef { get { return (Linedef)Object; } }
+        public Sidedef Sidedef { get { return (Sidedef)Object; } }
+        public Thing Thing { get { return (Thing)Object; } }
+        public Vertex Vertex { get { return (Vertex)Object; } }
+        public string Title { get; set; }
 
-		public object Object { get { return obj; } set { obj = value; } }
-		public Sector Sector { get { return (Sector)obj; } }
-		public Linedef Linedef { get { return (Linedef)obj; } }
-		public Sidedef Sidedef { get { return (Sidedef)obj; } }
-		public Thing Thing { get { return (Thing)obj; } }
-		public Vertex Vertex { get { return (Vertex)obj; } }
-		public string Title { get { return title; } set { title = value; } }
+        #endregion
 
-		#endregion
+        #region ================== Constructor / Destructor
 
-		#region ================== Constructor / Destructor
+        // Constructor
+        public FindReplaceObject(object obj, string title)
+        {
+            // Initialize
+            this.Object = obj;
+            this.Title = title;
+        }
 
-		// Constructor
-		public FindReplaceObject(object obj, string title)
-		{
-			// Initialize
-			this.obj = obj;
-			this.title = title;
-		}
+        #endregion
 
-		#endregion
+        #region ================== Methods
 
-		#region ================== Methods
+        // String representation
+        public override string ToString()
+        {
+            return Title;
+        }
 
-		// String representation
-		public override string ToString()
-		{
-			return title;
-		}
-		
-		// This adds the vertices of the object used for view area calculation
-		public void AddViewPoints(IList<Vector2D> points)
-		{
-			if(obj is Vertex)
-			{
-				points.Add(((Vertex)obj).Position);
-			}
-			else if(obj is Linedef)
-			{
-				points.Add(((Linedef)obj).Start.Position);
-				points.Add(((Linedef)obj).End.Position);
-			}
-			else if(obj is Sidedef)
-			{
-				points.Add(((Sidedef)obj).Line.Start.Position);
-				points.Add(((Sidedef)obj).Line.End.Position);
-			}
-			else if(obj is Sector)
-			{
-				Sector s = (Sector)obj;
-				foreach(Sidedef sd in s.Sidedefs)
-				{
-					points.Add(sd.Line.Start.Position);
-					points.Add(sd.Line.End.Position);
-				}
-			}
-			else if(obj is Thing)
-			{
-				Thing t = (Thing)obj;
-				Vector2D p = t.Position;
-				points.Add(p);
-				points.Add(p + new Vector2D(t.Size * 2.0f, t.Size * 2.0f));
-				points.Add(p + new Vector2D(t.Size * 2.0f, -t.Size * 2.0f));
-				points.Add(p + new Vector2D(-t.Size * 2.0f, t.Size * 2.0f));
-				points.Add(p + new Vector2D(-t.Size * 2.0f, -t.Size * 2.0f));
-			}
-		}
-		
-		#endregion
-	}
+        // This adds the vertices of the object used for view area calculation
+        public void AddViewPoints(IList<Vector2D> points)
+        {
+            if (Object is Vertex)
+            {
+                points.Add(((Vertex)Object).Position);
+            }
+            else if (Object is Linedef)
+            {
+                points.Add(((Linedef)Object).Start.Position);
+                points.Add(((Linedef)Object).End.Position);
+            }
+            else if (Object is Sidedef)
+            {
+                points.Add(((Sidedef)Object).Line.Start.Position);
+                points.Add(((Sidedef)Object).Line.End.Position);
+            }
+            else if (Object is Sector)
+            {
+                Sector s = (Sector)Object;
+                foreach (Sidedef sd in s.Sidedefs)
+                {
+                    points.Add(sd.Line.Start.Position);
+                    points.Add(sd.Line.End.Position);
+                }
+            }
+            else if (Object is Thing)
+            {
+                Thing t = (Thing)Object;
+                Vector2D p = t.Position;
+                points.Add(p);
+                points.Add(p + new Vector2D(t.Size * 2.0f, t.Size * 2.0f));
+                points.Add(p + new Vector2D(t.Size * 2.0f, -t.Size * 2.0f));
+                points.Add(p + new Vector2D(-t.Size * 2.0f, t.Size * 2.0f));
+                points.Add(p + new Vector2D(-t.Size * 2.0f, -t.Size * 2.0f));
+            }
+        }
+
+        #endregion
+    }
 }

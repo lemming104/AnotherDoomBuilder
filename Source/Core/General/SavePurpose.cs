@@ -20,13 +20,13 @@
 
 namespace CodeImp.DoomBuilder
 {
-	public enum SavePurpose
-	{
-		Normal = 0,
-		AsNewFile = 1,
-		IntoFile = 2,
-		Testing = 3,
-		Autosave = 4
-	}
+    public enum SavePurpose
+    {
+        Normal = 0,
+        AsNewFile = 1,
+        IntoFile = 2,
+        Testing = 3,
+        Autosave = 4
+    }
 }
 

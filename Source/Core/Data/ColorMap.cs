@@ -19,98 +19,101 @@
 
 #region ================== Namespaces
 
+using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using CodeImp.DoomBuilder.Rendering;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Data
 {
-	public sealed class ColorMap
-	{
-		#region ================== Constants
+    public sealed class ColorMap
+    {
+        #region ================== Constants
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		private PixelColor[] colors;
+        private PixelColor[] colors;
 
-		#endregion
+        #endregion
 
-		#region ================== Properties
+        #region ================== Properties
 
-		public PixelColor this[int index] { get { return colors[index]; } }
-		
-		#endregion
+        public PixelColor this[int index] { get { return colors[index]; } }
 
-		#region ================== Constructor / Disposer
+        #endregion
 
-		// Constructor
-		public ColorMap()
-		{
-			colors = new PixelColor[34 * 256];
-			for(int i = 0; i < 34 * 256; i++)
-			{
-				// Set colors to gray
-				colors[i].r = 127;
-				colors[i].g = 127;
-				colors[i].b = 127;
-				colors[i].a = 255;
-			}
-		}
+        #region ================== Constructor / Disposer
 
-		// Constructor
-		public ColorMap(Stream stream, Playpal palette)
-		{
-			BinaryReader reader = new BinaryReader(stream);
-			var colors = new List<PixelColor>();
-			
-			// Read all palette entries
-			stream.Seek(0, SeekOrigin.Begin);
-			while (stream.Position < stream.Length)
-			{
-				// Read colors
-				var index = reader.ReadByte();
-				if (index < palette.Length)
-				{
-					var color = palette[index];
-					colors.Add(color);					
-				}
-				else
-				{
-					colors.Add(PixelColor.Transparent);
-				}
-			}
+        // Constructor
+        public ColorMap()
+        {
+            colors = new PixelColor[34 * 256];
+            for (int i = 0; i < 34 * 256; i++)
+            {
+                // Set colors to gray
+                colors[i].r = 127;
+                colors[i].g = 127;
+                colors[i].b = 127;
+                colors[i].a = 255;
+            }
+        }
 
-			this.colors = colors.ToArray();
-		}
+        // Constructor
+        public ColorMap(Stream stream, Playpal palette)
+        {
+            BinaryReader reader = new BinaryReader(stream);
+            var colors = new List<PixelColor>();
 
-		#endregion
+            // Read all palette entries
+            stream.Seek(0, SeekOrigin.Begin);
+            while (stream.Position < stream.Length)
+            {
+                // Read colors
+                var index = reader.ReadByte();
+                if (index < palette.Length)
+                {
+                    var color = palette[index];
+                    colors.Add(color);
+                }
+                else
+                {
+                    colors.Add(PixelColor.Transparent);
+                }
+            }
 
-		#region ================== Methods
+            this.colors = colors.ToArray();
+        }
 
-		public Bitmap CreateBitmap() {
-			var width = 256;
-			var height = (int)Math.Ceiling((float)colors.Length / 256);
-			var bitmap = new Bitmap(width, height, PixelFormat.Format32bppRgb);
-			
-			for (int y = 0; y < height; y++) {
-				for (int x = 0; x < width; x++) {
-					int index = width * y + x;
-					if (index < colors.Length)
-					{
-						bitmap.SetPixel(x, y, colors[index].ToColor());						
-					}
-				}
-			}
-			return bitmap;
-		}
+        #endregion
 
-		#endregion
-	}
+        #region ================== Methods
+
+        public Bitmap CreateBitmap()
+        {
+            var width = 256;
+            var height = (int)Math.Ceiling((float)colors.Length / 256);
+            var bitmap = new Bitmap(width, height, PixelFormat.Format32bppRgb);
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    int index = (width * y) + x;
+                    if (index < colors.Length)
+                    {
+                        bitmap.SetPixel(x, y, colors[index].ToColor());
+                    }
+                }
+            }
+            return bitmap;
+        }
+
+        #endregion
+    }
 }

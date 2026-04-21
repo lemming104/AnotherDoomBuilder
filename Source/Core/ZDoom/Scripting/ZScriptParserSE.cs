@@ -11,12 +11,11 @@ namespace CodeImp.DoomBuilder.ZDoom.Scripting
     {
         internal override ScriptType ScriptType { get { return ScriptType.ZSCRIPT; } }
 
-        private readonly List<ScriptItem> types;
-        public List<ScriptItem> Types { get { return types; } }
+        public List<ScriptItem> Types { get; }
 
         public ZScriptParserSE()
         {
-            types = new List<ScriptItem>();
+            Types = new List<ScriptItem>();
         }
 
         private bool CheckClassDefinition(string token)
@@ -55,11 +54,11 @@ namespace CodeImp.DoomBuilder.ZDoom.Scripting
                 } while (SkipWhitespace(false)); // Don't skip newline
 
                 string name = string.Join(" ", definition.ToArray());
-                if (!string.IsNullOrEmpty(name)) types.Add(new ScriptItem(name, startpos, false));
+                if (!string.IsNullOrEmpty(name)) Types.Add(new ScriptItem(name, startpos, false));
             }
 
             // Sort nodes
-            types.Sort(ScriptItem.SortByName);
+            Types.Sort(ScriptItem.SortByName);
             return true;
         }
     }

@@ -18,29 +18,29 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.IO
 {
-	public class WAD : IDisposable
-	{
-		#region ================== Constants
+    public class WAD : IDisposable
+    {
+        #region ================== Constants
 
-		// WAD types
-		private const string TYPE_IWAD = "IWAD";
-		private const string TYPE_PWAD = "PWAD";
-		
-		// Encoder
-		public static readonly Encoding ENCODING = Encoding.ASCII;
+        // WAD types
+        private const string TYPE_IWAD = "IWAD";
+        private const string TYPE_PWAD = "PWAD";
 
-		//mxd. Official IWAD SHA1 hashes
-		// Source of hashes: https://github.com/Doom-Utils/iwad-patches
-		private static readonly HashSet<string> IWAD_HASHES = new HashSet<string>
-		{
+        // Encoder
+        public static readonly Encoding ENCODING = Encoding.ASCII;
+
+        //mxd. Official IWAD SHA1 hashes
+        // Source of hashes: https://github.com/Doom-Utils/iwad-patches
+        private static readonly HashSet<string> IWAD_HASHES = new HashSet<string>
+        {
 			// Doom 1
 			"df0040ccb29cc1622e74ceb3b7793a2304cca2c8",  // Doom 1.1
 			"b5f86a559642a2b3bdfb8a75e91c8da97f057fe6",  // Doom 1.2
@@ -112,336 +112,330 @@ namespace CodeImp.DoomBuilder.IO
 			// Strife
 			"eb0f3e157b35c34d5a598701f775e789ec85b4ae",  // Strife1 1.1
 			"64c13b951a845ca7f8081f68138a6181557458d1",  // Strife1 1.2
-		};                                                      
-		
-		#endregion
+		};
 
-		#region ================== Structs (mxd)
+        #endregion
 
-		private struct LumpCopyData
-		{
-			public byte[] Data;
-			public byte[] FixedName;
-			public int Index;
-		}
+        #region ================== Structs (mxd)
 
-		#endregion
+        private struct LumpCopyData
+        {
+            public byte[] Data;
+            public byte[] FixedName;
+            public int Index;
+        }
 
-		#region ================== Variables
+        #endregion
 
-		// File objects
-		private string filename;
-		private FileStream file;
-		private BinaryReader reader;
-		private BinaryWriter writer;
-		
-		// Header
-		private int numlumps;
-		private int lumpsoffset;
-		private bool isiwad; //mxd
-		private bool isofficialiwad; //mxd
-		
-		// Lumps
-		private List<Lump> lumps;
-		
-		// Status
-		private bool isreadonly;
-		private bool isdisposed;
+        #region ================== Variables
 
-		#endregion
+        // File objects
+        private FileStream file;
+        private BinaryReader reader;
+        private BinaryWriter writer;
 
-		#region ================== Properties
+        // Header
+        private int numlumps;
+        private int lumpsoffset;
 
-		public string Filename { get { return filename; } }
-		public Encoding Encoding { get { return ENCODING; } }
-		public bool IsReadOnly { get { return isreadonly; } }
-		public bool IsDisposed { get { return isdisposed; } }
-		public bool IsIWAD { get { return isiwad; } set { isiwad = value; } } //mxd
-		public bool IsOfficialIWAD { get { return isofficialiwad; } } //mxd
-		public List<Lump> Lumps { get { return lumps; } }
+        // Lumps
 
-		#endregion
+        // Status
 
-		#region ================== Constructor / Disposer
+        #endregion
 
-		// Constructor to open or create a WAD file
-		public WAD(string pathfilename)
-		{
-			// Initialize
-			this.isreadonly = false;
-			this.Open(pathfilename);
-		}
+        #region ================== Properties
 
-		// Constructor to open or create a WAD file
-		public WAD(string pathfilename, bool openreadonly)
-		{
-			// Initialize
-			this.isreadonly = openreadonly;
-			this.Open(pathfilename);
-		}
+        public string Filename { get; private set; }
+        public Encoding Encoding { get { return ENCODING; } }
+        public bool IsReadOnly { get; private set; }
+        public bool IsDisposed { get; private set; }
+        public bool IsIWAD { get; set; } //mxd
+        public bool IsOfficialIWAD { get; private set; } //mxd
+        public List<Lump> Lumps { get; private set; }
 
-		// Destructor
-		/*~WAD()
+        #endregion
+
+        #region ================== Constructor / Disposer
+
+        // Constructor to open or create a WAD file
+        public WAD(string pathfilename)
+        {
+            // Initialize
+            this.IsReadOnly = false;
+            this.Open(pathfilename);
+        }
+
+        // Constructor to open or create a WAD file
+        public WAD(string pathfilename, bool openreadonly)
+        {
+            // Initialize
+            this.IsReadOnly = openreadonly;
+            this.Open(pathfilename);
+        }
+
+        // Destructor
+        /*~WAD()
 		{
 			// Make sure everything is disposed
 			this.Dispose();
 		}*/
-		
-		// Disposer
-		public void Dispose()
-		{
-			// Not already disposed?
-			if(!isdisposed)
-			{
-				// Only possible when not read-only
-				if(!isreadonly)
-				{
-					// Flush writing changes
-					if(writer != null) writer.Flush();
-					if(file != null) file.Flush();
-				}
-				
-				// Clean up
-				if(lumps != null) foreach(Lump l in lumps) l.Dispose();
-				if(writer != null) writer.Close();
-				if(reader != null) reader.Close();
-				if(file != null) file.Dispose();
-				
-				// Done
-				isdisposed = true;
-				GC.SuppressFinalize(this); //mxd
-			}
-		}
 
-		#endregion
+        // Disposer
+        public void Dispose()
+        {
+            // Not already disposed?
+            if (!IsDisposed)
+            {
+                // Only possible when not read-only
+                if (!IsReadOnly)
+                {
+                    // Flush writing changes
+                    if (writer != null) writer.Flush();
+                    if (file != null) file.Flush();
+                }
 
-		#region ================== IO
+                // Clean up
+                if (Lumps != null) foreach (Lump l in Lumps) l.Dispose();
+                if (writer != null) writer.Close();
+                if (reader != null) reader.Close();
+                if (file != null) file.Dispose();
 
-		// Open a WAD file
-		private void Open(string pathfilename)
-		{
-			FileAccess access;
-			FileShare share;
+                // Done
+                IsDisposed = true;
+                GC.SuppressFinalize(this); //mxd
+            }
+        }
 
-			// Keep filename
-			filename = pathfilename;
+        #endregion
 
-			//mxd
-			CheckHash();
-			
-			// Determine if opening for read only
-			if(isreadonly)
-			{
-				// Read only
-				access = FileAccess.Read;
-				share = FileShare.ReadWrite;
-			}
-			else
-			{
-				// Private access
-				access = FileAccess.ReadWrite;
-				share = FileShare.Read;
-			}
-			
-			// Open the file stream
-			file = File.Open(pathfilename, FileMode.OpenOrCreate, access, share);
+        #region ================== IO
 
-			// Create file handling tools
-			reader = new BinaryReader(file, ENCODING);
-			if(!isreadonly) writer = new BinaryWriter(file, ENCODING);
+        // Open a WAD file
+        private void Open(string pathfilename)
+        {
+            FileAccess access;
+            FileShare share;
 
-			// Is the WAD file zero length?
-			if(file.Length < 4)
-			{
-				// Create the headers in file
-				CreateHeaders();
-			}
-			else
-			{
-				// Read information from file
-				ReadHeaders();
-			}
-		}
+            // Keep filename
+            Filename = pathfilename;
 
-		// This creates new file headers
-		private void CreateHeaders()
-		{
-			// Default settings
-			isiwad = false; //mxd
-			isofficialiwad = false; //mxd
-			lumpsoffset = 12;
+            //mxd
+            CheckHash();
 
-			// New lumps array
-			lumps = new List<Lump>(numlumps);
-			
-			// Write the headers
-			if(!isreadonly) WriteHeaders();
-		}
-		
-		// This reads the WAD header and lumps table
-		private void ReadHeaders()
-		{
-			// Make sure the write is finished writing
-			if(!isreadonly) writer.Flush();
+            // Determine if opening for read only
+            if (IsReadOnly)
+            {
+                // Read only
+                access = FileAccess.Read;
+                share = FileShare.ReadWrite;
+            }
+            else
+            {
+                // Private access
+                access = FileAccess.ReadWrite;
+                share = FileShare.Read;
+            }
 
-			// Seek to beginning
-			file.Seek(0, SeekOrigin.Begin);
+            // Open the file stream
+            file = File.Open(pathfilename, FileMode.OpenOrCreate, access, share);
 
-			// Read WAD type
-			isiwad = (ENCODING.GetString(reader.ReadBytes(4)) == TYPE_IWAD); //mxd
-			
-			// Number of lumps
-			numlumps = reader.ReadInt32();
-			if(numlumps < 0) throw new IOException("Invalid number of lumps in wad file.");
+            // Create file handling tools
+            reader = new BinaryReader(file, ENCODING);
+            if (!IsReadOnly) writer = new BinaryWriter(file, ENCODING);
 
-			// Lumps table offset
-			lumpsoffset = reader.ReadInt32();
-			if(lumpsoffset < 0) throw new IOException("Invalid lumps offset in wad file.");
+            // Is the WAD file zero length?
+            if (file.Length < 4)
+            {
+                // Create the headers in file
+                CreateHeaders();
+            }
+            else
+            {
+                // Read information from file
+                ReadHeaders();
+            }
+        }
 
-			// Seek to the lumps table
-			file.Seek(lumpsoffset, SeekOrigin.Begin);
-			
-			// Dispose old lumps and create new list
-			if(lumps != null) foreach(Lump l in lumps) l.Dispose();
-			lumps = new List<Lump>(numlumps);
+        // This creates new file headers
+        private void CreateHeaders()
+        {
+            // Default settings
+            IsIWAD = false; //mxd
+            IsOfficialIWAD = false; //mxd
+            lumpsoffset = 12;
 
-			// Go for all lumps
-			for(int i = 0; i < numlumps; i++)
-			{
-				// Read lump information
-				int offset = reader.ReadInt32();
-				int length = reader.ReadInt32();
-				byte[] fixedname = reader.ReadBytes(8);
+            // New lumps array
+            Lumps = new List<Lump>(numlumps);
 
-				// Create the lump
-				lumps.Add(new Lump(file, this, fixedname, offset, length));
-			}
-		}
+            // Write the headers
+            if (!IsReadOnly) WriteHeaders();
+        }
 
-		// This writes the WAD header and lumps table
-		public void WriteHeaders()
-		{
-            // [ZZ] don't allow any edit actions on readonly archive
-            if (isreadonly) return;
+        // This reads the WAD header and lumps table
+        private void ReadHeaders()
+        {
+            // Make sure the write is finished writing
+            if (!IsReadOnly) writer.Flush();
 
             // Seek to beginning
             file.Seek(0, SeekOrigin.Begin);
 
-			// Write WAD type
-			writer.Write(ENCODING.GetBytes(isiwad ? TYPE_IWAD : TYPE_PWAD));
+            // Read WAD type
+            IsIWAD = ENCODING.GetString(reader.ReadBytes(4)) == TYPE_IWAD; //mxd
 
-			// Number of lumps
-			writer.Write(numlumps);
+            // Number of lumps
+            numlumps = reader.ReadInt32();
+            if (numlumps < 0) throw new IOException("Invalid number of lumps in wad file.");
 
-			// Lumps table offset
-			writer.Write(lumpsoffset);
+            // Lumps table offset
+            lumpsoffset = reader.ReadInt32();
+            if (lumpsoffset < 0) throw new IOException("Invalid lumps offset in wad file.");
 
-			// Seek to the lumps table
-			file.Seek(lumpsoffset, SeekOrigin.Begin);
+            // Seek to the lumps table
+            file.Seek(lumpsoffset, SeekOrigin.Begin);
 
-			// Go for all lumps
-			for(int i = 0; i < lumps.Count; i++)
-			{
-				// Write lump information
-				writer.Write(lumps[i].Offset);
-				writer.Write(lumps[i].Length);
-				writer.Write(lumps[i].FixedName);
-			}
-		}
+            // Dispose old lumps and create new list
+            if (Lumps != null) foreach (Lump l in Lumps) l.Dispose();
+            Lumps = new List<Lump>(numlumps);
 
-		//mxd
-		private void CheckHash()
-		{
-			// Open the file stream
-			FileStream fs = File.Open(filename, FileMode.OpenOrCreate, FileAccess.Read, FileShare.ReadWrite);
-			
-			// Empty file can't be official iwad
-			if(fs.Length > 4)
-			{
-				BinaryReader r = new BinaryReader(fs, ENCODING);
+            // Go for all lumps
+            for (int i = 0; i < numlumps; i++)
+            {
+                // Read lump information
+                int offset = reader.ReadInt32();
+                int length = reader.ReadInt32();
+                byte[] fixedname = reader.ReadBytes(8);
 
-				// Read WAD type
-				if(ENCODING.GetString(r.ReadBytes(4)) == TYPE_IWAD)
-				{
-					// Rewind
-					r.BaseStream.Position = 0;
-					//isofficialiwad = IWAD_HASHES.Contains(MD5Hash.Get(r.BaseStream));
-					isofficialiwad = IWAD_HASHES.Contains(Hasher<SHA1>.Get(r.BaseStream));
-					if (!isreadonly && isofficialiwad) isreadonly = true;
-				}
+                // Create the lump
+                Lumps.Add(new Lump(file, this, fixedname, offset, length));
+            }
+        }
 
-				// Close the reader
-				r.Close();
-			}
-			else
-			{
-				// Close the file
-				fs.Dispose();
-			}
-		}
+        // This writes the WAD header and lumps table
+        public void WriteHeaders()
+        {
+            // [ZZ] don't allow any edit actions on readonly archive
+            if (IsReadOnly) return;
 
-		//mxd. This rebuilds the WAD file, removing all "dead" entries
-		// Tech info: WAD.Remove() doesn't remove lump data, so MapManager.TemporaryMapFile slowly gets bigger
-		// with every map save/test, which leads to lumpsoffset overflowing when TemporaryMapFile size reaches 
-		// int.MaxValue bytes in size (that's ~2Gb). 
-		internal void Compress()
-		{
-			// No can't do...
-			if(isreadonly) return;
-			
-			// Gather existing data
-			int totaldatalength = 0;
-			List<LumpCopyData> copydata = new List<LumpCopyData>(lumps.Count);
-			for(int i = 0; i < lumps.Count; i++)
-			{
-				// Copy lump...
-				LumpCopyData lcd = new LumpCopyData();
-				Lump l = lumps[i];
+            // Seek to beginning
+            file.Seek(0, SeekOrigin.Begin);
 
-				lcd.FixedName = l.FixedName;
-				lcd.Index = i;
-				lcd.Data = l.Stream.ReadAllBytes();
+            // Write WAD type
+            writer.Write(ENCODING.GetBytes(IsIWAD ? TYPE_IWAD : TYPE_PWAD));
 
-				// Store data
-				copydata.Add(lcd);
+            // Number of lumps
+            writer.Write(numlumps);
 
-				// Track total length
-				totaldatalength += l.Length;
+            // Lumps table offset
+            writer.Write(lumpsoffset);
 
-				// Dispose lump
-				l.Dispose();
-			}
+            // Seek to the lumps table
+            file.Seek(lumpsoffset, SeekOrigin.Begin);
 
-			// Compression required?
-			if(totaldatalength >= lumpsoffset + 12) return;
+            // Go for all lumps
+            for (int i = 0; i < Lumps.Count; i++)
+            {
+                // Write lump information
+                writer.Write(Lumps[i].Offset);
+                writer.Write(Lumps[i].Length);
+                writer.Write(Lumps[i].FixedName);
+            }
+        }
 
-			// Set new file length
-			file.SetLength(totaldatalength + lumps.Count * 16);
+        //mxd
+        private void CheckHash()
+        {
+            // Open the file stream
+            FileStream fs = File.Open(Filename, FileMode.OpenOrCreate, FileAccess.Read, FileShare.ReadWrite);
 
-			// Reset lumpsoffset
-			lumpsoffset = 12;
+            // Empty file can't be official iwad
+            if (fs.Length > 4)
+            {
+                BinaryReader r = new BinaryReader(fs, ENCODING);
 
-			// Reset lumps collection
-			lumps = new List<Lump>(copydata.Count);
-			numlumps = copydata.Count;
+                // Read WAD type
+                if (ENCODING.GetString(r.ReadBytes(4)) == TYPE_IWAD)
+                {
+                    // Rewind
+                    r.BaseStream.Position = 0;
+                    //isofficialiwad = IWAD_HASHES.Contains(MD5Hash.Get(r.BaseStream));
+                    IsOfficialIWAD = IWAD_HASHES.Contains(Hasher<SHA1>.Get(r.BaseStream));
+                    if (!IsReadOnly && IsOfficialIWAD) IsReadOnly = true;
+                }
 
-			// Recreate all lumps
-			foreach(LumpCopyData lcd in copydata)
-			{
-				Lump l = new Lump(file, this, lcd.FixedName, lumpsoffset, lcd.Data.Length);
-				l.Stream.Write(lcd.Data, 0, lcd.Data.Length);
-				l.Stream.Seek(0, SeekOrigin.Begin);
-				lumps.Insert(lcd.Index, l);
+                // Close the reader
+                r.Close();
+            }
+            else
+            {
+                // Close the file
+                fs.Dispose();
+            }
+        }
 
-				lumpsoffset += lcd.Data.Length;
-			}
+        //mxd. This rebuilds the WAD file, removing all "dead" entries
+        // Tech info: WAD.Remove() doesn't remove lump data, so MapManager.TemporaryMapFile slowly gets bigger
+        // with every map save/test, which leads to lumpsoffset overflowing when TemporaryMapFile size reaches 
+        // int.MaxValue bytes in size (that's ~2Gb). 
+        internal void Compress()
+        {
+            // No can't do...
+            if (IsReadOnly) return;
 
-			// Write new headers
-			WriteHeaders();
-		}
-		
-		// This flushes writing changes
-		/*public void Flush()
+            // Gather existing data
+            int totaldatalength = 0;
+            List<LumpCopyData> copydata = new List<LumpCopyData>(Lumps.Count);
+            for (int i = 0; i < Lumps.Count; i++)
+            {
+                // Copy lump...
+                LumpCopyData lcd = new LumpCopyData();
+                Lump l = Lumps[i];
+
+                lcd.FixedName = l.FixedName;
+                lcd.Index = i;
+                lcd.Data = l.Stream.ReadAllBytes();
+
+                // Store data
+                copydata.Add(lcd);
+
+                // Track total length
+                totaldatalength += l.Length;
+
+                // Dispose lump
+                l.Dispose();
+            }
+
+            // Compression required?
+            if (totaldatalength >= lumpsoffset + 12) return;
+
+            // Set new file length
+            file.SetLength(totaldatalength + (Lumps.Count * 16));
+
+            // Reset lumpsoffset
+            lumpsoffset = 12;
+
+            // Reset lumps collection
+            Lumps = new List<Lump>(copydata.Count);
+            numlumps = copydata.Count;
+
+            // Recreate all lumps
+            foreach (LumpCopyData lcd in copydata)
+            {
+                Lump l = new Lump(file, this, lcd.FixedName, lumpsoffset, lcd.Data.Length);
+                l.Stream.Write(lcd.Data, 0, lcd.Data.Length);
+                l.Stream.Seek(0, SeekOrigin.Begin);
+                Lumps.Insert(lcd.Index, l);
+
+                lumpsoffset += lcd.Data.Length;
+            }
+
+            // Write new headers
+            WriteHeaders();
+        }
+
+        // This flushes writing changes
+        /*public void Flush()
 		{
 			// Only possible when not read-only
 			if(!isreadonly)
@@ -451,192 +445,192 @@ namespace CodeImp.DoomBuilder.IO
 				if(file != null) file.Flush();
 			}
 		}*/
-		
-		#endregion
-		
-		#region ================== Lumps
 
-		// This creates a new lump in the WAD file
+        #endregion
+
+        #region ================== Lumps
+
+        // This creates a new lump in the WAD file
         public Lump Insert(string name, int position, int datalength, bool writeheaders = true)
-		{
+        {
             // [ZZ] don't allow any edit actions on readonly archive
-            if (isreadonly) return null;
+            if (IsReadOnly) return null;
 
             // We will be adding a lump
             numlumps++;
-			
-			// Extend the file
-			file.SetLength(file.Length + datalength + 16);
-			
-			// Create the lump
-			Lump lump = new Lump(file, this, Lump.MakeFixedName(name, ENCODING), lumpsoffset, datalength);
-			lumps.Insert(position, lump);
-			
-			// Advance lumps table offset
-			lumpsoffset += datalength;
 
-			// Write the new headers
-			if(writeheaders) WriteHeaders();
+            // Extend the file
+            file.SetLength(file.Length + datalength + 16);
 
-			// Return the new lump
-			return lump;
-		}
+            // Create the lump
+            Lump lump = new Lump(file, this, Lump.MakeFixedName(name, ENCODING), lumpsoffset, datalength);
+            Lumps.Insert(position, lump);
 
-		// This removes a lump from the WAD file by index
-		public void RemoveAt(int index, bool writeheaders = true)
-		{
+            // Advance lumps table offset
+            lumpsoffset += datalength;
+
+            // Write the new headers
+            if (writeheaders) WriteHeaders();
+
+            // Return the new lump
+            return lump;
+        }
+
+        // This removes a lump from the WAD file by index
+        public void RemoveAt(int index, bool writeheaders = true)
+        {
             // [ZZ] don't allow any edit actions on readonly archive
-            if (isreadonly) return;
+            if (IsReadOnly) return;
 
             // Remove from list
-            Lump l = lumps[index];
-			lumps.RemoveAt(index);
-			l.Dispose();
-			numlumps--;
-			
-			// Write the new headers
-			if (writeheaders) WriteHeaders();
-		}
-		
-		// This removes a lump from the WAD file
-		public void Remove(Lump lump)
-		{
+            Lump l = Lumps[index];
+            Lumps.RemoveAt(index);
+            l.Dispose();
+            numlumps--;
+
+            // Write the new headers
+            if (writeheaders) WriteHeaders();
+        }
+
+        // This removes a lump from the WAD file
+        public void Remove(Lump lump)
+        {
             // [ZZ] don't allow any edit actions on readonly archive
-            if (isreadonly) return;
+            if (IsReadOnly) return;
 
             // Remove from list
-            lumps.Remove(lump);
-			lump.Dispose();
-			numlumps--;
-			
-			// Write the new headers
-			WriteHeaders();
-		}
-		
-		// This finds a lump by name, returns null when not found
-		public Lump FindLump(string name)
-		{
-			int index = FindLumpIndex(name);
-			return (index == -1 ? null : lumps[index]);
-		}
+            Lumps.Remove(lump);
+            lump.Dispose();
+            numlumps--;
 
-		// This finds a lump by name, returns null when not found
-		public Lump FindLump(string name, int start)
-		{
-			int index = FindLumpIndex(name, start);
-			return (index == -1 ? null : lumps[index]);
-		}
+            // Write the new headers
+            WriteHeaders();
+        }
 
-		// This finds a lump by name, returns null when not found
-		public Lump FindLump(string name, int start, int end)
-		{
-			int index = FindLumpIndex(name, start, end);
-			return (index == -1 ? null : lumps[index]);
-		}
+        // This finds a lump by name, returns null when not found
+        public Lump FindLump(string name)
+        {
+            int index = FindLumpIndex(name);
+            return index == -1 ? null : Lumps[index];
+        }
 
-		// This finds a lump by name, returns -1 when not found
-		public int FindLumpIndex(string name)
-		{
-			// Do search
-			return FindLumpIndex(name, 0, lumps.Count - 1);
-		}
+        // This finds a lump by name, returns null when not found
+        public Lump FindLump(string name, int start)
+        {
+            int index = FindLumpIndex(name, start);
+            return index == -1 ? null : Lumps[index];
+        }
 
-		// This finds a lump by name, returns -1 when not found
-		public int FindLumpIndex(string name, int start)
-		{
-			// Do search
-			return FindLumpIndex(name, start, lumps.Count - 1);
-		}
-		
-		// This finds a lump by name, returns -1 when not found
-		public int FindLumpIndex(string name, int start, int end)
-		{
-			if(name.Length > 8 || lumps.Count == 0 || start > lumps.Count - 1) return -1; //mxd. Can't be here. Go away!
-			
-			long longname = Lump.MakeLongName(name);
-			
-			// Fix start/end when they exceed safe bounds
-			start = Math.Max(start, 0);
-			end = General.Clamp(end, 0, lumps.Count - 1);
+        // This finds a lump by name, returns null when not found
+        public Lump FindLump(string name, int start, int end)
+        {
+            int index = FindLumpIndex(name, start, end);
+            return index == -1 ? null : Lumps[index];
+        }
 
-			// Loop through the lumps
-			for(int i = start; i < end + 1; i++)
-			{
-				// Check if the lump name matches
-				if(lumps[i].LongName == longname)
-				{
-					// Found the lump!
-					return i;
-				}
-			}
+        // This finds a lump by name, returns -1 when not found
+        public int FindLumpIndex(string name)
+        {
+            // Do search
+            return FindLumpIndex(name, 0, Lumps.Count - 1);
+        }
 
-			// Nothing found
-			return -1;
-		}
+        // This finds a lump by name, returns -1 when not found
+        public int FindLumpIndex(string name, int start)
+        {
+            // Do search
+            return FindLumpIndex(name, start, Lumps.Count - 1);
+        }
 
-		//mxd. Same as above, but searches in reversed order
+        // This finds a lump by name, returns -1 when not found
+        public int FindLumpIndex(string name, int start, int end)
+        {
+            if (name.Length > 8 || Lumps.Count == 0 || start > Lumps.Count - 1) return -1; //mxd. Can't be here. Go away!
 
-		// This finds a lump by name, returns null when not found
-		public Lump FindLastLump(string name)
-		{
-			int index = FindLastLumpIndex(name);
-			return (index == -1 ? null : lumps[index]);
-		}
+            long longname = Lump.MakeLongName(name);
 
-		// This finds a lump by name, returns null when not found
-		public Lump FindLastLump(string name, int start)
-		{
-			int index = FindLastLumpIndex(name, start);
-			return (index == -1 ? null : lumps[index]);
-		}
+            // Fix start/end when they exceed safe bounds
+            start = Math.Max(start, 0);
+            end = General.Clamp(end, 0, Lumps.Count - 1);
 
-		// This finds a lump by name, returns null when not found
-		public Lump FindLastLump(string name, int start, int end)
-		{
-			int index = FindLastLumpIndex(name, start, end);
-			return (index == -1 ? null : lumps[index]);
-		}
+            // Loop through the lumps
+            for (int i = start; i < end + 1; i++)
+            {
+                // Check if the lump name matches
+                if (Lumps[i].LongName == longname)
+                {
+                    // Found the lump!
+                    return i;
+                }
+            }
 
-		// This finds a lump by name, returns -1 when not found
-		public int FindLastLumpIndex(string name)
-		{
-			// Do search
-			return FindLastLumpIndex(name, 0, lumps.Count - 1);
-		}
+            // Nothing found
+            return -1;
+        }
 
-		// This finds a lump by name, returns -1 when not found
-		public int FindLastLumpIndex(string name, int start)
-		{
-			// Do search
-			return FindLastLumpIndex(name, start, lumps.Count - 1);
-		}
+        //mxd. Same as above, but searches in reversed order
 
-		// This finds a lump by name, returns -1 when not found
-		public int FindLastLumpIndex(string name, int start, int end)
-		{
-			if(name.Length > 8 || lumps.Count == 0 || start > lumps.Count - 1) return -1; //mxd. Can't be here. Go away!
+        // This finds a lump by name, returns null when not found
+        public Lump FindLastLump(string name)
+        {
+            int index = FindLastLumpIndex(name);
+            return index == -1 ? null : Lumps[index];
+        }
 
-			long longname = Lump.MakeLongName(name);
+        // This finds a lump by name, returns null when not found
+        public Lump FindLastLump(string name, int start)
+        {
+            int index = FindLastLumpIndex(name, start);
+            return index == -1 ? null : Lumps[index];
+        }
 
-			// Fix start/end when they exceed safe bounds
-			start = Math.Max(start, 0);
-			end = General.Clamp(end, 0, lumps.Count - 1);
+        // This finds a lump by name, returns null when not found
+        public Lump FindLastLump(string name, int start, int end)
+        {
+            int index = FindLastLumpIndex(name, start, end);
+            return index == -1 ? null : Lumps[index];
+        }
 
-			// Loop through the lumps in backwards order
-			for(int i = end; i > start - 1; i--)
-			{
-				// Check if the lump name matches
-				if(lumps[i].LongName == longname)
-				{
-					// Found the lump!
-					return i;
-				}
-			}
+        // This finds a lump by name, returns -1 when not found
+        public int FindLastLumpIndex(string name)
+        {
+            // Do search
+            return FindLastLumpIndex(name, 0, Lumps.Count - 1);
+        }
 
-			// Nothing found
-			return -1;
-		}
+        // This finds a lump by name, returns -1 when not found
+        public int FindLastLumpIndex(string name, int start)
+        {
+            // Do search
+            return FindLastLumpIndex(name, start, Lumps.Count - 1);
+        }
 
-		#endregion
-	}
+        // This finds a lump by name, returns -1 when not found
+        public int FindLastLumpIndex(string name, int start, int end)
+        {
+            if (name.Length > 8 || Lumps.Count == 0 || start > Lumps.Count - 1) return -1; //mxd. Can't be here. Go away!
+
+            long longname = Lump.MakeLongName(name);
+
+            // Fix start/end when they exceed safe bounds
+            start = Math.Max(start, 0);
+            end = General.Clamp(end, 0, Lumps.Count - 1);
+
+            // Loop through the lumps in backwards order
+            for (int i = end; i > start - 1; i--)
+            {
+                // Check if the lump name matches
+                if (Lumps[i].LongName == longname)
+                {
+                    // Found the lump!
+                    return i;
+                }
+            }
+
+            // Nothing found
+            return -1;
+        }
+
+        #endregion
+    }
 }

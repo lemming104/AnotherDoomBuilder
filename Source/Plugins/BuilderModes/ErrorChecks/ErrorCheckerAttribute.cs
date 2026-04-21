@@ -22,46 +22,42 @@ using System;
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
-	[AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
-	public class ErrorCheckerAttribute : Attribute
-	{
-		#region ================== Variables
-		
-		private string displayname;
-		private bool defaultchecked;
-		private int cost;
-		
-		#endregion
-		
-		#region ================== Properties
-		
-		public string DisplayName { get { return displayname; } set { displayname = value; } }
-		public bool DefaultChecked { get { return defaultchecked; } set { defaultchecked = value; } }
-		public int Cost { get { return cost; } set { cost = value; } }
-		
-		#endregion
-		
-		#region ================== Constructor / Destructor
-		
-		// Constructor
-		public ErrorCheckerAttribute(string displayname, bool defaultchecked, int cost)
-		{
-			// Initialize
-			this.displayname = displayname;
-			this.defaultchecked = defaultchecked;
-			this.cost = cost;
-		}
-		
-		#endregion
-		
-		#region ================== Methods
-		
-		// String representation
-		public override string ToString()
-		{
-			return displayname;
-		}
-		
-		#endregion
-	}
+    [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
+    public class ErrorCheckerAttribute : Attribute
+    {
+        #region ================== Variables
+
+        #endregion
+
+        #region ================== Properties
+
+        public string DisplayName { get; set; }
+        public bool DefaultChecked { get; set; }
+        public int Cost { get; set; }
+
+        #endregion
+
+        #region ================== Constructor / Destructor
+
+        // Constructor
+        public ErrorCheckerAttribute(string displayname, bool defaultchecked, int cost)
+        {
+            // Initialize
+            this.DisplayName = displayname;
+            this.DefaultChecked = defaultchecked;
+            this.Cost = cost;
+        }
+
+        #endregion
+
+        #region ================== Methods
+
+        // String representation
+        public override string ToString()
+        {
+            return DisplayName;
+        }
+
+        #endregion
+    }
 }

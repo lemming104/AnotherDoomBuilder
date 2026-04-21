@@ -16,97 +16,97 @@
 
 #region ================== Namespaces
 
+using CodeImp.DoomBuilder.Geometry;
+using CodeImp.DoomBuilder.Windows;
 using System;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
-using CodeImp.DoomBuilder.Windows;
-using CodeImp.DoomBuilder.Geometry;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Types
 {
-	[TypeHandler(UniversalType.AngleRadians, "Radians", false)]
-	internal class AngleRadiansHandler : AngleDegreesHandler
-	{
-		#region ================== Constants
+    [TypeHandler(UniversalType.AngleRadians, "Radians", false)]
+    internal class AngleRadiansHandler : AngleDegreesHandler
+    {
+        #region ================== Constants
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		private new double value;
+        private new double value;
 
-		#endregion
+        #endregion
 
-		#region ================== Properties
+        #region ================== Properties
 
-		public override bool IsBrowseable { get { return true; } }
+        public override bool IsBrowseable { get { return true; } }
 
-		public override Image BrowseImage { get { return angleicons[General.ClampAngle(Angle2D.RealToDoom(value) + 22) / 45]; } }
-		
-		#endregion
+        public override Image BrowseImage { get { return angleicons[General.ClampAngle(Angle2D.RealToDoom(value) + 22) / 45]; } }
 
-		#region ================== Constructor
+        #endregion
 
-		#endregion
+        #region ================== Constructor
 
-		#region ================== Methods
+        #endregion
 
-		public override void Browse(IWin32Window parent)
-		{
-			value = Angle2D.DoomToReal(AngleForm.ShowDialog(parent, Angle2D.RealToDoom(value)));
-		}
+        #region ================== Methods
 
-		public override void SetValue(object value)
-		{
-			// Null?
-			if(value == null)
-			{
-				this.value = 0.0f;
-			}
-			// Compatible type?
-			else if((value is int) || (value is float) || (value is bool))
-			{
-				// Set directly
-				this.value = Convert.ToSingle(value);
-			}
-			else
-			{
-				// Try parsing as string
-				float result;
-				if(float.TryParse(value.ToString(), NumberStyles.Float, CultureInfo.CurrentCulture, out result))
-				{
-					this.value = result;
-				}
-				else
-				{
-					this.value = 0.0f;
-				}
-			}
-		}
+        public override void Browse(IWin32Window parent)
+        {
+            value = Angle2D.DoomToReal(AngleForm.ShowDialog(parent, Angle2D.RealToDoom(value)));
+        }
 
-		public override object GetValue()
-		{
-			return this.value;
-		}
+        public override void SetValue(object value)
+        {
+            // Null?
+            if (value == null)
+            {
+                this.value = 0.0f;
+            }
+            // Compatible type?
+            else if ((value is int) || (value is float) || (value is bool))
+            {
+                // Set directly
+                this.value = Convert.ToSingle(value);
+            }
+            else
+            {
+                // Try parsing as string
+                float result;
+                if (float.TryParse(value.ToString(), NumberStyles.Float, CultureInfo.CurrentCulture, out result))
+                {
+                    this.value = result;
+                }
+                else
+                {
+                    this.value = 0.0f;
+                }
+            }
+        }
 
-		public override int GetIntValue()
-		{
-			return (int)this.value;
-		}
+        public override object GetValue()
+        {
+            return this.value;
+        }
 
-		public override string GetStringValue()
-		{
-			return this.value.ToString();
-		}
+        public override int GetIntValue()
+        {
+            return (int)this.value;
+        }
 
-		public override object GetDefaultValue()
-		{
-			return 0f;
-		}
+        public override string GetStringValue()
+        {
+            return this.value.ToString();
+        }
 
-		#endregion
-	}
+        public override object GetDefaultValue()
+        {
+            return 0f;
+        }
+
+        #endregion
+    }
 }

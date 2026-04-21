@@ -1,86 +1,84 @@
 ﻿#region ================== Namespaces
 
+using CodeImp.DoomBuilder.Data;
 using System;
 using System.Drawing;
-using CodeImp.DoomBuilder.Data;
 using System.Drawing.Drawing2D;
 using System.Text;
 #endregion
 
 namespace CodeImp.DoomBuilder.Controls
 {
-	#region ================== mxd. ImageBrowserItemType
+    #region ================== mxd. ImageBrowserItemType
 
-	internal enum ImageBrowserItemType
-	{
-		// Values order is used when sorting ImageBrowserItems!
-		FOLDER_UP,
-		FOLDER,
-		IMAGE,
-	}
+    internal enum ImageBrowserItemType
+    {
+        // Values order is used when sorting ImageBrowserItems!
+        FOLDER_UP,
+        FOLDER,
+        IMAGE,
+    }
 
-	#endregion
+    #endregion
 
-	internal class ImageBrowserItem : IComparable<ImageBrowserItem>
-	{
-		#region ================== Variables
+    internal class ImageBrowserItem : IComparable<ImageBrowserItem>
+    {
+        #region ================== Variables
 
-		protected ImageData icon;
-		private bool imageloaded;
-		private bool showfullname;
-		protected ImageBrowserItemType itemtype;
-		private string tooltip;
-
+        protected ImageData icon;
+        private bool imageloaded;
+        private bool showfullname;
+        protected ImageBrowserItemType itemtype;
         private static Brush bgbrush, fgbrush_used, fgbrush_unused, selectedbgbrush, selectionbrush, selectiontextbrush, bgbrush_alpha;
         private static Color bgcolor;
         private static Pen selection, frame_used, frame_unused;
         private static StringBuilder size_builder;
         private static Font pixelSizeFont;
 
-		private static readonly Font messageBoxFont = SystemFonts.MessageBoxFont;
-		private static readonly int messageBoxFontHeight = messageBoxFont.Height;
+        private static readonly Font messageBoxFont = SystemFonts.MessageBoxFont;
+        private static readonly int messageBoxFontHeight = messageBoxFont.Height;
 
         #endregion
 
-    #region ================== Properties
+        #region ================== Properties
 
-		public ImageData Icon { get { return icon; } }
-		public ImageBrowserItemType ItemType { get { return itemtype; } }
-		public virtual bool IsPreviewLoaded { get { return icon.IsPreviewLoaded; } }
-		public bool ShowFullName { set { showfullname = value; } get { return showfullname && (!(icon is PK3FileImage) || !((PK3FileImage)icon).IsBadForLongTextureNames); } }
-		public virtual string TextureName { get { return (ShowFullName ? icon.Name : icon.ShortName); } }
-		public virtual int TextureNameWidth { get { return ShowFullName ? icon.NameWidth : icon.ShortNameWidth; } } // biwa
-		public string ToolTip { get { return tooltip; } }
+        public ImageData Icon { get { return icon; } }
+        public ImageBrowserItemType ItemType { get { return itemtype; } }
+        public virtual bool IsPreviewLoaded { get { return icon.IsPreviewLoaded; } }
+        public bool ShowFullName { set { showfullname = value; } get { return showfullname && (!(icon is PK3FileImage) || !((PK3FileImage)icon).IsBadForLongTextureNames); } }
+        public virtual string TextureName { get { return ShowFullName ? icon.Name : icon.ShortName; } }
+        public virtual int TextureNameWidth { get { return ShowFullName ? icon.NameWidth : icon.ShortNameWidth; } } // biwa
+        public string ToolTip { get; }
 
-		#endregion
+        #endregion
 
-		#region ================== Constructor
+        #region ================== Constructor
 
-		// Constructors
-		protected ImageBrowserItem() { } //mxd. Needed for inheritance...
-		public ImageBrowserItem(ImageData icon, string tooltip, bool showfullname)
-		{
-			// Initialize
-			this.icon = icon;
-			this.itemtype = ImageBrowserItemType.IMAGE; //mxd
-			this.showfullname = showfullname; //mxd
-			this.imageloaded = icon.IsPreviewLoaded; //mxd
-			this.tooltip = tooltip; //mxd
-		}
+        // Constructors
+        protected ImageBrowserItem() { } //mxd. Needed for inheritance...
+        public ImageBrowserItem(ImageData icon, string tooltip, bool showfullname)
+        {
+            // Initialize
+            this.icon = icon;
+            this.itemtype = ImageBrowserItemType.IMAGE; //mxd
+            this.showfullname = showfullname; //mxd
+            this.imageloaded = icon.IsPreviewLoaded; //mxd
+            this.ToolTip = tooltip; //mxd
+        }
 
-		#endregion
+        #endregion
 
-		#region ================== Methods
+        #region ================== Methods
 
-		internal bool CheckRedrawNeeded()
-		{
-			if(icon.IsPreviewLoaded != imageloaded)
-			{
-				imageloaded = icon.IsPreviewLoaded;
-				return true;
-			}
-			return false;
-		}
+        internal bool CheckRedrawNeeded()
+        {
+            if (icon.IsPreviewLoaded != imageloaded)
+            {
+                imageloaded = icon.IsPreviewLoaded;
+                return true;
+            }
+            return false;
+        }
 
         internal static void SetBrushes(bool classicview, int x, int y, int w, int h)
         {
@@ -148,9 +146,9 @@ namespace CodeImp.DoomBuilder.Controls
             }
         }
 
-		internal void Draw(Graphics g, Image bmp, int x, int y, int w, int h, bool selected, bool used, bool classicview)
-		{
-			if(bmp == null) return;
+        internal void Draw(Graphics g, Image bmp, int x, int y, int w, int h, bool selected, bool used, bool classicview)
+        {
+            if (bmp == null) return;
 
             int fontH = 4 + messageBoxFontHeight;
             int h2 = h;
@@ -158,24 +156,24 @@ namespace CodeImp.DoomBuilder.Controls
                 h2 -= fontH;
 
             var iw = bmp.Width;
-			var ih = bmp.Height;
+            var ih = bmp.Height;
 
-			if(iw > w && iw >= ih)
-			{
-				ih = (int)Math.Floor(h * (ih / (float)iw));
-				iw = w;
-			}
-			else if(ih > h2)
-			{
-				iw = (int)Math.Floor(w * (iw / (float)ih));
-				ih = h2;
-			}
+            if (iw > w && iw >= ih)
+            {
+                ih = (int)Math.Floor(h * (ih / (float)iw));
+                iw = w;
+            }
+            else if (ih > h2)
+            {
+                iw = (int)Math.Floor(w * (iw / (float)ih));
+                ih = h2;
+            }
 
-            int ix = (iw < w ? x + (w - iw) / 2 : x);
-			int iy = (ih < h2 ? y + (h2 - ih) / 2 : y);
+            int ix = iw < w ? x + ((w - iw) / 2) : x;
+            int iy = ih < h2 ? y + ((h2 - ih) / 2) : y;
 
-			// Item bg
-			g.FillRectangle(bgbrush, x - 2, y - 2, w + 3, h + 8 + messageBoxFontHeight);
+            // Item bg
+            g.FillRectangle(bgbrush, x - 2, y - 2, w + 3, h + 8 + messageBoxFontHeight);
 
             // Selected image bg
             if (selected)
@@ -195,30 +193,30 @@ namespace CodeImp.DoomBuilder.Controls
                 }
             }
 
-			// Image
-			g.DrawImage(bmp, ix, iy, iw, ih);
+            // Image
+            g.DrawImage(bmp, ix, iy, iw, ih);
 
-			// Frame
-			if(selected && !classicview)
-			{
-				g.DrawRectangle(selection, x - 1, y - 1, w + 1, h2 + 1);
-				g.DrawRectangle(selection, x - 2, y - 2, w + 3, h2 + 3);
+            // Frame
+            if (selected && !classicview)
+            {
+                g.DrawRectangle(selection, x - 1, y - 1, w + 1, h2 + 1);
+                g.DrawRectangle(selection, x - 2, y - 2, w + 3, h2 + 3);
 
-				// Image name bg
-				g.FillRectangle(selectionbrush, x - 2, y + h2 + 2, w + 4, messageBoxFontHeight + (General.Settings.TextureSizesBelow ? fontH : 0));
-			}
-			else if (!classicview)
-			{
-                g.DrawRectangle(used ? frame_used : frame_unused , x - 1, y - 1, w + 1, h2 + 1);
-			}
+                // Image name bg
+                g.FillRectangle(selectionbrush, x - 2, y + h2 + 2, w + 4, messageBoxFontHeight + (General.Settings.TextureSizesBelow ? fontH : 0));
+            }
+            else if (!classicview)
+            {
+                g.DrawRectangle(used ? frame_used : frame_unused, x - 1, y - 1, w + 1, h2 + 1);
+            }
 
             // Image name
-            float textureNameX = classicview ? (x + (float)w / 2 - TextureNameWidth / 2) : (x - 2);
-            g.DrawString(TextureName, messageBoxFont, (selected ? selectiontextbrush : (used ? fgbrush_used : fgbrush_unused)), textureNameX, y + h2 + 1);
+            float textureNameX = classicview ? (x + ((float)w / 2) - (TextureNameWidth / 2)) : (x - 2);
+            g.DrawString(TextureName, messageBoxFont, selected ? selectiontextbrush : (used ? fgbrush_used : fgbrush_unused), textureNameX, y + h2 + 1);
 
-			// Image size
-			if(General.Settings.ShowTextureSizes && icon.IsPreviewLoaded && itemtype == ImageBrowserItemType.IMAGE)
-			{
+            // Image size
+            if (General.Settings.ShowTextureSizes && icon.IsPreviewLoaded && itemtype == ImageBrowserItemType.IMAGE)
+            {
                 if (!General.Settings.TextureSizesBelow)
                 {
                     //string imagesize = Math.Abs(icon.ScaledWidth) + "x" + Math.Abs(icon.ScaledHeight);
@@ -241,10 +239,10 @@ namespace CodeImp.DoomBuilder.Controls
                     }
                     else
                     {
-                         g.FillRectangle(bgbrush_alpha, x, y, textsize.Width, textsize.Height);
+                        g.FillRectangle(bgbrush_alpha, x, y, textsize.Width, textsize.Height);
                     }
 
-                    g.DrawString(imagesize, pixelSizeFont, (selected ? selectiontextbrush : (used ? fgbrush_used : fgbrush_unused)), x, y - 1);
+                    g.DrawString(imagesize, pixelSizeFont, selected ? selectiontextbrush : (used ? fgbrush_used : fgbrush_unused), x, y - 1);
                 }
                 else
                 {
@@ -261,25 +259,25 @@ namespace CodeImp.DoomBuilder.Controls
 
                     // [ZZ] we can't draw it with the regular font: it blends in with the texture name.
                     SolidBrush brush = new SolidBrush(((SolidBrush)(selected ? selectiontextbrush : (used ? fgbrush_used : fgbrush_unused))).Color);
-                    brush.Color = Color.FromArgb((int)(brush.Color.A/* * 0.75f*/), brush.Color.R, brush.Color.G, brush.Color.B);
-                    
+                    brush.Color = Color.FromArgb((int)brush.Color.A/* * 0.75f*/, brush.Color.R, brush.Color.G, brush.Color.B);
+
                     SizeF textsize = g.MeasureString(imagesize, pixelSizeFont);
 
-                    float szx = classicview ? (x + (float)w / 2 - textsize.Width / 2) : x;
+                    float szx = classicview ? (x + ((float)w / 2) - (textsize.Width / 2)) : x;
                     float szy = (float)y + h;
 
                     g.DrawString(imagesize, pixelSizeFont, brush, szx, szy);
                 }
-			}
-		}
+            }
+        }
 
-		// Comparer
-		public int CompareTo(ImageBrowserItem other)
-		{
-			if(itemtype != other.itemtype) return ((int)itemtype).CompareTo((int)other.itemtype);
-			return this.TextureName.ToUpperInvariant().CompareTo(other.TextureName.ToUpperInvariant());
-		}
+        // Comparer
+        public int CompareTo(ImageBrowserItem other)
+        {
+            if (itemtype != other.itemtype) return ((int)itemtype).CompareTo((int)other.itemtype);
+            return this.TextureName.ToUpperInvariant().CompareTo(other.TextureName.ToUpperInvariant());
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

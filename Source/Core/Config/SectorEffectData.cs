@@ -2,14 +2,14 @@
 
 namespace CodeImp.DoomBuilder.Config
 {
-	public class SectorEffectData
-	{
-		public int Effect;
-		public HashSet<int> GeneralizedBits;
+    public class SectorEffectData
+    {
+        public int Effect;
+        public HashSet<int> GeneralizedBits;
 
-		public SectorEffectData()
-		{
-			GeneralizedBits = new HashSet<int>();
-		}
-	}
+        public SectorEffectData()
+        {
+            GeneralizedBits = new HashSet<int>();
+        }
+    }
 }

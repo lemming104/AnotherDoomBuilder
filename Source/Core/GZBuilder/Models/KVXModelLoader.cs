@@ -3,8 +3,8 @@ using CodeImp.DoomBuilder.GZBuilder.Data;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
-using System.Drawing.Imaging;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
 
@@ -89,7 +89,7 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
                     for (int y = 0; y < ysize; y++)
                     {
                         reader.BaseStream.Position = offsets[counter];
-                        int next = (counter < offsets.Count - 1 ? offsets[counter + 1] : slabsEnd);
+                        int next = counter < offsets.Count - 1 ? offsets[counter + 1] : slabsEnd;
 
                         //read slab
                         while (reader.BaseStream.Position < next)
@@ -161,10 +161,10 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
             }
 
             // get model extents
-            int minX = (int)((xsize / 2f - pivot.x) * mde.Scale.X);
-            int maxX = (int)((xsize / 2f + pivot.x) * mde.Scale.X);
-            int minY = (int)((ysize / 2f - pivot.y) * mde.Scale.Y);
-            int maxY = (int)((ysize / 2f + pivot.y) * mde.Scale.Y);
+            int minX = (int)(((xsize / 2f) - pivot.x) * mde.Scale.X);
+            int maxX = (int)(((xsize / 2f) + pivot.x) * mde.Scale.X);
+            int minY = (int)(((ysize / 2f) - pivot.y) * mde.Scale.Y);
+            int maxY = (int)(((ysize / 2f) + pivot.y) * mde.Scale.Y);
 
             // Calculate model radius
             mde.Model.Radius = Math.Max(Math.Max(Math.Abs(minY), Math.Abs(maxY)), Math.Max(Math.Abs(minX), Math.Abs(maxX)));
@@ -185,9 +185,9 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
         // Shameless GZDoom rip-off
         private static void AddFace(List<WorldVertex> verts, List<int> indices, Dictionary<long, int> hashes, Vector3D v1, Vector3D v2, Vector3D v3, Vector3D v4, Vector3D pivot, int colorIndex)
         {
-            float pu0 = (colorIndex % 16) / 16f;
+            float pu0 = colorIndex % 16 / 16f;
             float pu1 = pu0 + 0.001f;
-            float pv0 = (colorIndex / 16) / 16f;
+            float pv0 = colorIndex / 16 / 16f;
             float pv1 = pv0 + 0.001f;
 
             WorldVertex wv1 = new WorldVertex
@@ -273,7 +273,7 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
 
             if (bmpdata != null)
             {
-                PixelColor* pixels = (PixelColor*)(bmpdata.Scan0.ToPointer());
+                PixelColor* pixels = (PixelColor*)bmpdata.Scan0.ToPointer();
                 const int numpixels = 256;
                 int i = 255;
 

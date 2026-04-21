@@ -3,27 +3,27 @@ using Font = System.Drawing.Font;
 
 namespace CodeImp.DoomBuilder.Rendering
 {
-	//mxd. TextLabel wrapper
-	public abstract class CustomTextLabel : ITextLabel
-	{
-		protected TextLabel label; // Derived classes must create this!
-		
-		// Required to render text label
-		public bool SkipRendering { get { return label.SkipRendering; } }
-		public Texture Texture { get { return label.Texture; } }
-		public VertexBuffer VertexBuffer { get { return label.VertexBuffer; } }
-		public Font Font { get { return label.Font; } set { label.Font = value; } }
-		public string Text { get { return label.Text; } set { label.Text = value; } }
+    //mxd. TextLabel wrapper
+    public abstract class CustomTextLabel : ITextLabel
+    {
+        protected TextLabel label; // Derived classes must create this!
 
-		// Access/setup
-		public TextLabel TextLabel { get { return label; } }
-		public PixelColor Color { get { return label.Color; } set { label.Color = value; } }
-		public PixelColor BackColor { get { return label.BackColor; } set { label.BackColor = value; } }
-		public SizeF TextSize { get { return label.TextSize; } }
+        // Required to render text label
+        public bool SkipRendering { get { return label.SkipRendering; } }
+        public Texture Texture { get { return label.Texture; } }
+        public VertexBuffer VertexBuffer { get { return label.VertexBuffer; } }
+        public Font Font { get { return label.Font; } set { label.Font = value; } }
+        public string Text { get { return label.Text; } set { label.Text = value; } }
 
-		public void Update(RenderDevice graphics, float translatex, float translatey, float scalex, float scaley)
-		{
-			label.Update(graphics, translatex, translatey, scalex, scaley);
-		}
-	}
+        // Access/setup
+        public TextLabel TextLabel { get { return label; } }
+        public PixelColor Color { get { return label.Color; } set { label.Color = value; } }
+        public PixelColor BackColor { get { return label.BackColor; } set { label.BackColor = value; } }
+        public SizeF TextSize { get { return label.TextSize; } }
+
+        public void Update(RenderDevice graphics, float translatex, float translatey, float scalex, float scaley)
+        {
+            label.Update(graphics, translatex, translatey, scalex, scaley);
+        }
+    }
 }

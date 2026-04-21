@@ -29,68 +29,68 @@ using CodeImp.DoomBuilder.Map;
 
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
-	/// <summary>
-	/// A `BlockEntry` is a single block in a `BlockMap`. It has methods to retrieve the linedefs, things, sectors, and vertices that are in this block.
-	/// </summary>
-	class BlockEntryWrapper : BlockMapContentBase
-	{
-		#region ================== Variables
+    /// <summary>
+    /// A `BlockEntry` is a single block in a `BlockMap`. It has methods to retrieve the linedefs, things, sectors, and vertices that are in this block.
+    /// </summary>
+    class BlockEntryWrapper : BlockMapContentBase
+    {
+        #region ================== Variables
 
-		private BlockEntry entry;
+        private BlockEntry entry;
 
-		#endregion
+        #endregion
 
-		#region ================== Constructors
+        #region ================== Constructors
 
-		internal BlockEntryWrapper(BlockEntry entry)
-		{
-			this.entry = entry;
-		}
+        internal BlockEntryWrapper(BlockEntry entry)
+        {
+            this.entry = entry;
+        }
 
-		#endregion
+        #endregion
 
-		#region ================== Methods
+        #region ================== Methods
 
-		/// <summary>
-		/// Gets all `Linedef`s in the blockmap entry.
-		/// </summary>
-		/// <returns>`Array` of `Linedef`s</returns>
-		[UDBScriptSettings(MinVersion = 5)]
-		public override LinedefWrapper[] getLinedefs()
-		{
-			return GetArray(entry.Lines, ref wrappedlines);
-		}
+        /// <summary>
+        /// Gets all `Linedef`s in the blockmap entry.
+        /// </summary>
+        /// <returns>`Array` of `Linedef`s</returns>
+        [UDBScriptSettings(MinVersion = 5)]
+        public override LinedefWrapper[] getLinedefs()
+        {
+            return GetArray(entry.Lines, ref wrappedlines);
+        }
 
-		/// <summary>
-		/// Gets all `Thing`s in the blockmap entry.
-		/// </summary>
-		/// <returns>`Array` of `Thing`s</returns>
-		[UDBScriptSettings(MinVersion = 5)]
-		public override ThingWrapper[] getThings()
-		{
-			return GetArray(entry.Things, ref wrappedthings);
-		}
+        /// <summary>
+        /// Gets all `Thing`s in the blockmap entry.
+        /// </summary>
+        /// <returns>`Array` of `Thing`s</returns>
+        [UDBScriptSettings(MinVersion = 5)]
+        public override ThingWrapper[] getThings()
+        {
+            return GetArray(entry.Things, ref wrappedthings);
+        }
 
-		/// <summary>
-		/// Gets all `Sector`s in the blockmap entry.
-		/// </summary>
-		/// <returns>`Array` of `Sector`s</returns>
-		[UDBScriptSettings(MinVersion = 5)]
-		public override SectorWrapper[] getSectors()
-		{
-			return GetArray(entry.Sectors, ref wrappedsectors);
-		}
+        /// <summary>
+        /// Gets all `Sector`s in the blockmap entry.
+        /// </summary>
+        /// <returns>`Array` of `Sector`s</returns>
+        [UDBScriptSettings(MinVersion = 5)]
+        public override SectorWrapper[] getSectors()
+        {
+            return GetArray(entry.Sectors, ref wrappedsectors);
+        }
 
-		/// <summary>
-		/// Gets all `Vertex` in the blockmap entry.
-		/// </summary>
-		/// <returns>`Array` of `Vertex`</returns>
-		[UDBScriptSettings(MinVersion = 5)]
-		public override VertexWrapper[] getVertices()
-		{
-			return GetArray(entry.Vertices, ref wrappedvertices);
-		}
+        /// <summary>
+        /// Gets all `Vertex` in the blockmap entry.
+        /// </summary>
+        /// <returns>`Array` of `Vertex`</returns>
+        [UDBScriptSettings(MinVersion = 5)]
+        public override VertexWrapper[] getVertices()
+        {
+            return GetArray(entry.Vertices, ref wrappedvertices);
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

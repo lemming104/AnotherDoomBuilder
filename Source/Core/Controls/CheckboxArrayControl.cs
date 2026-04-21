@@ -19,154 +19,151 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
 using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Controls
 {
-	public partial class CheckboxArrayControl : UserControl
-	{
-		// Events
-		public event EventHandler OnValueChanged; //mxd
+    public partial class CheckboxArrayControl : UserControl
+    {
+        // Events
+        public event EventHandler OnValueChanged; //mxd
 
-		// Variables
-		private List<CheckBox> checkboxes;
-		private int columns;
-		private int spacingY = 1; //mxd
-		
-		// Properties
-		public List<CheckBox> Checkboxes { get { return checkboxes; } }
-		public int Columns { get { return columns; } set { columns = value; } }
-		public int VerticalSpacing { get { return spacingY; } set { spacingY = value; } } //mxd
-		
-		// Constructor
-		public CheckboxArrayControl()
-		{
-			// Initialize
-			InitializeComponent();
+        // Variables
 
-			// Setup
-			checkboxes = new List<CheckBox>();
-		}
+        // Properties
+        public List<CheckBox> Checkboxes { get; }
+        public int Columns { get; set; }
+        public int VerticalSpacing { get; set; } = 1; //mxd
 
-		// This adds a checkbox
-		public CheckBox Add(string text, object tag)
-		{
-			// Make new checkbox
-			CheckBox c = new CheckBox();
-			c.AutoSize = true;
-			//c.FlatStyle = FlatStyle.System;
-			c.UseVisualStyleBackColor = true;
-			c.Text = text;
-			c.Tag = tag;
-			c.CheckStateChanged += checkbox_OnCheckStateChanged; //mxd
+        // Constructor
+        public CheckboxArrayControl()
+        {
+            // Initialize
+            InitializeComponent();
 
-			// Add to list
-			this.Controls.Add(c);
-			checkboxes.Add(c);
+            // Setup
+            Checkboxes = new List<CheckBox>();
+        }
 
-			// Return checkbox
-			return c;
-		}
+        // This adds a checkbox
+        public CheckBox Add(string text, object tag)
+        {
+            // Make new checkbox
+            CheckBox c = new CheckBox();
+            c.AutoSize = true;
+            //c.FlatStyle = FlatStyle.System;
+            c.UseVisualStyleBackColor = true;
+            c.Text = text;
+            c.Tag = tag;
+            c.CheckStateChanged += checkbox_OnCheckStateChanged; //mxd
 
-		//mxd
-		public int GetWidth() 
-		{
-			if(columns < 1 || checkboxes.Count < 1) return 0;
-			int maxwidth = 0;
-			foreach(CheckBox cb in checkboxes)
-			{
-				if(cb.Width > maxwidth) maxwidth = cb.Width;
-			}
+            // Add to list
+            this.Controls.Add(c);
+            Checkboxes.Add(c);
 
-			return maxwidth * columns;
-		}
+            // Return checkbox
+            return c;
+        }
 
-		//mxd
-		public int GetHeight() 
-		{
-			if(columns < 1 || checkboxes.Count < 1)	return 0;
-			int col = (int)Math.Ceiling(checkboxes.Count / (float)columns);
-			return col * checkboxes[0].Height + (col * spacingY + spacingY);
-		}
+        //mxd
+        public int GetWidth()
+        {
+            if (Columns < 1 || Checkboxes.Count < 1) return 0;
+            int maxwidth = 0;
+            foreach (CheckBox cb in Checkboxes)
+            {
+                if (cb.Width > maxwidth) maxwidth = cb.Width;
+            }
 
-		// This positions the checkboxes
-		public void PositionCheckboxes()
-		{
-			int boxheight = 0;
-			int row = 0;
-			int col = 0;
-			
-			// Checks
-			if(columns < 1 || checkboxes.Count < 1) return;
-			
-			// Calculate column width
-			int columnwidth = this.ClientSize.Width / columns;
-			
-			// Check what the biggest checkbox height is
-			foreach(CheckBox c in checkboxes) if(c.Height > boxheight) boxheight = c.Height;
+            return maxwidth * Columns;
+        }
 
-			// Check what the preferred column length is
-			int columnlength = 1 + (int)Math.Floor((this.ClientSize.Height - boxheight) / (float)(boxheight + spacingY));
-			
-			// When not all items fit with the preferred column length
-			// we have to extend the column length to make it fit
-			if((int)Math.Ceiling(checkboxes.Count / (float)columnlength) > columns)
-			{
-				// Make a column length which works for all items
-				columnlength = (int)Math.Ceiling(checkboxes.Count / (float)columns);
-			}
+        //mxd
+        public int GetHeight()
+        {
+            if (Columns < 1 || Checkboxes.Count < 1) return 0;
+            int col = (int)Math.Ceiling(Checkboxes.Count / (float)Columns);
+            return (col * Checkboxes[0].Height) + (col * VerticalSpacing) + VerticalSpacing;
+        }
 
-			// Go for all items
-			foreach(CheckBox c in checkboxes)
-			{
-				// Position checkbox
-				c.Location = new Point(col * columnwidth, row * boxheight + (row - 1) * spacingY + spacingY);
+        // This positions the checkboxes
+        public void PositionCheckboxes()
+        {
+            int boxheight = 0;
+            int row = 0;
+            int col = 0;
 
-				// Next position
-				if(++row == columnlength)
-				{
-					row = 0;
-					col++;
-				}
-			}
-		}
+            // Checks
+            if (Columns < 1 || Checkboxes.Count < 1) return;
 
-		//mxd
-		public void Sort()
-		{
-			checkboxes.Sort(CheckboxesComparison);
-		}
+            // Calculate column width
+            int columnwidth = this.ClientSize.Width / Columns;
 
-		//mxd
-		private static int CheckboxesComparison(CheckBox cb1, CheckBox cb2)
-		{
-			return String.Compare(cb1.Text, cb2.Text, StringComparison.Ordinal);
-		}
+            // Check what the biggest checkbox height is
+            foreach (CheckBox c in Checkboxes) if (c.Height > boxheight) boxheight = c.Height;
 
-		// When layout must change
-		private void CheckboxArrayControl_Layout(object sender, LayoutEventArgs e)
-		{
-			PositionCheckboxes();
-		}
+            // Check what the preferred column length is
+            int columnlength = 1 + (int)Math.Floor((this.ClientSize.Height - boxheight) / (float)(boxheight + VerticalSpacing));
 
-		private void CheckboxArrayControl_Paint(object sender, PaintEventArgs e)
-		{
-			if(this.DesignMode)
-			{
-				using(Pen p = new Pen(SystemColors.ControlDark, 1) { DashStyle = DashStyle.Dash })
-				{
-					e.Graphics.DrawRectangle(p, 0, 0, this.ClientRectangle.Width - 1, this.ClientRectangle.Height - 1);
-				}
-			}
-		}
+            // When not all items fit with the preferred column length
+            // we have to extend the column length to make it fit
+            if ((int)Math.Ceiling(Checkboxes.Count / (float)columnlength) > Columns)
+            {
+                // Make a column length which works for all items
+                columnlength = (int)Math.Ceiling(Checkboxes.Count / (float)Columns);
+            }
 
-		//mxd
-		private void checkbox_OnCheckStateChanged(object sender, EventArgs eventArgs) 
-		{
-			if(OnValueChanged != null) OnValueChanged(this, EventArgs.Empty);
-		}
-	}
+            // Go for all items
+            foreach (CheckBox c in Checkboxes)
+            {
+                // Position checkbox
+                c.Location = new Point(col * columnwidth, (row * boxheight) + ((row - 1) * VerticalSpacing) + VerticalSpacing);
+
+                // Next position
+                if (++row == columnlength)
+                {
+                    row = 0;
+                    col++;
+                }
+            }
+        }
+
+        //mxd
+        public void Sort()
+        {
+            Checkboxes.Sort(CheckboxesComparison);
+        }
+
+        //mxd
+        private static int CheckboxesComparison(CheckBox cb1, CheckBox cb2)
+        {
+            return String.Compare(cb1.Text, cb2.Text, StringComparison.Ordinal);
+        }
+
+        // When layout must change
+        private void CheckboxArrayControl_Layout(object sender, LayoutEventArgs e)
+        {
+            PositionCheckboxes();
+        }
+
+        private void CheckboxArrayControl_Paint(object sender, PaintEventArgs e)
+        {
+            if (this.DesignMode)
+            {
+                using (Pen p = new Pen(SystemColors.ControlDark, 1) { DashStyle = DashStyle.Dash })
+                {
+                    e.Graphics.DrawRectangle(p, 0, 0, this.ClientRectangle.Width - 1, this.ClientRectangle.Height - 1);
+                }
+            }
+        }
+
+        //mxd
+        private void checkbox_OnCheckStateChanged(object sender, EventArgs eventArgs)
+        {
+            if (OnValueChanged != null) OnValueChanged(this, EventArgs.Empty);
+        }
+    }
 }

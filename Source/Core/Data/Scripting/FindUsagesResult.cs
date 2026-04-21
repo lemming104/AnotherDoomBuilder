@@ -2,28 +2,22 @@
 
 namespace CodeImp.DoomBuilder.Data.Scripting
 {
-	public class FindUsagesResult
-	{
-		private ScriptResource source;
-		private string line;
-		private int lineindex;
-		private int matchstart;
-		private int matchend;
+    public class FindUsagesResult
+    {
+        public ScriptResource Resource { get; }
+        public string Line { get; }
+        public int LineIndex { get; }
+        public int MatchStart { get; }
+        public int MatchEnd { get; }
 
-		public ScriptResource Resource { get { return source; } }
-		public string Line { get { return line; } }
-		public int LineIndex { get { return lineindex; } }
-		public int MatchStart { get { return matchstart; } }
-		public int MatchEnd { get { return matchend; } }
-
-		private FindUsagesResult() { }
-		public FindUsagesResult(ScriptResource source, Match match, string line, int lineindex)
-		{
-			this.source = source;
-			this.line = line;
-			this.lineindex = lineindex;
-			this.matchstart = match.Index;
-			this.matchend = match.Index + match.Length;
-		}
-	}
+        private FindUsagesResult() { }
+        public FindUsagesResult(ScriptResource source, Match match, string line, int lineindex)
+        {
+            this.Resource = source;
+            this.Line = line;
+            this.LineIndex = lineindex;
+            this.MatchStart = match.Index;
+            this.MatchEnd = match.Index + match.Length;
+        }
+    }
 }

@@ -1,117 +1,115 @@
 ﻿#region ================== Namespaces
 
-using System;
 using CodeImp.DoomBuilder.VisualModes;
+using System;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Rendering
 {
-	internal sealed class VisualVertexHandle : IDisposable, IRenderResource
-	{
-		#region ================== Variables
+    internal sealed class VisualVertexHandle : IDisposable, IRenderResource
+    {
+        #region ================== Variables
 
-		private VertexBuffer upper;
-		private VertexBuffer lower;
-		private bool isdisposed;
+        private bool isdisposed;
 
-		#endregion
+        #endregion
 
-		#region ================== Properties
+        #region ================== Properties
 
-		public VertexBuffer Upper { get { return upper; } }
-		public VertexBuffer Lower { get { return lower; } }
+        public VertexBuffer Upper { get; private set; }
+        public VertexBuffer Lower { get; private set; }
 
-		#endregion
+        #endregion
 
-		#region ================== Constructor / Disposer
+        #region ================== Constructor / Disposer
 
-		public VisualVertexHandle() 
-		{
-			// Create geometry
-			ReloadResource();
+        public VisualVertexHandle()
+        {
+            // Create geometry
+            ReloadResource();
 
-			// Register as resource
-			General.Map.Graphics.RegisterResource(this);
-		}
+            // Register as resource
+            General.Map.Graphics.RegisterResource(this);
+        }
 
-		public void Dispose() 
-		{
-			// Not already disposed?
-			if(!isdisposed) 
-			{
-				if(upper != null) upper.Dispose();
-				upper = null;
-				if(lower != null) lower.Dispose();
-				lower = null;
+        public void Dispose()
+        {
+            // Not already disposed?
+            if (!isdisposed)
+            {
+                if (Upper != null) Upper.Dispose();
+                Upper = null;
+                if (Lower != null) Lower.Dispose();
+                Lower = null;
 
-				// Unregister resource
-				General.Map.Graphics.UnregisterResource(this);
+                // Unregister resource
+                General.Map.Graphics.UnregisterResource(this);
 
-				// Done
-				isdisposed = true;
-			}
-		}
+                // Done
+                isdisposed = true;
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region ================== Methods
+        #region ================== Methods
 
-		// This is called resets when the device is reset
-		// (when resized or display adapter was changed)
-		public void ReloadResource() 
-		{
-			float radius = VisualVertex.DEFAULT_SIZE * General.Settings.GZVertexScale3D;
+        // This is called resets when the device is reset
+        // (when resized or display adapter was changed)
+        public void ReloadResource()
+        {
+            float radius = VisualVertex.DEFAULT_SIZE * General.Settings.GZVertexScale3D;
 
-			WorldVertex c = new WorldVertex();
-			WorldVertex v0 = new WorldVertex(-radius, -radius, -radius);
-			WorldVertex v1 = new WorldVertex(-radius, radius, -radius);
-			WorldVertex v2 = new WorldVertex(radius, radius, -radius);
-			WorldVertex v3 = new WorldVertex(radius, -radius, -radius);
+            WorldVertex c = new WorldVertex();
+            WorldVertex v0 = new WorldVertex(-radius, -radius, -radius);
+            WorldVertex v1 = new WorldVertex(-radius, radius, -radius);
+            WorldVertex v2 = new WorldVertex(radius, radius, -radius);
+            WorldVertex v3 = new WorldVertex(radius, -radius, -radius);
 
-			WorldVertex v4 = new WorldVertex(-radius, -radius, radius);
-			WorldVertex v5 = new WorldVertex(-radius, radius, radius);
-			WorldVertex v6 = new WorldVertex(radius, radius, radius);
-			WorldVertex v7 = new WorldVertex(radius, -radius, radius);
+            WorldVertex v4 = new WorldVertex(-radius, -radius, radius);
+            WorldVertex v5 = new WorldVertex(-radius, radius, radius);
+            WorldVertex v6 = new WorldVertex(radius, radius, radius);
+            WorldVertex v7 = new WorldVertex(radius, -radius, radius);
 
-			WorldVertex[] vu = new []{ c, v0,
-									   c, v1,
-									   c, v2,
-									   c, v3,
+            WorldVertex[] vu = new[]{ c, v0,
+                                       c, v1,
+                                       c, v2,
+                                       c, v3,
 
-									   v0, v1,
-									   v1, v2,
-									   v2, v3,
-									   v3, v0 };
+                                       v0, v1,
+                                       v1, v2,
+                                       v2, v3,
+                                       v3, v0 };
 
-			upper = new VertexBuffer();
-            General.Map.Graphics.SetBufferData(upper, vu);
+            Upper = new VertexBuffer();
+            General.Map.Graphics.SetBufferData(Upper, vu);
 
-			WorldVertex[] vl = new[]{ c, v4,
-									  c, v5,
-									  c, v6,
-									  c, v7,
+            WorldVertex[] vl = new[]{ c, v4,
+                                      c, v5,
+                                      c, v6,
+                                      c, v7,
 
-									  v4, v5, 
-									  v5, v6,
-									  v6, v7,
-									  v7, v4 };
+                                      v4, v5,
+                                      v5, v6,
+                                      v6, v7,
+                                      v7, v4 };
 
-			lower = new VertexBuffer();
-            General.Map.Graphics.SetBufferData(lower, vl);
-		}
+            Lower = new VertexBuffer();
+            General.Map.Graphics.SetBufferData(Lower, vl);
+        }
 
-		// This is called before a device is reset
-		// (when resized or display adapter was changed)
-		public void UnloadResource() 
-		{
-			// Trash geometry buffers
-			if(upper != null) upper.Dispose();
-			upper = null;
-			if(lower != null) lower.Dispose();
-			lower = null;
-		}
+        // This is called before a device is reset
+        // (when resized or display adapter was changed)
+        public void UnloadResource()
+        {
+            // Trash geometry buffers
+            if (Upper != null) Upper.Dispose();
+            Upper = null;
+            if (Lower != null) Lower.Dispose();
+            Lower = null;
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

@@ -16,73 +16,73 @@
 
 #region ================== Namespaces
 
-using System.Drawing;
-using CodeImp.DoomBuilder.Windows;
 using CodeImp.DoomBuilder.Data;
+using CodeImp.DoomBuilder.Windows;
+using System.Drawing;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Controls
 {
-	public class FlatSelectorControl : ImageSelectorControl
-	{
-		// Setup
-		public override void Initialize()
-		{
-			base.Initialize();
-			
-			// Fill autocomplete list
-			name.AutoCompleteCustomSource.AddRange(General.Map.Data.FlatNames.ToArray());
-		}
-		
-		// This finds the image we need for the given flat name
-		protected override Image FindImage(string imagename)
-		{
-			timer.Stop(); //mxd
+    public class FlatSelectorControl : ImageSelectorControl
+    {
+        // Setup
+        public override void Initialize()
+        {
+            base.Initialize();
 
-			// Check if name is a "none" texture
-			if(string.IsNullOrEmpty(imagename))
-			{
-				DisplayImageSize(0, 0); //mxd
-				UpdateToggleImageNameButton(null); //mxd
-				
-				//mxd. Flat required?
-				return multipletextures ? Properties.Resources.ImageStack : Properties.Resources.MissingTexture;
-			} 
-			else if(imagename == "-") //mxd
-			{
-				DisplayImageSize(0, 0);
-				UpdateToggleImageNameButton(null); //mxd
+            // Fill autocomplete list
+            name.AutoCompleteCustomSource.AddRange(General.Map.Data.FlatNames.ToArray());
+        }
 
-				// Flat required!
-				return Properties.Resources.MissingTexture;
-			}
-			else
-			{
-				ImageData texture = General.Map.Data.GetFlatImage(imagename); //mxd
-				UpdateToggleImageNameButton(texture); //mxd
+        // This finds the image we need for the given flat name
+        protected override Image FindImage(string imagename)
+        {
+            timer.Stop(); //mxd
 
-				if(string.IsNullOrEmpty(texture.FilePathName) || texture is UnknownImage) DisplayImageSize(0, 0); //mxd
-				else DisplayImageSize(texture.ScaledWidth, texture.ScaledHeight); //mxd
-				if(!texture.IsPreviewLoaded) timer.Start(); //mxd
-				
-				// Set the image
-				return texture.GetPreview();
-			}
-		}
+            // Check if name is a "none" texture
+            if (string.IsNullOrEmpty(imagename))
+            {
+                DisplayImageSize(0, 0); //mxd
+                UpdateToggleImageNameButton(null); //mxd
 
-		//mxd. This gets ImageData by name...
-		protected override ImageData GetImageData(string imagename)
-		{
-			return General.Map.Data.GetFlatImage(imagename);
-		}
+                //mxd. Flat required?
+                return multipletextures ? Properties.Resources.ImageStack : Properties.Resources.MissingTexture;
+            }
+            else if (imagename == "-") //mxd
+            {
+                DisplayImageSize(0, 0);
+                UpdateToggleImageNameButton(null); //mxd
 
-		// This browses for a flat
-		protected override string BrowseImage(string imagename)
-		{
-			// Browse for texture
-			string result = TextureBrowserForm.Browse(this.ParentForm, imagename, true);
-			if(result != null) return result; else return imagename;
-		}
-	}
+                // Flat required!
+                return Properties.Resources.MissingTexture;
+            }
+            else
+            {
+                ImageData texture = General.Map.Data.GetFlatImage(imagename); //mxd
+                UpdateToggleImageNameButton(texture); //mxd
+
+                if (string.IsNullOrEmpty(texture.FilePathName) || texture is UnknownImage) DisplayImageSize(0, 0); //mxd
+                else DisplayImageSize(texture.ScaledWidth, texture.ScaledHeight); //mxd
+                if (!texture.IsPreviewLoaded) timer.Start(); //mxd
+
+                // Set the image
+                return texture.GetPreview();
+            }
+        }
+
+        //mxd. This gets ImageData by name...
+        protected override ImageData GetImageData(string imagename)
+        {
+            return General.Map.Data.GetFlatImage(imagename);
+        }
+
+        // This browses for a flat
+        protected override string BrowseImage(string imagename)
+        {
+            // Browse for texture
+            string result = TextureBrowserForm.Browse(this.ParentForm, imagename, true);
+            if (result != null) return result; else return imagename;
+        }
+    }
 }

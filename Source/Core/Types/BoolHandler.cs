@@ -16,102 +16,102 @@
 
 #region ================== Namespaces
 
-using System;
 using CodeImp.DoomBuilder.Config;
+using System;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Types
 {
-	[TypeHandler(UniversalType.Boolean, "Boolean", true)]
-	internal class BoolHandler : TypeHandler
-	{
-		#region ================== Constants
+    [TypeHandler(UniversalType.Boolean, "Boolean", true)]
+    internal class BoolHandler : TypeHandler
+    {
+        #region ================== Constants
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		private EnumList list;
-		private bool value;
+        private EnumList list;
+        private bool value;
 
-		#endregion
+        #endregion
 
-		#region ================== Properties
+        #region ================== Properties
 
-		public override bool IsEnumerable { get { return true; } }
-		public override bool IsLimitedToEnums { get { return true; } }
-		
-		#endregion
+        public override bool IsEnumerable { get { return true; } }
+        public override bool IsLimitedToEnums { get { return true; } }
 
-		#region ================== Constructor
+        #endregion
 
-		// When set up for an argument
-		public BoolHandler() : base()
-		{
-			// Make enums
-			list = new EnumList();
-			list.Add(new EnumItem("true", "True"));
-			list.Add(new EnumItem("false", "False"));
-		}
+        #region ================== Constructor
 
-		#endregion
+        // When set up for an argument
+        public BoolHandler() : base()
+        {
+            // Make enums
+            list = new EnumList();
+            list.Add(new EnumItem("true", "True"));
+            list.Add(new EnumItem("false", "False"));
+        }
 
-		#region ================== Methods
+        #endregion
 
-		public override void SetValue(object value)
-		{
-			// null?
-			if(value == null)
-			{
-				this.value = false;
-			}
-			// Compatible type?
-			else if((value is int) || (value is float) || (value is bool))
-			{
-				this.value = Convert.ToBoolean(value);
-			}
-			// string?
-			else if(value is string)
-			{
-				// Try parsing as string
-				if(value.ToString().ToLowerInvariant().StartsWith("t"))
-					this.value = true;
-				else
-					this.value = false;
-			}
-			else
-			{
-				this.value = false;
-			}
-		}
+        #region ================== Methods
 
-		public override object GetValue()
-		{
-			return this.value;
-		}
+        public override void SetValue(object value)
+        {
+            // null?
+            if (value == null)
+            {
+                this.value = false;
+            }
+            // Compatible type?
+            else if ((value is int) || (value is float) || (value is bool))
+            {
+                this.value = Convert.ToBoolean(value);
+            }
+            // string?
+            else if (value is string)
+            {
+                // Try parsing as string
+                if (value.ToString().ToLowerInvariant().StartsWith("t"))
+                    this.value = true;
+                else
+                    this.value = false;
+            }
+            else
+            {
+                this.value = false;
+            }
+        }
 
-		public override int GetIntValue()
-		{
-			return (this.value ? 1 : 0);
-		}
+        public override object GetValue()
+        {
+            return this.value;
+        }
 
-		public override string GetStringValue()
-		{
-			return this.value.ToString();
-		}
+        public override int GetIntValue()
+        {
+            return this.value ? 1 : 0;
+        }
 
-		// This returns an enum list
-		public override EnumList GetEnumList()
-		{
-			return list;
-		}
+        public override string GetStringValue()
+        {
+            return this.value.ToString();
+        }
 
-		public override object GetDefaultValue()
-		{
-			return false;
-		}
-		
-		#endregion
-	}
+        // This returns an enum list
+        public override EnumList GetEnumList()
+        {
+            return list;
+        }
+
+        public override object GetDefaultValue()
+        {
+            return false;
+        }
+
+        #endregion
+    }
 }

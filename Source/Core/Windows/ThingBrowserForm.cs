@@ -23,66 +23,64 @@ using System.Windows.Forms;
 
 namespace CodeImp.DoomBuilder.Windows
 {
-	public partial class ThingBrowserForm : DelayedForm
-	{
-		// Variables
-		private int selectedtype;
-		
-		// Properties
-		public int SelectedType { get { return selectedtype; } }
-		
-		// Constructor
-		public ThingBrowserForm(int type)
-		{
-			InitializeComponent();
+    public partial class ThingBrowserForm : DelayedForm
+    {
+        // Variables
+        // Properties
+        public int SelectedType { get; private set; }
 
-			// Setup list
-			thingslist.Setup();
+        // Constructor
+        public ThingBrowserForm(int type)
+        {
+            InitializeComponent();
 
-			// Select given type
-			thingslist.SelectType(type);
-		}
+            // Setup list
+            thingslist.Setup();
 
-		// This browses for a thing type
-		// Returns the new thing type or the same thing type when cancelled
-		public static int BrowseThing(IWin32Window owner, int type)
-		{
-			ThingBrowserForm f = new ThingBrowserForm(type);
-			if(f.ShowDialog(owner) == DialogResult.OK) type = f.SelectedType;
-			f.Dispose();
-			return type;
-		}
-		
-		// OK clicked
-		private void apply_Click(object sender, EventArgs e)
-		{
-			// Get the result
-			selectedtype = thingslist.GetResult(selectedtype);
+            // Select given type
+            thingslist.SelectType(type);
+        }
 
-			// Done
-			this.DialogResult = DialogResult.OK;
-			this.Close();
-		}
+        // This browses for a thing type
+        // Returns the new thing type or the same thing type when cancelled
+        public static int BrowseThing(IWin32Window owner, int type)
+        {
+            ThingBrowserForm f = new ThingBrowserForm(type);
+            if (f.ShowDialog(owner) == DialogResult.OK) type = f.SelectedType;
+            f.Dispose();
+            return type;
+        }
 
-		// Cancel clicked
-		private void cancel_Click(object sender, EventArgs e)
-		{
-			// Leave
-			this.DialogResult = DialogResult.Cancel;
-			this.Close();
-		}
+        // OK clicked
+        private void apply_Click(object sender, EventArgs e)
+        {
+            // Get the result
+            SelectedType = thingslist.GetResult(SelectedType);
 
-		// Double-clicked an item
-		private void thingslist_OnTypeDoubleClicked()
-		{
-			// OK
-			apply_Click(this, EventArgs.Empty);
-		}
+            // Done
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
 
-		//mxd
-		private void ThingBrowserForm_Shown(object sender, EventArgs e)
-		{
-			thingslist.FocusTextbox();
-		}
-	}
+        // Cancel clicked
+        private void cancel_Click(object sender, EventArgs e)
+        {
+            // Leave
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
+
+        // Double-clicked an item
+        private void thingslist_OnTypeDoubleClicked()
+        {
+            // OK
+            apply_Click(this, EventArgs.Empty);
+        }
+
+        //mxd
+        private void ThingBrowserForm_Shown(object sender, EventArgs e)
+        {
+            thingslist.FocusTextbox();
+        }
+    }
 }

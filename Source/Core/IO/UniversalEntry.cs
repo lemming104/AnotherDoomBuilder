@@ -22,53 +22,50 @@ using System;
 
 namespace CodeImp.DoomBuilder.IO
 {
-	public sealed class UniversalEntry
-	{
-		#region ================== Constants
+    public sealed class UniversalEntry
+    {
+        #region ================== Constants
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		private string key;
-		private object value;
-		
-		#endregion
+        #endregion
 
-		#region ================== Properties
+        #region ================== Properties
 
-		public string Key { get { return key; } }
-		public object Value { get { return value; } }
+        public string Key { get; }
+        public object Value { get; }
 
-		#endregion
+        #endregion
 
-		#region ================== Constructor / Disposer
+        #region ================== Constructor / Disposer
 
-		// Constructor
-		public UniversalEntry(string key, object value)
-		{
-			// Initialize
-			this.key = key;
-			this.value = value;
-		}
-		
-		#endregion
+        // Constructor
+        public UniversalEntry(string key, object value)
+        {
+            // Initialize
+            this.Key = key;
+            this.Value = value;
+        }
 
-		#region ================== Methods
+        #endregion
 
-		// This checks if the value is of the given type
-		// Will throw and exception when it is not
-		public void ValidateType(Type t)
-		{
-			if(value.GetType() != t) throw new Exception("The value of entry \"" + key + "\" is of incompatible type (expected " + t.Name + ")");
-		}
+        #region ================== Methods
 
-		//mxd 
-		public bool IsValidType(Type t) 
-		{
-			return value.GetType() == t;
-		}
-		
-		#endregion
-	}
+        // This checks if the value is of the given type
+        // Will throw and exception when it is not
+        public void ValidateType(Type t)
+        {
+            if (Value.GetType() != t) throw new Exception("The value of entry \"" + Key + "\" is of incompatible type (expected " + t.Name + ")");
+        }
+
+        //mxd 
+        public bool IsValidType(Type t)
+        {
+            return Value.GetType() == t;
+        }
+
+        #endregion
+    }
 }

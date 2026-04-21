@@ -16,10 +16,10 @@
 
 #region ================== Namespaces
 
+using CodeImp.DoomBuilder.Geometry;
+using CodeImp.DoomBuilder.Map;
 using System;
 using System.Collections.Generic;
-using CodeImp.DoomBuilder.Map;
-using CodeImp.DoomBuilder.Geometry;
 using System.Drawing;
 
 #endregion
@@ -28,8 +28,8 @@ namespace CodeImp.DoomBuilder.VisualModes
 {
     public sealed class VisualBlockMap
     {
-		// This returns all blocks along the given line
-		public List<VisualBlockEntry> GetLineBlocks(Vector2D v1, Vector2D v2)
+        // This returns all blocks along the given line
+        public List<VisualBlockEntry> GetLineBlocks(Vector2D v1, Vector2D v2)
         {
             int x0 = (int)Math.Floor(Math.Min(v1.x, v2.x));
             int y0 = (int)Math.Floor(Math.Min(v1.y, v2.y));
@@ -74,39 +74,39 @@ namespace CodeImp.DoomBuilder.VisualModes
 
         public Sector GetSectorAt(Vector2D pos)
         {
-			List<Sector> sectors = new List<Sector>(1);
+            List<Sector> sectors = new List<Sector>(1);
 
-			foreach (VisualBlockEntry e in GetBlocks(pos))
+            foreach (VisualBlockEntry e in GetBlocks(pos))
                 foreach (Sector s in e.Sectors)
                     if (s.Intersect(pos))
-						sectors.Add(s);
+                        sectors.Add(s);
 
-			if (sectors.Count == 0)
-			{
-				return null;
-			}
-			else if (sectors.Count == 1)
-			{
-				return sectors[0];
-			}
-			else
-			{
-				// Having multiple intersections indicates that there are self-referencing sectors in this spot.
-				// In this case we have to check which side of the nearest linedef pos is on, and then use that sector
-				HashSet<Linedef> linedefs = new HashSet<Linedef>(sectors[0].Sidedefs.Count * sectors.Count);
+            if (sectors.Count == 0)
+            {
+                return null;
+            }
+            else if (sectors.Count == 1)
+            {
+                return sectors[0];
+            }
+            else
+            {
+                // Having multiple intersections indicates that there are self-referencing sectors in this spot.
+                // In this case we have to check which side of the nearest linedef pos is on, and then use that sector
+                HashSet<Linedef> linedefs = new HashSet<Linedef>(sectors[0].Sidedefs.Count * sectors.Count);
 
-				foreach (Sector s in sectors)
-					foreach (Sidedef sd in s.Sidedefs)
-						linedefs.Add(sd.Line);
+                foreach (Sector s in sectors)
+                    foreach (Sidedef sd in s.Sidedefs)
+                        linedefs.Add(sd.Line);
 
-				Linedef nearest = MapSet.NearestLinedef(linedefs, pos);
-				double d = nearest.SideOfLine(pos);
+                Linedef nearest = MapSet.NearestLinedef(linedefs, pos);
+                double d = nearest.SideOfLine(pos);
 
-				if (d <= 0.0 && nearest.Front != null)
-					return nearest.Front.Sector;
-				else if (nearest.Back != null)
-					return nearest.Back.Sector;
-			}
+                if (d <= 0.0 && nearest.Front != null)
+                    return nearest.Front.Sector;
+                else if (nearest.Back != null)
+                    return nearest.Back.Sector;
+            }
 
             return null;
         }
@@ -116,10 +116,10 @@ namespace CodeImp.DoomBuilder.VisualModes
             root = new Node(new Rectangle(General.Map.Config.LeftBoundary, General.Map.Config.BottomBoundary, General.Map.Config.RightBoundary - General.Map.Config.LeftBoundary, General.Map.Config.TopBoundary - General.Map.Config.BottomBoundary));
         }
 
-		public void AddSectorsSet(ICollection<Sector> sectors)
-		{
+        public void AddSectorsSet(ICollection<Sector> sectors)
+        {
             foreach (Sector s in sectors) AddSector(s);
-		}
+        }
 
         public void AddLinedefsSet(ICollection<Linedef> lines)
         {
@@ -155,9 +155,9 @@ namespace CodeImp.DoomBuilder.VisualModes
         }
 
         internal void Dispose()
-		{
+        {
             Clear();
-		}
+        }
 
         static Rectangle ToRectangle(RectangleF bbox)
         {
@@ -179,7 +179,7 @@ namespace CodeImp.DoomBuilder.VisualModes
                 Vector2D dir = line.v2 - line.v1;
                 A = -dir.y;
                 B = dir.x;
-                D = -(line.v1.x * A + line.v1.y * B);
+                D = -((line.v1.x * A) + (line.v1.y * B));
             }
 
             public double A, B, D;
@@ -253,8 +253,8 @@ namespace CodeImp.DoomBuilder.VisualModes
 
             Visibility TestFrustumLineVisibility(Plane plane)
             {
-				double e = extents.x * Math.Abs(plane.A) + extents.y * Math.Abs(plane.B);
-				double s = center.x * plane.A + center.y * plane.B + plane.D;
+                double e = (extents.x * Math.Abs(plane.A)) + (extents.y * Math.Abs(plane.B));
+                double s = (center.x * plane.A) + (center.y * plane.B) + plane.D;
                 if (s - e > 0.0)
                     return Visibility.Inside;
                 else if (s + e < 0)
@@ -316,10 +316,10 @@ namespace CodeImp.DoomBuilder.VisualModes
             void CreateChildren()
             {
                 int x0 = bbox.X;
-                int x1 = bbox.X + bbox.Width / 2;
+                int x1 = bbox.X + (bbox.Width / 2);
                 int x2 = bbox.X + bbox.Width;
                 int y0 = bbox.Y;
-                int y1 = bbox.Y + bbox.Height / 2;
+                int y1 = bbox.Y + (bbox.Height / 2);
                 int y2 = bbox.Y + bbox.Height;
                 topLeft = new Node(new Rectangle(x0, y0, x1 - x0, y1 - y0));
                 topRight = new Node(new Rectangle(x1, y0, x2 - x1, y1 - y0));

@@ -1,38 +1,35 @@
 ﻿#region ================== Namespaces
 
-using System;
 using CodeImp.DoomBuilder.Config;
+using System;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Data.Scripting
 {
-	[AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
-	public sealed class ScriptHandlerAttribute : Attribute
-	{
-		#region ================== Variables
+    [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
+    public sealed class ScriptHandlerAttribute : Attribute
+    {
+        #region ================== Variables
 
-		private Type type;
-		private ScriptType scripttype;
-		
-		#endregion
+        #endregion
 
-		#region ================== Properties
+        #region ================== Properties
 
-		public Type Type { get { return type; } set { type = value; } }
-		public ScriptType ScriptType { get { return scripttype; } }
-		
-		#endregion
+        public Type Type { get; set; }
+        public ScriptType ScriptType { get; }
 
-		#region ================== Constructor / Destructor
+        #endregion
 
-		// Constructor
-		public ScriptHandlerAttribute(ScriptType scripttype)
-		{
-			// Initialize
-			this.scripttype = scripttype;
-		}
+        #region ================== Constructor / Destructor
 
-		#endregion
-	}
+        // Constructor
+        public ScriptHandlerAttribute(ScriptType scripttype)
+        {
+            // Initialize
+            this.ScriptType = scripttype;
+        }
+
+        #endregion
+    }
 }

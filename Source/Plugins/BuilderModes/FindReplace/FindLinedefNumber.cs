@@ -16,66 +16,66 @@
 
 #region ================== Namespaces
 
-using System.Collections.Generic;
-using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Config;
+using CodeImp.DoomBuilder.Map;
+using System.Collections.Generic;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
-	[FindReplace("Linedef Index", BrowseButton = false)]
-	internal class FindLinedefNumber : BaseFindLinedef
-	{
-		#region ================== Constants
+    [FindReplace("Linedef Index", BrowseButton = false)]
+    internal class FindLinedefNumber : BaseFindLinedef
+    {
+        #region ================== Constants
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		#endregion
+        #endregion
 
-		#region ================== Properties
+        #region ================== Properties
 
-		#endregion
+        #endregion
 
-		#region ================== Constructor / Destructor
+        #region ================== Constructor / Destructor
 
-		#endregion
+        #endregion
 
-		#region ================== Methods
+        #region ================== Methods
 
-		//mxd
-		public override bool CanReplace() 
-		{
-			return false;
-		}
+        //mxd
+        public override bool CanReplace()
+        {
+            return false;
+        }
 
-		// This is called to perform a search (and replace)
-		// Returns a list of items to show in the results list
-		// replacewith is null when not replacing
-		public override FindReplaceObject[] Find(string value, bool withinselection, bool replace, string replacewith, bool keepselection)
-		{
-			List<FindReplaceObject> objs = new List<FindReplaceObject>();
+        // This is called to perform a search (and replace)
+        // Returns a list of items to show in the results list
+        // replacewith is null when not replacing
+        public override FindReplaceObject[] Find(string value, bool withinselection, bool replace, string replacewith, bool keepselection)
+        {
+            List<FindReplaceObject> objs = new List<FindReplaceObject>();
 
-			// Interpret the number given
-			int index;
-			if(int.TryParse(value, out index))
-			{
-				Linedef l = General.Map.Map.GetLinedefByIndex(index);
-				if(l != null)
-				{
-					LinedefActionInfo info = General.Map.Config.GetLinedefActionInfo(l.Action);
-					if(!info.IsNull)
-						objs.Add(new FindReplaceObject(l, "Linedef " + index + " (" + info.Title + ")"));
-					else
-						objs.Add(new FindReplaceObject(l, "Linedef " + index));
-				}
-			}
-			
-			return objs.ToArray();
-		}
+            // Interpret the number given
+            int index;
+            if (int.TryParse(value, out index))
+            {
+                Linedef l = General.Map.Map.GetLinedefByIndex(index);
+                if (l != null)
+                {
+                    LinedefActionInfo info = General.Map.Config.GetLinedefActionInfo(l.Action);
+                    if (!info.IsNull)
+                        objs.Add(new FindReplaceObject(l, "Linedef " + index + " (" + info.Title + ")"));
+                    else
+                        objs.Add(new FindReplaceObject(l, "Linedef " + index));
+                }
+            }
 
-		#endregion
-	}
+            return objs.ToArray();
+        }
+
+        #endregion
+    }
 }

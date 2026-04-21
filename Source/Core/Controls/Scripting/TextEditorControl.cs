@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-#if NO_SCINTILLA
+﻿#if NO_SCINTILLA
 
 namespace ScintillaNET
 {

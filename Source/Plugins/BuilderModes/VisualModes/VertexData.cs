@@ -1,54 +1,50 @@
-﻿using System.Collections.Generic;
-using CodeImp.DoomBuilder.Map;
+﻿using CodeImp.DoomBuilder.Map;
+using System.Collections.Generic;
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
-	internal class VertexData
-	{
-		#region ================== Variables
+    internal class VertexData
+    {
+        #region ================== Variables
 
-		// VisualMode
-		private BaseVisualMode mode;
+        // VisualMode
 
-		// Vertex for which this data is
-		private Vertex vertex;
+        // Vertex for which this data is
+        // Sectors that must be updated when this vertex is changed
+        // The boolean value is the 'includeneighbours' of the UpdateSectorGeometry function which
+        // indicates if the sidedefs of neighbouring sectors should also be rebuilt.
 
-		// Sectors that must be updated when this vertex is changed
-		// The boolean value is the 'includeneighbours' of the UpdateSectorGeometry function which
-		// indicates if the sidedefs of neighbouring sectors should also be rebuilt.
-		private Dictionary<Sector, bool> updatesectors;
+        #endregion
 
-		#endregion
+        #region ================== Properties
 
-		#region ================== Properties
+        public Vertex Vertex { get; }
+        public BaseVisualMode Mode { get; }
+        public Dictionary<Sector, bool> UpdateAlso { get; }
 
-		public Vertex Vertex { get { return vertex; } }
-		public BaseVisualMode Mode { get { return mode; } }
-		public Dictionary<Sector, bool> UpdateAlso { get { return updatesectors; } }
-		
-		#endregion
-		
-		#region ================== Constructor / Destructor
-		
-		// Constructor
-		public VertexData(BaseVisualMode mode, Vertex v)
-		{
-			// Initialize
-			this.mode = mode;
-			this.vertex = v;
-			this.updatesectors = new Dictionary<Sector, bool>(2);
-		}
-		
-		#endregion
-		
-		#region ================== Public Methods
-		
-		// This adds a sector for updating
-		public void AddUpdateSector(Sector s, bool includeneighbours)
-		{
-			updatesectors[s] = includeneighbours;
-		}
-		
-		#endregion
-	}
+        #endregion
+
+        #region ================== Constructor / Destructor
+
+        // Constructor
+        public VertexData(BaseVisualMode mode, Vertex v)
+        {
+            // Initialize
+            this.Mode = mode;
+            this.Vertex = v;
+            this.UpdateAlso = new Dictionary<Sector, bool>(2);
+        }
+
+        #endregion
+
+        #region ================== Public Methods
+
+        // This adds a sector for updating
+        public void AddUpdateSector(Sector s, bool includeneighbours)
+        {
+            UpdateAlso[s] = includeneighbours;
+        }
+
+        #endregion
+    }
 }

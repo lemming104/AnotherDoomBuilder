@@ -25,18 +25,18 @@ using System.Windows.Forms;
 
 namespace CodeImp.DoomBuilder.Controls
 {
-	public static class ControlExtensionMethods
-	{
-		/// <summary>
-		/// Sets the text of a label while keeping its right edge in the same position.
-		/// </summary>
-		/// <param name="label">The label to set the text for.</param>
-		/// <param name="text">The new text to set.</param>
-		public static void SetLeftExpandText(this Label label, string text)
-		{
-			int right = label.Right;
-			label.Text = text;
-			label.Left = right - label.Width;
-		}
-	}
+    public static class ControlExtensionMethods
+    {
+        /// <summary>
+        /// Sets the text of a label while keeping its right edge in the same position.
+        /// </summary>
+        /// <param name="label">The label to set the text for.</param>
+        /// <param name="text">The new text to set.</param>
+        public static void SetLeftExpandText(this Label label, string text)
+        {
+            int right = label.Right;
+            label.Text = text;
+            label.Left = right - label.Width;
+        }
+    }
 }

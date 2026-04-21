@@ -1,111 +1,105 @@
+using CodeImp.DoomBuilder.IO;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using CodeImp.DoomBuilder.IO;
 
 namespace CodeImp.DoomBuilder.Config
 {
-	/// <summary>
-	/// Category of generalized type options.
-	/// </summary>
-	public class GeneralizedCategory
-	{
-		#region ================== Constants
+    /// <summary>
+    /// Category of generalized type options.
+    /// </summary>
+    public class GeneralizedCategory
+    {
+        #region ================== Constants
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		// Category properties
-		private string title;
-		private int offset;
-		private int length;
-		private List<GeneralizedOption> options;
-		
-		// Disposing
-		private bool isdisposed;
+        // Category properties
+        // Disposing
 
-		#endregion
+        #endregion
 
-		#region ================== Properties
+        #region ================== Properties
 
-		public string Title { get { return title; } }
-		public int Offset { get { return offset; } }
-		public int Length { get { return length; } }
-		public List<GeneralizedOption> Options { get { return options; } }
-		public bool IsDisposed { get { return isdisposed; } }
-		
-		#endregion
+        public string Title { get; }
+        public int Offset { get; }
+        public int Length { get; }
+        public List<GeneralizedOption> Options { get; private set; }
+        public bool IsDisposed { get; private set; }
 
-		#region ================== Constructor / Disposer
+        #endregion
 
-		// Constructor
-		internal GeneralizedCategory(string structure, string name, Configuration cfg)
-		{
-			// Initialize
-			this.options = new List<GeneralizedOption>();
-			
-			// Read properties
-			this.title = cfg.ReadSetting(structure + "." + name + ".title", "");
-			this.offset = cfg.ReadSetting(structure + "." + name + ".offset", 0);
-			this.length = cfg.ReadSetting(structure + "." + name + ".length", 0);
-			
-			// Read the options
-			IDictionary opts = cfg.ReadSetting(structure + "." + name, new Hashtable());
-			foreach(DictionaryEntry de in opts)
-			{
-				// Is this an option and not just some value?
-				IDictionary value = de.Value as IDictionary;
-				if(value != null)
-				{
-					// Add the option
-					this.options.Add(new GeneralizedOption(structure, name, de.Key.ToString(), value));
-				}
-			}
+        #region ================== Constructor / Disposer
 
-			//mxd. Sort by bits step
-			if(this.options.Count > 1)
-			{
-				this.options.Sort(delegate(GeneralizedOption o1, GeneralizedOption o2)
-				{
-					if(o1.BitsStep > o2.BitsStep) return 1;
-					if(o1.BitsStep == o2.BitsStep)
-					{
-						if(o1 != o2) General.ErrorLogger.Add(ErrorType.Error, "\"" + o1.Name + "\" and \"" + o2.Name + "\" generalized categories have the same bit step (" + o1.BitsStep + ")!");
-						return 0;
-					}
-					return -1;
-				});
-			}
+        // Constructor
+        internal GeneralizedCategory(string structure, string name, Configuration cfg)
+        {
+            // Initialize
+            this.Options = new List<GeneralizedOption>();
 
-			// We have no destructor
-			GC.SuppressFinalize(this);
-		}
+            // Read properties
+            this.Title = cfg.ReadSetting(structure + "." + name + ".title", "");
+            this.Offset = cfg.ReadSetting(structure + "." + name + ".offset", 0);
+            this.Length = cfg.ReadSetting(structure + "." + name + ".length", 0);
 
-		// Disposer
-		internal void Dispose()
-		{
-			// Not already disposed?
-			if(!isdisposed)
-			{
-				// Clean up
-				options = null;
-				
-				// Done
-				isdisposed = true;
-			}
-		}
+            // Read the options
+            IDictionary opts = cfg.ReadSetting(structure + "." + name, new Hashtable());
+            foreach (DictionaryEntry de in opts)
+            {
+                // Is this an option and not just some value?
+                IDictionary value = de.Value as IDictionary;
+                if (value != null)
+                {
+                    // Add the option
+                    this.Options.Add(new GeneralizedOption(structure, name, de.Key.ToString(), value));
+                }
+            }
 
-		#endregion
+            //mxd. Sort by bits step
+            if (this.Options.Count > 1)
+            {
+                this.Options.Sort(delegate (GeneralizedOption o1, GeneralizedOption o2)
+                {
+                    if (o1.BitsStep > o2.BitsStep) return 1;
+                    if (o1.BitsStep == o2.BitsStep)
+                    {
+                        if (o1 != o2) General.ErrorLogger.Add(ErrorType.Error, "\"" + o1.Name + "\" and \"" + o2.Name + "\" generalized categories have the same bit step (" + o1.BitsStep + ")!");
+                        return 0;
+                    }
+                    return -1;
+                });
+            }
 
-		#region ================== Methods
+            // We have no destructor
+            GC.SuppressFinalize(this);
+        }
 
-		// String representation
-		public override string ToString()
-		{
-			return title;
-		}
-		
-		#endregion
-	}
+        // Disposer
+        internal void Dispose()
+        {
+            // Not already disposed?
+            if (!IsDisposed)
+            {
+                // Clean up
+                Options = null;
+
+                // Done
+                IsDisposed = true;
+            }
+        }
+
+        #endregion
+
+        #region ================== Methods
+
+        // String representation
+        public override string ToString()
+        {
+            return Title;
+        }
+
+        #endregion
+    }
 }

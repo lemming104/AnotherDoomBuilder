@@ -23,76 +23,74 @@ using System.Windows.Forms;
 
 namespace CodeImp.DoomBuilder.Windows
 {
-	public partial class AngleForm : DelayedForm
-	{
-		#region ================== Variables
+    public partial class AngleForm : DelayedForm
+    {
+        #region ================== Variables
 
-		//private bool setup;
-		private int value;
+        //private bool setup;
+        #endregion
 
-		#endregion
+        #region ================== Properties
 
-		#region ================== Properties
+        public int Value { get; private set; }
 
-		public int Value { get { return value; } }
+        #endregion
 
-		#endregion
+        #region ================== Constructor
 
-		#region ================== Constructor
+        // Constructor
+        public AngleForm()
+        {
+            InitializeComponent();
+        }
 
-		// Constructor
-		public AngleForm()
-		{
-			InitializeComponent();
-		}
-		
-		#endregion
+        #endregion
 
-		#region ================== Events
+        #region ================== Events
 
-		// Cancel clicked
-		private void cancel_Click(object sender, EventArgs e)
-		{
-			// Close
-			DialogResult = DialogResult.Cancel;
-			this.Close();
-		}
+        // Cancel clicked
+        private void cancel_Click(object sender, EventArgs e)
+        {
+            // Close
+            DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
 
-		// OK clicked
-		private void apply_Click(object sender, EventArgs e)
-		{
-			this.value = angle.Value;
-			
-			// Done
-			DialogResult = DialogResult.OK;
-			this.Close();
-		}
+        // OK clicked
+        private void apply_Click(object sender, EventArgs e)
+        {
+            this.Value = angle.Value;
 
-		#endregion
+            // Done
+            DialogResult = DialogResult.OK;
+            this.Close();
+        }
 
-		#region ================== Methods
+        #endregion
 
-		// Setup from EnumList
-		public void Setup(int value)
-		{
-			//setup = true;
-			this.value = value;
-			angle.Value = value;
-			//setup = false;
-		}
-		
-		// This shows the dialog
-		// Returns the flags or the same flags when cancelled
-		public static int ShowDialog(IWin32Window owner, int value)
-		{
-			int result = value;
-			AngleForm f = new AngleForm();
-			f.Setup(value);
-			if(f.ShowDialog(owner) == DialogResult.OK) result = f.Value;
-			f.Dispose();
-			return result;
-		}
+        #region ================== Methods
 
-		#endregion
-	}
+        // Setup from EnumList
+        public void Setup(int value)
+        {
+            //setup = true;
+            this.Value = value;
+            angle.Value = value;
+            //setup = false;
+        }
+
+        // This shows the dialog
+        // Returns the flags or the same flags when cancelled
+        public static int ShowDialog(IWin32Window owner, int value)
+        {
+            int result = value;
+            AngleForm f = new AngleForm();
+            f.Setup(value);
+            if (f.ShowDialog(owner) == DialogResult.OK) result = f.Value;
+            f.Dispose();
+            return result;
+        }
+
+        #endregion
+    }
 }

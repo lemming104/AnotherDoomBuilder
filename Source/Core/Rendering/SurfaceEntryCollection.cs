@@ -22,10 +22,10 @@ using System.Collections.Generic;
 
 namespace CodeImp.DoomBuilder.Rendering
 {
-	// This contains information to update surface entries with. This may exceed the maximum number
-	// of sector vertices, the surface manager will take care of splitting it up in several SurfaceEntries.
-	internal class SurfaceEntryCollection : List<SurfaceEntry>
-	{
-		public int totalvertices;
-	}
+    // This contains information to update surface entries with. This may exceed the maximum number
+    // of sector vertices, the surface manager will take care of splitting it up in several SurfaceEntries.
+    internal class SurfaceEntryCollection : List<SurfaceEntry>
+    {
+        public int totalvertices;
+    }
 }

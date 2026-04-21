@@ -16,51 +16,51 @@
 
 #region ================== Namespaces
 
-using System.Collections.Generic;
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
+using System.Collections.Generic;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Types
 {
-	[TypeHandler(UniversalType.LinedefTag, "Linedef Tag", false)]
-	internal class LinedefTagHandler : SectorTagHandler
-	{
-		#region ================== Setup (mxd)
+    [TypeHandler(UniversalType.LinedefTag, "Linedef Tag", false)]
+    internal class LinedefTagHandler : SectorTagHandler
+    {
+        #region ================== Setup (mxd)
 
-		protected override EnumList CreateEnumList()
-		{
-			// Collect tags
-			List<int> tags = new List<int>();
-			HashSet<int> tagshash = new HashSet<int>();
-			EnumList taglist = new EnumList();
+        protected override EnumList CreateEnumList()
+        {
+            // Collect tags
+            List<int> tags = new List<int>();
+            HashSet<int> tagshash = new HashSet<int>();
+            EnumList taglist = new EnumList();
 
-			if(General.Map.Map != null)
-			{
-				foreach(Linedef l in General.Map.Map.Linedefs)
-				{
-					if(l.Tag == 0 || tagshash.IsSupersetOf(l.Tags)) continue;
-					tags.AddRange(l.Tags);
-					foreach(int i in l.Tags) tagshash.Add(i);
-				}
+            if (General.Map.Map != null)
+            {
+                foreach (Linedef l in General.Map.Map.Linedefs)
+                {
+                    if (l.Tag == 0 || tagshash.IsSupersetOf(l.Tags)) continue;
+                    tags.AddRange(l.Tags);
+                    foreach (int i in l.Tags) tagshash.Add(i);
+                }
 
-				// Now sort them in descending order
-				tags.Sort((a, b) => -1 * a.CompareTo(b));
+                // Now sort them in descending order
+                tags.Sort((a, b) => -1 * a.CompareTo(b));
 
-				// Create enum items
-				foreach(int tag in tags)
-				{
-					if(General.Map.Options.TagLabels.ContainsKey(tag)) // Tag labels
-						taglist.Add(new EnumItem(tag.ToString(), General.Map.Options.TagLabels[tag]));
-					else
-						taglist.Add(new EnumItem(tag.ToString(), tag.ToString()));
-				}
-			}
+                // Create enum items
+                foreach (int tag in tags)
+                {
+                    if (General.Map.Options.TagLabels.ContainsKey(tag)) // Tag labels
+                        taglist.Add(new EnumItem(tag.ToString(), General.Map.Options.TagLabels[tag]));
+                    else
+                        taglist.Add(new EnumItem(tag.ToString(), tag.ToString()));
+                }
+            }
 
-			return taglist;
-		}
+            return taglist;
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

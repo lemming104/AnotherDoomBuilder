@@ -16,109 +16,109 @@
 
 #region ================== Namespaces
 
+using CodeImp.DoomBuilder.Config;
+using CodeImp.DoomBuilder.ZDoom;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using CodeImp.DoomBuilder.Config;
-using CodeImp.DoomBuilder.ZDoom;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Data
 {
-	internal abstract class PK3StructuredReader : DataReader
-	{
-		#region ================== Constants
+    internal abstract class PK3StructuredReader : DataReader
+    {
+        #region ================== Constants
 
-		protected const string PATCHES_DIR = "patches";
-		protected const string TEXTURES_DIR = "textures";
-		protected const string FLATS_DIR = "flats";
-		protected const string HIRES_DIR = "hires";
-		protected const string SPRITES_DIR = "sprites";
-		protected const string COLORMAPS_DIR = "colormaps";
-		protected const string GRAPHICS_DIR = "graphics"; //mxd
-		protected const string VOXELS_DIR = "voxels"; //mxd
+        protected const string PATCHES_DIR = "patches";
+        protected const string TEXTURES_DIR = "textures";
+        protected const string FLATS_DIR = "flats";
+        protected const string HIRES_DIR = "hires";
+        protected const string SPRITES_DIR = "sprites";
+        protected const string COLORMAPS_DIR = "colormaps";
+        protected const string GRAPHICS_DIR = "graphics"; //mxd
+        protected const string VOXELS_DIR = "voxels"; //mxd
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		// Optional setting
-		public bool Silent = false;
+        // Optional setting
+        public bool Silent = false;
 
-		// Source
-		protected readonly bool roottextures;
-		protected readonly bool rootflats;
-		
-		// WAD files that must be loaded as well
-		protected List<WADReader> wads;
-		
-		#endregion
+        // Source
+        protected readonly bool roottextures;
+        protected readonly bool rootflats;
 
-		#region ================== Properties
+        // WAD files that must be loaded as well
+        protected List<WADReader> wads;
 
-		protected readonly string[] PatchLocations = { PATCHES_DIR, TEXTURES_DIR, FLATS_DIR, SPRITES_DIR, GRAPHICS_DIR }; //mxd. Because ZDoom looks for patches and sprites in this order
-		internal List<WADReader> Wads { get { return wads; } } //mxd
+        #endregion
 
-		#endregion
+        #region ================== Properties
 
-		#region ================== Constructor / Disposer
-		
-		// Constructor
-		protected PK3StructuredReader(DataLocation dl, bool asreadonly) : base(dl, asreadonly)
-		{
-			// Initialize
-			this.roottextures = dl.option1;
-			this.rootflats = dl.option2;
-		}
-		
-		// Call this to initialize this class
-		protected virtual void Initialize(GameConfiguration config)
-		{
+        protected readonly string[] PatchLocations = { PATCHES_DIR, TEXTURES_DIR, FLATS_DIR, SPRITES_DIR, GRAPHICS_DIR }; //mxd. Because ZDoom looks for patches and sprites in this order
+        internal List<WADReader> Wads { get { return wads; } } //mxd
+
+        #endregion
+
+        #region ================== Constructor / Disposer
+
+        // Constructor
+        protected PK3StructuredReader(DataLocation dl, bool asreadonly) : base(dl, asreadonly)
+        {
+            // Initialize
+            this.roottextures = dl.option1;
+            this.rootflats = dl.option2;
+        }
+
+        // Call this to initialize this class
+        protected virtual void Initialize(GameConfiguration config)
+        {
             // [ZZ] we can have wad files already. dispose if any.
             if (wads != null) foreach (WADReader wr in wads) wr.Dispose();
             // Load all WAD files in the root as WAD resources
             string[] wadfiles = GetWadFiles();
-			wads = new List<WADReader>(wadfiles.Length);
-			foreach(string w in wadfiles)
-			{
-				string tempfile = CreateTempFile(w);
-				DataLocation wdl = new DataLocation(DataLocation.RESOURCE_WAD, tempfile, Path.Combine(location.GetDisplayName(), Path.GetFileName(w)), false, false, true, new List<string>());
-				wads.Add(new WADReader(wdl, config, location.type != DataLocation.RESOURCE_DIRECTORY) { ParentResource = this } );
-			}
-		}
-		
-		// Disposer
-		public override void Dispose()
-		{
-			// Not already disposed?
-			if(!isdisposed)
-			{
-				// Clean up
-				foreach(WADReader wr in wads) wr.Dispose();
-				
-				// Done
-				base.Dispose();
-			}
-		}
-		
-		#endregion
-		
-		#region ================== Management
-		
-		// This suspends use of this resource
-		public override void Suspend()
-		{
-			foreach(WADReader wr in wads) wr.Suspend();
-			base.Suspend();
-		}
-		
-		// This resumes use of this resource
-		public override void Resume()
-		{
-			foreach(WADReader wr in wads) wr.Resume();
-			base.Resume();
-		}
+            wads = new List<WADReader>(wadfiles.Length);
+            foreach (string w in wadfiles)
+            {
+                string tempfile = CreateTempFile(w);
+                DataLocation wdl = new DataLocation(DataLocation.RESOURCE_WAD, tempfile, Path.Combine(location.GetDisplayName(), Path.GetFileName(w)), false, false, true, new List<string>());
+                wads.Add(new WADReader(wdl, config, location.type != DataLocation.RESOURCE_DIRECTORY) { ParentResource = this });
+            }
+        }
+
+        // Disposer
+        public override void Dispose()
+        {
+            // Not already disposed?
+            if (!isdisposed)
+            {
+                // Clean up
+                foreach (WADReader wr in wads) wr.Dispose();
+
+                // Done
+                base.Dispose();
+            }
+        }
+
+        #endregion
+
+        #region ================== Management
+
+        // This suspends use of this resource
+        public override void Suspend()
+        {
+            foreach (WADReader wr in wads) wr.Suspend();
+            base.Suspend();
+        }
+
+        // This resumes use of this resource
+        public override void Resume()
+        {
+            foreach (WADReader wr in wads) wr.Resume();
+            base.Resume();
+        }
 
         #endregion
 
@@ -126,483 +126,483 @@ namespace CodeImp.DoomBuilder.Data
 
         // This loads the PLAYPAL palette
         public override Playpal LoadPalette()
-		{
-			// Error when suspended
-			if(issuspended) throw new Exception("Data reader is suspended");
-			
-			// Palette from wad(s)
-			Playpal palette = null;
-			foreach(WADReader wr in wads)
-			{
-				Playpal wadpalette = wr.LoadPalette();
-				if(wadpalette != null) return wadpalette;
-			}
-			
-			// Find in root directory
-			string foundfile = FindFirstFile("PLAYPAL", false);
-			if((foundfile != null) && FileExists(foundfile))
-			{
-				MemoryStream stream = LoadFile(foundfile);
+        {
+            // Error when suspended
+            if (issuspended) throw new Exception("Data reader is suspended");
 
-				if(stream.Length > 767) //mxd
-					palette = new Playpal(stream);
-				else
-					if (!Silent) General.ErrorLogger.Add(ErrorType.Warning, "Warning: invalid palette \"" + foundfile + "\"");
-				stream.Dispose();
-			}
-			
-			// Done
-			return palette;
-		}
-        
+            // Palette from wad(s)
+            Playpal palette = null;
+            foreach (WADReader wr in wads)
+            {
+                Playpal wadpalette = wr.LoadPalette();
+                if (wadpalette != null) return wadpalette;
+            }
+
+            // Find in root directory
+            string foundfile = FindFirstFile("PLAYPAL", false);
+            if ((foundfile != null) && FileExists(foundfile))
+            {
+                MemoryStream stream = LoadFile(foundfile);
+
+                if (stream.Length > 767) //mxd
+                    palette = new Playpal(stream);
+                else
+                    if (!Silent) General.ErrorLogger.Add(ErrorType.Warning, "Warning: invalid palette \"" + foundfile + "\"");
+                stream.Dispose();
+            }
+
+            // Done
+            return palette;
+        }
+
         // This loads the COLORMAP
         public override ColorMap LoadMainColorMap(Playpal palette)
         {
-	        // Error when suspended
-	        if(issuspended) throw new Exception("Data reader is suspended");
-			
-	        // Colormap from wad(s)
-	        ColorMap colormap = null;
-	        foreach(WADReader wr in wads)
-	        {
-		        ColorMap wadcolormap = wr.LoadMainColorMap(palette);
-		        if(wadcolormap != null) return wadcolormap;
-	        }
-			
-	        // Find in root directory
-	        string foundfile = FindFirstFile("COLORMAP", false);
-	        if((foundfile != null) && FileExists(foundfile))
-	        {
-		        MemoryStream stream = LoadFile(foundfile);
+            // Error when suspended
+            if (issuspended) throw new Exception("Data reader is suspended");
 
-		        if(stream.Length >= 256) //mxd
-			        colormap = new ColorMap(stream, palette);
-		        else
-					if (!Silent) General.ErrorLogger.Add(ErrorType.Warning, "Warning: invalid colormap \"" + foundfile + "\"");
-		        stream.Dispose();
-	        }
-			
-	        // Done
-	        return colormap;
+            // Colormap from wad(s)
+            ColorMap colormap = null;
+            foreach (WADReader wr in wads)
+            {
+                ColorMap wadcolormap = wr.LoadMainColorMap(palette);
+                if (wadcolormap != null) return wadcolormap;
+            }
+
+            // Find in root directory
+            string foundfile = FindFirstFile("COLORMAP", false);
+            if ((foundfile != null) && FileExists(foundfile))
+            {
+                MemoryStream stream = LoadFile(foundfile);
+
+                if (stream.Length >= 256) //mxd
+                    colormap = new ColorMap(stream, palette);
+                else
+                    if (!Silent) General.ErrorLogger.Add(ErrorType.Warning, "Warning: invalid colormap \"" + foundfile + "\"");
+                stream.Dispose();
+            }
+
+            // Done
+            return colormap;
         }
 
-		#endregion
-		
-		#region ================== Textures
+        #endregion
 
-		// This loads the textures
-		public override IEnumerable<ImageData> LoadTextures(PatchNames pnames, Dictionary<string, TexturesParser> cachedparsers)
-		{
-			// Error when suspended
-			if(issuspended) throw new Exception("Data reader is suspended");
+        #region ================== Textures
 
-			Dictionary<long, ImageData> images = new Dictionary<long, ImageData>();
-			IEnumerable<ImageData> collection;
-			
-			// Load from wad files (NOTE: backward order, because the last wad's images have priority)
-			for(int i = wads.Count - 1; i >= 0; i--)
-			{
-				PatchNames wadpnames = wads[i].LoadPatchNames(); //mxd
-				collection = wads[i].LoadTextures((wadpnames != null && wadpnames.Length > 0) ? wadpnames : pnames, cachedparsers); //mxd
-				AddImagesToList(images, collection);
-			}
-			
-			// Should we load the images in this directory as textures?
-			if(roottextures)
-			{
-				collection = LoadDirectoryImages("", ImageDataFormat.DOOMPICTURE, false);
-				AddImagesToList(images, collection);
-			}
-			
-			// Load TEXTURE1 lump file
-			List<ImageData> imgset = new List<ImageData>();
-			string texture1file = FindFirstFile("TEXTURE1", false);
-			if((texture1file != null) && FileExists(texture1file))
-			{
-				MemoryStream filedata = LoadFile(texture1file);
-				WADReader.LoadTextureSet("TEXTURE1", filedata, ref imgset, pnames, Silent);
-				filedata.Dispose();
-			}
+        // This loads the textures
+        public override IEnumerable<ImageData> LoadTextures(PatchNames pnames, Dictionary<string, TexturesParser> cachedparsers)
+        {
+            // Error when suspended
+            if (issuspended) throw new Exception("Data reader is suspended");
 
-			// Load TEXTURE2 lump file
-			string texture2file = FindFirstFile("TEXTURE2", false);
-			if((texture2file != null) && FileExists(texture2file))
-			{
-				MemoryStream filedata = LoadFile(texture2file);
-				WADReader.LoadTextureSet("TEXTURE2", filedata, ref imgset, pnames, Silent);
-				filedata.Dispose();
-			}
-			
-			// Add images from TEXTURE1 and TEXTURE2 lump files
-			AddImagesToList(images, imgset);
-			
-			// Load TEXTURES lump files
-			imgset.Clear();
-			string[] alltexturefiles = GetAllFilesWhichTitleStartsWith("", "TEXTURES", false); //mxd
-			foreach(string texturesfile in alltexturefiles)
-			{
-				//mxd. Added TexturesParser caching
-				string fullpath = Path.Combine(this.location.location, texturesfile);
-				if(cachedparsers.ContainsKey(fullpath))
-				{
-					// Make the textures
-					foreach(TextureStructure t in cachedparsers[fullpath].Textures)
-						imgset.Add(t.MakeImage());
+            Dictionary<long, ImageData> images = new Dictionary<long, ImageData>();
+            IEnumerable<ImageData> collection;
 
-					foreach (TextureStructure t in cachedparsers[fullpath].WallTextures)
-						imgset.Add(t.MakeImage());
-				}
-				else
-				{
-					MemoryStream filedata = LoadFile(texturesfile);
-					TextResourceData data = new TextResourceData(this, filedata, texturesfile, true); //mxd
-					cachedparsers.Add(fullpath, WADReader.LoadTEXTURESTextures(data, ref imgset)); //mxd
-					filedata.Dispose();
-				}
-			}
-			
-			// Add images from TEXTURES lump file
-			AddImagesToList(images, imgset);
+            // Load from wad files (NOTE: backward order, because the last wad's images have priority)
+            for (int i = wads.Count - 1; i >= 0; i--)
+            {
+                PatchNames wadpnames = wads[i].LoadPatchNames(); //mxd
+                collection = wads[i].LoadTextures((wadpnames != null && wadpnames.Length > 0) ? wadpnames : pnames, cachedparsers); //mxd
+                AddImagesToList(images, collection);
+            }
 
-			//mxd. Add images from texture directory. Textures defined in TEXTURES override ones in "textures" folder
-			collection = LoadDirectoryImages(TEXTURES_DIR, ImageDataFormat.DOOMPICTURE, true);
-			AddImagesToList(images, collection);
-			
-			// Add images to the container-specific texture set
-			foreach(ImageData img in images.Values) textureset.AddTexture(img);
-			
-			return new List<ImageData>(images.Values);
-		}
+            // Should we load the images in this directory as textures?
+            if (roottextures)
+            {
+                collection = LoadDirectoryImages("", ImageDataFormat.DOOMPICTURE, false);
+                AddImagesToList(images, collection);
+            }
 
-		//mxd
-		public override IEnumerable<HiResImage> LoadHiResTextures()
-		{
-			// Go for all files
-			string[] files = GetAllFiles(HIRES_DIR, true);
-			List<HiResImage> result = new List<HiResImage>(files.Length);
-			foreach(string f in files)
-			{
-				if(string.IsNullOrEmpty(Path.GetFileNameWithoutExtension(f)))
-				{
-					// Can't load image without name
-					if (!Silent) General.ErrorLogger.Add(ErrorType.Error, "Can't load an unnamed HiRes texture from \"" + Path.Combine(this.location.GetDisplayName(), HIRES_DIR) + "\". Please consider giving names to your resources.");
-				}
-				else
-				{
-					// Add image to list
-					result.Add(new HiResImage(f));
-				}
-			}
+            // Load TEXTURE1 lump file
+            List<ImageData> imgset = new List<ImageData>();
+            string texture1file = FindFirstFile("TEXTURE1", false);
+            if ((texture1file != null) && FileExists(texture1file))
+            {
+                MemoryStream filedata = LoadFile(texture1file);
+                WADReader.LoadTextureSet("TEXTURE1", filedata, ref imgset, pnames, Silent);
+                filedata.Dispose();
+            }
 
-			return result;
-		}
+            // Load TEXTURE2 lump file
+            string texture2file = FindFirstFile("TEXTURE2", false);
+            if ((texture2file != null) && FileExists(texture2file))
+            {
+                MemoryStream filedata = LoadFile(texture2file);
+                WADReader.LoadTextureSet("TEXTURE2", filedata, ref imgset, pnames, Silent);
+                filedata.Dispose();
+            }
 
-		// This returns the patch names from the PNAMES lump
-		// A directory resource does not support this lump, but the wads in the directory may contain this lump
-		public override PatchNames LoadPatchNames()
-		{
-			PatchNames pnames;
-			
-			// Error when suspended
-			if(issuspended) throw new Exception("Data reader is suspended");
-			
-			// Load from wad files
-			// Note the backward order, because the last wad's images have priority
-			for(int i = wads.Count - 1; i >= 0; i--)
-			{
-				pnames = wads[i].LoadPatchNames();
-				if(pnames != null) return pnames;
-			}
-			
-			// If none of the wads provides patch names, let's see if we can
-			string pnamesfile = FindFirstFile("PNAMES", false);
-			if((pnamesfile != null) && FileExists(pnamesfile))
-			{
-				MemoryStream pnamesdata = LoadFile(pnamesfile);
-				pnames = new PatchNames(pnamesdata);
-				pnamesdata.Dispose();
-				return pnames;
-			}
-			
-			return null;
-		}
-		
-		#endregion
+            // Add images from TEXTURE1 and TEXTURE2 lump files
+            AddImagesToList(images, imgset);
 
-		#region ================== Flats
-		
-		// This loads the textures
-		public override IEnumerable<ImageData> LoadFlats(Dictionary<string, TexturesParser> cachedparsers)
-		{
-			Dictionary<long, ImageData> images = new Dictionary<long, ImageData>();
-			IEnumerable<ImageData> collection;
-			List<ImageData> imgset = new List<ImageData>();
-			
-			// Error when suspended
-			if(issuspended) throw new Exception("Data reader is suspended");
-			
-			// Load from wad files
-			// Note the backward order, because the last wad's images have priority
-			for(int i = wads.Count - 1; i >= 0; i--)
-			{
-				collection = wads[i].LoadFlats(cachedparsers);
-				AddImagesToList(images, collection);
-			}
-			
-			// Should we load the images in this directory as flats?
-			if(rootflats)
-			{
-				collection = LoadDirectoryImages("", ImageDataFormat.DOOMFLAT, false);
-				AddImagesToList(images, collection);
-			}
+            // Load TEXTURES lump files
+            imgset.Clear();
+            string[] alltexturefiles = GetAllFilesWhichTitleStartsWith("", "TEXTURES", false); //mxd
+            foreach (string texturesfile in alltexturefiles)
+            {
+                //mxd. Added TexturesParser caching
+                string fullpath = Path.Combine(this.location.location, texturesfile);
+                if (cachedparsers.ContainsKey(fullpath))
+                {
+                    // Make the textures
+                    foreach (TextureStructure t in cachedparsers[fullpath].Textures)
+                        imgset.Add(t.MakeImage());
 
-			// Add images from flats directory
-			collection = LoadDirectoryImages(FLATS_DIR, ImageDataFormat.DOOMFLAT, true);
-			AddImagesToList(images, collection);
+                    foreach (TextureStructure t in cachedparsers[fullpath].WallTextures)
+                        imgset.Add(t.MakeImage());
+                }
+                else
+                {
+                    MemoryStream filedata = LoadFile(texturesfile);
+                    TextResourceData data = new TextResourceData(this, filedata, texturesfile, true); //mxd
+                    cachedparsers.Add(fullpath, WADReader.LoadTEXTURESTextures(data, ref imgset)); //mxd
+                    filedata.Dispose();
+                }
+            }
 
-			// Load TEXTURES lump file
-			string[] alltexturefiles = GetAllFilesWhichTitleStartsWith("", "TEXTURES", false); //mxd
-			foreach(string texturesfile in alltexturefiles)
-			{
-				//mxd. Added TexturesParser caching
-				string fullpath = Path.Combine(this.location.location, texturesfile);
-				if(cachedparsers.ContainsKey(fullpath))
-				{
-					// Make the textures
-					foreach(TextureStructure t in cachedparsers[fullpath].Flats)
-						imgset.Add(t.MakeImage());
-				}
-				else
-				{
-					MemoryStream filedata = LoadFile(texturesfile);
-					TextResourceData data = new TextResourceData(this, filedata, texturesfile, true); //mxd
-					cachedparsers.Add(fullpath, WADReader.LoadTEXTURESFlats(data, ref imgset)); //mxd
-					filedata.Dispose();
-				}
-			}
+            // Add images from TEXTURES lump file
+            AddImagesToList(images, imgset);
 
-			// Add images from TEXTURES lump file
-			AddImagesToList(images, imgset);
+            //mxd. Add images from texture directory. Textures defined in TEXTURES override ones in "textures" folder
+            collection = LoadDirectoryImages(TEXTURES_DIR, ImageDataFormat.DOOMPICTURE, true);
+            AddImagesToList(images, collection);
 
-			// Add images to the container-specific texture set
-			foreach(ImageData img in images.Values) 
-				textureset.AddFlat(img);
-			
-			return new List<ImageData>(images.Values);
-		}
+            // Add images to the container-specific texture set
+            foreach (ImageData img in images.Values) textureset.AddTexture(img);
 
-		//mxd.
-		public override Stream GetFlatData(string pname, bool longname, ref string flatlocation) 
-		{
-			// Error when suspended
-			if(issuspended) throw new Exception("Data reader is suspended");
+            return new List<ImageData>(images.Values);
+        }
 
-			// Find in any of the wad files
-			// Note the backward order, because the last wad's images have priority
-			if(!longname) //mxd. Flats with long names can't be in wads
-			{
-				for(int i = wads.Count - 1; i > -1; i--)
-				{
-					Stream data = wads[i].GetFlatData(pname, false, ref flatlocation);
-					if(data != null) return data;
-				}
-			}
+        //mxd
+        public override IEnumerable<HiResImage> LoadHiResTextures()
+        {
+            // Go for all files
+            string[] files = GetAllFiles(HIRES_DIR, true);
+            List<HiResImage> result = new List<HiResImage>(files.Length);
+            foreach (string f in files)
+            {
+                if (string.IsNullOrEmpty(Path.GetFileNameWithoutExtension(f)))
+                {
+                    // Can't load image without name
+                    if (!Silent) General.ErrorLogger.Add(ErrorType.Error, "Can't load an unnamed HiRes texture from \"" + Path.Combine(this.location.GetDisplayName(), HIRES_DIR) + "\". Please consider giving names to your resources.");
+                }
+                else
+                {
+                    // Add image to list
+                    result.Add(new HiResImage(f));
+                }
+            }
 
-			// Nothing found
-			return null;
-		}
-		
-		#endregion
+            return result;
+        }
 
-		#region ================== Sprites
+        // This returns the patch names from the PNAMES lump
+        // A directory resource does not support this lump, but the wads in the directory may contain this lump
+        public override PatchNames LoadPatchNames()
+        {
+            PatchNames pnames;
 
-		// This loads the sprites
-		public override IEnumerable<ImageData> LoadSprites(Dictionary<string, TexturesParser> cachedparsers)
-		{
-			// Error when suspended
-			if(issuspended) throw new Exception("Data reader is suspended");
+            // Error when suspended
+            if (issuspended) throw new Exception("Data reader is suspended");
 
-			Dictionary<long, ImageData> images = new Dictionary<long, ImageData>();
-			List<ImageData> imgset = new List<ImageData>();
-			
-			// Load from wad files
-			// Note the backward order, because the last wad's images have priority
-			for(int i = wads.Count - 1; i >= 0; i--)
-			{
-				IEnumerable<ImageData> collection = wads[i].LoadSprites(cachedparsers);
-				AddImagesToList(images, collection);
-			}
-			
-			// Load TEXTURES lump file
-			imgset.Clear();
-			string[] alltexturefiles = GetAllFilesWhichTitleStartsWith("", "TEXTURES", false); //mxd
-			foreach(string texturesfile in alltexturefiles)
-			{
-				//mxd. Added TexturesParser caching
-				string fullpath = Path.Combine(this.location.location, texturesfile);
-				if(cachedparsers.ContainsKey(fullpath))
-				{
-					// Make the textures
-					foreach(TextureStructure t in cachedparsers[fullpath].Sprites)
-						imgset.Add(t.MakeImage());
-				}
-				else
-				{
-					MemoryStream filedata = LoadFile(texturesfile);
-					TextResourceData data = new TextResourceData(this, filedata, texturesfile, true); //mxd
-					cachedparsers.Add(fullpath, WADReader.LoadTEXTURESSprites(data, ref imgset)); //mxd
-					filedata.Dispose();
-				}
-			}
-			
-			// Add images from TEXTURES lump file
-			AddImagesToList(images, imgset);
-			
-			return new List<ImageData>(images.Values);
-		}
+            // Load from wad files
+            // Note the backward order, because the last wad's images have priority
+            for (int i = wads.Count - 1; i >= 0; i--)
+            {
+                pnames = wads[i].LoadPatchNames();
+                if (pnames != null) return pnames;
+            }
 
-		//mxd. This returns all sprite names
-		public override HashSet<string> GetSpriteNames()
-		{
-			// Error when suspended
-			if(issuspended) throw new Exception("Data reader is suspended");
+            // If none of the wads provides patch names, let's see if we can
+            string pnamesfile = FindFirstFile("PNAMES", false);
+            if ((pnamesfile != null) && FileExists(pnamesfile))
+            {
+                MemoryStream pnamesdata = LoadFile(pnamesfile);
+                pnames = new PatchNames(pnamesdata);
+                pnamesdata.Dispose();
+                return pnames;
+            }
 
-			HashSet<string> result = new HashSet<string>();
+            return null;
+        }
 
-			// Load from wad files
-			// Note the backward order, because the last wad's images have priority
-			for(int i = wads.Count - 1; i >= 0; i--)
-			{
-				result.UnionWith(wads[i].GetSpriteNames());
-			}
+        #endregion
 
-			// Load from out own files
-			string[] files = GetAllFiles(SPRITES_DIR, true);
-			foreach(string file in files)
-			{
-				// Some users tend to place all manner of graphics into the "Sprites" folder...
-				string spritename = Path.GetFileNameWithoutExtension(file).ToUpperInvariant();
-				if(WADReader.IsValidSpriteName(spritename)) result.Add(spritename); 
-			}
+        #region ================== Flats
 
-			return result;
-		}
+        // This loads the textures
+        public override IEnumerable<ImageData> LoadFlats(Dictionary<string, TexturesParser> cachedparsers)
+        {
+            Dictionary<long, ImageData> images = new Dictionary<long, ImageData>();
+            IEnumerable<ImageData> collection;
+            List<ImageData> imgset = new List<ImageData>();
 
-		#endregion
+            // Error when suspended
+            if (issuspended) throw new Exception("Data reader is suspended");
 
-		#region ================== Colormaps
+            // Load from wad files
+            // Note the backward order, because the last wad's images have priority
+            for (int i = wads.Count - 1; i >= 0; i--)
+            {
+                collection = wads[i].LoadFlats(cachedparsers);
+                AddImagesToList(images, collection);
+            }
 
-		// This loads the textures
-		public override ICollection<ImageData> LoadColormaps()
-		{
-			// Error when suspended
-			if(issuspended) throw new Exception("Data reader is suspended");
+            // Should we load the images in this directory as flats?
+            if (rootflats)
+            {
+                collection = LoadDirectoryImages("", ImageDataFormat.DOOMFLAT, false);
+                AddImagesToList(images, collection);
+            }
 
-			Dictionary<long, ImageData> images = new Dictionary<long, ImageData>();
-			ICollection<ImageData> collection;
+            // Add images from flats directory
+            collection = LoadDirectoryImages(FLATS_DIR, ImageDataFormat.DOOMFLAT, true);
+            AddImagesToList(images, collection);
 
-			// Load from wad files
-			// Note the backward order, because the last wad's images have priority
-			for(int i = wads.Count - 1; i >= 0; i--)
-			{
-				collection = wads[i].LoadColormaps();
-				AddImagesToList(images, collection);
-			}
+            // Load TEXTURES lump file
+            string[] alltexturefiles = GetAllFilesWhichTitleStartsWith("", "TEXTURES", false); //mxd
+            foreach (string texturesfile in alltexturefiles)
+            {
+                //mxd. Added TexturesParser caching
+                string fullpath = Path.Combine(this.location.location, texturesfile);
+                if (cachedparsers.ContainsKey(fullpath))
+                {
+                    // Make the textures
+                    foreach (TextureStructure t in cachedparsers[fullpath].Flats)
+                        imgset.Add(t.MakeImage());
+                }
+                else
+                {
+                    MemoryStream filedata = LoadFile(texturesfile);
+                    TextResourceData data = new TextResourceData(this, filedata, texturesfile, true); //mxd
+                    cachedparsers.Add(fullpath, WADReader.LoadTEXTURESFlats(data, ref imgset)); //mxd
+                    filedata.Dispose();
+                }
+            }
 
-			// Add images from flats directory
-			collection = LoadDirectoryImages(COLORMAPS_DIR, ImageDataFormat.DOOMCOLORMAP, true);
-			AddImagesToList(images, collection);
+            // Add images from TEXTURES lump file
+            AddImagesToList(images, imgset);
 
-			// Add images to the container-specific texture set
-			foreach(ImageData img in images.Values) textureset.AddFlat(img);
+            // Add images to the container-specific texture set
+            foreach (ImageData img in images.Values)
+                textureset.AddFlat(img);
 
-			return new List<ImageData>(images.Values);
-		}
+            return new List<ImageData>(images.Values);
+        }
 
-		#endregion
+        //mxd.
+        public override Stream GetFlatData(string pname, bool longname, ref string flatlocation)
+        {
+            // Error when suspended
+            if (issuspended) throw new Exception("Data reader is suspended");
 
-		#region ================== DEHACKED
+            // Find in any of the wad files
+            // Note the backward order, because the last wad's images have priority
+            if (!longname) //mxd. Flats with long names can't be in wads
+            {
+                for (int i = wads.Count - 1; i > -1; i--)
+                {
+                    Stream data = wads[i].GetFlatData(pname, false, ref flatlocation);
+                    if (data != null) return data;
+                }
+            }
 
-		// This finds and returns DEHACKED streams
-		public override IEnumerable<TextResourceData> GetDehackedData()
-		{
-			// Error when suspended
-			if (issuspended) throw new Exception("Data reader is suspended");
+            // Nothing found
+            return null;
+        }
 
-			List<TextResourceData> result = new List<TextResourceData>();
+        #endregion
 
-			// At least one of gldefs should be in the root folder
-			List<string> files = new List<string>();
+        #region ================== Sprites
 
-			// Can be several entries
-			files.AddRange(GetAllFilesWhichTitleStartsWith("", "DEHACKED", false));
+        // This loads the sprites
+        public override IEnumerable<ImageData> LoadSprites(Dictionary<string, TexturesParser> cachedparsers)
+        {
+            // Error when suspended
+            if (issuspended) throw new Exception("Data reader is suspended");
 
-			// Add to collection
-			foreach (string s in files)
-				result.Add(new TextResourceData(this, LoadFile(s), s, true));
+            Dictionary<long, ImageData> images = new Dictionary<long, ImageData>();
+            List<ImageData> imgset = new List<ImageData>();
 
-			// Find in any of the wad files
-			foreach (WADReader wr in wads) result.AddRange(wr.GetDehackedData());
+            // Load from wad files
+            // Note the backward order, because the last wad's images have priority
+            for (int i = wads.Count - 1; i >= 0; i--)
+            {
+                IEnumerable<ImageData> collection = wads[i].LoadSprites(cachedparsers);
+                AddImagesToList(images, collection);
+            }
 
-			return result;
-		}
+            // Load TEXTURES lump file
+            imgset.Clear();
+            string[] alltexturefiles = GetAllFilesWhichTitleStartsWith("", "TEXTURES", false); //mxd
+            foreach (string texturesfile in alltexturefiles)
+            {
+                //mxd. Added TexturesParser caching
+                string fullpath = Path.Combine(this.location.location, texturesfile);
+                if (cachedparsers.ContainsKey(fullpath))
+                {
+                    // Make the textures
+                    foreach (TextureStructure t in cachedparsers[fullpath].Sprites)
+                        imgset.Add(t.MakeImage());
+                }
+                else
+                {
+                    MemoryStream filedata = LoadFile(texturesfile);
+                    TextResourceData data = new TextResourceData(this, filedata, texturesfile, true); //mxd
+                    cachedparsers.Add(fullpath, WADReader.LoadTEXTURESSprites(data, ref imgset)); //mxd
+                    filedata.Dispose();
+                }
+            }
 
-		#endregion
+            // Add images from TEXTURES lump file
+            AddImagesToList(images, imgset);
 
-		#region ================== IWADINFO
+            return new List<ImageData>(images.Values);
+        }
 
-		public override List<IWadInfo> GetIWadInfos()
-		{
-			IWadInfoParser parser = new IWadInfoParser();
+        //mxd. This returns all sprite names
+        public override HashSet<string> GetSpriteNames()
+        {
+            // Error when suspended
+            if (issuspended) throw new Exception("Data reader is suspended");
 
-			// At least one of IWADINFO should be in the root folder
-			List<string> files = new List<string>();
+            HashSet<string> result = new HashSet<string>();
 
-			// Can be several entries
-			files.AddRange(GetAllFilesWhichTitleStartsWith("", "IWADINFO", false));
+            // Load from wad files
+            // Note the backward order, because the last wad's images have priority
+            for (int i = wads.Count - 1; i >= 0; i--)
+            {
+                result.UnionWith(wads[i].GetSpriteNames());
+            }
 
-			foreach(string s in files)
-			{
-				parser.Parse(new TextResourceData(this, LoadFile(s), s, true), false);
-				if (parser.HasError) parser.LogError();
-			}
+            // Load from out own files
+            string[] files = GetAllFiles(SPRITES_DIR, true);
+            foreach (string file in files)
+            {
+                // Some users tend to place all manner of graphics into the "Sprites" folder...
+                string spritename = Path.GetFileNameWithoutExtension(file).ToUpperInvariant();
+                if (WADReader.IsValidSpriteName(spritename)) result.Add(spritename);
+            }
 
-			return parser.IWads;
-		}
+            return result;
+        }
 
-		#endregion
+        #endregion
 
-		#region ================== DECORATE
+        #region ================== Colormaps
 
-		// This finds and returns DECORATE streams
-		public override IEnumerable<TextResourceData> GetDecorateData(string pname, bool exactmatch)
-		{
-			// Error when suspended
-			if(issuspended) throw new Exception("Data reader is suspended");
+        // This loads the textures
+        public override ICollection<ImageData> LoadColormaps()
+        {
+            // Error when suspended
+            if (issuspended) throw new Exception("Data reader is suspended");
 
-			List<TextResourceData> result = new List<TextResourceData>();
-			string[] allfilenames;
-			
-			// Find in root directory
-			string filename = Path.GetFileName(pname);
-			string pathname = Path.GetDirectoryName(pname);
-			
-			if(exactmatch)
-			{
+            Dictionary<long, ImageData> images = new Dictionary<long, ImageData>();
+            ICollection<ImageData> collection;
+
+            // Load from wad files
+            // Note the backward order, because the last wad's images have priority
+            for (int i = wads.Count - 1; i >= 0; i--)
+            {
+                collection = wads[i].LoadColormaps();
+                AddImagesToList(images, collection);
+            }
+
+            // Add images from flats directory
+            collection = LoadDirectoryImages(COLORMAPS_DIR, ImageDataFormat.DOOMCOLORMAP, true);
+            AddImagesToList(images, collection);
+
+            // Add images to the container-specific texture set
+            foreach (ImageData img in images.Values) textureset.AddFlat(img);
+
+            return new List<ImageData>(images.Values);
+        }
+
+        #endregion
+
+        #region ================== DEHACKED
+
+        // This finds and returns DEHACKED streams
+        public override IEnumerable<TextResourceData> GetDehackedData()
+        {
+            // Error when suspended
+            if (issuspended) throw new Exception("Data reader is suspended");
+
+            List<TextResourceData> result = new List<TextResourceData>();
+
+            // At least one of gldefs should be in the root folder
+            List<string> files = new List<string>();
+
+            // Can be several entries
+            files.AddRange(GetAllFilesWhichTitleStartsWith("", "DEHACKED", false));
+
+            // Add to collection
+            foreach (string s in files)
+                result.Add(new TextResourceData(this, LoadFile(s), s, true));
+
+            // Find in any of the wad files
+            foreach (WADReader wr in wads) result.AddRange(wr.GetDehackedData());
+
+            return result;
+        }
+
+        #endregion
+
+        #region ================== IWADINFO
+
+        public override List<IWadInfo> GetIWadInfos()
+        {
+            IWadInfoParser parser = new IWadInfoParser();
+
+            // At least one of IWADINFO should be in the root folder
+            List<string> files = new List<string>();
+
+            // Can be several entries
+            files.AddRange(GetAllFilesWhichTitleStartsWith("", "IWADINFO", false));
+
+            foreach (string s in files)
+            {
+                parser.Parse(new TextResourceData(this, LoadFile(s), s, true), false);
+                if (parser.HasError) parser.LogError();
+            }
+
+            return parser.IWads;
+        }
+
+        #endregion
+
+        #region ================== DECORATE
+
+        // This finds and returns DECORATE streams
+        public override IEnumerable<TextResourceData> GetDecorateData(string pname, bool exactmatch)
+        {
+            // Error when suspended
+            if (issuspended) throw new Exception("Data reader is suspended");
+
+            List<TextResourceData> result = new List<TextResourceData>();
+            string[] allfilenames;
+
+            // Find in root directory
+            string filename = Path.GetFileName(pname);
+            string pathname = Path.GetDirectoryName(pname);
+
+            if (exactmatch)
+            {
                 allfilenames = GetFileAtPath(filename, pathname, "DECORATE");
-			}
-			else
-				allfilenames = GetAllFilesWithTitle(pathname, filename, false);
+            }
+            else
+                allfilenames = GetAllFilesWithTitle(pathname, filename, false);
 
-			foreach(string foundfile in allfilenames)
-				result.Add(new TextResourceData(this, LoadFile(foundfile), foundfile, true));
-			
-			// Find in any of the wad files
-			for(int i = wads.Count - 1; i >= 0; i--)
-				result.AddRange(wads[i].GetDecorateData(pname, false));
+            foreach (string foundfile in allfilenames)
+                result.Add(new TextResourceData(this, LoadFile(foundfile), foundfile, true));
 
-			return result;
-		}
+            // Find in any of the wad files
+            for (int i = wads.Count - 1; i >= 0; i--)
+                result.AddRange(wads[i].GetDecorateData(pname, false));
+
+            return result;
+        }
 
         #endregion
 
@@ -677,259 +677,259 @@ namespace CodeImp.DoomBuilder.Data
         #region ================== VOXELDEF (mxd)
 
         //mxd. This returns the list of voxels, which can be used without VOXELDEF definition
-        public override HashSet<string> GetVoxelNames() 
-		{
-			// Error when suspended
-			if(issuspended) throw new Exception("Data reader is suspended");
+        public override HashSet<string> GetVoxelNames()
+        {
+            // Error when suspended
+            if (issuspended) throw new Exception("Data reader is suspended");
 
-			HashSet<string> result = new HashSet<string>();
+            HashSet<string> result = new HashSet<string>();
 
-			// Load from wad files
-			// Note the backward order, because the last wad's images have priority
-			for(int i = wads.Count - 1; i >= 0; i--)
-			{
-				result.UnionWith(wads[i].GetVoxelNames());
-			}
+            // Load from wad files
+            // Note the backward order, because the last wad's images have priority
+            for (int i = wads.Count - 1; i >= 0; i--)
+            {
+                result.UnionWith(wads[i].GetVoxelNames());
+            }
 
-			// Load from out own files
-			string[] files = GetAllFiles("voxels", false);
-			foreach(string t in files)
-			{
-				string s = Path.GetFileNameWithoutExtension(t).ToUpperInvariant();
-				if(WADReader.IsValidVoxelName(s)) result.Add(s);
-			}
+            // Load from out own files
+            string[] files = GetAllFiles("voxels", false);
+            foreach (string t in files)
+            {
+                string s = Path.GetFileNameWithoutExtension(t).ToUpperInvariant();
+                if (WADReader.IsValidVoxelName(s)) result.Add(s);
+            }
 
-			return result;
-		}
+            return result;
+        }
 
-		#endregion
+        #endregion
 
-		#region ================== (Z)MAPINFO (mxd)
+        #region ================== (Z)MAPINFO (mxd)
 
-		//mxd
-		public override IEnumerable<TextResourceData> GetMapinfoData() 
-		{
-			// Error when suspended
-			if(issuspended) throw new Exception("Data reader is suspended");
+        //mxd
+        public override IEnumerable<TextResourceData> GetMapinfoData()
+        {
+            // Error when suspended
+            if (issuspended) throw new Exception("Data reader is suspended");
 
-			// Mapinfo should be in root folder
-			List<TextResourceData> result = new List<TextResourceData>();
+            // Mapinfo should be in root folder
+            List<TextResourceData> result = new List<TextResourceData>();
 
-			// Try to find (z)mapinfo
-			string[] files = GetAllFilesWithTitle("", "ZMAPINFO", false);
-			if(files.Length == 0) files = GetAllFilesWithTitle("", "MAPINFO", false);
+            // Try to find (z)mapinfo
+            string[] files = GetAllFilesWithTitle("", "ZMAPINFO", false);
+            if (files.Length == 0) files = GetAllFilesWithTitle("", "MAPINFO", false);
 
-			// Add to collection
-			foreach(string s in files)
-				result.Add(new TextResourceData(this, LoadFile(s), s, true));
+            // Add to collection
+            foreach (string s in files)
+                result.Add(new TextResourceData(this, LoadFile(s), s, true));
 
-			// Find in any of the wad files
-			foreach(WADReader wr in wads) result.AddRange(wr.GetMapinfoData());
+            // Find in any of the wad files
+            foreach (WADReader wr in wads) result.AddRange(wr.GetMapinfoData());
 
-			return result;
-		}
+            return result;
+        }
 
-		#endregion
+        #endregion
 
-		#region ================== GLDEFS (mxd)
+        #region ================== GLDEFS (mxd)
 
-		//mxd
-		public override IEnumerable<TextResourceData> GetGldefsData(string basegame) 
-		{
-			// Error when suspended
-			if(issuspended) throw new Exception("Data reader is suspended");
+        //mxd
+        public override IEnumerable<TextResourceData> GetGldefsData(string basegame)
+        {
+            // Error when suspended
+            if (issuspended) throw new Exception("Data reader is suspended");
 
-			List<TextResourceData> result = new List<TextResourceData>();
+            List<TextResourceData> result = new List<TextResourceData>();
 
-			// At least one of gldefs should be in the root folder
-			List<string> files = new List<string>();
+            // At least one of gldefs should be in the root folder
+            List<string> files = new List<string>();
 
-			// Try to load game specific GLDEFS first
-			if(basegame != GameType.UNKNOWN)
-			{
-				string lumpname = GameType.GldefsLumpsPerGame[basegame];
-				files.AddRange(GetAllFilesWhichTitleStartsWith("", lumpname, false));
-			}
+            // Try to load game specific GLDEFS first
+            if (basegame != GameType.UNKNOWN)
+            {
+                string lumpname = GameType.GldefsLumpsPerGame[basegame];
+                files.AddRange(GetAllFilesWhichTitleStartsWith("", lumpname, false));
+            }
 
-			// Can be several entries
-			files.AddRange(GetAllFilesWhichTitleStartsWith("", "GLDEFS", false));
+            // Can be several entries
+            files.AddRange(GetAllFilesWhichTitleStartsWith("", "GLDEFS", false));
 
-			// Add to collection
-			foreach(string s in files)
-				result.Add(new TextResourceData(this, LoadFile(s), s, true));
+            // Add to collection
+            foreach (string s in files)
+                result.Add(new TextResourceData(this, LoadFile(s), s, true));
 
-			// Find in any of the wad files
-			foreach(WADReader wr in wads) result.AddRange(wr.GetGldefsData(basegame));
+            // Find in any of the wad files
+            foreach (WADReader wr in wads) result.AddRange(wr.GetGldefsData(basegame));
 
-			return result;
-		}
+            return result;
+        }
 
-		#endregion
+        #endregion
 
-		#region ================== Generic text lumps loading (mxd)
+        #region ================== Generic text lumps loading (mxd)
 
-		public override IEnumerable<TextResourceData> GetTextLumpData(ScriptType scripttype, bool singular, bool partialtitlematch)
-		{
-			// Error when suspended
-			if(issuspended) throw new Exception("Data reader is suspended");
+        public override IEnumerable<TextResourceData> GetTextLumpData(ScriptType scripttype, bool singular, bool partialtitlematch)
+        {
+            // Error when suspended
+            if (issuspended) throw new Exception("Data reader is suspended");
 
-			List<TextResourceData> result = new List<TextResourceData>();
-			List<string> files = new List<string>();
-			string lumpname = Enum.GetName(typeof(ScriptType), scripttype).ToUpperInvariant();
+            List<TextResourceData> result = new List<TextResourceData>();
+            List<string> files = new List<string>();
+            string lumpname = Enum.GetName(typeof(ScriptType), scripttype).ToUpperInvariant();
 
-			if(singular)
-			{
-				string file = FindFirstFile(lumpname, false);
-				if(!string.IsNullOrEmpty(file)) files.Add(file);
-			}
-			else
-			{
-				files = new List<string>(partialtitlematch ? 
-					GetAllFilesWhichTitleStartsWith("", lumpname, false) : 
-					GetAllFilesWithTitle("", lumpname, false));
-			}
+            if (singular)
+            {
+                string file = FindFirstFile(lumpname, false);
+                if (!string.IsNullOrEmpty(file)) files.Add(file);
+            }
+            else
+            {
+                files = new List<string>(partialtitlematch ?
+                    GetAllFilesWhichTitleStartsWith("", lumpname, false) :
+                    GetAllFilesWithTitle("", lumpname, false));
+            }
 
-			// Add to collection
-			foreach(string s in files)
-				result.Add(new TextResourceData(this, LoadFile(s), s, true));
+            // Add to collection
+            foreach (string s in files)
+                result.Add(new TextResourceData(this, LoadFile(s), s, true));
 
-			// Find in any of the wad files
-			foreach(WADReader wr in wads)
-				result.AddRange(wr.GetTextLumpData(scripttype, singular, partialtitlematch));
+            // Find in any of the wad files
+            foreach (WADReader wr in wads)
+                result.AddRange(wr.GetTextLumpData(scripttype, singular, partialtitlematch));
 
-			return result;
-		}
+            return result;
+        }
 
-		#endregion
+        #endregion
 
-		#region ================== Methods
+        #region ================== Methods
 
-		// This loads the images in this directory
-		private ICollection<ImageData> LoadDirectoryImages(string path, int imagetype, bool includesubdirs)
-		{
-			List<ImageData> images = new List<ImageData>();
-			
-			// Go for all files
-			string[] files = GetAllFiles(path, includesubdirs);
-			foreach(string f in files)
-			{
-				if(string.IsNullOrEmpty(Path.GetFileNameWithoutExtension(f))) 
-				{
-					// Can't load image without name
-					if (!Silent) General.ErrorLogger.Add(ErrorType.Error, "Can't load an unnamed texture from \"" + path + "\". Please consider giving names to your resources.");
-				} 
-				else 
-				{
-					// Add image to list
-					images.Add(CreateImage(f, imagetype));
-				}
-			}
-			
-			// Return result
-			return images;
-		}
+        // This loads the images in this directory
+        private ICollection<ImageData> LoadDirectoryImages(string path, int imagetype, bool includesubdirs)
+        {
+            List<ImageData> images = new List<ImageData>();
 
-		/// <summary>
-		/// Gets a correctly cased file from a path/file. This is required for case sensitive file systems.
-		/// </summary>
-		/// <param name="filename">File name without path</param>
-		/// <param name="pathname">Path to the file</param>
-		/// <param name="type">Type of file (i.e. everything before the first dot)</param>
-		/// <returns>Array with one element on success, array with no elements on failure</returns>
-		protected string[] GetFileAtPath(string filename, string pathname, string type)
-		{
-			string fullname = Path.Combine(pathname, filename);
+            // Go for all files
+            string[] files = GetAllFiles(path, includesubdirs);
+            foreach (string f in files)
+            {
+                if (string.IsNullOrEmpty(Path.GetFileNameWithoutExtension(f)))
+                {
+                    // Can't load image without name
+                    if (!Silent) General.ErrorLogger.Add(ErrorType.Error, "Can't load an unnamed texture from \"" + path + "\". Please consider giving names to your resources.");
+                }
+                else
+                {
+                    // Add image to list
+                    images.Add(CreateImage(f, imagetype));
+                }
+            }
 
-			if (FileExists(fullname))
-			{
-				return new string[1] { fullname };
-			}
-			else
-			{
-				if (!Silent) General.ErrorLogger.Add(ErrorType.Warning, "Unable to load " + type + " file \"" + fullname + "\"");
-				return new string[0];
-			}
-		}
+            // Return result
+            return images;
+        }
 
-		// This copies images from a collection unless they already exist in the list
-		private static void AddImagesToList(Dictionary<long, ImageData> targetlist, IEnumerable<ImageData> sourcelist)
-		{
-			// Go for all source images
-			foreach(ImageData src in sourcelist)
-			{
-				// Check if exists in target list
-				if(!targetlist.ContainsKey(src.LongName))
-					targetlist.Add(src.LongName, src);
-			}
-		}
-		
-		// This must create an image
-		protected abstract ImageData CreateImage(string filename, int imagetype);
+        /// <summary>
+        /// Gets a correctly cased file from a path/file. This is required for case sensitive file systems.
+        /// </summary>
+        /// <param name="filename">File name without path</param>
+        /// <param name="pathname">Path to the file</param>
+        /// <param name="type">Type of file (i.e. everything before the first dot)</param>
+        /// <returns>Array with one element on success, array with no elements on failure</returns>
+        protected string[] GetFileAtPath(string filename, string pathname, string type)
+        {
+            string fullname = Path.Combine(pathname, filename);
 
-		// This must return all files in a given directory
-		protected abstract string[] GetAllFiles(string path, bool subfolders);
+            if (FileExists(fullname))
+            {
+                return new string[1] { fullname };
+            }
+            else
+            {
+                if (!Silent) General.ErrorLogger.Add(ErrorType.Warning, "Unable to load " + type + " file \"" + fullname + "\"");
+                return new string[0];
+            }
+        }
 
-		// This must return all files in a given directory that have the given file title
-		protected abstract string[] GetAllFilesWithTitle(string path, string title, bool subfolders);
+        // This copies images from a collection unless they already exist in the list
+        private static void AddImagesToList(Dictionary<long, ImageData> targetlist, IEnumerable<ImageData> sourcelist)
+        {
+            // Go for all source images
+            foreach (ImageData src in sourcelist)
+            {
+                // Check if exists in target list
+                if (!targetlist.ContainsKey(src.LongName))
+                    targetlist.Add(src.LongName, src);
+            }
+        }
 
-		//mxd. This must return all files in a given directory which title starts with given title
-		protected abstract string[] GetAllFilesWhichTitleStartsWith(string path, string title, bool subfolders);
+        // This must create an image
+        protected abstract ImageData CreateImage(string filename, int imagetype);
 
-		// This must return all files in a given directory that match the given extension
-		internal abstract string[] GetFilesWithExt(string path, string extension, bool subfolders);
+        // This must return all files in a given directory
+        protected abstract string[] GetAllFiles(string path, bool subfolders);
 
-		//mxd. This must return wad files in the root directory
-		protected abstract string[] GetWadFiles();
+        // This must return all files in a given directory that have the given file title
+        protected abstract string[] GetAllFilesWithTitle(string path, string title, bool subfolders);
 
-		// This must find the first file that has the specific name, regardless of file extension
-		internal abstract string FindFirstFile(string beginswith, bool subfolders);
+        //mxd. This must return all files in a given directory which title starts with given title
+        protected abstract string[] GetAllFilesWhichTitleStartsWith(string path, string title, bool subfolders);
 
-		// This must find the first file that has the specific name, regardless of file extension
-		protected abstract string FindFirstFile(string path, string beginswith, bool subfolders);
+        // This must return all files in a given directory that match the given extension
+        internal abstract string[] GetFilesWithExt(string path, string extension, bool subfolders);
 
-		// This must find the first file that has the specific name
-		protected abstract string FindFirstFileWithExt(string path, string beginswith, bool subfolders);
-	
-		// This must create a temp file for the speciied file and return the absolute path to the temp file
-		// NOTE: Callers are responsible for removing the temp file when done!
-		protected abstract string CreateTempFile(string filename);
+        //mxd. This must return wad files in the root directory
+        protected abstract string[] GetWadFiles();
 
-		// This makes the path relative to the directory, if needed
-		protected virtual string MakeRelativePath(string anypath)
-		{
-			if(Path.IsPathRooted(anypath))
-			{
-				// Make relative
-				string lowpath = anypath.ToLowerInvariant();
-				string lowlocation = location.location.ToLowerInvariant();
-				if((lowpath.Length > (lowlocation.Length + 1)) && lowpath.StartsWith(lowlocation))
-					return anypath.Substring(lowlocation.Length + 1);
-				else
-					return anypath;
-			}
-			else
-			{
-				// Path is already relative
-				return anypath;
-			}
-		}
+        // This must find the first file that has the specific name, regardless of file extension
+        internal abstract string FindFirstFile(string beginswith, bool subfolders);
 
-		/// <summary>
-		/// Returns the correctly cased file from a path/file. This is required for case sensitive file systems. For PK3s the input will already have the correct case.
-		/// </summary>
-		/// <param name="filepathname">File name get the the correctly cased name from</param>
-		/// <returns></returns>
-		protected virtual string GetCorrectCaseForFile(string filepathname)
-		{
-			return filepathname;
-		}
+        // This must find the first file that has the specific name, regardless of file extension
+        protected abstract string FindFirstFile(string path, string beginswith, bool subfolders);
 
-		//mxd. Archives and Folders don't have lump indices
-		internal override MemoryStream LoadFile(string name, int unused)
-		{
-			return LoadFile(name);
-		}
-		
-		#endregion
-	}
+        // This must find the first file that has the specific name
+        protected abstract string FindFirstFileWithExt(string path, string beginswith, bool subfolders);
+
+        // This must create a temp file for the speciied file and return the absolute path to the temp file
+        // NOTE: Callers are responsible for removing the temp file when done!
+        protected abstract string CreateTempFile(string filename);
+
+        // This makes the path relative to the directory, if needed
+        protected virtual string MakeRelativePath(string anypath)
+        {
+            if (Path.IsPathRooted(anypath))
+            {
+                // Make relative
+                string lowpath = anypath.ToLowerInvariant();
+                string lowlocation = location.location.ToLowerInvariant();
+                if ((lowpath.Length > (lowlocation.Length + 1)) && lowpath.StartsWith(lowlocation))
+                    return anypath.Substring(lowlocation.Length + 1);
+                else
+                    return anypath;
+            }
+            else
+            {
+                // Path is already relative
+                return anypath;
+            }
+        }
+
+        /// <summary>
+        /// Returns the correctly cased file from a path/file. This is required for case sensitive file systems. For PK3s the input will already have the correct case.
+        /// </summary>
+        /// <param name="filepathname">File name get the the correctly cased name from</param>
+        /// <returns></returns>
+        protected virtual string GetCorrectCaseForFile(string filepathname)
+        {
+            return filepathname;
+        }
+
+        //mxd. Archives and Folders don't have lump indices
+        internal override MemoryStream LoadFile(string name, int unused)
+        {
+            return LoadFile(name);
+        }
+
+        #endregion
+    }
 }

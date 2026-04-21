@@ -16,18 +16,18 @@
 
 #region ================== Namespaces
 
-using System.Collections.Generic;
 using CodeImp.DoomBuilder.Data;
+using System.Collections.Generic;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Config
 {
-	internal interface IFilledTextureSet
-	{
-		// Properties
-		string Name { get; }
-		ICollection<ImageData> Textures { get; }
-		ICollection<ImageData> Flats { get; }
-	}
+    internal interface IFilledTextureSet
+    {
+        // Properties
+        string Name { get; }
+        ICollection<ImageData> Textures { get; }
+        ICollection<ImageData> Flats { get; }
+    }
 }

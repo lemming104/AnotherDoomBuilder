@@ -23,22 +23,20 @@
 
 namespace CodeImp.DoomBuilder.ZDoom
 {
-	class IWadInfo
-	{
-		#region ================== Variables
+    class IWadInfo
+    {
+        #region ================== Variables
 
-		private string autoname;
+        #endregion
 
-		#endregion
+        #region ================== Properties
 
-		#region ================== Properties
+        public string AutoName { get; internal set; }
 
-		public string AutoName { get { return autoname; } internal set { autoname = value; } }
+        #endregion
 
-		#endregion
+        #region ================== Constructors
 
-		#region ================== Constructors
-
-		#endregion
-	}
+        #endregion
+    }
 }

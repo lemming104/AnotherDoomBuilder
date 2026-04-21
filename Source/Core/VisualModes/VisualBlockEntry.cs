@@ -16,24 +16,24 @@
 
 #region ================== Namespaces
 
-using System.Collections.Generic;
 using CodeImp.DoomBuilder.Map;
+using System.Collections.Generic;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.VisualModes
 {
-	public sealed class VisualBlockEntry
-	{
+    public sealed class VisualBlockEntry
+    {
         public List<Linedef> Lines { get; set; }
-		public List<Thing> Things { get; set; }
-		public List<Sector> Sectors { get; set; }
-		
-		internal VisualBlockEntry()
-		{
-			Lines = new List<Linedef>(2);
-			Things = new List<Thing>(2);
-			Sectors = new List<Sector>(2);
-		}
-	}
+        public List<Thing> Things { get; set; }
+        public List<Sector> Sectors { get; set; }
+
+        internal VisualBlockEntry()
+        {
+            Lines = new List<Linedef>(2);
+            Things = new List<Thing>(2);
+            Sectors = new List<Sector>(2);
+        }
+    }
 }

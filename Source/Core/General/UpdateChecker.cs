@@ -1,5 +1,8 @@
 ﻿#region ================== Namespaces
 
+using SharpCompress.Archives.SevenZip;
+//using SharpCompress.Common;
+using SharpCompress.Readers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,60 +12,57 @@ using System.Net;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
-using SharpCompress.Archives.SevenZip;
-//using SharpCompress.Common;
-using SharpCompress.Readers;
 
 #endregion
 
 namespace CodeImp.DoomBuilder
 {
-	internal static class UpdateChecker
-	{
+    internal static class UpdateChecker
+    {
 #if NO_UPDATER
 		internal static void PerformCheck(bool verbosemode)
 		{
 			MessageBox.Show("Checking for updates is disabled in this version.");
 		}
 #else
-		private delegate DialogResult ShowWarningMessageDelegate(string message, MessageBoxButtons buttons);
-		
-		private const string NO_UPDATE_REQUIRED = "Your version is up to date.";
-		
-		private static BackgroundWorker worker;
-		private static bool verbose;
+        private delegate DialogResult ShowWarningMessageDelegate(string message, MessageBoxButtons buttons);
 
-		internal static void PerformCheck(bool verbosemode)
-		{
-			// Update check already runing?
-			if(worker != null && worker.IsBusy)
-			{
-				if(verbosemode) General.ShowWarningMessage("Update check is already running!", MessageBoxButtons.OK);
-				return;
-			}
+        private const string NO_UPDATE_REQUIRED = "Your version is up to date.";
 
-			// Check if we have write access...
-			if(!General.CheckWritePremissions(General.AppPath))
-			{
-				string msg = "Cannot perform update: your user account does not have write access to the destination folder \"" + General.AppPath + "\"\n" 
-					+ "Move the editor to a folder with write access, or run it as Administrator.";
+        private static BackgroundWorker worker;
+        private static bool verbose;
 
-				if(verbosemode) General.ShowWarningMessage(msg, MessageBoxButtons.OK);
-				else General.ErrorLogger.Add(ErrorType.Error, msg);
-				return;
-			}
+        internal static void PerformCheck(bool verbosemode)
+        {
+            // Update check already runing?
+            if (worker != null && worker.IsBusy)
+            {
+                if (verbosemode) General.ShowWarningMessage("Update check is already running!", MessageBoxButtons.OK);
+                return;
+            }
 
-			// Start checking
-			verbose = verbosemode;
-			worker = new BackgroundWorker();
-			worker.DoWork += DoWork;
-			worker.RunWorkerCompleted += RunWorkerCompleted;
-			worker.WorkerSupportsCancellation = true;
-			worker.RunWorkerAsync();
+            // Check if we have write access...
+            if (!General.CheckWritePremissions(General.AppPath))
+            {
+                string msg = "Cannot perform update: your user account does not have write access to the destination folder \"" + General.AppPath + "\"\n"
+                    + "Move the editor to a folder with write access, or run it as Administrator.";
+
+                if (verbosemode) General.ShowWarningMessage(msg, MessageBoxButtons.OK);
+                else General.ErrorLogger.Add(ErrorType.Error, msg);
+                return;
+            }
+
+            // Start checking
+            verbose = verbosemode;
+            worker = new BackgroundWorker();
+            worker.DoWork += DoWork;
+            worker.RunWorkerCompleted += RunWorkerCompleted;
+            worker.WorkerSupportsCancellation = true;
+            worker.RunWorkerAsync();
         }
 
-		private static void DoWork(object sender, DoWorkEventArgs e)
-		{
+        private static void DoWork(object sender, DoWorkEventArgs e)
+        {
             try
             {
                 string updaterpath = Path.Combine(General.AppPath, "Updater.exe");
@@ -87,7 +87,7 @@ namespace CodeImp.DoomBuilder
                 string[] inilines = File.ReadAllLines(inipath);
                 foreach (string line in inilines)
                 {
-                    string cplatform = (Environment.Is64BitProcess ? "x64" : "x86");
+                    string cplatform = Environment.Is64BitProcess ? "x64" : "x86";
                     if (line.StartsWith("URL")) url = line.Substring(3).Trim();
                     else if (line.StartsWith("UpdaterName")) updaterpackname = line.Substring(11).Trim().Replace("[PLATFORM]", cplatform);
                 }
@@ -181,178 +181,178 @@ namespace CodeImp.DoomBuilder
             {
                 General.ErrorLogger.Add(ErrorType.Warning, string.Format("Update check failed:\n\n{0}", ex.ToString()));
             }
-		}
+        }
 
-		private static string UpdateUpdater(string url, string updaterpackname, int remoterev)
-		{
-			// Check if updater is running...
-			try
-			{
-				Process[] processes = Process.GetProcesses();
+        private static string UpdateUpdater(string url, string updaterpackname, int remoterev)
+        {
+            // Check if updater is running...
+            try
+            {
+                Process[] processes = Process.GetProcesses();
 
-				// Abort if it's running...
-				foreach(Process process in processes)
-				{
-					if(process.ProcessName == "Updater" &&
-					   Path.GetDirectoryName(process.MainModule.FileName) == Application.StartupPath)
-					{
-						return "Updater.exe is already running.";
-					}
-				}
-			}
-			catch(Exception e)
-			{
-				return "failed to check Updater process: " + e.Message;
-			}
+                // Abort if it's running...
+                foreach (Process process in processes)
+                {
+                    if (process.ProcessName == "Updater" &&
+                       Path.GetDirectoryName(process.MainModule.FileName) == Application.StartupPath)
+                    {
+                        return "Updater.exe is already running.";
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return "failed to check Updater process: " + e.Message;
+            }
 
-			// Check local revision
-			int localrev = FileVersionInfo.GetVersionInfo("Updater.exe").ProductPrivatePart;
-			if(localrev < remoterev)
-			{
-				// Download update
-				MemoryStream stream = DownloadWebFile(Path.Combine(url, updaterpackname));
-				if(stream == null)
-				{
-					return "failed to download Updater package.";
-				}
+            // Check local revision
+            int localrev = FileVersionInfo.GetVersionInfo("Updater.exe").ProductPrivatePart;
+            if (localrev < remoterev)
+            {
+                // Download update
+                MemoryStream stream = DownloadWebFile(Path.Combine(url, updaterpackname));
+                if (stream == null)
+                {
+                    return "failed to download Updater package.";
+                }
 
-				// Unpack update
-				try
-				{
-					using(SevenZipArchive arc = SevenZipArchive.Open(stream))
-					{
-						if(!arc.IsComplete) return "downloaded Updater package is not complete.";
-						IReader reader = arc.ExtractAllEntries();
+                // Unpack update
+                try
+                {
+                    using (SevenZipArchive arc = SevenZipArchive.Open(stream))
+                    {
+                        if (!arc.IsComplete) return "downloaded Updater package is not complete.";
+                        IReader reader = arc.ExtractAllEntries();
 
-						// Unpack all
-						while(reader.MoveToNextEntry())
-						{
-							if(reader.Entry.IsDirectory) continue; // Shouldn't be there, but who knows...
-							reader.WriteEntryToDirectory(General.AppPath, new ExtractionOptions() { ExtractFullPath = true, Overwrite = true });
-						}
-					}
-				}
-				catch(Exception e)
-				{
-					return "failed to unpack the Updater: " + e.Message;
-				}
-			}
+                        // Unpack all
+                        while (reader.MoveToNextEntry())
+                        {
+                            if (reader.Entry.IsDirectory) continue; // Shouldn't be there, but who knows...
+                            reader.WriteEntryToDirectory(General.AppPath, new ExtractionOptions() { ExtractFullPath = true, Overwrite = true });
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    return "failed to unpack the Updater: " + e.Message;
+                }
+            }
 
-			return string.Empty;
-		}
+            return string.Empty;
+        }
 
-		private static void ShowResult(string message)
-		{
-			if(!string.IsNullOrEmpty(message))
-			{
-				if(verbose)
-				{
-					if(General.MainWindow.InvokeRequired)
-						General.MainWindow.Invoke(new ShowWarningMessageDelegate(General.ShowWarningMessage), new object[] { message, MessageBoxButtons.OK });
-					else
-						General.ShowWarningMessage(message, MessageBoxButtons.OK);
-				}
-				else if(message != NO_UPDATE_REQUIRED)
-				{
-					General.ErrorLogger.Add(ErrorType.Error, message);
-				}
-			}
-		}
+        private static void ShowResult(string message)
+        {
+            if (!string.IsNullOrEmpty(message))
+            {
+                if (verbose)
+                {
+                    if (General.MainWindow.InvokeRequired)
+                        General.MainWindow.Invoke(new ShowWarningMessageDelegate(General.ShowWarningMessage), new object[] { message, MessageBoxButtons.OK });
+                    else
+                        General.ShowWarningMessage(message, MessageBoxButtons.OK);
+                }
+                else if (message != NO_UPDATE_REQUIRED)
+                {
+                    General.ErrorLogger.Add(ErrorType.Error, message);
+                }
+            }
+        }
 
-		private static void RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-		{
-			worker = null;
-		}
+        private static void RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            worker = null;
+        }
 
-		private static string GetChangelog(string url, int localrev)
-		{
-			StringBuilder sb = new StringBuilder(@"{\rtf1");
-			
-			using(MemoryStream stream = DownloadWebFile(Path.Combine(url, "Changelog.xml")))
-			{
-				if(stream == null) return string.Empty;
-				
-				XmlDocument doc = new XmlDocument();
-				doc.Load(stream);
+        private static string GetChangelog(string url, int localrev)
+        {
+            StringBuilder sb = new StringBuilder(@"{\rtf1");
 
-				// Revision infos go in descending order
-				if(doc.ChildNodes.Count == 0) return string.Empty;
-				foreach(XmlNode log in doc.ChildNodes)
-				{
-					if(log.ChildNodes.Count == 0) continue;
-					foreach(XmlNode logentry in log.ChildNodes)
-					{
-						if(logentry.Attributes == null) continue;
-						var revnode = logentry.Attributes.GetNamedItem("revision");
-						var comnode = logentry.Attributes.GetNamedItem("commit");
-						if(revnode == null || comnode == null) continue;
+            using (MemoryStream stream = DownloadWebFile(Path.Combine(url, "Changelog.xml")))
+            {
+                if (stream == null) return string.Empty;
 
-						int noderev;
-						if(!int.TryParse(revnode.Value, out noderev)) continue;
-						if(noderev <= localrev) break;
+                XmlDocument doc = new XmlDocument();
+                doc.Load(stream);
 
-						string commit = comnode.Value;
-						string message = string.Empty;
-						XmlNode msgnode = logentry["msg"];
-						if(msgnode != null) message = msgnode.InnerText.Trim().Replace(Environment.NewLine, @"\par ");
+                // Revision infos go in descending order
+                if (doc.ChildNodes.Count == 0) return string.Empty;
+                foreach (XmlNode log in doc.ChildNodes)
+                {
+                    if (log.ChildNodes.Count == 0) continue;
+                    foreach (XmlNode logentry in log.ChildNodes)
+                    {
+                        if (logentry.Attributes == null) continue;
+                        var revnode = logentry.Attributes.GetNamedItem("revision");
+                        var comnode = logentry.Attributes.GetNamedItem("commit");
+                        if (revnode == null || comnode == null) continue;
 
-						// Add info
-						sb.Append(@"{\b R")
-							.Append(noderev)
-							.Append(" | ")
-							.Append(commit)
-							.Append(@":}\par ")
-							.Append(message)
-							.Append(@"\par\par ");
-					}
-				}
-			}
+                        int noderev;
+                        if (!int.TryParse(revnode.Value, out noderev)) continue;
+                        if (noderev <= localrev) break;
 
-			sb.Append("}");
-			return sb.ToString();
-		}
+                        string commit = comnode.Value;
+                        string message = string.Empty;
+                        XmlNode msgnode = logentry["msg"];
+                        if (msgnode != null) message = msgnode.InnerText.Trim().Replace(Environment.NewLine, @"\par ");
 
-		private static MemoryStream DownloadWebFile(string url)
-		{
-			// Open a data stream from the supplied URL
-			WebRequest request = WebRequest.Create(url);
-			WebResponse response;
+                        // Add info
+                        sb.Append(@"{\b R")
+                            .Append(noderev)
+                            .Append(" | ")
+                            .Append(commit)
+                            .Append(@":}\par ")
+                            .Append(message)
+                            .Append(@"\par\par ");
+                    }
+                }
+            }
 
-			try
-			{
-				response = request.GetResponse();
-			}
-			catch(WebException /*e*/)
-			{
+            sb.Append("}");
+            return sb.ToString();
+        }
+
+        private static MemoryStream DownloadWebFile(string url)
+        {
+            // Open a data stream from the supplied URL
+            WebRequest request = WebRequest.Create(url);
+            WebResponse response;
+
+            try
+            {
+                response = request.GetResponse();
+            }
+            catch (WebException /*e*/)
+            {
                 //General.ErrorLogger.Add(ErrorType.Warning, e.ToString());
-				return null;
-			}
-			
-			Stream source = response.GetResponseStream();
-			if(source == null) return null;
+                return null;
+            }
 
-			// Download the data in chuncks
-			byte[] buffer = new byte[1024];
+            Stream source = response.GetResponseStream();
+            if (source == null) return null;
 
-			// Download the data
-			MemoryStream result = new MemoryStream();
-			while(!General.MainWindow.IsDisposed)
-			{
-				// Let's try and read the data
-				int numbytes = source.Read(buffer, 0, buffer.Length);
-				if(numbytes == 0) break; // Download complete
+            // Download the data in chuncks
+            byte[] buffer = new byte[1024];
 
-				// Write the downloaded data
-				result.Write(buffer, 0, numbytes);
-			}
+            // Download the data
+            MemoryStream result = new MemoryStream();
+            while (!General.MainWindow.IsDisposed)
+            {
+                // Let's try and read the data
+                int numbytes = source.Read(buffer, 0, buffer.Length);
+                if (numbytes == 0) break; // Download complete
 
-			// Release resources
-			source.Close();
+                // Write the downloaded data
+                result.Write(buffer, 0, numbytes);
+            }
 
-			// Rewind and return the stream
-			result.Position = 0;
-			return result;
-		}
+            // Release resources
+            source.Close();
+
+            // Rewind and return the stream
+            result.Position = 0;
+            return result;
+        }
 #endif
-	}
+    }
 }

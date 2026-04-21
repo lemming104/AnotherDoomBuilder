@@ -24,80 +24,80 @@ using System.IO;
 
 namespace CodeImp.DoomBuilder.Data
 {
-	internal class SimpleTextureImage : ImageData
-	{
-		#region ================== Constants
+    internal class SimpleTextureImage : ImageData
+    {
+        #region ================== Constants
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		private readonly string lumpname;
+        private readonly string lumpname;
 
-		#endregion
+        #endregion
 
-		#region ================== Constructor / Disposer
+        #region ================== Constructor / Disposer
 
-		// Constructor
-		public SimpleTextureImage(string name, string lumpname, float scalex, float scaley)
-		{
-			// Initialize
-			this.scale.x = scalex;
-			this.scale.y = scaley;
-			this.lumpname = lumpname;
-			texturenamespace = TextureNamespace.TEXTURE;
-			SetName(name);
-			virtualname = "[Textures]/" + this.name; //mxd
-			
-			// We have no destructor
-			GC.SuppressFinalize(this);
-		}
+        // Constructor
+        public SimpleTextureImage(string name, string lumpname, float scalex, float scaley)
+        {
+            // Initialize
+            this.scale.x = scalex;
+            this.scale.y = scaley;
+            this.lumpname = lumpname;
+            texturenamespace = TextureNamespace.TEXTURE;
+            SetName(name);
+            virtualname = "[Textures]/" + this.name; //mxd
 
-		#endregion
+            // We have no destructor
+            GC.SuppressFinalize(this);
+        }
 
-		#region ================== Methods
+        #endregion
 
-		// This loads the image
-		protected override LocalLoadResult LocalLoadImage()
-		{
-			// Get the patch data stream
-			Bitmap bitmap = null;
+        #region ================== Methods
+
+        // This loads the image
+        protected override LocalLoadResult LocalLoadImage()
+        {
+            // Get the patch data stream
+            Bitmap bitmap = null;
             string error = null;
-			string patchlocation = string.Empty; //mxd
-			Stream patchdata = General.Map.Data.GetTextureData(lumpname, hasLongName, ref patchlocation);
-			if(patchdata != null)
-			{
-				// Copy patch data to memory
-				byte[] membytes = new byte[(int)patchdata.Length];
+            string patchlocation = string.Empty; //mxd
+            Stream patchdata = General.Map.Data.GetTextureData(lumpname, hasLongName, ref patchlocation);
+            if (patchdata != null)
+            {
+                // Copy patch data to memory
+                byte[] membytes = new byte[(int)patchdata.Length];
 
-				lock(patchdata) //mxd
-				{
-					patchdata.Seek(0, SeekOrigin.Begin);
-					patchdata.Read(membytes, 0, (int)patchdata.Length);
-				}
-					
-				MemoryStream mem = new MemoryStream(membytes);
-				mem.Seek(0, SeekOrigin.Begin);
+                lock (patchdata) //mxd
+                {
+                    patchdata.Seek(0, SeekOrigin.Begin);
+                    patchdata.Read(membytes, 0, (int)patchdata.Length);
+                }
 
-				bitmap = ImageDataFormat.TryLoadImage(mem, ImageDataFormat.DOOMPICTURE, General.Map.Data.Palette);
+                MemoryStream mem = new MemoryStream(membytes);
+                mem.Seek(0, SeekOrigin.Begin);
 
-				// Not loaded?
-				if(bitmap == null)
-				{
-					error = "Image lump \"" + Path.Combine(patchlocation, lumpname) + "\" data format could not be read, while loading texture \"" + this.Name + "\". Does this lump contain valid picture data at all?";
-				}
+                bitmap = ImageDataFormat.TryLoadImage(mem, ImageDataFormat.DOOMPICTURE, General.Map.Data.Palette);
 
-				// Done
-				mem.Dispose();
-			}
-			else
-			{
-				error = "Image lump \"" + lumpname + "\" could not be found, while loading texture \"" + this.Name + "\". Did you forget to include required resources?";
-			}
-				
-			return new LocalLoadResult(bitmap, error);
-		}
-		
-		#endregion
-	}
+                // Not loaded?
+                if (bitmap == null)
+                {
+                    error = "Image lump \"" + Path.Combine(patchlocation, lumpname) + "\" data format could not be read, while loading texture \"" + this.Name + "\". Does this lump contain valid picture data at all?";
+                }
+
+                // Done
+                mem.Dispose();
+            }
+            else
+            {
+                error = "Image lump \"" + lumpname + "\" could not be found, while loading texture \"" + this.Name + "\". Did you forget to include required resources?";
+            }
+
+            return new LocalLoadResult(bitmap, error);
+        }
+
+        #endregion
+    }
 }

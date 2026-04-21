@@ -16,100 +16,92 @@
 
 #region ================== Namespaces
 
-using System;
-using System.Text;
-using System.IO;
 using CodeImp.DoomBuilder.Data;
+using System;
+using System.IO;
+using System.Text;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.IO
 {
-	public class Lump : IDisposable
-	{
-		#region ================== Methods
+    public class Lump : IDisposable
+    {
+        #region ================== Methods
 
-		// Allowed characters in a map lump name
-		internal const string MAP_LUMP_NAME_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_";
+        // Allowed characters in a map lump name
+        internal const string MAP_LUMP_NAME_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_";
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		// Owner
-		private WAD owner;
-		
-		// Data stream
-		private readonly ClippedStream stream;
-		
-		// Data info
-		private string name;
-		private long longname;
-		private byte[] fixedname;
-		private readonly int offset;
-		private readonly int length;
+        // Owner
 
-		// Disposing
-		private bool isdisposed;
+        // Data stream
 
-		#endregion
+        // Data info
 
-		#region ================== Properties
+        // Disposing
 
-		internal WAD Owner { get { return owner; } }
-		internal string Name { get { return name; } }
-		internal long LongName { get { return longname; } }
-		internal byte[] FixedName { get { return fixedname; } }
-		internal int Offset { get { return offset; } }
-		internal int Length { get { return length; } }
-		internal ClippedStream Stream { get { return stream; } }
-		internal bool IsDisposed { get { return isdisposed; } }
+        #endregion
+
+        #region ================== Properties
+
+        internal WAD Owner { get; private set; }
+        internal string Name { get; private set; }
+        internal long LongName { get; private set; }
+        internal byte[] FixedName { get; private set; }
+        internal int Offset { get; }
+        internal int Length { get; }
+        internal ClippedStream Stream { get; }
+        internal bool IsDisposed { get; private set; }
 
 
-		#endregion
+        #endregion
 
-		#region ================== Constructor / Disposer
+        #region ================== Constructor / Disposer
 
-		// Constructor
-		internal Lump(Stream data, WAD owner, byte[] fixedname, int offset, int length)
-		{
-			// Initialize
-			this.stream = new ClippedStream(data, offset, length);
-			this.owner = owner;
-			this.fixedname = fixedname;
-			this.offset = offset;
-			this.length = length;
+        // Constructor
+        internal Lump(Stream data, WAD owner, byte[] fixedname, int offset, int length)
+        {
+            // Initialize
+            this.Stream = new ClippedStream(data, offset, length);
+            this.Owner = owner;
+            this.FixedName = fixedname;
+            this.Offset = offset;
+            this.Length = length;
 
-			// Make name
-			this.name = MakeNormalName(fixedname, WAD.ENCODING).ToUpperInvariant();
-			this.fixedname = MakeFixedName(name, WAD.ENCODING);
-			this.longname = MakeLongName(name, false); //mxd
-			
-			// We have no destructor
-			GC.SuppressFinalize(this);
-		}
+            // Make name
+            this.Name = MakeNormalName(fixedname, WAD.ENCODING).ToUpperInvariant();
+            this.FixedName = MakeFixedName(Name, WAD.ENCODING);
+            this.LongName = MakeLongName(Name, false); //mxd
 
-		// Disposer
-		public void Dispose()
-		{
-			// Not already disposed?
-			if(!isdisposed)
-			{
-				// Clean up
-				stream.Dispose();
-				owner = null;
+            // We have no destructor
+            GC.SuppressFinalize(this);
+        }
 
-				// Done
-				isdisposed = true;
-			}
-		}
+        // Disposer
+        public void Dispose()
+        {
+            // Not already disposed?
+            if (!IsDisposed)
+            {
+                // Clean up
+                Stream.Dispose();
+                Owner = null;
 
-		#endregion
+                // Done
+                IsDisposed = true;
+            }
+        }
 
-		#region ================== Methods
+        #endregion
 
-		// This returns the long value for a 8 byte texture name
-		/*public static unsafe long MakeLongName(string name)
+        #region ================== Methods
+
+        // This returns the long value for a 8 byte texture name
+        /*public static unsafe long MakeLongName(string name)
 		{
 			long value = 0;
 			byte[] namebytes = Encoding.ASCII.GetBytes(name.Trim().ToUpper());
@@ -124,103 +116,103 @@ namespace CodeImp.DoomBuilder.IO
 			return value;
 		}*/
 
-		//mxd. This returns (hopefully) unique hash value for a texture name of any length
-		public static long MakeLongName(string name)
-		{
-			return MakeLongName(name, General.Map != null && General.Map.Config != null &&  General.Map.Config.UseLongTextureNames);
-		}
+        //mxd. This returns (hopefully) unique hash value for a texture name of any length
+        public static long MakeLongName(string name)
+        {
+            return MakeLongName(name, General.Map != null && General.Map.Config != null && General.Map.Config.UseLongTextureNames);
+        }
 
-		//mxd. This returns (hopefully) unique hash value for a texture name of any length
-		public static long MakeLongName(string name, bool uselongnames)
-		{
-			// biwa. is using ToUpper a good idea? Will result in clashes with same names with different cases
-			name = name.ToUpper();
-			if (!uselongnames && name.Length > DataManager.CLASIC_IMAGE_NAME_LENGTH)
-			{
-				name = name.Substring(0, DataManager.CLASIC_IMAGE_NAME_LENGTH);
-			}
-			return MurmurHash2.Hash(name);
-		}
-		
-		// This makes the normal name from fixed name
-		public static string MakeNormalName(byte[] fixedname, Encoding encoding)
-		{
-			int length = 0;
-			
-			// Figure out the length of the lump name
-			while((length < fixedname.Length) && (fixedname[length] != 0)) length++;
-			
-			// Make normal name
-			return encoding.GetString(fixedname, 0, length).Trim().ToUpper();
-		}
+        //mxd. This returns (hopefully) unique hash value for a texture name of any length
+        public static long MakeLongName(string name, bool uselongnames)
+        {
+            // biwa. is using ToUpper a good idea? Will result in clashes with same names with different cases
+            name = name.ToUpper();
+            if (!uselongnames && name.Length > DataManager.CLASIC_IMAGE_NAME_LENGTH)
+            {
+                name = name.Substring(0, DataManager.CLASIC_IMAGE_NAME_LENGTH);
+            }
+            return MurmurHash2.Hash(name);
+        }
 
-		// This makes the fixed name from normal name
-		public static byte[] MakeFixedName(string name, Encoding encoding)
-		{
-			// Make uppercase name and count bytes
-			string uppername = name.Trim().ToUpper();
-			int bytes = encoding.GetByteCount(uppername);
-			if(bytes < 8) bytes = 8;
-			
-			// Make 8 bytes, all zeros
-			byte[] fixedname = new byte[bytes];
+        // This makes the normal name from fixed name
+        public static string MakeNormalName(byte[] fixedname, Encoding encoding)
+        {
+            int length = 0;
 
-			// Write the name in bytes
-			encoding.GetBytes(uppername, 0, uppername.Length, fixedname, 0);
+            // Figure out the length of the lump name
+            while ((length < fixedname.Length) && (fixedname[length] != 0)) length++;
 
-			// Return result
-			return fixedname;
-		}
+            // Make normal name
+            return encoding.GetString(fixedname, 0, length).Trim().ToUpper();
+        }
 
-		// This copies lump data to another lump
-		internal void CopyTo(Lump lump)
-		{
-			// Create a reader
-			BinaryReader reader = new BinaryReader(stream);
+        // This makes the fixed name from normal name
+        public static byte[] MakeFixedName(string name, Encoding encoding)
+        {
+            // Make uppercase name and count bytes
+            string uppername = name.Trim().ToUpper();
+            int bytes = encoding.GetByteCount(uppername);
+            if (bytes < 8) bytes = 8;
 
-			// Copy bytes over
-			stream.Seek(0, SeekOrigin.Begin);
-			lump.Stream.Write(reader.ReadBytes((int)stream.Length), 0, (int)stream.Length);
-		}
-		
-		// String representation
-		public override string ToString()
-		{
-			return name;
-		}
-		
-		// This renames the lump
-		internal void Rename(string newname)
-		{
-			// Make name
-			this.fixedname = MakeFixedName(newname, WAD.ENCODING);
-			this.name = MakeNormalName(this.fixedname, WAD.ENCODING).ToUpperInvariant();
-			this.longname = MakeLongName(newname);
+            // Make 8 bytes, all zeros
+            byte[] fixedname = new byte[bytes];
 
-			// Write changes
-			owner.WriteHeaders();
-		}
+            // Write the name in bytes
+            encoding.GetBytes(uppername, 0, uppername.Length, fixedname, 0);
+
+            // Return result
+            return fixedname;
+        }
+
+        // This copies lump data to another lump
+        internal void CopyTo(Lump lump)
+        {
+            // Create a reader
+            BinaryReader reader = new BinaryReader(Stream);
+
+            // Copy bytes over
+            Stream.Seek(0, SeekOrigin.Begin);
+            lump.Stream.Write(reader.ReadBytes((int)Stream.Length), 0, (int)Stream.Length);
+        }
+
+        // String representation
+        public override string ToString()
+        {
+            return Name;
+        }
+
+        // This renames the lump
+        internal void Rename(string newname)
+        {
+            // Make name
+            this.FixedName = MakeFixedName(newname, WAD.ENCODING);
+            this.Name = MakeNormalName(this.FixedName, WAD.ENCODING).ToUpperInvariant();
+            this.LongName = MakeLongName(newname);
+
+            // Write changes
+            Owner.WriteHeaders();
+        }
 
         // [ZZ] this function is thread safe.
         //      it produces a MemoryStream with copied contents of Stream.
         public Stream GetSafeStream()
         {
-            if (stream == null || stream.BaseStream == null)
+            if (Stream == null || Stream.BaseStream == null)
                 return null;
 
             // create new stream. do NOT return the WAD stream. This causes problems with multithreading, and other readers create a MemoryStream.
             byte[] data;
-            lock (stream.BaseStream)
+            lock (Stream.BaseStream)
             {
-                stream.Position = 0;
-                data = stream.ReadAllBytes();
+                Stream.Position = 0;
+                data = Stream.ReadAllBytes();
             }
 
             MemoryStream ms = new MemoryStream(data);
             ms.Position = 0;
             return ms;
         }
-		
-		#endregion
-	}
+
+        #endregion
+    }
 }

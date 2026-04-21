@@ -16,244 +16,238 @@
 
 #region ================== Namespaces
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 
 #endregion
 
 namespace CodeImp.DoomBuilder
 {
-	#region ================== ErrorItem (mxd)
+    #region ================== ErrorItem (mxd)
 
-	public class ErrorItem
-	{
-		protected ErrorType type;
-		protected string description;
-		protected Image icon;
-		
-		public ErrorType Type { get { return type; } }
-		public string Description { get { return description; } }
-		public Image Icon { get { return icon; } }
-		internal virtual bool IsShowable { get { return false; } }
+    public class ErrorItem
+    {
+        protected ErrorType type;
+        protected string description;
+        protected Image icon;
 
-		public ErrorItem(ErrorType type, string description)
-		{
-			this.type = type;
-			this.description = description;
-			this.icon = GetIcon();
-		}
+        public ErrorType Type { get { return type; } }
+        public string Description { get { return description; } }
+        public Image Icon { get { return icon; } }
+        internal virtual bool IsShowable { get { return false; } }
 
-		protected virtual Image GetIcon()
-		{
-			return (type == ErrorType.Error ? Properties.Resources.ErrorLarge : Properties.Resources.WarningLarge);
-		}
+        public ErrorItem(ErrorType type, string description)
+        {
+            this.type = type;
+            this.description = description;
+            this.icon = GetIcon();
+        }
 
-		internal virtual void ShowSource() { }
-	}
+        protected virtual Image GetIcon()
+        {
+            return type == ErrorType.Error ? Properties.Resources.ErrorLarge : Properties.Resources.WarningLarge;
+        }
 
-	#endregion
+        internal virtual void ShowSource() { }
+    }
 
-	#region ================== MapElementErrorItem (mxd)
+    #endregion
 
-	public class MapElementErrorItem : ErrorItem
-	{
-		private MapElement target;
-		private RectangleF zoomarea;
-		private string targetmodename;
+    #region ================== MapElementErrorItem (mxd)
 
-		internal override bool IsShowable { get { return true; } }
+    public class MapElementErrorItem : ErrorItem
+    {
+        private MapElement target;
+        private RectangleF zoomarea;
+        private string targetmodename;
 
-		public MapElementErrorItem(ErrorType type, MapElement target, string description) : base(type, description)
-		{
-			this.target = target;
+        internal override bool IsShowable { get { return true; } }
 
-			// Calculate zoom area
-			List<Vector2D> points = new List<Vector2D>();
-			RectangleF area = MapSet.CreateEmptyArea();
+        public MapElementErrorItem(ErrorType type, MapElement target, string description) : base(type, description)
+        {
+            this.target = target;
 
-			// Add all points to a list
-			if(target is Vertex)
-			{
-				points.Add((target as Vertex).Position);
-				targetmodename = "VerticesMode";
-			}
-			else if(target is Linedef)
-			{
-				points.Add((target as Linedef).Start.Position);
-				points.Add((target as Linedef).End.Position);
-				targetmodename = "LinedefsMode";
-			}
-			else if(target is Sidedef)
-			{
-				points.Add((target as Sidedef).Line.Start.Position);
-				points.Add((target as Sidedef).Line.End.Position);
-				targetmodename = "LinedefsMode";
-			}
-			else if(target is Sector)
-			{
-				Sector s = (target as Sector);
-				foreach(Sidedef sd in s.Sidedefs)
-				{
-					points.Add(sd.Line.Start.Position);
-					points.Add(sd.Line.End.Position);
-				}
-				targetmodename = "SectorsMode";
-			}
-			else if(target is Thing)
-			{
-				Thing t = (target as Thing);
-				Vector2D p = t.Position;
-				points.Add(p);
-				points.Add(p + new Vector2D(t.Size * 2.0f, t.Size * 2.0f));
-				points.Add(p + new Vector2D(t.Size * 2.0f, -t.Size * 2.0f));
-				points.Add(p + new Vector2D(-t.Size * 2.0f, t.Size * 2.0f));
-				points.Add(p + new Vector2D(-t.Size * 2.0f, -t.Size * 2.0f));
-				targetmodename = "ThingsMode";
-			}
-			else
-			{
-				General.Fail("Unknown object given to zoom in on.");
-			}
+            // Calculate zoom area
+            List<Vector2D> points = new List<Vector2D>();
+            RectangleF area = MapSet.CreateEmptyArea();
 
-			// Make a view area from the points
-			foreach(Vector2D p in points)
-				area = MapSet.IncreaseArea(area, p);
+            // Add all points to a list
+            if (target is Vertex)
+            {
+                points.Add((target as Vertex).Position);
+                targetmodename = "VerticesMode";
+            }
+            else if (target is Linedef)
+            {
+                points.Add((target as Linedef).Start.Position);
+                points.Add((target as Linedef).End.Position);
+                targetmodename = "LinedefsMode";
+            }
+            else if (target is Sidedef)
+            {
+                points.Add((target as Sidedef).Line.Start.Position);
+                points.Add((target as Sidedef).Line.End.Position);
+                targetmodename = "LinedefsMode";
+            }
+            else if (target is Sector)
+            {
+                Sector s = target as Sector;
+                foreach (Sidedef sd in s.Sidedefs)
+                {
+                    points.Add(sd.Line.Start.Position);
+                    points.Add(sd.Line.End.Position);
+                }
+                targetmodename = "SectorsMode";
+            }
+            else if (target is Thing)
+            {
+                Thing t = target as Thing;
+                Vector2D p = t.Position;
+                points.Add(p);
+                points.Add(p + new Vector2D(t.Size * 2.0f, t.Size * 2.0f));
+                points.Add(p + new Vector2D(t.Size * 2.0f, -t.Size * 2.0f));
+                points.Add(p + new Vector2D(-t.Size * 2.0f, t.Size * 2.0f));
+                points.Add(p + new Vector2D(-t.Size * 2.0f, -t.Size * 2.0f));
+                targetmodename = "ThingsMode";
+            }
+            else
+            {
+                General.Fail("Unknown object given to zoom in on.");
+            }
 
-			// Make the area square, using the largest side
-			if(area.Width > area.Height)
-			{
-				float delta = area.Width - area.Height;
-				area.Y -= delta * 0.5f;
-				area.Height += delta;
-			}
-			else
-			{
-				float delta = area.Height - area.Width;
-				area.X -= delta * 0.5f;
-				area.Width += delta;
-			}
+            // Make a view area from the points
+            foreach (Vector2D p in points)
+                area = MapSet.IncreaseArea(area, p);
 
-			// Add padding
-			area.Inflate(100f, 100f);
+            // Make the area square, using the largest side
+            if (area.Width > area.Height)
+            {
+                float delta = area.Width - area.Height;
+                area.Y -= delta * 0.5f;
+                area.Height += delta;
+            }
+            else
+            {
+                float delta = area.Height - area.Width;
+                area.X -= delta * 0.5f;
+                area.Width += delta;
+            }
 
-			// Store
-			this.zoomarea = area;
-		}
+            // Add padding
+            area.Inflate(100f, 100f);
 
-		internal override void ShowSource()
-		{
-			// Switch to appropriate mode...
-			if(General.Editing.Mode.GetType().Name != targetmodename)
-			{
-				// Leave any volatile mode
-				General.Editing.CancelVolatileMode();
-				General.Editing.ChangeMode(targetmodename);
-			}
+            // Store
+            this.zoomarea = area;
+        }
 
-			// Select map element if it still exists
-			if(target != null && !target.IsDisposed)
-			{
-				General.Map.Map.ClearAllSelected();
-				
-				if(target is Vertex)
-				{
-					((Vertex)target).Selected = true;
-				}
-				else if(target is Sidedef)
-				{
-					((Sidedef)target).Line.Selected = true;
-				}
-				else if(target is Linedef)
-				{
-					((Linedef)target).Selected = true;
-				}
-				else if(target is Sector)
-				{
-					Sector s = (Sector)target;
-					((ClassicMode)General.Editing.Mode).SelectMapElement(s);
-					foreach(Sidedef sd in s.Sidedefs) sd.Line.Selected = true;
-				}
-				else if(target is Thing)
-				{
-					((Thing)target).Selected = true;
-				}
-				else
-				{
-					throw new NotImplementedException("Unknown MapElement type!");
-				}
-			}
+        internal override void ShowSource()
+        {
+            // Switch to appropriate mode...
+            if (General.Editing.Mode.GetType().Name != targetmodename)
+            {
+                // Leave any volatile mode
+                General.Editing.CancelVolatileMode();
+                General.Editing.ChangeMode(targetmodename);
+            }
 
-			// Show area
-			ClassicMode editmode = (General.Editing.Mode as ClassicMode);
-			editmode.CenterOnArea(zoomarea, 0.6f);
-		}
+            // Select map element if it still exists
+            if (target != null && !target.IsDisposed)
+            {
+                General.Map.Map.ClearAllSelected();
 
-		protected override Image GetIcon()
-		{
-			return (type == ErrorType.Error ? Properties.Resources.ErrorLargeMapObject : Properties.Resources.WarningLargeMapObject);
-		}
-	}
+                if (target is Vertex)
+                {
+                    ((Vertex)target).Selected = true;
+                }
+                else if (target is Sidedef)
+                {
+                    ((Sidedef)target).Line.Selected = true;
+                }
+                else if (target is Linedef)
+                {
+                    ((Linedef)target).Selected = true;
+                }
+                else if (target is Sector)
+                {
+                    Sector s = (Sector)target;
+                    ((ClassicMode)General.Editing.Mode).SelectMapElement(s);
+                    foreach (Sidedef sd in s.Sidedefs) sd.Line.Selected = true;
+                }
+                else if (target is Thing)
+                {
+                    ((Thing)target).Selected = true;
+                }
+                else
+                {
+                    throw new NotImplementedException("Unknown MapElement type!");
+                }
+            }
 
-	#endregion 
+            // Show area
+            ClassicMode editmode = General.Editing.Mode as ClassicMode;
+            editmode.CenterOnArea(zoomarea, 0.6f);
+        }
 
-	#region ================== TextResourceErrorItem (mxd)
+        protected override Image GetIcon()
+        {
+            return type == ErrorType.Error ? Properties.Resources.ErrorLargeMapObject : Properties.Resources.WarningLargeMapObject;
+        }
+    }
 
-	public class TextResourceErrorItem : ErrorItem
-	{
-		private string resourcelocation;
-		private ScriptType scripttype;
-		private string lumpname;
-		private int lumpindex;
-		private int linenumber;
+    #endregion
 
-		public string ResourceLocation { get { return resourcelocation; } }
-		public ScriptType ScriptType { get { return scripttype; } }
-		public string LumpName { get { return lumpname; } }
-		public int LumpIndex { get { return lumpindex; } }
-		public int LineNumber { get { return linenumber; } }
+    #region ================== TextResourceErrorItem (mxd)
 
-		internal override bool IsShowable { get { return true; } }
+    public class TextResourceErrorItem : ErrorItem
+    {
+        public string ResourceLocation { get; }
+        public ScriptType ScriptType { get; }
+        public string LumpName { get; }
+        public int LumpIndex { get; }
+        public int LineNumber { get; }
 
-		internal TextResourceErrorItem(ErrorType type, ScriptType scripttype, DataLocation resourcelocation, string lumpname, int lumpindex, int linenumber, string description)
-			: base(type, description)
-		{
-			this.resourcelocation = resourcelocation.location;
-			this.scripttype = scripttype;
-			this.lumpname = lumpname;
-			this.lumpindex = lumpindex;
-			this.linenumber = linenumber;
-		}
+        internal override bool IsShowable { get { return true; } }
 
-		internal override void ShowSource()
-		{
-			// Only when a map is loaded
-			if(General.Map == null || General.Map.Data == null) return;
+        internal TextResourceErrorItem(ErrorType type, ScriptType scripttype, DataLocation resourcelocation, string lumpname, int lumpindex, int linenumber, string description)
+            : base(type, description)
+        {
+            this.ResourceLocation = resourcelocation.location;
+            this.ScriptType = scripttype;
+            this.LumpName = lumpname;
+            this.LumpIndex = lumpindex;
+            this.LineNumber = linenumber;
+        }
 
-			// Show Script Editor
-			General.Map.ShowScriptEditor();
+        internal override void ShowSource()
+        {
+            // Only when a map is loaded
+            if (General.Map == null || General.Map.Data == null) return;
 
-			// Show in ScriptEditor
-			General.Map.ScriptEditor.DisplayError(this);
-		}
+            // Show Script Editor
+            General.Map.ShowScriptEditor();
 
-		protected override Image GetIcon()
-		{
-			return (type == ErrorType.Error ? Properties.Resources.ErrorLargeText : Properties.Resources.WarningLargeText);
-		}
-	}
-		
+            // Show in ScriptEditor
+            General.Map.ScriptEditor.DisplayError(this);
+        }
 
-	#endregion
+        protected override Image GetIcon()
+        {
+            return type == ErrorType.Error ? Properties.Resources.ErrorLargeText : Properties.Resources.WarningLargeText;
+        }
+    }
 
-	#region ================== TextFileErrorItem (mxd)
 
-	/*public class TextFileErrorItem : ErrorItem
+    #endregion
+
+    #region ================== TextFileErrorItem (mxd)
+
+    /*public class TextFileErrorItem : ErrorItem
 	{
 		private string filepathname;
 		private ScriptType scripttype;
@@ -291,22 +285,22 @@ namespace CodeImp.DoomBuilder
 		}
 	}*/
 
-	#endregion
+    #endregion
 
-	#region ================== ErrorType
+    #region ================== ErrorType
 
-	public enum ErrorType
-	{
-		/// <summary>
-		/// This indicates a significant error that may cause problems for the data displayed or editing behaviour.
-		/// </summary>
-		Error,
-		
-		/// <summary>
-		/// This indicates a potential problem.
-		/// </summary>
-		Warning
-	}
+    public enum ErrorType
+    {
+        /// <summary>
+        /// This indicates a significant error that may cause problems for the data displayed or editing behaviour.
+        /// </summary>
+        Error,
 
-	#endregion
+        /// <summary>
+        /// This indicates a potential problem.
+        /// </summary>
+        Warning
+    }
+
+    #endregion
 }

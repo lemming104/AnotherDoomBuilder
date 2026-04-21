@@ -34,134 +34,134 @@ using System.Collections.Generic;
 
 namespace CodeImp.DoomBuilder.BlockmapExplorer
 {
-	internal class BlockmapData
-	{
-		public Vector2D Offset;
-		public int NumRows;
-		public int NumCols;
-		public ConcurrentDictionary<int, BlockmapBlockList> Blocks;
-		public int[,] BlockPointers;
-		public long LumpSize;
+    internal class BlockmapData
+    {
+        public Vector2D Offset;
+        public int NumRows;
+        public int NumCols;
+        public ConcurrentDictionary<int, BlockmapBlockList> Blocks;
+        public int[,] BlockPointers;
+        public long LumpSize;
 
-		/// <summary>
-		/// Returns the column and row of the block that contains the given position, or (-1, -1) if the position is outside the blockmap.
-		/// </summary>
-		/// <param name="position">Map position to check</param>
-		/// <returns>A tuple of the column and row of the block that contains the position, or (-1, -1) if the position is outside the blockmap</returns>
-		public (int, int) GetColumnAndRowByPosition(Vector2D position)
-		{
-			if (position.x < Offset.x || position.y < Offset.y || position.x > Offset.x + NumCols * 128 || position.y > Offset.y + NumRows * 128)
-				return (-1, -1);
+        /// <summary>
+        /// Returns the column and row of the block that contains the given position, or (-1, -1) if the position is outside the blockmap.
+        /// </summary>
+        /// <param name="position">Map position to check</param>
+        /// <returns>A tuple of the column and row of the block that contains the position, or (-1, -1) if the position is outside the blockmap</returns>
+        public (int, int) GetColumnAndRowByPosition(Vector2D position)
+        {
+            if (position.x < Offset.x || position.y < Offset.y || position.x > Offset.x + (NumCols * 128) || position.y > Offset.y + (NumRows * 128))
+                return (-1, -1);
 
-			int row = (int)(position.y - Offset.y) / 128;
-			int col = (int)(position.x - Offset.x) / 128;
+            int row = (int)(position.y - Offset.y) / 128;
+            int col = (int)(position.x - Offset.x) / 128;
 
-			return (row, col);
-		}
+            return (row, col);
+        }
 
-		/// <summary>
-		/// Gets the list of linedef indexes for the block at the given column and row, or an empty list if the column and row are out of bounds or if the block is empty.
-		/// </summary>
-		/// <param name="col">The column of the block</param>
-		/// <param name="row">The row of the block</param>
-		/// <returns>A list of linedef indexes for the block, or an empty list if the block is out of bounds or empty</returns>
-		public List<int> GetLinesInBlock(int col, int row)
-		{
-			if (col < 0 || row < 0 || col >= NumCols || row >= NumRows || BlockPointers[col, row] == -1)
-				return new List<int>();
+        /// <summary>
+        /// Gets the list of linedef indexes for the block at the given column and row, or an empty list if the column and row are out of bounds or if the block is empty.
+        /// </summary>
+        /// <param name="col">The column of the block</param>
+        /// <param name="row">The row of the block</param>
+        /// <returns>A list of linedef indexes for the block, or an empty list if the block is out of bounds or empty</returns>
+        public List<int> GetLinesInBlock(int col, int row)
+        {
+            if (col < 0 || row < 0 || col >= NumCols || row >= NumRows || BlockPointers[col, row] == -1)
+                return new List<int>();
 
-			return Blocks[BlockPointers[col, row]].LinedefIndexes;
-		}
+            return Blocks[BlockPointers[col, row]].LinedefIndexes;
+        }
 
-		/// <summary>
-		/// Gets the column and row of all blocks that share the same block list as the block at the given column and row, or an empty list if the column and row are out of bounds or if the block is empty.
-		/// </summary>
-		/// <param name="col">The column of the block</param>
-		/// <param name="row">The row of the block</param>
-		/// <returns>A list of tuples containing the column and row of all blocks that share the same block list, or an empty list if the block is out of bounds or empty</returns>
-		public List<(int, int)> GetSharedBlocks(int col, int row)
-		{
-			List<(int, int)> sharedBlocks = new List<(int, int)>();
-			
-			int offset = BlockPointers[col, row];
+        /// <summary>
+        /// Gets the column and row of all blocks that share the same block list as the block at the given column and row, or an empty list if the column and row are out of bounds or if the block is empty.
+        /// </summary>
+        /// <param name="col">The column of the block</param>
+        /// <param name="row">The row of the block</param>
+        /// <returns>A list of tuples containing the column and row of all blocks that share the same block list, or an empty list if the block is out of bounds or empty</returns>
+        public List<(int, int)> GetSharedBlocks(int col, int row)
+        {
+            List<(int, int)> sharedBlocks = new List<(int, int)>();
 
-			if (offset < 0)
-				return sharedBlocks;
+            int offset = BlockPointers[col, row];
 
-			for (int r = 0; r < NumRows; r++)
-			{
-				for (int c = 0; c < NumCols; c++)
-				{
-					if (BlockPointers[c, r] == offset)
-						sharedBlocks.Add((c, r));
-				}
-			}
+            if (offset < 0)
+                return sharedBlocks;
 
-			return sharedBlocks;
-		}
+            for (int r = 0; r < NumRows; r++)
+            {
+                for (int c = 0; c < NumCols; c++)
+                {
+                    if (BlockPointers[c, r] == offset)
+                        sharedBlocks.Add((c, r));
+                }
+            }
 
-		/// <summary>
-		/// Gets the column and row of all blocks that have a block list offset that is less than the starting offset of the block lists, which indicates that they may be invalid or corrupted.
-		/// </summary>
-		/// <returns>A list of tuples containing the column and row of all questionable blocks</returns>
-		public List<(int, int)> GetQuestionableBlocks()
-		{
-			int startBlocklistOffset = 8 + 2 * NumCols * NumRows; // header + block list offsets
-			List<(int, int)> questionableBlocks = new List<(int, int)>();
+            return sharedBlocks;
+        }
 
-			for (int row = 0; row < NumRows; row++)
-			{
-				for (int col = 0; col < NumCols; col++)
-				{
-					if (BlockPointers[col, row] < startBlocklistOffset)
-						questionableBlocks.Add((col, row));
-				}
-			}
+        /// <summary>
+        /// Gets the column and row of all blocks that have a block list offset that is less than the starting offset of the block lists, which indicates that they may be invalid or corrupted.
+        /// </summary>
+        /// <returns>A list of tuples containing the column and row of all questionable blocks</returns>
+        public List<(int, int)> GetQuestionableBlocks()
+        {
+            int startBlocklistOffset = 8 + (2 * NumCols * NumRows); // header + block list offsets
+            List<(int, int)> questionableBlocks = new List<(int, int)>();
 
-			return questionableBlocks;
-		}
-		
-		/// <summary>
-		/// Gets the number of block list offsets that are less than the starting offset of the block lists, which indicates that they may be invalid or corrupted.
-		/// </summary>
-		/// <returns>The number of questionable block list offsets</returns>
-		public int GetQuestionableOffsetCount()
-		{
-			int startBlocklistOffset = 8 + 2 * NumCols * NumRows; // header + block list offsets
-			int questionableOffsets = 0;
+            for (int row = 0; row < NumRows; row++)
+            {
+                for (int col = 0; col < NumCols; col++)
+                {
+                    if (BlockPointers[col, row] < startBlocklistOffset)
+                        questionableBlocks.Add((col, row));
+                }
+            }
 
-			foreach (int offset in BlockPointers)
-			{
-				if (offset < startBlocklistOffset)
-					questionableOffsets++;
-			}
+            return questionableBlocks;
+        }
 
-			return questionableOffsets;
-		}
+        /// <summary>
+        /// Gets the number of block list offsets that are less than the starting offset of the block lists, which indicates that they may be invalid or corrupted.
+        /// </summary>
+        /// <returns>The number of questionable block list offsets</returns>
+        public int GetQuestionableOffsetCount()
+        {
+            int startBlocklistOffset = 8 + (2 * NumCols * NumRows); // header + block list offsets
+            int questionableOffsets = 0;
 
-		/// <summary>
-		/// Gets the number of linedefs that are not included in any block list.
-		/// </summary>
-		/// <param name="linedefs">The collection of linedefs to check</param>
-		/// <returns>The number of linedefs not included in any block list</returns>
-		internal int GetLinesNotInBlocksCount(ICollection<Linedef> linedefs)
-		{
-			int counter = 0;
-			HashSet<int> linesInBlocks = new HashSet<int>();
+            foreach (int offset in BlockPointers)
+            {
+                if (offset < startBlocklistOffset)
+                    questionableOffsets++;
+            }
 
-			foreach (BlockmapBlockList bbl in Blocks.Values)
-			{
-				if (bbl.LinedefIndexes != null)
-					linesInBlocks.UnionWith(bbl.LinedefIndexes);
-			}
+            return questionableOffsets;
+        }
 
-			foreach (Linedef linedef in linedefs)
-			{
-				if (!linesInBlocks.Contains(linedef.Index))
-					counter++;
-			}
+        /// <summary>
+        /// Gets the number of linedefs that are not included in any block list.
+        /// </summary>
+        /// <param name="linedefs">The collection of linedefs to check</param>
+        /// <returns>The number of linedefs not included in any block list</returns>
+        internal int GetLinesNotInBlocksCount(ICollection<Linedef> linedefs)
+        {
+            int counter = 0;
+            HashSet<int> linesInBlocks = new HashSet<int>();
 
-			return counter;
-		}
-	}
+            foreach (BlockmapBlockList bbl in Blocks.Values)
+            {
+                if (bbl.LinedefIndexes != null)
+                    linesInBlocks.UnionWith(bbl.LinedefIndexes);
+            }
+
+            foreach (Linedef linedef in linedefs)
+            {
+                if (!linesInBlocks.Contains(linedef.Index))
+                    counter++;
+            }
+
+            return counter;
+        }
+    }
 }

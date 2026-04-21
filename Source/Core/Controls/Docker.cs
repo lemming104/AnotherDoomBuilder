@@ -22,46 +22,41 @@ using System.Windows.Forms;
 
 namespace CodeImp.DoomBuilder.Controls
 {
-	public class Docker
-	{
-		#region ================== Variables
-		
-		private string shortname;
-		private string fullname;
-		private string title;
-		private Control control;
-		
-		#endregion
-		
-		#region ================== Variables
-		
-		public string Name { get { return shortname; } }
-		internal string FullName { get { return fullname; } }
-		public string Title { get { return title; } }
-		public Control Control { get { return control; } }
-		
-		#endregion
-		
-		#region ================== Constructor
-		
-		// Constructor
-		public Docker(string name, string title, Control control)
-		{
-			this.shortname = name;
-			this.title = title;
-			this.control = control;
-		}
-		
-		#endregion
-		
-		#region ================== Methods
-		
-		// This makes the full name
-		internal void MakeFullName(string prefix)
-		{
-			fullname = prefix + "_" + shortname;
-		}
-		
-		#endregion
-	}
+    public class Docker
+    {
+        #region ================== Variables
+
+        #endregion
+
+        #region ================== Variables
+
+        public string Name { get; }
+        internal string FullName { get; private set; }
+        public string Title { get; }
+        public Control Control { get; }
+
+        #endregion
+
+        #region ================== Constructor
+
+        // Constructor
+        public Docker(string name, string title, Control control)
+        {
+            this.Name = name;
+            this.Title = title;
+            this.Control = control;
+        }
+
+        #endregion
+
+        #region ================== Methods
+
+        // This makes the full name
+        internal void MakeFullName(string prefix)
+        {
+            FullName = prefix + "_" + Name;
+        }
+
+        #endregion
+    }
 }

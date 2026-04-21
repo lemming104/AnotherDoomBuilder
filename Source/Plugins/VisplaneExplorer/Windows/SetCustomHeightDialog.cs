@@ -22,7 +22,6 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer.Windows
     {
         #region ================== Variables
 
-        private int customheight;
 
         #endregion
 
@@ -33,16 +32,16 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer.Windows
 
         #region ================== Properties
 
-        public int CustomHeight { get { return customheight; } set { customheight = value; } }
+        public int CustomHeight { get; set; }
 
         #endregion
 
         // Redraw the display using a user-entered view height. Blank input resets to the default.
         private void apply_Clicked(object sender, EventArgs e)
         {
-            customheight = input.GetResult(0);
+            CustomHeight = input.GetResult(0);
 
-            if(customheight > 32767) customheight = 0;
+            if (CustomHeight > 32767) CustomHeight = 0;
 
             this.DialogResult = DialogResult.OK;
             this.Close();

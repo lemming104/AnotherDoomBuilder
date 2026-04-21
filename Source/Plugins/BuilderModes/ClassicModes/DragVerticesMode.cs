@@ -16,140 +16,140 @@
 
 #region ================== Namespaces
 
-using System;
-using System.Collections.Generic;
+using CodeImp.DoomBuilder.Editing;
+using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
-using CodeImp.DoomBuilder.Geometry;
-using CodeImp.DoomBuilder.Editing;
+using System;
+using System.Collections.Generic;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
-	// No action or button for this mode, it is automatic.
-	// The EditMode attribute does not have to be specified unless the
-	// mode must be activated by class name rather than direct instance.
-	// In that case, just specifying the attribute like this is enough:
-	// [EditMode]
+    // No action or button for this mode, it is automatic.
+    // The EditMode attribute does not have to be specified unless the
+    // mode must be activated by class name rather than direct instance.
+    // In that case, just specifying the attribute like this is enough:
+    // [EditMode]
 
-	[EditMode(DisplayName = "Vertices",
-			  AllowCopyPaste = false,
-			  Volatile = true)]
+    [EditMode(DisplayName = "Vertices",
+              AllowCopyPaste = false,
+              Volatile = true)]
 
-	public sealed class DragVerticesMode : DragGeometryMode
-	{
-		#region ================== Constants
+    public sealed class DragVerticesMode : DragGeometryMode
+    {
+        #region ================== Constants
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		#endregion
+        #endregion
 
-		#region ================== Properties
+        #region ================== Properties
 
-		public override bool AlwaysShowVertices
-		{
-			get { return true; }
-		}
+        public override bool AlwaysShowVertices
+        {
+            get { return true; }
+        }
 
-		#endregion
+        #endregion
 
-		#region ================== Constructor / Disposer
+        #region ================== Constructor / Disposer
 
-		// Constructor to start dragging immediately
-		public DragVerticesMode(Vector2D dragstartmappos, ICollection<Vertex> vertices)
-		{
-			// Mark what we are dragging
-			General.Map.Map.ClearAllMarks(false);
-			foreach (Vertex v in vertices)
-				v.Marked = true;
+        // Constructor to start dragging immediately
+        public DragVerticesMode(Vector2D dragstartmappos, ICollection<Vertex> vertices)
+        {
+            // Mark what we are dragging
+            General.Map.Map.ClearAllMarks(false);
+            foreach (Vertex v in vertices)
+                v.Marked = true;
 
-			// Initialize
-			base.StartDrag(dragstartmappos);
-			undodescription = (selectedverts.Count == 1 ? "Drag vertex" : "Drag " + selectedverts.Count + " vertices"); //mxd
-			
-			// We have no destructor
-			GC.SuppressFinalize(this);
-		}
+            // Initialize
+            base.StartDrag(dragstartmappos);
+            undodescription = selectedverts.Count == 1 ? "Drag vertex" : "Drag " + selectedverts.Count + " vertices"; //mxd
 
-		// Disposer
-		public override void Dispose()
-		{
-			// Not already disposed?
-			if(!isdisposed)
-			{
-				// Clean up
+            // We have no destructor
+            GC.SuppressFinalize(this);
+        }
 
-				// Done
-				base.Dispose();
-			}
-		}
+        // Disposer
+        public override void Dispose()
+        {
+            // Not already disposed?
+            if (!isdisposed)
+            {
+                // Clean up
 
-		#endregion
+                // Done
+                base.Dispose();
+            }
+        }
 
-		#region ================== Methods
-		
-		// This redraws the display
-		public override void OnRedrawDisplay()
-		{
-			bool viewchanged = CheckViewChanged();
+        #endregion
 
-			renderer.RedrawSurface();
+        #region ================== Methods
 
-			UpdateRedraw();
-			
-			// Redraw things when view changed
-			if(viewchanged)
-			{
-				if(renderer.StartThings(true))
-				{
-					renderer.RenderThingSet(General.Map.Map.Things, General.Settings.ActiveThingsAlpha);
-					renderer.Finish();
-				}
-			}
+        // This redraws the display
+        public override void OnRedrawDisplay()
+        {
+            bool viewchanged = CheckViewChanged();
 
-			renderer.Present();
-		}
-		
-		// This redraws only the required things
-		protected override void UpdateRedraw()
-		{
-			// Start rendering
-			if(renderer.StartPlotter(true))
-			{
-				// Render lines and vertices
-				renderer.PlotLinedefSet(General.Map.Map.Linedefs);
-				renderer.PlotVerticesSet(unselectedverts);
-				renderer.PlotVerticesSet(selectedverts);
+            renderer.RedrawSurface();
 
-				// Draw the dragged item highlighted
-				// This is important to know, because this item is used
-				// for snapping to the grid and snapping to nearest items
-				renderer.PlotVertex(dragitem, ColorCollection.HIGHLIGHT);
-				
-				// Done
-				renderer.Finish();
-			}
+            UpdateRedraw();
 
-			//mxd. Render things
-			if(renderer.StartThings(true)) 
-			{
-				renderer.RenderThingSet(General.Map.ThingsFilter.HiddenThings, General.Settings.HiddenThingsAlpha);
-				renderer.RenderThingSet(unselectedthings, General.Settings.ActiveThingsAlpha);
-				renderer.RenderThingSet(selectedthings, General.Settings.ActiveThingsAlpha);
-				renderer.Finish();
-			}
+            // Redraw things when view changed
+            if (viewchanged)
+            {
+                if (renderer.StartThings(true))
+                {
+                    renderer.RenderThingSet(General.Map.Map.Things, General.Settings.ActiveThingsAlpha);
+                    renderer.Finish();
+                }
+            }
 
-			// Redraw overlay
-			if(renderer.StartOverlay(true))
-			{
-				renderer.RenderText(labels);
-				renderer.Finish();
-			}
-		}
-		
-		#endregion
-	}
+            renderer.Present();
+        }
+
+        // This redraws only the required things
+        protected override void UpdateRedraw()
+        {
+            // Start rendering
+            if (renderer.StartPlotter(true))
+            {
+                // Render lines and vertices
+                renderer.PlotLinedefSet(General.Map.Map.Linedefs);
+                renderer.PlotVerticesSet(unselectedverts);
+                renderer.PlotVerticesSet(selectedverts);
+
+                // Draw the dragged item highlighted
+                // This is important to know, because this item is used
+                // for snapping to the grid and snapping to nearest items
+                renderer.PlotVertex(dragitem, ColorCollection.HIGHLIGHT);
+
+                // Done
+                renderer.Finish();
+            }
+
+            //mxd. Render things
+            if (renderer.StartThings(true))
+            {
+                renderer.RenderThingSet(General.Map.ThingsFilter.HiddenThings, General.Settings.HiddenThingsAlpha);
+                renderer.RenderThingSet(unselectedthings, General.Settings.ActiveThingsAlpha);
+                renderer.RenderThingSet(selectedthings, General.Settings.ActiveThingsAlpha);
+                renderer.Finish();
+            }
+
+            // Redraw overlay
+            if (renderer.StartOverlay(true))
+            {
+                renderer.RenderText(labels);
+                renderer.Finish();
+            }
+        }
+
+        #endregion
+    }
 }

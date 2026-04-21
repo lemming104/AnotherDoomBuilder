@@ -16,107 +16,101 @@
 
 #region ================== Namespaces
 
-using System;
-using CodeImp.DoomBuilder.IO;
 using CodeImp.DoomBuilder.Compilers;
+using CodeImp.DoomBuilder.IO;
+using System;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Config
 {
-	internal class NodebuilderInfo : IComparable<NodebuilderInfo>
-	{
-		#region ================== Constants
+    internal class NodebuilderInfo : IComparable<NodebuilderInfo>
+    {
+        #region ================== Constants
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		private readonly string name;
-		private readonly string title;
-		private readonly CompilerInfo compiler;
-		private readonly string parameters;
-		private readonly bool specialoutputfile;
-		
-		#endregion
+        #endregion
 
-		#region ================== Properties
+        #region ================== Properties
 
-		public string Name { get { return name; } }
-		public string Title { get { return title; } }
-		public CompilerInfo Compiler { get { return compiler; } }
-		public string Parameters { get { return parameters; } }
-		public bool HasSpecialOutputFile { get { return specialoutputfile; } }
+        public string Name { get; }
+        public string Title { get; }
+        public CompilerInfo Compiler { get; }
+        public string Parameters { get; }
+        public bool HasSpecialOutputFile { get; }
 
-		#endregion
+        #endregion
 
-		#region ================== Constructor / Disposer
+        #region ================== Constructor / Disposer
 
-		// Constructor
-		public NodebuilderInfo(string filename, string name, Configuration cfg)
-		{
-			General.WriteLogLine("Registered nodebuilder configuration \"" + name + "\" from \"" + filename + "\"");
-			
-			// Initialize
-			this.name = name;
-			this.compiler = null;
-			this.title = cfg.ReadSetting("nodebuilders." + name + ".title", "<untitled configuration>");
-			string compilername = cfg.ReadSetting("nodebuilders." + name + ".compiler", "");
-			this.parameters = cfg.ReadSetting("nodebuilders." + name + ".parameters", "");
-			
-			// Check for special output filename
-			this.specialoutputfile = this.parameters.Contains("%FO");
-			
-			// Find compiler
-			foreach(CompilerInfo c in General.Compilers)
-			{
-				// Compiler name matches?
-				if(c.Name == compilername)
-				{
-					// Apply compiler
-					this.compiler = c;
-					break;
-				}
-			}
-			
-			// No compiler found?
-			if(this.compiler == null) throw new Exception("Compiler \"" + compilername + "\" is not defined");
-		}
+        // Constructor
+        public NodebuilderInfo(string filename, string name, Configuration cfg)
+        {
+            General.WriteLogLine("Registered nodebuilder configuration \"" + name + "\" from \"" + filename + "\"");
 
-		// Constructor for "none" nodebuilder
-		public NodebuilderInfo()
-		{
-			// Initialize
-			this.name = "";
-			this.compiler = null;
-			this.title = "[do not build nodes]";
-			this.parameters = "";
-			this.specialoutputfile = false;
-		}
-		
-		#endregion
+            // Initialize
+            this.Name = name;
+            this.Compiler = null;
+            this.Title = cfg.ReadSetting("nodebuilders." + name + ".title", "<untitled configuration>");
+            string compilername = cfg.ReadSetting("nodebuilders." + name + ".compiler", "");
+            this.Parameters = cfg.ReadSetting("nodebuilders." + name + ".parameters", "");
 
-		#region ================== Methods
+            // Check for special output filename
+            this.HasSpecialOutputFile = this.Parameters.Contains("%FO");
 
-		// This compares it to other ConfigurationInfo objects
-		public int CompareTo(NodebuilderInfo other)
-		{
-			// Compare
-			return String.Compare(name, other.name, StringComparison.Ordinal);
-		}
-		
-		// String representation
-		public override string ToString()
-		{
-			return title;
-		}
-		
-		// This runs the nodebuilder
-		public Compiler CreateCompiler()
-		{
-			return compiler.Create();
-		}
-		
-		#endregion
-	}
+            // Find compiler
+            foreach (CompilerInfo c in General.Compilers)
+            {
+                // Compiler name matches?
+                if (c.Name == compilername)
+                {
+                    // Apply compiler
+                    this.Compiler = c;
+                    break;
+                }
+            }
+
+            // No compiler found?
+            if (this.Compiler == null) throw new Exception("Compiler \"" + compilername + "\" is not defined");
+        }
+
+        // Constructor for "none" nodebuilder
+        public NodebuilderInfo()
+        {
+            // Initialize
+            this.Name = "";
+            this.Compiler = null;
+            this.Title = "[do not build nodes]";
+            this.Parameters = "";
+            this.HasSpecialOutputFile = false;
+        }
+
+        #endregion
+
+        #region ================== Methods
+
+        // This compares it to other ConfigurationInfo objects
+        public int CompareTo(NodebuilderInfo other)
+        {
+            // Compare
+            return String.Compare(Name, other.Name, StringComparison.Ordinal);
+        }
+
+        // String representation
+        public override string ToString()
+        {
+            return Title;
+        }
+
+        // This runs the nodebuilder
+        public Compiler CreateCompiler()
+        {
+            return Compiler.Create();
+        }
+
+        #endregion
+    }
 }

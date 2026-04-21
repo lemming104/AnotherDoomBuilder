@@ -29,89 +29,83 @@ using CodeImp.DoomBuilder.IO;
 
 namespace CodeImp.DoomBuilder.Config
 {
-	public class ExternalCommandSettings
-	{
-		#region ================== Variables
+    public class ExternalCommandSettings
+    {
+        #region ================== Variables
 
-		private string workingdirectory;
-		private string commands;
-		private bool autocloseonsuccess;
-		private bool exitcodeiserror;
-		private bool stderriserror;
+        #endregion
 
-		#endregion
+        #region ================== Properties
 
-		#region ================== Properties
+        public string WorkingDirectory { get; set; }
+        public string Commands { get; set; }
+        public bool AutoCloseOnSuccess { get; set; }
+        public bool ExitCodeIsError { get; set; }
+        public bool StdErrIsError { get; set; }
 
-		public string WorkingDirectory { get { return workingdirectory; } set { workingdirectory = value; } }
-		public string Commands { get { return commands; } set { commands = value; } }
-		public bool AutoCloseOnSuccess { get { return autocloseonsuccess; } set { autocloseonsuccess = value; } }
-		public bool ExitCodeIsError { get { return exitcodeiserror; } set { exitcodeiserror = value; } }
-		public bool StdErrIsError { get { return stderriserror; } set { stderriserror = value; } }
+        #endregion
 
-		#endregion
+        #region ================== Constructors
 
-		#region ================== Constructors
+        public ExternalCommandSettings()
+        {
+            WorkingDirectory = string.Empty;
+            Commands = string.Empty;
+            AutoCloseOnSuccess = true;
+            ExitCodeIsError = true;
+            StdErrIsError = true;
+        }
 
-		public ExternalCommandSettings()
-		{
-			WorkingDirectory = string.Empty;
-			Commands = string.Empty;
-			AutoCloseOnSuccess = true;
-			ExitCodeIsError = true;
-			StdErrIsError = true;
-		}
+        /// <summary>
+        /// Initialize with the settings loaded from a given section in a configuration.
+        /// </summary>
+        /// <param name="cfg">The configuration</param>
+        /// <param name="section">The section to load the settings from</param>
+        public ExternalCommandSettings(Configuration cfg, string section)
+        {
+            LoadSettings(cfg, section);
+        }
 
-		/// <summary>
-		/// Initialize with the settings loaded from a given section in a configuration.
-		/// </summary>
-		/// <param name="cfg">The configuration</param>
-		/// <param name="section">The section to load the settings from</param>
-		public ExternalCommandSettings(Configuration cfg, string section)
-		{
-			LoadSettings(cfg, section);
-		}
+        #endregion
 
-		#endregion
+        #region ================== Methods
 
-		#region ================== Methods
+        /// <summary>
+        /// Loads the settings from a given section in a configuration.
+        /// </summary>
+        /// <param name="cfg">The configuration</param>
+        /// <param name="section">The section to load the settings from</param>
+        public void LoadSettings(Configuration cfg, string section)
+        {
+            WorkingDirectory = cfg.ReadSetting(section + ".workingdirectory", string.Empty);
+            Commands = cfg.ReadSetting(section + ".commands", string.Empty);
+            AutoCloseOnSuccess = cfg.ReadSetting(section + ".autocloseonsuccess", true);
+            ExitCodeIsError = cfg.ReadSetting(section + ".exitcodeiserror", true);
+            StdErrIsError = cfg.ReadSetting(section + ".stderriserror", true);
+        }
 
-		/// <summary>
-		/// Loads the settings from a given section in a configuration.
-		/// </summary>
-		/// <param name="cfg">The configuration</param>
-		/// <param name="section">The section to load the settings from</param>
-		public void LoadSettings(Configuration cfg, string section)
-		{
-			WorkingDirectory = cfg.ReadSetting(section + ".workingdirectory", string.Empty);
-			Commands = cfg.ReadSetting(section + ".commands", string.Empty);
-			AutoCloseOnSuccess = cfg.ReadSetting(section + ".autocloseonsuccess", true);
-			ExitCodeIsError = cfg.ReadSetting(section + ".exitcodeiserror", true);
-			StdErrIsError = cfg.ReadSetting(section + ".stderriserror", true);
-		}
+        /// <summary>
+        /// Writes the settings to a given section in a configuration.
+        /// </summary>
+        /// <param name="cfg">The configuration</param>
+        /// <param name="section">The section to write the settings to</param>
+        public void WriteSettings(Configuration cfg, string section)
+        {
+            if (!string.IsNullOrWhiteSpace(Commands))
+                cfg.WriteSetting(section + ".commands", Commands);
+            else
+                cfg.DeleteSetting(section + ".commands");
 
-		/// <summary>
-		/// Writes the settings to a given section in a configuration.
-		/// </summary>
-		/// <param name="cfg">The configuration</param>
-		/// <param name="section">The section to write the settings to</param>
-		public void WriteSettings(Configuration cfg, string section)
-		{
-			if (!string.IsNullOrWhiteSpace(Commands))
-				cfg.WriteSetting(section + ".commands", Commands);
-			else
-				cfg.DeleteSetting(section + ".commands");
+            if (!string.IsNullOrWhiteSpace(WorkingDirectory))
+                cfg.WriteSetting(section + ".workingdirectory", WorkingDirectory);
+            else
+                cfg.DeleteSetting(section + ".workingdirectory");
 
-			if (!string.IsNullOrWhiteSpace(WorkingDirectory))
-				cfg.WriteSetting(section + ".workingdirectory", WorkingDirectory);
-			else
-				cfg.DeleteSetting(section + ".workingdirectory");
+            cfg.WriteSetting(section + ".autocloseonsuccess", AutoCloseOnSuccess);
+            cfg.WriteSetting(section + ".exitcodeiserror", ExitCodeIsError);
+            cfg.WriteSetting(section + ".stderriserror", StdErrIsError);
+        }
 
-			cfg.WriteSetting(section + ".autocloseonsuccess", AutoCloseOnSuccess);
-			cfg.WriteSetting(section + ".exitcodeiserror", ExitCodeIsError);
-			cfg.WriteSetting(section + ".stderriserror", StdErrIsError);
-		}
-
-		#endregion
-	}
+        #endregion
+    }
 }

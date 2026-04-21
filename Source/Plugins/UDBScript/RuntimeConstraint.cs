@@ -23,61 +23,61 @@
 
 #region ================== Namespaces
 
+using Jint;
 using System.Diagnostics;
 using System.Windows.Forms;
-using Jint;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.UDBScript
 {
-	class RuntimeConstraint : Constraint
-	{
-		#region ================== Constants
+    class RuntimeConstraint : Constraint
+    {
+        #region ================== Constants
 
-		private const long CHECK_MILLISECONDS = 5000;
+        private const long CHECK_MILLISECONDS = 5000;
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		private Stopwatch stopwatch;
+        private Stopwatch stopwatch;
 
-		#endregion
+        #endregion
 
-		#region ================== Constructor
+        #region ================== Constructor
 
-		public RuntimeConstraint(Stopwatch stopwatch)
-		{
-			this.stopwatch = stopwatch;
-		}
+        public RuntimeConstraint(Stopwatch stopwatch)
+        {
+            this.stopwatch = stopwatch;
+        }
 
-		#endregion
+        #endregion
 
-		#region ================== Methods
+        #region ================== Methods
 
-		public override void Reset()
-		{
-		}
+        public override void Reset()
+        {
+        }
 
-		/// <summary>
-		/// Checks how long the script has been running and asks the user if it should abort or keep running
-		/// </summary>
-		public override void Check()
-		{
-			if(stopwatch.ElapsedMilliseconds > CHECK_MILLISECONDS)
-			{
-				DialogResult result = MessageBox.Show("The script has been running for some time, want to stop it?", "Script", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+        /// <summary>
+        /// Checks how long the script has been running and asks the user if it should abort or keep running
+        /// </summary>
+        public override void Check()
+        {
+            if (stopwatch.ElapsedMilliseconds > CHECK_MILLISECONDS)
+            {
+                DialogResult result = MessageBox.Show("The script has been running for some time, want to stop it?", "Script", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-				if (result == DialogResult.Yes)
-					throw new UserScriptAbortException();
-				else
-				{
-					stopwatch.Restart();
-				}
-			}
-		}
+                if (result == DialogResult.Yes)
+                    throw new UserScriptAbortException();
+                else
+                {
+                    stopwatch.Restart();
+                }
+            }
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

@@ -16,65 +16,65 @@
 
 #region ================== Namespaces
 
+using CodeImp.DoomBuilder.Windows;
 using System.Drawing;
 using System.Windows.Forms;
-using CodeImp.DoomBuilder.Windows;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Types
 {
-	[TypeHandler(UniversalType.Flat, "Flat", false)]
-	internal class FlatHandler : TypeHandler
-	{
-		#region ================== Constants
+    [TypeHandler(UniversalType.Flat, "Flat", false)]
+    internal class FlatHandler : TypeHandler
+    {
+        #region ================== Constants
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		private string value = "";
+        private string value = "";
 
-		#endregion
+        #endregion
 
-		#region ================== Properties
+        #region ================== Properties
 
-		public override bool IsBrowseable { get { return true; } }
+        public override bool IsBrowseable { get { return true; } }
 
-		public override Image BrowseImage { get { return Properties.Resources.List_Images; } }
-		
-		#endregion
+        public override Image BrowseImage { get { return Properties.Resources.List_Images; } }
 
-		#region ================== Methods
+        #endregion
 
-		public override void Browse(IWin32Window parent)
-		{
-			this.value = TextureBrowserForm.Browse(parent, this.value, true); //mxd. was FlatBrowserForm
-		}
+        #region ================== Methods
 
-		public override void SetValue(object value)
-		{
-			if(value != null)
-				this.value = value.ToString();
-			else
-				this.value = "";
-		}
+        public override void Browse(IWin32Window parent)
+        {
+            this.value = TextureBrowserForm.Browse(parent, this.value, true); //mxd. was FlatBrowserForm
+        }
 
-		public override object GetValue()
-		{
-			return this.value;
-		}
+        public override void SetValue(object value)
+        {
+            if (value != null)
+                this.value = value.ToString();
+            else
+                this.value = "";
+        }
 
-		public override string GetStringValue()
-		{
-			return this.value;
-		}
+        public override object GetValue()
+        {
+            return this.value;
+        }
 
-		public override object GetDefaultValue()
-		{
-			return string.Empty;
-		}
+        public override string GetStringValue()
+        {
+            return this.value;
+        }
 
-		#endregion
-	}
+        public override object GetDefaultValue()
+        {
+            return string.Empty;
+        }
+
+        #endregion
+    }
 }

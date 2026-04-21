@@ -31,15 +31,15 @@ using System.Collections.Generic;
 
 namespace CodeImp.DoomBuilder.BlockmapExplorer
 {
-	internal class BlockmapBlockList
-	{
-		public List<int> LinedefIndexes;
-		public bool IsSublist;
+    internal class BlockmapBlockList
+    {
+        public List<int> LinedefIndexes;
+        public bool IsSublist;
 
-		public BlockmapBlockList(IEnumerable<int> newIndexes, bool isSublist)
-		{
-			LinedefIndexes = new List<int>(newIndexes);
-			IsSublist = isSublist;
-		}
-	}
+        public BlockmapBlockList(IEnumerable<int> newIndexes, bool isSublist)
+        {
+            LinedefIndexes = new List<int>(newIndexes);
+            IsSublist = isSublist;
+        }
+    }
 }

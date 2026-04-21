@@ -23,244 +23,242 @@ using System.Drawing;
 
 namespace CodeImp.DoomBuilder.Rendering
 {
-	// FlatQuad
-	internal class FlatQuad
-	{
-		#region ================== Variables
+    // FlatQuad
+    internal class FlatQuad
+    {
+        #region ================== Variables
 
-		// Vertices
-		private FlatVertex[] vertices;
-		private PrimitiveType type;
-		private int numvertices;
-		
-		#endregion
+        // Vertices
+        private int numvertices;
 
-		#region ================== Properties
+        #endregion
 
-		public FlatVertex[] Vertices { get { return vertices; } }
-		public PrimitiveType Type { get { return type; } }
-		
-		#endregion
+        #region ================== Properties
 
-		#region ================== Constructors
+        public FlatVertex[] Vertices { get; private set; }
+        public PrimitiveType Type { get; private set; }
 
-		// Constructor
-		public FlatQuad(PrimitiveType type, float left, float top, float right, float bottom)
-		{
-			// Initialize
-			Initialize(type);
-			
-			// Set coordinates
-			switch(type)
-			{
-				case PrimitiveType.TriangleList:
-					SetTriangleListCoordinates(left, top, right, bottom, 0f, 0f, 1f, 1f);
-					break;
-				case PrimitiveType.TriangleStrip:
-					SetTriangleStripCoordinates(left, top, right, bottom, 0f, 0f, 1f, 1f);
-					break;
-			}
-			
-			// We have no destructor
-			GC.SuppressFinalize(this);
-		}
+        #endregion
 
-		// Constructor
-		public FlatQuad(PrimitiveType type, float left, float top, float right, float bottom, float twidth, float theight)
-		{
-			// Initialize
-			Initialize(type);
+        #region ================== Constructors
 
-			// Determine texture size dividers
-			float twd = 1f / twidth;
-			float thd = 1f / theight;
-			
-			// Set coordinates
-			switch(type)
-			{
-				case PrimitiveType.TriangleList:
-					SetTriangleListCoordinates(left, top, right, bottom, twd, thd, 1f - twd, 1f - thd);
-					break;
-				case PrimitiveType.TriangleStrip:
-					SetTriangleStripCoordinates(left, top, right, bottom, twd, thd, 1f - twd, 1f - thd);
-					break;
-			}
-			
-			// We have no destructor
-			GC.SuppressFinalize(this);
-		}
+        // Constructor
+        public FlatQuad(PrimitiveType type, float left, float top, float right, float bottom)
+        {
+            // Initialize
+            Initialize(type);
 
-		// Constructor
-		public FlatQuad(PrimitiveType type, RectangleF pos, float tl, float tt, float tr, float tb)
-		{
-			// Initialize
-			Initialize(type);
+            // Set coordinates
+            switch (type)
+            {
+                case PrimitiveType.TriangleList:
+                    SetTriangleListCoordinates(left, top, right, bottom, 0f, 0f, 1f, 1f);
+                    break;
+                case PrimitiveType.TriangleStrip:
+                    SetTriangleStripCoordinates(left, top, right, bottom, 0f, 0f, 1f, 1f);
+                    break;
+            }
 
-			// Set coordinates
-			switch(type)
-			{
-				case PrimitiveType.TriangleList:
-					SetTriangleListCoordinates(pos.Left, pos.Top, pos.Right, pos.Bottom, tl, tt, tr, tb);
-					break;
-				case PrimitiveType.TriangleStrip:
-					SetTriangleStripCoordinates(pos.Left, pos.Top, pos.Right, pos.Bottom, tl, tt, tr, tb);
-					break;
-			}
+            // We have no destructor
+            GC.SuppressFinalize(this);
+        }
 
-			// We have no destructor
-			GC.SuppressFinalize(this);
-		}
+        // Constructor
+        public FlatQuad(PrimitiveType type, float left, float top, float right, float bottom, float twidth, float theight)
+        {
+            // Initialize
+            Initialize(type);
 
-		// Constructor
-		public FlatQuad(PrimitiveType type, float left, float top, float right, float bottom, float tl, float tt, float tr, float tb)
-		{
-			// Initialize
-			Initialize(type);
-			
-			// Set coordinates
-			switch(type)
-			{
-				case PrimitiveType.TriangleList:
-					SetTriangleListCoordinates(left, top, right, bottom, tl, tt, tr, tb);
-					break;
-				case PrimitiveType.TriangleStrip:
-					SetTriangleStripCoordinates(left, top, right, bottom, tl, tt, tr, tb);
-					break;
-			}
+            // Determine texture size dividers
+            float twd = 1f / twidth;
+            float thd = 1f / theight;
 
-			// We have no destructor
-			GC.SuppressFinalize(this);
-		}
+            // Set coordinates
+            switch (type)
+            {
+                case PrimitiveType.TriangleList:
+                    SetTriangleListCoordinates(left, top, right, bottom, twd, thd, 1f - twd, 1f - thd);
+                    break;
+                case PrimitiveType.TriangleStrip:
+                    SetTriangleStripCoordinates(left, top, right, bottom, twd, thd, 1f - twd, 1f - thd);
+                    break;
+            }
 
-		#endregion
+            // We have no destructor
+            GC.SuppressFinalize(this);
+        }
 
-		#region ================== Methods
+        // Constructor
+        public FlatQuad(PrimitiveType type, RectangleF pos, float tl, float tt, float tr, float tb)
+        {
+            // Initialize
+            Initialize(type);
 
-		// This sets the color on all vertices
-		public void SetColors(int color)
-		{
-			// Go for all vertices to set the color
-			for(int i = 0; i < numvertices; i++)
-				vertices[i].c = color;
-		}
+            // Set coordinates
+            switch (type)
+            {
+                case PrimitiveType.TriangleList:
+                    SetTriangleListCoordinates(pos.Left, pos.Top, pos.Right, pos.Bottom, tl, tt, tr, tb);
+                    break;
+                case PrimitiveType.TriangleStrip:
+                    SetTriangleStripCoordinates(pos.Left, pos.Top, pos.Right, pos.Bottom, tl, tt, tr, tb);
+                    break;
+            }
 
-		// This sets the color on all vertices
-		public void SetColors(int clt, int crt, int clb, int crb)
-		{
-			// Determine polygon type
-			switch(type)
-			{
-				case PrimitiveType.TriangleList:
-					vertices[0].c = clt;
-					vertices[1].c = crt;
-					vertices[2].c = clb;
-					vertices[3].c = clb;
-					vertices[4].c = crt;
-					vertices[5].c = crb;
-					break;
-				case PrimitiveType.TriangleStrip:
-					vertices[0].c = clt;
-					vertices[1].c = crt;
-					vertices[2].c = clb;
-					vertices[3].c = crb;
-					break;
-			}
-		}
+            // We have no destructor
+            GC.SuppressFinalize(this);
+        }
 
-		// This applies coordinates for TriangleList type
-		private void SetTriangleListCoordinates(float vl, float vt, float vr, float vb,
-												float tl, float tt, float tr, float tb)
-		{
-			// Setup coordinates
-			vertices[0].x = vl;
-			vertices[0].y = vt;
-			vertices[1].x = vr;
-			vertices[1].y = vt;
-			vertices[2].x = vl;
-			vertices[2].y = vb;
-			vertices[3].x = vl;
-			vertices[3].y = vb;
-			vertices[4].x = vr;
-			vertices[4].y = vt;
-			vertices[5].x = vr;
-			vertices[5].y = vb;
-			
-			// Set texture coordinates
-			vertices[0].u = tl;
-			vertices[0].v = tt;
-			vertices[1].u = tr;
-			vertices[1].v = tt;
-			vertices[2].u = tl;
-			vertices[2].v = tb;
-			vertices[3].u = tl;
-			vertices[3].v = tb;
-			vertices[4].u = tr;
-			vertices[4].v = tt;
-			vertices[5].u = tr;
-			vertices[5].v = tb;
-		}
+        // Constructor
+        public FlatQuad(PrimitiveType type, float left, float top, float right, float bottom, float tl, float tt, float tr, float tb)
+        {
+            // Initialize
+            Initialize(type);
 
-		// This applies coordinates for TriangleStrip type
-		private void SetTriangleStripCoordinates(float vl, float vt, float vr, float vb,
-												 float tl, float tt, float tr, float tb)
-		{
-			// Setup coordinates
-			vertices[0].x = vl;
-			vertices[0].y = vt;
-			vertices[1].x = vr;
-			vertices[1].y = vt;
-			vertices[2].x = vl;
-			vertices[2].y = vb;
-			vertices[3].x = vr;
-			vertices[3].y = vb;
+            // Set coordinates
+            switch (type)
+            {
+                case PrimitiveType.TriangleList:
+                    SetTriangleListCoordinates(left, top, right, bottom, tl, tt, tr, tb);
+                    break;
+                case PrimitiveType.TriangleStrip:
+                    SetTriangleStripCoordinates(left, top, right, bottom, tl, tt, tr, tb);
+                    break;
+            }
 
-			// Set texture coordinates
-			vertices[0].u = tl;
-			vertices[0].v = tt;
-			vertices[1].u = tr;
-			vertices[1].v = tt;
-			vertices[2].u = tl;
-			vertices[2].v = tb;
-			vertices[3].u = tr;
-			vertices[3].v = tb;
-		}
-		
-		// This initializes vertices to default values
-		private void Initialize(PrimitiveType type)
-		{
-			// Determine primitive type
-			this.type = type;
+            // We have no destructor
+            GC.SuppressFinalize(this);
+        }
 
-			// Determine number of vertices
-			switch(type)
-			{
-				case PrimitiveType.TriangleList: numvertices = 6; break;
-				case PrimitiveType.TriangleStrip: numvertices = 4; break;
-				default: throw new NotSupportedException("Unsupported PrimitiveType");
-			}
-			
-			// Make the array
-			vertices = new FlatVertex[numvertices];
+        #endregion
 
-			// Go for all vertices
-			for(int i = 0; i < numvertices; i++)
-			{
-				// Initialize to defaults
-				vertices[i].c = -1;
-			}
-		}
+        #region ================== Methods
 
-		#endregion
-		
-		#region ================== Rendering
+        // This sets the color on all vertices
+        public void SetColors(int color)
+        {
+            // Go for all vertices to set the color
+            for (int i = 0; i < numvertices; i++)
+                Vertices[i].c = color;
+        }
 
-		// This renders the quad
-		public void Render(RenderDevice device)
-		{
-			// Render the quad
-			device.Draw(type, 0, 2, vertices);
-		}
-		
-		#endregion
-	}
+        // This sets the color on all vertices
+        public void SetColors(int clt, int crt, int clb, int crb)
+        {
+            // Determine polygon type
+            switch (Type)
+            {
+                case PrimitiveType.TriangleList:
+                    Vertices[0].c = clt;
+                    Vertices[1].c = crt;
+                    Vertices[2].c = clb;
+                    Vertices[3].c = clb;
+                    Vertices[4].c = crt;
+                    Vertices[5].c = crb;
+                    break;
+                case PrimitiveType.TriangleStrip:
+                    Vertices[0].c = clt;
+                    Vertices[1].c = crt;
+                    Vertices[2].c = clb;
+                    Vertices[3].c = crb;
+                    break;
+            }
+        }
+
+        // This applies coordinates for TriangleList type
+        private void SetTriangleListCoordinates(float vl, float vt, float vr, float vb,
+                                                float tl, float tt, float tr, float tb)
+        {
+            // Setup coordinates
+            Vertices[0].x = vl;
+            Vertices[0].y = vt;
+            Vertices[1].x = vr;
+            Vertices[1].y = vt;
+            Vertices[2].x = vl;
+            Vertices[2].y = vb;
+            Vertices[3].x = vl;
+            Vertices[3].y = vb;
+            Vertices[4].x = vr;
+            Vertices[4].y = vt;
+            Vertices[5].x = vr;
+            Vertices[5].y = vb;
+
+            // Set texture coordinates
+            Vertices[0].u = tl;
+            Vertices[0].v = tt;
+            Vertices[1].u = tr;
+            Vertices[1].v = tt;
+            Vertices[2].u = tl;
+            Vertices[2].v = tb;
+            Vertices[3].u = tl;
+            Vertices[3].v = tb;
+            Vertices[4].u = tr;
+            Vertices[4].v = tt;
+            Vertices[5].u = tr;
+            Vertices[5].v = tb;
+        }
+
+        // This applies coordinates for TriangleStrip type
+        private void SetTriangleStripCoordinates(float vl, float vt, float vr, float vb,
+                                                 float tl, float tt, float tr, float tb)
+        {
+            // Setup coordinates
+            Vertices[0].x = vl;
+            Vertices[0].y = vt;
+            Vertices[1].x = vr;
+            Vertices[1].y = vt;
+            Vertices[2].x = vl;
+            Vertices[2].y = vb;
+            Vertices[3].x = vr;
+            Vertices[3].y = vb;
+
+            // Set texture coordinates
+            Vertices[0].u = tl;
+            Vertices[0].v = tt;
+            Vertices[1].u = tr;
+            Vertices[1].v = tt;
+            Vertices[2].u = tl;
+            Vertices[2].v = tb;
+            Vertices[3].u = tr;
+            Vertices[3].v = tb;
+        }
+
+        // This initializes vertices to default values
+        private void Initialize(PrimitiveType type)
+        {
+            // Determine primitive type
+            this.Type = type;
+
+            // Determine number of vertices
+            switch (type)
+            {
+                case PrimitiveType.TriangleList: numvertices = 6; break;
+                case PrimitiveType.TriangleStrip: numvertices = 4; break;
+                default: throw new NotSupportedException("Unsupported PrimitiveType");
+            }
+
+            // Make the array
+            Vertices = new FlatVertex[numvertices];
+
+            // Go for all vertices
+            for (int i = 0; i < numvertices; i++)
+            {
+                // Initialize to defaults
+                Vertices[i].c = -1;
+            }
+        }
+
+        #endregion
+
+        #region ================== Rendering
+
+        // This renders the quad
+        public void Render(RenderDevice device)
+        {
+            // Render the quad
+            device.Draw(Type, 0, 2, Vertices);
+        }
+
+        #endregion
+    }
 }

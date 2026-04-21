@@ -16,276 +16,276 @@
 
 #region ================== Namespaces
 
+using CodeImp.DoomBuilder.Geometry;
 using System;
 using System.Windows.Forms;
-using CodeImp.DoomBuilder.Geometry;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
-	public partial class EditSelectionPanel : UserControl
-	{
-		#region ================== Constants
-		
-		#endregion
-		
-		#region ================== Variables
-		
-		// Editing mode
-		private EditSelectionMode mode;
-		
-		// Input
-		private bool userinput;
-		private bool preventchanges; //mxd
-		
-		// Values
-		private Vector2D orgpos;
-		private Vector2D orgsize;
-		private Vector2D abspos;
-		private Vector2D relpos;
-		private Vector2D abssize;
-		private Vector2D relsize;
-		private double absrotate;
-		
-		#endregion
-		
-		#region ================== Constructor
-		
-		// Constructor
-		public EditSelectionPanel(EditSelectionMode mode)
-		{
-			InitializeComponent();
-			this.mode = mode;
+    public partial class EditSelectionPanel : UserControl
+    {
+        #region ================== Constants
 
-			//mxd
-			preventchanges = true;
-			if(General.Map.UDMF)
-			{
-				preciseposition.Checked = mode.UsePrecisePosition;
-				preciseposition.Enabled = true;
-			}
-			else
-			{
-				preciseposition.Checked = false;
-				preciseposition.Enabled = false;
-			}
-			preventchanges = false;
+        #endregion
 
-			//mxd. Otherwise the focus will go to one of TextBoxes 
-			// and stay there forever preventing tab collapsing when in collapsed mode
-			label1.Focus();
-		}
-		
-		#endregion
-		
-		#region ================== Methods
-		
-		// This sets the original size
-		public void ShowOriginalValues(Vector2D pos, Vector2D size)
-		{
-			// Set values
-			this.orgpos = pos;
-			this.orgsize = size;
-			
-			// Set controls
-			orgposx.Text = pos.x.ToString();
-			orgposy.Text = pos.y.ToString();
-			orgsizex.Text = size.x.ToString();
-			orgsizey.Text = size.y.ToString();
-		}
-		
-		// This sets the dynamic values
-		public void ShowCurrentValues(Vector2D pos, Vector2D relpos, Vector2D size, Vector2D relsize, double rotation)
-		{
-			// Set values
-			this.abspos = pos;
-			this.relpos = relpos;
-			this.abssize = size;
-			this.relsize = relsize;
-			this.absrotate = Angle2D.RadToDeg(rotation);
-			
-			// Set controls
-			absposx.Text = pos.x.ToString("0.#");
-			absposy.Text = pos.y.ToString("0.#");
-			relposx.Text = relpos.x.ToString("0.#");
-			relposy.Text = relpos.y.ToString("0.#");
-			abssizex.Text = size.x.ToString("0.#");
-			abssizey.Text = size.y.ToString("0.#");
-			relsizex.Text = relsize.x.ToString("0.#");
-			relsizey.Text = relsize.y.ToString("0.#");
-			absrot.Text = this.absrotate.ToString("0.#");
-			
-			userinput = false;
-		}
+        #region ================== Variables
 
-		//mxd
-		internal void SetTextureTransformSettings(bool enable)
-		{
-			// Disable groups?
-			if(!enable)
-			{
-				pinfloortextures.Enabled = false;
-				pinceilingtextures.Enabled = false;
-				return;
-			}
+        // Editing mode
+        private EditSelectionMode mode;
 
-			// Update checkboxes
-			preventchanges = true;
+        // Input
+        private bool userinput;
+        private bool preventchanges; //mxd
 
-			pinfloortextures.Checked = mode.PinFloorTextures;
-			pinceilingtextures.Checked = mode.PinCeilingTextures;
+        // Values
+        private Vector2D orgpos;
+        private Vector2D orgsize;
+        private Vector2D abspos;
+        private Vector2D relpos;
+        private Vector2D abssize;
+        private Vector2D relsize;
+        private double absrotate;
 
-			preventchanges = false;
-		}
+        #endregion
 
-		//mxd
-		internal void SetHeightAdjustMode(EditSelectionMode.HeightAdjustMode adjustmode, bool enable)
-		{
-			preventchanges = true;
-			heightmode.SelectedIndex = (int)adjustmode;
-			heightmode.Enabled = enable;
-			preventchanges = false;
-		}
+        #region ================== Constructor
 
-		#endregion
-		
-		#region ================== Events
-		
-		// User input given
-		private void WhenTextChanged(object sender, EventArgs e)
-		{
-			userinput = true;
-		}
-		
-		private void absposx_Validated(object sender, EventArgs e)
-		{
-			if(userinput)
-				mode.SetAbsPosX(absposx.GetResultFloat(this.abspos.x));
-		}
+        // Constructor
+        public EditSelectionPanel(EditSelectionMode mode)
+        {
+            InitializeComponent();
+            this.mode = mode;
 
-		private void absposy_Validated(object sender, EventArgs e)
-		{
-			if(userinput)
-				mode.SetAbsPosY(absposy.GetResultFloat(this.abspos.y));
-		}
+            //mxd
+            preventchanges = true;
+            if (General.Map.UDMF)
+            {
+                preciseposition.Checked = mode.UsePrecisePosition;
+                preciseposition.Enabled = true;
+            }
+            else
+            {
+                preciseposition.Checked = false;
+                preciseposition.Enabled = false;
+            }
+            preventchanges = false;
 
-		private void relposx_Validated(object sender, EventArgs e)
-		{
-			if(userinput)
-				mode.SetRelPosX(relposx.GetResultFloat(this.relpos.x));
-		}
+            //mxd. Otherwise the focus will go to one of TextBoxes 
+            // and stay there forever preventing tab collapsing when in collapsed mode
+            label1.Focus();
+        }
 
-		private void relposy_Validated(object sender, EventArgs e)
-		{
-			if(userinput)
-				mode.SetRelPosY(relposy.GetResultFloat(this.relpos.y));
-		}
+        #endregion
 
-		private void abssizex_Validated(object sender, EventArgs e)
-		{
-			if(userinput)
-				mode.SetAbsSizeX(abssizex.GetResultFloat(this.abssize.x));
-		}
+        #region ================== Methods
 
-		private void abssizey_Validated(object sender, EventArgs e)
-		{
-			if(userinput)
-				mode.SetAbsSizeY(abssizey.GetResultFloat(this.abssize.y));
-		}
+        // This sets the original size
+        public void ShowOriginalValues(Vector2D pos, Vector2D size)
+        {
+            // Set values
+            this.orgpos = pos;
+            this.orgsize = size;
 
-		private void relsizex_Validated(object sender, EventArgs e)
-		{
-			if(userinput)
-				mode.SetRelSizeX(relsizex.GetResultFloat(this.relsize.x));
-		}
+            // Set controls
+            orgposx.Text = pos.x.ToString();
+            orgposy.Text = pos.y.ToString();
+            orgsizex.Text = size.x.ToString();
+            orgsizey.Text = size.y.ToString();
+        }
 
-		private void relsizey_Validated(object sender, EventArgs e)
-		{
-			if(userinput)
-				mode.SetRelSizeY(relsizey.GetResultFloat(this.relsize.y));
-		}
+        // This sets the dynamic values
+        public void ShowCurrentValues(Vector2D pos, Vector2D relpos, Vector2D size, Vector2D relsize, double rotation)
+        {
+            // Set values
+            this.abspos = pos;
+            this.relpos = relpos;
+            this.abssize = size;
+            this.relsize = relsize;
+            this.absrotate = Angle2D.RadToDeg(rotation);
 
-		private void absrot_Validated(object sender, EventArgs e)
-		{
-			if(userinput)
-			{
-				double rad = Angle2D.DegToRad(absrot.GetResultFloat(this.absrotate));
-				mode.SetAbsRotation(rad);
-			}
-		}
+            // Set controls
+            absposx.Text = pos.x.ToString("0.#");
+            absposy.Text = pos.y.ToString("0.#");
+            relposx.Text = relpos.x.ToString("0.#");
+            relposy.Text = relpos.y.ToString("0.#");
+            abssizex.Text = size.x.ToString("0.#");
+            abssizey.Text = size.y.ToString("0.#");
+            relsizex.Text = relsize.x.ToString("0.#");
+            relsizey.Text = relsize.y.ToString("0.#");
+            absrot.Text = this.absrotate.ToString("0.#");
 
-		private void fliph_Click(object sender, EventArgs e)
-		{
-			General.Actions.InvokeAction("buildermodes_flipselectionh");
-			General.Interface.FocusDisplay();
-		}
+            userinput = false;
+        }
 
-		private void flipv_Click(object sender, EventArgs e)
-		{
-			General.Actions.InvokeAction("buildermodes_flipselectionv");
-			General.Interface.FocusDisplay();
-		}
+        //mxd
+        internal void SetTextureTransformSettings(bool enable)
+        {
+            // Disable groups?
+            if (!enable)
+            {
+                pinfloortextures.Enabled = false;
+                pinceilingtextures.Enabled = false;
+                return;
+            }
 
-		private void orgposx_Click(object sender, EventArgs e)
-		{
-			mode.SetAbsPosX(orgpos.x);
-			General.Interface.FocusDisplay();
-		}
+            // Update checkboxes
+            preventchanges = true;
 
-		private void orgposy_Click(object sender, EventArgs e)
-		{
-			mode.SetAbsPosY(orgpos.y);
-			General.Interface.FocusDisplay();
-		}
+            pinfloortextures.Checked = mode.PinFloorTextures;
+            pinceilingtextures.Checked = mode.PinCeilingTextures;
 
-		private void orgsizex_Click(object sender, EventArgs e)
-		{
-			mode.SetAbsSizeX(orgsize.x);
-			General.Interface.FocusDisplay();
-		}
+            preventchanges = false;
+        }
 
-		private void orgsizey_Click(object sender, EventArgs e)
-		{
-			mode.SetAbsSizeY(orgsize.y);
-			General.Interface.FocusDisplay();
-		}
+        //mxd
+        internal void SetHeightAdjustMode(EditSelectionMode.HeightAdjustMode adjustmode, bool enable)
+        {
+            preventchanges = true;
+            heightmode.SelectedIndex = (int)adjustmode;
+            heightmode.Enabled = enable;
+            preventchanges = false;
+        }
 
-		//mxd
-		private void preciseposition_CheckedChanged(object sender, EventArgs e) 
-		{
-			if(preventchanges) return;
-			mode.UsePrecisePosition = preciseposition.Checked;
-			General.Interface.FocusDisplay();
-		}
+        #endregion
 
-		//mxd
-		private void heightmode_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			if(preventchanges || heightmode.SelectedIndex == -1) return;
-			mode.SectorHeightAdjustMode = (EditSelectionMode.HeightAdjustMode)heightmode.SelectedIndex;
-		}
+        #region ================== Events
 
-		#endregion
+        // User input given
+        private void WhenTextChanged(object sender, EventArgs e)
+        {
+            userinput = true;
+        }
 
-		private void cbPinFloorTextures_CheckedChanged(object sender, EventArgs e)
-		{
-			if (preventchanges) return;
-			preventchanges = true;
+        private void absposx_Validated(object sender, EventArgs e)
+        {
+            if (userinput)
+                mode.SetAbsPosX(absposx.GetResultFloat(this.abspos.x));
+        }
 
-			mode.PinFloorTextures = pinfloortextures.Checked;
+        private void absposy_Validated(object sender, EventArgs e)
+        {
+            if (userinput)
+                mode.SetAbsPosY(absposy.GetResultFloat(this.abspos.y));
+        }
 
-			preventchanges = false;
-		}
+        private void relposx_Validated(object sender, EventArgs e)
+        {
+            if (userinput)
+                mode.SetRelPosX(relposx.GetResultFloat(this.relpos.x));
+        }
 
-		private void pinceilingtextures_CheckedChanged(object sender, EventArgs e)
-		{
-			if (preventchanges) return;
-			preventchanges = true;
+        private void relposy_Validated(object sender, EventArgs e)
+        {
+            if (userinput)
+                mode.SetRelPosY(relposy.GetResultFloat(this.relpos.y));
+        }
 
-			mode.PinCeilingTextures = pinceilingtextures.Checked;
+        private void abssizex_Validated(object sender, EventArgs e)
+        {
+            if (userinput)
+                mode.SetAbsSizeX(abssizex.GetResultFloat(this.abssize.x));
+        }
 
-			preventchanges = false;
-		}
-	}
+        private void abssizey_Validated(object sender, EventArgs e)
+        {
+            if (userinput)
+                mode.SetAbsSizeY(abssizey.GetResultFloat(this.abssize.y));
+        }
+
+        private void relsizex_Validated(object sender, EventArgs e)
+        {
+            if (userinput)
+                mode.SetRelSizeX(relsizex.GetResultFloat(this.relsize.x));
+        }
+
+        private void relsizey_Validated(object sender, EventArgs e)
+        {
+            if (userinput)
+                mode.SetRelSizeY(relsizey.GetResultFloat(this.relsize.y));
+        }
+
+        private void absrot_Validated(object sender, EventArgs e)
+        {
+            if (userinput)
+            {
+                double rad = Angle2D.DegToRad(absrot.GetResultFloat(this.absrotate));
+                mode.SetAbsRotation(rad);
+            }
+        }
+
+        private void fliph_Click(object sender, EventArgs e)
+        {
+            General.Actions.InvokeAction("buildermodes_flipselectionh");
+            General.Interface.FocusDisplay();
+        }
+
+        private void flipv_Click(object sender, EventArgs e)
+        {
+            General.Actions.InvokeAction("buildermodes_flipselectionv");
+            General.Interface.FocusDisplay();
+        }
+
+        private void orgposx_Click(object sender, EventArgs e)
+        {
+            mode.SetAbsPosX(orgpos.x);
+            General.Interface.FocusDisplay();
+        }
+
+        private void orgposy_Click(object sender, EventArgs e)
+        {
+            mode.SetAbsPosY(orgpos.y);
+            General.Interface.FocusDisplay();
+        }
+
+        private void orgsizex_Click(object sender, EventArgs e)
+        {
+            mode.SetAbsSizeX(orgsize.x);
+            General.Interface.FocusDisplay();
+        }
+
+        private void orgsizey_Click(object sender, EventArgs e)
+        {
+            mode.SetAbsSizeY(orgsize.y);
+            General.Interface.FocusDisplay();
+        }
+
+        //mxd
+        private void preciseposition_CheckedChanged(object sender, EventArgs e)
+        {
+            if (preventchanges) return;
+            mode.UsePrecisePosition = preciseposition.Checked;
+            General.Interface.FocusDisplay();
+        }
+
+        //mxd
+        private void heightmode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (preventchanges || heightmode.SelectedIndex == -1) return;
+            mode.SectorHeightAdjustMode = (EditSelectionMode.HeightAdjustMode)heightmode.SelectedIndex;
+        }
+
+        #endregion
+
+        private void cbPinFloorTextures_CheckedChanged(object sender, EventArgs e)
+        {
+            if (preventchanges) return;
+            preventchanges = true;
+
+            mode.PinFloorTextures = pinfloortextures.Checked;
+
+            preventchanges = false;
+        }
+
+        private void pinceilingtextures_CheckedChanged(object sender, EventArgs e)
+        {
+            if (preventchanges) return;
+            preventchanges = true;
+
+            mode.PinCeilingTextures = pinceilingtextures.Checked;
+
+            preventchanges = false;
+        }
+    }
 }

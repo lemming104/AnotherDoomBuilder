@@ -20,32 +20,32 @@
 
 namespace CodeImp.DoomBuilder.Windows
 {
-	public enum MenuSection
-	{
-		FileNewOpenClose,
-		FileSave,
-		FileImport, //mxd
-		FileExport, //mxd
-		FileRecent,
-		FileExit,
-		EditUndoRedo,
-		EditCopyPaste,
-		EditGeometry,
-		EditGrid,
-		EditMapOptions,
-		ViewThings,
-		ViewViews,
-		ViewHelpers, //mxd
-		ViewRendering, //mxd
-		ViewZoom,
-		ViewScriptEdit,
-		PrefabsInsert,
-		PrefabsCreate,
-		ToolsResources,
-		ToolsConfiguration,
-		ToolsTesting,
-		HelpManual,
-		HelpAbout,
-		Top
-	}
+    public enum MenuSection
+    {
+        FileNewOpenClose,
+        FileSave,
+        FileImport, //mxd
+        FileExport, //mxd
+        FileRecent,
+        FileExit,
+        EditUndoRedo,
+        EditCopyPaste,
+        EditGeometry,
+        EditGrid,
+        EditMapOptions,
+        ViewThings,
+        ViewViews,
+        ViewHelpers, //mxd
+        ViewRendering, //mxd
+        ViewZoom,
+        ViewScriptEdit,
+        PrefabsInsert,
+        PrefabsCreate,
+        ToolsResources,
+        ToolsConfiguration,
+        ToolsTesting,
+        HelpManual,
+        HelpAbout,
+        Top
+    }
 }

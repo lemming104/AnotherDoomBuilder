@@ -16,13 +16,13 @@
 
 #region ================== Namespaces
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
 using CodeImp.DoomBuilder.IO;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Windows.Forms;
 
 #endregion
@@ -43,7 +43,6 @@ namespace CodeImp.DoomBuilder.Actions
         private Dictionary<string, Action> actions;
 
         // Categories
-        private SortedDictionary<string, string> categories;
 
         // Keys state
         private int modifiers;
@@ -51,27 +50,24 @@ namespace CodeImp.DoomBuilder.Actions
 
         // Begun actions
         private List<Action> activeactions;
-        private Action currentaction;
 
         // Exclusive invokation
-        private bool exclusiverequested;
 
         // Disposing
-        private bool isdisposed;
 
         #endregion
 
         #region ================== Properties
 
-        internal SortedDictionary<string, string> Categories { get { return categories; } }
+        internal SortedDictionary<string, string> Categories { get; }
         internal Action this[string action] { get { if (actions.ContainsKey(action)) return actions[action]; else throw new ArgumentException("There is no such action \"" + action + "\""); } }
-        public bool IsDisposed { get { return isdisposed; } }
-        internal bool ExclusiveRequested { get { return exclusiverequested; } }
+        public bool IsDisposed { get; private set; }
+        internal bool ExclusiveRequested { get; private set; }
 
         /// <summary>
         /// Current executing action. This returns Null when no action is invoked.
         /// </summary>
-        public Action Current { get { return currentaction; } internal set { currentaction = value; } }
+        public Action Current { get; internal set; }
 
         #endregion
 
@@ -85,7 +81,7 @@ namespace CodeImp.DoomBuilder.Actions
             actions = new Dictionary<string, Action>();
             pressedkeys = new List<int>();
             activeactions = new List<Action>();
-            categories = new SortedDictionary<string, string>();
+            Categories = new SortedDictionary<string, string>();
 
             // Load all actions in this assembly
             LoadActions(General.ThisAssembly);
@@ -98,12 +94,12 @@ namespace CodeImp.DoomBuilder.Actions
         internal void Dispose()
         {
             // Not already disposed?
-            if (!isdisposed)
+            if (!IsDisposed)
             {
                 // Clean up
 
                 // Done
-                isdisposed = true;
+                IsDisposed = true;
             }
         }
 
@@ -145,8 +141,8 @@ namespace CodeImp.DoomBuilder.Actions
                         foreach (DictionaryEntry c in cats)
                         {
                             // Make the category if not already added
-                            if (!categories.ContainsKey(c.Key.ToString()))
-                                categories.Add(c.Key.ToString(), c.Value.ToString());
+                            if (!Categories.ContainsKey(c.Key.ToString()))
+                                Categories.Add(c.Key.ToString(), c.Value.ToString());
                         }
 
                         // Go for all objects in the configuration
@@ -324,7 +320,7 @@ namespace CodeImp.DoomBuilder.Actions
             MethodInfo[] methods = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
             //foreach (MethodInfo m in methods)
             int methodsCount = methods.Length;
-            for(int i = 0; i < methodsCount; i++)
+            for (int i = 0; i < methodsCount; i++)
             {
                 MethodInfo m = methods[i];
                 // Check if the method has this attribute
@@ -333,7 +329,7 @@ namespace CodeImp.DoomBuilder.Actions
                 // Go for all attributes
                 //foreach (ActionAttribute a in attrs)
                 int attrsCount = attrs.Length;
-                for(int j = 0; j < attrsCount; j++)
+                for (int j = 0; j < attrsCount; j++)
                 {
                     ActionAttribute a = attrs[j];
                     // Create a delegate for this method
@@ -506,9 +502,10 @@ namespace CodeImp.DoomBuilder.Actions
             // Update pressed keys
             if (!repeat) pressedkeys.Add(strippedkey);
 
-			if (key == 0) {
-				return false;
-			}
+            if (key == 0)
+            {
+                return false;
+            }
 
             // Add action to active list
             Action[] acts = GetActionsByKey(key);
@@ -677,7 +674,7 @@ namespace CodeImp.DoomBuilder.Actions
         // This resets the exclusive request
         internal void ResetExclusiveRequest()
         {
-            exclusiverequested = false;
+            ExclusiveRequested = false;
         }
 
         /// <summary>
@@ -686,10 +683,10 @@ namespace CodeImp.DoomBuilder.Actions
         /// </summary>
         public bool RequestExclusiveInvokation()
         {
-            if (exclusiverequested) return false; // Already given out
+            if (ExclusiveRequested) return false; // Already given out
 
             // Success
-            exclusiverequested = true;
+            ExclusiveRequested = true;
             return true;
         }
 

@@ -32,24 +32,24 @@ namespace CodeImp.DoomBuilder.Rendering
         public static Vector4f Transform(Vector3f vector, Matrix transform)
         {
             return new Vector4f(
-                (((vector.X * transform.M11) + (vector.Y * transform.M21)) + (vector.Z * transform.M31)) + transform.M41,
-                (((vector.X * transform.M12) + (vector.Y * transform.M22)) + (vector.Z * transform.M32)) + transform.M42,
-                (((vector.X * transform.M13) + (vector.Y * transform.M23)) + (vector.Z * transform.M33)) + transform.M43,
-                (((vector.X * transform.M14) + (vector.Y * transform.M24)) + (vector.Z * transform.M34)) + transform.M44);
+                (vector.X * transform.M11) + (vector.Y * transform.M21) + (vector.Z * transform.M31) + transform.M41,
+                (vector.X * transform.M12) + (vector.Y * transform.M22) + (vector.Z * transform.M32) + transform.M42,
+                (vector.X * transform.M13) + (vector.Y * transform.M23) + (vector.Z * transform.M33) + transform.M43,
+                (vector.X * transform.M14) + (vector.Y * transform.M24) + (vector.Z * transform.M34) + transform.M44);
         }
 
         public static Vector3f Hermite(Vector3f value1, Vector3f tangent1, Vector3f value2, Vector3f tangent2, float amount)
         {
             float squared = amount * amount;
             float cubed = amount * squared;
-            float part1 = ((2.0f * cubed) - (3.0f * squared)) + 1.0f;
+            float part1 = (2.0f * cubed) - (3.0f * squared) + 1.0f;
             float part2 = (-2.0f * cubed) + (3.0f * squared);
-            float part3 = (cubed - (2.0f * squared)) + amount;
+            float part3 = cubed - (2.0f * squared) + amount;
             float part4 = cubed - squared;
             return new Vector3f(
-                (((value1.X * part1) + (value2.X * part2)) + (tangent1.X * part3)) + (tangent2.X * part4),
-                (((value1.Y * part1) + (value2.Y * part2)) + (tangent1.Y * part3)) + (tangent2.Y * part4),
-                (((value1.Z * part1) + (value2.Z * part2)) + (tangent1.Z * part3)) + (tangent2.Z * part4));
+                (value1.X * part1) + (value2.X * part2) + (tangent1.X * part3) + (tangent2.X * part4),
+                (value1.Y * part1) + (value2.Y * part2) + (tangent1.Y * part3) + (tangent2.Y * part4),
+                (value1.Z * part1) + (value2.Z * part2) + (tangent1.Z * part3) + (tangent2.Z * part4));
         }
 
         public static float DistanceSquared(Vector3f a, Vector3f b)
@@ -60,15 +60,15 @@ namespace CodeImp.DoomBuilder.Rendering
 
         public static float Dot(Vector3f a, Vector3f b)
         {
-            return a.X * b.X + a.Y * b.Y + a.Z * b.Z;
+            return (a.X * b.X) + (a.Y * b.Y) + (a.Z * b.Z);
         }
 
         public static Vector3f Cross(Vector3f left, Vector3f right)
         {
             Vector3f result = new Vector3f();
-            result.X = left.Y * right.Z - left.Z * right.Y;
-            result.Y = left.Z * right.X - left.X * right.Z;
-            result.Z = left.X * right.Y - left.Y * right.X;
+            result.X = (left.Y * right.Z) - (left.Z * right.Y);
+            result.Y = (left.Z * right.X) - (left.X * right.Z);
+            result.Z = (left.X * right.Y) - (left.Y * right.X);
             return result;
         }
 

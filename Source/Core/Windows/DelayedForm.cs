@@ -16,11 +16,11 @@
 
 #region ================== Namespaces
 
+using CodeImp.DoomBuilder.Actions;
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using CodeImp.DoomBuilder.Actions;
 using Action = CodeImp.DoomBuilder.Actions.Action;
 
 #endregion
@@ -32,186 +32,186 @@ using Action = CodeImp.DoomBuilder.Actions.Action;
 
 namespace CodeImp.DoomBuilder.Windows
 {
-	public class DelayedForm : Form
-	{
-		// Variables
-		protected readonly string configname; //mxd
+    public class DelayedForm : Form
+    {
+        // Variables
+        protected readonly string configname; //mxd
 
-		//mxd. Stored window size and location. Tracks location and size of FormWindowState.Normal window 
-		private Size windowsize = Size.Empty;
-		private Point windowlocation = Point.Empty;
-		
-		// Constructor
-		protected DelayedForm()
-		{
-			//mxd. And now, let's hope this doesn't horribly break anything...
-			if(!(this is MainForm))
-			{
-				this.KeyPreview = true;
-				this.KeyUp += OnKeyUp;
-			}
+        //mxd. Stored window size and location. Tracks location and size of FormWindowState.Normal window 
+        private Size windowsize = Size.Empty;
+        private Point windowlocation = Point.Empty;
 
-			//mxd. Only when running (this.DesignMode doesn't seem to cut it here,
-			// probably because not this, but a child class is in design mode...)
-			if(LicenseManager.UsageMode != LicenseUsageMode.Designtime)
-			{
-				configname = this.GetType().Name.ToLowerInvariant();
-				General.Actions.BindMethods(this);
-			}
-		}
+        // Constructor
+        protected DelayedForm()
+        {
+            //mxd. And now, let's hope this doesn't horribly break anything...
+            if (!(this is MainForm))
+            {
+                this.KeyPreview = true;
+                this.KeyUp += OnKeyUp;
+            }
 
-		//mxd
-		protected override void OnLoad(EventArgs e)
-		{
-			// Let the base class know
-			base.OnLoad(e);
+            //mxd. Only when running (this.DesignMode doesn't seem to cut it here,
+            // probably because not this, but a child class is in design mode...)
+            if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
+            {
+                configname = this.GetType().Name.ToLowerInvariant();
+                General.Actions.BindMethods(this);
+            }
+        }
 
-			if(this.DesignMode) return;
-			
-			// Restore location and size
-			this.SuspendLayout();
+        //mxd
+        protected override void OnLoad(EventArgs e)
+        {
+            // Let the base class know
+            base.OnLoad(e);
 
-			// Restore windowstate
-			if(this.MaximizeBox)
-			{
-				this.WindowState = (FormWindowState)General.Settings.ReadSetting("windows." + configname + ".windowstate", (int)FormWindowState.Normal);
-			}
+            if (this.DesignMode) return;
 
-			// Form size matters?
-			if(this.FormBorderStyle == FormBorderStyle.Sizable || this.FormBorderStyle == FormBorderStyle.SizableToolWindow)
-			{
-				this.Size = new Size(General.Settings.ReadSetting("windows." + configname + ".sizewidth", this.Size.Width),
-									 General.Settings.ReadSetting("windows." + configname + ".sizeheight", this.Size.Height));
-			}
+            // Restore location and size
+            this.SuspendLayout();
 
-			// Restore location
-			Point validlocation = Point.Empty;
-			Point location = new Point(General.Settings.ReadSetting("windows." + configname + ".positionx", int.MaxValue),
-									   General.Settings.ReadSetting("windows." + configname + ".positiony", int.MaxValue));
+            // Restore windowstate
+            if (this.MaximizeBox)
+            {
+                this.WindowState = (FormWindowState)General.Settings.ReadSetting("windows." + configname + ".windowstate", (int)FormWindowState.Normal);
+            }
 
-			if(location.X < int.MaxValue && location.Y < int.MaxValue)
-			{
-				// Location withing screen bounds?
-				Rectangle bounds = new Rectangle(location, this.Size);
-				bounds.Inflate(16, 16); // Add some safety padding
-				if(SystemInformation.VirtualScreen.IntersectsWith(bounds)) validlocation = location;
-			}
+            // Form size matters?
+            if (this.FormBorderStyle == FormBorderStyle.Sizable || this.FormBorderStyle == FormBorderStyle.SizableToolWindow)
+            {
+                this.Size = new Size(General.Settings.ReadSetting("windows." + configname + ".sizewidth", this.Size.Width),
+                                     General.Settings.ReadSetting("windows." + configname + ".sizeheight", this.Size.Height));
+            }
 
-			if(validlocation == Point.Empty && !(this is MainForm))
-			{
-				// Do the manual CenterParent...
-				validlocation = new Point(General.MainWindow.Location.X + General.MainWindow.Width / 2 - this.Width / 2,
-										  General.MainWindow.Location.Y + General.MainWindow.Height / 2 - this.Height / 2);
-			}
+            // Restore location
+            Point validlocation = Point.Empty;
+            Point location = new Point(General.Settings.ReadSetting("windows." + configname + ".positionx", int.MaxValue),
+                                       General.Settings.ReadSetting("windows." + configname + ".positiony", int.MaxValue));
 
-			// Apply location
-			if(validlocation == Point.Empty)
-			{
-				this.StartPosition = FormStartPosition.CenterParent;
-			}
-			else
-			{
-				this.StartPosition = FormStartPosition.Manual;
-				this.Location = validlocation;
-			}
+            if (location.X < int.MaxValue && location.Y < int.MaxValue)
+            {
+                // Location withing screen bounds?
+                Rectangle bounds = new Rectangle(location, this.Size);
+                bounds.Inflate(16, 16); // Add some safety padding
+                if (SystemInformation.VirtualScreen.IntersectsWith(bounds)) validlocation = location;
+            }
 
-			// Show the form if needed
-			if(this.Opacity < 1.0) this.Opacity = 1.0;
+            if (validlocation == Point.Empty && !(this is MainForm))
+            {
+                // Do the manual CenterParent...
+                validlocation = new Point(General.MainWindow.Location.X + (General.MainWindow.Width / 2) - (this.Width / 2),
+                                          General.MainWindow.Location.Y + (General.MainWindow.Height / 2) - (this.Height / 2));
+            }
 
-			this.ResumeLayout();
-		}
+            // Apply location
+            if (validlocation == Point.Empty)
+            {
+                this.StartPosition = FormStartPosition.CenterParent;
+            }
+            else
+            {
+                this.StartPosition = FormStartPosition.Manual;
+                this.Location = validlocation;
+            }
 
-		//mxd. When form is closing
-		protected override void OnClosing(CancelEventArgs e)
-		{
-			if(e.Cancel) return;
-			
-			// Let the base class know
-			base.OnClosing(e);
+            // Show the form if needed
+            if (this.Opacity < 1.0) this.Opacity = 1.0;
 
-			// Determine window state to save
-			if(this.MaximizeBox)
-			{
-				int windowstate;
-				if(this.WindowState != FormWindowState.Minimized)
-					windowstate = (int)this.WindowState;
-				else
-					windowstate = (int)FormWindowState.Normal;
+            this.ResumeLayout();
+        }
 
-				General.Settings.WriteSetting("windows." + configname + ".windowstate", windowstate);
-			}
+        //mxd. When form is closing
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            if (e.Cancel) return;
 
-			// Form size matters?
-			if(this.FormBorderStyle == FormBorderStyle.Sizable || this.FormBorderStyle == FormBorderStyle.SizableToolWindow)
-			{
-				Size size = ((windowsize.IsEmpty && this.WindowState == FormWindowState.Normal) ? this.Size : windowsize); // Prefer stored size if it was set
-				if(!size.IsEmpty)
-				{
-					General.Settings.WriteSetting("windows." + configname + ".sizewidth", size.Width);
-					General.Settings.WriteSetting("windows." + configname + ".sizeheight", size.Height);
-				}
-			}
+            // Let the base class know
+            base.OnClosing(e);
 
-			// Save location
-			Point location = ((windowlocation.IsEmpty && this.WindowState == FormWindowState.Normal) ? this.Location : windowlocation); // Prefer stored location if it was set
-			if(!location.IsEmpty)
-			{
-				General.Settings.WriteSetting("windows." + configname + ".positionx", location.X);
-				General.Settings.WriteSetting("windows." + configname + ".positiony", location.Y);
-			}
-		}
+            // Determine window state to save
+            if (this.MaximizeBox)
+            {
+                int windowstate;
+                if (this.WindowState != FormWindowState.Minimized)
+                    windowstate = (int)this.WindowState;
+                else
+                    windowstate = (int)FormWindowState.Normal;
 
-		//mxd. Also triggered when the window is dragged.
-		protected override void OnResizeEnd(EventArgs e)
-		{
-			// Store location and size when window is not minimized or maximized
-			if(this.WindowState == FormWindowState.Normal)
-			{
-				// Form size matters?
-				if(this.FormBorderStyle == FormBorderStyle.Sizable || this.FormBorderStyle == FormBorderStyle.SizableToolWindow)
-					windowsize = this.Size;
-				windowlocation = this.Location;
-			}
+                General.Settings.WriteSetting("windows." + configname + ".windowstate", windowstate);
+            }
 
-			base.OnResizeEnd(e);
-		}
+            // Form size matters?
+            if (this.FormBorderStyle == FormBorderStyle.Sizable || this.FormBorderStyle == FormBorderStyle.SizableToolWindow)
+            {
+                Size size = (windowsize.IsEmpty && this.WindowState == FormWindowState.Normal) ? this.Size : windowsize; // Prefer stored size if it was set
+                if (!size.IsEmpty)
+                {
+                    General.Settings.WriteSetting("windows." + configname + ".sizewidth", size.Width);
+                    General.Settings.WriteSetting("windows." + configname + ".sizeheight", size.Height);
+                }
+            }
 
-		//mxd. Special handling to call "save screenshot" actions from any form, 
-		//which inherits form DelayedForm and either doesn't override OnKeyUp, or calls base.OnKeyUp
-		private void OnKeyUp(object sender, KeyEventArgs e)
-		{
-			e.Handled = (Form.ActiveForm == this && ProcessSaveScreenshotAction((int)e.KeyData));
-			if(e.Handled) e.SuppressKeyPress = true;
-		}
+            // Save location
+            Point location = (windowlocation.IsEmpty && this.WindowState == FormWindowState.Normal) ? this.Location : windowlocation; // Prefer stored location if it was set
+            if (!location.IsEmpty)
+            {
+                General.Settings.WriteSetting("windows." + configname + ".positionx", location.X);
+                General.Settings.WriteSetting("windows." + configname + ".positiony", location.Y);
+            }
+        }
 
-		// mxd. Handle screenshot saving from any form
-		private static bool ProcessSaveScreenshotAction(int key)
-		{
-			Action[] actions = General.Actions.GetActionsByKey(key);
-			foreach(Action action in actions) 
-			{
-				if(action.ShortName == "savescreenshot" || action.ShortName == "saveeditareascreenshot")
-				{
-					General.Actions.InvokeAction(action.Name);
-					return true;
-				}
-			}
+        //mxd. Also triggered when the window is dragged.
+        protected override void OnResizeEnd(EventArgs e)
+        {
+            // Store location and size when window is not minimized or maximized
+            if (this.WindowState == FormWindowState.Normal)
+            {
+                // Form size matters?
+                if (this.FormBorderStyle == FormBorderStyle.Sizable || this.FormBorderStyle == FormBorderStyle.SizableToolWindow)
+                    windowsize = this.Size;
+                windowlocation = this.Location;
+            }
 
-			return false;
-		}
+            base.OnResizeEnd(e);
+        }
 
-		//mxd
-		[EndAction("savescreenshot", BaseAction = true)]
-		internal void SaveScreenshot() 
-		{
-			if(Form.ActiveForm == this) General.MainWindow.SaveScreenshot(false);
-		}
+        //mxd. Special handling to call "save screenshot" actions from any form, 
+        //which inherits form DelayedForm and either doesn't override OnKeyUp, or calls base.OnKeyUp
+        private void OnKeyUp(object sender, KeyEventArgs e)
+        {
+            e.Handled = Form.ActiveForm == this && ProcessSaveScreenshotAction((int)e.KeyData);
+            if (e.Handled) e.SuppressKeyPress = true;
+        }
 
-		//mxd
-		[EndAction("saveeditareascreenshot", BaseAction = true)]
-		internal void SaveEditAreaScreenshot() 
-		{
-			if(Form.ActiveForm == this) General.MainWindow.SaveScreenshot(true);
-		}
-	}
+        // mxd. Handle screenshot saving from any form
+        private static bool ProcessSaveScreenshotAction(int key)
+        {
+            Action[] actions = General.Actions.GetActionsByKey(key);
+            foreach (Action action in actions)
+            {
+                if (action.ShortName == "savescreenshot" || action.ShortName == "saveeditareascreenshot")
+                {
+                    General.Actions.InvokeAction(action.Name);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        //mxd
+        [EndAction("savescreenshot", BaseAction = true)]
+        internal void SaveScreenshot()
+        {
+            if (Form.ActiveForm == this) General.MainWindow.SaveScreenshot(false);
+        }
+
+        //mxd
+        [EndAction("saveeditareascreenshot", BaseAction = true)]
+        internal void SaveEditAreaScreenshot()
+        {
+            if (Form.ActiveForm == this) General.MainWindow.SaveScreenshot(true);
+        }
+    }
 }

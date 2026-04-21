@@ -15,48 +15,40 @@ namespace CodeImp.DoomBuilder.Controls
 {
     public class VSTabControl : TabControl
     {
-		#region ======================== Events
+        #region ======================== Events
 
-		public event EventHandler<TabControlEventArgs> OnCloseTabClicked;
+        public event EventHandler<TabControlEventArgs> OnCloseTabClicked;
 
-		#endregion
-		
-		#region ======================== Properties
+        #endregion
+
+        #region ======================== Properties
 
         public bool ShowClosingButton { get; set; }
 
         [Category("Colors"), Browsable(true), Description("The color of the selected page")]
-        public Color ActiveColor { get { return activeColor; } set { activeColor = value; } }
+        public Color ActiveColor { get; set; } = SystemColors.HotTrack;
 
         [Category("Colors"), Browsable(true), Description("The color of the highlighted page")]
-        public Color HighlightColor { get { return highlightColor; } set { highlightColor = value; } }
+        public Color HighlightColor { get; set; } = SystemColors.Highlight;
 
         [Category("Colors"), Browsable(true), Description("The color of the background of the tab")]
-        public Color BackTabColor { get { return backTabColor; } set { backTabColor = value; } }
+        public Color BackTabColor { get; set; } = SystemColors.Control;
 
         [Category("Colors"), Browsable(true), Description("The color of the border of the control")]
-        public Color BorderColor { get { return borderColor; } set { borderColor = value; } }
+        public Color BorderColor { get; set; } = SystemColors.Control;
 
         [Category("Colors"), Browsable(true), Description("The color of the title of the page")]
-        public Color TextColor { get { return textColor; } set { textColor = value; } }
+        public Color TextColor { get; set; } = SystemColors.WindowText;
 
         [Category("Colors"), Browsable(true), Description("The color of the title of the page")]
-        public Color SelectedTextColor { get { return selectedTextColor; } set { selectedTextColor = value; } }
+        public Color SelectedTextColor { get; set; } = SystemColors.HighlightText;
 
-	    #endregion
+        #endregion
 
         #region ======================== Variables
 
         private readonly StringFormat centersringformat = new StringFormat { Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Center };
         private TabPage predraggedTab;
-
-        private Color textColor = SystemColors.WindowText;
-        private Color selectedTextColor = SystemColors.HighlightText;
-        private Color activeColor = SystemColors.HotTrack;
-        private Color highlightColor = SystemColors.Highlight;
-        private Color backTabColor = SystemColors.Control;
-        private Color borderColor = SystemColors.Control;
-
         private int closebuttonmouseoverindex = -1; //mxd
 
         #endregion
@@ -88,23 +80,23 @@ namespace CodeImp.DoomBuilder.Controls
         protected override void OnDragOver(DragEventArgs drgevent)
         {
             //mxd. Collect used tab page types...
-			var tabpagetypes = new HashSet<Type>();
-	        foreach(var page in TabPages) tabpagetypes.Add(page.GetType());
+            var tabpagetypes = new HashSet<Type>();
+            foreach (var page in TabPages) tabpagetypes.Add(page.GetType());
 
-			//mxd. Identify dragged tab type...
-	        TabPage draggedTab = null;
-	        foreach(var T in tabpagetypes)
-	        {
-				draggedTab = (TabPage)drgevent.Data.GetData(T);
-				if(draggedTab != null) break;
-	        }
+            //mxd. Identify dragged tab type...
+            TabPage draggedTab = null;
+            foreach (var T in tabpagetypes)
+            {
+                draggedTab = (TabPage)drgevent.Data.GetData(T);
+                if (draggedTab != null) break;
+            }
 
             var pointedTab = GetPointedTab();
 
-            if(ReferenceEquals(draggedTab, predraggedTab) && pointedTab != null)
+            if (ReferenceEquals(draggedTab, predraggedTab) && pointedTab != null)
             {
                 drgevent.Effect = DragDropEffects.Move;
-                if(!ReferenceEquals(pointedTab, draggedTab)) ReplaceTabPages(draggedTab, pointedTab);
+                if (!ReferenceEquals(pointedTab, draggedTab)) ReplaceTabPages(draggedTab, pointedTab);
             }
 
             base.OnDragOver(drgevent);
@@ -115,20 +107,20 @@ namespace CodeImp.DoomBuilder.Controls
             predraggedTab = GetPointedTab();
 
             //mxd. MEMO: OnMouseUp is not fired when clicking on inactive tab...
-            if(ShowClosingButton)
+            if (ShowClosingButton)
             {
-                for(var i = 0; i < TabCount; i++)
+                for (var i = 0; i < TabCount; i++)
                 {
                     Rectangle r = GetCloseButtonRect(GetTabRect(i));
-                    if(r.Contains(e.Location))
+                    if (r.Contains(e.Location))
                     {
-						// Raise event...
-						if(OnCloseTabClicked != null)
-						{
-							TabControlEventArgs te = new TabControlEventArgs(TabPages[i], i, TabControlAction.Selected);
-							OnCloseTabClicked(this, te);
-							closebuttonmouseoverindex = -1;
-						}
+                        // Raise event...
+                        if (OnCloseTabClicked != null)
+                        {
+                            TabControlEventArgs te = new TabControlEventArgs(TabPages[i], i, TabControlAction.Selected);
+                            OnCloseTabClicked(this, te);
+                            closebuttonmouseoverindex = -1;
+                        }
                         break;
                     }
                 }
@@ -137,27 +129,27 @@ namespace CodeImp.DoomBuilder.Controls
             base.OnMouseDown(e);
         }
 
-	    protected override void OnMouseMove(MouseEventArgs e)
+        protected override void OnMouseMove(MouseEventArgs e)
         {
-            if(e.Button == MouseButtons.Left && predraggedTab != null)
+            if (e.Button == MouseButtons.Left && predraggedTab != null)
             {
                 DoDragDrop(predraggedTab, DragDropEffects.Move);
             }
             //mxd. Closing button highlight needs updating?
-            else if(ShowClosingButton)
+            else if (ShowClosingButton)
             {
                 int index = GetPointedTabIndex();
-                if(index != -1)
+                if (index != -1)
                 {
                     Rectangle cr = GetCloseButtonRect(GetTabRect(index));
                     bool inside = cr.Contains(PointToClient(Cursor.Position));
 
-                    if(inside && closebuttonmouseoverindex == -1)
+                    if (inside && closebuttonmouseoverindex == -1)
                     {
                         closebuttonmouseoverindex = index;
                         Refresh();
                     }
-                    else if(!inside && closebuttonmouseoverindex != -1)
+                    else if (!inside && closebuttonmouseoverindex != -1)
                     {
                         closebuttonmouseoverindex = -1;
                         Refresh();
@@ -182,11 +174,11 @@ namespace CodeImp.DoomBuilder.Controls
             g.PixelOffsetMode = PixelOffsetMode.HighQuality;
             g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            g.Clear(backTabColor);
+            g.Clear(BackTabColor);
 
             //mxd
             int highlightedtabindex = GetPointedTabIndex();
-            for(var i = 0; i < TabCount; i++)
+            for (var i = 0; i < TabCount; i++)
             {
                 var tabrect = GetTabRect(i); //mxd
                 var Header = new Rectangle(
@@ -196,7 +188,7 @@ namespace CodeImp.DoomBuilder.Controls
                 var TextSize = new Rectangle(HeaderSize.Location.X, HeaderSize.Location.Y, HeaderSize.Width, HeaderSize.Height - 2);
 
                 //mxd
-                if(TabPages[i].ImageIndex != -1)
+                if (TabPages[i].ImageIndex != -1)
                 {
                     int offset = ImageList.Images[TabPages[i].ImageIndex].Width + 2;
                     HeaderSize.X += offset;
@@ -206,31 +198,31 @@ namespace CodeImp.DoomBuilder.Controls
                     TextSize.Width -= offset + 2;
                 }
 
-                if(i == SelectedIndex || i == highlightedtabindex)
+                if (i == SelectedIndex || i == highlightedtabindex)
                 {
                     // Draws the back of the color when it is selected
                     var tabbgrect = new Rectangle(tabrect.X, tabrect.Y - 2, tabrect.Width, tabrect.Height + 2);
-                    using(var bgbrush = new SolidBrush(i == SelectedIndex ? activeColor : highlightColor))
+                    using (var bgbrush = new SolidBrush(i == SelectedIndex ? ActiveColor : HighlightColor))
                         g.FillRectangle(bgbrush, tabbgrect);
 
                     // Draws the title of the page
-                    using(var textbrush = new SolidBrush(selectedTextColor))
+                    using (var textbrush = new SolidBrush(SelectedTextColor))
                     {
                         g.DrawString(TabPages[i].Text, Font, textbrush, TextSize, centersringformat);
 
                         // Draws the closing button
-                        if(ShowClosingButton)
+                        if (ShowClosingButton)
                         {
                             //mxd. Draw bg rect?
                             var bgrect = GetCloseButtonRect(tabrect);
-                            if(closebuttonmouseoverindex == i)
+                            if (closebuttonmouseoverindex == i)
                             {
-                                using(var bgbrush = new SolidBrush(Color.FromArgb(96, selectedTextColor)))
+                                using (var bgbrush = new SolidBrush(Color.FromArgb(96, SelectedTextColor)))
                                     g.FillRectangle(bgbrush, bgrect);
                             }
 
                             //mxd. Draw X
-                            using(var closepen = new Pen(selectedTextColor, 1f))
+                            using (var closepen = new Pen(SelectedTextColor, 1f))
                             {
                                 const int offset = 4;
                                 int tlx = bgrect.X + offset;
@@ -247,30 +239,30 @@ namespace CodeImp.DoomBuilder.Controls
                 else
                 {
                     // Simply draw the header when it is not selected
-                    using(var textbrush = new SolidBrush(textColor))
+                    using (var textbrush = new SolidBrush(TextColor))
                     {
                         g.DrawString(TabPages[i].Text, Font, textbrush, TextSize, centersringformat);
                     }
                 }
 
                 //mxd. Draw icon?
-                if(TabPages[i].ImageIndex != -1)
+                if (TabPages[i].ImageIndex != -1)
                 {
                     g.DrawImage(ImageList.Images[TabPages[i].ImageIndex], Header.X + 2, 3);
                 }
             }
 
             // Draw the background of the tab control
-            using(var backtabbrush = new SolidBrush(backTabColor))
+            using (var backtabbrush = new SolidBrush(BackTabColor))
                 g.FillRectangle(backtabbrush, new Rectangle(0, ItemSize.Height, Width, Height - ItemSize.Height));
 
             // Draw the border of the TabControl
-            using(var borderpen = new Pen(borderColor, 2))
-				g.DrawRectangle(borderpen, new Rectangle(0, ItemSize.Height, Width, Height - ItemSize.Height));
+            using (var borderpen = new Pen(BorderColor, 2))
+                g.DrawRectangle(borderpen, new Rectangle(0, ItemSize.Height, Width, Height - ItemSize.Height));
 
-			// Draw the horizontal line
-			using(var linepen = new Pen(activeColor, 2))
-				g.DrawLine(linepen, new Point(0, ItemSize.Height - 1), new Point(Width, ItemSize.Height - 1));
+            // Draw the horizontal line
+            using (var linepen = new Pen(ActiveColor, 2))
+                g.DrawLine(linepen, new Point(0, ItemSize.Height - 1), new Point(Width, ItemSize.Height - 1));
         }
 
         #endregion
@@ -286,9 +278,9 @@ namespace CodeImp.DoomBuilder.Controls
 
         private TabPage GetPointedTab()
         {
-            for(var i = 0; i < TabPages.Count; i++)
+            for (var i = 0; i < TabPages.Count; i++)
             {
-                if(GetTabRect(i).Contains(PointToClient(Cursor.Position)))
+                if (GetTabRect(i).Contains(PointToClient(Cursor.Position)))
                 {
                     return TabPages[i];
                 }
@@ -300,9 +292,9 @@ namespace CodeImp.DoomBuilder.Controls
         //mxd
         private int GetPointedTabIndex()
         {
-            for(var i = 0; i < TabPages.Count; i++)
+            for (var i = 0; i < TabPages.Count; i++)
             {
-                if(GetTabRect(i).Contains(PointToClient(Cursor.Position)))
+                if (GetTabRect(i).Contains(PointToClient(Cursor.Position)))
                 {
                     return i;
                 }
@@ -319,11 +311,11 @@ namespace CodeImp.DoomBuilder.Controls
             TabPages[DestinationIndex] = Source;
             TabPages[SourceIndex] = Destination;
 
-            if(SelectedIndex == SourceIndex)
+            if (SelectedIndex == SourceIndex)
             {
                 SelectedIndex = DestinationIndex;
             }
-            else if(SelectedIndex == DestinationIndex)
+            else if (SelectedIndex == DestinationIndex)
             {
                 SelectedIndex = SourceIndex;
             }

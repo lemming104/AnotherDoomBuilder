@@ -234,7 +234,7 @@ namespace CodeImp.DoomBuilder.Controls
                     if (n_id_lo >= 0)
                         n_id = n_id.Substring(0, n_id_lo);
                     ofd.InitialDirectory = n_id;
-                    ofd.FileName = value.Substring(n_id_lo+1);
+                    ofd.FileName = value.Substring(n_id_lo + 1);
                 }
                 else
                 {
@@ -343,17 +343,12 @@ namespace CodeImp.DoomBuilder.Controls
         /// <param name="handle">Handle to wrap</param>
         public WindowWrapper(IntPtr handle)
         {
-            _hwnd = handle;
+            Handle = handle;
         }
 
         /// <summary>
         /// Original ptr
         /// </summary>
-        public IntPtr Handle
-        {
-            get { return _hwnd; }
-        }
-
-        private IntPtr _hwnd;
+        public IntPtr Handle { get; }
     }
 }
