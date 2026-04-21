@@ -106,7 +106,7 @@ namespace CodeImp.DoomBuilder.Data
             filestream = File.Open(location.location, FileMode.OpenOrCreate, access, share);
 
             // Create archive
-            archive = ArchiveFactory.Open(filestream);
+            archive = ArchiveFactory.OpenArchive(filestream);
             archivetype = archive.Type;
 
             // Random access of 7z archives works TERRIBLY slow in SharpCompress
@@ -218,7 +218,7 @@ namespace CodeImp.DoomBuilder.Data
                     // Take the detour with a FileStream because SharpCompress doesn't directly support opening files as read-only
                     filestream = File.Open(location.location, FileMode.OpenOrCreate, access, share);
 
-                    archive = ArchiveFactory.Open(filestream);
+                    archive = ArchiveFactory.OpenArchive(filestream);
                 }
                 else if (!enable && !batchmode && archive != null)
                 {
@@ -693,7 +693,7 @@ namespace CodeImp.DoomBuilder.Data
 
             using (MemoryStream savestream = new MemoryStream())
             {
-                using (ZipArchive za = (ZipArchive)ArchiveFactory.Open(location.location))
+                using (ZipArchive za = (ZipArchive)ArchiveFactory.OpenArchive(location.location))
                 {
                     if (za == null)
                     {
