@@ -1,4 +1,4 @@
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.Interface
 {
 	partial class ErrorCheckForm
 	{

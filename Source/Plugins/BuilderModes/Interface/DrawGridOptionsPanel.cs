@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using GridLockMode = CodeImp.DoomBuilder.BuilderModes.DrawGridMode.GridLockMode;
 using InterpolationMode = CodeImp.DoomBuilder.Geometry.InterpolationTools.Mode;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.Interface
 {
     internal partial class DrawGridOptionsPanel : UserControl
     {

@@ -22,7 +22,7 @@ using System.Windows.Forms;
 
 #endregion
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.Interface
 {
     public partial class PreferencesForm : DelayedForm
     {

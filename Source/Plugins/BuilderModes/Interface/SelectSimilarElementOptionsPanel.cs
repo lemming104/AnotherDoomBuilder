@@ -7,7 +7,7 @@ using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.Interface
 {
     public partial class SelectSimilarElementOptionsPanel : DelayedForm
     {

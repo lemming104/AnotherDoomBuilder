@@ -25,7 +25,7 @@ using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Windows;
 using System;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.Interface
 {
     internal partial class SlopeArchForm : DelayedForm
     {
