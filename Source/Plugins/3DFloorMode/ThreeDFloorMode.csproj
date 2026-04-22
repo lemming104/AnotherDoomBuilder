@@ -1,12 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
-    <OutputType>Library</OutputType>
     <RootNamespace>CodeImp.DoomBuilder.ThreeDFloorMode</RootNamespace>
-    
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,7 +20,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\Builder.csproj" />
     <ProjectReference Include="..\BuilderEffects\BuilderEffects.csproj" />
     <ProjectReference Include="..\BuilderModes\BuilderModes.csproj" />
   </ItemGroup>

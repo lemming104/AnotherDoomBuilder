@@ -1,20 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
-    <OutputType>Library</OutputType>
     <RootNamespace>CodeImp.DoomBuilder.StairSectorBuilder</RootNamespace>
-    
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\Actions.cfg" />
     <EmbeddedResource Include="Resources\StairIcon.png" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\..\Core\Builder.csproj" />
   </ItemGroup>
 </Project>

@@ -653,7 +653,7 @@ namespace CodeImp.DoomBuilder
 			restorepath = Path.Combine(settingspath, MAP_RESTORE_DIR);
 			configspath = Path.Combine(apppath, GAME_CONFIGS_DIR);
 			compilerspath = Path.Combine(apppath, COMPILERS_DIR);
-			pluginspath = Path.Combine(apppath, PLUGINS_DIR);
+            pluginspath = apppath;
 			scriptspath = Path.Combine(apppath, SCRIPTS_DIR);
 			snippetspath = Path.Combine(apppath, SNIPPETS_DIR); //mxd
 			screenshotspath = Path.Combine(apppath, SCREENSHOTS_DIR).Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar); //mxd

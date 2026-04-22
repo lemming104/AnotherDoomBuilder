@@ -1,17 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
-    <OutputType>Library</OutputType>
     <RootNamespace>CodeImp.DoomBuilder.BuilderModes</RootNamespace>
-    
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Core\Builder.csproj" />
-  </ItemGroup>
 
   <ItemGroup>
     <Compile Update="Interface\CurveLinedefsOptionsPanel.cs" SubType="UserControl" />

@@ -1,14 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
-    <OutputType>Library</OutputType>
     <RootNamespace>CodeImp.DoomBuilder.Plugins.VisplaneExplorer</RootNamespace>
-
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Actions.cfg" />
@@ -17,8 +10,5 @@
   <ItemGroup>
     <Content Include="Resources\Gauge.ico" />
     <Content Include="Resources\Gauge_large.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Core\Builder.csproj" />
   </ItemGroup>
 </Project>

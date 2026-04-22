@@ -1,16 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
-    <OutputType>Library</OutputType>
     <RootNamespace>CodeImp.DoomBuilder.Plugins.NodesViewer</RootNamespace>
-
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\..\Core\Builder.csproj" />
-  </ItemGroup>
   
   <ItemGroup>
     <EmbeddedResource Include="Resources\Actions.cfg" />

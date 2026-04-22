@@ -1,13 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
-    <OutputType>Library</OutputType>
     <RootNamespace>CodeImp.DoomBuilder.Plugins.ImageDrawingExample</RootNamespace>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\..\Core\Builder.csproj" />
-  </ItemGroup>
   
   <ItemGroup>
     <EmbeddedResource Include="ImageIcon.png" />

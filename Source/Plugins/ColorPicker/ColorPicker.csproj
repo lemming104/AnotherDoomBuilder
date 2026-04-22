@@ -1,23 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
-    <OutputType>Library</OutputType>
     <RootNamespace>CodeImp.DoomBuilder.ColorPicker</RootNamespace>
-
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
 
   <ItemGroup> 
     <Compile Update="Controls\ColorPickerControl.cs" SubType="UserControl" />
     <Compile Update="Controls\ColorPickerSlider.cs" SubType="UserControl" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\..\Core\Builder.csproj" />
-  </ItemGroup>
-  
+    
   <ItemGroup>
     <EmbeddedResource Include="Resources\Actions.cfg" />
   </ItemGroup>
