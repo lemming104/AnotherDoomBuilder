@@ -118,8 +118,8 @@
   <ItemGroup>
     <PackageReference Include="System.Management" Version="10.0.6" />
     <PackageReference Include="System.Resources.Extensions" Version="10.0.6" />
-    <PackageReference Include="Scintilla.NET" Version="5.3.2.9" />
-    <PackageReference Include="SharpCompress" Version="0.47.4" />
+    <PackageReference Include="jacobslusser.ScintillaNET" Version="3.6.3" />
+    <PackageReference Include="SharpCompress" Version="0.20.0" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Design" />

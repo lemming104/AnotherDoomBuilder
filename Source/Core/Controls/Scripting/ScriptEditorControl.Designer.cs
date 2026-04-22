@@ -53,7 +53,7 @@ namespace CodeImp.DoomBuilder.Controls
 			this.scriptedit.AutoCIgnoreCase = true;
 			this.scriptedit.AutoCMaxHeight = 12;
 			this.scriptedit.AutoCOrder = ScintillaNET.Order.Custom;
-			this.scriptedit.BorderStyle = (ScintillaNET.BorderStyle)System.Windows.Forms.BorderStyle.FixedSingle;
+			this.scriptedit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.scriptedit.CaretWidth = 2;
 			this.scriptedit.ContextMenuStrip = this.contextmenu;
 			this.scriptedit.Dock = System.Windows.Forms.DockStyle.Fill;

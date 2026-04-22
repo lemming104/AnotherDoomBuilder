@@ -33,7 +33,7 @@
 			// 
 			// scriptedit
 			// 
-			this.scriptedit.BorderStyle = (ScintillaNET.BorderStyle)System.Windows.Forms.BorderStyle.FixedSingle;
+			this.scriptedit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.scriptedit.CaretWidth = 2;
 			this.scriptedit.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.scriptedit.ExtraAscent = 1;
