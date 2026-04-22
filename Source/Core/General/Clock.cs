@@ -18,8 +18,8 @@ using System.Diagnostics;
 
 namespace CodeImp.DoomBuilder
 {
-    public static class Clock
-    {
+	public static class Clock
+	{
         static Clock()
         {
             Timer = new Stopwatch();
@@ -31,11 +31,11 @@ namespace CodeImp.DoomBuilder
         // This queries the system for the current time
         public static long CurrentTime { get { return Clock.Timer.ElapsedMilliseconds; } }
 
-        //mxd. Timer needs to be reset from time to time (like, every 2 days of continuously running the editor) to prevent float precision degradation.
-        internal static void Reset()
-        {
-            Clock.Timer.Reset();
+		//mxd. Timer needs to be reset from time to time (like, every 2 days of continuously running the editor) to prevent float precision degradation.
+		internal static void Reset()
+		{
+			Clock.Timer.Reset();
             Clock.Timer.Start();
-        }
-    }
+		}
+	}
 }

@@ -26,227 +26,232 @@ using System.Windows.Forms;
 namespace CodeImp.DoomBuilder.Controls
 {
 #if !NO_FORMS_DESIGN
-    [Designer(typeof(ButtonsNumericTextboxDesigner))]
+	[Designer(typeof(ButtonsNumericTextboxDesigner))]
 #endif
-    public partial class ButtonsNumericTextbox : UserControl
-    {
-        #region ================== Events
+	public partial class ButtonsNumericTextbox : UserControl
+	{
+		#region ================== Events
 
-        public event EventHandler WhenTextChanged;
-        public event EventHandler WhenButtonsClicked;
-        public event EventHandler WhenEnterPressed;
+		public event EventHandler WhenTextChanged;
+		public event EventHandler WhenButtonsClicked;
+		public event EventHandler WhenEnterPressed;
 
-        #endregion
+		#endregion
 
-        #region ================== Variables
+		#region ================== Variables
+		
+		private bool ignorebuttonchange;
+		private StepsList steps;
+		private int stepsize = 1;
+		private float stepsizeFloat = 1.0f; //mxd
+		private float stepsizeBig = 10.0f; //mxd
+		private float stepsizeSmall = 0.1f; //mxd
+		private bool wrapsteps; //mxd
+		private bool usemodifierkeys; //mxd
+		
+		#endregion
 
-        private bool ignorebuttonchange;
-        private StepsList steps;
-        private bool usemodifierkeys; //mxd
+		#region ================== Properties
 
-        #endregion
+		public bool AllowDecimal { get { return textbox.AllowDecimal; } set { textbox.AllowDecimal = value; UpdateButtonsTooltip(); } }
+		public bool AllowNegative { get { return textbox.AllowNegative; } set { textbox.AllowNegative = value; } }
+		public bool AllowRelative { get { return textbox.AllowRelative; } set { textbox.AllowRelative = value; } }
+		public bool AllowExpressions { get { return textbox.AllowExpressions; } set { textbox.AllowExpressions = value; } } //mxd/mgr_inz_rafal
+		public int ButtonStep { get { return stepsize; } set { stepsize = value; } }
+		public float ButtonStepFloat { get { return stepsizeFloat; } set { stepsizeFloat = value; } } //mxd. This is used when AllowDecimal is true
+		public float ButtonStepBig { get { return stepsizeBig; } set { stepsizeBig = value; } } //mxd
+		public float ButtonStepSmall { get { return stepsizeSmall; } set { stepsizeSmall = value; } } //mxd
+		override public string Text { get { return textbox.Text; } set { textbox.Text = value; } }
+		internal NumericTextbox Textbox { get { return textbox; } }
+		public StepsList StepValues { get { return steps; } set { steps = value; UpdateButtonsTooltip(); } }
+		public bool ButtonStepsWrapAround { get { return wrapsteps; } set { wrapsteps = value; } }
+		public bool ButtonStepsUseModifierKeys { get { return usemodifierkeys; } set { usemodifierkeys = value; UpdateButtonsTooltip(); } }
 
-        #region ================== Properties
+		#endregion
+		
+		#region ================== Constructor / Disposer
 
-        public bool AllowDecimal { get { return Textbox.AllowDecimal; } set { Textbox.AllowDecimal = value; UpdateButtonsTooltip(); } }
-        public bool AllowNegative { get { return Textbox.AllowNegative; } set { Textbox.AllowNegative = value; } }
-        public bool AllowRelative { get { return Textbox.AllowRelative; } set { Textbox.AllowRelative = value; } }
-        public bool AllowExpressions { get { return Textbox.AllowExpressions; } set { Textbox.AllowExpressions = value; } } //mxd/mgr_inz_rafal
-        public int ButtonStep { get; set; } = 1;
-        public float ButtonStepFloat { get; set; } = 1.0f; //mxd. This is used when AllowDecimal is true
-        public float ButtonStepBig { get; set; } = 10.0f; //mxd
-        public float ButtonStepSmall { get; set; } = 0.1f; //mxd
-        override public string Text { get { return Textbox.Text; } set { Textbox.Text = value; } }
-        internal NumericTextbox Textbox { get; private set; }
-        public StepsList StepValues { get { return steps; } set { steps = value; UpdateButtonsTooltip(); } }
-        public bool ButtonStepsWrapAround { get; set; }
-        public bool ButtonStepsUseModifierKeys { get { return usemodifierkeys; } set { usemodifierkeys = value; UpdateButtonsTooltip(); } }
+		// Constructor
+		public ButtonsNumericTextbox()
+		{
+			InitializeComponent();
+			buttons.Value = 0;
+			textbox.MouseWheel += textbox_MouseWheel;
+			UpdateButtonsTooltip(); //mxd
+		}
 
-        #endregion
+		#endregion
 
-        #region ================== Constructor / Disposer
+		#region ================== Interface
 
-        // Constructor
-        public ButtonsNumericTextbox()
-        {
-            InitializeComponent();
-            buttons.Value = 0;
-            Textbox.MouseWheel += textbox_MouseWheel;
-            UpdateButtonsTooltip(); //mxd
-        }
+		// Client size changes
+		protected override void OnClientSizeChanged(EventArgs e)
+		{
+			base.OnClientSizeChanged(e);
+			ClickableNumericTextbox_Resize(this, e);
+		}
+		
+		// Layout changes
+		private void ClickableNumericTextbox_Layout(object sender, LayoutEventArgs e)
+		{
+			ClickableNumericTextbox_Resize(sender, e);
+		}
 
-        #endregion
+		// Control resizes
+		private void ClickableNumericTextbox_Resize(object sender, EventArgs e)
+		{
+			buttons.Height = textbox.Height + 4;
+			textbox.Width = ClientRectangle.Width - buttons.Width - 2;
+			buttons.Left = textbox.Width + 2;
+			this.Height = buttons.Height;
+		}
+		
+		// Text in textbox changes
+		private void textbox_TextChanged(object sender, EventArgs e)
+		{
+			if(WhenTextChanged != null) WhenTextChanged(sender, e);
+			buttons.Enabled = !textbox.CheckIsRelative();
+		}
+		
+		// Buttons changed
+		private void buttons_ValueChanged(object sender, EventArgs e)
+		{
+			if(!ignorebuttonchange)
+			{
+				ignorebuttonchange = true;
+				if(!textbox.CheckIsRelative())
+				{
+					bool ctrl = ((ModifierKeys & Keys.Control) == Keys.Control); //mxd
+					bool shift = ((ModifierKeys & Keys.Shift) == Keys.Shift); //mxd
 
-        #region ================== Interface
+					if(steps != null && (!usemodifierkeys || (!ctrl && !shift)))
+					{
+						if(buttons.Value < 0)
+							textbox.Text = steps.GetNextHigherWrap(textbox.GetResult(0), wrapsteps).ToString(); //mxd
+						else if(buttons.Value > 0)
+							textbox.Text = steps.GetNextLowerWrap(textbox.GetResult(0), wrapsteps).ToString(); //mxd
+					}
+					else if(textbox.AllowDecimal)
+					{
+						double stepsizemod; //mxd
+						if(usemodifierkeys)
+							stepsizemod = (ctrl ? stepsizeSmall : (shift ? stepsizeBig : stepsizeFloat));
+						else
+							stepsizemod = stepsizeFloat;
+						
+						double newvalue = Math.Round(textbox.GetResultFloat(0.0f) - (buttons.Value * stepsizemod), General.Map.FormatInterface.VertexDecimals);
+						if((newvalue < 0.0f) && !textbox.AllowNegative) newvalue = 0.0f;
+						textbox.Text = newvalue.ToString();
+					}
+					else
+					{
+						int stepsizemod; //mxd
+						if(usemodifierkeys) 
+							stepsizemod = (ctrl ? (int)stepsizeSmall : (shift ? (int)stepsizeBig : stepsize));
+						else
+							stepsizemod = stepsize;
+						
+						int newvalue = textbox.GetResult(0) - (buttons.Value * stepsizemod);
+						if((newvalue < 0) && !textbox.AllowNegative) newvalue = 0;
+						textbox.Text = newvalue.ToString();
+					}
+				}
+				
+				buttons.Value = 0;
+				
+				if(WhenButtonsClicked != null)
+					WhenButtonsClicked(this, EventArgs.Empty);
+				
+				ignorebuttonchange = false;
+			}
+		}
 
-        // Client size changes
-        protected override void OnClientSizeChanged(EventArgs e)
-        {
-            base.OnClientSizeChanged(e);
-            ClickableNumericTextbox_Resize(this, e);
-        }
+		// Mouse wheel used
+		private void textbox_MouseWheel(object sender, MouseEventArgs e)
+		{
+			if(steps != null && (!usemodifierkeys || ((ModifierKeys & Keys.Control) != Keys.Control && (ModifierKeys & Keys.Shift) != Keys.Shift)))
+			{
+				if(e.Delta > 0)
+					textbox.Text = steps.GetNextHigher(textbox.GetResult(0)).ToString();
+				else if(e.Delta < 0)
+					textbox.Text = steps.GetNextLower(textbox.GetResult(0)).ToString();
+			}
+			else
+			{
+				buttons.Value -= Math.Sign(e.Delta);
+			}
+		}
 
-        // Layout changes
-        private void ClickableNumericTextbox_Layout(object sender, LayoutEventArgs e)
-        {
-            ClickableNumericTextbox_Resize(sender, e);
-        }
+		// Key pressed in textbox
+		private void textbox_KeyDown(object sender, KeyEventArgs e)
+		{
+			// Enter key?
+			if((e.KeyData == Keys.Enter) && (WhenEnterPressed != null))
+				WhenEnterPressed(this, EventArgs.Empty);
+		}
+		
+		#endregion
+		
+		#region ================== Methods
+		
+		// This checks if the number is relative
+		public bool CheckIsRelative()
+		{
+			return textbox.CheckIsRelative();
+		}
+		
+		// This determines the result value
+		public int GetResult(int original)
+		{
+			return textbox.GetResult(original);
+		}
 
-        // Control resizes
-        private void ClickableNumericTextbox_Resize(object sender, EventArgs e)
-        {
-            buttons.Height = Textbox.Height + 4;
-            Textbox.Width = ClientRectangle.Width - buttons.Width - 2;
-            buttons.Left = Textbox.Width + 2;
-            this.Height = buttons.Height;
-        }
+		//mxd. This determines the result value at given inremental step
+		public int GetResult(int original, int step)
+		{
+			return textbox.GetResult(original, step);
+		}
+		
+		// This determines the result value
+		public double GetResultFloat(double original)
+		{
+			return textbox.GetResultFloat(original);
+		}
 
-        // Text in textbox changes
-        private void textbox_TextChanged(object sender, EventArgs e)
-        {
-            if (WhenTextChanged != null) WhenTextChanged(sender, e);
-            buttons.Enabled = !Textbox.CheckIsRelative();
-        }
+		//mxd. This determines the result value at given inremental step
+		public double GetResultFloat(double original, int step)
+		{
+			return textbox.GetResultFloat(original, step);
+		}
 
-        // Buttons changed
-        private void buttons_ValueChanged(object sender, EventArgs e)
-        {
-            if (!ignorebuttonchange)
-            {
-                ignorebuttonchange = true;
-                if (!Textbox.CheckIsRelative())
-                {
-                    bool ctrl = (ModifierKeys & Keys.Control) == Keys.Control; //mxd
-                    bool shift = (ModifierKeys & Keys.Shift) == Keys.Shift; //mxd
+		//mxd
+		public void UpdateButtonsTooltip()
+		{
+			if(usemodifierkeys)
+			{
+				string tip = "Hold Ctrl to change value by " + stepsizeSmall.ToString(CultureInfo.CurrentCulture) + "." + Environment.NewLine +
+							 "Hold Shift to change value by " + stepsizeBig.ToString(CultureInfo.CurrentCulture) + ".";
+				tooltip.SetToolTip(buttons, tip);
+				textbox.UpdateTextboxStyle(tip);
+			}
+			else
+			{
+				tooltip.RemoveAll();
+				textbox.UpdateTextboxStyle();
+			}
+		}
 
-                    if (steps != null && (!usemodifierkeys || (!ctrl && !shift)))
-                    {
-                        if (buttons.Value < 0)
-                            Textbox.Text = steps.GetNextHigherWrap(Textbox.GetResult(0), ButtonStepsWrapAround).ToString(); //mxd
-                        else if (buttons.Value > 0)
-                            Textbox.Text = steps.GetNextLowerWrap(Textbox.GetResult(0), ButtonStepsWrapAround).ToString(); //mxd
-                    }
-                    else if (Textbox.AllowDecimal)
-                    {
-                        double stepsizemod; //mxd
-                        if (usemodifierkeys)
-                            stepsizemod = ctrl ? ButtonStepSmall : (shift ? ButtonStepBig : ButtonStepFloat);
-                        else
-                            stepsizemod = ButtonStepFloat;
+		// biwa
+		public void ResetIncrementStep()
+		{
+			textbox.ResetIncrementStep();
+		}
 
-                        double newvalue = Math.Round(Textbox.GetResultFloat(0.0f) - (buttons.Value * stepsizemod), General.Map.FormatInterface.VertexDecimals);
-                        if ((newvalue < 0.0f) && !Textbox.AllowNegative) newvalue = 0.0f;
-                        Textbox.Text = newvalue.ToString();
-                    }
-                    else
-                    {
-                        int stepsizemod; //mxd
-                        if (usemodifierkeys)
-                            stepsizemod = ctrl ? (int)ButtonStepSmall : (shift ? (int)ButtonStepBig : ButtonStep);
-                        else
-                            stepsizemod = ButtonStep;
+		public void SelectAll()
+		{
+			textbox.SelectAll();
+		}
 
-                        int newvalue = Textbox.GetResult(0) - (buttons.Value * stepsizemod);
-                        if ((newvalue < 0) && !Textbox.AllowNegative) newvalue = 0;
-                        Textbox.Text = newvalue.ToString();
-                    }
-                }
-
-                buttons.Value = 0;
-
-                if (WhenButtonsClicked != null)
-                    WhenButtonsClicked(this, EventArgs.Empty);
-
-                ignorebuttonchange = false;
-            }
-        }
-
-        // Mouse wheel used
-        private void textbox_MouseWheel(object sender, MouseEventArgs e)
-        {
-            if (steps != null && (!usemodifierkeys || ((ModifierKeys & Keys.Control) != Keys.Control && (ModifierKeys & Keys.Shift) != Keys.Shift)))
-            {
-                if (e.Delta > 0)
-                    Textbox.Text = steps.GetNextHigher(Textbox.GetResult(0)).ToString();
-                else if (e.Delta < 0)
-                    Textbox.Text = steps.GetNextLower(Textbox.GetResult(0)).ToString();
-            }
-            else
-            {
-                buttons.Value -= Math.Sign(e.Delta);
-            }
-        }
-
-        // Key pressed in textbox
-        private void textbox_KeyDown(object sender, KeyEventArgs e)
-        {
-            // Enter key?
-            if ((e.KeyData == Keys.Enter) && (WhenEnterPressed != null))
-                WhenEnterPressed(this, EventArgs.Empty);
-        }
-
-        #endregion
-
-        #region ================== Methods
-
-        // This checks if the number is relative
-        public bool CheckIsRelative()
-        {
-            return Textbox.CheckIsRelative();
-        }
-
-        // This determines the result value
-        public int GetResult(int original)
-        {
-            return Textbox.GetResult(original);
-        }
-
-        //mxd. This determines the result value at given inremental step
-        public int GetResult(int original, int step)
-        {
-            return Textbox.GetResult(original, step);
-        }
-
-        // This determines the result value
-        public double GetResultFloat(double original)
-        {
-            return Textbox.GetResultFloat(original);
-        }
-
-        //mxd. This determines the result value at given inremental step
-        public double GetResultFloat(double original, int step)
-        {
-            return Textbox.GetResultFloat(original, step);
-        }
-
-        //mxd
-        public void UpdateButtonsTooltip()
-        {
-            if (usemodifierkeys)
-            {
-                string tip = "Hold Ctrl to change value by " + ButtonStepSmall.ToString(CultureInfo.CurrentCulture) + "." + Environment.NewLine +
-                             "Hold Shift to change value by " + ButtonStepBig.ToString(CultureInfo.CurrentCulture) + ".";
-                tooltip.SetToolTip(buttons, tip);
-                Textbox.UpdateTextboxStyle(tip);
-            }
-            else
-            {
-                tooltip.RemoveAll();
-                Textbox.UpdateTextboxStyle();
-            }
-        }
-
-        // biwa
-        public void ResetIncrementStep()
-        {
-            Textbox.ResetIncrementStep();
-        }
-
-        public void SelectAll()
-        {
-            Textbox.SelectAll();
-        }
-
-        #endregion
-    }
+		#endregion
+	}
 }

@@ -1,46 +1,51 @@
-﻿using CodeImp.DoomBuilder.Config;
-using System;
+﻿using System;
 using System.Windows.Forms;
+using CodeImp.DoomBuilder.Config;
 
 namespace CodeImp.DoomBuilder.Controls.Scripting
 {
-    internal class ScriptIconsManager
-    {
-        internal int ScriptTypeIconsOffset { get; }
-        internal int ScriptGroupIconsOffset { get; }
-        internal int ScriptGroupOpenIconsOffset { get; }
-        public ImageList Icons { get; }
+	internal class ScriptIconsManager
+	{
+		private int scripttypeiconsoffset;
+		private int scriptgroupiconsoffset;
+		private int scriptgroupopeniconsoffset;
+		private ImageList icons;
 
-        public ScriptIconsManager(ImageList icons)
-        {
-            this.Icons = icons;
+		internal int ScriptTypeIconsOffset { get { return scripttypeiconsoffset; } }
+		internal int ScriptGroupIconsOffset { get { return scriptgroupiconsoffset; } }
+		internal int ScriptGroupOpenIconsOffset { get { return scriptgroupopeniconsoffset; } }
+		public ImageList Icons { get { return icons; } }
 
-            int numicons = Enum.GetNames(typeof(ScriptType)).Length;
-            ScriptGroupOpenIconsOffset = icons.Images.Count - numicons;
-            ScriptGroupIconsOffset = ScriptGroupOpenIconsOffset - numicons;
-            ScriptTypeIconsOffset = ScriptGroupIconsOffset - numicons;
-        }
+		public ScriptIconsManager(ImageList icons)
+		{
+			this.icons = icons;
 
-        public int GetResourceIcon(int datalocationtype)
-        {
-            return datalocationtype;
-        }
+			int numicons = Enum.GetNames(typeof(ScriptType)).Length;
+			scriptgroupopeniconsoffset = icons.Images.Count - numicons;
+			scriptgroupiconsoffset = scriptgroupopeniconsoffset - numicons;
+			scripttypeiconsoffset = scriptgroupiconsoffset - numicons;
+		}
 
-        public int GetScriptIcon(ScriptType type)
-        {
-            int scripttype = (int)type + ScriptTypeIconsOffset;
-            if (scripttype >= ScriptGroupIconsOffset) scripttype = ScriptTypeIconsOffset;
-            return scripttype;
-        }
+		public int GetResourceIcon(int datalocationtype)
+		{
+			return datalocationtype;
+		}
 
-        public int GetScriptFolderIcon(ScriptType type, bool opened)
-        {
-            int scripttype = (int)type;
-            if (scripttype >= ScriptGroupIconsOffset - ScriptTypeIconsOffset)
-                scripttype = ScriptTypeIconsOffset;
+		public int GetScriptIcon(ScriptType type)
+		{
+			int scripttype = (int)type + scripttypeiconsoffset;
+			if(scripttype >= scriptgroupiconsoffset) scripttype = scripttypeiconsoffset;
+			return scripttype;
+		}
 
-            if (opened) return ScriptGroupOpenIconsOffset + scripttype;
-            return ScriptGroupIconsOffset + scripttype;
-        }
-    }
+		public int GetScriptFolderIcon(ScriptType type, bool opened)
+		{
+			int scripttype = (int)type;
+			if(scripttype >= scriptgroupiconsoffset - scripttypeiconsoffset)
+				scripttype = scripttypeiconsoffset;
+
+			if(opened) return scriptgroupopeniconsoffset + scripttype;
+			return scriptgroupiconsoffset + scripttype;
+		}
+	}
 }

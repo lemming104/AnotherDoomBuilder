@@ -86,7 +86,7 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
                     bool framefound = false;
                     for (int i = 0; i < num_frames; i++)
                     {
-                        s.Position = ofs_animFrame + start + (i * framesize);
+                        s.Position = ofs_animFrame + start + i * framesize;
                         s.Position += 24; // Skip scale and translate
                         string curframename = ReadString(br, 16).ToLowerInvariant();
 
@@ -109,7 +109,7 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
                 else
                 {
                     // If we have frame number, we can go directly to target frame
-                    s.Position = ofs_animFrame + start + (frame * framesize);
+                    s.Position = ofs_animFrame + start + frame * framesize;
                 }
 
                 Vector3f scale = new Vector3f(br.ReadSingle(), br.ReadSingle(), br.ReadSingle());
@@ -126,13 +126,13 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
                 {
                     WorldVertex v = new WorldVertex();
 
-                    v.x = (br.ReadByte() * scale.X) + translate.X;
-                    v.y = (br.ReadByte() * scale.Y) + translate.Y;
-                    v.z = (br.ReadByte() * scale.Z) + translate.Z;
+                    v.x = (br.ReadByte() * scale.X + translate.X);
+                    v.y = (br.ReadByte() * scale.Y + translate.Y);
+                    v.z = (br.ReadByte() * scale.Z + translate.Z);
 
                     // Fix rotation angle
-                    float rx = (angleOfsetCos * v.x) - (angleOfsetSin * v.y);
-                    float ry = (angleOfsetSin * v.x) + (angleOfsetCos * v.y);
+                    float rx = angleOfsetCos * v.x - angleOfsetSin * v.y;
+                    float ry = angleOfsetSin * v.x + angleOfsetCos * v.y;
                     v.y = ry;
                     v.x = rx;
 

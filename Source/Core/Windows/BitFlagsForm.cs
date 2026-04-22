@@ -16,161 +16,162 @@
 
 #region ================== Namespaces
 
-using CodeImp.DoomBuilder.Config;
 using System;
 using System.Windows.Forms;
+using CodeImp.DoomBuilder.Config;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Windows
 {
-    public partial class BitFlagsForm : DelayedForm
-    {
-        #region ================== Variables
+	public partial class BitFlagsForm : DelayedForm
+	{
+		#region ================== Variables
 
-        private bool setup;
+		private bool setup;
+		private int value;
+		
+		#endregion
 
-        #endregion
+		#region ================== Properties
 
-        #region ================== Properties
+		public int Value { get { return value; } }
 
-        public int Value { get; private set; }
+		#endregion
+		
+		#region ================== Constructor
 
-        #endregion
+		// Constructor
+		public BitFlagsForm()
+		{
+			// Initialize
+			InitializeComponent();
+		}
 
-        #region ================== Constructor
+		#endregion
 
-        // Constructor
-        public BitFlagsForm()
-        {
-            // Initialize
-            InitializeComponent();
-        }
+		#region ================== Events
 
-        #endregion
+		// When a checkbox is clicked
+		private void box_CheckedChanged(object sender, EventArgs e)
+		{
+			if(!setup)
+			{
+				// Now setting up
+				setup = true;
 
-        #region ================== Events
+				// Get this checkbox
+				CheckBox thisbox = (sender as CheckBox);
+				
+				// Checking or unchecking?
+				if(thisbox.Checked)
+				{
+					// Go for all other options
+					foreach(CheckBox b in options.Checkboxes)
+					{
+						// Not the same box?
+						if(b != thisbox)
+						{
+							// Overlapping bit flags? mxd: box with flag 0 requires special handling...
+							if( (int)b.Tag == 0 || (int)thisbox.Tag == 0 || (((int)b.Tag & (int)thisbox.Tag) != 0) ) 
+							{
+								// Uncheck the other
+								b.Checked = false;
+							}
+						}
+					}
+				}
 
-        // When a checkbox is clicked
-        private void box_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!setup)
-            {
-                // Now setting up
-                setup = true;
+				// Done
+				setup = false;
+			}
+		}
+		
+		// Cancel clicked
+		private void cancel_Click(object sender, EventArgs e)
+		{
+			// Close
+			DialogResult = DialogResult.Cancel;
+			this.Close();
+		}
 
-                // Get this checkbox
-                CheckBox thisbox = sender as CheckBox;
+		// OK clicked
+		private void apply_Click(object sender, EventArgs e)
+		{
+			this.value = 0;
+			
+			// Go for all checkboxes to make the final value
+			foreach(CheckBox b in options.Checkboxes)
+				if(b.Checked) value |= (int)b.Tag;
+			
+			// Done
+			DialogResult = DialogResult.OK;
+			this.Close();
+		}
 
-                // Checking or unchecking?
-                if (thisbox.Checked)
-                {
-                    // Go for all other options
-                    foreach (CheckBox b in options.Checkboxes)
-                    {
-                        // Not the same box?
-                        if (b != thisbox)
-                        {
-                            // Overlapping bit flags? mxd: box with flag 0 requires special handling...
-                            if ((int)b.Tag == 0 || (int)thisbox.Tag == 0 || (((int)b.Tag & (int)thisbox.Tag) != 0))
-                            {
-                                // Uncheck the other
-                                b.Checked = false;
-                            }
-                        }
-                    }
-                }
+		#endregion
 
-                // Done
-                setup = false;
-            }
-        }
+		#region ================== Methods
+		
+		// Setup from EnumList
+		public void Setup(EnumList flags, int value)
+		{
+			setup = true;
+			this.value = value;
+			int optionsheight = options.Height;
+			
+			// Make a checkbox for each item
+			foreach(EnumItem item in flags)
+			{
+				// Make the checkbox
+				int flag = item.GetIntValue(); //mxd
+				CheckBox box = options.Add(flag + ": " + item.Title, item.GetIntValue());
+				
+				// Bind checking event
+				box.CheckedChanged += box_CheckedChanged;
 
-        // Cancel clicked
-        private void cancel_Click(object sender, EventArgs e)
-        {
-            // Close
-            DialogResult = DialogResult.Cancel;
-            this.Close();
-        }
+				// Checking the box?
+				if((value & (int)box.Tag) == (int)box.Tag)
+				{
+					box.Checked = true;
+					
+					// Go for all other checkboxes
+					foreach(CheckBox b in options.Checkboxes)
+					{
+						// Not the same box?
+						if(b != box)
+						{
+							// Overlapping bit flags? mxd: box with flag 0 requires special handling...
+							if( ((int)b.Tag == 0 && value != 0) || ((int)b.Tag & (int)box.Tag) != 0 )
+							{
+								// Uncheck the other
+								b.Checked = false;
+							}
+						}
+					}
+				}
+			}
 
-        // OK clicked
-        private void apply_Click(object sender, EventArgs e)
-        {
-            this.Value = 0;
+			//mxd. Update window size
+			this.Height -= (optionsheight - options.GetHeight());
+			int targetwidth = options.GetWidth();
+			if(targetwidth > options.Width) this.Width += (targetwidth - options.Width);
 
-            // Go for all checkboxes to make the final value
-            foreach (CheckBox b in options.Checkboxes)
-                if (b.Checked) Value |= (int)b.Tag;
+			setup = false;
+		}
 
-            // Done
-            DialogResult = DialogResult.OK;
-            this.Close();
-        }
-
-        #endregion
-
-        #region ================== Methods
-
-        // Setup from EnumList
-        public void Setup(EnumList flags, int value)
-        {
-            setup = true;
-            this.Value = value;
-            int optionsheight = options.Height;
-
-            // Make a checkbox for each item
-            foreach (EnumItem item in flags)
-            {
-                // Make the checkbox
-                int flag = item.GetIntValue(); //mxd
-                CheckBox box = options.Add(flag + ": " + item.Title, item.GetIntValue());
-
-                // Bind checking event
-                box.CheckedChanged += box_CheckedChanged;
-
-                // Checking the box?
-                if ((value & (int)box.Tag) == (int)box.Tag)
-                {
-                    box.Checked = true;
-
-                    // Go for all other checkboxes
-                    foreach (CheckBox b in options.Checkboxes)
-                    {
-                        // Not the same box?
-                        if (b != box)
-                        {
-                            // Overlapping bit flags? mxd: box with flag 0 requires special handling...
-                            if (((int)b.Tag == 0 && value != 0) || ((int)b.Tag & (int)box.Tag) != 0)
-                            {
-                                // Uncheck the other
-                                b.Checked = false;
-                            }
-                        }
-                    }
-                }
-            }
-
-            //mxd. Update window size
-            this.Height -= optionsheight - options.GetHeight();
-            int targetwidth = options.GetWidth();
-            if (targetwidth > options.Width) this.Width += targetwidth - options.Width;
-
-            setup = false;
-        }
-
-        // This shows the dialog
-        // Returns the flags or the same flags when cancelled
-        public static int ShowDialog(IWin32Window owner, EnumList flags, int value)
-        {
-            int result = value;
-            BitFlagsForm f = new BitFlagsForm();
-            f.Setup(flags, value);
-            if (f.ShowDialog(owner) == DialogResult.OK) result = f.Value;
-            f.Dispose();
-            return result;
-        }
-
-        #endregion
-    }
+		// This shows the dialog
+		// Returns the flags or the same flags when cancelled
+		public static int ShowDialog(IWin32Window owner, EnumList flags, int value)
+		{
+			int result = value;
+			BitFlagsForm f = new BitFlagsForm();
+			f.Setup(flags, value);
+			if(f.ShowDialog(owner) == DialogResult.OK) result = f.Value;
+			f.Dispose();
+			return result;
+		}
+		
+		#endregion
+	}
 }

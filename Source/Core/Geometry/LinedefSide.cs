@@ -22,95 +22,99 @@ using CodeImp.DoomBuilder.Map;
 
 namespace CodeImp.DoomBuilder.Geometry
 {
-    /// <summary>
-    /// This is used to indicate a side of a line without the need for a sidedef.
-    /// </summary>
-    public sealed class LinedefSide
-    {
-        #region ================== Constants
+	/// <summary>
+	/// This is used to indicate a side of a line without the need for a sidedef.
+	/// </summary>
+	public sealed class LinedefSide
+	{
+		#region ================== Constants
 
-        #endregion
+		#endregion
 
-        #region ================== Variables
+		#region ================== Variables
 
-        #endregion
+		private Linedef line;
+		private bool front;
+		private bool ignore; //mxd
+		
+		#endregion
 
-        #region ================== Properties
+		#region ================== Properties
 
-        public Linedef Line { get; set; }
-        public bool Front { get; set; }
-        public bool Ignore { get; set; } //mxd
+		public Linedef Line { get { return line; } set { line = value; } }
+		public bool Front { get { return front; } set { front = value; } }
+		public bool Ignore { get { return ignore; } set { ignore = value; } } //mxd
 
-        #endregion
+		#endregion
 
-        #region ================== Constructor / Disposer
+		#region ================== Constructor / Disposer
 
-        /// <summary>
-        /// This is used to indicate a side of a line without the need for a sidedef.
-        /// </summary>
-        public LinedefSide(Linedef line, bool front)
-        {
-            // Initialize
-            this.Line = line;
-            this.Front = front;
-        }
+		/// <summary>
+		/// This is used to indicate a side of a line without the need for a sidedef.
+		/// </summary>
+		public LinedefSide(Linedef line, bool front)
+		{
+			// Initialize
+			this.line = line;
+			this.front = front;
+		}
 
-        /// <summary>
-        /// This makes a copy of the linedef side.
-        /// </summary>
-        public LinedefSide(LinedefSide original)
-        {
-            // Initialize
-            this.Line = original.Line;
-            this.Front = original.Front;
-        }
+		/// <summary>
+		/// This makes a copy of the linedef side.
+		/// </summary>
+		public LinedefSide(LinedefSide original)
+		{
+			// Initialize
+			this.line = original.line;
+			this.front = original.front;
+		}
 
-        #endregion
+		#endregion
 
-        #region ================== Methods
+		#region ================== Methods
 
-        // This compares a linedef side
-        public static bool operator ==(LinedefSide a, LinedefSide b)
-        {
-            if (object.Equals(a, null) && object.Equals(b, null)) return true;
-            if ((!object.Equals(a, null)) && object.Equals(b, null)) return false;
-            if (object.Equals(a, null)) return false;
-            return (a.Line == b.Line) && (a.Front == b.Front);
-        }
+		// This compares a linedef side
+		public static bool operator ==(LinedefSide a, LinedefSide b)
+		{
+			if((object.Equals(a, null)) && (object.Equals(b, null))) return true;
+			if((!object.Equals(a, null)) && (object.Equals(b, null))) return false;
+			if(object.Equals(a, null)) return false;
+			return (a.line == b.line) && (a.front == b.front);
+		}
 
-        // This compares a linedef side
-        public static bool operator !=(LinedefSide a, LinedefSide b)
-        {
-            if (object.Equals(a, null) && object.Equals(b, null)) return false;
-            if ((!object.Equals(a, null)) && object.Equals(b, null)) return true;
-            if (object.Equals(a, null)) return true;
-            return (a.Line != b.Line) || (a.Front != b.Front);
-        }
+		// This compares a linedef side
+		public static bool operator !=(LinedefSide a, LinedefSide b)
+		{
+			if((object.Equals(a, null)) && (object.Equals(b, null))) return false;
+			if((!object.Equals(a, null)) && (object.Equals(b, null))) return true;
+			if(object.Equals(a, null)) return true;
+			return (a.line != b.line) || (a.front != b.front);
+		}
 
-        //mxd. Addeed to make compiler a bit more happy...
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
+		//mxd. Addeed to make compiler a bit more happy...
+		public override int GetHashCode() 
+		{
+			return base.GetHashCode();
+		}
 
-        //mxd. Addeed to make compiler a bit more happy...
-        public override bool Equals(object obj)
-        {
-            if (object.Equals(obj, null)) return false;
-            LinedefSide other = (LinedefSide)obj;
-            return (this.Line == other.Line) && (this.Front == other.Front);
-        }
+		//mxd. Addeed to make compiler a bit more happy...
+		public override bool Equals(object obj) 
+		{
+			if(object.Equals(obj, null)) return false;
+			LinedefSide other = (LinedefSide)obj;
+			return (this.line == other.line) && (this.front == other.front);
+		}
 
 #if DEBUG
-        //mxd. Useful when debugging...
-        public override string ToString()
-        {
-            Sidedef side = Front ? Line.Front : Line.Back;
-            Sector sector = side != null ? side.Sector : null;
-            return Line + " (" + (Front ? "front" : "back") + ")" + (sector != null ? ", Sector " + sector.Index : ", no sector");
-        }
+		//mxd. Useful when debugging...
+		public override string ToString()
+		{
+			Sidedef side = (front ? line.Front : line.Back);
+			Sector sector = (side != null ? side.Sector : null);
+			return line + " (" + (front ? "front" : "back") + ")" + (sector != null ? ", Sector " + sector.Index : ", no sector");
+		}
 #endif
 
-        #endregion
-    }
+		#endregion
+	}
 }

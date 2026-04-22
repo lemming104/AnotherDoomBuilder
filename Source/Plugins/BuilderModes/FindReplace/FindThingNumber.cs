@@ -16,66 +16,66 @@
 
 #region ================== Namespaces
 
-using CodeImp.DoomBuilder.Config;
+using System.Collections.Generic;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
-using System.Collections.Generic;
+using CodeImp.DoomBuilder.Config;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
-    [FindReplace("Thing Index", BrowseButton = false)]
-    internal class FindThingNumber : BaseFindThing
-    {
-        #region ================== Constants
+	[FindReplace("Thing Index", BrowseButton = false)]
+	internal class FindThingNumber : BaseFindThing
+	{
+		#region ================== Constants
 
-        #endregion
+		#endregion
 
-        #region ================== Variables
+		#region ================== Variables
 
-        #endregion
+		#endregion
 
-        #region ================== Properties
+		#region ================== Properties
 
-        public override Presentation RenderPresentation { get { return Presentation.Things; } }
+		public override Presentation RenderPresentation { get { return Presentation.Things; } }
 
-        #endregion
+		#endregion
 
-        #region ================== Constructor / Destructor
+		#region ================== Constructor / Destructor
 
-        #endregion
+		#endregion
 
-        #region ================== Methods
+		#region ================== Methods
 
-        //mxd
-        public override bool CanReplace()
-        {
-            return false;
-        }
+		//mxd
+		public override bool CanReplace() 
+		{
+			return false;
+		}
 
-        // This is called to perform a search (and replace)
-        // Returns a list of items to show in the results list
-        // replacewith is null when not replacing
-        public override FindReplaceObject[] Find(string value, bool withinselection, bool replace, string replacewith, bool keepselection)
-        {
-            List<FindReplaceObject> objs = new List<FindReplaceObject>();
+		// This is called to perform a search (and replace)
+		// Returns a list of items to show in the results list
+		// replacewith is null when not replacing
+		public override FindReplaceObject[] Find(string value, bool withinselection, bool replace, string replacewith, bool keepselection)
+		{
+			List<FindReplaceObject> objs = new List<FindReplaceObject>();
 
-            // Interpret the number given
-            int index;
-            if (int.TryParse(value, out index))
-            {
-                Thing t = General.Map.Map.GetThingByIndex(index);
-                if (t != null)
-                {
-                    ThingTypeInfo ti = General.Map.Data.GetThingInfo(t.Type);
-                    objs.Add(new FindReplaceObject(t, "Thing " + index + " (" + ti.Title + ")"));
-                }
-            }
+			// Interpret the number given
+			int index;
+			if(int.TryParse(value, out index))
+			{
+				Thing t = General.Map.Map.GetThingByIndex(index);
+				if(t != null)
+				{
+					ThingTypeInfo ti = General.Map.Data.GetThingInfo(t.Type);
+					objs.Add(new FindReplaceObject(t, "Thing " + index + " (" + ti.Title + ")"));
+				}
+			}
 
-            return objs.ToArray();
-        }
+			return objs.ToArray();
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

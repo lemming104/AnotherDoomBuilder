@@ -22,60 +22,65 @@ using System;
 
 namespace CodeImp.DoomBuilder.Config
 {
-    public class SectorEffectInfo : INumberedTitle, IComparable<SectorEffectInfo>
-    {
-        #region ================== Constants
+	public class SectorEffectInfo : INumberedTitle, IComparable<SectorEffectInfo>
+	{
+		#region ================== Constants
 
-        #endregion
+		#endregion
 
-        #region ================== Variables
+		#region ================== Variables
 
-        // Properties
-        #endregion
+		// Properties
+		private int index;
+		private string title;
+		private bool isknown;
+		private bool isgeneralized;
+		
+		#endregion
 
-        #region ================== Properties
+		#region ================== Properties
 
-        public int Index { get; }
-        public string Title { get; }
-        public bool IsGeneralized { get; }
-        public bool IsKnown { get; }
-        public bool IsNull { get { return Index == 0; } }
+		public int Index { get { return index; } }
+		public string Title { get { return title; } }
+		public bool IsGeneralized { get { return isgeneralized; } }
+		public bool IsKnown { get { return isknown; } }
+		public bool IsNull { get { return (index == 0); } }
 
-        #endregion
+		#endregion
 
-        #region ================== Constructor / Disposer
+		#region ================== Constructor / Disposer
 
-        // Constructor
-        internal SectorEffectInfo(int index, string title, bool isknown, bool isgeneralized)
-        {
-            // Initialize
-            this.Index = index;
-            this.Title = title;
-            this.IsKnown = isknown;
-            this.IsGeneralized = isgeneralized;
+		// Constructor
+		internal SectorEffectInfo(int index, string title, bool isknown, bool isgeneralized)
+		{
+			// Initialize
+			this.index = index;
+			this.title = title;
+			this.isknown = isknown;
+			this.isgeneralized = isgeneralized;
+			
+			// We have no destructor
+			GC.SuppressFinalize(this);
+		}
 
-            // We have no destructor
-            GC.SuppressFinalize(this);
-        }
+		#endregion
 
-        #endregion
+		#region ================== Methods
 
-        #region ================== Methods
+		// This presents the item as string
+		public override string ToString()
+		{
+			return index + " - " + title;
+		}
 
-        // This presents the item as string
-        public override string ToString()
-        {
-            return Index + " - " + Title;
-        }
+		// This compares against another action info
+		public int CompareTo(SectorEffectInfo other)
+		{
+			if(this.index < other.index) return -1;
+			else if(this.index > other.index) return 1;
+			else return 0;
+		}
 
-        // This compares against another action info
-        public int CompareTo(SectorEffectInfo other)
-        {
-            if (this.Index < other.Index) return -1;
-            else if (this.Index > other.Index) return 1;
-            else return 0;
-        }
-
-        #endregion
-    }
+		#endregion
+	}
 }

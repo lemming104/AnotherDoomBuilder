@@ -181,7 +181,7 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
             }
 
             // Positions and normals
-            long vertoffset = start + ofsNormal + (numVerts * 8 * frame); // The length of Vertex struct is 8 bytes
+            long vertoffset = start + ofsNormal + numVerts * 8 * frame; // The length of Vertex struct is 8 bytes
             if (br.BaseStream.Position != vertoffset) br.BaseStream.Position = vertoffset;
 
             for (int i = vertexOffset; i < vertexOffset + numVerts; i++)
@@ -201,7 +201,7 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
 
                 v.nx = (float)(Math.Sin(lng) * Math.Sin(lat));
                 v.ny = -(float)(Math.Cos(lng) * Math.Sin(lat));
-                v.nz = (float)Math.Cos(lat);
+                v.nz = (float)(Math.Cos(lat));
 
                 vertList[i] = v;
             }

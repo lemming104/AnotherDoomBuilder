@@ -25,91 +25,91 @@ using System;
 
 namespace CodeImp.DoomBuilder
 {
-    internal enum AutosaveResult
-    {
-        Success,
-        Error,
-        NoFileName
-    }
+	internal enum AutosaveResult
+	{
+		Success,
+		Error,
+		NoFileName
+	}
 
-    internal class AutoSaver
-    {
-        private static long lasttime;
-        private static System.Windows.Forms.Timer timer;
+	internal class AutoSaver
+	{
+		private static long lasttime;
+		private static System.Windows.Forms.Timer timer;
 
-        /// <summary>
-        /// Initialized and starts the autosave timer.
-        /// </summary>
-        internal void InitializeTimer()
-        {
-            if (timer != null)
-            {
-                timer.Tick -= TryAutosave;
-                timer.Dispose();
-                timer = null;
-            }
+		/// <summary>
+		/// Initialized and starts the autosave timer.
+		/// </summary>
+		internal void InitializeTimer()
+		{
+			if(timer != null)
+			{
+				timer.Tick -= TryAutosave;
+				timer.Dispose();
+				timer = null;
+			}
 
-            if (General.Settings.Autosave)
-            {
-                lasttime = Clock.CurrentTime;
-                timer = new System.Windows.Forms.Timer() { Interval = 1000 };
-                timer.Tick += TryAutosave;
-                timer.Enabled = true;
-            }
-        }
+			if (General.Settings.Autosave)
+			{
+				lasttime = Clock.CurrentTime;
+				timer = new System.Windows.Forms.Timer() { Interval = 1000 };
+				timer.Tick += TryAutosave;
+				timer.Enabled = true;
+			}
+		}
 
-        /// <summary>
-        /// Stops the autosave timer.
-        /// </summary>
-        internal void StopTimer()
-        {
-            if (timer != null) timer.Enabled = false;
-        }
+		/// <summary>
+		/// Stops the autosave timer.
+		/// </summary>
+		internal void StopTimer()
+		{
+			if (timer != null) timer.Enabled = false;
+		}
 
-        /// <summary>
-        /// Resets the autosave timer to the current time.
-        /// </summary>
-        internal void ResetTimer()
-        {
-            lasttime = Clock.CurrentTime;
-        }
+		/// <summary>
+		/// Resets the autosave timer to the current time.
+		/// </summary>
+		internal void ResetTimer()
+		{
+			lasttime = Clock.CurrentTime;
+		}
 
-        /// <summary>
-        /// Makes the autosave timer aware of a clock reset, so that the interval until the next autosave is unaffected.
-        /// </summary>
-        internal void BeforeClockReset()
-        {
-            lasttime = -(Clock.CurrentTime - lasttime);
-        }
+		/// <summary>
+		/// Makes the autosave timer aware of a clock reset, so that the interval until the next autosave is unaffected.
+		/// </summary>
+		internal void BeforeClockReset()
+		{
+			lasttime = -(Clock.CurrentTime - lasttime);
+		}
 
-        /// <summary>
-        /// Tries to perform the autosave.
-        /// </summary>
-        /// <param name="sender">The sender</param>
-        /// <param name="args">The event arguments</param>
-        private static void TryAutosave(object sender, EventArgs args)
-        {
-            if (Clock.CurrentTime > lasttime + (General.Settings.AutosaveInterval * 60 * 1000) && General.Map != null && General.Map.Map != null && General.Map.Map.IsSafeToAccess && General.Map.IsChanged)
-            {
-                // Check if the current editing mode prevents autosaving. If it does return without setting the time,
-                // so that autosaving will be retried ASAP
-                if (!General.Editing.Mode.OnAutoSaveBegin())
-                    return;
+		/// <summary>
+		/// Tries to perform the autosave.
+		/// </summary>
+		/// <param name="sender">The sender</param>
+		/// <param name="args">The event arguments</param>
+		private static void TryAutosave(object sender, EventArgs args)
+		{
+			if (Clock.CurrentTime > lasttime + General.Settings.AutosaveInterval * 60 * 1000 && General.Map != null && General.Map.Map != null && General.Map.Map.IsSafeToAccess && General.Map.IsChanged)
+			{
+				// Check if the current editing mode prevents autosaving. If it does return without setting the time,
+				// so that autosaving will be retried ASAP
+				if (!General.Editing.Mode.OnAutoSaveBegin())
+					return;
 
-                lasttime = Clock.CurrentTime;
+				lasttime = Clock.CurrentTime;
 
-                long start = Clock.CurrentTime;
-                AutosaveResult success = General.Map.AutoSave();
-                long duration = Clock.CurrentTime - start;
+				long start = Clock.CurrentTime;
+				AutosaveResult success = General.Map.AutoSave();
+				long duration = Clock.CurrentTime - start;
 
-                // Show a toast appropriate for the result of the autosave
-                if (success == AutosaveResult.Success)
-                    General.ToastManager.ShowToast("autosave", ToastType.INFO, "Autosave", $"Autosave completed successfully in {duration} ms.");
-                else if (success == AutosaveResult.Error)
-                    General.ToastManager.ShowToast("autosave", ToastType.ERROR, "Autosave", "Autosave failed.");
-                else if (success == AutosaveResult.NoFileName)
-                    General.ToastManager.ShowToast("autosave", ToastType.WARNING, "Autosave", "Could not autosave because this is a new WAD that wasn't saved yet.");
-            }
-        }
-    }
+				// Show a toast appropriate for the result of the autosave
+				if (success == AutosaveResult.Success)
+					General.ToastManager.ShowToast("autosave", ToastType.INFO, "Autosave", $"Autosave completed successfully in {duration} ms.");
+				else if (success == AutosaveResult.Error)
+					General.ToastManager.ShowToast("autosave", ToastType.ERROR, "Autosave", "Autosave failed.");
+				else if (success == AutosaveResult.NoFileName)
+					General.ToastManager.ShowToast("autosave", ToastType.WARNING, "Autosave", "Could not autosave because this is a new WAD that wasn't saved yet.");
+			}
+		}
+	}
 }

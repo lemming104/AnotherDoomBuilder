@@ -16,64 +16,64 @@
 
 #region ================== Namespaces
 
-using CodeImp.DoomBuilder.Data;
 using System;
 using System.Collections.Generic;
+using CodeImp.DoomBuilder.Data;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Config
 {
-    internal sealed class AllTextureSet : TextureSet, IFilledTextureSet
-    {
-        #region ================== Constants
+	internal sealed class AllTextureSet : TextureSet, IFilledTextureSet
+	{
+		#region ================== Constants
 
-        private const string NAME = "All";
+		private const string NAME = "All";
 
-        #endregion
+		#endregion
 
-        #region ================== Variables
+		#region ================== Variables
 
-        // Matching textures and flats
-        private Dictionary<string, ImageData> textures;
-        private Dictionary<string, ImageData> flats;
+		// Matching textures and flats
+		private Dictionary<string, ImageData> textures;
+		private Dictionary<string, ImageData> flats;
 
-        #endregion
+		#endregion
 
-        #region ================== Properties
+		#region ================== Properties
 
-        public ICollection<ImageData> Textures { get { return textures.Values; } }
-        public ICollection<ImageData> Flats { get { return flats.Values; } }
+		public ICollection<ImageData> Textures { get { return textures.Values; } }
+		public ICollection<ImageData> Flats { get { return flats.Values; } }
 
-        #endregion
+		#endregion
 
-        #region ================== Constructor / Destructor
+		#region ================== Constructor / Destructor
 
-        // New texture set constructor
-        public AllTextureSet()
-        {
-            this.name = NAME;
-            this.textures = new Dictionary<string, ImageData>(StringComparer.Ordinal);
-            this.flats = new Dictionary<string, ImageData>(StringComparer.Ordinal);
-        }
+		// New texture set constructor
+		public AllTextureSet()
+		{
+			this.name = NAME;
+			this.textures = new Dictionary<string, ImageData>(StringComparer.Ordinal);
+			this.flats = new Dictionary<string, ImageData>(StringComparer.Ordinal);
+		}
 
-        #endregion
+		#endregion
 
-        #region ================== Methods
+		#region ================== Methods
 
-        internal void AddTexture(ImageData image)
-        {
-            //mxd. Use short name when adding a texture with "classic" name to override same-named textures 
-            // with textures loaded from directory/pk3 containters
-            textures[/*image.DisplayName.Length > 8 ?*/ image.Name /*: image.ShortName*/] = image;
-        }
+		internal void AddTexture(ImageData image)
+		{
+			//mxd. Use short name when adding a texture with "classic" name to override same-named textures 
+			// with textures loaded from directory/pk3 containters
+			textures[/*image.DisplayName.Length > 8 ?*/ image.Name /*: image.ShortName*/] = image;
+		}
 
-        internal void AddFlat(ImageData image)
-        {
-            //mxd. Same with flats
-            flats[image.DisplayName.Length > 8 ? image.Name : image.ShortName] = image;
-        }
+		internal void AddFlat(ImageData image)
+		{
+			//mxd. Same with flats
+			flats[image.DisplayName.Length > 8 ? image.Name : image.ShortName] = image;
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

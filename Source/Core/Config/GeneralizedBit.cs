@@ -2,58 +2,61 @@ using System;
 
 namespace CodeImp.DoomBuilder.Config
 {
-    /// <summary>
-    /// Option value in generalized types.
-    /// </summary>
-    public class GeneralizedBit : INumberedTitle, IComparable<GeneralizedBit>
-    {
-        #region ================== Constants
+	/// <summary>
+	/// Option value in generalized types.
+	/// </summary>
+	public class GeneralizedBit : INumberedTitle, IComparable<GeneralizedBit>
+	{
+		#region ================== Constants
 
-        #endregion
+		#endregion
 
-        #region ================== Variables
+		#region ================== Variables
 
-        // Properties
-        #endregion
+		// Properties
+		private int index;
+		private string title;
 
-        #region ================== Properties
+		#endregion
 
-        public int Index { get; }
-        public string Title { get; }
+		#region ================== Properties
 
-        #endregion
+		public int Index { get { return index; } }
+		public string Title { get { return title; } }
 
-        #region ================== Constructor / Disposer
+		#endregion
 
-        // Constructor
-        internal GeneralizedBit(int index, string title)
-        {
-            // Initialize
-            this.Index = index;
-            this.Title = title;
+		#region ================== Constructor / Disposer
 
-            // We have no destructor
-            GC.SuppressFinalize(this);
-        }
+		// Constructor
+		internal GeneralizedBit(int index, string title)
+		{
+			// Initialize
+			this.index = index;
+			this.title = title;
+			
+			// We have no destructor
+			GC.SuppressFinalize(this);
+		}
 
-        #endregion
+		#endregion
 
-        #region ================== Methods
+		#region ================== Methods
 
-        // This presents the item as string
-        public override string ToString()
-        {
-            return Title;
-        }
+		// This presents the item as string
+		public override string ToString()
+		{
+			return title;
+		}
 
-        // This compares against another
-        public int CompareTo(GeneralizedBit other)
-        {
-            if (this.Index < other.Index) return -1;
-            else if (this.Index > other.Index) return 1;
-            else return 0;
-        }
-
-        #endregion
-    }
+		// This compares against another
+		public int CompareTo(GeneralizedBit other)
+		{
+			if(this.index < other.index) return -1;
+			else if(this.index > other.index) return 1;
+			else return 0;
+		}
+		
+		#endregion
+	}
 }

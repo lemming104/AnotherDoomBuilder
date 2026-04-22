@@ -1,41 +1,41 @@
 ﻿#region ================== Namespaces
 
+using System.Collections.Generic;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
-using System.Collections.Generic;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.SoundPropagationMode
 {
-    public class SoundEnvironment
-    {
-        #region ================== Constants
+	public class SoundEnvironment
+	{
+		#region ================== Constants
 
-        public const string DEFAULT_NAME = "Unknown sound environment"; //mxd
+		public const string DEFAULT_NAME = "Unknown sound environment"; //mxd
 
-        #endregion
+		#endregion
 
-        #region ================== Properties
+		#region ================== Properties
 
-        public HashSet<Sector> Sectors { get; private set; }
-        public List<Thing> Things { get; set; }
-        public List<Linedef> Linedefs { get; set; }
-        public PixelColor Color { get; set; }
-        public int ID { get; set; }
-        public string Name { get; set; } //mxd
-        public FlatVertex[] SectorsGeometry; //mxd
+		public HashSet<Sector> Sectors { get; private set; }
+		public List<Thing> Things { get; set; }
+		public List<Linedef> Linedefs { get; set; }
+		public PixelColor Color { get; set; }
+		public int ID { get; set; }
+		public string Name { get; set; } //mxd
+		public FlatVertex[] SectorsGeometry; //mxd
 
-        #endregion
+		#endregion
 
-        public SoundEnvironment()
-        {
-            Sectors = new HashSet<Sector>();
-            Things = new List<Thing>();
-            Linedefs = new List<Linedef>();
-            Color = General.Colors.Background;
-            ID = -1;
-            Name = DEFAULT_NAME; //mxd
-        }
-    }
+		public SoundEnvironment()
+		{
+			Sectors = new HashSet<Sector>();
+			Things = new List<Thing>();
+			Linedefs = new List<Linedef>();
+			Color = General.Colors.Background;
+			ID = -1;
+			Name = DEFAULT_NAME; //mxd
+		}
+	}
 }

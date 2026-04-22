@@ -16,50 +16,50 @@
 
 #region ================== Namespaces
 
-using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
+using CodeImp.DoomBuilder.Map;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Editing
 {
-    internal class NullThingsFilter : ThingsFilter
-    {
-        #region ================== Constructor / Disposer
+	internal class NullThingsFilter : ThingsFilter
+	{
+		#region ================== Constructor / Disposer
 
-        // Constructor
-        internal NullThingsFilter()
-        {
-            this.name = "(show all)";
-        }
+		// Constructor
+		internal NullThingsFilter()
+		{
+			this.name = "(show all)";
+		}
+		
+		// Disposer
+		internal override void Dispose()
+		{
+			// Not already disposed?
+			if(!isdisposed)
+			{
+				// Clean up
 
-        // Disposer
-        internal override void Dispose()
-        {
-            // Not already disposed?
-            if (!isdisposed)
-            {
-                // Clean up
+				// Done
+				base.Dispose();
+			}
+		}
 
-                // Done
-                base.Dispose();
-            }
-        }
+		#endregion
 
-        #endregion
+		#region ================== Methods
 
-        #region ================== Methods
-
-        // This updates the lists
-        public override void Update()
-        {
-            // Make lists
-            visiblethings = new List<Thing>(General.Map.Map.Things);
-            hiddenthings = new List<Thing>(0);
-            thingsvisiblestate = new Dictionary<Thing, bool>(General.Map.Map.Things.Count);
-            foreach (Thing t in visiblethings) thingsvisiblestate.Add(t, true);
-        }
-
-        #endregion
-    }
+		// This updates the lists
+		public override void Update()
+		{
+			// Make lists
+			visiblethings = new List<Thing>(General.Map.Map.Things);
+			hiddenthings = new List<Thing>(0);
+			thingsvisiblestate = new Dictionary<Thing, bool>(General.Map.Map.Things.Count);
+			foreach(Thing t in visiblethings) thingsvisiblestate.Add(t, true);
+		}
+		
+		#endregion
+	}
 }

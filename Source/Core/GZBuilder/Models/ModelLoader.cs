@@ -42,13 +42,13 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
             if (mde.Model.Meshes == null || mde.Model.Meshes.Count == 0)
             {
                 mde.Model = null;
-            }
-            else
-            {
-                //clear unneeded data
-                mde.SkinNames = null;
-                mde.ModelNames = null;
-            }
+			}
+			else
+			{
+				//clear unneeded data
+				mde.SkinNames = null;
+				mde.ModelNames = null;
+			}
         }
 
         private static void LoadModel(ModelData mde, List<DataReader> containers)
@@ -65,7 +65,7 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
                 Dictionary<int, string> skins = null;
                 if (string.IsNullOrEmpty(mde.SkinNames[i]))
                 {
-                    skins = mde.SurfaceSkinNames[i].Count > 0 ? mde.SurfaceSkinNames[i] : new Dictionary<int, string>();
+                    skins = (mde.SurfaceSkinNames[i].Count > 0 ? mde.SurfaceSkinNames[i] : new Dictionary<int, string>());
                 }
 
                 // Load mesh

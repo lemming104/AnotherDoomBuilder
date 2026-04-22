@@ -16,145 +16,145 @@
 
 #region ================== Namespaces
 
-using CodeImp.DoomBuilder.Controls;
 using System;
 using System.Windows.Forms;
+using CodeImp.DoomBuilder.Controls;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Windows
 {
-    public partial class ScriptEditorForm : DelayedForm
-    {
-        #region ================== Variables
+	public partial class ScriptEditorForm : DelayedForm
+	{
+		#region ================== Variables
 
-        // Closing?
-        private bool appclose;
+		// Closing?
+		private bool appclose;
+		
+		#endregion
+		
+		#region ================== Properties
+		
+		public ScriptEditorPanel Editor { get { return editor; } }
+		
+		#endregion
+		
+		#region ================== Constructor
+		
+		// Constructor
+		public ScriptEditorForm()
+		{
+			InitializeComponent();
+			editor.Initialize(this);
+			KeyPreview = true;
+			PreviewKeyDown += new PreviewKeyDownEventHandler(ScriptEditorForm_PreviewKeyDown);
+			KeyDown += new KeyEventHandler(ScriptEditorForm_KeyDown);
+			KeyUp += new KeyEventHandler(ScriptEditorForm_KeyDown);
+		}
 
-        #endregion
+		#endregion
 
-        #region ================== Properties
+		#region ================== Methods
 
-        public ScriptEditorPanel Editor { get; private set; }
+		// This asks to save files and returns the result
+		// Also does implicit saves
+		// Returns false when cancelled by the user
+		public bool AskSaveAll()
+		{
+			// Implicit-save the script lumps
+			editor.ImplicitSave();
+			
+			// Save other scripts
+			return editor.AskSaveAll();
+		}
+		
+		// Close the window
+		new public void Close()
+		{
+			appclose = true;
+			base.Close();
+		}
 
-        #endregion
+		//mxd
+		internal void DisplayError(TextResourceErrorItem error)
+		{
+			editor.ShowError(error);
+		}
 
-        #region ================== Constructor
-
-        // Constructor
-        public ScriptEditorForm()
-        {
-            InitializeComponent();
-            Editor.Initialize(this);
-            KeyPreview = true;
-            PreviewKeyDown += new PreviewKeyDownEventHandler(ScriptEditorForm_PreviewKeyDown);
-            KeyDown += new KeyEventHandler(ScriptEditorForm_KeyDown);
-            KeyUp += new KeyEventHandler(ScriptEditorForm_KeyDown);
-        }
-
-        #endregion
-
-        #region ================== Methods
-
-        // This asks to save files and returns the result
-        // Also does implicit saves
-        // Returns false when cancelled by the user
-        public bool AskSaveAll()
-        {
-            // Implicit-save the script lumps
-            Editor.ImplicitSave();
-
-            // Save other scripts
-            return Editor.AskSaveAll();
-        }
-
-        // Close the window
-        new public void Close()
-        {
-            appclose = true;
-            base.Close();
-        }
-
-        //mxd
-        internal void DisplayError(TextResourceErrorItem error)
-        {
-            Editor.ShowError(error);
-        }
-
-        //mxd
-        /*internal void DisplayError(TextFileErrorItem error)
+		//mxd
+		/*internal void DisplayError(TextFileErrorItem error)
 		{
 			editor.ShowError(error);
 		}*/
 
-        #endregion
+		#endregion
 
-        #region ================== Events
+		#region ================== Events
 
-        private void ScriptEditorForm_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            if (e.KeyCode == Keys.F10)
-                e.IsInputKey = true;
-        }
+		private void ScriptEditorForm_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+		{
+			if (e.KeyCode == Keys.F10)
+				e.IsInputKey = true;
+		}
 
-        private void ScriptEditorForm_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.F10)
-            {
-                e.SuppressKeyPress = true;
-                e.Handled = true;
-            }
-        }
+		private void ScriptEditorForm_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.F10)
+			{
+				e.SuppressKeyPress = true;
+				e.Handled = true;
+			}
+		}
 
-        // Window is loaded
-        private void ScriptEditorForm_Load(object sender, EventArgs e)
-        {
-            // Apply panel settings
-            Editor.ApplySettings();
-        }
+		// Window is loaded
+		private void ScriptEditorForm_Load(object sender, EventArgs e)
+		{
+			// Apply panel settings
+			editor.ApplySettings();
+		}
+		
+		// Window is shown
+		private void ScriptEditorForm_Shown(object sender, EventArgs e)
+		{
+			// Focus to script editor
+			editor.ForceFocus();
+		}
+		
+		// Window is closing
+		private void ScriptEditorForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			editor.SaveSettings();
+			
+			// Only when closed by the user
+			if(!appclose && (e.CloseReason == CloseReason.UserClosing || e.CloseReason == CloseReason.FormOwnerClosing))
+			{
+				// Remember if scipts are changed
+				General.Map.ApplyScriptChanged();
+				
+				// Ask to save scripts
+				if(AskSaveAll())
+				{
+					// Let the general call close the editor
+					General.Map.CloseScriptEditor(true);
+				}
+				else
+				{
+					// Cancel
+					e.Cancel = true;
+				}
+			}
 
-        // Window is shown
-        private void ScriptEditorForm_Shown(object sender, EventArgs e)
-        {
-            // Focus to script editor
-            Editor.ForceFocus();
-        }
+			// Not cancelling?
+			if(!e.Cancel) editor.OnClose();
+		}
 
-        // Window is closing
-        private void ScriptEditorForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Editor.SaveSettings();
-
-            // Only when closed by the user
-            if (!appclose && (e.CloseReason == CloseReason.UserClosing || e.CloseReason == CloseReason.FormOwnerClosing))
-            {
-                // Remember if scipts are changed
-                General.Map.ApplyScriptChanged();
-
-                // Ask to save scripts
-                if (AskSaveAll())
-                {
-                    // Let the general call close the editor
-                    General.Map.CloseScriptEditor(true);
-                }
-                else
-                {
-                    // Cancel
-                    e.Cancel = true;
-                }
-            }
-
-            // Not cancelling?
-            if (!e.Cancel) Editor.OnClose();
-        }
-
-        // Help
-        private void ScriptEditorForm_HelpRequested(object sender, HelpEventArgs hlpevent)
-        {
-            if (!Editor.LaunchKeywordHelp()) General.ShowHelp("w_scripteditor.html"); //mxd
-            hlpevent.Handled = true;
-        }
-
-        #endregion
-    }
+		// Help
+		private void ScriptEditorForm_HelpRequested(object sender, HelpEventArgs hlpevent)
+		{
+			if(!editor.LaunchKeywordHelp())	General.ShowHelp("w_scripteditor.html"); //mxd
+			hlpevent.Handled = true;
+		}
+		
+		#endregion
+	}
 }

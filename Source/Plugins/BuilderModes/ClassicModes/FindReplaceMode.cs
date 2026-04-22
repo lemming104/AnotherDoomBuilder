@@ -16,148 +16,148 @@
 
 #region ================== Namespaces
 
-using CodeImp.DoomBuilder.Editing;
+using System.Windows.Forms;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
-using System.Windows.Forms;
+using CodeImp.DoomBuilder.Editing;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
-    [EditMode(DisplayName = "Find and Replace Mode",
-              SwitchAction = "findmode",
-              ButtonImage = "FindMode.png",
-              ButtonOrder = 100,
-              ButtonGroup = "002_tools",
-              AllowCopyPaste = false,
-              Volatile = true,
-              UseByDefault = true)]
+	[EditMode(DisplayName = "Find and Replace Mode",
+			  SwitchAction = "findmode",
+			  ButtonImage = "FindMode.png",
+			  ButtonOrder = 100,
+			  ButtonGroup = "002_tools",
+			  AllowCopyPaste = false,
+			  Volatile = true,
+			  UseByDefault = true)]
 
-    public sealed class FindReplaceMode : BaseClassicMode
-    {
-        #region ================== Constants
+	public sealed class FindReplaceMode : BaseClassicMode
+	{
+		#region ================== Constants
+		
+		#endregion
 
-        #endregion
+		#region ================== Variables
 
-        #region ================== Variables
+		#endregion
 
-        #endregion
+		#region ================== Properties
 
-        #region ================== Properties
+		internal bool Volatile { get { return attributes.Volatile; } set { attributes.Volatile = value; } } //mxd
 
-        internal bool Volatile { get { return attributes.Volatile; } set { attributes.Volatile = value; } } //mxd
+		#endregion
 
-        #endregion
+		#region ================== Constructor / Disposer
 
-        #region ================== Constructor / Disposer
+		#endregion
 
-        #endregion
+		#region ================== Events
 
-        #region ================== Events
+		public override void OnHelp()
+		{
+			General.ShowHelp("e_findreplace.html");
+		}
 
-        public override void OnHelp()
-        {
-            General.ShowHelp("e_findreplace.html");
-        }
+		// Cancelled
+		public override void OnCancel()
+		{
+			// Cancel base class
+			base.OnCancel();
 
-        // Cancelled
-        public override void OnCancel()
-        {
-            // Cancel base class
-            base.OnCancel();
+			// Return to base mode
+			General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
+		}
 
-            // Return to base mode
-            General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
-        }
+		// Mode engages
+		public override void OnEngage()
+		{
+			base.OnEngage();
+			renderer.SetPresentation(Presentation.Standard);
+			General.Map.Map.SelectionType = SelectionType.All;
+			
+			// Select linedefs by sectors
+			foreach(Linedef ld in General.Map.Map.Linedefs)
+			{
+				if(ld.Selected == false)
+				{
+					bool front, back;
+					if(ld.Front != null) front = ld.Front.Sector.Selected; else front = false;
+					if(ld.Back != null) back = ld.Back.Sector.Selected; else back = false;
+					ld.Selected = front | back;
+				}
+			}
+			
+			// Show toolbox window
+			BuilderPlug.Me.FindReplaceForm.Show((Form)General.Interface, this);
+		}
 
-        // Mode engages
-        public override void OnEngage()
-        {
-            base.OnEngage();
-            renderer.SetPresentation(Presentation.Standard);
-            General.Map.Map.SelectionType = SelectionType.All;
+		// Disenagaging
+		public override void OnDisengage()
+		{
+			base.OnDisengage();
 
-            // Select linedefs by sectors
-            foreach (Linedef ld in General.Map.Map.Linedefs)
-            {
-                if (ld.Selected == false)
-                {
-                    bool front, back;
-                    if (ld.Front != null) front = ld.Front.Sector.Selected; else front = false;
-                    if (ld.Back != null) back = ld.Back.Sector.Selected; else back = false;
-                    ld.Selected = front | back;
-                }
-            }
+			// Hide object info
+			General.Interface.HideInfo();
+			
+			// Hide toolbox window
+			BuilderPlug.Me.FindReplaceForm.Hide();
+		}
 
-            // Show toolbox window
-            BuilderPlug.Me.FindReplaceForm.Show((Form)General.Interface, this);
-        }
+		// This applies the curves and returns to the base mode
+		public override void OnAccept()
+		{
+			// Snap to map format accuracy
+			General.Map.Map.SnapAllToAccuracy();
 
-        // Disenagaging
-        public override void OnDisengage()
-        {
-            base.OnDisengage();
+			// Update caches
+			General.Map.Map.Update();
+			General.Map.IsChanged = true;
 
-            // Hide object info
-            General.Interface.HideInfo();
+			// Return to base mode
+			General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
+		}
 
-            // Hide toolbox window
-            BuilderPlug.Me.FindReplaceForm.Hide();
-        }
+		// Redrawing display
+		public override void OnRedrawDisplay()
+		{
+			// Get the selection
+			FindReplaceObject[] selection = BuilderPlug.Me.FindReplaceForm.GetSelection();
 
-        // This applies the curves and returns to the base mode
-        public override void OnAccept()
-        {
-            // Snap to map format accuracy
-            General.Map.Map.SnapAllToAccuracy();
+			renderer.RedrawSurface();
 
-            // Update caches
-            General.Map.Map.Update();
-            General.Map.IsChanged = true;
+			// Render lines
+			if(renderer.StartPlotter(true))
+			{
+				renderer.PlotLinedefSet(General.Map.Map.Linedefs);
+				if(BuilderPlug.Me.FindReplaceForm.Finder != null)
+					BuilderPlug.Me.FindReplaceForm.Finder.PlotSelection(renderer, selection);
+				renderer.PlotVerticesSet(General.Map.Map.Vertices);
+				renderer.Finish();
+			}
 
-            // Return to base mode
-            General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
-        }
+			// Render things
+			if(renderer.StartThings(true))
+			{
+				renderer.RenderThingSet(General.Map.Map.Things, General.Settings.ActiveThingsAlpha);
+				if(BuilderPlug.Me.FindReplaceForm.Finder != null)
+					BuilderPlug.Me.FindReplaceForm.Finder.RenderThingsSelection(renderer, selection);
+				renderer.Finish();
+			}
+			
+			// Render overlay
+			if(renderer.StartOverlay(true))
+			{
+				if(BuilderPlug.Me.FindReplaceForm.Finder != null)
+					BuilderPlug.Me.FindReplaceForm.Finder.RenderOverlaySelection(renderer, selection);
+				renderer.Finish();
+			}
 
-        // Redrawing display
-        public override void OnRedrawDisplay()
-        {
-            // Get the selection
-            FindReplaceObject[] selection = BuilderPlug.Me.FindReplaceForm.GetSelection();
+			renderer.Present();
+		}
 
-            renderer.RedrawSurface();
-
-            // Render lines
-            if (renderer.StartPlotter(true))
-            {
-                renderer.PlotLinedefSet(General.Map.Map.Linedefs);
-                if (BuilderPlug.Me.FindReplaceForm.Finder != null)
-                    BuilderPlug.Me.FindReplaceForm.Finder.PlotSelection(renderer, selection);
-                renderer.PlotVerticesSet(General.Map.Map.Vertices);
-                renderer.Finish();
-            }
-
-            // Render things
-            if (renderer.StartThings(true))
-            {
-                renderer.RenderThingSet(General.Map.Map.Things, General.Settings.ActiveThingsAlpha);
-                if (BuilderPlug.Me.FindReplaceForm.Finder != null)
-                    BuilderPlug.Me.FindReplaceForm.Finder.RenderThingsSelection(renderer, selection);
-                renderer.Finish();
-            }
-
-            // Render overlay
-            if (renderer.StartOverlay(true))
-            {
-                if (BuilderPlug.Me.FindReplaceForm.Finder != null)
-                    BuilderPlug.Me.FindReplaceForm.Finder.RenderOverlaySelection(renderer, selection);
-                renderer.Finish();
-            }
-
-            renderer.Present();
-        }
-
-        #endregion
-    }
+		#endregion
+	}
 }

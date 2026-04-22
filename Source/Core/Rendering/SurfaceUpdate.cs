@@ -20,40 +20,40 @@
 
 namespace CodeImp.DoomBuilder.Rendering
 {
-    // This contains information to update surface entries with. This may exceed the maximum number
-    // of sector vertices, the surface manager will take care of splitting it up in several SurfaceEntries.
-    internal class SurfaceUpdate
-    {
-        public readonly int numvertices;
+	// This contains information to update surface entries with. This may exceed the maximum number
+	// of sector vertices, the surface manager will take care of splitting it up in several SurfaceEntries.
+	internal class SurfaceUpdate
+	{
+		public readonly int numvertices;
 
-        // Sector geometry (local copy used to quickly refill buffers)
-        // The sector must set these!
-        public FlatVertex[] floorvertices;
-        public FlatVertex[] ceilvertices;
+		// Sector geometry (local copy used to quickly refill buffers)
+		// The sector must set these!
+		public FlatVertex[] floorvertices;
+		public FlatVertex[] ceilvertices;
+		
+		// Sector images
+		// The sector must set these!
+		public long floortexture;
+		public long ceiltexture;
 
-        // Sector images
-        // The sector must set these!
-        public long floortexture;
-        public long ceiltexture;
+		// Sector flags
+		public bool hidden;
 
-        // Sector flags
-        public bool hidden;
+		//
+		public double desaturation;
+		
+		// Constructor
+		internal SurfaceUpdate(int numvertices, bool updatefloor, bool updateceiling)
+		{
+			this.numvertices = numvertices;
+			this.floortexture = 0;
+			this.ceiltexture = 0;
+			
+			this.floorvertices = (updatefloor ? new FlatVertex[numvertices] : null);
+			this.ceilvertices = (updateceiling ? new FlatVertex[numvertices] : null);
 
-        //
-        public double desaturation;
-
-        // Constructor
-        internal SurfaceUpdate(int numvertices, bool updatefloor, bool updateceiling)
-        {
-            this.numvertices = numvertices;
-            this.floortexture = 0;
-            this.ceiltexture = 0;
-
-            this.floorvertices = updatefloor ? new FlatVertex[numvertices] : null;
-            this.ceilvertices = updateceiling ? new FlatVertex[numvertices] : null;
-
-            this.hidden = false;
+			this.hidden = false;
             this.desaturation = 0f;
-        }
-    }
+		}
+	}
 }

@@ -2,11 +2,11 @@
 
 namespace CodeImp.DoomBuilder.ThreeDFloorMode
 {
-    public partial class ThreeDFloorPanel : UserControl
-    {
-        public ThreeDFloorPanel()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class ThreeDFloorPanel : UserControl
+	{
+		public ThreeDFloorPanel()
+		{
+			InitializeComponent();
+		}
+	}
 }

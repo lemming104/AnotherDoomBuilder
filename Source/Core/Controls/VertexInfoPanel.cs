@@ -16,48 +16,48 @@
 
 #region ================== Namespaces
 
-using CodeImp.DoomBuilder.Map;
 using System.Globalization;
 using System.Windows.Forms;
+using CodeImp.DoomBuilder.Map;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Controls
 {
-    internal partial class VertexInfoPanel : UserControl
-    {
-        // Constructor
-        public VertexInfoPanel()
-        {
-            // Initialize
-            InitializeComponent();
-        }
+	internal partial class VertexInfoPanel : UserControl
+	{
+		// Constructor
+		public VertexInfoPanel()
+		{
+			// Initialize
+			InitializeComponent();
+		}
 
-        // This shows the info
-        public void ShowInfo(Vertex v)
-        {
-            // Vertex info
-            vertexinfo.Text = " Vertex " + v.Index + " ";
-            position.Text = v.Position.x.ToString(CultureInfo.InvariantCulture) + ", " + v.Position.y.ToString(CultureInfo.InvariantCulture);
+		// This shows the info
+		public void ShowInfo(Vertex v)
+		{
+			// Vertex info
+			vertexinfo.Text = " Vertex " + v.Index + " ";
+			position.Text = v.Position.x.ToString(CultureInfo.InvariantCulture) + ", " + v.Position.y.ToString(CultureInfo.InvariantCulture);
+			
+			//mxd. Height offsets
+			if(General.Map.UDMF)
+			{
+				bool haveoffset = !double.IsNaN(v.ZCeiling);
+				zceiling.Text = (haveoffset ? v.ZCeiling.ToString(CultureInfo.InvariantCulture) : "--");
+				zceiling.Enabled = haveoffset;
+				labelzceiling.Enabled = haveoffset;
 
-            //mxd. Height offsets
-            if (General.Map.UDMF)
-            {
-                bool haveoffset = !double.IsNaN(v.ZCeiling);
-                zceiling.Text = haveoffset ? v.ZCeiling.ToString(CultureInfo.InvariantCulture) : "--";
-                zceiling.Enabled = haveoffset;
-                labelzceiling.Enabled = haveoffset;
+				haveoffset = !double.IsNaN(v.ZFloor);
+				zfloor.Text = (haveoffset ? v.ZFloor.ToString(CultureInfo.InvariantCulture) : "--");
+				zfloor.Enabled = haveoffset;
+				labelzfloor.Enabled = haveoffset;
+			}
 
-                haveoffset = !double.IsNaN(v.ZFloor);
-                zfloor.Text = haveoffset ? v.ZFloor.ToString(CultureInfo.InvariantCulture) : "--";
-                zfloor.Enabled = haveoffset;
-                labelzfloor.Enabled = haveoffset;
-            }
+			panelOffsets.Visible = General.Map.UDMF;
 
-            panelOffsets.Visible = General.Map.UDMF;
-
-            // Show the whole thing
-            this.Show();
+			// Show the whole thing
+			this.Show();
             //this.Update(); // ano - don't think this is needed, and is slow
         }
     }

@@ -23,10 +23,10 @@
 
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
-    interface IMoreTags
-    {
-        int[] getTags();
-        bool addTag(int tag);
-        bool removeTag(int tag);
-    }
+	interface IMoreTags
+	{
+		int[] getTags();
+		bool addTag(int tag);
+		bool removeTag(int tag);
+	}
 }

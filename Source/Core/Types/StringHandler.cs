@@ -16,71 +16,71 @@
 
 #region ================== Namespaces
 
-using CodeImp.DoomBuilder.Windows;
 using System.Drawing;
+using CodeImp.DoomBuilder.Windows;
 using System.Windows.Forms;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Types
 {
-    [TypeHandler(UniversalType.String, "Text", true)]
-    internal class StringHandler : TypeHandler
-    {
-        #region ================== Constants
+	[TypeHandler(UniversalType.String, "Text", true)]
+	internal class StringHandler : TypeHandler
+	{
+		#region ================== Constants
 
-        #endregion
+		#endregion
 
-        #region ================== Variables
+		#region ================== Variables
 
-        private string value = "";
+		private string value = "";
 
-        #endregion
+		#endregion
 
-        #region ================== Properties
+		#region ================== Properties
 
-        public override bool IsBrowseable { get { return true; } }
+		public override bool IsBrowseable { get { return true; } }
 
-        public override Image BrowseImage { get { return Properties.Resources.Text; } }
+		public override Image BrowseImage { get { return Properties.Resources.Text; } }
+		
+		#endregion
 
-        #endregion
+		#region ================== Methods
 
-        #region ================== Methods
+		public override void Browse(IWin32Window parent)
+		{
+			value = TextEditForm.ShowDialog(parent, value);
+		}
 
-        public override void Browse(IWin32Window parent)
-        {
-            value = TextEditForm.ShowDialog(parent, value);
-        }
+		public override void SetValue(object value)
+		{
+			if(value != null)
+				this.value = value.ToString().Replace("\"", ""); //mxd
+			else
+				this.value = "";
+		}
 
-        public override void SetValue(object value)
-        {
-            if (value != null)
-                this.value = value.ToString().Replace("\"", ""); //mxd
-            else
-                this.value = "";
-        }
+		public override object GetValue()
+		{
+			return this.value;
+		}
 
-        public override object GetValue()
-        {
-            return this.value;
-        }
+		public override int GetIntValue()
+		{
+			int result;
+			return (int.TryParse(this.value, out result) ? result : 0);
+		}
 
-        public override int GetIntValue()
-        {
-            int result;
-            return int.TryParse(this.value, out result) ? result : 0;
-        }
+		public override string GetStringValue()
+		{
+			return this.value;
+		}
 
-        public override string GetStringValue()
-        {
-            return this.value;
-        }
+		public override object GetDefaultValue()
+		{
+			return string.Empty;
+		}
 
-        public override object GetDefaultValue()
-        {
-            return string.Empty;
-        }
-
-        #endregion
-    }
+		#endregion
+	}
 }

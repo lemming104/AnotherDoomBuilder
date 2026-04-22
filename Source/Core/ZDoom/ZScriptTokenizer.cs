@@ -102,7 +102,7 @@ namespace CodeImp.DoomBuilder.ZDoom
         public ZScriptToken()
         {
             IsValid = true;
-            WarningMessage = String.Empty;
+			WarningMessage = String.Empty;
         }
 
         public ZScriptToken(ZScriptToken other)
@@ -121,7 +121,7 @@ namespace CodeImp.DoomBuilder.ZDoom
         public int ValueInt { get; internal set; }
         public double ValueDouble { get; internal set; }
         public bool IsValid { get; internal set; }
-        public string WarningMessage { get; internal set; }
+		public string WarningMessage { get; internal set; }
         public long Position { get; internal set; }
 
         public override string ToString()
@@ -132,19 +132,20 @@ namespace CodeImp.DoomBuilder.ZDoom
 
     internal class ZScriptTokenizer
     {
+        private BinaryReader reader;
         private static Dictionary<string, ZScriptTokenType> namedtokentypes; // these are tokens that have precise equivalent in the enum (like operators)
         private static Dictionary<ZScriptTokenType, string> namedtokentypesreverse; // these are tokens that have precise equivalent in the enum (like operators)
         private static List<string> namedtokentypesorder; // this is the list of said tokens ordered by length.
         private StringBuilder SB = new StringBuilder();
 
-        public BinaryReader Reader { get; }
+        public BinaryReader Reader { get { return reader; } }
         public long LastPosition { get; private set; }
 
         private List<long> LinePositions;
 
         public ZScriptTokenizer(BinaryReader br)
         {
-            Reader = br;
+            reader = br;
 
             long cpos = br.BaseStream.Position;
             LinePositions = new List<long>();
@@ -191,7 +192,7 @@ namespace CodeImp.DoomBuilder.ZDoom
         {
             for (int i = 0; i < LinePositions.Count; i++)
                 if (pos <= LinePositions[i])
-                    return i + 1;
+                    return i+1;
             return LinePositions.Count;
         }
 
@@ -206,11 +207,11 @@ namespace CodeImp.DoomBuilder.ZDoom
 
         private ZScriptToken TryReadWhitespace()
         {
-            long cpos = LastPosition = Reader.BaseStream.Position;
+            long cpos = LastPosition = reader.BaseStream.Position;
             char c;
             try
             {
-                c = Reader.ReadChar();
+                c = reader.ReadChar();
             }
             catch (EndOfStreamException)
             {
@@ -231,7 +232,7 @@ namespace CodeImp.DoomBuilder.ZDoom
                     char cnext;
                     try
                     {
-                        cnext = Reader.ReadChar();
+                        cnext = reader.ReadChar();
                     }
                     catch (EndOfStreamException)
                     {
@@ -243,7 +244,7 @@ namespace CodeImp.DoomBuilder.ZDoom
                         continue;
                     }
 
-                    Reader.BaseStream.Position--;
+                    reader.BaseStream.Position--;
                     break;
                 }
 
@@ -254,17 +255,17 @@ namespace CodeImp.DoomBuilder.ZDoom
                 return tok;
             }
 
-            Reader.BaseStream.Position = cpos;
+            reader.BaseStream.Position = cpos;
             return null;
         }
 
         private ZScriptToken TryReadIdentifier()
         {
-            long cpos = LastPosition = Reader.BaseStream.Position;
+            long cpos = LastPosition = reader.BaseStream.Position;
             char c;
             try
             {
-                c = Reader.ReadChar();
+                c = reader.ReadChar();
             }
             catch (EndOfStreamException)
             {
@@ -283,7 +284,7 @@ namespace CodeImp.DoomBuilder.ZDoom
                     char cnext;
                     try
                     {
-                        cnext = Reader.ReadChar();
+                        cnext = reader.ReadChar();
                     }
                     catch (EndOfStreamException)
                     {
@@ -298,7 +299,7 @@ namespace CodeImp.DoomBuilder.ZDoom
                         continue;
                     }
 
-                    Reader.BaseStream.Position--;
+                    reader.BaseStream.Position--;
                     break;
                 }
 
@@ -309,17 +310,17 @@ namespace CodeImp.DoomBuilder.ZDoom
                 return tok;
             }
 
-            Reader.BaseStream.Position = cpos;
+            reader.BaseStream.Position = cpos;
             return null;
         }
 
         private ZScriptToken TryReadNumber()
         {
-            long cpos = LastPosition = Reader.BaseStream.Position;
+            long cpos = LastPosition = reader.BaseStream.Position;
             char c;
             try
             {
-                c = Reader.ReadChar();
+                c = reader.ReadChar();
             }
             catch (EndOfStreamException)
             {
@@ -330,21 +331,21 @@ namespace CodeImp.DoomBuilder.ZDoom
             if ((c >= '0' && c <= '9') || c == '.')
             {
                 bool isint = true;
-                bool isdouble = c == '.';
+                bool isdouble = (c == '.');
                 bool isexponent = false;
                 if (isdouble) // make sure next character is an integer, otherwise its probably a member access
                 {
-                    char cnext = Reader.ReadChar();
+                    char cnext = reader.ReadChar();
                     if (!(cnext >= '0' && cnext <= '9'))
                     {
                         isint = false;
-                        Reader.BaseStream.Position--;
+                        reader.BaseStream.Position--;
                     }
                 }
 
                 if (isint)
                 {
-                    bool isoctal = c == '0';
+                    bool isoctal = (c == '0');
                     bool ishex = false;
                     SB.Length = 0;
                     SB.Append(c);
@@ -353,7 +354,7 @@ namespace CodeImp.DoomBuilder.ZDoom
                         char cnext;
                         try
                         {
-                            cnext = Reader.ReadChar();
+                            cnext = reader.ReadChar();
                         }
                         catch (EndOfStreamException)
                         {
@@ -383,26 +384,26 @@ namespace CodeImp.DoomBuilder.ZDoom
                             SB.Append('e');
                             try
                             {
-                                cnext = Reader.ReadChar();
+                                cnext = reader.ReadChar();
                             }
                             catch (EndOfStreamException)
                             {
-                                Reader.BaseStream.Position = cpos;
+                                reader.BaseStream.Position = cpos;
                                 return null; // bad exponent notation
                             }
                             if (cnext == '-') SB.Append('-');
-                            else Reader.BaseStream.Position--;
+                            else reader.BaseStream.Position--;
                         }
                         else
                         {
-                            Reader.BaseStream.Position--;
+                            reader.BaseStream.Position--;
                             break;
                         }
                     }
 
                     ZScriptToken tok = new ZScriptToken();
                     tok.Position = cpos;
-                    tok.Type = isdouble ? ZScriptTokenType.Double : ZScriptTokenType.Integer;
+                    tok.Type = (isdouble ? ZScriptTokenType.Double : ZScriptTokenType.Integer);
                     tok.Value = SB.ToString();
                     try
                     {
@@ -421,34 +422,34 @@ namespace CodeImp.DoomBuilder.ZDoom
                             tok.ValueInt = (int)tok.ValueDouble;
                         }
                     }
-                    catch (OverflowException) // biwa. If the value is too small or too big set it to the min or max, and set a warning message
-                    {
-                        tok.WarningMessage = "Number " + tok.Value + " too " + (tok.Value[0] == '-' ? "small" : "big") + ". Set to ";
+					catch (OverflowException) // biwa. If the value is too small or too big set it to the min or max, and set a warning message
+					{
+						tok.WarningMessage = "Number " + tok.Value + " too " + (tok.Value[0] == '-' ? "small" : "big") + ". Set to ";
 
-                        if (ishex || isoctal || !isdouble)
-                        {
-                            if (tok.Value[0] == '-')
-                                tok.ValueInt = Int32.MinValue;
-                            else
-                                tok.ValueInt = Int32.MaxValue;
+						if (ishex || isoctal || !isdouble)
+						{
+							if (tok.Value[0] == '-')
+								tok.ValueInt = Int32.MinValue;
+							else
+								tok.ValueInt = Int32.MaxValue;
 
-                            tok.ValueDouble = tok.ValueInt;
-                            tok.WarningMessage += tok.ValueInt;
-                        }
-                        else if (isdouble)
-                        {
-                            if (tok.Value[0] == '-')
-                                tok.ValueDouble = Double.MinValue;
-                            else
-                                tok.ValueDouble = Double.MaxValue;
+							tok.ValueDouble = tok.ValueInt;
+							tok.WarningMessage += tok.ValueInt;
+						}
+						else if (isdouble)
+						{
+							if (tok.Value[0] == '-')
+								tok.ValueDouble = Double.MinValue;
+							else
+								tok.ValueDouble = Double.MaxValue;
 
-                            tok.ValueInt = (int)tok.ValueDouble;
-                            tok.WarningMessage += tok.ValueDouble;
-                        }
-                    }
+							tok.ValueInt = (int)tok.ValueDouble;
+							tok.WarningMessage += tok.ValueDouble;
+						}
+					}
                     catch (Exception)
                     {
-                        Reader.BaseStream.Position = cpos;
+                        reader.BaseStream.Position = cpos;
                         return null;
                     }
 
@@ -456,17 +457,17 @@ namespace CodeImp.DoomBuilder.ZDoom
                 }
             }
 
-            Reader.BaseStream.Position = cpos;
+            reader.BaseStream.Position = cpos;
             return null;
         }
 
         private ZScriptToken TryReadStringOrComment(bool allowstring, bool allowname, bool allowblock, bool allowline, bool allowregion)
         {
-            long cpos = LastPosition = Reader.BaseStream.Position;
+            long cpos = LastPosition = reader.BaseStream.Position;
             char c;
             try
             {
-                c = Reader.ReadChar();
+                c = reader.ReadChar();
             }
             catch (EndOfStreamException)
             {
@@ -481,7 +482,7 @@ namespace CodeImp.DoomBuilder.ZDoom
                         char cnext;
                         try
                         {
-                            cnext = Reader.ReadChar();
+                            cnext = reader.ReadChar();
                         }
                         catch (EndOfStreamException)
                         {
@@ -496,7 +497,7 @@ namespace CodeImp.DoomBuilder.ZDoom
                             {
                                 try
                                 {
-                                    cnext = Reader.ReadChar();
+                                    cnext = reader.ReadChar();
                                 }
                                 catch (EndOfStreamException)
                                 {
@@ -504,7 +505,7 @@ namespace CodeImp.DoomBuilder.ZDoom
                                 }
                                 if (cnext == '\n')
                                 {
-                                    Reader.BaseStream.Position--;
+                                    reader.BaseStream.Position--;
                                     break;
                                 }
 
@@ -526,7 +527,7 @@ namespace CodeImp.DoomBuilder.ZDoom
                             {
                                 try
                                 {
-                                    cnext = Reader.ReadChar();
+                                    cnext = reader.ReadChar();
                                 }
                                 catch (EndOfStreamException)
                                 {
@@ -534,11 +535,11 @@ namespace CodeImp.DoomBuilder.ZDoom
                                 }
                                 if (cnext == '*')
                                 {
-                                    char cnext2 = Reader.ReadChar();
+                                    char cnext2 = reader.ReadChar();
                                     if (cnext2 == '/')
                                         break;
 
-                                    Reader.BaseStream.Position--;
+                                    reader.BaseStream.Position--;
                                 }
 
                                 SB.Append(cnext);
@@ -562,18 +563,18 @@ namespace CodeImp.DoomBuilder.ZDoom
                         while (true)
                         {
                             try
-                            {
-                                cnext = Reader.ReadChar();
-                            }
-                            catch (EndOfStreamException)
-                            {
+							{
+                                cnext = reader.ReadChar();
+							}
+                            catch(EndOfStreamException)
+							{
                                 break;
-                            }
-                            if (cnext == '\n')
-                            {
-                                Reader.BaseStream.Position--;
+							}
+                            if(cnext == '\n')
+							{
+                                reader.BaseStream.Position--;
                                 break;
-                            }
+							}
 
                             SB.Append(cnext);
                         }
@@ -591,17 +592,17 @@ namespace CodeImp.DoomBuilder.ZDoom
                 case '\'':
                     {
                         if ((c == '"' && !allowstring) || (c == '\'' && !allowname)) break;
-                        ZScriptTokenType type = c == '"' ? ZScriptTokenType.String : ZScriptTokenType.Name;
+                        ZScriptTokenType type = (c == '"' ? ZScriptTokenType.String : ZScriptTokenType.Name);
                         SB.Length = 0;
                         while (true)
                         {
                             try
                             {
                                 // todo: parse escape sequences properly
-                                char cnext = Reader.ReadChar();
+                                char cnext = reader.ReadChar();
                                 if (cnext == '\\') // escape sequence. right now, do nothing
                                 {
-                                    cnext = Reader.ReadChar();
+                                    cnext = reader.ReadChar();
                                     SB.Append(cnext);
                                 }
                                 else if (cnext == c)
@@ -613,33 +614,32 @@ namespace CodeImp.DoomBuilder.ZDoom
                                     return tok;
                                 }
                                 else SB.Append(cnext);
-                            }
-                            catch (EndOfStreamException)
+                            } catch (EndOfStreamException)
                             {
-                                Reader.BaseStream.Position = cpos;
+                                reader.BaseStream.Position = cpos;
                                 return null; // bad string, unterminated and ends with EOF
                             }
                         }
                     }
             }
 
-            Reader.BaseStream.Position = cpos;
+            reader.BaseStream.Position = cpos;
             return null;
         }
 
         private ZScriptToken TryReadNamedToken()
         {
-            long cpos = LastPosition = Reader.BaseStream.Position;
+            long cpos = LastPosition = reader.BaseStream.Position;
 
             // named tokens
-            char[] namedtoken_buf = Reader.ReadChars(namedtokentypesorder[0].Length);
+            char[] namedtoken_buf = reader.ReadChars(namedtokentypesorder[0].Length);
             string namedtoken = new string(namedtoken_buf);
             foreach (string namedtokentype in namedtokentypesorder)
             {
                 if (namedtoken.StartsWith(namedtokentype))
                 {
                     // found the token.
-                    Reader.BaseStream.Position = cpos + namedtokentype.Length;
+                    reader.BaseStream.Position = cpos + namedtokentype.Length;
                     ZScriptToken tok = new ZScriptToken();
                     tok.Position = cpos;
                     tok.Type = namedtokentypes[namedtokentype];
@@ -648,13 +648,13 @@ namespace CodeImp.DoomBuilder.ZDoom
                 }
             }
 
-            Reader.BaseStream.Position = cpos;
+            reader.BaseStream.Position = cpos;
             return null;
         }
 
         public ZScriptToken ExpectToken(params ZScriptTokenType[] oneof)
         {
-            long cpos = Reader.BaseStream.Position;
+            long cpos = reader.BaseStream.Position;
 
             try
             {
@@ -694,7 +694,7 @@ namespace CodeImp.DoomBuilder.ZDoom
 
                 // try to expect special tokens
                 // read max
-                char[] namedtoken_buf = Reader.ReadChars(namedtokentypesorder[0].Length);
+                char[] namedtoken_buf = reader.ReadChars(namedtokentypesorder[0].Length);
                 string namedtoken = new string(namedtoken_buf);
                 foreach (ZScriptTokenType expected in oneof)
                 {
@@ -705,7 +705,7 @@ namespace CodeImp.DoomBuilder.ZDoom
                     if (namedtoken.StartsWith(namedtokentype))
                     {
                         // found the token.
-                        Reader.BaseStream.Position = cpos + namedtokentype.Length;
+                        reader.BaseStream.Position = cpos + namedtokentype.Length;
                         ZScriptToken tok = new ZScriptToken();
                         tok.Position = cpos;
                         tok.Type = namedtokentypes[namedtokentype];
@@ -718,7 +718,7 @@ namespace CodeImp.DoomBuilder.ZDoom
             {
                 try
                 {
-                    Reader.BaseStream.Position = cpos;
+                    reader.BaseStream.Position = cpos;
                 }
                 catch (Exception)
                 {
@@ -729,10 +729,10 @@ namespace CodeImp.DoomBuilder.ZDoom
             }
 
             // token was not found, try to read the token that was actually found and return that
-            Reader.BaseStream.Position = cpos;
+            reader.BaseStream.Position = cpos;
             ZScriptToken invalid = ReadToken();
             if (invalid != null) invalid.IsValid = false;
-            Reader.BaseStream.Position = cpos;
+            reader.BaseStream.Position = cpos;
             return invalid;
         }
 
@@ -767,9 +767,9 @@ namespace CodeImp.DoomBuilder.ZDoom
 
                 // token not found.
                 tok = new ZScriptToken();
-                tok.Position = Reader.BaseStream.Position;
+                tok.Position = reader.BaseStream.Position;
                 tok.Type = ZScriptTokenType.Invalid;
-                tok.Value = "" + Reader.ReadChar();
+                tok.Value = "" + reader.ReadChar();
                 tok.IsValid = false;
                 return tok;
             }

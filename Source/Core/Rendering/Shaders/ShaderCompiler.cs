@@ -206,7 +206,7 @@ namespace CodeImp.DoomBuilder.Rendering.Shaders
                 ZScriptTokenType leftToken = ZScriptTokenType.Invalid;
                 ZScriptTokenType rightToken = ZScriptTokenType.Invalid;
 
-                for (int j = i - 1; j >= 0; j--)
+                for (int j = i-1; j >= 0; j--)
                 {
                     ZScriptTokenType tt = source[j].Type;
                     if (!IsWhitespace(tt))
@@ -216,7 +216,7 @@ namespace CodeImp.DoomBuilder.Rendering.Shaders
                     }
                 }
 
-                for (int j = i + 1; j < source.Count; j++)
+                for (int j = i+1; j < source.Count; j++)
                 {
                     ZScriptTokenType tt = source[j].Type;
                     if (!IsWhitespace(tt))

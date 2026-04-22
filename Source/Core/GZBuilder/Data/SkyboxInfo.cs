@@ -2,16 +2,17 @@
 
 namespace CodeImp.DoomBuilder.GZBuilder.Data
 {
-    public sealed class SkyboxInfo
-    {
-        public string Name { get; }
-        public readonly List<string> Textures;
-        public bool FlipTop;
+	public sealed class SkyboxInfo
+	{
+		private readonly string name;
+		public string Name { get { return name; } }
+		public readonly List<string> Textures;
+		public bool FlipTop;
 
-        public SkyboxInfo(string name)
-        {
-            this.Name = name;
-            Textures = new List<string>();
-        }
-    }
+		public SkyboxInfo(string name)
+		{
+			this.name = name;
+			Textures = new List<string>();
+		}
+	}
 }

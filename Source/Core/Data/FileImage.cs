@@ -16,10 +16,10 @@
 
 #region ================== Namespaces
 
-using CodeImp.DoomBuilder.IO;
 using System;
-using System.Drawing;
 using System.IO;
+using CodeImp.DoomBuilder.IO;
+using System.Drawing;
 
 #endregion
 
@@ -68,7 +68,7 @@ namespace CodeImp.DoomBuilder.Data
             this.scale.y = scaley;
             texturenamespace = TextureNamespace.FLAT;
 
-            probableformat = asflat ? ImageDataFormat.DOOMFLAT : ImageDataFormat.DOOMPICTURE;
+            probableformat = (asflat ? ImageDataFormat.DOOMFLAT : ImageDataFormat.DOOMPICTURE);
 
             SetName(name, filepathname);
 
@@ -96,12 +96,12 @@ namespace CodeImp.DoomBuilder.Data
         //mxd: also, zdoom uses '/' as directory separator char.
         //mxd: and doesn't recognize long texture names in a root folder / pk3/7 root
         //[ZZ] and doesn't work with flats in Doom format (added SetName call to post-load to validate this)
-        // biwa. It works (again?) with Doom flat format
+		// biwa. It works (again?) with Doom flat format
         private void SetName(string name, string filepathname)
         {
-            //SetName(name, filepathname, General.Map.Config.UseLongTextureNames, (probableformat == ImageDataFormat.DOOMFLAT) ? -1 : 0);
-            SetName(name, filepathname, General.Map.Config.UseLongTextureNames, 0);
-        }
+			//SetName(name, filepathname, General.Map.Config.UseLongTextureNames, (probableformat == ImageDataFormat.DOOMFLAT) ? -1 : 0);
+			SetName(name, filepathname, General.Map.Config.UseLongTextureNames, 0);
+		}
 
         // prevent long texture names by forcelongtexturename=-1
         private void SetName(string name, string filepathname, bool uselongtexturenames, int forcelongtexturename)
@@ -120,8 +120,8 @@ namespace CodeImp.DoomBuilder.Data
                 this.shortname = this.name;
                 hasLongName = false;
             }
-            else
-            {
+			else
+			{
                 this.name = name;
                 this.virtualname = name;
                 this.displayname = Path.GetFileNameWithoutExtension(name);
@@ -136,7 +136,7 @@ namespace CodeImp.DoomBuilder.Data
             this.longname = Lump.MakeLongName(this.name, uselongtexturenames);
             this.filepathname = filepathname;
 
-            ComputeNamesWidth(); // biwa
+			ComputeNamesWidth(); // biwa
         }
 
         // This loads the image

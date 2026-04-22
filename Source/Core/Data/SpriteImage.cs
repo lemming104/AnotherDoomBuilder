@@ -24,60 +24,60 @@ using System.IO;
 
 namespace CodeImp.DoomBuilder.Data
 {
-    public interface ISpriteImage //mxd
-    {
-        int OffsetX { get; }
-        int OffsetY { get; }
-    }
+	public interface ISpriteImage //mxd
+	{
+		int OffsetX { get; }
+		int OffsetY { get; }
+	}
 
-    public sealed class SpriteImage : ImageData, ISpriteImage
-    {
-        #region ================== Constructor / Disposer
+	public sealed class SpriteImage : ImageData, ISpriteImage
+	{
+		#region ================== Constructor / Disposer
 
-        // Constructor
-        internal SpriteImage(string name)
-        {
-            // Initialize
-            SetName(name);
+		// Constructor
+		internal SpriteImage(string name)
+		{
+			// Initialize
+			SetName(name);
 
-            texturenamespace = TextureNamespace.SPRITE;
+			texturenamespace = TextureNamespace.SPRITE;
 
             AllowUnload = false;
 
-            // We have no destructor
-            GC.SuppressFinalize(this);
-        }
+			// We have no destructor
+			GC.SuppressFinalize(this);
+		}
 
-        #endregion
+		#endregion
 
-        #region ================== Methods
+		#region ================== Methods
 
-        // This loads the image
-        protected override LocalLoadResult LocalLoadImage()
-        {
+		// This loads the image
+		protected override LocalLoadResult LocalLoadImage()
+		{
             // Get the lump data stream
             Bitmap bitmap = null;
             string error = null;
-            string spritelocation = string.Empty; //mxd
-            Stream lumpdata = General.Map.Data.GetSpriteData(Name, ref spritelocation);
-            if (lumpdata != null)
-            {
-                // Get a reader for the data
-                bitmap = ImageDataFormat.TryLoadImage(lumpdata, ImageDataFormat.DOOMPICTURE, General.Map.Data.Palette, out offsetx, out offsety);
-                if (bitmap == null)
-                {
-                    // Data is in an unknown format!
-                    error = "Sprite lump \"" + Path.Combine(spritelocation, Name) + "\" data format could not be read. Does this lump contain valid picture data at all?";
-                }
-
-                // Done
+			string spritelocation = string.Empty; //mxd
+			Stream lumpdata = General.Map.Data.GetSpriteData(Name, ref spritelocation);
+			if(lumpdata != null)
+			{
+				// Get a reader for the data
+				bitmap = ImageDataFormat.TryLoadImage(lumpdata, ImageDataFormat.DOOMPICTURE, General.Map.Data.Palette, out offsetx, out offsety);
+				if(bitmap == null)
+				{
+					// Data is in an unknown format!
+					error = "Sprite lump \"" + Path.Combine(spritelocation, Name) + "\" data format could not be read. Does this lump contain valid picture data at all?";
+				}
+					
+				// Done
                 lumpdata.Close();
-            }
-            else
-            {
-                // Missing a patch lump!
-                error = "Missing sprite lump \"" + Name + "\". Forgot to include required resources?";
-            }
+			}
+			else
+			{
+				// Missing a patch lump!
+				error = "Missing sprite lump \"" + Name + "\". Forgot to include required resources?";
+			}
 
             return new LocalLoadResult(bitmap, error, () =>
             {
@@ -87,7 +87,7 @@ namespace CodeImp.DoomBuilder.Data
                 // Set the offset if the offset was not given
                 if ((offsetx == int.MinValue) || (offsety == int.MinValue))
                 {
-                    offsetx = offsety = 0;
+					offsetx = offsety = 0;
                 }
             });
         }

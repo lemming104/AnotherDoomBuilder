@@ -29,188 +29,194 @@ using System.Collections.Generic;
 
 namespace CodeImp.DoomBuilder.ZDoom
 {
-    public class DecalInfo
-    {
-        #region ================== Enums
+	public class DecalInfo
+	{
+		#region ================== Enums
 
-        public enum DecalType
-        {
-            DECAL,
-            DECALGROUP
-        }
+		public enum DecalType
+		{
+			DECAL,
+			DECALGROUP
+		}
 
-        #endregion
+		#endregion
 
-        #region ================== Variables
+		#region ================== Variables
 
+		private string name;
+		private string picturename = string.Empty;
+		private int index;
+		private string description;
+		private DecalType type;
+		private Dictionary<string, DecalInfo> childdecals = new Dictionary<string, DecalInfo>(); // Children of decal groups
 
-        #endregion
+		#endregion
 
-        #region ================== Properties
+		#region ================== Properties
 
-        public string Name { get; }
-        public string PictureName { get; private set; } = string.Empty;
-        public int Index { get; }
-        public DecalType Type { get; }
-        public string Description { get; }
-        public Dictionary<string, DecalInfo> Children { get; } = new Dictionary<string, DecalInfo>();
+		public string Name { get { return name; } }
+		public string PictureName { get { return picturename; } }
+		public int Index { get { return index; } }
+		public DecalType Type { get { return type; } }
+		public string Description { get { return description; } }
+		public Dictionary<string, DecalInfo> Children { get { return childdecals; } }
 
-        #endregion
+		#endregion
 
-        #region ================== Constructor
+		#region ================== Constructor
 
-        public DecalInfo(string name, int index, DecalType type)
-        {
-            this.Name = name;
-            this.Index = index;
-            this.Type = type;
+		public DecalInfo(string name, int index, DecalType type)
+		{
+			this.name = name;
+			this.index = index;
+			this.type = type;
 
-            Description = index.ToString() + ": " + name;
-        }
+			description = index.ToString() + ": " + name;
+		}
 
-        #endregion
+		#endregion
 
-        #region ================== Methods
+		#region ================== Methods
 
-        internal void SetPictureName(string picturename)
-        {
-            this.PictureName = picturename;
-        }
+		internal void SetPictureName(string picturename)
+		{
+			this.picturename = picturename;
+		}
 
-        /// <summary>
-        /// Parse a decal or decalgroup definition
-        /// </summary>
-        /// <param name="parser"></param>
-        /// <returns></returns>
-        internal bool Parse(DecalDefsParser parser)
-        {
-            switch (Type)
-            {
-                case DecalType.DECAL:
-                    return ParseDecal(parser);
-                case DecalType.DECALGROUP:
-                    return ParseDecalGroup(parser);
-            }
+		/// <summary>
+		/// Parse a decal or decalgroup definition
+		/// </summary>
+		/// <param name="parser"></param>
+		/// <returns></returns>
+		internal bool Parse(DecalDefsParser parser)
+		{
+			switch(type)
+			{
+				case DecalType.DECAL:
+					return ParseDecal(parser);
+				case DecalType.DECALGROUP:
+					return ParseDecalGroup(parser);
+			}
 
-            return false;
-        }
+			return false;
+		}
 
-        /// <summary>
-        /// Parses a decal definition
-        /// </summary>
-        /// <param name="parser">the DecalDefsParser that right before the decal definition block</param>
-        /// <returns></returns>
-        private bool ParseDecal(DecalDefsParser parser)
-        {
-            parser.SkipWhitespace(true);
+		/// <summary>
+		/// Parses a decal definition
+		/// </summary>
+		/// <param name="parser">the DecalDefsParser that right before the decal definition block</param>
+		/// <returns></returns>
+		private bool ParseDecal(DecalDefsParser parser)
+		{
+			parser.SkipWhitespace(true);
 
-            string token = parser.ReadToken();
+			string token = parser.ReadToken();
 
-            if (token != "{")
-            {
-                parser.ReportError("Expected \"{\", got " + token);
-                return false;
-            }
+			if (token != "{")
+			{
+				parser.ReportError("Expected \"{\", got " + token);
+				return false;
+			}
 
-            while (true)
-            {
-                parser.SkipWhitespace(true);
+			while (true)
+			{
+				parser.SkipWhitespace(true);
 
-                token = parser.ReadToken().ToLowerInvariant();
+				token = parser.ReadToken().ToLowerInvariant();
 
-                if (string.IsNullOrEmpty(token))
-                {
-                    parser.ReportError("Expected property of }, got nothing");
-                    return false;
-                }
+				if (string.IsNullOrEmpty(token))
+				{
+					parser.ReportError("Expected property of }, got nothing");
+					return false;
+				}
 
-                // Decal ends here
-                if (token == "}")
-                {
-                    break;
-                }
+				// Decal ends here
+				if (token == "}")
+				{
+					break;
+				}
 
-                switch (token)
-                {
-                    case "pic":
-                        parser.SkipWhitespace(false);
-                        token = parser.ReadToken();
+				switch (token)
+				{
+					case "pic":
+						parser.SkipWhitespace(false);
+						token = parser.ReadToken();
 
-                        if (string.IsNullOrEmpty(token))
-                        {
-                            parser.ReportError("Expected image name, got nothing");
-                            return false;
-                        }
+						if (string.IsNullOrEmpty(token))
+						{
+							parser.ReportError("Expected image name, got nothing");
+							return false;
+						}
 
-                        PictureName = token;
+						picturename = token;
 
-                        break;
-                }
-            }
+						break;
+				}
+			}
 
-            return true;
-        }
+			return true;
+		}
 
-        /// <summary>
-        /// Parses a decalgroup defition
-        /// </summary>
-        /// <param name="parser">The DecalDefsParser that right before the decalgroup definition block</param>
-        /// <returns></returns>
-        private bool ParseDecalGroup(DecalDefsParser parser)
-        {
-            parser.SkipWhitespace(true);
+		/// <summary>
+		/// Parses a decalgroup defition
+		/// </summary>
+		/// <param name="parser">The DecalDefsParser that right before the decalgroup definition block</param>
+		/// <returns></returns>
+		private bool ParseDecalGroup(DecalDefsParser parser)
+		{
+			parser.SkipWhitespace(true);
 
-            string token = parser.ReadToken();
+			string token = parser.ReadToken();
 
-            if (token != "{")
-            {
-                parser.ReportError("Expected \"{\", got " + token);
-                return false;
-            }
+			if (token != "{")
+			{
+				parser.ReportError("Expected \"{\", got " + token);
+				return false;
+			}
 
-            while (true)
-            {
-                parser.SkipWhitespace(true);
+			while (true)
+			{
+				parser.SkipWhitespace(true);
 
-                token = parser.ReadToken().ToLowerInvariant();
+				token = parser.ReadToken().ToLowerInvariant();
 
-                if (string.IsNullOrEmpty(token))
-                {
-                    parser.ReportError("Expected property of }, got nothing");
-                    return false;
-                }
+				if (string.IsNullOrEmpty(token))
+				{
+					parser.ReportError("Expected property of }, got nothing");
+					return false;
+				}
 
-                // Decal ends here
-                if (token == "}")
-                {
-                    break;
-                }
+				// Decal ends here
+				if (token == "}")
+				{
+					break;
+				}
 
-                // Add name of child to the list of children
-                if (Children.ContainsKey(token))
-                {
-                    // TODO: report problem
+				// Add name of child to the list of children
+				if (childdecals.ContainsKey(token))
+				{
+					// TODO: report problem
 
-                    // Overwrite existing decal with new one (who knows if that's the correct way do handle duplicate entries?)
-                    Children[token] = null;
-                }
-                else
-                    Children.Add(token, null);
+					// Overwrite existing decal with new one (who knows if that's the correct way do handle duplicate entries?)
+					childdecals[token] = null;
+				}
+				else
+					childdecals.Add(token, null);
 
-                // Read the probability wheight. We don't use it, though
-                int weight = 0;
-                parser.SkipWhitespace(false);
-                token = parser.ReadToken();
-                if (string.IsNullOrEmpty(token) || !parser.ReadSignedInt(token, ref weight))
-                {
-                    parser.ReportError("Expected probability weight as number, got \"" + token + "\"");
-                    return false;
-                }
-            }
+				// Read the probability wheight. We don't use it, though
+				int weight = 0;
+				parser.SkipWhitespace(false);
+				token = parser.ReadToken();
+				if(string.IsNullOrEmpty(token) || !parser.ReadSignedInt(token, ref weight))
+				{
+					parser.ReportError("Expected probability weight as number, got \"" + token + "\"");
+					return false;
+				}
+			}
 
-            return true;
-        }
+			return true;
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

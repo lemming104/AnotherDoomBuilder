@@ -20,30 +20,30 @@
 
 namespace CodeImp.DoomBuilder.Windows
 {
-    public enum FindReplaceSearchMode //mxd
-    {
-        CURRENT_FILE,
-        OPENED_TABS_ALL_SCRIPT_TYPES
-    }
+	public enum FindReplaceSearchMode //mxd
+	{
+		CURRENT_FILE,
+		OPENED_TABS_ALL_SCRIPT_TYPES
+	}
+	
+	public struct FindReplaceOptions
+	{
+		public string FindText;
+		public bool CaseSensitive;
+		public bool WholeWord;
+		public string ReplaceWith;
+		public FindReplaceSearchMode SearchMode; //mxd
+		public bool WrapAroundDisabled;
 
-    public struct FindReplaceOptions
-    {
-        public string FindText;
-        public bool CaseSensitive;
-        public bool WholeWord;
-        public string ReplaceWith;
-        public FindReplaceSearchMode SearchMode; //mxd
-        public bool WrapAroundDisabled;
-
-        //mxd. Copy constructor
-        public FindReplaceOptions(FindReplaceOptions other)
-        {
-            FindText = other.FindText;
-            CaseSensitive = other.CaseSensitive;
-            WholeWord = other.WholeWord;
-            ReplaceWith = other.ReplaceWith;
-            SearchMode = other.SearchMode;
-            WrapAroundDisabled = other.WrapAroundDisabled;
-        }
-    }
+		//mxd. Copy constructor
+		public FindReplaceOptions(FindReplaceOptions other)
+		{
+			FindText = other.FindText;
+			CaseSensitive = other.CaseSensitive;
+			WholeWord = other.WholeWord;
+			ReplaceWith = other.ReplaceWith;
+			SearchMode = other.SearchMode;
+			WrapAroundDisabled = other.WrapAroundDisabled;
+		}
+	}
 }

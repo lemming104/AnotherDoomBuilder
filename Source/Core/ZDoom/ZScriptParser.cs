@@ -19,14 +19,14 @@ namespace CodeImp.DoomBuilder.ZDoom
             public string ParentName { get; internal set; }
             public ZScriptActorStructure Actor { get; internal set; }
             internal DecorateCategoryInfo Region;
-            public bool IsMixin { get; internal set; }
-            public bool IsExtension { get; internal set; }
-            public List<ZScriptClassStructure> Extensions { get; internal set; }
-            public bool IsFinal { get; internal set; }
-            public List<string> PermittedInheritedClassNames { get; internal set; }
+			public bool IsMixin { get; internal set; }
+			public bool IsExtension { get; internal set; }
+			public List<ZScriptClassStructure> Extensions { get; internal set; }
+			public bool IsFinal { get; internal set; }
+			public List<string> PermittedInheritedClassNames { get; internal set; }
 
-            // these are used for parsing and error reporting
-            public ZScriptParser Parser { get; internal set; }
+			// these are used for parsing and error reporting
+			public ZScriptParser Parser { get; internal set; }
             public Stream Stream { get; internal set; }
             public long Position { get; internal set; }
             public BinaryReader DataReader { get; internal set; }
@@ -36,7 +36,7 @@ namespace CodeImp.DoomBuilder.ZDoom
             // textresourcepath
             public string TextResourcePath { get; internal set; }
 
-            internal ZScriptClassStructure(ZScriptParser parser, string classname, DecorateCategoryInfo region, string replacesname = null, string parentname = null, bool ismixin = false, bool isextension = false, bool isfinal = false, List<string> permittedinheritedclassnames = null)
+            internal ZScriptClassStructure(ZScriptParser parser, string classname, DecorateCategoryInfo region, string replacesname=null, string parentname=null, bool ismixin=false, bool isextension=false, bool isfinal=false, List<string> permittedinheritedclassnames=null)
             {
                 Parser = parser;
 
@@ -53,11 +53,11 @@ namespace CodeImp.DoomBuilder.ZDoom
                 Actor = null;
                 Region = region;
 
-                IsMixin = ismixin;
-                IsExtension = isextension;
-                Extensions = new List<ZScriptClassStructure>();
-                IsFinal = isfinal;
-                PermittedInheritedClassNames = permittedinheritedclassnames == null ? new List<string>() : new List<string>(permittedinheritedclassnames); // for the "sealed" class modifier
+				IsMixin = ismixin;
+				IsExtension = isextension;
+				Extensions = new List<ZScriptClassStructure>();
+				IsFinal = isfinal;
+				PermittedInheritedClassNames = permittedinheritedclassnames == null ? new List<string>() : new List<string>(permittedinheritedclassnames); // for the "sealed" class modifier
             }
 
             internal void RestoreStreamData()
@@ -88,11 +88,11 @@ namespace CodeImp.DoomBuilder.ZDoom
                     {
                         string _pname = _pstruct.ParentName.ToLowerInvariant();
 
-                        if (_pname == _pstruct.ClassName.ToLowerInvariant())
-                        {
-                            Parser.ReportError("Fatal: Class \"" + _pstruct.ClassName + "\" is trying to inherit from itself.");
-                            return false;
-                        }
+						if(_pname == _pstruct.ClassName.ToLowerInvariant())
+						{
+							Parser.ReportError("Fatal: Class \"" + _pstruct.ClassName + "\" is trying to inherit from itself.");
+							return false;
+						}
 
                         string _cname = _pstruct.ClassName;
 
@@ -103,24 +103,24 @@ namespace CodeImp.DoomBuilder.ZDoom
                             return false;
                         }
 
-                        // Make sure that the parent class isn't "final"
-                        if (_pstruct.IsFinal)
-                        {
-                            Parser.ReportError($"Fatal: Class \"{_cname}\" is trying to inherit from \"{_pname}\" which is final");
-                            return false;
-                        }
+						// Make sure that the parent class isn't "final"
+						if(_pstruct.IsFinal)
+						{
+							Parser.ReportError($"Fatal: Class \"{_cname}\" is trying to inherit from \"{_pname}\" which is final");
+							return false;
+						}
 
-                        // Make sure we're allowed to inherit from parent class
-                        if (_pstruct.PermittedInheritedClassNames.Count > 0 && !_pstruct.PermittedInheritedClassNames.Contains(_cname.ToLowerInvariant()))
-                        {
-                            Parser.ReportError($"Fatal: Class \"{_cname}\" is not allowed to inherit from \"{_pname}\"");
-                            return false;
-                        }
+						// Make sure we're allowed to inherit from parent class
+						if(_pstruct.PermittedInheritedClassNames.Count > 0 && !_pstruct.PermittedInheritedClassNames.Contains(_cname.ToLowerInvariant()))
+						{
+							Parser.ReportError($"Fatal: Class \"{_cname}\" is not allowed to inherit from \"{_pname}\"");
+							return false;
+						}
                     }
                     else _pstruct = null;
                 }
 
-                string log_inherits = (ParentName != null) ? "inherits " + ParentName : "";
+                string log_inherits = ((ParentName != null) ? "inherits " + ParentName : "");
                 if (ReplacementName != null) log_inherits += ((log_inherits.Length > 0) ? ", " : "") + "replaces " + ReplacementName;
                 if (log_inherits.Length > 0) log_inherits = " (" + log_inherits + ")";
 
@@ -133,29 +133,29 @@ namespace CodeImp.DoomBuilder.ZDoom
                         return false;
                     }
 
-                    if (!IsExtension)
-                    {
-                        // check actor replacement.
-                        Parser.AllActorsByClass[Actor.ClassName.ToLowerInvariant()] = Actor;
-                        Parser.realarchivedactors[Actor.ClassName.ToLowerInvariant()] = Actor;
-                        if (Actor.CheckActorSupported())
-                            Parser.ActorsByClass[Actor.ClassName.ToLowerInvariant()] = Actor;
+					if (!IsExtension)
+					{
+						// check actor replacement.
+						Parser.archivedactors[Actor.ClassName.ToLowerInvariant()] = Actor;
+						Parser.realarchivedactors[Actor.ClassName.ToLowerInvariant()] = Actor;
+						if (Actor.CheckActorSupported())
+							Parser.actors[Actor.ClassName.ToLowerInvariant()] = Actor;
 
-                        // Replace an actor?
-                        if (Actor.ReplacesClass != null)
-                        {
-                            if (Parser.GetArchivedActorByName(Actor.ReplacesClass, false) != null)
-                                Parser.AllActorsByClass[Actor.ReplacesClass.ToLowerInvariant()] = Actor;
-                            else
-                                Parser.LogWarning("Unable to find \"" + Actor.ReplacesClass + "\" class to replace, while parsing \"" + Actor.ClassName + "\"");
+						// Replace an actor?
+						if (Actor.ReplacesClass != null)
+						{
+							if (Parser.GetArchivedActorByName(Actor.ReplacesClass, false) != null)
+								Parser.archivedactors[Actor.ReplacesClass.ToLowerInvariant()] = Actor;
+							else
+								Parser.LogWarning("Unable to find \"" + Actor.ReplacesClass + "\" class to replace, while parsing \"" + Actor.ClassName + "\"");
 
-                            if (Actor.CheckActorSupported() && Parser.GetActorByName(Actor.ReplacesClass) != null)
-                                Parser.ActorsByClass[Actor.ReplacesClass.ToLowerInvariant()] = Actor;
-                        }
+							if (Actor.CheckActorSupported() && Parser.GetActorByName(Actor.ReplacesClass) != null)
+								Parser.actors[Actor.ReplacesClass.ToLowerInvariant()] = Actor;
+						}
 
-                        //mxd. Add to current text resource
-                        if (!Parser.scriptresources[TextResourcePath].Entries.Contains(Actor.ClassName)) Parser.scriptresources[TextResourcePath].Entries.Add(Actor.ClassName);
-                    }
+						//mxd. Add to current text resource
+						if (!Parser.scriptresources[TextResourcePath].Entries.Contains(Actor.ClassName)) Parser.scriptresources[TextResourcePath].Entries.Add(Actor.ClassName);
+					}
                 }
 
                 //Parser.LogWarning(string.Format("Parsed {0}class {1}{2}", isactor?"actor ":"", ClassName, log_inherits));
@@ -184,8 +184,10 @@ namespace CodeImp.DoomBuilder.ZDoom
         internal override ScriptType ScriptType { get { return ScriptType.ZSCRIPT; } }
 
         // These are actors we want to keep
+        private Dictionary<string, ActorStructure> actors;
 
         // These are all parsed actors, also those from other games
+        private Dictionary<string, ActorStructure> archivedactors;
 
         // These are archivedactors, but also without replacements, for inheritance purposes
         private Dictionary<string, ActorStructure> realarchivedactors;
@@ -194,9 +196,9 @@ namespace CodeImp.DoomBuilder.ZDoom
         private Dictionary<string, ZScriptClassStructure> allclasses;
         private List<ZScriptClassStructure> allclasseslist;
 
-        // Mixin classes
-        private Dictionary<string, ZScriptClassStructure> mixinclasses;
-        private List<ZScriptClassStructure> mixinclasseslist;
+		// Mixin classes
+		private Dictionary<string, ZScriptClassStructure> mixinclasses;
+		private List<ZScriptClassStructure> mixinclasseslist;
 
         //mxd. Includes tracking
         private HashSet<string> parsedlumps;
@@ -217,22 +219,22 @@ namespace CodeImp.DoomBuilder.ZDoom
         /// <summary>
         /// All actors that are supported by the current game.
         /// </summary>
-        public IEnumerable<ActorStructure> Actors { get { return ActorsByClass.Values; } }
+        public IEnumerable<ActorStructure> Actors { get { return actors.Values; } }
 
         /// <summary>
         /// All actors defined in the loaded DECORATE structures. This includes actors not supported in the current game.
         /// </summary>
-        public ICollection<ActorStructure> AllActors { get { return AllActorsByClass.Values; } }
+        public ICollection<ActorStructure> AllActors { get { return archivedactors.Values; } }
 
         /// <summary>
         /// mxd. All actors that are supported by the current game.
         /// </summary>
-        internal Dictionary<string, ActorStructure> ActorsByClass { get; private set; }
+        internal Dictionary<string, ActorStructure> ActorsByClass { get { return actors; } }
 
         /// <summary>
         /// mxd. All actors defined in the loaded DECORATE structures. This includes actors not supported in the current game.
         /// </summary>
-        internal Dictionary<string, ActorStructure> AllActorsByClass { get; private set; }
+        internal Dictionary<string, ActorStructure> AllActorsByClass { get { return archivedactors; } }
 
 
         /// <summary>
@@ -256,11 +258,11 @@ namespace CodeImp.DoomBuilder.ZDoom
             //mxd. Not already disposed?
             if (!isdisposed)
             {
-                foreach (KeyValuePair<string, ActorStructure> a in AllActorsByClass)
+                foreach (KeyValuePair<string, ActorStructure> a in archivedactors)
                     a.Value.Dispose();
 
-                ActorsByClass = null;
-                AllActorsByClass = null;
+                actors = null;
+                archivedactors = null;
 
                 isdisposed = true;
             }
@@ -301,33 +303,33 @@ namespace CodeImp.DoomBuilder.ZDoom
                 return false;
             }
 
-            // [JD] Relative paths are supported by GZDoom since 4.8.0
-            if (filename.StartsWith(RELATIVE_PATH_MARKER) || filename.StartsWith(CURRENT_FOLDER_PATH_MARKER) ||
-                filename.StartsWith(ALT_RELATIVE_PATH_MARKER) || filename.StartsWith(ALT_CURRENT_FOLDER_PATH_MARKER))
-            {
-                List<string> pathTokens = localsourcename.Split('\\', '/').ToList();    // take full path of current source file, split to individual folders
-                pathTokens.RemoveAt(pathTokens.Count - 1);          // remove filename itself
-                pathTokens.AddRange(filename.Split('\\', '/'));         // add relative path
-                pathTokens.RemoveAll(token => token.Equals(".", StringComparison.InvariantCulture));    // remove all "." folders from the path
+			// [JD] Relative paths are supported by GZDoom since 4.8.0
+			if (filename.StartsWith(RELATIVE_PATH_MARKER) || filename.StartsWith(CURRENT_FOLDER_PATH_MARKER) ||
+				filename.StartsWith(ALT_RELATIVE_PATH_MARKER) || filename.StartsWith(ALT_CURRENT_FOLDER_PATH_MARKER))
+			{
+				List<string> pathTokens = localsourcename.Split('\\', '/').ToList();	// take full path of current source file, split to individual folders
+				pathTokens.RemoveAt(pathTokens.Count - 1);			// remove filename itself
+				pathTokens.AddRange(filename.Split('\\', '/'));			// add relative path
+				pathTokens.RemoveAll(token => token.Equals(".", StringComparison.InvariantCulture));	// remove all "." folders from the path
 
-                for (int i = 0; i < pathTokens.Count; i++)
-                {
-                    if (pathTokens[i].Equals("..", StringComparison.InvariantCulture))  // for each "..": remove them and previous folder from the path
-                    {
-                        if (i == 0) // cannot have ".." at start of full path
-                        {
-                            ReportError("Relative path escaping archive");
-                            return false;
-                        }
+				for (int i = 0; i < pathTokens.Count; i++)
+				{
+					if (pathTokens[i].Equals("..", StringComparison.InvariantCulture))	// for each "..": remove them and previous folder from the path
+					{
+						if (i == 0)	// cannot have ".." at start of full path
+						{
+							ReportError("Relative path escaping archive");
+							return false;
+						}
 
-                        pathTokens.RemoveAt(i);
-                        pathTokens.RemoveAt(i - 1);
-                        i -= 2;
-                    }
-                }
+						pathTokens.RemoveAt(i);
+						pathTokens.RemoveAt(i - 1);
+						i -= 2;
+					}
+				}
 
-                filename = string.Join("/", pathTokens);    // combine the included file path
-            }
+				filename = string.Join("/", pathTokens);	// combine the included file path
+			}
 
             //mxd. Backward slashes are not supported
             if (filename.Contains("\\"))
@@ -387,9 +389,9 @@ namespace CodeImp.DoomBuilder.ZDoom
                     return null;
                 }
 
-                // biwa. Report a recoverable parsing problem
-                if (!string.IsNullOrEmpty(token.WarningMessage))
-                    LogWarning(token.WarningMessage);
+				// biwa. Report a recoverable parsing problem
+				if (!string.IsNullOrEmpty(token.WarningMessage))
+					LogWarning(token.WarningMessage);
 
                 if ((token.Type == ZScriptTokenType.Semicolon ||
                      token.Type == ZScriptTokenType.Comma) && nestingLevel == 0 && !betweenparen)
@@ -744,10 +746,10 @@ namespace CodeImp.DoomBuilder.ZDoom
             ZScriptToken tok_native = null;
             ZScriptToken tok_scope = null;
             ZScriptToken tok_version = null;
-            ZScriptToken tok_final = null;
+			ZScriptToken tok_final = null;
             string[] class_scope_modifiers = new string[] { "clearscope", "ui", "play" };
             string[] other_modifiers = new string[] { "abstract" };
-            List<string> permitted_inherited_class_names = new List<string>();
+			List<string> permitted_inherited_class_names = new List<string>();
             while (true)
             {
                 tokenizer.SkipWhitespace();
@@ -793,20 +795,20 @@ namespace CodeImp.DoomBuilder.ZDoom
 
                         tok_native = token;
                     }
-                    else if (token.Value.ToLowerInvariant() == "final")
-                    {
-                        if (tok_final != null)
-                        {
-                            ReportError("Cannot have two final keywords");
-                            return false;
-                        }
+					else if(token.Value.ToLowerInvariant() == "final")
+					{
+						if(tok_final != null)
+						{
+							ReportError("Cannot have two final keywords");
+							return false;
+						}
 
-                        tok_final = token;
-                    }
-                    else if (token.Value.ToLowerInvariant() == "sealed")
-                    {
-                        permitted_inherited_class_names = ParseSealed();
-                    }
+						tok_final = token;
+					}
+					else if(token.Value.ToLowerInvariant() == "sealed")
+					{
+						permitted_inherited_class_names = ParseSealed();
+					}
                     else if (Array.IndexOf(class_scope_modifiers, token.Value.ToLowerInvariant()) >= 0)
                     {
                         if (tok_scope != null)
@@ -855,77 +857,77 @@ namespace CodeImp.DoomBuilder.ZDoom
                             return false;
                         }
                     }
-                    else if (token.Value.ToLowerInvariant() == "unsafe")
-                    {
-                        tokenizer.SkipWhitespace();
-                        token = tokenizer.ExpectToken(ZScriptTokenType.OpenParen);
-                        if (token == null || !token.IsValid)
-                        {
-                            ReportError("Expected (, got " + ((Object)token ?? "<null>").ToString());
-                            return false;
-                        }
+					else if (token.Value.ToLowerInvariant() == "unsafe")
+					{
+						tokenizer.SkipWhitespace();
+						token = tokenizer.ExpectToken(ZScriptTokenType.OpenParen);
+						if (token == null || !token.IsValid)
+						{
+							ReportError("Expected (, got " + ((Object)token ?? "<null>").ToString());
+							return false;
+						}
 
-                        tokenizer.SkipWhitespace();
-                        token = tokenizer.ExpectToken(ZScriptTokenType.Identifier);
-                        if (token == null || !token.IsValid)
-                        {
-                            ReportError("Expected identifier, got " + ((Object)token ?? "<null>").ToString());
-                            return false;
-                        }
+						tokenizer.SkipWhitespace();
+						token = tokenizer.ExpectToken(ZScriptTokenType.Identifier);
+						if (token == null || !token.IsValid)
+						{
+							ReportError("Expected identifier, got " + ((Object)token ?? "<null>").ToString());
+							return false;
+						}
 
-                        tokenizer.SkipWhitespace();
-                        token = tokenizer.ExpectToken(ZScriptTokenType.CloseParen);
-                        if (token == null || !token.IsValid)
-                        {
-                            ReportError("Expected ), got " + ((Object)token ?? "<null>").ToString());
-                            return false;
-                        }
-                    }
-                    else if (token.Value.ToLowerInvariant() == "deprecated")
-                    {
-                        // Format: deprecated("version-string", "what should be used instead")
+						tokenizer.SkipWhitespace();
+						token = tokenizer.ExpectToken(ZScriptTokenType.CloseParen);
+						if (token == null || !token.IsValid)
+						{
+							ReportError("Expected ), got " + ((Object)token ?? "<null>").ToString());
+							return false;
+						}
+					}
+					else if (token.Value.ToLowerInvariant() == "deprecated")
+					{
+						// Format: deprecated("version-string", "what should be used instead")
 
-                        tokenizer.SkipWhitespace();
-                        token = tokenizer.ExpectToken(ZScriptTokenType.OpenParen);
-                        if (token == null || !token.IsValid)
-                        {
-                            ReportError("Expected (, got " + ((Object)token ?? "<null>").ToString());
-                            return false;
-                        }
+						tokenizer.SkipWhitespace();
+						token = tokenizer.ExpectToken(ZScriptTokenType.OpenParen);
+						if (token == null || !token.IsValid)
+						{
+							ReportError("Expected (, got " + ((Object)token ?? "<null>").ToString());
+							return false;
+						}
 
-                        tokenizer.SkipWhitespace();
-                        token = tokenizer.ExpectToken(ZScriptTokenType.String);
-                        if (token == null || !token.IsValid)
-                        {
-                            ReportError("Expected string, got " + ((Object)token ?? "<null>").ToString());
-                            return false;
-                        }
+						tokenizer.SkipWhitespace();
+						token = tokenizer.ExpectToken(ZScriptTokenType.String);
+						if (token == null || !token.IsValid)
+						{
+							ReportError("Expected string, got " + ((Object)token ?? "<null>").ToString());
+							return false;
+						}
 
-                        tokenizer.SkipWhitespace();
-                        token = tokenizer.ExpectToken(ZScriptTokenType.Comma);
-                        if (token == null || !token.IsValid)
-                        {
-                            ReportError("Expected ,, got " + ((Object)token ?? "<null>").ToString());
-                            return false;
-                        }
+						tokenizer.SkipWhitespace();
+						token = tokenizer.ExpectToken(ZScriptTokenType.Comma);
+						if (token == null || !token.IsValid)
+						{
+							ReportError("Expected ,, got " + ((Object)token ?? "<null>").ToString());
+							return false;
+						}
 
-                        tokenizer.SkipWhitespace();
-                        token = tokenizer.ExpectToken(ZScriptTokenType.String);
-                        if (token == null || !token.IsValid)
-                        {
-                            ReportError("Expected string, got " + ((Object)token ?? "<null>").ToString());
-                            return false;
-                        }
+						tokenizer.SkipWhitespace();
+						token = tokenizer.ExpectToken(ZScriptTokenType.String);
+						if (token == null || !token.IsValid)
+						{
+							ReportError("Expected string, got " + ((Object)token ?? "<null>").ToString());
+							return false;
+						}
 
-                        tokenizer.SkipWhitespace();
-                        token = tokenizer.ExpectToken(ZScriptTokenType.CloseParen);
-                        if (token == null || !token.IsValid)
-                        {
-                            ReportError("Expected ), got " + ((Object)token ?? "<null>").ToString());
-                            return false;
-                        }
-                    }
-                    else
+						tokenizer.SkipWhitespace();
+						token = tokenizer.ExpectToken(ZScriptTokenType.CloseParen);
+						if (token == null || !token.IsValid)
+						{
+							ReportError("Expected ), got " + ((Object)token ?? "<null>").ToString());
+							return false;
+						}
+					}
+					else
                     {
                         ReportError("Unexpected token " + ((Object)token ?? "<null>").ToString());
                     }
@@ -966,74 +968,74 @@ namespace CodeImp.DoomBuilder.ZDoom
             //if (classblocktokens == null) return false;
             if (!SkipClassBlock()) return false;
 
-            string log_inherits = (tok_parentname != null) ? "inherits " + tok_parentname.Value : "";
+            string log_inherits = ((tok_parentname != null) ? "inherits " + tok_parentname.Value : "");
             if (tok_replacename != null) log_inherits += ((log_inherits.Length > 0) ? ", " : "") + "replaces " + tok_replacename.Value;
             if (extend) log_inherits += ((log_inherits.Length > 0) ? ", " : "") + "extends";
             if (log_inherits.Length > 0) log_inherits = " (" + log_inherits + ")";
 
-            // now if we are a class, and we inherit actor, parse this entry as an actor. don't process extensions.
-            if (!isstruct && !extend && !mixin)
-            {
-                ZScriptClassStructure cls = new ZScriptClassStructure(this, tok_classname.Value, region, (tok_replacename != null) ? tok_replacename.Value : null, (tok_parentname != null) ? tok_parentname.Value : null, false, false, tok_final != null, permitted_inherited_class_names);
-                cls.Position = cpos;
-                string clskey = cls.ClassName.ToLowerInvariant();
-                if (allclasses.ContainsKey(clskey))
-                {
-                    ReportError("Class " + cls.ClassName + " is double-defined");
-                    return false;
-                }
+			// now if we are a class, and we inherit actor, parse this entry as an actor. don't process extensions.
+			if (!isstruct && !extend && !mixin)
+			{
+				ZScriptClassStructure cls = new ZScriptClassStructure(this, tok_classname.Value, region, (tok_replacename != null) ? tok_replacename.Value : null, (tok_parentname != null) ? tok_parentname.Value : null, false, false, tok_final != null, permitted_inherited_class_names);
+				cls.Position = cpos;
+				string clskey = cls.ClassName.ToLowerInvariant();
+				if (allclasses.ContainsKey(clskey))
+				{
+					ReportError("Class " + cls.ClassName + " is double-defined");
+					return false;
+				}
 
-                allclasses.Add(cls.ClassName.ToLowerInvariant(), cls);
-                allclasseslist.Add(cls);
+				allclasses.Add(cls.ClassName.ToLowerInvariant(), cls);
+				allclasseslist.Add(cls);
                 LastClasses.Add(cls.ClassName.ToLowerInvariant());
             }
-            else if (!isstruct && extend)
-            {
-                string clskey = tok_classname.Value.ToLowerInvariant();
+			else if(!isstruct && extend)
+			{
+				string clskey = tok_classname.Value.ToLowerInvariant();
 
-                if (!allclasses.ContainsKey(clskey))
-                {
-                    ReportError("Trying to extend class " + tok_classname.Value + " before it was defined");
-                    return false;
-                }
+				if(!allclasses.ContainsKey(clskey))
+				{
+					ReportError("Trying to extend class " + tok_classname.Value + " before it was defined");
+					return false;
+				}
 
-                // GZDoom doesn't allow extending classes that are from another archive
-                if (!allclasses[clskey].DataLocation.Equals(datalocation))
-                {
-                    ReportError("Trying to extend class " + tok_classname.Value + " that's not part of data location \"" + datalocation + "\", but \"" + allclasses[clskey].DataLocation + "\"");
-                    return false;
-                }
+				// GZDoom doesn't allow extending classes that are from another archive
+				if(!allclasses[clskey].DataLocation.Equals(datalocation))
+				{
+					ReportError("Trying to extend class " + tok_classname.Value + " that's not part of data location \"" + datalocation + "\", but \"" + allclasses[clskey].DataLocation + "\"");
+					return false;
+				}
 
-                ZScriptClassStructure cls = new ZScriptClassStructure(this, tok_classname.Value, region, isextension: true);
-                cls.Position = cpos;
-                allclasses[clskey].Extensions.Add(cls);
-            }
-            else if (mixin)
-            {
-                // This is a bit ugly. We're treating mixin classes as actors, even though they aren't. But otherwise the parser
-                // doesn't parse all the actor info we need
-                // ZScriptClassStructure cls = new ZScriptClassStructure(this, tok_classname.Value, null, null, true, false, false, null, region);
-                ZScriptClassStructure cls = new ZScriptClassStructure(this, tok_classname.Value, region, ismixin: true);
-                cls.Position = cpos;
-                string clskey = cls.ClassName.ToLowerInvariant();
-                if (mixinclasses.ContainsKey(clskey))
-                {
-                    ReportError("Mixin class " + cls.ClassName + " is double-defines");
-                    return false;
-                }
+				ZScriptClassStructure cls = new ZScriptClassStructure(this, tok_classname.Value, region, isextension: true);
+				cls.Position = cpos;
+				allclasses[clskey].Extensions.Add(cls);
+			}
+			else if (mixin)
+			{
+				// This is a bit ugly. We're treating mixin classes as actors, even though they aren't. But otherwise the parser
+				// doesn't parse all the actor info we need
+				// ZScriptClassStructure cls = new ZScriptClassStructure(this, tok_classname.Value, null, null, true, false, false, null, region);
+				ZScriptClassStructure cls = new ZScriptClassStructure(this, tok_classname.Value, region, ismixin: true);
+				cls.Position = cpos;
+				string clskey = cls.ClassName.ToLowerInvariant();
+				if(mixinclasses.ContainsKey(clskey))
+				{
+					ReportError("Mixin class " + cls.ClassName + " is double-defines");
+					return false;
+				}
 
-                mixinclasses.Add(cls.ClassName.ToLowerInvariant(), cls);
-                mixinclasseslist.Add(cls);
-            }
+				mixinclasses.Add(cls.ClassName.ToLowerInvariant(), cls);
+				mixinclasseslist.Add(cls);
+			}
 
             //LogWarning(string.Format("Parsed {0} {1}{2}", (isstruct ? "struct" : "class"), tok_classname.Value, log_inherits));
 
             return true;
         }
 
-        // This parses the given decorate stream
-        // Returns false on errors
-        public override bool Parse(TextResourceData data, bool clearerrors)
+		// This parses the given decorate stream
+		// Returns false on errors
+		public override bool Parse(TextResourceData data, bool clearerrors)
         {
             if (clearerrors) LastClasses = new HashSet<string>();
 
@@ -1047,7 +1049,7 @@ namespace CodeImp.DoomBuilder.ZDoom
             // Cannot process?
             if (!base.Parse(data, clearerrors)) return false;
 
-            List<string> includes = new List<string>();
+			List<string> includes = new List<string>();
 
             // [ZZ] For whatever reason, the parser is closely tied to the tokenizer, and to the general scripting lumps framework (see scripttype).
             //      For this reason I have to still inherit the old tokenizer while only using the new one.
@@ -1066,8 +1068,8 @@ namespace CodeImp.DoomBuilder.ZDoom
                                                            ZScriptTokenType.BlockComment, ZScriptTokenType.LineComment,
                                                            ZScriptTokenType.Preprocessor);
 
-                if (token == null) // EOF reached
-                    break;
+				if (token == null) // EOF reached
+					break;
 
                 if (!token.IsValid)
                 {
@@ -1119,8 +1121,8 @@ namespace CodeImp.DoomBuilder.ZDoom
                                     return false;
                                 }
 
-                                // GZDoom parses includes *after* the rest of the file is parsed, so just store the files to include and parse them later
-                                includes.Add(include_name.Value);
+								// GZDoom parses includes *after* the rest of the file is parsed, so just store the files to include and parse them later
+								includes.Add(include_name.Value);
                             }
                             else if (d_value == "region")
                             {
@@ -1176,23 +1178,23 @@ namespace CodeImp.DoomBuilder.ZDoom
                                         ReportError("Expected class or struct, got " + ((Object)token ?? "<null>").ToString());
                                         return false;
                                     }
-                                    if (!ParseClassOrStruct(token.Value.ToLowerInvariant() == "struct", true, false, regions.Count > 0 ? regions.Last() : null))
+                                    if (!ParseClassOrStruct((token.Value.ToLowerInvariant() == "struct"), true, false, (regions.Count > 0 ? regions.Last() : null)))
                                         return false;
                                     break;
-                                case "mixin":
-                                    tokenizer.SkipWhitespace();
-                                    token = tokenizer.ExpectToken(ZScriptTokenType.Identifier);
-                                    if (token == null || !token.IsValid || token.Value.ToLower() != "class")
-                                    {
-                                        ReportError("Expected class, got " + ((Object)token ?? "<null>").ToString());
-                                        return false;
-                                    }
-                                    if (!ParseClassOrStruct(false, false, true, regions.Count > 0 ? regions.Last() : null))
-                                        return false;
-                                    break;
-                                case "class":
+								case "mixin":
+									tokenizer.SkipWhitespace();
+									token = tokenizer.ExpectToken(ZScriptTokenType.Identifier);
+									if(token == null || !token.IsValid ||((token.Value.ToLower() != "class")))
+									{
+										ReportError("Expected class, got " + ((Object)token ?? "<null>").ToString());
+										return false;
+									}
+									if (!ParseClassOrStruct(false, false, true, (regions.Count > 0 ? regions.Last() : null)))
+										return false;
+									break;
+								case "class":
                                     // todo parse class
-                                    if (!ParseClassOrStruct(false, false, false, regions.Count > 0 ? regions.Last() : null))
+                                    if (!ParseClassOrStruct(false, false, false, (regions.Count > 0 ? regions.Last() : null)))
                                         return false;
                                     break;
                                 case "struct":
@@ -1237,51 +1239,51 @@ namespace CodeImp.DoomBuilder.ZDoom
             return true;
         }
 
-        /// <summary>
-        /// Parses the class names after the "sealed" class modifier.
-        /// </summary>
-        /// <returns>A list of strings with the class names that can inherit this class</returns>
-        private List<string> ParseSealed()
-        {
-            ZScriptToken token;
-            List<string> permittedinheritedclassnames = new List<string>();
+		/// <summary>
+		/// Parses the class names after the "sealed" class modifier.
+		/// </summary>
+		/// <returns>A list of strings with the class names that can inherit this class</returns>
+		private List<string> ParseSealed()
+		{
+			ZScriptToken token;
+			List<string> permittedinheritedclassnames = new List<string>();
 
-            tokenizer.SkipWhitespace();
-            token = tokenizer.ExpectToken(ZScriptTokenType.OpenParen);
-            if (token == null || !token.IsValid)
-            {
-                ReportError("Expected (, got " + ((Object)token ?? "<null>").ToString());
-                return null;
-            }
+			tokenizer.SkipWhitespace();
+			token = tokenizer.ExpectToken(ZScriptTokenType.OpenParen);
+			if(token == null || !token.IsValid)
+			{
+				ReportError("Expected (, got " + ((Object)token ?? "<null>").ToString());
+				return null;
+			}
 
-            while (true)
-            {
-                tokenizer.SkipWhitespace();
-                token = tokenizer.ExpectToken(ZScriptTokenType.Identifier);
-                if (token == null || !token.IsValid)
-                {
-                    ReportError("Expected class name, got " + ((Object)token ?? "<null>").ToString());
-                    return null;
-                }
+			while(true)
+			{
+				tokenizer.SkipWhitespace();
+				token = tokenizer.ExpectToken(ZScriptTokenType.Identifier);
+				if(token == null || !token.IsValid)
+				{
+					ReportError("Expected class name, got " + ((Object)token ?? "<null>").ToString());
+					return null;
+				}
 
-                permittedinheritedclassnames.Add(token.Value.ToLowerInvariant());
+				permittedinheritedclassnames.Add(token.Value.ToLowerInvariant());
 
-                tokenizer.SkipWhitespace();
-                token = tokenizer.ExpectToken(ZScriptTokenType.Comma, ZScriptTokenType.CloseParen);
-                if (token == null || !token.IsValid)
-                {
-                    ReportError("Expected , or ), got " + ((Object)token ?? "<null>").ToString());
-                    return null;
-                }
+				tokenizer.SkipWhitespace();
+				token = tokenizer.ExpectToken(ZScriptTokenType.Comma, ZScriptTokenType.CloseParen);
+				if(token == null || !token.IsValid)
+				{
+					ReportError("Expected , or ), got " + ((Object)token ?? "<null>").ToString());
+					return null;
+				}
 
-                if (token.Type == ZScriptTokenType.CloseParen)
-                    break;
-            }
+				if (token.Type == ZScriptTokenType.CloseParen)
+					break;
+			}
 
-            return permittedinheritedclassnames;
-        }
+			return permittedinheritedclassnames;
+		}
 
-        public bool Finalize()
+		public bool Finalize()
         {
             ClearError();
 
@@ -1291,18 +1293,18 @@ namespace CodeImp.DoomBuilder.ZDoom
                 if (!cls.Process())
                     return false;
 
-                // Process extensions
-                foreach (ZScriptClassStructure extension in cls.Extensions)
-                    if (!extension.Process())
-                        return false;
+				// Process extensions
+				foreach (ZScriptClassStructure extension in cls.Extensions)
+					if (!extension.Process())
+						return false;
             }
 
-            // Parse mixin class data
-            foreach (ZScriptClassStructure cls in mixinclasseslist)
-            {
-                if (!cls.Process())
-                    return false;
-            }
+			// Parse mixin class data
+			foreach(ZScriptClassStructure cls in mixinclasseslist)
+			{
+				if (!cls.Process())
+					return false;
+			}
 
             // set datastream to null so that log messages aren't output using incorrect line numbers
             Stream odatastream = datastream;
@@ -1313,91 +1315,91 @@ namespace CodeImp.DoomBuilder.ZDoom
             foreach (ZScriptClassStructure cls in allclasseslist)
             {
                 ActorStructure actor = cls.Actor;
-                if (actor != null)
-                {
-                    // Inheritance
-                    if (cls.ParentName != null && cls.ParentName.ToLowerInvariant() != "thinker") // don't try to inherit this one)
-                    {
-                        actor.baseclass = GetArchivedActorByName(cls.ParentName, true);
-                        string inheritclass = cls.ParentName;
+				if (actor != null)
+				{
+					// Inheritance
+					if (cls.ParentName != null && cls.ParentName.ToLowerInvariant() != "thinker") // don't try to inherit this one)
+					{
+						actor.baseclass = GetArchivedActorByName(cls.ParentName, true);
+						string inheritclass = cls.ParentName;
 
-                        //check if this class inherits from a class defined in game configuration
-                        string inheritclasscheck = inheritclass.ToLowerInvariant();
+						//check if this class inherits from a class defined in game configuration
+						string inheritclasscheck = inheritclass.ToLowerInvariant();
 
-                        // inherit args from base class
-                        if (actor.baseclass != null)
-                        {
-                            for (int i = 0; i < 5; i++)
-                            {
-                                if (actor.args[i] == null)
-                                    actor.args[i] = actor.baseclass.args[i];
-                            }
-                        }
+						// inherit args from base class
+						if (actor.baseclass != null)
+						{
+							for (int i = 0; i < 5; i++)
+							{
+								if (actor.args[i] == null)
+									actor.args[i] = actor.baseclass.args[i];
+							}
+						}
 
-                        bool thingfound = false;
-                        foreach (KeyValuePair<int, ThingTypeInfo> ti in things)
-                        {
-                            if (!string.IsNullOrEmpty(ti.Value.ClassName) && ti.Value.ClassName.ToLowerInvariant() == inheritclasscheck)
-                            {
-                                //states
-                                // [ZZ] allow internal prefix here. it can inherit MapSpot, light, or other internal stuff.
-                                if (actor.states.Count == 0 && !string.IsNullOrEmpty(ti.Value.Sprite))
-                                    actor.states.Add("spawn", new StateStructure(ti.Value.Sprite.StartsWith(DataManager.INTERNAL_PREFIX) ? ti.Value.Sprite : ti.Value.Sprite.Substring(0, 5)));
+						bool thingfound = false;
+						foreach (KeyValuePair<int, ThingTypeInfo> ti in things)
+						{
+							if (!string.IsNullOrEmpty(ti.Value.ClassName) && ti.Value.ClassName.ToLowerInvariant() == inheritclasscheck)
+							{
+								//states
+								// [ZZ] allow internal prefix here. it can inherit MapSpot, light, or other internal stuff.
+								if (actor.states.Count == 0 && !string.IsNullOrEmpty(ti.Value.Sprite))
+									actor.states.Add("spawn", new StateStructure(ti.Value.Sprite.StartsWith(DataManager.INTERNAL_PREFIX) ? ti.Value.Sprite : ti.Value.Sprite.Substring(0, 5)));
 
-                                if (actor.baseclass == null)
-                                {
-                                    //flags
-                                    if (ti.Value.Hangs && !actor.flags.ContainsKey("spawnceiling"))
-                                        actor.flags["spawnceiling"] = true;
+								if (actor.baseclass == null)
+								{
+									//flags
+									if (ti.Value.Hangs && !actor.flags.ContainsKey("spawnceiling"))
+										actor.flags["spawnceiling"] = true;
 
-                                    if (ti.Value.Blocking > 0 && !actor.flags.ContainsKey("solid"))
-                                        actor.flags["solid"] = true;
+									if (ti.Value.Blocking > 0 && !actor.flags.ContainsKey("solid"))
+										actor.flags["solid"] = true;
 
-                                    //properties
-                                    if (!actor.props.ContainsKey("height"))
-                                        actor.props["height"] = new List<string> { ti.Value.Height.ToString() };
+									//properties
+									if (!actor.props.ContainsKey("height"))
+										actor.props["height"] = new List<string> { ti.Value.Height.ToString() };
 
-                                    if (!actor.props.ContainsKey("radius"))
-                                        actor.props["radius"] = new List<string> { ti.Value.Radius.ToString() };
-                                }
+									if (!actor.props.ContainsKey("radius"))
+										actor.props["radius"] = new List<string> { ti.Value.Radius.ToString() };
+								}
 
-                                // [ZZ] inherit arguments from game configuration
-                                //
-                                if (!actor.props.ContainsKey("$clearargs"))
-                                {
-                                    for (int i = 0; i < 5; i++)
-                                    {
-                                        if (actor.args[i] != null)
-                                            continue; // don't touch it if we already have overrides
+								// [ZZ] inherit arguments from game configuration
+								//
+								if (!actor.props.ContainsKey("$clearargs"))
+								{
+									for (int i = 0; i < 5; i++)
+									{
+										if (actor.args[i] != null)
+											continue; // don't touch it if we already have overrides
 
-                                        ArgumentInfo arg = ti.Value.Args[i];
-                                        if (arg != null && arg.Used)
-                                            actor.args[i] = arg;
-                                    }
-                                }
+										ArgumentInfo arg = ti.Value.Args[i];
+										if (arg != null && arg.Used)
+											actor.args[i] = arg;
+									}
+								}
 
-                                thingfound = true;
-                                break;
-                            }
+								thingfound = true;
+								break;
+							}
 
-                            if (actor.baseclass == null && !thingfound)
-                                LogWarning("Unable to find \"" + inheritclass + "\" class to inherit from, while parsing \"" + cls.ClassName + "\"");
-                        }
-                    }
+							if (actor.baseclass == null && !thingfound)
+								LogWarning("Unable to find \"" + inheritclass + "\" class to inherit from, while parsing \"" + cls.ClassName + "\"");
+						}
+					}
 
-                    // Mixins. https://zdoom.org/wiki/ZScript_mixins
-                    foreach (string mixinclassname in ((ZScriptActorStructure)actor).Mixins)
+					// Mixins. https://zdoom.org/wiki/ZScript_mixins
+					foreach(string mixinclassname in ((ZScriptActorStructure)actor).Mixins)
                         ApplyMixin(actor, mixinclassname);
 
-                    // Extensions. https://zdoom.org/wiki/ZScript_classes#Extending_Classes
-                    if (cls.Extensions.Count > 0)
-                    {
-                        foreach (ZScriptClassStructure extension in cls.Extensions)
-                        {
-                            ActorStructure extenseionactor = extension.Actor;
+					// Extensions. https://zdoom.org/wiki/ZScript_classes#Extending_Classes
+					if (cls.Extensions.Count > 0)
+					{
+						foreach(ZScriptClassStructure extension in cls.Extensions)
+						{
+							ActorStructure extenseionactor = extension.Actor;
 
-                            if (extenseionactor == null)
-                                continue;
+							if (extenseionactor == null)
+								continue;
 
                             // Apply mixins to the extension class
                             foreach (string mixinclassname in ((ZScriptActorStructure)extenseionactor).Mixins)
@@ -1405,33 +1407,33 @@ namespace CodeImp.DoomBuilder.ZDoom
 
                             // States
                             if (extenseionactor.states.ContainsKey("spawn"))
-                                actor.states["spawn"] = extenseionactor.GetState("spawn");
+							    actor.states["spawn"] = extenseionactor.GetState("spawn");
 
-                            // Properties
-                            if (extenseionactor.props.ContainsKey("height"))
-                                actor.props["height"] = new List<string>(extenseionactor.props["height"]);
+							// Properties
+							if (extenseionactor.props.ContainsKey("height"))
+								actor.props["height"] = new List<string>(extenseionactor.props["height"]);
 
-                            if (extenseionactor.props.ContainsKey("radius"))
-                                actor.props["radius"] = new List<string>(extenseionactor.props["radius"]);
+							if (extenseionactor.props.ContainsKey("radius"))
+								actor.props["radius"] = new List<string>(extenseionactor.props["radius"]);
 
-                            // Flags
-                            if (extenseionactor.flags.ContainsKey("spawnceiling"))
-                                actor.flags["spawnceiling"] = true;
+							// Flags
+							if (extenseionactor.flags.ContainsKey("spawnceiling"))
+								actor.flags["spawnceiling"] = true;
 
-                            if (extenseionactor.flags.ContainsKey("solid"))
-                                actor.flags["solid"] = true;
+							if (extenseionactor.flags.ContainsKey("solid"))
+								actor.flags["solid"] = true;
 
-                            // user_ variables
-                            foreach (string uservarname in extenseionactor.uservars.Keys)
-                            {
-                                actor.uservars[uservarname] = extenseionactor.uservars[uservarname];
+							// user_ variables
+							foreach (string uservarname in extenseionactor.uservars.Keys)
+							{
+								actor.uservars[uservarname] = extenseionactor.uservars[uservarname];
 
-                                if (extenseionactor.uservar_defaults.ContainsKey(uservarname))
-                                    actor.uservar_defaults[uservarname] = extenseionactor.uservar_defaults[uservarname];
-                            }
-                        }
-                    }
-                }
+								if (extenseionactor.uservar_defaults.ContainsKey(uservarname))
+									actor.uservar_defaults[uservarname] = extenseionactor.uservar_defaults[uservarname];
+							}
+						}
+					}
+				}
             }
 
             // validate user variables (no variables should shadow parent variables)
@@ -1462,7 +1464,7 @@ namespace CodeImp.DoomBuilder.ZDoom
         }
 
         private void ApplyMixin(ActorStructure actor, string mixinclassname)
-        {
+		{
             if (!mixinclasses.ContainsKey(mixinclassname))
             {
                 LogWarning("Unable to find \"" + mixinclassname + "\" mixin class while parsing \"" + actor.ClassName + "\"");
@@ -1514,7 +1516,7 @@ namespace CodeImp.DoomBuilder.ZDoom
         public ActorStructure GetActorByName(string name)
         {
             name = name.ToLowerInvariant();
-            return ActorsByClass.ContainsKey(name) ? ActorsByClass[name] : null;
+            return actors.ContainsKey(name) ? actors[name] : null;
         }
 
         /// <summary>
@@ -1522,7 +1524,7 @@ namespace CodeImp.DoomBuilder.ZDoom
         /// </summary>
         public ActorStructure GetActorByDoomEdNum(int doomednum)
         {
-            foreach (ActorStructure a in ActorsByClass.Values)
+            foreach (ActorStructure a in actors.Values)
                 if (a.DoomEdNum == doomednum) return a;
             return null;
         }
@@ -1531,22 +1533,22 @@ namespace CodeImp.DoomBuilder.ZDoom
         // Returns null when actor cannot be found
         internal ActorStructure GetArchivedActorByName(string name, bool unique)
         {
-            Dictionary<string, ActorStructure> dict = unique ? realarchivedactors : AllActorsByClass;
+            Dictionary<string, ActorStructure> dict = (unique) ? realarchivedactors : archivedactors;
             name = name.ToLowerInvariant();
-            return dict.ContainsKey(name) ? dict[name] : null;
+            return (dict.ContainsKey(name) ? dict[name] : null);
         }
 
         internal void ClearActors()
         {
             // Initialize
-            ActorsByClass = new Dictionary<string, ActorStructure>(StringComparer.OrdinalIgnoreCase);
-            AllActorsByClass = new Dictionary<string, ActorStructure>(StringComparer.OrdinalIgnoreCase);
+            actors = new Dictionary<string, ActorStructure>(StringComparer.OrdinalIgnoreCase);
+            archivedactors = new Dictionary<string, ActorStructure>(StringComparer.OrdinalIgnoreCase);
             realarchivedactors = new Dictionary<string, ActorStructure>(StringComparer.OrdinalIgnoreCase);
             parsedlumps = new HashSet<string>(StringComparer.OrdinalIgnoreCase); //mxd
             allclasses = new Dictionary<string, ZScriptClassStructure>();
             allclasseslist = new List<ZScriptClassStructure>();
-            mixinclasses = new Dictionary<string, ZScriptClassStructure>();
-            mixinclasseslist = new List<ZScriptClassStructure>();
+			mixinclasses = new Dictionary<string, ZScriptClassStructure>();
+			mixinclasseslist = new List<ZScriptClassStructure>();
         }
 
         #endregion

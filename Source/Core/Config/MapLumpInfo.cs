@@ -22,46 +22,46 @@ using CodeImp.DoomBuilder.IO;
 
 namespace CodeImp.DoomBuilder.Config
 {
-    public struct MapLumpInfo
-    {
-        // Members
-        public readonly string Name;
-        public readonly bool Required;
-        public readonly bool BlindCopy;
-        public readonly bool NodeBuild;
-        public readonly bool AllowEmpty;
-        public readonly bool ScriptBuild; //mxd
+	public struct MapLumpInfo
+	{
+		// Members
+		public readonly string Name;
+		public readonly bool Required;
+		public readonly bool BlindCopy;
+		public readonly bool NodeBuild;
+		public readonly bool AllowEmpty;
+		public readonly bool ScriptBuild; //mxd
         public readonly bool Forbidden; // [ZZ]
-        internal readonly ScriptConfiguration Script;
-
-        // Construct from IDictionary
-        internal MapLumpInfo(string name, Configuration cfg)
-        {
-            // Apply settings
-            this.Name = name;
-            this.Script = null;
-            this.Required = cfg.ReadSetting("maplumpnames." + name + ".required", false);
-            this.BlindCopy = cfg.ReadSetting("maplumpnames." + name + ".blindcopy", false);
-            this.NodeBuild = cfg.ReadSetting("maplumpnames." + name + ".nodebuild", false);
-            this.AllowEmpty = cfg.ReadSetting("maplumpnames." + name + ".allowempty", false);
-            this.ScriptBuild = cfg.ReadSetting("maplumpnames." + name + ".scriptbuild", false); //mxd
+		internal readonly ScriptConfiguration Script;
+		
+		// Construct from IDictionary
+		internal MapLumpInfo(string name, Configuration cfg)
+		{
+			// Apply settings
+			this.Name = name;
+			this.Script = null;
+			this.Required = cfg.ReadSetting("maplumpnames." + name + ".required", false);
+			this.BlindCopy = cfg.ReadSetting("maplumpnames." + name + ".blindcopy", false);
+			this.NodeBuild = cfg.ReadSetting("maplumpnames." + name + ".nodebuild", false);
+			this.AllowEmpty = cfg.ReadSetting("maplumpnames." + name + ".allowempty", false);
+			this.ScriptBuild = cfg.ReadSetting("maplumpnames." + name + ".scriptbuild", false); //mxd
             this.Forbidden = cfg.ReadSetting("maplumpnames." + name + ".forbidden", false); //mxd
-            string scriptconfig = this.ScriptBuild ? string.Empty : cfg.ReadSetting("maplumpnames." + name + ".script", ""); //mxd. Setting Script when "scriptbuild" is true can result in unexpected behaviour...
-
-            // Find script configuration
-            if (scriptconfig.Length > 0)
-            {
-                if (General.ScriptConfigs.ContainsKey(scriptconfig.ToLowerInvariant()))
-                {
-                    this.Script = General.ScriptConfigs[scriptconfig.ToLowerInvariant()];
-                }
-                else
-                {
-                    General.ErrorLogger.Add(ErrorType.Warning, "Map lump \"" + name + "\" in the current game configuration specifies an unknown script configuration \"" + scriptconfig + "\". Using plain text instead.");
-                    this.Script = new ScriptConfiguration();
-                }
-            }
-        }
+            string scriptconfig = (this.ScriptBuild ? string.Empty : cfg.ReadSetting("maplumpnames." + name + ".script", "")); //mxd. Setting Script when "scriptbuild" is true can result in unexpected behaviour...
+			
+			// Find script configuration
+			if(scriptconfig.Length > 0)
+			{
+				if(General.ScriptConfigs.ContainsKey(scriptconfig.ToLowerInvariant()))
+				{
+					this.Script = General.ScriptConfigs[scriptconfig.ToLowerInvariant()];
+				}
+				else
+				{
+					General.ErrorLogger.Add(ErrorType.Warning, "Map lump \"" + name + "\" in the current game configuration specifies an unknown script configuration \"" + scriptconfig + "\". Using plain text instead.");
+					this.Script = new ScriptConfiguration();
+				}
+			}
+		}
     }
 }
 

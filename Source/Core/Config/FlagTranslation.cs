@@ -24,69 +24,71 @@ using System.Collections.Generic;
 
 namespace CodeImp.DoomBuilder.Config
 {
-    public class FlagTranslation : IComparable<FlagTranslation>
-    {
-        #region ================== Variables
+	public class FlagTranslation : IComparable<FlagTranslation>
+	{
+		#region ================== Variables
 
-        private int flag;
+		private int flag;
+		private List<string> fields;
+		private List<bool> values;
 
-        #endregion
+		#endregion
 
-        #region ================== Properties
+		#region ================== Properties
 
-        public int Flag { get { return flag; } }
-        public List<string> Fields { get; }
-        public List<bool> FieldValues { get; }
+		public int Flag { get { return flag; } }
+		public List<string> Fields { get { return fields; } }
+		public List<bool> FieldValues { get { return values; } }
 
-        #endregion
+		#endregion
 
-        #region ================== Constructor
+		#region ================== Constructor
 
-        // Constructor
-        public FlagTranslation(DictionaryEntry de)
-        {
-            // Initialize
-            this.Fields = new List<string>();
-            this.FieldValues = new List<bool>();
+		// Constructor
+		public FlagTranslation(DictionaryEntry de)
+		{
+			// Initialize
+			this.fields = new List<string>();
+			this.values = new List<bool>();
+			
+			// Set the flag
+			if(!int.TryParse(de.Key.ToString(), out flag))
+				General.ErrorLogger.Add(ErrorType.Warning, "Invalid flag translation key in configuration. The key must be numeric.");
 
-            // Set the flag
-            if (!int.TryParse(de.Key.ToString(), out flag))
-                General.ErrorLogger.Add(ErrorType.Warning, "Invalid flag translation key in configuration. The key must be numeric.");
+			// Set the fields
+			string[] fieldstrings = de.Value.ToString().Split(',');
+			foreach(string f in fieldstrings)
+			{
+				string ft = f.Trim();
+				if(ft.StartsWith("!"))
+				{
+					fields.Add(ft.Substring(1).Trim());
+					values.Add(false);
+				}
+				else
+				{
+					fields.Add(ft);
+					values.Add(true);
+				}
+			}
+		}
 
-            // Set the fields
-            string[] fieldstrings = de.Value.ToString().Split(',');
-            foreach (string f in fieldstrings)
-            {
-                string ft = f.Trim();
-                if (ft.StartsWith("!"))
-                {
-                    Fields.Add(ft.Substring(1).Trim());
-                    FieldValues.Add(false);
-                }
-                else
-                {
-                    Fields.Add(ft);
-                    FieldValues.Add(true);
-                }
-            }
-        }
+		#endregion
 
-        #endregion
+		#region ================== Methods
 
-        #region ================== Methods
+		// String representation
+		public override string ToString()
+		{
+			return flag.ToString();
+		}
 
-        // String representation
-        public override string ToString()
-        {
-            return flag.ToString();
-        }
-
-        // Comparer (highest first)
-        public int CompareTo(FlagTranslation other)
-        {
-            return other.flag - this.flag;
-        }
-
-        #endregion
-    }
+		// Comparer (highest first)
+		public int CompareTo(FlagTranslation other)
+		{
+			return other.flag - this.flag;
+		}
+		
+		#endregion
+	}
 }

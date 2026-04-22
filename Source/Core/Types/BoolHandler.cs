@@ -16,102 +16,102 @@
 
 #region ================== Namespaces
 
-using CodeImp.DoomBuilder.Config;
 using System;
+using CodeImp.DoomBuilder.Config;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Types
 {
-    [TypeHandler(UniversalType.Boolean, "Boolean", true)]
-    internal class BoolHandler : TypeHandler
-    {
-        #region ================== Constants
+	[TypeHandler(UniversalType.Boolean, "Boolean", true)]
+	internal class BoolHandler : TypeHandler
+	{
+		#region ================== Constants
 
-        #endregion
+		#endregion
 
-        #region ================== Variables
+		#region ================== Variables
 
-        private EnumList list;
-        private bool value;
+		private EnumList list;
+		private bool value;
 
-        #endregion
+		#endregion
 
-        #region ================== Properties
+		#region ================== Properties
 
-        public override bool IsEnumerable { get { return true; } }
-        public override bool IsLimitedToEnums { get { return true; } }
+		public override bool IsEnumerable { get { return true; } }
+		public override bool IsLimitedToEnums { get { return true; } }
+		
+		#endregion
 
-        #endregion
+		#region ================== Constructor
 
-        #region ================== Constructor
+		// When set up for an argument
+		public BoolHandler() : base()
+		{
+			// Make enums
+			list = new EnumList();
+			list.Add(new EnumItem("true", "True"));
+			list.Add(new EnumItem("false", "False"));
+		}
 
-        // When set up for an argument
-        public BoolHandler() : base()
-        {
-            // Make enums
-            list = new EnumList();
-            list.Add(new EnumItem("true", "True"));
-            list.Add(new EnumItem("false", "False"));
-        }
+		#endregion
 
-        #endregion
+		#region ================== Methods
 
-        #region ================== Methods
+		public override void SetValue(object value)
+		{
+			// null?
+			if(value == null)
+			{
+				this.value = false;
+			}
+			// Compatible type?
+			else if((value is int) || (value is float) || (value is bool))
+			{
+				this.value = Convert.ToBoolean(value);
+			}
+			// string?
+			else if(value is string)
+			{
+				// Try parsing as string
+				if(value.ToString().ToLowerInvariant().StartsWith("t"))
+					this.value = true;
+				else
+					this.value = false;
+			}
+			else
+			{
+				this.value = false;
+			}
+		}
 
-        public override void SetValue(object value)
-        {
-            // null?
-            if (value == null)
-            {
-                this.value = false;
-            }
-            // Compatible type?
-            else if ((value is int) || (value is float) || (value is bool))
-            {
-                this.value = Convert.ToBoolean(value);
-            }
-            // string?
-            else if (value is string)
-            {
-                // Try parsing as string
-                if (value.ToString().ToLowerInvariant().StartsWith("t"))
-                    this.value = true;
-                else
-                    this.value = false;
-            }
-            else
-            {
-                this.value = false;
-            }
-        }
+		public override object GetValue()
+		{
+			return this.value;
+		}
 
-        public override object GetValue()
-        {
-            return this.value;
-        }
+		public override int GetIntValue()
+		{
+			return (this.value ? 1 : 0);
+		}
 
-        public override int GetIntValue()
-        {
-            return this.value ? 1 : 0;
-        }
+		public override string GetStringValue()
+		{
+			return this.value.ToString();
+		}
 
-        public override string GetStringValue()
-        {
-            return this.value.ToString();
-        }
+		// This returns an enum list
+		public override EnumList GetEnumList()
+		{
+			return list;
+		}
 
-        // This returns an enum list
-        public override EnumList GetEnumList()
-        {
-            return list;
-        }
-
-        public override object GetDefaultValue()
-        {
-            return false;
-        }
-
-        #endregion
-    }
+		public override object GetDefaultValue()
+		{
+			return false;
+		}
+		
+		#endregion
+	}
 }

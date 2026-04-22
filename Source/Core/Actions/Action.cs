@@ -16,138 +16,154 @@
 
 #region ================== Namespaces
 
-using CodeImp.DoomBuilder.IO;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using CodeImp.DoomBuilder.IO;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Actions
 {
-    public class Action
-    {
-        #region ================== Variables
+	public class Action
+	{
+		#region ================== Variables
 
-        // Description
+		// Description
+		private readonly string name;
+		private readonly string shortname;
+		private readonly string title;
+		private readonly string description;
+		private readonly string category;
+		private readonly bool registertoast;
 
-        // Shortcut key
+		// Shortcut key
+		private int key;
+		private readonly int keymask;
+		private readonly int defaultkey;
+		
+		// Shortcut options
+		private readonly bool allowkeys;
+		private readonly bool allowmouse;
+		private readonly bool allowscroll;
+		private readonly bool disregardshift;
+		private readonly bool disregardcontrol;
+		private readonly bool disregardalt; //mxd
+		private readonly bool repeat;
+		
+		// Delegate
+		private readonly List<ActionDelegate> begindelegates;
+		private readonly List<ActionDelegate> enddelegates;
+		
+		#endregion
 
-        // Shortcut options
+		#region ================== Properties
 
-        // Delegate
-        private readonly List<ActionDelegate> begindelegates;
-        private readonly List<ActionDelegate> enddelegates;
+		public string Name { get { return name; } }
+		public string ShortName { get { return shortname; } }
+		public string Category { get { return category; } }
+		public string Title { get { return title; } }
+		public string Description { get { return description; } }
+		public bool RegisterToast { get { return registertoast; } }
+		public int ShortcutKey { get { return key; } }
+		public int ShortcutMask { get { return keymask; } }
+		public int DefaultShortcutKey { get { return defaultkey; } }
+		public bool AllowKeys { get { return allowkeys; } }
+		public bool AllowMouse { get { return allowmouse; } }
+		public bool AllowScroll { get { return allowscroll; } }
+		public bool DisregardShift { get { return disregardshift; } }
+		public bool DisregardControl { get { return disregardcontrol; } }
+		public bool DisregardAlt { get { return disregardalt; } } //mxd
+		public bool Repeat { get { return repeat; } }
+		public bool BeginBound { get { return (begindelegates.Count > 0); } }
+		public bool EndBound { get { return (enddelegates.Count > 0); } }
+		
+		#endregion
 
-        #endregion
+		#region ================== Constructor / Disposer
 
-        #region ================== Properties
+		// Constructor
+		internal Action(Configuration cfg, string name, string shortname, int key)
+		{
+			// Initialize
+			this.name = name;
+			this.shortname = shortname;
+			this.title = cfg.ReadSetting(shortname + ".title", "[" + name + "]");
+			this.category = cfg.ReadSetting(shortname + ".category", "");
+			this.description = cfg.ReadSetting(shortname + ".description", "");
+			this.registertoast = cfg.ReadSetting(shortname + ".registertoast", false);
+			this.allowkeys = cfg.ReadSetting(shortname + ".allowkeys", true);
+			this.allowmouse = cfg.ReadSetting(shortname + ".allowmouse", true);
+			this.allowscroll = cfg.ReadSetting(shortname + ".allowscroll", false);
+			this.disregardshift = cfg.ReadSetting(shortname + ".disregardshift", false);
+			this.disregardcontrol = cfg.ReadSetting(shortname + ".disregardcontrol", false);
+			this.disregardalt = cfg.ReadSetting(shortname + ".disregardalt", false); //mxd
+			this.repeat = cfg.ReadSetting(shortname + ".repeat", false);
+			this.defaultkey = cfg.ReadSetting(shortname + ".default", 0);
+			this.begindelegates = new List<ActionDelegate>();
+			this.enddelegates = new List<ActionDelegate>();
 
-        public string Name { get; }
-        public string ShortName { get; }
-        public string Category { get; }
-        public string Title { get; }
-        public string Description { get; }
-        public bool RegisterToast { get; }
-        public int ShortcutKey { get; private set; }
-        public int ShortcutMask { get; }
-        public int DefaultShortcutKey { get; }
-        public bool AllowKeys { get; }
-        public bool AllowMouse { get; }
-        public bool AllowScroll { get; }
-        public bool DisregardShift { get; }
-        public bool DisregardControl { get; }
-        public bool DisregardAlt { get; } //mxd
-        public bool Repeat { get; }
-        public bool BeginBound { get { return begindelegates.Count > 0; } }
-        public bool EndBound { get { return enddelegates.Count > 0; } }
+			keymask = disregardshift ? (int)Keys.Shift : 0;
+			if(disregardcontrol) keymask |= (int)Keys.Control;
+			if(disregardalt) keymask |= (int)Keys.Alt; //mxd
+			
+			keymask = ~keymask;
 
-        #endregion
+			if(key == -1)
+			{
+				this.key = -1;
+			}
+			else
+			{
+				this.key = key & keymask;
+			}
+		}
+		
+		#endregion
 
-        #region ================== Constructor / Disposer
+		#region ================== Static Methods
 
-        // Constructor
-        internal Action(Configuration cfg, string name, string shortname, int key)
-        {
-            // Initialize
-            this.Name = name;
-            this.ShortName = shortname;
-            this.Title = cfg.ReadSetting(shortname + ".title", "[" + name + "]");
-            this.Category = cfg.ReadSetting(shortname + ".category", "");
-            this.Description = cfg.ReadSetting(shortname + ".description", "");
-            this.RegisterToast = cfg.ReadSetting(shortname + ".registertoast", false);
-            this.AllowKeys = cfg.ReadSetting(shortname + ".allowkeys", true);
-            this.AllowMouse = cfg.ReadSetting(shortname + ".allowmouse", true);
-            this.AllowScroll = cfg.ReadSetting(shortname + ".allowscroll", false);
-            this.DisregardShift = cfg.ReadSetting(shortname + ".disregardshift", false);
-            this.DisregardControl = cfg.ReadSetting(shortname + ".disregardcontrol", false);
-            this.DisregardAlt = cfg.ReadSetting(shortname + ".disregardalt", false); //mxd
-            this.Repeat = cfg.ReadSetting(shortname + ".repeat", false);
-            this.DefaultShortcutKey = cfg.ReadSetting(shortname + ".default", 0);
-            this.begindelegates = new List<ActionDelegate>();
-            this.enddelegates = new List<ActionDelegate>();
+		// This returns the shortcut key description for a key
+		public static string GetShortcutKeyDesc(int key)
+		{
+			KeysConverter conv = new KeysConverter();
+			string ctrlprefix = "";
+			
+			// When key is 0, then return an empty string
+			if(key == 0) return "";
 
-            ShortcutMask = DisregardShift ? (int)Keys.Shift : 0;
-            if (DisregardControl) ShortcutMask |= (int)Keys.Control;
-            if (DisregardAlt) ShortcutMask |= (int)Keys.Alt; //mxd
+			// Split the key in Control and Button
+			int ctrl = key & ((int)Keys.Control | (int)Keys.Shift | (int)Keys.Alt);
+			int button = key & ~((int)Keys.Control | (int)Keys.Shift | (int)Keys.Alt);
 
-            ShortcutMask = ~ShortcutMask;
+			// When the button is a control key, then remove the control itsself
+			if((button == (int)Keys.ControlKey) || (button == (int)Keys.ShiftKey) || (button == (int)Keys.Alt))
+			{
+				ctrl = 0;
+				key = key & ~((int)Keys.Control | (int)Keys.Shift | (int)Keys.Alt);
+			}
+			
+			//mxd. Determine control prefix
+			if(ctrl != 0)
+			{
+				if((key & (int)Keys.Control) != 0) ctrlprefix += "Ctrl+";
+				if((key & (int)Keys.Alt) != 0) ctrlprefix += "Alt+";
+				if((key & (int)Keys.Shift) != 0) ctrlprefix += "Shift+";
+			}
+			
+			// Check if button is special
+			switch(button)
+			{
+				// Scroll down
+				case (int)SpecialKeys.MScrollDown:
+					
+					// Make string representation
+					return ctrlprefix + "ScrollDown";
 
-            if (key == -1)
-            {
-                this.ShortcutKey = -1;
-            }
-            else
-            {
-                this.ShortcutKey = key & ShortcutMask;
-            }
-        }
+				// Scroll up
+				case (int)SpecialKeys.MScrollUp:
 
-        #endregion
-
-        #region ================== Static Methods
-
-        // This returns the shortcut key description for a key
-        public static string GetShortcutKeyDesc(int key)
-        {
-            KeysConverter conv = new KeysConverter();
-            string ctrlprefix = "";
-
-            // When key is 0, then return an empty string
-            if (key == 0) return "";
-
-            // Split the key in Control and Button
-            int ctrl = key & ((int)Keys.Control | (int)Keys.Shift | (int)Keys.Alt);
-            int button = key & ~((int)Keys.Control | (int)Keys.Shift | (int)Keys.Alt);
-
-            // When the button is a control key, then remove the control itsself
-            if ((button == (int)Keys.ControlKey) || (button == (int)Keys.ShiftKey) || (button == (int)Keys.Alt))
-            {
-                ctrl = 0;
-                key = key & ~((int)Keys.Control | (int)Keys.Shift | (int)Keys.Alt);
-            }
-
-            //mxd. Determine control prefix
-            if (ctrl != 0)
-            {
-                if ((key & (int)Keys.Control) != 0) ctrlprefix += "Ctrl+";
-                if ((key & (int)Keys.Alt) != 0) ctrlprefix += "Alt+";
-                if ((key & (int)Keys.Shift) != 0) ctrlprefix += "Shift+";
-            }
-
-            // Check if button is special
-            switch (button)
-            {
-                // Scroll down
-                case (int)SpecialKeys.MScrollDown:
-
-                    // Make string representation
-                    return ctrlprefix + "ScrollDown";
-
-                // Scroll up
-                case (int)SpecialKeys.MScrollUp:
-
-                    // Make string representation
-                    return ctrlprefix + "ScrollUp";
+					// Make string representation
+					return ctrlprefix + "ScrollUp";
 
                 case (int)SpecialKeys.MScrollLeft:
 
@@ -159,129 +175,129 @@ namespace CodeImp.DoomBuilder.Actions
                     //
                     return ctrlprefix + "ScrollRight";
 
-                // Keys that would otherwise have odd names
-                case (int)Keys.Oemtilde: return ctrlprefix + "~";
-                case (int)Keys.OemMinus: return ctrlprefix + "-";
-                case (int)Keys.Oemplus: return ctrlprefix + "+";
-                case (int)Keys.Subtract: return ctrlprefix + "NumPad-";
-                case (int)Keys.Add: return ctrlprefix + "NumPad+";
-                case (int)Keys.Decimal: return ctrlprefix + "NumPad.";
-                case (int)Keys.Multiply: return ctrlprefix + "NumPad*";
-                case (int)Keys.Divide: return ctrlprefix + "NumPad/";
-                case (int)Keys.OemOpenBrackets: return ctrlprefix + "[";
-                case (int)Keys.OemCloseBrackets: return ctrlprefix + "]";
-                case (int)Keys.Oem1: return ctrlprefix + ";";
-                case (int)Keys.Oem7: return ctrlprefix + "'";
-                case (int)Keys.Oemcomma: return ctrlprefix + ",";
-                case (int)Keys.OemPeriod: return ctrlprefix + ".";
-                case (int)Keys.OemQuestion: return ctrlprefix + "?";
-                case (int)Keys.Oem5: return ctrlprefix + "\\";
-                case (int)Keys.Capital: return ctrlprefix + "CapsLock";
-                case (int)Keys.Back: return ctrlprefix + "Backspace";
+				// Keys that would otherwise have odd names
+				case (int)Keys.Oemtilde: return ctrlprefix + "~";
+				case (int)Keys.OemMinus: return ctrlprefix + "-";
+				case (int)Keys.Oemplus: return ctrlprefix + "+";
+				case (int)Keys.Subtract: return ctrlprefix + "NumPad-";
+				case (int)Keys.Add: return ctrlprefix + "NumPad+";
+				case (int)Keys.Decimal: return ctrlprefix + "NumPad.";
+				case (int)Keys.Multiply: return ctrlprefix + "NumPad*";
+				case (int)Keys.Divide: return ctrlprefix + "NumPad/";
+				case (int)Keys.OemOpenBrackets: return ctrlprefix + "[";
+				case (int)Keys.OemCloseBrackets: return ctrlprefix + "]";
+				case (int)Keys.Oem1: return ctrlprefix + ";";
+				case (int)Keys.Oem7: return ctrlprefix + "'";
+				case (int)Keys.Oemcomma: return ctrlprefix + ",";
+				case (int)Keys.OemPeriod: return ctrlprefix + ".";
+				case (int)Keys.OemQuestion: return ctrlprefix + "?";
+				case (int)Keys.Oem5: return ctrlprefix + "\\";
+				case (int)Keys.Capital: return ctrlprefix + "CapsLock";
+				case (int)Keys.Back: return ctrlprefix + "Backspace";
+				
+				default:
+					
+					// Use standard key-string conversion
+					return conv.ConvertToString(key);
+			}
+		}
 
-                default:
+		//mxd. This returns the shortcut key description for an action name
+		public static string GetShortcutKeyDesc(string actionName) 
+		{
+			Action a = General.Actions.GetActionByName(actionName);
+			if(a.ShortcutKey == 0) return a.Title + " (not bound to a key)";
+			return GetShortcutKeyDesc(a.ShortcutKey);
+		}
 
-                    // Use standard key-string conversion
-                    return conv.ConvertToString(key);
-            }
-        }
+		#endregion
 
-        //mxd. This returns the shortcut key description for an action name
-        public static string GetShortcutKeyDesc(string actionName)
-        {
-            Action a = General.Actions.GetActionByName(actionName);
-            if (a.ShortcutKey == 0) return a.Title + " (not bound to a key)";
-            return GetShortcutKeyDesc(a.ShortcutKey);
-        }
+		#region ================== Methods
 
-        #endregion
+		// This invokes the action
+		public void Invoke()
+		{
+			this.Begin();
+			this.End();
+		}
+		
+		// This sets a new key for the action
+		internal void SetShortcutKey(int key)
+		{
+			// Make it so.
+			this.key = key & keymask;
+		}
+		
+		// This binds a delegate to this action
+		internal void BindBegin(ActionDelegate method)
+		{
+			begindelegates.Add(method);
+		}
 
-        #region ================== Methods
+		// This removes a delegate from this action
+		internal void UnbindBegin(ActionDelegate method)
+		{
+			begindelegates.Remove(method);
+		}
 
-        // This invokes the action
-        public void Invoke()
-        {
-            this.Begin();
-            this.End();
-        }
+		// This binds a delegate to this action
+		internal void BindEnd(ActionDelegate method)
+		{
+			enddelegates.Add(method);
+		}
 
-        // This sets a new key for the action
-        internal void SetShortcutKey(int key)
-        {
-            // Make it so.
-            this.ShortcutKey = key & ShortcutMask;
-        }
+		// This removes a delegate from this action
+		internal void UnbindEnd(ActionDelegate method)
+		{
+			enddelegates.Remove(method);
+		}
 
-        // This binds a delegate to this action
-        internal void BindBegin(ActionDelegate method)
-        {
-            begindelegates.Add(method);
-        }
+		// This raises events for this action
+		internal void Begin()
+		{
+			General.Plugins.OnActionBegin(this);
 
-        // This removes a delegate from this action
-        internal void UnbindBegin(ActionDelegate method)
-        {
-            begindelegates.Remove(method);
-        }
+			// Method bound?
+			if(begindelegates.Count > 0)
+			{
+				// Copy delegates list
+				List<ActionDelegate> delegateslist = new List<ActionDelegate>(begindelegates);
+				
+				// Invoke all the delegates
+				General.Actions.Current = this;
+				General.Actions.ResetExclusiveRequest();
+				foreach(ActionDelegate ad in delegateslist) ad.Invoke();
+				General.Actions.ResetExclusiveRequest();
+				General.Actions.Current = null;
+			}
+		}
 
-        // This binds a delegate to this action
-        internal void BindEnd(ActionDelegate method)
-        {
-            enddelegates.Add(method);
-        }
+		// This raises events for this action
+		internal void End()
+		{
+			// Method bound?
+			if(enddelegates.Count > 0)
+			{
+				// Copy delegates list
+				List<ActionDelegate> delegateslist = new List<ActionDelegate>(enddelegates);
 
-        // This removes a delegate from this action
-        internal void UnbindEnd(ActionDelegate method)
-        {
-            enddelegates.Remove(method);
-        }
+				// Invoke all the delegates
+				General.Actions.Current = this;
+				General.Actions.ResetExclusiveRequest();
+				foreach(ActionDelegate ad in delegateslist) ad.Invoke();
+				General.Actions.ResetExclusiveRequest();
+				General.Actions.Current = null;
+			}
+			
+			General.Plugins.OnActionEnd(this);
+		}
 
-        // This raises events for this action
-        internal void Begin()
-        {
-            General.Plugins.OnActionBegin(this);
-
-            // Method bound?
-            if (begindelegates.Count > 0)
-            {
-                // Copy delegates list
-                List<ActionDelegate> delegateslist = new List<ActionDelegate>(begindelegates);
-
-                // Invoke all the delegates
-                General.Actions.Current = this;
-                General.Actions.ResetExclusiveRequest();
-                foreach (ActionDelegate ad in delegateslist) ad.Invoke();
-                General.Actions.ResetExclusiveRequest();
-                General.Actions.Current = null;
-            }
-        }
-
-        // This raises events for this action
-        internal void End()
-        {
-            // Method bound?
-            if (enddelegates.Count > 0)
-            {
-                // Copy delegates list
-                List<ActionDelegate> delegateslist = new List<ActionDelegate>(enddelegates);
-
-                // Invoke all the delegates
-                General.Actions.Current = this;
-                General.Actions.ResetExclusiveRequest();
-                foreach (ActionDelegate ad in delegateslist) ad.Invoke();
-                General.Actions.ResetExclusiveRequest();
-                General.Actions.Current = null;
-            }
-
-            General.Plugins.OnActionEnd(this);
-        }
-
-        // This checks if the action qualifies for a key combination
-        public bool KeyMatches(int pressedkey)
-        {
-            return ShortcutKey == (pressedkey & ShortcutMask);
-        }
-
-        #endregion
-    }
+		// This checks if the action qualifies for a key combination
+		public bool KeyMatches(int pressedkey)
+		{
+			return (key == (pressedkey & keymask));
+		}
+		
+		#endregion
+	}
 }

@@ -23,81 +23,86 @@ using System.Collections.Generic;
 
 namespace CodeImp.DoomBuilder.Config
 {
-    public class LinedefActionCategory : IComparable<LinedefActionCategory>
-    {
-        #region ================== Constants
+	public class LinedefActionCategory : IComparable<LinedefActionCategory>
+	{
+		#region ================== Constants
 
-        #endregion
+		#endregion
 
-        #region ================== Variables
+		#region ================== Variables
 
-        // Category properties
-        // Actions
+		// Category properties
+		private string name;
+		private string title;
 
-        // Disposing
+		// Actions
+		private List<LinedefActionInfo> actions;
 
-        #endregion
+		// Disposing
+		private bool isdisposed;
 
-        #region ================== Properties
+		#endregion
 
-        public string Name { get; }
-        public string Title { get; }
-        public List<LinedefActionInfo> Actions { get; private set; }
-        public bool IsDisposed { get; private set; }
+		#region ================== Properties
 
-        #endregion
+		public string Name { get { return name; } }
+		public string Title { get { return title; } }
+		public List<LinedefActionInfo> Actions { get { return actions; } }
+		public bool IsDisposed { get { return isdisposed; } }
 
-        #region ================== Constructor / Disposer
+		#endregion
 
-        // Constructor
-        internal LinedefActionCategory(string name, string title)
-        {
-            // Initialize
-            this.Name = name;
-            this.Title = title;
-            this.Actions = new List<LinedefActionInfo>();
+		#region ================== Constructor / Disposer
 
-            // We have no destructor
-            GC.SuppressFinalize(this);
-        }
+		// Constructor
+		internal LinedefActionCategory(string name, string title)
+		{
+			// Initialize
+			this.name = name;
+			this.title = title;
+			this.actions = new List<LinedefActionInfo>();
 
-        // Disposer
-        internal void Dispose()
-        {
-            // Not already disposed?
-            if (!IsDisposed)
-            {
-                // Clean up
-                Actions = null;
+			// We have no destructor
+			GC.SuppressFinalize(this);
+		}
 
-                // Done
-                IsDisposed = true;
-            }
-        }
+		// Disposer
+		internal void Dispose()
+		{
+			// Not already disposed?
+			if(!isdisposed)
+			{
+				// Clean up
+				actions = null;
+				
+				// Done
+				isdisposed = true;
+			}
+		}
 
-        #endregion
+		#endregion
 
-        #region ================== Methods
+		#region ================== Methods
 
-        // This adds an action to this category
-        internal void Add(LinedefActionInfo a)
-        {
-            // Make it so.
-            Actions.Add(a);
-        }
+		// This adds an action to this category
+		internal void Add(LinedefActionInfo a)
+		{
+			// Make it so.
+			actions.Add(a);
+		}
 
-        // This compares against another action category
-        public int CompareTo(LinedefActionCategory other)
-        {
-            return string.Compare(this.Name, other.Name);
-        }
-
-        // String representation
-        public override string ToString()
-        {
-            return Title;
-        }
-
-        #endregion
-    }
+		// This compares against another action category
+		public int CompareTo(LinedefActionCategory other)
+		{
+			return string.Compare(this.name, other.name);
+		}
+		
+		// String representation
+		public override string ToString()
+		{
+			return title;
+		}
+		
+		#endregion
+	}
 }

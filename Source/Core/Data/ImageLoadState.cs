@@ -20,10 +20,10 @@
 
 namespace CodeImp.DoomBuilder.Data
 {
-    public enum ImageLoadState : int
-    {
-        None,
-        Loading,
-        Ready
-    }
+	public enum ImageLoadState : int
+	{
+		None,
+		Loading,
+		Ready
+	}
 }

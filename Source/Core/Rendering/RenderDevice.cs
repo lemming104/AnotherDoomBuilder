@@ -16,15 +16,15 @@
 
 #region ================== Namespaces
 
-using CodeImp.DoomBuilder.Controls;
-using CodeImp.DoomBuilder.Geometry;
-using CodeImp.DoomBuilder.Rendering.Shaders;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
+using CodeImp.DoomBuilder.Controls;
+using CodeImp.DoomBuilder.Geometry;
 using System.Runtime.InteropServices;
+using System.Reflection;
+using System.IO;
 using System.Text;
+using CodeImp.DoomBuilder.Rendering.Shaders;
 
 #endregion
 
@@ -37,8 +37,8 @@ namespace CodeImp.DoomBuilder.Rendering
 
     public class RenderDevice : IDisposable
     {
-        public RenderDevice(RenderTargetControl rendertarget)
-        {
+		public RenderDevice(RenderTargetControl rendertarget)
+		{
             RenderTarget = rendertarget;
 
             CreateDevice();
@@ -64,12 +64,12 @@ namespace CodeImp.DoomBuilder.Rendering
             DeclareUniform(UniformName.fogcolor, "fogcolor", UniformType.Vec4f);
             DeclareUniform(UniformName.sectorfogcolor, "sectorfogcolor", UniformType.Vec4f);
             DeclareUniform(UniformName.lightsEnabled, "lightsEnabled", UniformType.Float);
-            DeclareUniform(UniformName.slopeHandleLength, "slopeHandleLength", UniformType.Float);
+			DeclareUniform(UniformName.slopeHandleLength, "slopeHandleLength", UniformType.Float);
 
-            // vkdoom lights
+			// vkdoom lights
             DeclareUniform(UniformName.lightStrengthAndLinearity, "lightStrengthAndLinearity", UniformType.Vec2fArray);
             DeclareUniform(UniformName.useLightStrength, "useLightStrength", UniformType.Float);
-
+            
             // volte: classic rendering
             DeclareUniform(UniformName.drawPaletted, "drawPaletted", UniformType.Int);
             DeclareUniform(UniformName.colormapSize, "colormapSize", UniformType.Vec2i);
@@ -80,7 +80,7 @@ namespace CodeImp.DoomBuilder.Rendering
 
             // 2d fsaa
             CompileShader(ShaderName.display2d_fsaa, "display2d.shader", "display2d_fsaa");
-
+            
             // 2d normal
             CompileShader(ShaderName.display2d_normal, "display2d.shader", "display2d_normal");
             CompileShader(ShaderName.display2d_fullbright, "display2d.shader", "display2d_fullbright");
@@ -98,7 +98,7 @@ namespace CodeImp.DoomBuilder.Rendering
             CompileShader(ShaderName.world3d_vertex_color, "world3d.shader", "world3d_vertex_color");
             CompileShader(ShaderName.world3d_main_vertexcolor, "world3d.shader", "world3d_main_vertexcolor");
             CompileShader(ShaderName.world3d_constant_color, "world3d.shader", "world3d_constant_color");
-
+            
             // classic rendering
             CompileShader(ShaderName.world3d_classic, "world3d.shader", "world3d_classic");
             CompileShader(ShaderName.world3d_classic_highlight, "world3d.shader", "world3d_classic_highlight");
@@ -113,8 +113,8 @@ namespace CodeImp.DoomBuilder.Rendering
             CompileShader(ShaderName.world3d_main_fog_vertexcolor, "world3d.shader", "world3d_main_fog_vertexcolor");
             CompileShader(ShaderName.world3d_main_highlight_fog_vertexcolor, "world3d.shader", "world3d_main_highlight_fog_vertexcolor");
 
-            // Slope handle
-            CompileShader(ShaderName.world3d_slope_handle, "world3d.shader", "world3d_slope_handle");
+			// Slope handle
+			CompileShader(ShaderName.world3d_slope_handle, "world3d.shader", "world3d_slope_handle");
 
             SetupSettings();
         }
@@ -541,23 +541,23 @@ namespace CodeImp.DoomBuilder.Rendering
         }
 
         public void SetupSettings()
-        {
-            // Setup renderstates
-            SetAlphaBlendEnable(false);
-            SetAlphaTestEnable(false);
-            SetCullMode(Cull.None);
-            SetDestinationBlend(Blend.InverseSourceAlpha);
-            SetFillMode(FillMode.Solid);
-            SetMultisampleAntialias(General.Settings.AntiAliasingSamples > 0);
-            SetSourceBlend(Blend.SourceAlpha);
-            SetZEnable(false);
-            SetZWriteEnable(false);
-
-            // Texture addressing
-            SetSamplerState(TextureAddress.Wrap);
-
+		{
+			// Setup renderstates
+			SetAlphaBlendEnable(false);
+			SetAlphaTestEnable(false);
+			SetCullMode(Cull.None);
+			SetDestinationBlend(Blend.InverseSourceAlpha);
+			SetFillMode(FillMode.Solid);
+			SetMultisampleAntialias((General.Settings.AntiAliasingSamples > 0));
+			SetSourceBlend(Blend.SourceAlpha);
+			SetZEnable(false);
+			SetZWriteEnable(false);
+			
+			// Texture addressing
+			SetSamplerState(TextureAddress.Wrap);
+			
             //mxd. It's still nice to have anisotropic filtering when texture filtering is disabled
-            TextureFilter magminfilter = General.Settings.VisualBilinear ? TextureFilter.Linear : TextureFilter.Nearest;
+            TextureFilter magminfilter = (General.Settings.VisualBilinear ? TextureFilter.Linear : TextureFilter.Nearest);
             SetSamplerFilter(
                 magminfilter,
                 magminfilter,
@@ -566,7 +566,7 @@ namespace CodeImp.DoomBuilder.Rendering
 
             // Initialize presentations
             Presentation.Initialize();
-        }
+		}
 
         IntPtr Handle;
 
@@ -704,29 +704,29 @@ namespace CodeImp.DoomBuilder.Rendering
 
         internal RenderTargetControl RenderTarget { get; private set; }
 
-        // This makes a Vector3 from Vector3D
-        public static Vector3f V3(Vector3D v3d)
-        {
-            return new Vector3f((float)v3d.x, (float)v3d.y, (float)v3d.z);
-        }
+		// This makes a Vector3 from Vector3D
+		public static Vector3f V3(Vector3D v3d)
+		{
+			return new Vector3f((float)v3d.x, (float)v3d.y, (float)v3d.z);
+		}
 
-        // This makes a Vector3D from Vector3
-        public static Vector3D V3D(Vector3f v3)
-        {
-            return new Vector3D(v3.X, v3.Y, v3.Z);
-        }
+		// This makes a Vector3D from Vector3
+		public static Vector3D V3D(Vector3f v3)
+		{
+			return new Vector3D(v3.X, v3.Y, v3.Z);
+		}
 
-        // This makes a Vector2 from Vector2D
-        public static Vector2f V2(Vector2D v2d)
-        {
-            return new Vector2f((float)v2d.x, (float)v2d.y);
-        }
+		// This makes a Vector2 from Vector2D
+		public static Vector2f V2(Vector2D v2d)
+		{
+			return new Vector2f((float)v2d.x, (float)v2d.y);
+		}
 
-        // This makes a Vector2D from Vector2
-        public static Vector2D V2D(Vector2f v2)
-        {
-            return new Vector2D(v2.X, v2.Y);
-        }
+		// This makes a Vector2D from Vector2
+		public static Vector2D V2D(Vector2f v2)
+		{
+			return new Vector2D(v2.X, v2.Y);
+		}
     }
 
     public enum ShaderName : int
@@ -754,7 +754,7 @@ namespace CodeImp.DoomBuilder.Rendering
         world3d_main_highlight_fog_vertexcolor,
         world3d_vertex_color,
         world3d_constant_color,
-        world3d_slope_handle,
+		world3d_slope_handle,
         world3d_classic,
         world3d_p19,
         world3d_classic_highlight
@@ -799,14 +799,14 @@ namespace CodeImp.DoomBuilder.Rendering
         fogcolor,
         sectorfogcolor,
         lightsEnabled,
-        slopeHandleLength,
+		slopeHandleLength,
         drawPaletted,
         colormapSize,
         sectorLightLevel,
         doomlightlevels,
         skew,
-        lightStrengthAndLinearity,
-        useLightStrength
+		lightStrengthAndLinearity,
+		useLightStrength
     }
 
     public enum VertexFormat : int { Flat, World }
@@ -817,5 +817,5 @@ namespace CodeImp.DoomBuilder.Rendering
     public enum TextureAddress : int { Wrap, Clamp }
     public enum PrimitiveType : int { LineList, TriangleList, TriangleStrip }
     public enum TextureFilter : int { Nearest, Linear }
-    public enum MipmapFilter : int { None, Nearest, Linear }
+    public enum MipmapFilter : int { None, Nearest, Linear}
 }

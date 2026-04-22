@@ -16,138 +16,140 @@
 
 #region ================== Namespaces
 
-using CodeImp.DoomBuilder.GZBuilder.Data; //mxd
 using System;
 using System.IO;
+using CodeImp.DoomBuilder.GZBuilder.Data; //mxd
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Editing
 {
-    public class UndoSnapshot : IDisposable
-    {
-        #region ================== Variables
+	public class UndoSnapshot : IDisposable
+	{
+		#region ================== Variables
 
-        private MemoryStream recstream;
-        private string filename;
-        private volatile bool storeondisk;
-        private volatile bool isondisk;
-        private bool isdisposed;
-        //private Dictionary<string, MemoryStream> customdata;
+		private MemoryStream recstream;
+		private string filename;
+		private string description;
+		private readonly int ticketid;			// For safe withdrawing
+		private volatile bool storeondisk;
+		private volatile bool isondisk;
+		private bool isdisposed;
+		//private Dictionary<string, MemoryStream> customdata;
+		
+		#endregion
 
-        #endregion
+		#region ================== Properties
 
-        #region ================== Properties
+		public string Description { get { return description; } set { description = value; } }
+		public int TicketID { get { return ticketid; } }
+		internal bool StoreOnDisk { get { return storeondisk; } set { storeondisk = value; } }
+		public bool IsOnDisk { get { return isondisk; } }
+		
+		#endregion
 
-        public string Description { get; set; }
-        public int TicketID { get; }
-        internal bool StoreOnDisk { get { return storeondisk; } set { storeondisk = value; } }
-        public bool IsOnDisk { get { return isondisk; } }
+		#region ================== Constructor / Disposer
 
-        #endregion
+		// Constructor
+		internal UndoSnapshot(string description, MemoryStream recstream, int ticketid)
+		{
+			if(recstream == null) General.Fail("Argument cannot be null!");
+			this.ticketid = ticketid;
+			this.description = description;
+			this.recstream = recstream;
+			this.filename = null;
+		}
 
-        #region ================== Constructor / Disposer
+		// Constructor
+		internal UndoSnapshot(UndoSnapshot info, MemoryStream recstream)
+		{
+			if(recstream == null) General.Fail("Argument cannot be null!");
+			this.ticketid = info.ticketid;
+			this.description = info.description;
+			this.recstream = recstream;
+			this.filename = null;
+		}
 
-        // Constructor
-        internal UndoSnapshot(string description, MemoryStream recstream, int ticketid)
-        {
-            if (recstream == null) General.Fail("Argument cannot be null!");
-            this.TicketID = ticketid;
-            this.Description = description;
-            this.recstream = recstream;
-            this.filename = null;
-        }
+		// Disposer
+		public void Dispose()
+		{
+			lock(this)
+			{
+				isdisposed = true;
+				if(recstream != null) recstream.Dispose();
+				recstream = null;
+				if(isondisk) File.Delete(filename);
+				isondisk = false;
+			}
+		}
 
-        // Constructor
-        internal UndoSnapshot(UndoSnapshot info, MemoryStream recstream)
-        {
-            if (recstream == null) General.Fail("Argument cannot be null!");
-            this.TicketID = info.TicketID;
-            this.Description = info.Description;
-            this.recstream = recstream;
-            this.filename = null;
-        }
+		#endregion
+		
+		#region ================== Methods
 
-        // Disposer
-        public void Dispose()
-        {
-            lock (this)
-            {
-                isdisposed = true;
-                if (recstream != null) recstream.Dispose();
-                recstream = null;
-                if (isondisk) File.Delete(filename);
-                isondisk = false;
-            }
-        }
+		// This returns the map data
+		internal MemoryStream GetStream()
+		{
+			lock(this)
+			{
+				// Restore into memory if needed
+				if(isondisk) RestoreFromFile();
+				
+				// Return the buffer
+				return recstream;
+			}
+		}
+		
+		// This moves the snapshot from memory to harddisk
+		internal void WriteToFile()
+		{
+			lock(this)
+			{
+				if(isdisposed) return;
+				if(isondisk) return;
+				isondisk = true;
+				
+				// Compress data
+				recstream.Seek(0, SeekOrigin.Begin);
+				MemoryStream outstream = SharpCompressHelper.CompressStream(recstream); //mxd
 
-        #endregion
+				// Make temporary file
+				filename = General.MakeTempFilename(General.Map.TempPath, "snapshot");
 
-        #region ================== Methods
+				// Write data to file
+				File.WriteAllBytes(filename, outstream.ToArray());
 
-        // This returns the map data
-        internal MemoryStream GetStream()
-        {
-            lock (this)
-            {
-                // Restore into memory if needed
-                if (isondisk) RestoreFromFile();
+				// Remove data from memory
+				recstream.Dispose();
+				recstream = null;
+				outstream.Dispose();
+			}
+		}
 
-                // Return the buffer
-                return recstream;
-            }
-        }
+		// This loads the snapshot from harddisk into memory
+		internal void RestoreFromFile()
+		{
+			lock(this)
+			{
+				if(isdisposed) return;
+				if(!isondisk) return;
+				isondisk = false;
 
-        // This moves the snapshot from memory to harddisk
-        internal void WriteToFile()
-        {
-            lock (this)
-            {
-                if (isdisposed) return;
-                if (isondisk) return;
-                isondisk = true;
-
-                // Compress data
-                recstream.Seek(0, SeekOrigin.Begin);
-                MemoryStream outstream = SharpCompressHelper.CompressStream(recstream); //mxd
-
-                // Make temporary file
-                filename = General.MakeTempFilename(General.Map.TempPath, "snapshot");
-
-                // Write data to file
-                File.WriteAllBytes(filename, outstream.ToArray());
-
-                // Remove data from memory
-                recstream.Dispose();
-                recstream = null;
-                outstream.Dispose();
-            }
-        }
-
-        // This loads the snapshot from harddisk into memory
-        internal void RestoreFromFile()
-        {
-            lock (this)
-            {
-                if (isdisposed) return;
-                if (!isondisk) return;
-                isondisk = false;
-
-                // Read the file data
-                MemoryStream instream = new MemoryStream(File.ReadAllBytes(filename));
-
-                // Decompress data
-                MemoryStream outstream = SharpCompressHelper.DecompressStream(instream); //mxd
-                recstream = new MemoryStream(outstream.ToArray());
-
-                // Clean up
-                instream.Dispose();
-                File.Delete(filename);
-                filename = null;
-                outstream.Dispose();
-            }
-        }
-
-        #endregion
-    }
+				// Read the file data
+				MemoryStream instream = new MemoryStream(File.ReadAllBytes(filename));
+				
+				// Decompress data
+				MemoryStream outstream = SharpCompressHelper.DecompressStream(instream); //mxd
+				recstream = new MemoryStream(outstream.ToArray());
+				
+				// Clean up
+				instream.Dispose();
+				File.Delete(filename);
+				filename = null;
+				outstream.Dispose();
+			}
+		}
+		
+		#endregion
+	}
 }

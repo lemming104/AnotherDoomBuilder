@@ -23,60 +23,63 @@ using System.Globalization;
 
 namespace CodeImp.DoomBuilder.Config
 {
-    public class EnumItem : IComparable<EnumItem>
-    {
-        #region ================== Constants
+	public class EnumItem : IComparable<EnumItem>
+	{
+		#region ================== Constants
 
-        #endregion
+		#endregion
 
-        #region ================== Variables
+		#region ================== Variables
 
-        #endregion
+		private readonly string value;
+		private readonly string title;
 
-        #region ================== Properties
+		#endregion
 
-        public string Value { get; }
-        public string Title { get; }
+		#region ================== Properties
 
-        #endregion
+		public string Value { get { return value; } }
+		public string Title { get { return title; } }
 
-        #region ================== Constructor
+		#endregion
 
-        // Constructor
-        public EnumItem(string value, string title)
-        {
-            // Initialize
-            this.Value = value;
-            this.Title = title;
-        }
+		#region ================== Constructor
 
-        #endregion
+		// Constructor
+		public EnumItem(string value, string title)
+		{
+			// Initialize
+			this.value = value;
+			this.title = title;
+		}
+		
+		#endregion
 
-        #region ================== Methods
+		#region ================== Methods
 
-        // String representation
-        public override string ToString()
-        {
-            return Title;
-        }
+		// String representation
+		public override string ToString()
+		{
+			return title;
+		}
 
-        //mxd. This compares against another activate info
-        public int CompareTo(EnumItem other)
-        {
-            int thisval = GetIntValue();
-            int otherval = other.GetIntValue();
-            if (thisval < otherval) return -1;
-            if (thisval > otherval) return 1;
-            return 0;
-        }
+		//mxd. This compares against another activate info
+		public int CompareTo(EnumItem other)
+		{
+			int thisval = GetIntValue();
+			int otherval = other.GetIntValue();
+			if(thisval < otherval) return -1;
+			if(thisval > otherval) return 1;
+			return 0;
+		}
 
-        // This returns the value as int
-        public int GetIntValue()
-        {
-            int result;
-            return int.TryParse(Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out result) ? result : 0;
-        }
-
-        #endregion
-    }
+		// This returns the value as int
+		public int GetIntValue()
+		{
+			int result;
+			return int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out result) ? result : 0;
+		}
+		
+		#endregion
+	}
 }

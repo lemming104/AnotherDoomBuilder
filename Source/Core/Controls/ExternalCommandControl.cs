@@ -23,72 +23,72 @@
 
 #region ================== Namespaces
 
-using CodeImp.DoomBuilder.Config;
 using System;
 using System.Windows.Forms;
+using CodeImp.DoomBuilder.Config;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Controls
 {
-    public partial class ExternalCommandControl : UserControl
-    {
-        #region ================== Constructors
+	public partial class ExternalCommandControl : UserControl
+	{
+		#region ================== Constructors
 
-        public ExternalCommandControl()
-        {
-            InitializeComponent();
-        }
+		public ExternalCommandControl()
+		{
+			InitializeComponent();
+		}
 
-        #endregion
+		#endregion
 
-        #region ================== Methods
+		#region ================== Methods
 
-        /// <summary>
-        /// Fills the controls with the settings from the ExternalCommandSettings.
-        /// </summary>
-        /// <param name="ecs">The settings</param>
-        public void Setup(ExternalCommandSettings ecs)
-        {
-            tbFolder.Text = ecs.WorkingDirectory;
-            tbCommand.Text = ecs.Commands;
-            cbAutoclose.Checked = ecs.AutoCloseOnSuccess;
-            cbExitCode.Checked = ecs.ExitCodeIsError;
-            cbStdErr.Checked = ecs.StdErrIsError;
-        }
+		/// <summary>
+		/// Fills the controls with the settings from the ExternalCommandSettings.
+		/// </summary>
+		/// <param name="ecs">The settings</param>
+		public void Setup(ExternalCommandSettings ecs)
+		{
+			tbFolder.Text = ecs.WorkingDirectory;
+			tbCommand.Text = ecs.Commands;
+			cbAutoclose.Checked = ecs.AutoCloseOnSuccess;
+			cbExitCode.Checked = ecs.ExitCodeIsError;
+			cbStdErr.Checked = ecs.StdErrIsError;
+		}
 
-        /// <summary>
-        /// Returns the external command settings.
-        /// </summary>
-        /// <returns>The external command settings</returns>
-        public ExternalCommandSettings GetSettings()
-        {
-            ExternalCommandSettings ecs = new ExternalCommandSettings();
-            ecs.WorkingDirectory = tbFolder.Text.Trim();
-            ecs.Commands = tbCommand.Text.Trim();
-            ecs.AutoCloseOnSuccess = cbAutoclose.Checked;
-            ecs.ExitCodeIsError = cbExitCode.Checked;
-            ecs.StdErrIsError = cbStdErr.Checked;
+		/// <summary>
+		/// Returns the external command settings.
+		/// </summary>
+		/// <returns>The external command settings</returns>
+		public ExternalCommandSettings GetSettings()
+		{
+			ExternalCommandSettings ecs = new ExternalCommandSettings();
+			ecs.WorkingDirectory = tbFolder.Text.Trim();
+			ecs.Commands = tbCommand.Text.Trim();
+			ecs.AutoCloseOnSuccess = cbAutoclose.Checked;
+			ecs.ExitCodeIsError = cbExitCode.Checked;
+			ecs.StdErrIsError = cbStdErr.Checked;
 
-            return ecs;
-        }
+			return ecs;
+		}
 
-        #endregion
+		#endregion
 
-        #region ================== Events
+		#region ================== Events
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            FolderSelectDialog dirdialog = new FolderSelectDialog();
-            dirdialog.Title = "Select base folder";
-            dirdialog.InitialDirectory = tbFolder.Text;
+		private void button1_Click(object sender, EventArgs e)
+		{
+			FolderSelectDialog dirdialog = new FolderSelectDialog();
+			dirdialog.Title = "Select base folder";
+			dirdialog.InitialDirectory = tbFolder.Text;
 
-            if (dirdialog.ShowDialog(this.Handle))
-            {
-                tbFolder.Text = dirdialog.FileName;
-            }
-        }
+			if (dirdialog.ShowDialog(this.Handle))
+			{
+				tbFolder.Text = dirdialog.FileName;
+			}
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

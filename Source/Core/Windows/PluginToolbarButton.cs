@@ -22,9 +22,9 @@ using System.Windows.Forms;
 
 namespace CodeImp.DoomBuilder.Windows
 {
-    public struct PluginToolbarButton
-    {
-        public ToolbarSection section;
-        public ToolStripItem button;
-    }
+	public struct PluginToolbarButton
+	{
+		public ToolbarSection section;
+		public ToolStripItem button;
+	}
 }

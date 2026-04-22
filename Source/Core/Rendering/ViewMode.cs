@@ -20,11 +20,11 @@
 
 namespace CodeImp.DoomBuilder.Rendering
 {
-    public enum ViewMode : int
-    {
-        Normal = 0,
-        Brightness = 1,
-        FloorTextures = 2,
-        CeilingTextures = 3
-    }
+	public enum ViewMode : int
+	{
+		Normal = 0,
+		Brightness = 1,
+		FloorTextures = 2,
+		CeilingTextures = 3
+	}
 }

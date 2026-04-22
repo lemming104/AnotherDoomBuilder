@@ -22,11 +22,11 @@ using CodeImp.DoomBuilder.Geometry;
 
 namespace CodeImp.DoomBuilder.VisualModes
 {
-    public struct VisualPickResult
-    {
-        // Members
-        public IVisualPickable picked;
-        public double u_ray;
-        public Vector3D hitpos;
-    }
+	public struct VisualPickResult
+	{
+		// Members
+		public IVisualPickable picked;
+		public double u_ray;
+		public Vector3D hitpos;
+	}
 }

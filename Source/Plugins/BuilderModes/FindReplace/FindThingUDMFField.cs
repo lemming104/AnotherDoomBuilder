@@ -15,38 +15,38 @@
 
 #region ================== Namespaces
 
-using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
+using CodeImp.DoomBuilder.Map;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
-    [FindReplace("Thing UDMF Field", BrowseButton = false)]
-    internal class FindThingUDMFField : BaseFindUDMFField
-    {
-        #region ================== Methods
+	[FindReplace("Thing UDMF Field", BrowseButton = false)]
+	internal class FindThingUDMFField : BaseFindUDMFField
+	{
+		#region ================== Methods
 
-        public override bool CanReplace()
-        {
-            return false;
-        }
+		public override bool CanReplace()
+		{
+			return false;
+		}
 
-        public override bool DetermineVisiblity()
-        {
-            return General.Map.UDMF;
-        }
+		public override bool DetermineVisiblity()
+		{
+			return General.Map.UDMF;
+		}
 
-        public override FindReplaceObject[] Find(string value, bool withinselection, bool replace, string replacewith, bool keepselection)
-        {
-            if (string.IsNullOrWhiteSpace(value))
-                return new FindReplaceObject[] { };
+		public override FindReplaceObject[] Find(string value, bool withinselection, bool replace, string replacewith, bool keepselection)
+		{
+			if (string.IsNullOrWhiteSpace(value))
+				return new FindReplaceObject[] { };
 
-            ICollection<MapElement> list = withinselection ? new List<MapElement>(General.Map.Map.GetSelectedThings(true)) : (ICollection<MapElement>)General.Map.Map.Things;
+			ICollection<MapElement> list = withinselection ? new List<MapElement>(General.Map.Map.GetSelectedThings(true)) : (ICollection<MapElement>)General.Map.Map.Things;
 
-            return GetObjects(value, list);
-        }
+			return GetObjects(value, list);
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

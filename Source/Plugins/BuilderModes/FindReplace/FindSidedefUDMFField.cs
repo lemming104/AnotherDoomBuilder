@@ -15,57 +15,57 @@
 
 #region ================== Namespaces
 
-using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
+using CodeImp.DoomBuilder.Map;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
-    [FindReplace("Sidedef UDMF Field", BrowseButton = false)]
-    internal class FindSidedefUDMFField : BaseFindUDMFField
-    {
-        #region ================== Methods
+	[FindReplace("Sidedef UDMF Field", BrowseButton = false)]
+	internal class FindSidedefUDMFField : BaseFindUDMFField
+	{
+		#region ================== Methods
 
-        public override bool CanReplace()
-        {
-            return false;
-        }
+		public override bool CanReplace()
+		{
+			return false;
+		}
 
-        public override bool DetermineVisiblity()
-        {
-            return General.Map.UDMF;
-        }
+		public override bool DetermineVisiblity()
+		{
+			return General.Map.UDMF;
+		}
 
-        public override FindReplaceObject[] Find(string value, bool withinselection, bool replace, string replacewith, bool keepselection)
-        {
-            if (string.IsNullOrWhiteSpace(value))
-                return new FindReplaceObject[] { };
+		public override FindReplaceObject[] Find(string value, bool withinselection, bool replace, string replacewith, bool keepselection)
+		{
+			if (string.IsNullOrWhiteSpace(value))
+				return new FindReplaceObject[] { };
 
-            ICollection<MapElement> list;
+			ICollection<MapElement> list;
 
-            if (withinselection)
-            {
-                // Get all sidedefs of the selected linedefs
-                list = new List<MapElement>();
+			if(withinselection)
+			{
+				// Get all sidedefs of the selected linedefs
+				list = new List<MapElement>();
 
-                foreach (Linedef ld in General.Map.Map.GetSelectedLinedefs(true))
-                {
-                    if (ld.Front != null && !ld.Front.IsDisposed)
-                        list.Add(ld.Front);
+				foreach(Linedef ld in General.Map.Map.GetSelectedLinedefs(true))
+				{
+					if (ld.Front != null && !ld.Front.IsDisposed)
+						list.Add(ld.Front);
 
-                    if (ld.Back != null && !ld.Back.IsDisposed)
-                        list.Add(ld.Back);
-                }
-            }
-            else
-            {
-                list = (ICollection<MapElement>)General.Map.Map.Sidedefs;
-            }
+					if (ld.Back != null && !ld.Back.IsDisposed)
+						list.Add(ld.Back);
+				}
+			}
+			else
+			{
+				list = (ICollection<MapElement>)General.Map.Map.Sidedefs;
+			}
 
-            return GetObjects(value, list);
-        }
+			return GetObjects(value, list);
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

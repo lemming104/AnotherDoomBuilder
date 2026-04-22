@@ -16,399 +16,400 @@
 
 #region ================== Namespaces
 
-using CodeImp.DoomBuilder.Config;
-using CodeImp.DoomBuilder.Map;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
+using System.IO;
+using CodeImp.DoomBuilder.Map;
+using CodeImp.DoomBuilder.Config;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.IO
 {
-    internal class UniversalStreamWriter
-    {
-        #region ================== Constants
+	internal class UniversalStreamWriter
+	{
+		#region ================== Constants
 
-        // Name of the UDMF configuration file
-        private const string UDMF_CONFIG_NAME = "UDMF.cfg";
+		// Name of the UDMF configuration file
+		private const string UDMF_CONFIG_NAME = "UDMF.cfg";
 
-        #endregion
+		#endregion
 
-        #region ================== Variables
+		#region ================== Variables
 
-        private Configuration config;
+		private Configuration config;
+		private bool remembercustomtypes;
+		
+		#endregion
 
-        #endregion
+		#region ================== Properties
 
-        #region ================== Properties
+		public bool RememberCustomTypes { get { return remembercustomtypes; } set { remembercustomtypes = value; } }
 
-        public bool RememberCustomTypes { get; set; }
+		#endregion
 
-        #endregion
+		#region ================== Constructor / Disposer
 
-        #region ================== Constructor / Disposer
+		// Constructor
+		public UniversalStreamWriter()
+		{
+			// Make configurations
+			config = new Configuration();
+			
+			// Find a resource named UDMF.cfg
+			string[] resnames = General.ThisAssembly.GetManifestResourceNames();
+			foreach(string rn in resnames)
+			{
+				// Found it?
+				if(rn.EndsWith(UDMF_CONFIG_NAME, StringComparison.OrdinalIgnoreCase))
+				{
+					// Get a stream from the resource
+					Stream udmfcfg = General.ThisAssembly.GetManifestResourceStream(rn);
+					StreamReader udmfcfgreader = new StreamReader(udmfcfg, Encoding.ASCII);
 
-        // Constructor
-        public UniversalStreamWriter()
-        {
-            // Make configurations
-            config = new Configuration();
+					// Load configuration from stream
+					config.InputConfiguration(udmfcfgreader.ReadToEnd());
 
-            // Find a resource named UDMF.cfg
-            string[] resnames = General.ThisAssembly.GetManifestResourceNames();
-            foreach (string rn in resnames)
-            {
-                // Found it?
-                if (rn.EndsWith(UDMF_CONFIG_NAME, StringComparison.OrdinalIgnoreCase))
-                {
-                    // Get a stream from the resource
-                    Stream udmfcfg = General.ThisAssembly.GetManifestResourceStream(rn);
-                    StreamReader udmfcfgreader = new StreamReader(udmfcfg, Encoding.ASCII);
+					// Now we add the linedef flags, activations and thing flags
+					// to this list, so that these don't show up in the custom
+					// fields list either. We use true as dummy value (it has no meaning)
 
-                    // Load configuration from stream
-                    config.InputConfiguration(udmfcfgreader.ReadToEnd());
+					// Add linedef flags
+					foreach(KeyValuePair<string, string> flag in General.Map.Config.LinedefFlags)
+						config.WriteSetting("managedfields.linedef." + flag.Key, true);
 
-                    // Now we add the linedef flags, activations and thing flags
-                    // to this list, so that these don't show up in the custom
-                    // fields list either. We use true as dummy value (it has no meaning)
+					// Add linedef activations
+					foreach(LinedefActivateInfo activate in General.Map.Config.LinedefActivates)
+						config.WriteSetting("managedfields.linedef." + activate.Key, true);
 
-                    // Add linedef flags
-                    foreach (KeyValuePair<string, string> flag in General.Map.Config.LinedefFlags)
-                        config.WriteSetting("managedfields.linedef." + flag.Key, true);
+					//mxd. Add sidedef flags
+					foreach(KeyValuePair<string, string> flag in General.Map.Config.SidedefFlags)
+						config.WriteSetting("managedfields.sidedef." + flag.Key, true);
 
-                    // Add linedef activations
-                    foreach (LinedefActivateInfo activate in General.Map.Config.LinedefActivates)
-                        config.WriteSetting("managedfields.linedef." + activate.Key, true);
+					//mxd. Add sector flags
+					foreach(KeyValuePair<string, string> flag in General.Map.Config.SectorFlags)
+						config.WriteSetting("managedfields.sector." + flag.Key, true);
+					foreach(KeyValuePair<string, string> flag in General.Map.Config.CeilingPortalFlags)
+						config.WriteSetting("managedfields.sector." + flag.Key, true);
+					foreach(KeyValuePair<string, string> flag in General.Map.Config.FloorPortalFlags)
+						config.WriteSetting("managedfields.sector." + flag.Key, true);
 
-                    //mxd. Add sidedef flags
-                    foreach (KeyValuePair<string, string> flag in General.Map.Config.SidedefFlags)
-                        config.WriteSetting("managedfields.sidedef." + flag.Key, true);
+					// Add thing flags
+					foreach(KeyValuePair<string, string> flag in General.Map.Config.ThingFlags)
+						config.WriteSetting("managedfields.thing." + flag.Key, true);
 
-                    //mxd. Add sector flags
-                    foreach (KeyValuePair<string, string> flag in General.Map.Config.SectorFlags)
-                        config.WriteSetting("managedfields.sector." + flag.Key, true);
-                    foreach (KeyValuePair<string, string> flag in General.Map.Config.CeilingPortalFlags)
-                        config.WriteSetting("managedfields.sector." + flag.Key, true);
-                    foreach (KeyValuePair<string, string> flag in General.Map.Config.FloorPortalFlags)
-                        config.WriteSetting("managedfields.sector." + flag.Key, true);
+					// Done
+					udmfcfgreader.Dispose();
+					break;
+				}
+			}
+		}
 
-                    // Add thing flags
-                    foreach (KeyValuePair<string, string> flag in General.Map.Config.ThingFlags)
-                        config.WriteSetting("managedfields.thing." + flag.Key, true);
+		#endregion
 
-                    // Done
-                    udmfcfgreader.Dispose();
-                    break;
-                }
-            }
-        }
+		#region ================== Writing
 
-        #endregion
+		// This writes the structures to a stream
+		// writenamespace may be null to omit writing the namespace to the stream
+		public void Write(MapSet map, Stream stream, string writenamespace)
+		{
+			Write(map.Vertices, map.Linedefs, map.Sidedefs, map.Sectors, map.Things, map.UnknownUDMFData, stream, writenamespace);
+		}
 
-        #region ================== Writing
+		// This writes the structures to a stream
+		// NOTE: writenamespace may be null to omit writing the namespace to the stream.
+		// NOTE: The given structures must be complete, with the exception of the sidedefs.
+		// If there are missing sidedefs, their reference will be removed from the linedefs.
+		public void Write(ICollection<Vertex> vertices, ICollection<Linedef> linedefs,
+						  ICollection<Sidedef> sidedefs, ICollection<Sector> sectors,
+						  ICollection<Thing> things, ICollection<UniversalEntry> unknowndata, Stream stream, string writenamespace)
+		{
+			UniversalParser textmap = new UniversalParser();
 
-        // This writes the structures to a stream
-        // writenamespace may be null to omit writing the namespace to the stream
-        public void Write(MapSet map, Stream stream, string writenamespace)
-        {
-            Write(map.Vertices, map.Linedefs, map.Sidedefs, map.Sectors, map.Things, map.UnknownUDMFData, stream, writenamespace);
-        }
+			// Begin with fields that must be at the top
+			if(writenamespace != null) textmap.Root.Add("namespace", writenamespace);
 
-        // This writes the structures to a stream
-        // NOTE: writenamespace may be null to omit writing the namespace to the stream.
-        // NOTE: The given structures must be complete, with the exception of the sidedefs.
-        // If there are missing sidedefs, their reference will be removed from the linedefs.
-        public void Write(ICollection<Vertex> vertices, ICollection<Linedef> linedefs,
-                          ICollection<Sidedef> sidedefs, ICollection<Sector> sectors,
-                          ICollection<Thing> things, ICollection<UniversalEntry> unknowndata, Stream stream, string writenamespace)
-        {
-            UniversalParser textmap = new UniversalParser();
+			// Dump unknown fields at the top
+			WriteUnknownData(unknowndata, textmap);
 
-            // Begin with fields that must be at the top
-            if (writenamespace != null) textmap.Root.Add("namespace", writenamespace);
+			Dictionary<Vertex, int> vertexids = new Dictionary<Vertex, int>(vertices.Count); //mxd
+			Dictionary<Sidedef, int> sidedefids = new Dictionary<Sidedef, int>(sidedefs.Count); //mxd
+			Dictionary<Sector, int> sectorids = new Dictionary<Sector, int>(sectors.Count); //mxd
 
-            // Dump unknown fields at the top
-            WriteUnknownData(unknowndata, textmap);
+			// Index the elements in the data structures
+			int counter = 0; //mxd
+			foreach(Vertex v in vertices) vertexids.Add(v, counter++);
+			counter = 0; //mxd
+			foreach(Sidedef sd in sidedefs) sidedefids.Add(sd, counter++);
+			counter = 0; //mxd
+			foreach(Sector s in sectors) sectorids.Add(s, counter++);
 
-            Dictionary<Vertex, int> vertexids = new Dictionary<Vertex, int>(vertices.Count); //mxd
-            Dictionary<Sidedef, int> sidedefids = new Dictionary<Sidedef, int>(sidedefs.Count); //mxd
-            Dictionary<Sector, int> sectorids = new Dictionary<Sector, int>(sectors.Count); //mxd
+			// If we write the custom field types again, then forget
+			// all previous field types (this gets rid of unused field types)
+			if(remembercustomtypes) General.Map.Options.ForgetUniversalFieldTypes();
 
-            // Index the elements in the data structures
-            int counter = 0; //mxd
-            foreach (Vertex v in vertices) vertexids.Add(v, counter++);
-            counter = 0; //mxd
-            foreach (Sidedef sd in sidedefs) sidedefids.Add(sd, counter++);
-            counter = 0; //mxd
-            foreach (Sector s in sectors) sectorids.Add(s, counter++);
+			// Write the data structures to textmap
+			WriteVertices(vertices, textmap);
+			WriteLinedefs(linedefs, textmap, sidedefids, vertexids);
+			WriteSidedefs(sidedefs, textmap, sectorids);
+			WriteSectors(sectors, textmap);
+			WriteThings(things, textmap);
 
-            // If we write the custom field types again, then forget
-            // all previous field types (this gets rid of unused field types)
-            if (RememberCustomTypes) General.Map.Options.ForgetUniversalFieldTypes();
+			// Get the textmap as string
+			string textmapstr = textmap.OutputConfiguration();
 
-            // Write the data structures to textmap
-            WriteVertices(vertices, textmap);
-            WriteLinedefs(linedefs, textmap, sidedefids, vertexids);
-            WriteSidedefs(sidedefs, textmap, sectorids);
-            WriteSectors(sectors, textmap);
-            WriteThings(things, textmap);
+			// Write to stream
+			StreamWriter writer = new StreamWriter(stream, Encoding.ASCII);
+			writer.Write(textmapstr);
+			writer.Flush();
+		}
 
-            // Get the textmap as string
-            string textmapstr = textmap.OutputConfiguration();
+		// This adds vertices
+		private void WriteVertices(ICollection<Vertex> vertices, UniversalParser textmap)
+		{
+			// Go for all vertices
+			foreach(Vertex v in vertices)
+			{
+				// Make collection
+				UniversalCollection coll = new UniversalCollection();
+				coll.Add("x", v.Position.x);
+				coll.Add("y", v.Position.y);
+				if(!double.IsNaN(v.ZCeiling)) coll.Add("zceiling", v.ZCeiling); //mxd
+				if(!double.IsNaN(v.ZFloor)) coll.Add("zfloor", v.ZFloor); //mxd
+				coll.Comment = v.Index.ToString();
 
-            // Write to stream
-            StreamWriter writer = new StreamWriter(stream, Encoding.ASCII);
-            writer.Write(textmapstr);
-            writer.Flush();
-        }
+				// Add custom fields
+				AddCustomFields(v, "vertex", coll);
 
-        // This adds vertices
-        private void WriteVertices(ICollection<Vertex> vertices, UniversalParser textmap)
-        {
-            // Go for all vertices
-            foreach (Vertex v in vertices)
-            {
-                // Make collection
-                UniversalCollection coll = new UniversalCollection();
-                coll.Add("x", v.Position.x);
-                coll.Add("y", v.Position.y);
-                if (!double.IsNaN(v.ZCeiling)) coll.Add("zceiling", v.ZCeiling); //mxd
-                if (!double.IsNaN(v.ZFloor)) coll.Add("zfloor", v.ZFloor); //mxd
-                coll.Comment = v.Index.ToString();
+				// Store
+				textmap.Root.Add("vertex", coll);
+			}
+		}
 
-                // Add custom fields
-                AddCustomFields(v, "vertex", coll);
+		// This adds linedefs
+		private void WriteLinedefs(ICollection<Linedef> linedefs, UniversalParser textmap, IDictionary<Sidedef, int> sidedefids, IDictionary<Vertex, int> vertexids)
+		{
+			// Go for all linedefs
+			foreach(Linedef l in linedefs)
+			{
+				// Make collection
+				UniversalCollection coll = new UniversalCollection();
+				if(l.Tag != 0) coll.Add("id", l.Tag);
+				coll.Add("v1", vertexids[l.Start]);
+				coll.Add("v2", vertexids[l.End]);
+				coll.Comment = l.Index.ToString();
 
-                // Store
-                textmap.Root.Add("vertex", coll);
-            }
-        }
+				//mxd. MoreIDs
+				if(l.Tags.Count > 1) //first entry is saved as "id"
+				{
+					string[] moreidscol = new string[l.Tags.Count - 1];
+					for(int i = 1; i < l.Tags.Count; i++)
+					{
+						moreidscol[i - 1] = l.Tags[i].ToString();
+					}
+					coll.Add("moreids", string.Join(" ", moreidscol));
+				}
+				
+				// Sidedef references
+				if((l.Front != null) && sidedefids.ContainsKey(l.Front))
+					coll.Add("sidefront", sidedefids[l.Front]);
+				else
+					coll.Add("sidefront", -1);
+				
+				if((l.Back != null) && sidedefids.ContainsKey(l.Back))
+					coll.Add("sideback", sidedefids[l.Back]);
+				else
+					coll.Add("sideback", -1);
+				
+				// Special
+				if(l.Action != 0) coll.Add("special", l.Action);
+				if(l.Args[0] != 0) coll.Add("arg0", l.Args[0]);
+				if(l.Args[1] != 0) coll.Add("arg1", l.Args[1]);
+				if(l.Args[2] != 0) coll.Add("arg2", l.Args[2]);
+				if(l.Args[3] != 0) coll.Add("arg3", l.Args[3]);
+				if(l.Args[4] != 0) coll.Add("arg4", l.Args[4]);
 
-        // This adds linedefs
-        private void WriteLinedefs(ICollection<Linedef> linedefs, UniversalParser textmap, IDictionary<Sidedef, int> sidedefids, IDictionary<Vertex, int> vertexids)
-        {
-            // Go for all linedefs
-            foreach (Linedef l in linedefs)
-            {
-                // Make collection
-                UniversalCollection coll = new UniversalCollection();
-                if (l.Tag != 0) coll.Add("id", l.Tag);
-                coll.Add("v1", vertexids[l.Start]);
-                coll.Add("v2", vertexids[l.End]);
-                coll.Comment = l.Index.ToString();
+				// Flags
+				foreach(KeyValuePair<string, bool> flag in l.Flags)
+					if(flag.Value) coll.Add(flag.Key, flag.Value);
 
-                //mxd. MoreIDs
-                if (l.Tags.Count > 1) //first entry is saved as "id"
-                {
-                    string[] moreidscol = new string[l.Tags.Count - 1];
-                    for (int i = 1; i < l.Tags.Count; i++)
-                    {
-                        moreidscol[i - 1] = l.Tags[i].ToString();
-                    }
-                    coll.Add("moreids", string.Join(" ", moreidscol));
-                }
+				// Add custom fields
+				AddCustomFields(l, "linedef", coll);
 
-                // Sidedef references
-                if ((l.Front != null) && sidedefids.ContainsKey(l.Front))
-                    coll.Add("sidefront", sidedefids[l.Front]);
-                else
-                    coll.Add("sidefront", -1);
+				// Store
+				textmap.Root.Add("linedef", coll);
+			}
+		}
 
-                if ((l.Back != null) && sidedefids.ContainsKey(l.Back))
-                    coll.Add("sideback", sidedefids[l.Back]);
-                else
-                    coll.Add("sideback", -1);
+		// This adds sidedefs
+		private void WriteSidedefs(ICollection<Sidedef> sidedefs, UniversalParser textmap, IDictionary<Sector, int> sectorids)
+		{
+			// Go for all sidedefs
+			foreach(Sidedef s in sidedefs)
+			{
+				// Make collection
+				UniversalCollection coll = new UniversalCollection();
+				if(s.OffsetX != 0) coll.Add("offsetx", s.OffsetX);
+				if(s.OffsetY != 0) coll.Add("offsety", s.OffsetY);
+				if(s.LongHighTexture != MapSet.EmptyLongName) coll.Add("texturetop", s.HighTexture);
+				if(s.LongLowTexture != MapSet.EmptyLongName) coll.Add("texturebottom", s.LowTexture);
+				if(s.LongMiddleTexture != MapSet.EmptyLongName) coll.Add("texturemiddle", s.MiddleTexture);
+				coll.Add("sector", sectorids[s.Sector]);
+				coll.Comment = s.Index.ToString();
 
-                // Special
-                if (l.Action != 0) coll.Add("special", l.Action);
-                if (l.Args[0] != 0) coll.Add("arg0", l.Args[0]);
-                if (l.Args[1] != 0) coll.Add("arg1", l.Args[1]);
-                if (l.Args[2] != 0) coll.Add("arg2", l.Args[2]);
-                if (l.Args[3] != 0) coll.Add("arg3", l.Args[3]);
-                if (l.Args[4] != 0) coll.Add("arg4", l.Args[4]);
+				//mxd. Flags
+				foreach(KeyValuePair<string, bool> flag in s.Flags)
+					if(flag.Value) coll.Add(flag.Key, flag.Value);
+				
+				// Add custom fields
+				AddCustomFields(s, "sidedef", coll);
 
-                // Flags
-                foreach (KeyValuePair<string, bool> flag in l.Flags)
-                    if (flag.Value) coll.Add(flag.Key, flag.Value);
+				// Store
+				textmap.Root.Add("sidedef", coll);
+			}
+		}
 
-                // Add custom fields
-                AddCustomFields(l, "linedef", coll);
+		// This adds sectors
+		private void WriteSectors(ICollection<Sector> sectors, UniversalParser textmap)
+		{
+			// Go for all sectors
+			foreach(Sector s in sectors)
+			{
+				// Make collection
+				UniversalCollection coll = new UniversalCollection();
+				coll.Add("heightfloor", s.FloorHeight);
+				coll.Add("heightceiling", s.CeilHeight);
+				coll.Add("texturefloor", s.FloorTexture);
+				coll.Add("textureceiling", s.CeilTexture);
+				coll.Add("lightlevel", s.Brightness);
+				if(s.Effect != 0) coll.Add("special", s.Effect);
+				if(s.Tag != 0) coll.Add("id", s.Tag);
+				coll.Comment = s.Index.ToString();
 
-                // Store
-                textmap.Root.Add("linedef", coll);
-            }
-        }
+				//mxd. MoreIDs
+				if(s.Tags.Count > 1) //first entry is saved as "id"
+				{
+					string[] moreidscol = new string[s.Tags.Count - 1];
+					for(int i = 1; i < s.Tags.Count; i++) 
+					{
+						moreidscol[i - 1] = s.Tags[i].ToString();
+					}
+					coll.Add("moreids", string.Join(" ", moreidscol));
+				}
 
-        // This adds sidedefs
-        private void WriteSidedefs(ICollection<Sidedef> sidedefs, UniversalParser textmap, IDictionary<Sector, int> sectorids)
-        {
-            // Go for all sidedefs
-            foreach (Sidedef s in sidedefs)
-            {
-                // Make collection
-                UniversalCollection coll = new UniversalCollection();
-                if (s.OffsetX != 0) coll.Add("offsetx", s.OffsetX);
-                if (s.OffsetY != 0) coll.Add("offsety", s.OffsetY);
-                if (s.LongHighTexture != MapSet.EmptyLongName) coll.Add("texturetop", s.HighTexture);
-                if (s.LongLowTexture != MapSet.EmptyLongName) coll.Add("texturebottom", s.LowTexture);
-                if (s.LongMiddleTexture != MapSet.EmptyLongName) coll.Add("texturemiddle", s.MiddleTexture);
-                coll.Add("sector", sectorids[s.Sector]);
-                coll.Comment = s.Index.ToString();
+				//mxd. Slopes
+				if(s.FloorSlope.GetLengthSq() > 0) 
+				{
+					coll.Add("floorplane_a", s.FloorSlope.x);
+					coll.Add("floorplane_b", s.FloorSlope.y);
+					coll.Add("floorplane_c", s.FloorSlope.z);
+					coll.Add("floorplane_d", double.IsNaN(s.FloorSlopeOffset) ? 0.0 : s.FloorSlopeOffset);
+				}
 
-                //mxd. Flags
-                foreach (KeyValuePair<string, bool> flag in s.Flags)
-                    if (flag.Value) coll.Add(flag.Key, flag.Value);
+				if (s.CeilSlope.GetLengthSq() > 0) 
+				{
+					coll.Add("ceilingplane_a", s.CeilSlope.x);
+					coll.Add("ceilingplane_b", s.CeilSlope.y);
+					coll.Add("ceilingplane_c", s.CeilSlope.z);
+					coll.Add("ceilingplane_d", double.IsNaN(s.CeilSlopeOffset) ? 0.0 : s.CeilSlopeOffset);
+				}
 
-                // Add custom fields
-                AddCustomFields(s, "sidedef", coll);
+				//mxd. Flags
+				foreach(KeyValuePair<string, bool> flag in s.Flags)
+					if(flag.Value) coll.Add(flag.Key, flag.Value);
 
-                // Store
-                textmap.Root.Add("sidedef", coll);
-            }
-        }
+				// Add custom fields
+				AddCustomFields(s, "sector", coll);
 
-        // This adds sectors
-        private void WriteSectors(ICollection<Sector> sectors, UniversalParser textmap)
-        {
-            // Go for all sectors
-            foreach (Sector s in sectors)
-            {
-                // Make collection
-                UniversalCollection coll = new UniversalCollection();
-                coll.Add("heightfloor", s.FloorHeight);
-                coll.Add("heightceiling", s.CeilHeight);
-                coll.Add("texturefloor", s.FloorTexture);
-                coll.Add("textureceiling", s.CeilTexture);
-                coll.Add("lightlevel", s.Brightness);
-                if (s.Effect != 0) coll.Add("special", s.Effect);
-                if (s.Tag != 0) coll.Add("id", s.Tag);
-                coll.Comment = s.Index.ToString();
+				// Store
+				textmap.Root.Add("sector", coll);
+			}
+		}
 
-                //mxd. MoreIDs
-                if (s.Tags.Count > 1) //first entry is saved as "id"
-                {
-                    string[] moreidscol = new string[s.Tags.Count - 1];
-                    for (int i = 1; i < s.Tags.Count; i++)
-                    {
-                        moreidscol[i - 1] = s.Tags[i].ToString();
-                    }
-                    coll.Add("moreids", string.Join(" ", moreidscol));
-                }
+		// This adds things
+		private void WriteThings(ICollection<Thing> things, UniversalParser textmap)
+		{
+			// Go for all things
+			foreach(Thing t in things)
+			{
+				// Make collection
+				UniversalCollection coll = new UniversalCollection();
+				if(t.Tag != 0) coll.Add("id", t.Tag);
+				coll.Add("x", t.Position.x);
+				coll.Add("y", t.Position.y);
+				if(t.Position.z != 0.0f) coll.Add("height", t.Position.z);
+				coll.Add("angle", t.AngleDoom);
+				if(t.Pitch != 0) coll.Add("pitch", t.Pitch); //mxd
+				if(t.Roll != 0) coll.Add("roll", t.Roll); //mxd
+				if(t.ScaleX != 0 && t.ScaleX != 1.0f) coll.Add("scalex", t.ScaleX); //mxd
+				if(t.ScaleY != 0 && t.ScaleY != 1.0f) coll.Add("scaley", t.ScaleY); //mxd
+				coll.Add("type", t.Type);
+				if(t.Action != 0) coll.Add("special", t.Action);
+				if(t.Args[0] != 0) coll.Add("arg0", t.Args[0]);
+				if(t.Args[1] != 0) coll.Add("arg1", t.Args[1]);
+				if(t.Args[2] != 0) coll.Add("arg2", t.Args[2]);
+				if(t.Args[3] != 0) coll.Add("arg3", t.Args[3]);
+				if(t.Args[4] != 0) coll.Add("arg4", t.Args[4]);
+				coll.Comment = t.Index.ToString();
 
-                //mxd. Slopes
-                if (s.FloorSlope.GetLengthSq() > 0)
-                {
-                    coll.Add("floorplane_a", s.FloorSlope.x);
-                    coll.Add("floorplane_b", s.FloorSlope.y);
-                    coll.Add("floorplane_c", s.FloorSlope.z);
-                    coll.Add("floorplane_d", double.IsNaN(s.FloorSlopeOffset) ? 0.0 : s.FloorSlopeOffset);
-                }
+				// Flags
+				foreach(KeyValuePair<string, bool> flag in t.Flags)
+					if(flag.Value) coll.Add(flag.Key, flag.Value);
 
-                if (s.CeilSlope.GetLengthSq() > 0)
-                {
-                    coll.Add("ceilingplane_a", s.CeilSlope.x);
-                    coll.Add("ceilingplane_b", s.CeilSlope.y);
-                    coll.Add("ceilingplane_c", s.CeilSlope.z);
-                    coll.Add("ceilingplane_d", double.IsNaN(s.CeilSlopeOffset) ? 0.0 : s.CeilSlopeOffset);
-                }
+				// Add custom fields
+				AddCustomFields(t, "thing", coll);
 
-                //mxd. Flags
-                foreach (KeyValuePair<string, bool> flag in s.Flags)
-                    if (flag.Value) coll.Add(flag.Key, flag.Value);
+				// Store
+				textmap.Root.Add("thing", coll);
+			}
+		}
 
-                // Add custom fields
-                AddCustomFields(s, "sector", coll);
+		/// <summary>
+		/// This writes UDMF data UDB doesn't know about to the map.
+		/// </summary>
+		/// <param name="data">Collection of universal entries.</param>
+		/// <param name="textmap">The map</param>
+		private void WriteUnknownData(ICollection<UniversalEntry> data, UniversalParser textmap)
+		{
+			foreach (UniversalEntry e in data)
+			{
+				if (e.Value is UniversalCollection)
+				{
+					UniversalCollection coll = new UniversalCollection();
 
-                // Store
-                textmap.Root.Add("sector", coll);
-            }
-        }
+					foreach (UniversalEntry ie in (UniversalCollection)e.Value)
+						coll.Add(ie.Key, ie.Value);
 
-        // This adds things
-        private void WriteThings(ICollection<Thing> things, UniversalParser textmap)
-        {
-            // Go for all things
-            foreach (Thing t in things)
-            {
-                // Make collection
-                UniversalCollection coll = new UniversalCollection();
-                if (t.Tag != 0) coll.Add("id", t.Tag);
-                coll.Add("x", t.Position.x);
-                coll.Add("y", t.Position.y);
-                if (t.Position.z != 0.0f) coll.Add("height", t.Position.z);
-                coll.Add("angle", t.AngleDoom);
-                if (t.Pitch != 0) coll.Add("pitch", t.Pitch); //mxd
-                if (t.Roll != 0) coll.Add("roll", t.Roll); //mxd
-                if (t.ScaleX != 0 && t.ScaleX != 1.0f) coll.Add("scalex", t.ScaleX); //mxd
-                if (t.ScaleY != 0 && t.ScaleY != 1.0f) coll.Add("scaley", t.ScaleY); //mxd
-                coll.Add("type", t.Type);
-                if (t.Action != 0) coll.Add("special", t.Action);
-                if (t.Args[0] != 0) coll.Add("arg0", t.Args[0]);
-                if (t.Args[1] != 0) coll.Add("arg1", t.Args[1]);
-                if (t.Args[2] != 0) coll.Add("arg2", t.Args[2]);
-                if (t.Args[3] != 0) coll.Add("arg3", t.Args[3]);
-                if (t.Args[4] != 0) coll.Add("arg4", t.Args[4]);
-                coll.Comment = t.Index.ToString();
+					textmap.Root.Add(e.Key, coll);
+				}
+				else
+				{
+					textmap.Root.Add(e);
+				}
+			}
+		}
 
-                // Flags
-                foreach (KeyValuePair<string, bool> flag in t.Flags)
-                    if (flag.Value) coll.Add(flag.Key, flag.Value);
+		// This adds custom fields from a map element to a collection
+		private void AddCustomFields(MapElement element, string elementname, UniversalCollection collection)
+		{
+			// Add custom fields
+			foreach(KeyValuePair<string, UniValue> f in element.Fields)
+			{
+				// Not a managed field?
+				if(!config.SettingExists("managedfields." + elementname + "." + f.Key))
+				{
+					// Add type information to DBS file for map
+					if(remembercustomtypes)
+						General.Map.Options.SetUniversalFieldType(elementname, f.Key, f.Value.Type);
 
-                // Add custom fields
-                AddCustomFields(t, "thing", coll);
+					// Store field
+					collection.Add(f.Key, f.Value.Value);
+				}
+			}
+		}
 
-                // Store
-                textmap.Root.Add("thing", coll);
-            }
-        }
-
-        /// <summary>
-        /// This writes UDMF data UDB doesn't know about to the map.
-        /// </summary>
-        /// <param name="data">Collection of universal entries.</param>
-        /// <param name="textmap">The map</param>
-        private void WriteUnknownData(ICollection<UniversalEntry> data, UniversalParser textmap)
-        {
-            foreach (UniversalEntry e in data)
-            {
-                if (e.Value is UniversalCollection)
-                {
-                    UniversalCollection coll = new UniversalCollection();
-
-                    foreach (UniversalEntry ie in (UniversalCollection)e.Value)
-                        coll.Add(ie.Key, ie.Value);
-
-                    textmap.Root.Add(e.Key, coll);
-                }
-                else
-                {
-                    textmap.Root.Add(e);
-                }
-            }
-        }
-
-        // This adds custom fields from a map element to a collection
-        private void AddCustomFields(MapElement element, string elementname, UniversalCollection collection)
-        {
-            // Add custom fields
-            foreach (KeyValuePair<string, UniValue> f in element.Fields)
-            {
-                // Not a managed field?
-                if (!config.SettingExists("managedfields." + elementname + "." + f.Key))
-                {
-                    // Add type information to DBS file for map
-                    if (RememberCustomTypes)
-                        General.Map.Options.SetUniversalFieldType(elementname, f.Key, f.Value.Type);
-
-                    // Store field
-                    collection.Add(f.Key, f.Value.Value);
-                }
-            }
-        }
-
-        #endregion
-    }
+		#endregion
+	}
 }
 

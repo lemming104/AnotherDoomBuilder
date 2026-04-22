@@ -16,15 +16,15 @@
 
 #region ================== Namespaces
 
-using System.Drawing;
 using System.IO;
+using System.Drawing;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.IO
 {
-    internal unsafe interface IImageReader
-    {
-        Bitmap ReadAsBitmap(Stream stream, out int offsetx, out int offsety);
-    }
+	internal unsafe interface IImageReader
+	{
+		Bitmap ReadAsBitmap(Stream stream, out int offsetx, out int offsety);
+	}
 }

@@ -16,40 +16,44 @@
 
 #region ================== Namespaces
 
-using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using CodeImp.DoomBuilder.Map;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.CommentsPanel
 {
-    public class CommentInfo
-    {
-        // Properties
-        public string Comment { get; }
-        public List<MapElement> Elements { get; private set; }
-        public DataGridViewRow Row { get; set; }
-
-        // Constructor
-        public CommentInfo(string comment, MapElement e)
-        {
-            this.Comment = comment;
-            this.Elements = new List<MapElement>();
-            this.AddElement(e);
-            this.Row = null;
-        }
-
-        // This adds an element
-        public void AddElement(MapElement e)
-        {
-            this.Elements.Add(e);
-        }
-
-        // This replaces the elements with those from another
-        public void ReplaceElements(CommentInfo other)
-        {
-            this.Elements = other.Elements;
-        }
-    }
+	public class CommentInfo
+	{
+		private readonly string comment;
+		private List<MapElement> elements;
+		private DataGridViewRow row;
+		
+		// Properties
+		public string Comment { get { return comment; } }
+		public List<MapElement> Elements { get { return elements; } }
+		public DataGridViewRow Row { get { return row; } set { row = value; } }
+		
+		// Constructor
+		public CommentInfo(string comment, MapElement e)
+		{
+			this.comment = comment;
+			this.elements = new List<MapElement>();
+			this.AddElement(e);
+			this.row = null;
+		}
+		
+		// This adds an element
+		public void AddElement(MapElement e)
+		{
+			this.elements.Add(e);
+		}
+		
+		// This replaces the elements with those from another
+		public void ReplaceElements(CommentInfo other)
+		{
+			this.elements = other.elements;
+		}
+	}
 }

@@ -9,71 +9,71 @@ using System.Windows.Forms;
 
 namespace CodeImp.DoomBuilder.Controls
 {
-    // This is based on https://stackoverflow.com/questions/50918225/how-to-add-placeholder-text-to-toolstriptextbox
-    [ToolboxBitmap(typeof(ToolStripTextBox))]
-    public class PlaceholderToolStripTextBox : ToolStripTextBox
-    {
-        #region ================== DLL Imports
+	// This is based on https://stackoverflow.com/questions/50918225/how-to-add-placeholder-text-to-toolstriptextbox
+	[ToolboxBitmap(typeof(ToolStripTextBox))]
+	public class PlaceholderToolStripTextBox : ToolStripTextBox
+	{
+		#region ================== DLL Imports
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        private static extern int SendMessage(IntPtr hWnd, int msg, int wParam, string lParam);
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		private static extern int SendMessage(IntPtr hWnd, int msg, int wParam, string lParam);
 
-        #endregion
+		#endregion
 
-        #region ================== Constants
+		#region ================== Constants
 
-        private const int EM_SETCUEBANNER = 0x1501;
+		private const int EM_SETCUEBANNER = 0x1501;
 
-        #endregion
+		#endregion
 
-        #region ================== Variables
+		#region ================== Variables
 
-        private string placeholder;
+		private string placeholder;
 
-        #endregion
+		#endregion
 
-        #region ================== Properties
+		#region ================== Properties
 
-        public string PlaceholderText
-        {
-            get { return placeholder; }
-            set
-            {
-                placeholder = value;
-                UpdatePlaceholderText();
-            }
-        }
+		public string PlaceholderText
+		{
+			get { return placeholder; }
+			set
+			{
+				placeholder = value;
+				UpdatePlaceholderText();
+			}
+		}
 
-        #endregion
+		#endregion
 
-        #region ================== Constructors
+		#region ================== Constructors
 
-        public PlaceholderToolStripTextBox()
-        {
-            Control.HandleCreated += Control_HandleCreated;
-        }
+		public PlaceholderToolStripTextBox()
+		{
+			Control.HandleCreated += Control_HandleCreated;
+		}
 
-        #endregion
+		#endregion
 
-        #region ================== Events
+		#region ================== Events
 
-        private void Control_HandleCreated(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrEmpty(placeholder))
-                UpdatePlaceholderText();
-        }
+		private void Control_HandleCreated(object sender, EventArgs e)
+		{
+			if (!string.IsNullOrEmpty(placeholder))
+				UpdatePlaceholderText();
+		}
 
-        #endregion
+		#endregion
 
-        #region ================== Methods
+		#region ================== Methods
 
-        private void UpdatePlaceholderText()
-        {
-#if !MONO_WINFORMS
-            SendMessage(Control.Handle, EM_SETCUEBANNER, 0, placeholder);
-#endif
-        }
+		private void UpdatePlaceholderText()
+		{
+			#if !MONO_WINFORMS
+			SendMessage(Control.Handle, EM_SETCUEBANNER, 0, placeholder);
+			#endif
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

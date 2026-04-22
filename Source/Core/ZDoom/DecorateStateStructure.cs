@@ -24,7 +24,7 @@ namespace CodeImp.DoomBuilder.ZDoom
                     // Ignore flow control
                     // [ZZ] sometimes "fail" is a sprite name... (Skulltag, Zandronum)
                     //      probably the same can happen to other single-word flow control keywords.
-
+                        
                     // check if next token is newline.
                     long cpos = parser.DataStream.Position;
                     parser.SkipWhitespace(false);
@@ -136,7 +136,7 @@ namespace CodeImp.DoomBuilder.ZDoom
                                     return;
                                 }
                                 if (!int.TryParse(durationstr.Trim(), out duration))
-                                    parser.DataStream.Seek(-durationstr.Length, SeekOrigin.Current);
+                                    parser.DataStream.Seek(-(durationstr.Length), SeekOrigin.Current);
                                 info.Duration = duration;
                                 sprites.Add(info);
                             }

@@ -95,7 +95,7 @@ namespace CodeImp.DoomBuilder.ZDoom
                             if (token.StartsWith("$"))
                             {
                                 // This is for editor-only properties such as $sprite and $category
-                                props[token] = new List<string> { parser.SkipWhitespace(false) ? parser.ReadLine() : "" };
+                                props[token] = new List<string> { (parser.SkipWhitespace(false) ? parser.ReadLine() : "") };
                                 continue;
                             }
 
@@ -140,7 +140,7 @@ namespace CodeImp.DoomBuilder.ZDoom
                     case "+":
                     case "-":
                         // Next token is a flag (option) to set or remove
-                        bool flagvalue = token == "+";
+                        bool flagvalue = (token == "+");
                         parser.SkipWhitespace(true);
                         string flagname = parser.ReadToken();
                         if (!string.IsNullOrEmpty(flagname))
@@ -175,8 +175,8 @@ namespace CodeImp.DoomBuilder.ZDoom
                         if (!SkipCastTypes())
                             return;
 
-                        if (!parser.NextTokenIs("{", true))
-                            return;
+						if (!parser.NextTokenIs("{", true))
+							return;
 
                         // Now parse actor states until we reach the end of the states structure
                         while (parser.SkipWhitespace(true))
@@ -358,7 +358,7 @@ namespace CodeImp.DoomBuilder.ZDoom
                         if (token.StartsWith("$"))
                         {
                             // This is for editor-only properties such as $sprite and $category
-                            props[token] = new List<string> { parser.SkipWhitespace(false) ? parser.ReadLine() : "" };
+                            props[token] = new List<string> { (parser.SkipWhitespace(false) ? parser.ReadLine() : "") };
                         }
                         else
                         {
@@ -466,7 +466,7 @@ namespace CodeImp.DoomBuilder.ZDoom
         /// </summary>
         /// <returns>true if there was nothing to skip or if skippen succeeded, false if it failed</returns>
 		private bool SkipCastTypes()
-        {
+		{
             // Alloed casts, see https://zdoom.org/wiki/Converting_DECORATE_code_to_ZScript#Cast_types
             string[] allowedcasts = { "actor", "overlay", "weapon", "item" };
 
@@ -479,11 +479,11 @@ namespace CodeImp.DoomBuilder.ZDoom
                 {
                     string token = parser.ReadToken().ToLowerInvariant();
 
-                    if (!allowedcasts.Contains(token))
-                    {
+                    if(!allowedcasts.Contains(token))
+					{
                         parser.ReportError($"Unexpected cast type \"{token}\", expected one of: " + string.Join(", ", allowedcasts));
                         return false;
-                    }
+					}
 
                     parser.SkipWhitespace(true);
 
@@ -491,7 +491,7 @@ namespace CodeImp.DoomBuilder.ZDoom
                     token = parser.ReadToken();
 
                     // End of cast type?
-                    if (token == ")")
+                    if(token == ")")
                         return true;
 
                     // More cast types coming?
@@ -514,6 +514,6 @@ namespace CodeImp.DoomBuilder.ZDoom
             return false;
         }
 
-        #endregion
-    }
+		#endregion
+	}
 }

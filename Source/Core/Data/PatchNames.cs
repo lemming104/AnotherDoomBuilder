@@ -16,65 +16,65 @@
 
 #region ================== Namespaces
 
-using CodeImp.DoomBuilder.IO;
 using System.IO;
+using CodeImp.DoomBuilder.IO;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Data
 {
-    internal sealed class PatchNames
-    {
-        #region ================== Constants
+	internal sealed class PatchNames
+	{
+		#region ================== Constants
 
-        #endregion
+		#endregion
 
-        #region ================== Variables
+		#region ================== Variables
 
-        private string[] pnames;
+		private string[] pnames;
 
-        #endregion
+		#endregion
 
-        #region ================== Properties
+		#region ================== Properties
 
-        public string this[int index] { get { return pnames[index]; } }
-        public int Length { get { return pnames.Length; } }
+		public string this[int index] { get { return pnames[index]; } }
+		public int Length { get { return pnames.Length; } }
+		
+		#endregion
 
-        #endregion
+		#region ================== Constructor / Disposer
 
-        #region ================== Constructor / Disposer
+		// Constructor for empty list
+		public PatchNames()
+		{
+			// Create array
+			pnames = new string[0];
+		}
 
-        // Constructor for empty list
-        public PatchNames()
-        {
-            // Create array
-            pnames = new string[0];
-        }
+		// Constructor
+		public PatchNames(Stream stream)
+		{
+			BinaryReader reader = new BinaryReader(stream);
 
-        // Constructor
-        public PatchNames(Stream stream)
-        {
-            BinaryReader reader = new BinaryReader(stream);
+			// Read length of array
+			stream.Seek(0, SeekOrigin.Begin);
+			uint length = reader.ReadUInt32();
+			
+			// Create array
+			pnames = new string[length];
 
-            // Read length of array
-            stream.Seek(0, SeekOrigin.Begin);
-            uint length = reader.ReadUInt32();
+			// Read all patch names
+			for(uint i = 0; i < length; i++)
+			{
+				byte[] bytes = reader.ReadBytes(8);
+				pnames[i] = Lump.MakeNormalName(bytes, WAD.ENCODING).ToUpperInvariant();
+			}
+		}
 
-            // Create array
-            pnames = new string[length];
+		#endregion
 
-            // Read all patch names
-            for (uint i = 0; i < length; i++)
-            {
-                byte[] bytes = reader.ReadBytes(8);
-                pnames[i] = Lump.MakeNormalName(bytes, WAD.ENCODING).ToUpperInvariant();
-            }
-        }
+		#region ================== Methods
 
-        #endregion
-
-        #region ================== Methods
-
-        #endregion
-    }
+		#endregion
+	}
 }

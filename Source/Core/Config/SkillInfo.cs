@@ -22,52 +22,55 @@ using System;
 
 namespace CodeImp.DoomBuilder.Config
 {
-    public class SkillInfo : INumberedTitle, IComparable<SkillInfo>
-    {
-        #region ================== Constants
+	public class SkillInfo : INumberedTitle, IComparable<SkillInfo>
+	{
+		#region ================== Constants
 
-        #endregion
+		#endregion
 
-        #region ================== Variables
+		#region ================== Variables
 
-        // Properties
-        #endregion
+		// Properties
+		private int index;
+		private string title;
 
-        #region ================== Properties
+		#endregion
 
-        public int Index { get; }
-        public string Title { get; }
+		#region ================== Properties
 
-        #endregion
+		public int Index { get { return index; } }
+		public string Title { get { return title; } }
 
-        #region ================== Constructor / Disposer
+		#endregion
 
-        // Constructor
-        internal SkillInfo(int index, string title)
-        {
-            // Initialize
-            this.Index = index;
-            this.Title = title;
-        }
+		#region ================== Constructor / Disposer
 
-        #endregion
+		// Constructor
+		internal SkillInfo(int index, string title)
+		{
+			// Initialize
+			this.index = index;
+			this.title = title;
+		}
 
-        #region ================== Methods
+		#endregion
 
-        // This presents the item as string
-        public override string ToString()
-        {
-            return Index + " - " + Title;
-        }
+		#region ================== Methods
 
-        // This compares against another skill
-        public int CompareTo(SkillInfo other)
-        {
-            if (this.Index < other.Index) return -1;
-            else if (this.Index > other.Index) return 1;
-            else return 0;
-        }
+		// This presents the item as string
+		public override string ToString()
+		{
+			return index + " - " + title;
+		}
 
-        #endregion
-    }
+		// This compares against another skill
+		public int CompareTo(SkillInfo other)
+		{
+			if(this.index < other.index) return -1;
+			else if(this.index > other.index) return 1;
+			else return 0;
+		}
+
+		#endregion
+	}
 }

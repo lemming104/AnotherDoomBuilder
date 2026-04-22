@@ -20,16 +20,16 @@
 
 namespace CodeImp.DoomBuilder.CommentsPanel
 {
-    public enum CommentObjectType : int
-    {
-        Unknown = -1,
-
-        Vertex = 0,
-        Linedef = 1,
-        Sector = 2,
-        Thing = 3,
-
-        // last
-        NumTypes = 4,
-    }
+	public enum CommentObjectType : int
+	{
+		Unknown = -1,
+		
+		Vertex = 0,
+		Linedef = 1,
+		Sector = 2,
+		Thing = 3,
+		
+		// last
+		NumTypes = 4,
+	}
 }

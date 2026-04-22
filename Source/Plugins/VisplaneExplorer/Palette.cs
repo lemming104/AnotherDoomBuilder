@@ -6,25 +6,27 @@ using System.Drawing;
 
 namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
 {
-    internal class Palette
-    {
-        // Members
-        // Properties
-        public int[] Colors { get; }
+	internal class Palette
+	{
+		// Members
+		private readonly int[] colors;
 
-        // Constructor
-        public Palette(Bitmap bmp)
-        {
-            // Initialize
-            Colors = new int[bmp.Size.Width];
-            for (int x = 0; x < bmp.Size.Width; x++)
-                Colors[x] = bmp.GetPixel(x, 0).ToArgb();
-        }
+		// Properties
+		public int[] Colors { get { return colors; } }
 
-        // This overrides a color
-        public void SetColor(int index, int color)
-        {
-            Colors[index] = color;
-        }
-    }
+		// Constructor
+		public Palette(Bitmap bmp)
+		{
+			// Initialize
+			colors = new int[bmp.Size.Width];
+			for(int x = 0; x < bmp.Size.Width; x++)
+				colors[x] = bmp.GetPixel(x, 0).ToArgb();
+		}
+
+		// This overrides a color
+		public void SetColor(int index, int color)
+		{
+			colors[index] = color;
+		}
+	}
 }

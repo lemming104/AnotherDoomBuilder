@@ -23,71 +23,71 @@ using System.Windows.Forms;
 
 namespace CodeImp.DoomBuilder.Controls
 {
-    public class AutoSelectTextbox : TextBox
-    {
-        #region ================== Constants
+	public class AutoSelectTextbox : TextBox
+	{
+		#region ================== Constants
 
-        #endregion
+		#endregion
 
-        #region ================== Variables
+		#region ================== Variables
 
-        private int eventcount;
+		private int eventcount;
+		
+		#endregion
 
-        #endregion
+		#region ================== Properties
 
-        #region ================== Properties
+		#endregion
 
-        #endregion
+		#region ================== Constructor / Disposer
 
-        #region ================== Constructor / Disposer
+		#endregion
 
-        #endregion
+		#region ================== Methods
 
-        #region ================== Methods
+		// When gaining focus
+		protected override void OnGotFocus(EventArgs e)
+		{
+			base.OnGotFocus(e);
 
-        // When gaining focus
-        protected override void OnGotFocus(EventArgs e)
-        {
-            base.OnGotFocus(e);
+			// Reset counter
+			eventcount = 0;
+		}
+		
+		// When losing focus
+		protected override void OnLostFocus(EventArgs e)
+		{
+			base.OnLostFocus(e);
 
-            // Reset counter
-            eventcount = 0;
-        }
+			// Reset counter
+			eventcount = 0;
+		}
+		
+		// When mouse pressed down
+		protected override void OnMouseDown(MouseEventArgs e)
+		{
+			base.OnMouseDown(e);
 
-        // When losing focus
-        protected override void OnLostFocus(EventArgs e)
-        {
-            base.OnLostFocus(e);
+			// Select all text when this mouseclick gives focus
+			if(eventcount == 0) this.SelectAll();
+			eventcount++;
+		}
 
-            // Reset counter
-            eventcount = 0;
-        }
+		// When key is pressed
+		protected override void OnKeyDown(KeyEventArgs e)
+		{
+			base.OnKeyDown(e);
+			eventcount++;
+		}
 
-        // When mouse pressed down
-        protected override void OnMouseDown(MouseEventArgs e)
-        {
-            base.OnMouseDown(e);
-
-            // Select all text when this mouseclick gives focus
-            if (eventcount == 0) this.SelectAll();
-            eventcount++;
-        }
-
-        // When key is pressed
-        protected override void OnKeyDown(KeyEventArgs e)
-        {
-            base.OnKeyDown(e);
-            eventcount++;
-        }
-
-        //mxd
-        new public bool Focus()
-        {
-            bool result = base.Focus();
-            this.Select(0, 0);
-            return result;
-        }
-
-        #endregion
-    }
+		//mxd
+		new public bool Focus()
+		{
+			bool result = base.Focus();
+			this.Select(0, 0);
+			return result;
+		}
+		
+		#endregion
+	}
 }

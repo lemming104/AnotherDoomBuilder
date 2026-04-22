@@ -22,46 +22,51 @@ using System;
 
 namespace CodeImp.DoomBuilder.Types
 {
-    public sealed class TypeHandlerAttribute : Attribute
-    {
-        #region ================== Constants
+	public sealed class TypeHandlerAttribute : Attribute
+	{
+		#region ================== Constants
 
-        #endregion
+		#endregion
 
-        #region ================== Variables
+		#region ================== Variables
 
-        #endregion
+		private readonly int index;
+		private readonly string name;
+		private Type type;
+		private readonly bool customusable;
+		
+		#endregion
 
-        #region ================== Properties
+		#region ================== Properties
 
-        public int Index { get; }
-        public string Name { get; }
-        public bool IsCustomUsable { get; }
-        public Type Type { get; set; }
+		public int Index { get { return index; } }
+		public string Name { get { return name; } }
+		public bool IsCustomUsable { get { return customusable; } }
+		public Type Type { get { return type; } set { type = value; } }
+		
+		#endregion
 
-        #endregion
+		#region ================== Constructor / Destructor
 
-        #region ================== Constructor / Destructor
+		// Constructor
+		public TypeHandlerAttribute(UniversalType index, string name, bool customusable)
+		{
+			// Initialize
+			this.index = (int)index;
+			this.name = name;
+			this.customusable = customusable;
+		}
 
-        // Constructor
-        public TypeHandlerAttribute(UniversalType index, string name, bool customusable)
-        {
-            // Initialize
-            this.Index = (int)index;
-            this.Name = name;
-            this.IsCustomUsable = customusable;
-        }
+		#endregion
 
-        #endregion
+		#region ================== Methods
 
-        #region ================== Methods
-
-        // String representation
-        public override string ToString()
-        {
-            return Name;
-        }
-
-        #endregion
-    }
+		// String representation
+		public override string ToString()
+		{
+			return name;
+		}
+		
+		#endregion
+	}
 }

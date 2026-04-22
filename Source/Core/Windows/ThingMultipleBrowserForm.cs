@@ -1,71 +1,74 @@
 #region ================== Namespaces
 
 using System;
+using System.Linq;
 using System.Windows.Forms;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Windows
 {
-    // Multiselection variant of ThingBrowserForm
-    public partial class ThingMultipleBrowserForm : DelayedForm
-    {
-        // Variables
-        // Properties
-        public int[] SelectedTypes { get; private set; }
+	// Multiselection variant of ThingBrowserForm
+	public partial class ThingMultipleBrowserForm : DelayedForm
+	{
+		// Variables
+		private int[] selectedtypes;
 
-        // Constructor
-        public ThingMultipleBrowserForm(int[] types)
-        {
-            InitializeComponent();
+		// Properties
+		public int[] SelectedTypes { get { return selectedtypes; } }
 
-            // Setup list
-            thingslist.Setup();
+		// Constructor
+		public ThingMultipleBrowserForm(int[] types)
+		{
+			InitializeComponent();
 
-            // Preselect given types
-            thingslist.SelectMultipleTypes(types);
-        }
+			// Setup list
+			thingslist.Setup();
 
-        // This browses for thing types with multiselection
-        // Returns new thing types or the same thing types when cancelled
-        public static int[] BrowseThings(IWin32Window owner, int[] type)
-        {
-            ThingMultipleBrowserForm f = new ThingMultipleBrowserForm(type);
-            if (f.ShowDialog(owner) == DialogResult.OK) type = f.SelectedTypes;
-            f.Dispose();
-            return type;
-        }
+			// Preselect given types
+			thingslist.SelectMultipleTypes(types);
+		}
 
-        // OK clicked
-        private void apply_Click(object sender, EventArgs e)
-        {
-            // Get the result
-            SelectedTypes = thingslist.GetMultiResult(SelectedTypes);
+		// This browses for thing types with multiselection
+		// Returns new thing types or the same thing types when cancelled
+		public static int[] BrowseThings(IWin32Window owner, int[] type)
+		{
+			ThingMultipleBrowserForm f = new ThingMultipleBrowserForm(type);
+			if (f.ShowDialog(owner) == DialogResult.OK) type = f.SelectedTypes;
+			f.Dispose();
+			return type;
+		}
 
-            // Done
-            this.DialogResult = DialogResult.OK;
-            this.Close();
-        }
+		// OK clicked
+		private void apply_Click(object sender, EventArgs e)
+		{
+			// Get the result
+			selectedtypes = thingslist.GetMultiResult(selectedtypes);
 
-        // Cancel clicked
-        private void cancel_Click(object sender, EventArgs e)
-        {
-            // Leave
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
-        }
+			// Done
+			this.DialogResult = DialogResult.OK;
+			this.Close();
+		}
 
-        // Double-clicked an item
-        private void thingslist_OnTypeDoubleClicked()
-        {
-            // OK
-            apply_Click(this, EventArgs.Empty);
-        }
+		// Cancel clicked
+		private void cancel_Click(object sender, EventArgs e)
+		{
+			// Leave
+			this.DialogResult = DialogResult.Cancel;
+			this.Close();
+		}
 
-        //mxd
-        private void ThingMultipleBrowserForm_Shown(object sender, EventArgs e)
-        {
-            thingslist.FocusTextbox();
-        }
-    }
+		// Double-clicked an item
+		private void thingslist_OnTypeDoubleClicked()
+		{
+			// OK
+			apply_Click(this, EventArgs.Empty);
+		}
+
+		//mxd
+		private void ThingMultipleBrowserForm_Shown(object sender, EventArgs e)
+		{
+			thingslist.FocusTextbox();
+		}
+	}
 }

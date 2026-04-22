@@ -29,83 +29,90 @@ using System.Collections.Generic;
 
 namespace CodeImp.DoomBuilder.Dehacked
 {
-    public class DehackedFrame
-    {
-        #region ================== Variables
+	public class DehackedFrame
+	{
+		#region ================== Variables
 
-        #endregion
+		private int number;
+		private int spritenumber;
+		private long spritesubnumber;
+		private Dictionary<string, string> props;
+		private string sprite;
+		private bool bright;
 
-        #region ================== Properties
+		#endregion
 
-        public int Number { get; internal set; }
-        public int SpriteNumber { get; internal set; }
-        public long SpriteSubNumber { get; internal set; }
-        public Dictionary<string, string> Props { get; }
-        public string Sprite { get; internal set; }
-        public bool Bright { get; private set; }
+		#region ================== Properties
 
-        #endregion
+		public int Number { get { return number; } internal set { number = value; } }
+		public int SpriteNumber { get { return spritenumber; } internal set { spritenumber = value; } }
+		public long SpriteSubNumber { get { return spritesubnumber; } internal set { spritesubnumber = value; } }
+		public Dictionary<string, string> Props { get { return props; } }
+		public string Sprite { get { return sprite; } internal set { sprite = value; } }
+		public bool Bright { get { return bright; } }
 
-        #region ================== Constructor
+		#endregion
 
-        internal DehackedFrame(int number)
-        {
-            this.Number = number;
-            Sprite = string.Empty;
-            Props = new Dictionary<string, string>();
-        }
+		#region ================== Constructor
 
-        internal DehackedFrame(int number, Dictionary<string, string> props) : this(number)
-        {
-            foreach (string key in props.Keys)
-                this.Props[key.ToLowerInvariant()] = props[key];
-        }
+		internal DehackedFrame(int number)
+		{
+			this.number = number;
+			sprite = string.Empty;
+			props = new Dictionary<string, string>();
+		}
 
-        #endregion
+		internal DehackedFrame(int number, Dictionary<string, string> props) : this(number)
+		{
+			foreach (string key in props.Keys)
+				this.props[key.ToLowerInvariant()] = props[key];
+		}
 
-        #region ================== Methods
+		#endregion
 
-        /// <summary>
-        /// Processes the frame, setting it up so it can be used by things
-        /// </summary>
-        /// <param name="definedsprites">All available Dehacked sprites</param>
-        /// <param name="baseframe">The base Dehacked frame</param>
-        internal void Process(Dictionary<int, string> definedsprites, DehackedFrame baseframe)
-        {
-            // Copy all missing properties of the base frame
-            if (baseframe != null)
-            {
-                foreach (string key in baseframe.Props.Keys)
-                    if (!Props.ContainsKey(key))
-                        Props[key] = baseframe.Props[key];
-            }
+		#region ================== Methods
 
-            foreach (KeyValuePair<string, string> kvp in Props)
-            {
-                string prop = kvp.Key.ToLowerInvariant();
-                string value = kvp.Value;
+		/// <summary>
+		/// Processes the frame, setting it up so it can be used by things
+		/// </summary>
+		/// <param name="definedsprites">All available Dehacked sprites</param>
+		/// <param name="baseframe">The base Dehacked frame</param>
+		internal void Process(Dictionary<int, string> definedsprites, DehackedFrame baseframe)
+		{
+			// Copy all missing properties of the base frame
+			if(baseframe != null)
+			{
+				foreach (string key in baseframe.Props.Keys)
+					if (!props.ContainsKey(key))
+						props[key] = baseframe.props[key];
+			}
 
-                switch (prop)
-                {
-                    case "sprite number":
-                        SpriteNumber = int.Parse(value);
-                        if (definedsprites.ContainsKey(SpriteNumber))
-                            Sprite = definedsprites[SpriteNumber];
-                        else
-                            General.ErrorLogger.Add(ErrorType.Error, "Dehacked frame " + Number + " is referencing sprite " + SpriteNumber + " that is not defined.");
-                        break;
-                    case "sprite subnumber":
-                        SpriteSubNumber = long.Parse(value);
-                        if (SpriteSubNumber >= 32768)
-                        {
-                            SpriteSubNumber -= 32768;
-                            Bright = true;
-                        }
-                        break;
-                }
-            }
-        }
+			foreach (KeyValuePair<string, string> kvp in props)
+			{
+				string prop = kvp.Key.ToLowerInvariant();
+				string value = kvp.Value;
 
-        #endregion
-    }
+				switch (prop)
+				{
+					case "sprite number":
+						spritenumber = int.Parse(value);
+						if (definedsprites.ContainsKey(spritenumber))
+							sprite = definedsprites[spritenumber];
+						else
+							General.ErrorLogger.Add(ErrorType.Error, "Dehacked frame " + number + " is referencing sprite " + spritenumber + " that is not defined.");
+						break;
+					case "sprite subnumber":
+						spritesubnumber = long.Parse(value);
+						if (spritesubnumber >= 32768)
+						{
+							spritesubnumber -= 32768;
+							bright = true;
+						}
+						break;
+				}
+			}
+		}
+
+		#endregion
+	}
 }

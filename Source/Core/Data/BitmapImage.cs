@@ -23,48 +23,48 @@ using System.Drawing;
 
 namespace CodeImp.DoomBuilder.Data
 {
-    public class BitmapImage : ImageData
-    {
-        #region ================== Variables
+	public class BitmapImage : ImageData
+	{
+		#region ================== Variables
 
-        // Image source
-        private Bitmap img;
+		// Image source
+		private Bitmap img;
 
-        #endregion
+		#endregion
 
-        #region ================== Constructor / Disposer
+		#region ================== Constructor / Disposer
 
-        // Constructor
-        public BitmapImage(Bitmap img, string name)
-        {
-            // Initialize
-            this.img = new Bitmap(img);
-            this.AllowUnload = false;
-            SetName(name);
+		// Constructor
+		public BitmapImage(Bitmap img, string name)
+		{
+			// Initialize
+			this.img = new Bitmap(img);
+			this.AllowUnload = false;
+			SetName(name);
 
-            // Get width and height from image
-            width = img.Size.Width;
-            height = img.Size.Height;
-            scale.x = 1.0f;
-            scale.y = 1.0f;
+			// Get width and height from image
+			width = img.Size.Width;
+			height = img.Size.Height;
+			scale.x = 1.0f;
+			scale.y = 1.0f;
 
-            // We have no destructor
-            GC.SuppressFinalize(this);
-        }
+			// We have no destructor
+			GC.SuppressFinalize(this);
+		}
 
-        #endregion
+		#endregion
 
-        #region ================== Methods
+		#region ================== Methods
 
-        // This loads the image
-        protected override LocalLoadResult LocalLoadImage()
-        {
-            // No failure checking here. I anything fails here, it is not the user's fault,
-            // because the resources this loads are in the assembly.
+		// This loads the image
+		protected override LocalLoadResult LocalLoadImage()
+		{
+			// No failure checking here. I anything fails here, it is not the user's fault,
+			// because the resources this loads are in the assembly.
 
-            return new LocalLoadResult(new Bitmap(img));
-        }
+			return new LocalLoadResult(new Bitmap(img));
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

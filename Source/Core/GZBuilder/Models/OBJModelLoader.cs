@@ -235,8 +235,8 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
                 double angleOfsetSin = Math.Sin(-Angle2D.PIHALF);
 
                 // Fix rotation angle
-                double rx = (angleOfsetCos * v.x) - (angleOfsetSin * v.y);
-                double ry = (angleOfsetSin * v.x) + (angleOfsetCos * v.y);
+                double rx = angleOfsetCos * v.x - angleOfsetSin * v.y;
+                double ry = angleOfsetSin * v.x + angleOfsetCos * v.y;
                 v.x = rx;
                 v.y = ry;
             }

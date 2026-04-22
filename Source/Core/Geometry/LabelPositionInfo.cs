@@ -20,17 +20,17 @@
 
 namespace CodeImp.DoomBuilder.Geometry
 {
-    public struct LabelPositionInfo
-    {
-        // Members
-        public Vector2D position;
-        public double radius;
-
-        // Constructor
-        public LabelPositionInfo(Vector2D position, double radius)
-        {
-            this.position = position;
-            this.radius = radius;
-        }
-    }
+	public struct LabelPositionInfo
+	{
+		// Members
+		public Vector2D position;
+		public double radius;
+		
+		// Constructor
+		public LabelPositionInfo(Vector2D position, double radius)
+		{
+			this.position = position;
+			this.radius = radius;
+		}
+	}
 }

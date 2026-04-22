@@ -20,11 +20,11 @@
 
 namespace CodeImp.DoomBuilder.Actions
 {
-    public enum SpecialKeys : int
-    {
-        MScrollUp = 65530,
-        MScrollDown = 65531,
+	public enum SpecialKeys : int
+	{
+		MScrollUp = 65530,
+		MScrollDown = 65531,
         MScrollLeft = 65532,
         MScrollRight = 65533
-    }
+	}
 }

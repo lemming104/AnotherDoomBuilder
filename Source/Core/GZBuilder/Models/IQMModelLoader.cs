@@ -342,8 +342,8 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
                     }
 
                     // Fix rotation angle
-                    float rx = (angleOfsetCos * v.pos.X) - (angleOfsetSin * v.pos.Y);
-                    float ry = (angleOfsetSin * v.pos.X) + (angleOfsetCos * v.pos.Y);
+                    float rx = angleOfsetCos * v.pos.X - angleOfsetSin * v.pos.Y;
+                    float ry = angleOfsetSin * v.pos.X + angleOfsetCos * v.pos.Y;
 
                     worldverts[i].x = rx;
                     worldverts[i].y = ry;
@@ -507,8 +507,8 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
                 nm.LoadMatrix(m);
                 for (int i = 0; i < 4; i++)
                 {
-                    nm.Matrix[i + (3 * 4)] = 0;
-                    nm.Matrix[(i * 4) + 3] = 0;
+                    nm.Matrix[i + 3 * 4] = 0;
+                    nm.Matrix[i * 4 + 3] = 0;
                 }
                 normalbones.Add(nm);
             }
@@ -535,7 +535,7 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
                     TRS to = animationFrames[offset2 + i];
 
                     var bone = new TRS();
-                    bone.translation = (from.translation * invt) + (to.translation * t);
+                    bone.translation = from.translation * invt + to.translation * t;
                     bone.rotation = from.rotation * invt;
                     if (Vector4f.Dot(bone.rotation, to.rotation * t) < 0)
                     {
@@ -546,7 +546,7 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
                     }
                     bone.rotation += to.rotation * t;
                     bone.rotation.Normalize();
-                    bone.scaling = (from.scaling * invt) + (to.scaling * t);
+                    bone.scaling = from.scaling * invt + to.scaling * t;
 
                     var m = new IQMMatrix();
                     m.LoadIdentity();
@@ -598,7 +598,7 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
 
             // fill diagonal with 1s
             for (int i = 0; i < 4; ++i)
-                Matrix[i + (i * 4)] = 1.0f;
+                Matrix[i + i * 4] = 1.0f;
         }
 
         public void LoadMatrix(IQMMatrix m)
@@ -609,9 +609,9 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
 
         public void Translate(float x, float y, float z)
         {
-            Matrix[12] = (Matrix[0] * x) + (Matrix[4] * y) + (Matrix[8] * z) + Matrix[12];
-            Matrix[13] = (Matrix[1] * x) + (Matrix[5] * y) + (Matrix[9] * z) + Matrix[13];
-            Matrix[14] = (Matrix[2] * x) + (Matrix[6] * y) + (Matrix[10] * z) + Matrix[14];
+            Matrix[12] = Matrix[0] * x + Matrix[4] * y + Matrix[8] * z + Matrix[12];
+            Matrix[13] = Matrix[1] * x + Matrix[5] * y + Matrix[9] * z + Matrix[13];
+            Matrix[14] = Matrix[2] * x + Matrix[6] * y + Matrix[10] * z + Matrix[14];
         }
 
         public void Scale(float x, float y, float z)
@@ -633,10 +633,10 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
             {
                 for (int j = 0; j < 4; ++j)
                 {
-                    res[(j * 4) + i] = 0.0f;
+                    res[j * 4 + i] = 0.0f;
                     for (int k = 0; k < 4; ++k)
                     {
-                        res[(j * 4) + i] += Matrix[(k * 4) + i] * aMatrix[(j * 4) + k];
+                        res[j * 4 + i] += Matrix[k * 4 + i] * aMatrix[j * 4 + k];
                     }
                 }
             }
@@ -646,16 +646,16 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
         public void MultQuaternion(Vector4f q)
         {
             var m = new float[16];
-            m[(0 * 4) + 0] = 1.0f - (2.0f * q.Y * q.Y) - (2.0f * q.Z * q.Z);
-            m[(1 * 4) + 0] = (2.0f * q.X * q.Y) - (2.0f * q.W * q.Z);
-            m[(2 * 4) + 0] = (2.0f * q.X * q.Z) + (2.0f * q.W * q.Y);
-            m[(0 * 4) + 1] = (2.0f * q.X * q.Y) + (2.0f * q.W * q.Z);
-            m[(1 * 4) + 1] = 1.0f - (2.0f * q.X * q.X) - (2.0f * q.Z * q.Z);
-            m[(2 * 4) + 1] = (2.0f * q.Y * q.Z) - (2.0f * q.W * q.X);
-            m[(0 * 4) + 2] = (2.0f * q.X * q.Z) - (2.0f * q.W * q.Y);
-            m[(1 * 4) + 2] = (2.0f * q.Y * q.Z) + (2.0f * q.W * q.X);
-            m[(2 * 4) + 2] = 1.0f - (2.0f * q.X * q.X) - (2.0f * q.Y * q.Y);
-            m[(3 * 4) + 3] = 1.0f;
+            m[0 * 4 + 0] = 1.0f - 2.0f * q.Y * q.Y - 2.0f * q.Z * q.Z;
+            m[1 * 4 + 0] = 2.0f * q.X * q.Y - 2.0f * q.W * q.Z;
+            m[2 * 4 + 0] = 2.0f * q.X * q.Z + 2.0f * q.W * q.Y;
+            m[0 * 4 + 1] = 2.0f * q.X * q.Y + 2.0f * q.W * q.Z;
+            m[1 * 4 + 1] = 1.0f - 2.0f * q.X * q.X - 2.0f * q.Z * q.Z;
+            m[2 * 4 + 1] = 2.0f * q.Y * q.Z - 2.0f * q.W * q.X;
+            m[0 * 4 + 2] = 2.0f * q.X * q.Z - 2.0f * q.W * q.Y;
+            m[1 * 4 + 2] = 2.0f * q.Y * q.Z + 2.0f * q.W * q.X;
+            m[2 * 4 + 2] = 1.0f - 2.0f * q.X * q.X - 2.0f * q.Y * q.Y;
+            m[3 * 4 + 3] = 1.0f;
             MultMatrix(m);
         }
 
@@ -668,10 +668,10 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
         public Vector4f MultVector(Vector4f v)
         {
             var result = new Vector4f();
-            result.X = (Matrix[(0 * 4) + 0] * v.X) + (Matrix[(1 * 4) + 0] * v.Y) + (Matrix[(2 * 4) + 0] * v.Z) + (Matrix[(3 * 4) + 0] * v.W);
-            result.Y = (Matrix[(0 * 4) + 1] * v.X) + (Matrix[(1 * 4) + 1] * v.Y) + (Matrix[(2 * 4) + 1] * v.Z) + (Matrix[(3 * 4) + 1] * v.W);
-            result.Z = (Matrix[(0 * 4) + 2] * v.X) + (Matrix[(1 * 4) + 2] * v.Y) + (Matrix[(2 * 4) + 2] * v.Z) + (Matrix[(3 * 4) + 2] * v.W);
-            result.W = (Matrix[(0 * 4) + 3] * v.X) + (Matrix[(1 * 4) + 3] * v.Y) + (Matrix[(2 * 4) + 3] * v.Z) + (Matrix[(3 * 4) + 3] * v.W);
+            result.X = Matrix[0 * 4 + 0] * v.X + Matrix[1 * 4 + 0] * v.Y + Matrix[2 * 4 + 0] * v.Z + Matrix[3 * 4 + 0] * v.W;
+            result.Y = Matrix[0 * 4 + 1] * v.X + Matrix[1 * 4 + 1] * v.Y + Matrix[2 * 4 + 1] * v.Z + Matrix[3 * 4 + 1] * v.W;
+            result.Z = Matrix[0 * 4 + 2] * v.X + Matrix[1 * 4 + 2] * v.Y + Matrix[2 * 4 + 2] * v.Z + Matrix[3 * 4 + 2] * v.W;
+            result.W = Matrix[0 * 4 + 3] * v.X + Matrix[1 * 4 + 3] * v.Y + Matrix[2 * 4 + 3] * v.Z + Matrix[3 * 4 + 3] * v.W;
             return result;
         }
 
@@ -704,39 +704,39 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
 
         static float mat3Determinant(float[] mMat3x3)
         {
-            return (mMat3x3[0] * ((mMat3x3[4] * mMat3x3[8]) - (mMat3x3[5] * mMat3x3[7]))) +
-                (mMat3x3[1] * ((mMat3x3[5] * mMat3x3[6]) - (mMat3x3[8] * mMat3x3[3]))) +
-                (mMat3x3[2] * ((mMat3x3[3] * mMat3x3[7]) - (mMat3x3[4] * mMat3x3[6])));
+            return mMat3x3[0] * (mMat3x3[4] * mMat3x3[8] - mMat3x3[5] * mMat3x3[7]) +
+                mMat3x3[1] * (mMat3x3[5] * mMat3x3[6] - mMat3x3[8] * mMat3x3[3]) +
+                mMat3x3[2] * (mMat3x3[3] * mMat3x3[7] - mMat3x3[4] * mMat3x3[6]);
         }
 
         static float mat4Determinant(float[] matrix)
         {
             var mMat3x3_a = new float[]
             {
-                matrix[(1 * 4) + 1], matrix[(2 * 4) + 1], matrix[(3 * 4) + 1],
-                matrix[(1 * 4) + 2], matrix[(2 * 4) + 2], matrix[(3 * 4) + 2],
-                matrix[(1 * 4) + 3], matrix[(2 * 4) + 3], matrix[(3 * 4) + 3]
+                matrix[1 * 4 + 1], matrix[2 * 4 + 1], matrix[3 * 4 + 1],
+                matrix[1 * 4 + 2], matrix[2 * 4 + 2], matrix[3 * 4 + 2],
+                matrix[1 * 4 + 3], matrix[2 * 4 + 3], matrix[3 * 4 + 3]
             };
 
             var mMat3x3_b = new float[]
             {
-                matrix[(1 * 4) + 0], matrix[(2 * 4) + 0], matrix[(3 * 4) + 0],
-                matrix[(1 * 4) + 2], matrix[(2 * 4) + 2], matrix[(3 * 4) + 2],
-                matrix[(1 * 4) + 3], matrix[(2 * 4) + 3], matrix[(3 * 4) + 3]
+                matrix[1 * 4 + 0], matrix[2 * 4 + 0], matrix[3 * 4 + 0],
+                matrix[1 * 4 + 2], matrix[2 * 4 + 2], matrix[3 * 4 + 2],
+                matrix[1 * 4 + 3], matrix[2 * 4 + 3], matrix[3 * 4 + 3]
             };
 
             var mMat3x3_c = new float[]
             {
-                matrix[(1 * 4) + 0], matrix[(2 * 4) + 0], matrix[(3 * 4) + 0],
-                matrix[(1 * 4) + 1], matrix[(2 * 4) + 1], matrix[(3 * 4) + 1],
-                matrix[(1 * 4) + 3], matrix[(2 * 4) + 3], matrix[(3 * 4) + 3]
+                matrix[1 * 4 + 0], matrix[2 * 4 + 0], matrix[3 * 4 + 0],
+                matrix[1 * 4 + 1], matrix[2 * 4 + 1], matrix[3 * 4 + 1],
+                matrix[1 * 4 + 3], matrix[2 * 4 + 3], matrix[3 * 4 + 3]
             };
 
             var mMat3x3_d = new float[]
             {
-                matrix[(1 * 4) + 0], matrix[(2 * 4) + 0], matrix[(3 * 4) + 0],
-                matrix[(1 * 4) + 1], matrix[(2 * 4) + 1], matrix[(3 * 4) + 1],
-                matrix[(1 * 4) + 2], matrix[(2 * 4) + 2], matrix[(3 * 4) + 2]
+                matrix[1 * 4 + 0], matrix[2 * 4 + 0], matrix[3 * 4 + 0],
+                matrix[1 * 4 + 1], matrix[2 * 4 + 1], matrix[3 * 4 + 1],
+                matrix[1 * 4 + 2], matrix[2 * 4 + 2], matrix[3 * 4 + 2]
             };
 
             float a, b, c, d;
@@ -747,10 +747,10 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
             c = mat3Determinant(mMat3x3_c);
             d = mat3Determinant(mMat3x3_d);
 
-            value = matrix[(0 * 4) + 0] * a;
-            value -= matrix[(0 * 4) + 1] * b;
-            value += matrix[(0 * 4) + 2] * c;
-            value -= matrix[(0 * 4) + 3] * d;
+            value = matrix[0 * 4 + 0] * a;
+            value -= matrix[0 * 4 + 1] * b;
+            value += matrix[0 * 4 + 2] * c;
+            value -= matrix[0 * 4 + 3] * d;
 
             return value;
         }
@@ -759,132 +759,132 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
         {
             var mMat3x3_a = new float[]
             {
-                matrix[(1 * 4) + 1], matrix[(2 * 4) + 1], matrix[(3 * 4) + 1],
-                matrix[(1 * 4) + 2], matrix[(2 * 4) + 2], matrix[(3 * 4) + 2],
-                matrix[(1 * 4) + 3], matrix[(2 * 4) + 3], matrix[(3 * 4) + 3]
+                matrix[1 * 4 + 1], matrix[2 * 4 + 1], matrix[3 * 4 + 1],
+                matrix[1 * 4 + 2], matrix[2 * 4 + 2], matrix[3 * 4 + 2],
+                matrix[1 * 4 + 3], matrix[2 * 4 + 3], matrix[3 * 4 + 3]
             };
 
             var mMat3x3_b = new float[]
             {
-                matrix[(1 * 4) + 0], matrix[(2 * 4) + 0], matrix[(3 * 4) + 0],
-                matrix[(1 * 4) + 2], matrix[(2 * 4) + 2], matrix[(3 * 4) + 2],
-                matrix[(1 * 4) + 3], matrix[(2 * 4) + 3], matrix[(3 * 4) + 3]
+                matrix[1 * 4 + 0], matrix[2 * 4 + 0], matrix[3 * 4 + 0],
+                matrix[1 * 4 + 2], matrix[2 * 4 + 2], matrix[3 * 4 + 2],
+                matrix[1 * 4 + 3], matrix[2 * 4 + 3], matrix[3 * 4 + 3]
             };
 
             var mMat3x3_c = new float[]
             {
-                matrix[(1 * 4) + 0], matrix[(2 * 4) + 0], matrix[(3 * 4) + 0],
-                matrix[(1 * 4) + 1], matrix[(2 * 4) + 1], matrix[(3 * 4) + 1],
-                matrix[(1 * 4) + 3], matrix[(2 * 4) + 3], matrix[(3 * 4) + 3]
+                matrix[1 * 4 + 0], matrix[2 * 4 + 0], matrix[3 * 4 + 0],
+                matrix[1 * 4 + 1], matrix[2 * 4 + 1], matrix[3 * 4 + 1],
+                matrix[1 * 4 + 3], matrix[2 * 4 + 3], matrix[3 * 4 + 3]
             };
 
             var mMat3x3_d = new float[]
             {
-                matrix[(1 * 4) + 0], matrix[(2 * 4) + 0], matrix[(3 * 4) + 0],
-                matrix[(1 * 4) + 1], matrix[(2 * 4) + 1], matrix[(3 * 4) + 1],
-                matrix[(1 * 4) + 2], matrix[(2 * 4) + 2], matrix[(3 * 4) + 2]
+                matrix[1 * 4 + 0], matrix[2 * 4 + 0], matrix[3 * 4 + 0],
+                matrix[1 * 4 + 1], matrix[2 * 4 + 1], matrix[3 * 4 + 1],
+                matrix[1 * 4 + 2], matrix[2 * 4 + 2], matrix[3 * 4 + 2]
             };
 
             var mMat3x3_e = new float[]
             {
-                matrix[(0 * 4) + 1], matrix[(2 * 4) + 1], matrix[(3 * 4) + 1],
-                matrix[(0 * 4) + 2], matrix[(2 * 4) + 2], matrix[(3 * 4) + 2],
-                matrix[(0 * 4) + 3], matrix[(2 * 4) + 3], matrix[(3 * 4) + 3]
+                matrix[0 * 4 + 1], matrix[2 * 4 + 1], matrix[3 * 4 + 1],
+                matrix[0 * 4 + 2], matrix[2 * 4 + 2], matrix[3 * 4 + 2],
+                matrix[0 * 4 + 3], matrix[2 * 4 + 3], matrix[3 * 4 + 3]
             };
 
             var mMat3x3_f = new float[]
             {
-                matrix[(0 * 4) + 0], matrix[(2 * 4) + 0], matrix[(3 * 4) + 0],
-                matrix[(0 * 4) + 2], matrix[(2 * 4) + 2], matrix[(3 * 4) + 2],
-                matrix[(0 * 4) + 3], matrix[(2 * 4) + 3], matrix[(3 * 4) + 3]
+                matrix[0 * 4 + 0], matrix[2 * 4 + 0], matrix[3 * 4 + 0],
+                matrix[0 * 4 + 2], matrix[2 * 4 + 2], matrix[3 * 4 + 2],
+                matrix[0 * 4 + 3], matrix[2 * 4 + 3], matrix[3 * 4 + 3]
             };
 
             var mMat3x3_g = new float[]
             {
-                matrix[(0 * 4) + 0], matrix[(2 * 4) + 0], matrix[(3 * 4) + 0],
-                matrix[(0 * 4) + 1], matrix[(2 * 4) + 1], matrix[(3 * 4) + 1],
-                matrix[(0 * 4) + 3], matrix[(2 * 4) + 3], matrix[(3 * 4) + 3]
+                matrix[0 * 4 + 0], matrix[2 * 4 + 0], matrix[3 * 4 + 0],
+                matrix[0 * 4 + 1], matrix[2 * 4 + 1], matrix[3 * 4 + 1],
+                matrix[0 * 4 + 3], matrix[2 * 4 + 3], matrix[3 * 4 + 3]
             };
 
             var mMat3x3_h = new float[]
             {
-                matrix[(0 * 4) + 0], matrix[(2 * 4) + 0], matrix[(3 * 4) + 0],
-                matrix[(0 * 4) + 1], matrix[(2 * 4) + 1], matrix[(3 * 4) + 1],
-                matrix[(0 * 4) + 2], matrix[(2 * 4) + 2], matrix[(3 * 4) + 2]
+                matrix[0 * 4 + 0], matrix[2 * 4 + 0], matrix[3 * 4 + 0],
+                matrix[0 * 4 + 1], matrix[2 * 4 + 1], matrix[3 * 4 + 1],
+                matrix[0 * 4 + 2], matrix[2 * 4 + 2], matrix[3 * 4 + 2]
             };
 
             var mMat3x3_i = new float[]
             {
-                matrix[(0 * 4) + 1], matrix[(1 * 4) + 1], matrix[(3 * 4) + 1],
-                matrix[(0 * 4) + 2], matrix[(1 * 4) + 2], matrix[(3 * 4) + 2],
-                matrix[(0 * 4) + 3], matrix[(1 * 4) + 3], matrix[(3 * 4) + 3]
+                matrix[0 * 4 + 1], matrix[1 * 4 + 1], matrix[3 * 4 + 1],
+                matrix[0 * 4 + 2], matrix[1 * 4 + 2], matrix[3 * 4 + 2],
+                matrix[0 * 4 + 3], matrix[1 * 4 + 3], matrix[3 * 4 + 3]
             };
 
             var mMat3x3_j = new float[]
             {
-                matrix[(0 * 4) + 0], matrix[(1 * 4) + 0], matrix[(3 * 4) + 0],
-                matrix[(0 * 4) + 2], matrix[(1 * 4) + 2], matrix[(3 * 4) + 2],
-                matrix[(0 * 4) + 3], matrix[(1 * 4) + 3], matrix[(3 * 4) + 3]
+                matrix[0 * 4 + 0], matrix[1 * 4 + 0], matrix[3 * 4 + 0],
+                matrix[0 * 4 + 2], matrix[1 * 4 + 2], matrix[3 * 4 + 2],
+                matrix[0 * 4 + 3], matrix[1 * 4 + 3], matrix[3 * 4 + 3]
             };
 
             var mMat3x3_k = new float[]
             {
-                matrix[(0 * 4) + 0], matrix[(1 * 4) + 0], matrix[(3 * 4) + 0],
-                matrix[(0 * 4) + 1], matrix[(1 * 4) + 1], matrix[(3 * 4) + 1],
-                matrix[(0 * 4) + 3], matrix[(1 * 4) + 3], matrix[(3 * 4) + 3]
+                matrix[0 * 4 + 0], matrix[1 * 4 + 0], matrix[3 * 4 + 0],
+                matrix[0 * 4 + 1], matrix[1 * 4 + 1], matrix[3 * 4 + 1],
+                matrix[0 * 4 + 3], matrix[1 * 4 + 3], matrix[3 * 4 + 3]
             };
 
             var mMat3x3_l = new float[]
             {
-                matrix[(0 * 4) + 0], matrix[(1 * 4) + 0], matrix[(3 * 4) + 0],
-                matrix[(0 * 4) + 1], matrix[(1 * 4) + 1], matrix[(3 * 4) + 1],
-                matrix[(0 * 4) + 2], matrix[(1 * 4) + 2], matrix[(3 * 4) + 2]
+                matrix[0 * 4 + 0], matrix[1 * 4 + 0], matrix[3 * 4 + 0],
+                matrix[0 * 4 + 1], matrix[1 * 4 + 1], matrix[3 * 4 + 1],
+                matrix[0 * 4 + 2], matrix[1 * 4 + 2], matrix[3 * 4 + 2]
             };
 
             var mMat3x3_m = new float[]
             {
-                matrix[(0 * 4) + 1], matrix[(1 * 4) + 1], matrix[(2 * 4) + 1],
-                matrix[(0 * 4) + 2], matrix[(1 * 4) + 2], matrix[(2 * 4) + 2],
-                matrix[(0 * 4) + 3], matrix[(1 * 4) + 3], matrix[(2 * 4) + 3]
+                matrix[0 * 4 + 1], matrix[1 * 4 + 1], matrix[2 * 4 + 1],
+                matrix[0 * 4 + 2], matrix[1 * 4 + 2], matrix[2 * 4 + 2],
+                matrix[0 * 4 + 3], matrix[1 * 4 + 3], matrix[2 * 4 + 3]
             };
 
             var mMat3x3_n = new float[]
             {
-                matrix[(0 * 4) + 0], matrix[(1 * 4) + 0], matrix[(2 * 4) + 0],
-                matrix[(0 * 4) + 2], matrix[(1 * 4) + 2], matrix[(2 * 4) + 2],
-                matrix[(0 * 4) + 3], matrix[(1 * 4) + 3], matrix[(2 * 4) + 3]
+                matrix[0 * 4 + 0], matrix[1 * 4 + 0], matrix[2 * 4 + 0],
+                matrix[0 * 4 + 2], matrix[1 * 4 + 2], matrix[2 * 4 + 2],
+                matrix[0 * 4 + 3], matrix[1 * 4 + 3], matrix[2 * 4 + 3]
             };
 
             var mMat3x3_o = new float[]
             {
-                matrix[(0 * 4) + 0], matrix[(1 * 4) + 0], matrix[(2 * 4) + 0],
-                matrix[(0 * 4) + 1], matrix[(1 * 4) + 1], matrix[(2 * 4) + 1],
-                matrix[(0 * 4) + 3], matrix[(1 * 4) + 3], matrix[(2 * 4) + 3]
+                matrix[0 * 4 + 0], matrix[1 * 4 + 0], matrix[2 * 4 + 0],
+                matrix[0 * 4 + 1], matrix[1 * 4 + 1], matrix[2 * 4 + 1],
+                matrix[0 * 4 + 3], matrix[1 * 4 + 3], matrix[2 * 4 + 3]
             };
 
             var mMat3x3_p = new float[]
             {
-                matrix[(0 * 4) + 0], matrix[(1 * 4) + 0], matrix[(2 * 4) + 0],
-                matrix[(0 * 4) + 1], matrix[(1 * 4) + 1], matrix[(2 * 4) + 1],
-                matrix[(0 * 4) + 2], matrix[(1 * 4) + 2], matrix[(2 * 4) + 2]
+                matrix[0 * 4 + 0], matrix[1 * 4 + 0], matrix[2 * 4 + 0],
+                matrix[0 * 4 + 1], matrix[1 * 4 + 1], matrix[2 * 4 + 1],
+                matrix[0 * 4 + 2], matrix[1 * 4 + 2], matrix[2 * 4 + 2]
             };
 
-            result[(0 * 4) + 0] = mat3Determinant(mMat3x3_a);
-            result[(1 * 4) + 0] = -mat3Determinant(mMat3x3_b);
-            result[(2 * 4) + 0] = mat3Determinant(mMat3x3_c);
-            result[(3 * 4) + 0] = -mat3Determinant(mMat3x3_d);
-            result[(0 * 4) + 1] = -mat3Determinant(mMat3x3_e);
-            result[(1 * 4) + 1] = mat3Determinant(mMat3x3_f);
-            result[(2 * 4) + 1] = -mat3Determinant(mMat3x3_g);
-            result[(3 * 4) + 1] = mat3Determinant(mMat3x3_h);
-            result[(0 * 4) + 2] = mat3Determinant(mMat3x3_i);
-            result[(1 * 4) + 2] = -mat3Determinant(mMat3x3_j);
-            result[(2 * 4) + 2] = mat3Determinant(mMat3x3_k);
-            result[(3 * 4) + 2] = -mat3Determinant(mMat3x3_l);
-            result[(0 * 4) + 3] = -mat3Determinant(mMat3x3_m);
-            result[(1 * 4) + 3] = mat3Determinant(mMat3x3_n);
-            result[(2 * 4) + 3] = -mat3Determinant(mMat3x3_o);
-            result[(3 * 4) + 3] = mat3Determinant(mMat3x3_p);
+            result[0 * 4 + 0] = mat3Determinant(mMat3x3_a);
+            result[1 * 4 + 0] = -mat3Determinant(mMat3x3_b);
+            result[2 * 4 + 0] = mat3Determinant(mMat3x3_c);
+            result[3 * 4 + 0] = -mat3Determinant(mMat3x3_d);
+            result[0 * 4 + 1] = -mat3Determinant(mMat3x3_e);
+            result[1 * 4 + 1] = mat3Determinant(mMat3x3_f);
+            result[2 * 4 + 1] = -mat3Determinant(mMat3x3_g);
+            result[3 * 4 + 1] = mat3Determinant(mMat3x3_h);
+            result[0 * 4 + 2] = mat3Determinant(mMat3x3_i);
+            result[1 * 4 + 2] = -mat3Determinant(mMat3x3_j);
+            result[2 * 4 + 2] = mat3Determinant(mMat3x3_k);
+            result[3 * 4 + 2] = -mat3Determinant(mMat3x3_l);
+            result[0 * 4 + 3] = -mat3Determinant(mMat3x3_m);
+            result[1 * 4 + 3] = mat3Determinant(mMat3x3_n);
+            result[2 * 4 + 3] = -mat3Determinant(mMat3x3_o);
+            result[3 * 4 + 3] = mat3Determinant(mMat3x3_p);
         }
     }
 

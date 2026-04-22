@@ -16,58 +16,58 @@
 
 #region ================== Namespaces
 
-using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
+using CodeImp.DoomBuilder.Map;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
-    [FindReplace("Sidedef Index", BrowseButton = false)]
-    internal class FindSidedefNumber : BaseFindSidedef
-    {
-        #region ================== Constants
+	[FindReplace("Sidedef Index", BrowseButton = false)]
+	internal class FindSidedefNumber : BaseFindSidedef
+	{
+		#region ================== Constants
 
-        #endregion
+		#endregion
 
-        #region ================== Variables
+		#region ================== Variables
 
-        #endregion
+		#endregion
 
-        #region ================== Properties
+		#region ================== Properties
 
-        #endregion
+		#endregion
 
-        #region ================== Constructor / Destructor
+		#region ================== Constructor / Destructor
 
-        #endregion
+		#endregion
 
-        #region ================== Methods
+		#region ================== Methods
 
-        //mxd
-        public override bool CanReplace()
-        {
-            return false;
-        }
+		//mxd
+		public override bool CanReplace() 
+		{
+			return false;
+		}
 
-        // This is called to perform a search (and replace)
-        // Returns a list of items to show in the results list
-        // replacewith is null when not replacing
-        public override FindReplaceObject[] Find(string value, bool withinselection, bool replace, string replacewith, bool keepselection)
-        {
-            List<FindReplaceObject> objs = new List<FindReplaceObject>();
+		// This is called to perform a search (and replace)
+		// Returns a list of items to show in the results list
+		// replacewith is null when not replacing
+		public override FindReplaceObject[] Find(string value, bool withinselection, bool replace, string replacewith, bool keepselection)
+		{
+			List<FindReplaceObject> objs = new List<FindReplaceObject>();
 
-            // Interpret the number given
-            int index;
-            if (int.TryParse(value, out index))
-            {
-                Sidedef sd = General.Map.Map.GetSidedefByIndex(index);
-                if (sd != null) objs.Add(new FindReplaceObject(sd, "Sidedef " + index));
-            }
+			// Interpret the number given
+			int index;
+			if(int.TryParse(value, out index))
+			{
+				Sidedef sd = General.Map.Map.GetSidedefByIndex(index);
+				if(sd != null) objs.Add(new FindReplaceObject(sd, "Sidedef " + index));
+			}
 
-            return objs.ToArray();
-        }
+			return objs.ToArray();
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

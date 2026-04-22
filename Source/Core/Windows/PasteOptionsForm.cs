@@ -16,57 +16,59 @@
 
 #region ================== Namespaces
 
-using CodeImp.DoomBuilder.Config;
 using System;
 using System.Windows.Forms;
+using CodeImp.DoomBuilder.Config;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Windows
 {
-    internal partial class PasteOptionsForm : DelayedForm
-    {
-        #region ================== Variables
-
-        #endregion
-
-        #region ================== Properties
-
-        public PasteOptions Options { get; private set; }
-
-        #endregion
-
-        #region ================== Constructor
-
-        // Constructor
-        public PasteOptionsForm()
-        {
-            InitializeComponent();
-
-            // Get defaults
-            Options = General.Settings.PasteOptions.Copy();
-            pasteoptions.Setup(Options);
-        }
-
-        #endregion
-
-        #region ================== Events
-
-        // Paste clicked
-        private void paste_Click(object sender, EventArgs e)
-        {
-            Options = pasteoptions.GetOptions();
-            this.DialogResult = DialogResult.OK;
-            this.Close();
-        }
-
-        // Cancel clicked
-        private void cancel_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
-        }
-
-        #endregion
-    }
+	internal partial class PasteOptionsForm : DelayedForm
+	{
+		#region ================== Variables
+		
+		private PasteOptions options;
+		
+		#endregion
+		
+		#region ================== Properties
+		
+		public PasteOptions Options { get { return options; } }
+		
+		#endregion
+		
+		#region ================== Constructor
+		
+		// Constructor
+		public PasteOptionsForm()
+		{
+			InitializeComponent();
+			
+			// Get defaults
+			options = General.Settings.PasteOptions.Copy();
+			pasteoptions.Setup(options);
+		}
+		
+		#endregion
+		
+		#region ================== Events
+		
+		// Paste clicked
+		private void paste_Click(object sender, EventArgs e)
+		{
+			options = pasteoptions.GetOptions();
+			this.DialogResult = DialogResult.OK;
+			this.Close();
+		}
+		
+		// Cancel clicked
+		private void cancel_Click(object sender, EventArgs e)
+		{
+			this.DialogResult = DialogResult.Cancel;
+			this.Close();
+		}
+		
+		#endregion
+	}
 }

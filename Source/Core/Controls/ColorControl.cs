@@ -16,44 +16,44 @@
 
 #region ================== Namespaces
 
-using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Windows.Forms;
+using CodeImp.DoomBuilder.Rendering;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Controls
 {
-    public partial class ColorControl : UserControl
-    {
-        public event EventHandler ColorChanged;
+	public partial class ColorControl : UserControl
+	{
+		public event EventHandler ColorChanged;
 
-        // Properties
-        public string Label { get { return label.Text; } set { label.Text = value; } }
-        public PixelColor Color { get { return PixelColor.FromColor(panel.BackColor); } set { panel.BackColor = System.Drawing.Color.FromArgb(value.ToInt()); } }
+		// Properties
+		public string Label { get { return label.Text; } set { label.Text = value; } }
+		public PixelColor Color { get { return PixelColor.FromColor(panel.BackColor); } set { panel.BackColor = System.Drawing.Color.FromArgb(value.ToInt()); } }
 
-        // Constructor
-        public ColorControl()
-        {
-            // Initialize
-            InitializeComponent();
-        }
+		// Constructor
+		public ColorControl()
+		{
+			// Initialize
+			InitializeComponent();
+		}
 
-        //mxd. Panel clicked
-        private void panel_Click(object sender, EventArgs e)
-        {
-            // Show color dialog
-            dialog.Color = panel.BackColor;
-            dialog.CustomColors = General.Settings.ColorDialogCustomColors;
-            if (dialog.ShowDialog(this.ParentForm) == DialogResult.OK)
-            {
-                // Apply new color
-                panel.BackColor = dialog.Color;
-                General.Settings.ColorDialogCustomColors = dialog.CustomColors;
+		//mxd. Panel clicked
+		private void panel_Click(object sender, EventArgs e)
+		{
+			// Show color dialog
+			dialog.Color = panel.BackColor;
+			dialog.CustomColors = General.Settings.ColorDialogCustomColors;
+			if(dialog.ShowDialog(this.ParentForm) == DialogResult.OK)
+			{
+				// Apply new color
+				panel.BackColor = dialog.Color;
+				General.Settings.ColorDialogCustomColors = dialog.CustomColors;
 
-                // Dispatch Event
-                if (ColorChanged != null) ColorChanged(this, EventArgs.Empty);
-            }
-        }
-    }
+				// Dispatch Event
+				if(ColorChanged != null) ColorChanged(this, EventArgs.Empty);
+			}
+		}
+	}
 }

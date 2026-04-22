@@ -23,57 +23,57 @@
 
 #region ================== Namespaces
 
-using CodeImp.DoomBuilder.Windows;
 using System;
 using System.Windows.Forms;
+using CodeImp.DoomBuilder.Windows;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.UDBScript
 {
-    public partial class MessageForm : DelayedForm
-    {
-        #region ================== Constructor
+	public partial class MessageForm : DelayedForm
+	{
+		#region ================== Constructor
 
-        public MessageForm(string option1text, string option2text, string message)
-        {
-            InitializeComponent();
+		public MessageForm(string option1text, string option2text, string message)
+		{
+			InitializeComponent();
 
-            if (option2text == null)
-            {
-                btnButton1.Text = option1text;
-                btnButton1.DialogResult = DialogResult.OK;
-                btnButton2.Visible = false;
-            }
-            else
-            {
-                btnButton1.Text = option2text;
-                btnButton1.DialogResult = DialogResult.Cancel;
-                btnButton2.Text = option1text;
-                btnButton2.DialogResult = DialogResult.OK;
-            }
+			if (option2text == null)
+			{
+				btnButton1.Text = option1text;
+				btnButton1.DialogResult = DialogResult.OK;
+				btnButton2.Visible = false;
+			}
+			else
+			{
+				btnButton1.Text = option2text;
+				btnButton1.DialogResult = DialogResult.Cancel;
+				btnButton2.Text = option1text;
+				btnButton2.DialogResult = DialogResult.OK;
+			}
 
-            tbMessage.Text = message.Replace("\n", Environment.NewLine);
-        }
+			tbMessage.Text = message.Replace("\n", Environment.NewLine);
+		}
 
-        #endregion
+		#endregion
 
-        #region ================== Events
+		#region ================== Events
 
-        private void button_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
+		private void button_Click(object sender, EventArgs e)
+		{
+			Close();
+		}
 
-        private void btnAbortScript_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Are you sure you want to abort the script?", "Abort script", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                DialogResult = DialogResult.Abort;
-                Close();
-            }
-        }
+		private void btnAbortScript_Click(object sender, EventArgs e)
+		{
+			if (MessageBox.Show("Are you sure you want to abort the script?", "Abort script", MessageBoxButtons.YesNo) == DialogResult.Yes)
+			{
+				DialogResult = DialogResult.Abort;
+				Close();
+			}
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

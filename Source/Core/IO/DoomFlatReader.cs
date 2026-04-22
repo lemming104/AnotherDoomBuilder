@@ -16,161 +16,161 @@
 
 #region ================== Namespaces
 
+using System;
+using System.IO;
+using System.Drawing;
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Rendering;
-using System;
-using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.IO
 {
-    internal unsafe class DoomFlatReader : IImageReader
-    {
-        #region ================== Variables
+	internal unsafe class DoomFlatReader : IImageReader
+	{
+		#region ================== Variables
 
-        // Palette to use
-        private readonly Playpal palette;
+		// Palette to use
+		private readonly Playpal palette;
 
-        #endregion
+		#endregion
 
-        #region ================== Constructor / Disposer
+		#region ================== Constructor / Disposer
 
-        // Constructor
-        public DoomFlatReader(Playpal palette)
-        {
-            // Initialize
-            this.palette = palette;
+		// Constructor
+		public DoomFlatReader(Playpal palette)
+		{
+			// Initialize
+			this.palette = palette;
 
-            // We have no destructor
-            GC.SuppressFinalize(this);
-        }
+			// We have no destructor
+			GC.SuppressFinalize(this);
+		}
 
-        #endregion
+		#endregion
 
-        #region ================== Methods
+		#region ================== Methods
 
-        // This validates the data as doom flat
-        public bool Validate(Stream stream)
-        {
-            // Check if the flat is square
-            float sqrlength = (float)Math.Sqrt(stream.Length);
-            if (sqrlength == (float)Math.Truncate(sqrlength))
-            {
-                // Success when not 0
-                return (int)sqrlength > 0;
-            }
-            // Valid if the data is more than 4096
-            return stream.Length > 4096;
-        }
+		// This validates the data as doom flat
+		public bool Validate(Stream stream)
+		{
+			// Check if the flat is square
+			float sqrlength = (float)Math.Sqrt(stream.Length);
+			if(sqrlength == (float)Math.Truncate(sqrlength))
+			{
+				// Success when not 0
+				return ((int)sqrlength > 0);
+			}
+			// Valid if the data is more than 4096
+			return stream.Length > 4096;
+		}
 
-        // This creates a Bitmap from the given data
-        // Returns null on failure
-        public Bitmap ReadAsBitmap(Stream stream, out int offsetx, out int offsety)
-        {
-            offsetx = int.MinValue;
-            offsety = int.MinValue;
+		// This creates a Bitmap from the given data
+		// Returns null on failure
+		public Bitmap ReadAsBitmap(Stream stream, out int offsetx, out int offsety)
+		{
+			offsetx = int.MinValue;
+			offsety = int.MinValue;
 
-            int width, height;
-            Bitmap bmp;
+			int width, height;
+			Bitmap bmp;
 
-            // Read pixel data
-            PixelColor[] pixeldata = ReadAsPixelData(stream, out width, out height);
-            if (pixeldata != null)
-            {
-                try
-                {
-                    // Create bitmap and lock pixels
-                    bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-                    BitmapData bitmapdata = bmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
-                    PixelColor* targetdata = (PixelColor*)bitmapdata.Scan0.ToPointer();
+			// Read pixel data
+			PixelColor[] pixeldata = ReadAsPixelData(stream, out width, out height);
+			if(pixeldata != null)
+			{
+				try
+				{
+					// Create bitmap and lock pixels
+					bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+					BitmapData bitmapdata = bmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+					PixelColor* targetdata = (PixelColor*)bitmapdata.Scan0.ToPointer();
 
-                    //mxd. Copy the pixels
-                    int size = pixeldata.Length - 1;
-                    for (PixelColor* cp = targetdata + size; cp >= targetdata; cp--)
-                        *cp = pixeldata[size--];
+					//mxd. Copy the pixels
+					int size = pixeldata.Length - 1;
+					for(PixelColor* cp = targetdata + size; cp >= targetdata; cp--)
+						*cp = pixeldata[size--];
 
-                    // Done
-                    bmp.UnlockBits(bitmapdata);
-                }
-                catch (Exception e)
-                {
-                    // Unable to make bitmap
-                    General.ErrorLogger.Add(ErrorType.Error, "Unable to make Doom flat data. " + e.GetType().Name + ": " + e.Message);
-                    return null;
-                }
-            }
-            else
-            {
-                // Failed loading picture
-                bmp = null;
-            }
+					// Done
+					bmp.UnlockBits(bitmapdata);
+				}
+				catch(Exception e)
+				{
+					// Unable to make bitmap
+					General.ErrorLogger.Add(ErrorType.Error, "Unable to make Doom flat data. " + e.GetType().Name + ": " + e.Message);
+					return null;
+				}
+			}
+			else
+			{
+				// Failed loading picture
+				bmp = null;
+			}
 
-            // Return result
-            return bmp;
-        }
+			// Return result
+			return bmp;
+		}
 
-        // This creates pixel color data from the given data
-        // Returns null on failure
-        private PixelColor[] ReadAsPixelData(Stream stream, out int width, out int height)
-        {
-            // Check if the flat is square
-            float sqrlength = (float)Math.Sqrt(stream.Length);
-            if (sqrlength == (float)Math.Truncate(sqrlength))
-            {
-                // Calculate image size
-                width = (int)sqrlength;
-                height = (int)sqrlength;
-            }
-            // Check if the data is more than 4096
-            else if (stream.Length > 4096)
-            {
-                // Image will be 64x64
-                width = 64;
-                height = 64;
-            }
-            else
-            {
-                // Invalid
-                width = 0;
-                height = 0;
-                return null;
-            }
+		// This creates pixel color data from the given data
+		// Returns null on failure
+		private PixelColor[] ReadAsPixelData(Stream stream, out int width, out int height)
+		{
+			// Check if the flat is square
+			float sqrlength = (float)Math.Sqrt(stream.Length);
+			if(sqrlength == (float)Math.Truncate(sqrlength))
+			{
+				// Calculate image size
+				width = (int)sqrlength;
+				height = (int)sqrlength;
+			}
+			// Check if the data is more than 4096
+			else if(stream.Length > 4096)
+			{
+				// Image will be 64x64
+				width = 64;
+				height = 64;
+			}
+			else
+			{
+				// Invalid
+				width = 0;
+				height = 0;
+				return null;
+			}
 
-#if !DEBUG
+			#if !DEBUG
 			try
 			{
-#endif
+			#endif
+			
+			// Valid width and height?
+			if((width <= 0) || (height <= 0)) return null;
 
-            // Valid width and height?
-            if ((width <= 0) || (height <= 0)) return null;
+			// Allocate memory
+			PixelColor[] pixeldata = new PixelColor[width * height];
 
-            // Allocate memory
-            PixelColor[] pixeldata = new PixelColor[width * height];
+			// Read flat bytes from stream
+			byte[] bytes = new byte[width * height];
+			stream.Read(bytes, 0, width * height);
 
-            // Read flat bytes from stream
-            byte[] bytes = new byte[width * height];
-            stream.Read(bytes, 0, width * height);
+			// Convert bytes with palette
+			for(uint i = 0; i < width * height; i++) pixeldata[i] = palette[bytes[i]];
 
-            // Convert bytes with palette
-            for (uint i = 0; i < width * height; i++) pixeldata[i] = palette[bytes[i]];
-
-            // Return pointer
-            return pixeldata;
-
-#if !DEBUG
+			// Return pointer
+			return pixeldata;
+			
+			#if !DEBUG
 			}
 			catch(Exception)
 			{
 				// Return nothing
 				return null;
 			}
-#endif
-        }
+			#endif
+		}
+		
+		#endregion
 
-        #endregion
-
-    }
+	}
 }

@@ -24,123 +24,123 @@ using System.IO;
 
 namespace CodeImp.DoomBuilder.Data
 {
-    public struct DataLocation : IComparable<DataLocation>, IComparable, IEquatable<DataLocation>
-    {
-        // Constants
-        public const int RESOURCE_WAD = 0;
-        public const int RESOURCE_DIRECTORY = 1;
-        public const int RESOURCE_PK3 = 2;
+	public struct DataLocation : IComparable<DataLocation>, IComparable, IEquatable<DataLocation>
+	{
+		// Constants
+		public const int RESOURCE_WAD = 0;
+		public const int RESOURCE_DIRECTORY = 1;
+		public const int RESOURCE_PK3 = 2;
+		
+		// Members
+		public int type;
+		public string location;
+		private string initiallocation; //mxd. Stores intial path inside a PK3/PK7. For display purposes only!
+		private string name; //mxd
+		public bool option1;
+		public bool option2;
+		public bool notfortesting;
+		public List<string> requiredarchives;
+		
+		// Constructor
+		public DataLocation(int type, string location, bool option1, bool option2, bool notfortesting, List<string> requiredarchives)
+		{
+			// Initialize
+			this.type = type;
+			this.location = location;
+			this.initiallocation = string.Empty; //mxd
+			this.option1 = option1;
+			this.option2 = option2;
+			this.notfortesting = notfortesting;
+			this.name = string.Empty; //mxd
+			this.requiredarchives = requiredarchives;
+		}
 
-        // Members
-        public int type;
-        public string location;
-        private string initiallocation; //mxd. Stores intial path inside a PK3/PK7. For display purposes only!
-        private string name; //mxd
-        public bool option1;
-        public bool option2;
-        public bool notfortesting;
-        public List<string> requiredarchives;
+		//mxd. Constructor for WADs inside of PK3s
+		internal DataLocation(int type, string location, string initiallocation, bool option1, bool option2, bool notfortesting, List<string> requiredarchives)
+		{
+			// Initialize
+			this.type = type;
+			this.location = location;
+			this.initiallocation = initiallocation;
+			this.option1 = option1;
+			this.option2 = option2;
+			this.notfortesting = notfortesting;
+			this.name = string.Empty;
+			this.requiredarchives = requiredarchives;
+		}
 
-        // Constructor
-        public DataLocation(int type, string location, bool option1, bool option2, bool notfortesting, List<string> requiredarchives)
-        {
-            // Initialize
-            this.type = type;
-            this.location = location;
-            this.initiallocation = string.Empty; //mxd
-            this.option1 = option1;
-            this.option2 = option2;
-            this.notfortesting = notfortesting;
-            this.name = string.Empty; //mxd
-            this.requiredarchives = requiredarchives;
-        }
+		// This displays the struct as string
+		public override string ToString()
+		{
+			// Simply show location
+			return location;
+		}
 
-        //mxd. Constructor for WADs inside of PK3s
-        internal DataLocation(int type, string location, string initiallocation, bool option1, bool option2, bool notfortesting, List<string> requiredarchives)
-        {
-            // Initialize
-            this.type = type;
-            this.location = location;
-            this.initiallocation = initiallocation;
-            this.option1 = option1;
-            this.option2 = option2;
-            this.notfortesting = notfortesting;
-            this.name = string.Empty;
-            this.requiredarchives = requiredarchives;
-        }
+		//mxd. This returns short location name. May not correspond to actual file location! Use for display purposes only!
+		public string GetDisplayName()
+		{
+			if(string.IsNullOrEmpty(name))
+			{
+				// Make shorter name for display purposes
+				switch(type)
+				{
+					case RESOURCE_DIRECTORY:
+						name = location.Substring(location.LastIndexOf(Path.DirectorySeparatorChar) + 1);
+						break;
 
-        // This displays the struct as string
-        public override string ToString()
-        {
-            // Simply show location
-            return location;
-        }
+					case RESOURCE_WAD:
+						name = (!string.IsNullOrEmpty(initiallocation) ? initiallocation : Path.GetFileName(location));
+						break;
 
-        //mxd. This returns short location name. May not correspond to actual file location! Use for display purposes only!
-        public string GetDisplayName()
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                // Make shorter name for display purposes
-                switch (type)
-                {
-                    case RESOURCE_DIRECTORY:
-                        name = location.Substring(location.LastIndexOf(Path.DirectorySeparatorChar) + 1);
-                        break;
+					case RESOURCE_PK3:
+						name = Path.GetFileName(location);
+						break;
 
-                    case RESOURCE_WAD:
-                        name = !string.IsNullOrEmpty(initiallocation) ? initiallocation : Path.GetFileName(location);
-                        break;
+					default:
+						throw new NotImplementedException("Unknown location type: " + type);
+				}
+			}
 
-                    case RESOURCE_PK3:
-                        name = Path.GetFileName(location);
-                        break;
+			return (name ?? string.Empty);
+		}
 
-                    default:
-                        throw new NotImplementedException("Unknown location type: " + type);
-                }
-            }
+		// This compares two locations
+		public int CompareTo(DataLocation other)
+		{
+			return string.Compare(this.location, other.location, true);
+		}
+		
+		// This compares two locations
+		public int CompareTo(object obj)
+		{
+			return string.Compare(this.location, ((DataLocation)obj).location, true);
+		}
+		
+		// This compares two locations
+		public bool Equals(DataLocation other)
+		{
+			return (this.CompareTo(other) == 0);
+		}
 
-            return name ?? string.Empty;
-        }
+		//mxd
+		public bool IsValid()
+		{
+			switch(type) 
+			{
+				case RESOURCE_DIRECTORY:
+					if(!Directory.Exists(location)) return false;
+					break;
 
-        // This compares two locations
-        public int CompareTo(DataLocation other)
-        {
-            return string.Compare(this.location, other.location, true);
-        }
+				case RESOURCE_WAD:
+				case RESOURCE_PK3:
+					if(!File.Exists(location)) return false;
+					break;
 
-        // This compares two locations
-        public int CompareTo(object obj)
-        {
-            return string.Compare(this.location, ((DataLocation)obj).location, true);
-        }
+				default:
+					throw new NotImplementedException("Unknown location type: " + type);
+			}
 
-        // This compares two locations
-        public bool Equals(DataLocation other)
-        {
-            return this.CompareTo(other) == 0;
-        }
-
-        //mxd
-        public bool IsValid()
-        {
-            switch (type)
-            {
-                case RESOURCE_DIRECTORY:
-                    if (!Directory.Exists(location)) return false;
-                    break;
-
-                case RESOURCE_WAD:
-                case RESOURCE_PK3:
-                    if (!File.Exists(location)) return false;
-                    break;
-
-                default:
-                    throw new NotImplementedException("Unknown location type: " + type);
-            }
-
-            return true;
-        }
-    }
+			return true;
+		}
+	}
 }
