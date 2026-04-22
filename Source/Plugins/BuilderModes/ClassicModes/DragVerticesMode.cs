@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
@@ -22,8 +18,6 @@ using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
@@ -39,24 +33,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
     public sealed class DragVerticesMode : DragGeometryMode
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
-
-        #endregion
-
-        #region ================== Properties
 
         public override bool AlwaysShowVertices
         {
             get { return true; }
         }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor to start dragging immediately
         public DragVerticesMode(Vector2D dragstartmappos, ICollection<Vertex> vertices)
@@ -86,10 +67,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This redraws the display
         public override void OnRedrawDisplay()
@@ -149,7 +126,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 renderer.Finish();
             }
         }
-
-        #endregion
     }
 }

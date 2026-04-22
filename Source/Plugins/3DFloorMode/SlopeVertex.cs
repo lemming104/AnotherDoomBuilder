@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Types;
@@ -7,23 +6,16 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.ThreeDFloorMode
 {
     public class SlopeVertex
     {
-        #region ================== Variables
 
         // private Vector2D pos;
         private double x;
         private double y;
         private double z;
         private bool selected;
-
-        #endregion
-
-        #region ================== Constructors
 
         public SlopeVertex(Sector sector, int svgid, int vertexid)
         {
@@ -55,17 +47,9 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
             this.selected = false;
         }
 
-        #endregion
-
-        #region ================== Properties
-
         public Vector2D Pos { get { return new Vector2D(x, y); } set { x = value.x; y = value.y; } }
         public double Z { get { return z; } set { z = value; } }
         public bool Selected { get { return selected; } set { selected = value; } }
-
-        #endregion
-
-        #region ================== Methods
 
         public void StoreInSector(Sector sector, int svgid, int vertexid)
         {
@@ -93,7 +77,5 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
                     sector.Fields.Add(identifier, new UniValue(UniversalType.Float, kvp.Value));
             }
         }
-
-        #endregion
     }
 }

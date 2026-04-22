@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,28 +18,18 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using System;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
     class VertexWrapper : MapElementWrapper, IEquatable<VertexWrapper>
     {
-        #region ================== Variables
 
         Vertex vertex;
-
-        #endregion
-
-        #region IEquatable<SectorWrapper> members
 
         public bool Equals(VertexWrapper other)
         {
@@ -56,10 +45,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
         {
             return vertex.GetHashCode();
         }
-
-        #endregion
-
-        #region ================== Properties
 
         internal Vertex Vertex { get { return vertex; } }
 
@@ -204,26 +189,14 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             }
         }
 
-        #endregion
-
-        #region ================== Constructors
-
         internal VertexWrapper(Vertex vertex) : base(vertex)
         {
             this.vertex = vertex;
         }
 
-        #endregion
-
-        #region ================== Update
-
         internal override void AfterFieldsUpdate()
         {
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public override string ToString()
         {
@@ -377,7 +350,5 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 
             vertex.Dispose();
         }
-
-        #endregion
     }
 }

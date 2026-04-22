@@ -1,9 +1,6 @@
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.VisualModes
 {
@@ -12,16 +9,11 @@ namespace CodeImp.DoomBuilder.VisualModes
     /// </summary>
     public class VisualCamera
     {
-        #region ================== Constants
 
         public const double ANGLE_FROM_MOUSE = 0.0001;
         public const double MAX_ANGLEZ_LOW = 91.0 / Angle2D.PIDEG;
         public const double MAX_ANGLEZ_HIGH = (360.0 - 91.0) / Angle2D.PIDEG;
         public const double THING_Z_OFFSET = 41.0;
-
-        #endregion
-
-        #region ================== Variables
 
         // Properties
         private Vector3D position;
@@ -31,10 +23,6 @@ namespace CodeImp.DoomBuilder.VisualModes
         private Sector sector;
         private double gravity = 1.0; //mxd
 
-        #endregion
-
-        #region ================== Properties
-
         public Vector3D Position { get { return position; } set { position = value; } }
         public Vector3D Target { get { return target; } }
         public double AngleXY { get { return anglexy; } set { anglexy = value; } }
@@ -42,10 +30,6 @@ namespace CodeImp.DoomBuilder.VisualModes
         public Sector Sector { get { return sector; } internal set { sector = value; UpdateGravity(); } } //mxd
         public Vector3D MoveMultiplier { get { return movemultiplier; } set { movemultiplier = value; } }
         public double Gravity { get { return gravity; } } //mxd
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public VisualCamera()
@@ -58,10 +42,6 @@ namespace CodeImp.DoomBuilder.VisualModes
 
             PositionAtThing();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Mouse input
         internal void ProcessMouseInput(Vector2D delta)
@@ -181,7 +161,5 @@ namespace CodeImp.DoomBuilder.VisualModes
             if (!General.Map.UDMF || sector == null) return;
             gravity = sector.Fields.GetValue("gravity", 1.0);
         }
-
-        #endregion
     }
 }

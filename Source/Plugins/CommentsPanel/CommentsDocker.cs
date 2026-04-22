@@ -1,4 +1,3 @@
-#region ================== Copyright (c) 2010 Pascal vd Heiden
 
 /*
  * Copyright (c) 2010 Pascal vd Heiden, www.codeimp.com
@@ -11,9 +10,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
@@ -25,23 +21,16 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.CommentsPanel
 {
     public partial class CommentsDocker : UserControl
     {
-        #region ================== Variables
 
         private readonly Dictionary<string, CommentInfo> v_comments = new Dictionary<string, CommentInfo>(StringComparer.Ordinal);
         private readonly Dictionary<string, CommentInfo> l_comments = new Dictionary<string, CommentInfo>(StringComparer.Ordinal);
         private readonly Dictionary<string, CommentInfo> s_comments = new Dictionary<string, CommentInfo>(StringComparer.Ordinal);
         private readonly Dictionary<string, CommentInfo> t_comments = new Dictionary<string, CommentInfo>(StringComparer.Ordinal);
         private bool preventupdate;
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor
         public CommentsDocker()
@@ -66,10 +55,6 @@ namespace CodeImp.DoomBuilder.CommentsPanel
 
             base.Dispose(disposing);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // When attached to the docker
         public void Setup()
@@ -378,10 +363,6 @@ namespace CodeImp.DoomBuilder.CommentsPanel
             return null;
         }
 
-        #endregion
-
-        #region ================== Events
-
         // This gives a good idea when comments could have been changed
         // as it is called every time a dialog window closes.
         private void ParentForm_Activated(object sender, EventArgs e)
@@ -637,7 +618,5 @@ namespace CodeImp.DoomBuilder.CommentsPanel
             if (Visible)
                 UpdateList();
         }
-
-        #endregion
     }
 }

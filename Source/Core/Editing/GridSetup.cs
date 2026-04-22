@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Data;
@@ -25,13 +21,10 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Editing
 {
     public class GridSetup : IDisposable
     {
-        #region ================== Constants
 
         private const float DEFAULT_GRID_SIZE = 32f;
         internal const float MINIMUM_GRID_SIZE_UDMF = 0.125f; //mxd
@@ -40,10 +33,6 @@ namespace CodeImp.DoomBuilder.Editing
         public const int SOURCE_TEXTURES = 0;
         public const int SOURCE_FLATS = 1;
         public const int SOURCE_FILE = 2;
-
-        #endregion
-
-        #region ================== Variables
 
         // Grid
         private int gridsize;
@@ -62,10 +51,6 @@ namespace CodeImp.DoomBuilder.Editing
         // Disposing
         private bool isdisposed;
 
-        #endregion
-
-        #region ================== Properties
-
         public int GridSize { get { return gridsize; } } //mxd
         public double GridSizeF { get { return gridsizef; } }
         public double GridRotate { get { return gridrotate; } }
@@ -79,10 +64,6 @@ namespace CodeImp.DoomBuilder.Editing
         internal double BackgroundScaleX { get { return backscalex; } }
         internal double BackgroundScaleY { get { return backscaley; } }
         internal bool Disposed { get { return isdisposed; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal GridSetup()
@@ -120,10 +101,6 @@ namespace CodeImp.DoomBuilder.Editing
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Write settings to configuration
         internal void WriteToConfig(Configuration cfg, string path)
@@ -284,10 +261,6 @@ namespace CodeImp.DoomBuilder.Editing
             return sv;
         }
 
-        #endregion
-
-        #region ================== Actions
-
         // This shows the grid setup dialog
         internal static void ShowGridSetup()
         {
@@ -341,7 +314,5 @@ namespace CodeImp.DoomBuilder.Editing
                 General.MainWindow.RedrawDisplay();
             }
         }
-
-        #endregion
     }
 }

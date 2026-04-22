@@ -2,7 +2,6 @@
 {
     internal sealed class DecorateStateGoto : StateGoto
     {
-        #region ================== DECORATE State Goto parsing
 
         internal DecorateStateGoto(ActorStructure actor, ZDTextParser parser)
         {
@@ -156,7 +155,5 @@
             if ((classname == "super") && (actor.BaseClass != null))
                 classname = actor.BaseClass.ClassName;
         }
-
-        #endregion
     }
 }

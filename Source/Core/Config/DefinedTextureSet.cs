@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,26 +11,16 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Config
 {
     internal sealed class DefinedTextureSet : TextureSet
     {
-        #region ================== Variables
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Texture set from configuration
         public DefinedTextureSet(Configuration cfg, string path)
@@ -55,10 +44,6 @@ namespace CodeImp.DoomBuilder.Config
             this.name = name;
             this.filters = new List<string>();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This writes the texture set to configuration
         internal void WriteToConfig(Configuration cfg, string path)
@@ -94,7 +79,5 @@ namespace CodeImp.DoomBuilder.Config
             this.name = set.Name;
             this.filters = new List<string>(set.Filters);
         }
-
-        #endregion
     }
 }

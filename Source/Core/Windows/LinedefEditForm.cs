@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
@@ -23,19 +19,12 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Windows
 {
     internal partial class LinedefEditForm : DelayedForm
     {
-        #region ================== Events
 
         public event EventHandler OnValuesChanged; //mxd
-
-        #endregion
-
-        #region ================== Variables
 
         private ICollection<Linedef> lines;
         private List<LinedefProperties> linedefprops; //mxd
@@ -78,10 +67,6 @@ namespace CodeImp.DoomBuilder.Windows
                 LowTexture = side.LowTexture;
             }
         }
-
-        #endregion
-
-        #region ================== Constructor
 
         public LinedefEditForm()
         {
@@ -142,10 +127,6 @@ namespace CodeImp.DoomBuilder.Windows
             // Update window height
             this.Height = apply.Bottom + (apply.Margin.Bottom * 2) + (this.Height - this.ClientRectangle.Height) + 1;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets up the form to edit the given lines
         public void Setup(ICollection<Linedef> lines)
@@ -358,10 +339,6 @@ namespace CodeImp.DoomBuilder.Windows
             General.Map.UndoRedo.CreateUndo("Edit " + (lines.Count > 1 ? lines.Count + " linedefs" : "linedef"));
         }
 
-        #endregion
-
-        #region ================== Events
-
         // Apply clicked
         private void apply_Click(object sender, EventArgs e)
         {
@@ -534,10 +511,6 @@ namespace CodeImp.DoomBuilder.Windows
             hlpevent.Handled = true;
         }
 
-        #endregion
-
-        #region ================== Linedef realtime events (mxd)
-
         private void flags_OnValueChanged(object sender, EventArgs e)
         {
             if (preventchanges) return;
@@ -565,10 +538,6 @@ namespace CodeImp.DoomBuilder.Windows
             General.Map.IsChanged = true;
             if (OnValuesChanged != null) OnValuesChanged(this, EventArgs.Empty);
         }
-
-        #endregion
-
-        #region ================== Sidedef reltime events (mxd)
 
         private void fronthigh_OnValueChanged(object sender, EventArgs e)
         {
@@ -819,8 +788,6 @@ namespace CodeImp.DoomBuilder.Windows
             General.Map.IsChanged = true;
             if (OnValuesChanged != null) OnValuesChanged(this, EventArgs.Empty);
         }
-
-        #endregion
 
     }
 }

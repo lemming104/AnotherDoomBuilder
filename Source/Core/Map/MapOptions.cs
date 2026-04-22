@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
@@ -29,17 +25,10 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Map
 {
     public sealed class MapOptions
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Map configuration
         private readonly Configuration mapconfig;
@@ -94,10 +83,6 @@ namespace CodeImp.DoomBuilder.Map
         private ExternalCommandSettings reloadresourcepostcommand;
         private ExternalCommandSettings testprecommand;
         private ExternalCommandSettings testpostcommand;
-
-        #endregion
-
-        #region ================== Properties
 
         internal string ConfigFile { get { return configfile; } set { configfile = value; } }
         internal DataLocationList Resources { get { return resources; } }
@@ -156,10 +141,6 @@ namespace CodeImp.DoomBuilder.Map
         public ExternalCommandSettings ReloadResourcePostCommand { get { return reloadresourcepostcommand; } internal set { reloadresourcepostcommand = value; } }
         public ExternalCommandSettings TestPreCommand { get { return testprecommand; } internal set { testprecommand = value; } }
         public ExternalCommandSettings TestPostCommand { get { return testpostcommand; } internal set { testpostcommand = value; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal MapOptions()
@@ -298,10 +279,6 @@ namespace CodeImp.DoomBuilder.Map
                 }
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This makes the path prefix for the given assembly
         private static string GetPluginPathPrefix(Assembly asm)
@@ -624,7 +601,5 @@ namespace CodeImp.DoomBuilder.Map
         {
             mapconfig.DeleteSetting("fieldtypes");
         }
-
-        #endregion
     }
 }

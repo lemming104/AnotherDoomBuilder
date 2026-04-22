@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,15 +11,10 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.IO;
 using System;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Map
 {
@@ -36,11 +30,6 @@ namespace CodeImp.DoomBuilder.Map
 
     public abstract class MapElement : IDisposable
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // List index
         protected int listindex;
@@ -64,20 +53,12 @@ namespace CodeImp.DoomBuilder.Map
         //mxd. Element type
         protected MapElementType elementtype;
 
-        #endregion
-
-        #region ================== Properties
-
         public int Index { get { return listindex; } internal set { listindex = value; } }
         public UniFields Fields { get { return fields; } }
         public bool Marked { get { return marked; } set { marked = value; } }
         public bool IsDisposed { get { return isdisposed; } }
         public List<Type> IgnoredErrorChecks { get { return ignorederrorchecks; } } //mxd
         public MapElementType ElementType { get { return elementtype; } } //mxd
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         protected MapElement()
@@ -101,10 +82,6 @@ namespace CodeImp.DoomBuilder.Map
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Serialize / deserialize
         internal void ReadWrite(IReadWriteStream s)
@@ -153,7 +130,5 @@ namespace CodeImp.DoomBuilder.Map
         {
             return hashcode;
         }
-
-        #endregion
     }
 }

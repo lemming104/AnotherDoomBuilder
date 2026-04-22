@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Rendering;
@@ -22,20 +18,13 @@ using System;
 using System.Globalization;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.ZDoom
 {
     public sealed class PatchStructure
     {
-        #region ================== Constants
 
         // Some odd things in ZDoom
         private const string IGNORE_SPRITE = "TNT1A0";
-
-        #endregion
-
-        #region ================== Variables
 
         // Declaration
         private readonly string name;
@@ -51,10 +40,6 @@ namespace CodeImp.DoomBuilder.ZDoom
         private static readonly string[] renderStyles = { "copy", "translucent", "add", "subtract", "reversesubtract", "modulate", "copyalpha", "copynewalpha", "overlay" }; //mxd
         private readonly bool skip; //mxd
 
-        #endregion
-
-        #region ================== Properties
-
         public string Name { get { return name; } }
         public int OffsetX { get { return offsetx; } }
         public int OffsetY { get { return offsety; } }
@@ -66,10 +51,6 @@ namespace CodeImp.DoomBuilder.ZDoom
         public TexturePathBlendStyle BlendStyle { get { return blendstyle; } }
         public PixelColor BlendColor { get { return blendcolor; } }//mxd
         public bool Skip { get { return skip; } } //mxd
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal PatchStructure(TexturesParser parser)
@@ -236,10 +217,6 @@ namespace CodeImp.DoomBuilder.ZDoom
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This reads the next token and sets a floating point value, returns false when failed
         private static bool ReadTokenFloat(TexturesParser parser, string propertyname, out float value)
         {
@@ -304,7 +281,5 @@ namespace CodeImp.DoomBuilder.ZDoom
 
             return true;
         }
-
-        #endregion
     }
 }

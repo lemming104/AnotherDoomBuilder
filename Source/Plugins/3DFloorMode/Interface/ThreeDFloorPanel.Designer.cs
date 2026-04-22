@@ -20,8 +20,6 @@
 			base.Dispose(disposing);
 		}
 
-		#region Vom Komponenten-Designer generierter Code
-
 		/// <summary> 
 		/// Erforderliche Methode für die Designerunterstützung. 
 		/// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
@@ -54,8 +52,6 @@
 			this.ResumeLayout(false);
 
 		}
-
-		#endregion
 
 		public System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
 

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,22 +11,16 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.IO;
 using System;
 using System.Drawing;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Data
 {
     public sealed class PK3FileImage : ImageData
     {
-        #region ================== Variables
 
         private readonly PK3Reader datareader;
         private readonly int probableformat;
@@ -35,10 +28,6 @@ namespace CodeImp.DoomBuilder.Data
 
         // [ZZ]
         public bool IsBadForLongTextureNames { get { return isBadForLongTextureNames; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal PK3FileImage(PK3Reader datareader, string filepathname, bool asflat)
@@ -65,10 +54,6 @@ namespace CodeImp.DoomBuilder.Data
             // We have no destructor
             GC.SuppressFinalize(this);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         //mxd: filepathname is relative path to the image ("Textures\sometexture.png")
         protected override void SetName(string filepathname)
@@ -134,7 +119,5 @@ namespace CodeImp.DoomBuilder.Data
 
             return new LocalLoadResult(bitmap, error);
         }
-
-        #endregion
     }
 }

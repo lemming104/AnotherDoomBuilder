@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,30 +18,20 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using System;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     public partial class ExternalCommandControl : UserControl
     {
-        #region ================== Constructors
 
         public ExternalCommandControl()
         {
             InitializeComponent();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Fills the controls with the settings from the ExternalCommandSettings.
@@ -73,10 +62,6 @@ namespace CodeImp.DoomBuilder.Controls
             return ecs;
         }
 
-        #endregion
-
-        #region ================== Events
-
         private void button1_Click(object sender, EventArgs e)
         {
             FolderSelectDialog dirdialog = new FolderSelectDialog();
@@ -88,7 +73,5 @@ namespace CodeImp.DoomBuilder.Controls
                 tbFolder.Text = dirdialog.FileName;
             }
         }
-
-        #endregion
     }
 }

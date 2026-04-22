@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,33 +11,19 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Geometry
 {
     public struct Vector2D
     {
-        #region ================== Constants
 
         private const double TINY_VALUE = 0.0000000001f;
-
-        #endregion
-
-        #region ================== Variables
 
         // Coordinates
         public double x;
         public double y;
-
-        #endregion
-
-        #region ================== Constructors
 
         // Constructor
         public Vector2D(double x, double y)
@@ -53,10 +38,6 @@ namespace CodeImp.DoomBuilder.Geometry
             this.x = v.x;
             this.y = v.y;
         }
-
-        #endregion
-
-        #region ================== Statics
 
         // Conversion to Vector3D
         public static implicit operator Vector3D(Vector2D a)
@@ -238,10 +219,6 @@ namespace CodeImp.DoomBuilder.Geometry
             return Math.Abs(d.x) + Math.Abs(d.y);
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This returns the perpendicular vector by simply making a normal
         public Vector2D GetPerpendicular()
         {
@@ -366,7 +343,5 @@ namespace CodeImp.DoomBuilder.Geometry
             if (y != other.y) return false;
             return true;
         }
-
-        #endregion
     }
 }

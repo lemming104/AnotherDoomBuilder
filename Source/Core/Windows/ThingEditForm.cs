@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Controls;
@@ -26,8 +22,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Windows
 {
     /// <summary>
@@ -35,13 +29,8 @@ namespace CodeImp.DoomBuilder.Windows
     /// </summary>
     internal partial class ThingEditForm : DelayedForm
     {
-        #region ================== Events
 
         public event EventHandler OnValuesChanged; //mxd
-
-        #endregion
-
-        #region ================== Variables
 
         private ICollection<Thing> things;
         private ThingTypeInfo thinginfo;
@@ -70,10 +59,6 @@ namespace CodeImp.DoomBuilder.Windows
                 AngleDoom = t.AngleDoom;
             }
         }
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor
         public ThingEditForm()
@@ -133,10 +118,6 @@ namespace CodeImp.DoomBuilder.Windows
             // Setup types list
             thingtype.Setup();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets up the form to edit the given things
         public void Setup(ICollection<Thing> things)
@@ -321,10 +302,6 @@ namespace CodeImp.DoomBuilder.Windows
             // Store current flag names
             flagsrename = newflagsrename;
         }
-
-        #endregion
-
-        #region ================== Events
 
         //mxd
         private void thingtype_OnTypeDoubleClicked()
@@ -536,10 +513,6 @@ namespace CodeImp.DoomBuilder.Windows
             hlpevent.Handled = true;
         }
 
-        #endregion
-
-        #region ================== mxd. Realtime events
-
         private void posX_WhenTextChanged(object sender, EventArgs e)
         {
             if (preventchanges) return;
@@ -692,8 +665,6 @@ namespace CodeImp.DoomBuilder.Windows
             missingflags.Visible = false;
             settingsgroup.ForeColor = SystemColors.ControlText;
         }
-
-        #endregion
 
     }
 }

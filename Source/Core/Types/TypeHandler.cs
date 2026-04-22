@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,16 +11,11 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Types
 {
@@ -31,11 +25,6 @@ namespace CodeImp.DoomBuilder.Types
     /// </summary>
     public abstract class TypeHandler
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         protected int index;
         protected string typename;
@@ -43,10 +32,6 @@ namespace CodeImp.DoomBuilder.Types
         protected bool forargument;
         protected ArgumentInfo arginfo;
         protected TypeHandlerAttribute attribute;
-
-        #endregion
-
-        #region ================== Properties
 
         public int Index { get { return index; } }
         public string TypeName { get { return typename; } }
@@ -60,10 +45,6 @@ namespace CodeImp.DoomBuilder.Types
 
         public virtual Image BrowseImage { get { return null; } }
         public virtual bool DynamicImage { get { return false; } } //mxd. When set to true, the button image will be re-applied after value changes
-
-        #endregion
-
-        #region ================== Constructor
 
         // This sets up the handler for arguments
         public virtual void SetupArgument(TypeHandlerAttribute attr, ArgumentInfo arginfo)
@@ -112,10 +93,6 @@ namespace CodeImp.DoomBuilder.Types
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This must set the value
         // How the value is actually validated and stored is up to the implementation
         public abstract void SetValue(object value);
@@ -160,7 +137,5 @@ namespace CodeImp.DoomBuilder.Types
         {
             return this.attribute;
         }
-
-        #endregion
     }
 }

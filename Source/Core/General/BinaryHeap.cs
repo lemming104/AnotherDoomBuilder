@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,8 +11,6 @@
  * 
  */
 
-#endregion
-
 /*#region ================== Namespaces
 
 using System;
@@ -21,29 +18,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-#endregion
-
 namespace CodeImp.DoomBuilder
 {
 	internal class BinaryHeap<T> : IEnumerable<T>, ICollection<T> where T : IComparable<T>
 	{
-		#region ================== Variables
 
 		// This will keep all items
 		private List<T> heap;
-
-		#endregion
-
-		#region ================== Properties
 
 		public int Count { get { return heap.Count; } }
 		public virtual bool IsReadOnly { get { return false; } }
 		public T Root { get { if(heap.Count > 0) return heap[0]; else return default(T); } }
 		public T this[int index] { get { return ItemAt(index); } }
-
-		#endregion
-
-		#region ================== Constructor / Destructor
 
 		// Constructor
 		public BinaryHeap()
@@ -65,10 +51,6 @@ namespace CodeImp.DoomBuilder
 			// Clean up
 			heap = null;
 		}
-
-		#endregion
-
-		#region ================== Methods
 		
 		// Methods to find our way through the heap
 		private static int ParentOf(int index) { return (index - 1) >> 1; }
@@ -251,7 +233,5 @@ namespace CodeImp.DoomBuilder
 		{
 			return heap.GetEnumerator();
 		}
-		
-		#endregion
 	}
 }*/

@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -9,16 +8,12 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Windows
 {
     public partial class TagStatisticsForm : DelayedForm
     {
         private static Size size = Size.Empty;
         private static Point location = Point.Empty;
-
-        #region ================== Constructor
 
         public TagStatisticsForm()
         {
@@ -35,10 +30,6 @@ namespace CodeImp.DoomBuilder.Windows
 
             Setup();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         private void Setup()
         {
@@ -196,10 +187,6 @@ namespace CodeImp.DoomBuilder.Windows
             ClassicMode mode = General.Editing.Mode as ClassicMode;
             if (mode != null) mode.CenterOnArea(area, 0.6f);
         }
-
-        #endregion
-
-        #region ================== Events
 
         private void apply_Click(object sender, EventArgs e)
         {
@@ -360,7 +347,5 @@ namespace CodeImp.DoomBuilder.Windows
             size = this.Size;
             location = this.Location;
         }
-
-        #endregion
     }
 }

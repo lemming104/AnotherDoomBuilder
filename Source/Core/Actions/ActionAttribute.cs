@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,14 +11,9 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Reflection;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Actions
 {
@@ -29,16 +23,11 @@ namespace CodeImp.DoomBuilder.Actions
     [AttributeUsage(AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
     public class ActionAttribute : Attribute
     {
-        #region ================== Variables
 
         // The action to bind to
         protected string action;
         protected bool baseaction;
         protected string library;
-
-        #endregion
-
-        #region ================== Properties
 
         /// <summary>
         /// Set to true to indicate this is a core Doom Builder action when used within a plugin.
@@ -52,10 +41,6 @@ namespace CodeImp.DoomBuilder.Actions
 
         internal string ActionName { get { return action; } }
 
-        #endregion
-
-        #region ================== Constructor / Disposer
-
         /// <summary>
         /// This binds a method to an action.
         /// </summary>
@@ -67,10 +52,6 @@ namespace CodeImp.DoomBuilder.Actions
             this.baseaction = false;
             this.library = "";
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This makes the proper name
         public string GetFullActionName(Assembly asm)
@@ -86,7 +67,5 @@ namespace CodeImp.DoomBuilder.Actions
 
             return asmname + "_" + action;
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Types;
@@ -24,17 +20,10 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.IO
 {
     internal abstract class MapSetIO : IMapSetIO
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // WAD File
         protected WAD wad;
@@ -44,10 +33,6 @@ namespace CodeImp.DoomBuilder.IO
 
         //mxd
         protected Dictionary<MapElementType, Dictionary<string, UniversalType>> uifields;
-
-        #endregion
-
-        #region ================== Properties
 
         public abstract int MaxSidedefs { get; }
         public abstract int MaxVertices { get; }
@@ -88,10 +73,6 @@ namespace CodeImp.DoomBuilder.IO
         public abstract int MinThingAngle { get; }
         public abstract Dictionary<MapElementType, Dictionary<string, UniversalType>> UIFields { get; } //mxd
 
-        #endregion
-
-        #region ================== Constructor / Disposer
-
         // Constructor
         protected MapSetIO(WAD wad, MapManager manager)
         {
@@ -100,10 +81,6 @@ namespace CodeImp.DoomBuilder.IO
             this.manager = manager;
             this.uifields = new Dictionary<MapElementType, Dictionary<string, UniversalType>>(); //mxd
         }
-
-        #endregion
-
-        #region ================== Static Methods
 
         // This returns and instance of the specified IO class
         public static MapSetIO Create(string classname)
@@ -152,10 +129,6 @@ namespace CodeImp.DoomBuilder.IO
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // Required implementations
         public abstract MapSet Read(MapSet map, string mapname);
         public abstract void Write(MapSet map, string mapname, int position);
@@ -186,7 +159,5 @@ namespace CodeImp.DoomBuilder.IO
                 default: throw new NotSupportedException("Tried to get element type of unsupported map element type!");
             }
         }
-
-        #endregion
     }
 }

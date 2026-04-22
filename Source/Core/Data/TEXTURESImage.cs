@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Rendering;
 using System;
@@ -23,8 +19,6 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Data
 {
@@ -39,15 +33,10 @@ namespace CodeImp.DoomBuilder.Data
 
     internal sealed unsafe class TEXTURESImage : ImageData
     {
-        #region ================== Variables
 
         private readonly List<TexturePatch> patches; //mxd
         private readonly bool optional; //mxd
         private readonly bool nulltexture; //mxd
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public TEXTURESImage(string name, string virtualpath, int width, int height, int offsetx, int offsety, float scalex, float scaley,
@@ -73,10 +62,6 @@ namespace CodeImp.DoomBuilder.Data
             // We have no destructor
             GC.SuppressFinalize(this);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         //mxd
         protected override void SetName(string name)
@@ -410,7 +395,5 @@ namespace CodeImp.DoomBuilder.Data
 
             return patchbmp;
         }
-
-        #endregion
     }
 }

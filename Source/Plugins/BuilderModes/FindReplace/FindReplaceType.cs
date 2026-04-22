@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
@@ -23,33 +19,18 @@ using CodeImp.DoomBuilder.Rendering;
 using System.Collections.Generic;
 using System.Drawing;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     internal class FindReplaceType
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         protected readonly FindReplaceAttribute attribs;
-
-        #endregion
-
-        #region ================== Properties
 
         public FindReplaceAttribute Attributes { get { return attribs; } }
         public virtual Image BrowseImage { get { return null; } }
         public bool AllowDelete { get { return false; } }
         public virtual string UsageHint { get { return string.Empty; } } //mxd
         public virtual Presentation RenderPresentation { get { return Presentation.Standard; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public FindReplaceType()
@@ -58,10 +39,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             object[] attrs = this.GetType().GetCustomAttributes(typeof(FindReplaceAttribute), true);
             attribs = (FindReplaceAttribute)attrs[0];
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This is called to test if the item should be displayed
         public virtual bool DetermineVisiblity()
@@ -164,7 +141,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             ClassicMode editmode = General.Editing.Mode as ClassicMode;
             editmode.CenterOnArea(area, 0.6f);
         }
-
-        #endregion
     }
 }

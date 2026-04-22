@@ -1,11 +1,8 @@
-﻿#region ================== Namespaces
-
+﻿
 using System;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.ColorPicker.Controls
 {

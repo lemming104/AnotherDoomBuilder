@@ -5,7 +5,6 @@ namespace CodeImp.DoomBuilder.ZDoom
 
     public sealed class DecorateStateStructure : StateStructure
     {
-        #region ================== DECORATE State Structure parsing
 
         internal DecorateStateStructure(ActorStructure actor, ZDTextParser zdparser)
         {
@@ -231,7 +230,5 @@ namespace CodeImp.DoomBuilder.ZDoom
 
             TrimLeft();
         }
-
-        #endregion
     }
 }

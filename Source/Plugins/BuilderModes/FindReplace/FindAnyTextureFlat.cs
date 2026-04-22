@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
@@ -25,22 +21,11 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [FindReplace("Any Texture or Flat", BrowseButton = true)]
     internal class FindAnyTextureFlat : FindReplaceType
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
-
-        #endregion
-
-        #region ================== Properties
 
         public override Image BrowseImage { get { return Properties.Resources.List_Images; } }
         public override string UsageHint
@@ -52,14 +37,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     + "? - one character";
             }
         }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
-
-        #endregion
-
-        #region ================== Methods
 
         //mxd. 
         public override bool CanReplace()
@@ -223,7 +200,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (sectors.Count > 0) General.Interface.ShowEditSectors(sectors);
             if (lines.Count > 0) General.Interface.ShowEditLinedefs(lines);
         }
-
-        #endregion
     }
 }

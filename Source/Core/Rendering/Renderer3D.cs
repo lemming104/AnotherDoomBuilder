@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
@@ -27,21 +23,14 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Rendering
 {
     internal sealed class Renderer3D : Renderer, IRenderer3D
     {
-        #region ================== Constants
 
         private const float PROJ_NEAR_PLANE = 1f;
         private const float FOG_RANGE = 0.9f;
         private const int MAX_DYNLIGHTS_PER_SURFACE = 64;
-
-        #endregion
-
-        #region ================== Variables
 
         // Matrices
         private Matrix projection;
@@ -129,10 +118,6 @@ namespace CodeImp.DoomBuilder.Rendering
         private readonly System.Diagnostics.Stopwatch fpsWatch;
         private readonly TextLabel fpsLabel;
 
-        #endregion
-
-        #region ================== Properties
-
         public ProjectedFrustum2D Frustum2D { get { return frustum; } }
         public bool DrawThingCages { get { return renderthingcages; } set { renderthingcages = value; } }
         public bool ShowSelection { get { return showselection; } set { showselection = value; } }
@@ -142,10 +127,6 @@ namespace CodeImp.DoomBuilder.Rendering
         {
             get { return General.Settings.ClassicRendering && !fullbrightness; }
         }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal Renderer3D(RenderDevice graphics) : base(graphics)
@@ -189,10 +170,6 @@ namespace CodeImp.DoomBuilder.Rendering
             }
         }
 
-        #endregion
-
-        #region ================== Management
-
         // This is called before a device is reset
         // (when resized or display adapter was changed)
         public override void UnloadResource()
@@ -235,10 +212,6 @@ namespace CodeImp.DoomBuilder.Rendering
             crosshairverts[3].v = 1.0f;
         }
 
-        #endregion
-
-        #region ================== Resources
-
         //mxd
         internal void UpdateVertexHandle()
         {
@@ -257,10 +230,6 @@ namespace CodeImp.DoomBuilder.Rendering
                 visualslopehandle.ReloadResource();
             }
         }
-
-        #endregion
-
-        #region ================== Presentation
 
         // This creates the projection
         internal void CreateProjection()
@@ -338,10 +307,6 @@ namespace CodeImp.DoomBuilder.Rendering
             Matrix translate = Matrix.Translation(-(float)windowsize.Width * 0.5f, -(float)windowsize.Height * 0.5f, 0f);
             view2d = translate * scaling;
         }
-
-        #endregion
-
-        #region ================== Start / Finish
 
         // This starts rendering
         public bool Start()
@@ -1847,10 +1812,6 @@ namespace CodeImp.DoomBuilder.Rendering
             highlighted = null;
         }
 
-        #endregion
-
-        #region ================== Rendering
-
         // This sets the highlighted object for the rendering
         public void SetHighlightedObject(IVisualPickable obj)
         {
@@ -2046,7 +2007,5 @@ namespace CodeImp.DoomBuilder.Rendering
         {
             crosshairbusy = busy;
         }
-
-        #endregion
     }
 }

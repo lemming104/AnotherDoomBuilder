@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.GZBuilder;
@@ -11,19 +10,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.ZDoom
 {
     internal sealed class GldefsParser : ZDTextParser
     {
-        #region ================== Constants
 
         private const int DEFAULT_GLOW_HEIGHT = 64;
-
-        #endregion
-
-        #region ================== Structs
 
         private struct GldefsLightType
         {
@@ -42,16 +34,8 @@ namespace CodeImp.DoomBuilder.ZDoom
             };
         }
 
-        #endregion
-
-        #region ================== Delegates
-
         public delegate void IncludeDelegate(GldefsParser parser, string includefile, bool clearerrors);
         public IncludeDelegate OnInclude;
-
-        #endregion
-
-        #region ================== Variables
 
         private readonly Dictionary<string, DynamicLightData> lightsbyname; //LightName, light definition
         private readonly Dictionary<string, string> objects; //ClassName, LightName
@@ -59,20 +43,12 @@ namespace CodeImp.DoomBuilder.ZDoom
         private readonly Dictionary<string, SkyboxInfo> skyboxes;
         private readonly HashSet<string> parsedlumps;
 
-        #endregion
-
-        #region ================== Properties
-
         internal override ScriptType ScriptType { get { return ScriptType.GLDEFS; } }
 
         internal Dictionary<string, DynamicLightData> LightsByName { get { return lightsbyname; } }
         internal Dictionary<string, string> Objects { get { return objects; } }
         internal Dictionary<long, GlowingFlatData> GlowingFlats { get { return glowingflats; } }
         internal Dictionary<string, SkyboxInfo> Skyboxes { get { return skyboxes; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         public GldefsParser()
         {
@@ -86,10 +62,6 @@ namespace CodeImp.DoomBuilder.ZDoom
             glowingflats = new Dictionary<long, GlowingFlatData>(); // Texture name hash, Glowing Flat Data
             skyboxes = new Dictionary<string, SkyboxInfo>(StringComparer.OrdinalIgnoreCase);
         }
-
-        #endregion
-
-        #region ================== Parsing
 
         public override bool Parse(TextResourceData data, bool clearerrors)
         {
@@ -830,15 +802,9 @@ namespace CodeImp.DoomBuilder.ZDoom
             return !this.HasError;
         }
 
-        #endregion
-
-        #region ================== Methods
-
         internal void ClearIncludesList()
         {
             parsedlumps.Clear();
         }
-
-        #endregion
     }
 }

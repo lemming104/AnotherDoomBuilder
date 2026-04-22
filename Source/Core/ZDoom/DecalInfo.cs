@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2020 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,29 +18,19 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.ZDoom
 {
     public class DecalInfo
     {
-        #region ================== Enums
 
         public enum DecalType
         {
             DECAL,
             DECALGROUP
         }
-
-        #endregion
-
-        #region ================== Variables
 
         private string name;
         private string picturename = string.Empty;
@@ -50,20 +39,12 @@ namespace CodeImp.DoomBuilder.ZDoom
         private DecalType type;
         private Dictionary<string, DecalInfo> childdecals = new Dictionary<string, DecalInfo>(); // Children of decal groups
 
-        #endregion
-
-        #region ================== Properties
-
         public string Name { get { return name; } }
         public string PictureName { get { return picturename; } }
         public int Index { get { return index; } }
         public DecalType Type { get { return type; } }
         public string Description { get { return description; } }
         public Dictionary<string, DecalInfo> Children { get { return childdecals; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         public DecalInfo(string name, int index, DecalType type)
         {
@@ -73,10 +54,6 @@ namespace CodeImp.DoomBuilder.ZDoom
 
             description = index.ToString() + ": " + name;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         internal void SetPictureName(string picturename)
         {
@@ -216,7 +193,5 @@ namespace CodeImp.DoomBuilder.ZDoom
 
             return true;
         }
-
-        #endregion
     }
 }

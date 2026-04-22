@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Compilers;
 using CodeImp.DoomBuilder.Config;
@@ -24,30 +20,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     public sealed class ScriptFileDocumentTab : ScriptDocumentTab
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private string filepathname;
 
-        #endregion
-
-        #region ================== Properties
-
         public override bool IsSaveAsRequired { get { return filepathname.Length == 0; } }
         public override string Filename { get { return filepathname; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public ScriptFileDocumentTab(ScriptEditorPanel panel, ScriptConfiguration config) : base(panel, config)
@@ -74,10 +55,6 @@ namespace CodeImp.DoomBuilder.Controls
             // Set title
             SetTitle(sourcetab.Filename);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This compiles the script file
         public override void Compile()
@@ -188,11 +165,5 @@ namespace CodeImp.DoomBuilder.Controls
             //mxd
             base.ChangeScriptConfig(newconfig);
         }
-
-        #endregion
-
-        #region ================== Events
-
-        #endregion
     }
 }

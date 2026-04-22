@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Collections.Generic;
@@ -23,17 +19,10 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Windows
 {
     public partial class ErrorsForm : DelayedForm
     {
-        #region ================== Variables
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public ErrorsForm()
@@ -46,10 +35,6 @@ namespace CodeImp.DoomBuilder.Windows
             checkshow.Checked = General.Settings.ShowErrorsWindow;
             grid.Focus(); //mxd
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets up the list
         private void FillList()
@@ -91,10 +76,6 @@ namespace CodeImp.DoomBuilder.Windows
             ErrorItem error = GetErrorItem(grid.SelectedRows[0].Index);
             if (error != null) error.ShowSource();
         }
-
-        #endregion
-
-        #region ================== Events
 
         // Close clicked
         private void close_Click(object sender, EventArgs e)
@@ -181,7 +162,5 @@ namespace CodeImp.DoomBuilder.Windows
         {
             ShowErrorSource();
         }
-
-        #endregion
     }
 }

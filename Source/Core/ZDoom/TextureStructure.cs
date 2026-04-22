@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,25 +11,15 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using System.Collections.Generic;
 using System.Globalization;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.ZDoom
 {
     public sealed class TextureStructure
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Declaration
         private readonly TextureNamespace texturenamespace;
@@ -51,10 +40,6 @@ namespace CodeImp.DoomBuilder.ZDoom
         // Patches
         private readonly List<PatchStructure> patches;
 
-        #endregion
-
-        #region ================== Properties
-
         public TextureNamespace TextureNamespace { get { return texturenamespace; } }
         public string Name { get { return name; } }
         public int Width { get { return width; } }
@@ -66,10 +51,6 @@ namespace CodeImp.DoomBuilder.ZDoom
         public bool Optional { get { return optional; } }
         public bool NullTexture { get { return nulltexture; } }
         public ICollection<PatchStructure> Patches { get { return patches; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal TextureStructure(TexturesParser parser, TextureNamespace texturenamespace, string virtualpath)
@@ -187,10 +168,6 @@ namespace CodeImp.DoomBuilder.ZDoom
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This reads the next token and sets a floating point value, returns false when failed
         private static bool ReadTokenFloat(TexturesParser parser, string propertyname, out float value)
         {
@@ -256,7 +233,5 @@ namespace CodeImp.DoomBuilder.ZDoom
 
             return tex;
         }
-
-        #endregion
     }
 }

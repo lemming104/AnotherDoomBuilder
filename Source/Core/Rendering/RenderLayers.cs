@@ -1,6 +1,3 @@
-#region ================== Namespaces
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Rendering
 {

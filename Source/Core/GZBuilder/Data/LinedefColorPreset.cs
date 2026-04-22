@@ -1,16 +1,12 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.GZBuilder.Data
 {
     public class LinedefColorPreset
     {
-        #region ================== Properties
 
         public string Name;
         public PixelColor Color;
@@ -19,10 +15,6 @@ namespace CodeImp.DoomBuilder.GZBuilder.Data
         public int Activation; //Hexen activation type
         public readonly List<string> Flags;
         public readonly List<string> RestrictedFlags;
-
-        #endregion
-
-        #region ================== Constructors
 
         public LinedefColorPreset(string name, PixelColor linecolor)
         {
@@ -54,10 +46,6 @@ namespace CodeImp.DoomBuilder.GZBuilder.Data
             Flags = new List<string>(other.Flags);
             RestrictedFlags = new List<string>(other.RestrictedFlags);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public bool Matches(Linedef l)
         {
@@ -95,7 +83,5 @@ namespace CodeImp.DoomBuilder.GZBuilder.Data
         {
             return Name;
         }
-
-        #endregion
     }
 }

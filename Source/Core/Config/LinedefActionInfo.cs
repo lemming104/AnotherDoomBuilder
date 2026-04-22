@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,17 +11,12 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.IO;
 using CodeImp.DoomBuilder.Map;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Config
 {
@@ -39,17 +33,6 @@ namespace CodeImp.DoomBuilder.Config
 
     public class LinedefActionInfo : INumberedTitle, IComparable<LinedefActionInfo>
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Constants
-
-
-
-        #endregion
-
-        #region ================== Variables
 
         // Properties
         private readonly int index;
@@ -66,10 +49,6 @@ namespace CodeImp.DoomBuilder.Config
         private readonly bool linetolinesameaction;
         private readonly ErrorCheckerExemptions errorcheckerexemptions;
 
-        #endregion
-
-        #region ================== Properties
-
         public int Index { get { return index; } }
         public string Prefix { get { return prefix; } }
         public string Category { get { return category; } }
@@ -84,10 +63,6 @@ namespace CodeImp.DoomBuilder.Config
         public bool LineToLineTag { get { return linetolinetag; } }
         public bool LineToLineSameAction { get { return linetolinesameaction; } }
         public ErrorCheckerExemptions ErrorCheckerExemptions { get { return errorcheckerexemptions; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal LinedefActionInfo(int index, Configuration cfg, string categoryname, IDictionary<string, EnumList> enums)
@@ -144,10 +119,6 @@ namespace CodeImp.DoomBuilder.Config
                 this.args[i] = new ArgumentInfo(i);
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This presents the item as string
         public override string ToString()
         {
@@ -161,7 +132,5 @@ namespace CodeImp.DoomBuilder.Config
             else if (this.index > other.index) return 1;
             else return 0;
         }
-
-        #endregion
     }
 }

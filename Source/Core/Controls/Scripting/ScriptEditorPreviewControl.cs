@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Rendering;
 using ScintillaNET;
 using System.Collections.Generic;
@@ -7,29 +6,18 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     internal partial class ScriptEditorPreviewControl : UserControl
     {
-        #region ================== Constants
 
         private const int HIGHLIGHT_INDICATOR = 8;
-
-        #endregion
-
-        #region ================== Variables
 
         private Dictionary<int, ScriptStyleType> styletranslation;
         private string highlightedword;
         private Color indicatorcolor;
         private int lastcaretpos;
         private readonly HashSet<char> bracechars;
-
-        #endregion
-
-        #region ================== Properties
 
         public string FontName { set { ApplyFont(value); } }
         public int FontSize { set { ApplyFontSize(value); } }
@@ -87,10 +75,6 @@ namespace CodeImp.DoomBuilder.Controls
         public Color BraceHighlight { set { scriptedit.Styles[Style.BraceLight].BackColor = value; } }
         public Color BadBraceHighlight { set { scriptedit.Styles[Style.BraceBad].BackColor = value; } }
         public Color ScriptIndicator { set { indicatorcolor = value; UpdateWordHighlight(); } }
-
-        #endregion
-
-        #region ================== Constructor / Setup
 
         public ScriptEditorPreviewControl()
         {
@@ -248,10 +232,6 @@ namespace CodeImp.DoomBuilder.Controls
             this.PerformLayout();
         }
 
-        #endregion
-
-        #region ================== Methods
-
         private void ApplyStyleColor(ScriptStyleType type, Color color)
         {
             foreach (KeyValuePair<int, ScriptStyleType> group in styletranslation)
@@ -388,10 +368,6 @@ namespace CodeImp.DoomBuilder.Controls
             }
         }
 
-        #endregion
-
-        #region ================== Events
-
         private void scriptedit_UpdateUI(object sender, UpdateUIEventArgs e)
         {
             UpdateWordHighlight();
@@ -425,7 +401,5 @@ namespace CodeImp.DoomBuilder.Controls
                 }
             }
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,17 +11,12 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Types;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Controls
 {
@@ -45,11 +39,6 @@ namespace CodeImp.DoomBuilder.Controls
 
     internal class FieldsEditorRow : DataGridViewRow
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         //mxd. Row type
         private readonly FieldsEditorRowType rowtype;
@@ -64,20 +53,12 @@ namespace CodeImp.DoomBuilder.Controls
         // Type
         private TypeHandler fieldtype;
 
-        #endregion
-
-        #region ================== Properties
-
         public FieldsEditorRowType RowType { get { return rowtype; } } //mxd
         public bool IsDefined { get { return isdefined; } }
         public bool IsEmpty { get { return (this.Cells[2].Value == null) || (this.Cells[2].Value.ToString().Length == 0); } }
         public string Name { get { return this.Cells[0].Value.ToString(); } }
         public TypeHandler TypeHandler { get { return fieldtype; } }
         public UniversalFieldInfo Info { get { return fieldinfo; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor for a fixed, undefined field
         public FieldsEditorRow(DataGridView view, UniversalFieldInfo fixedfield)
@@ -167,10 +148,6 @@ namespace CodeImp.DoomBuilder.Controls
             // We have no destructor
             GC.SuppressFinalize(this);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Browse for value
         public void Browse(IWin32Window parent)
@@ -310,7 +287,5 @@ namespace CodeImp.DoomBuilder.Controls
                 return value;
             }
         }
-
-        #endregion
     }
 }

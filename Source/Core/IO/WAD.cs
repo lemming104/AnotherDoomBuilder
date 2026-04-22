@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Collections.Generic;
@@ -22,13 +18,10 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.IO
 {
     public class WAD : IDisposable
     {
-        #region ================== Constants
 
         // WAD types
         private const string TYPE_IWAD = "IWAD";
@@ -114,20 +107,12 @@ namespace CodeImp.DoomBuilder.IO
 			"64c13b951a845ca7f8081f68138a6181557458d1",  // Strife1 1.2
 		};
 
-        #endregion
-
-        #region ================== Structs (mxd)
-
         private struct LumpCopyData
         {
             public byte[] Data;
             public byte[] FixedName;
             public int Index;
         }
-
-        #endregion
-
-        #region ================== Variables
 
         // File objects
         private string filename;
@@ -148,10 +133,6 @@ namespace CodeImp.DoomBuilder.IO
         private bool isreadonly;
         private bool isdisposed;
 
-        #endregion
-
-        #region ================== Properties
-
         public string Filename { get { return filename; } }
         public Encoding Encoding { get { return ENCODING; } }
         public bool IsReadOnly { get { return isreadonly; } }
@@ -159,10 +140,6 @@ namespace CodeImp.DoomBuilder.IO
         public bool IsIWAD { get { return isiwad; } set { isiwad = value; } } //mxd
         public bool IsOfficialIWAD { get { return isofficialiwad; } } //mxd
         public List<Lump> Lumps { get { return lumps; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor to open or create a WAD file
         public WAD(string pathfilename)
@@ -212,10 +189,6 @@ namespace CodeImp.DoomBuilder.IO
                 GC.SuppressFinalize(this); //mxd
             }
         }
-
-        #endregion
-
-        #region ================== IO
 
         // Open a WAD file
         private void Open(string pathfilename)
@@ -452,10 +425,6 @@ namespace CodeImp.DoomBuilder.IO
 			}
 		}*/
 
-        #endregion
-
-        #region ================== Lumps
-
         // This creates a new lump in the WAD file
         public Lump Insert(string name, int position, int datalength, bool writeheaders = true)
         {
@@ -636,7 +605,5 @@ namespace CodeImp.DoomBuilder.IO
             // Nothing found
             return -1;
         }
-
-        #endregion
     }
 }

@@ -8,20 +8,13 @@ namespace CodeImp.DoomBuilder.ZDoom
 {
     public sealed class ZScriptActorStructure : ActorStructure
     {
-        #region ================== Variables
 
         private ZScriptParser parser;
         private Stream stream;
         private ZScriptTokenizer tokenizer;
         private List<string> mixins;
 
-        #endregion
-
-        #region ================== Properties
-
         public List<string> Mixins { get { return mixins; } }
-
-        #endregion
 
         internal static bool ParseGZDBComment(Dictionary<string, List<string>> props, string text)
         {

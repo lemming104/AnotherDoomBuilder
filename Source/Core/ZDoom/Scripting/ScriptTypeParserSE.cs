@@ -1,10 +1,7 @@
 ﻿
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
-
-#endregion
 
 //mxd. Parser used to determine which script type given text is.
 namespace CodeImp.DoomBuilder.ZDoom.Scripting

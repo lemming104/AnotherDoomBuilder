@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,33 +11,19 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using System;
 using System.Drawing;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Geometry
 {
     public struct Line2D
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Coordinates
         public Vector2D v1;
         public Vector2D v2;
-
-        #endregion
-
-        #region ================== Constructors
 
         // Constructor
         public Line2D(Vector2D v1, Vector2D v2)
@@ -74,10 +59,6 @@ namespace CodeImp.DoomBuilder.Geometry
             this.v1 = line.Start.Position;
             this.v2 = line.End.Position;
         }
-
-        #endregion
-
-        #region ================== Statics
 
         // This calculates the length
         public static double GetLength(double dx, double dy)
@@ -303,10 +284,6 @@ namespace CodeImp.DoomBuilder.Geometry
             return new Line2D(x1, y1, x2, y2);
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This returns the perpendicular vector by simply making a normal
         public Vector2D GetPerpendicular()
         {
@@ -410,7 +387,5 @@ namespace CodeImp.DoomBuilder.Geometry
             return new Line2D(v1.GetInvTransformed(invoffsetx, invoffsety, invscalex, invscaley),
                 v2.GetInvTransformed(invoffsetx, invoffsety, invscalex, invscaley));
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,38 +11,16 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Controls
 {
     public class AutoSelectTextbox : TextBox
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private int eventcount;
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Constructor / Disposer
-
-        #endregion
-
-        #region ================== Methods
 
         // When gaining focus
         protected override void OnGotFocus(EventArgs e)
@@ -87,7 +64,5 @@ namespace CodeImp.DoomBuilder.Controls
             this.Select(0, 0);
             return result;
         }
-
-        #endregion
     }
 }

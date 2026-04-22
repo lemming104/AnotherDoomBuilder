@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
@@ -8,17 +7,10 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     internal sealed class VisualFogBoundary : BaseVisualGeometrySidedef
     {
-        #region ================== Variables
-
-        #endregion
-
-        #region ================== Constructor / Setup
 
         // Constructor
         public VisualFogBoundary(BaseVisualMode mode, VisualSector vs, Sidedef s) : base(mode, vs, s)
@@ -121,10 +113,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             return false;
         }
 
-        #endregion
-
-        #region ================== Methods
-
         //==========================================================================
         //
         // Check if the current linedef is a candidate for a fog boundary
@@ -153,7 +141,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
         protected override void SetTextureOffsetY(int y) { }
         protected override void MoveTextureOffset(int offsetx, int offsety) { }
         protected override Point GetTextureOffset() { return Point.Empty; }
-
-        #endregion
     }
 }

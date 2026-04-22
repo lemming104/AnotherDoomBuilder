@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
@@ -7,8 +6,6 @@ using CodeImp.DoomBuilder.GZBuilder.Data;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.ZDoom
 {

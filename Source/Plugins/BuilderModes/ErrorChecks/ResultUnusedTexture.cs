@@ -1,30 +1,18 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     public class ResultUnusedTexture : ErrorResult
     {
-        #region ================== Variables
 
         private readonly Sidedef side;
         private readonly SidedefPart part;
 
-        #endregion
-
-        #region ================== Properties
-
         public override int Buttons { get { return 1; } }
         public override string Button1Text { get { return "Remove Texture"; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public ResultUnusedTexture(Sidedef sd, SidedefPart part)
@@ -36,10 +24,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             this.hidden = sd.IgnoredErrorChecks.Contains(this.GetType()); //mxd
             this.description = "This sidedef uses an upper or lower texture, which is not required (it will never be visible ingame). Click the Remove Texture button to remove the texture (this will also reset texture offsets and scale in UDMF map format).";
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets if this result is displayed in ErrorCheckForm (mxd)
         internal override void Hide(bool hide)
@@ -99,7 +83,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             General.Map.Map.Update();
             return true;
         }
-
-        #endregion
     }
 }

@@ -1,41 +1,25 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.ZDoom
 {
     internal sealed class X11R6RGBParser : ZDTextParser
     {
-        #region ================== Variables
 
         private readonly Dictionary<string, PixelColor> knowncolors;
-
-        #endregion
-
-        #region ================== Properties
 
         internal override ScriptType ScriptType { get { return ScriptType.X11R6RGB; } }
 
         public Dictionary<string, PixelColor> KnownColors { get { return knowncolors; } }
 
-        #endregion
-
-        #region ================== Constructor
-
         internal X11R6RGBParser()
         {
             knowncolors = new Dictionary<string, PixelColor>(StringComparer.InvariantCultureIgnoreCase);
         }
-
-        #endregion
-
-        #region ================== Parsing
 
         public override bool Parse(TextResourceData data, bool clearerrors)
         {
@@ -81,7 +65,5 @@ namespace CodeImp.DoomBuilder.ZDoom
 
             return true;
         }
-
-        #endregion
     }
 }

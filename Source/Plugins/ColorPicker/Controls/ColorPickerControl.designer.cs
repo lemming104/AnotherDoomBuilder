@@ -18,8 +18,6 @@ namespace CodeImp.DoomBuilder.ColorPicker.Controls {
 			base.Dispose(disposing);
 		}
 
-		#region Код, автоматически созданный конструктором компонентов
-
 		/// <summary> 
 		/// Обязательный метод для поддержки конструктора - не изменяйте 
 		/// содержимое данного метода при помощи редактора кода.
@@ -212,8 +210,6 @@ namespace CodeImp.DoomBuilder.ColorPicker.Controls {
 			this.PerformLayout();
 
 		}
-
-		#endregion
 
 		internal System.Windows.Forms.Button btnCancel;
 		internal System.Windows.Forms.Button btnOK;

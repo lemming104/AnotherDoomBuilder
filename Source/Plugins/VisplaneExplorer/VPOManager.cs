@@ -1,26 +1,18 @@
-#region === Copyright (c) 2010 Pascal van der Heiden ===
 
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
 {
     internal class VPOManager : IDisposable
     {
-        #region ================== Constants
 
         public const int POINTS_PER_ITERATION = 100;
         private const int EXPECTED_RESULTS_BUFFER = 200000;
 
         private readonly int[] TEST_ANGLES = new[] { 0, 90, 180, 270, 45, 135, 225, 315 /*, 22, 67, 112, 157, 202, 247, 292, 337 */ };
-
-        #endregion
-
-        #region ================== VPO bindings
 
         [DllImport("BuilderNative", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr VPO_NewContext();
@@ -49,10 +41,6 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
         [DllImport("BuilderNative", CallingConvention = CallingConvention.Cdecl)]
         private static extern int VPO_TestSpot(IntPtr handle, int x, int y, int dz, int angle, ref int visplanes, ref int drawsegs, ref int openings, ref int solidsegs);
 
-        #endregion
-
-        #region ================== Variables
-
         // Main objects
         private List<Thread> threads = new List<Thread>();
 
@@ -65,16 +53,8 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
         private readonly Queue<PointData> results = new Queue<PointData>(EXPECTED_RESULTS_BUFFER);
         private bool stopflag;
 
-        #endregion
-
-        #region ================== Properties
-
         // Use up to 75% of CPU cores available
         public int NumThreads { get { return Math.Max(((Environment.ProcessorCount * 3) + 2) / 4, 1); } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public VPOManager()
@@ -86,10 +66,6 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
         {
             Stop();
         }
-
-        #endregion
-
-        #region ================== Processing
 
         // The thread!
         private void ProcessingThread()
@@ -148,10 +124,6 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
             VPO_FreeWAD(context);
             VPO_DeleteContext(context);
         }
-
-        #endregion
-
-        #region ================== Public Methods
 
         // This loads a map
         public void Start(string filename, string mapname)
@@ -229,7 +201,5 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
                 return points.Count;
             }
         }
-
-        #endregion
     }
 }

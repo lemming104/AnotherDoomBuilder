@@ -1,29 +1,17 @@
-﻿#region ================== Namespaces
-
+﻿
 using System;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Rendering
 {
     internal sealed class VisualSlopeHandle : IDisposable, IRenderResource
     {
-        #region ================== Variables
 
         private VertexBuffer linegeometry;
         private VertexBuffer vertexgeometry;
         private bool isdisposed;
 
-        #endregion
-
-        #region ================== Properties
-
         public VertexBuffer LineGeometry { get { return linegeometry; } }
         public VertexBuffer VertexGeometry { get { return vertexgeometry; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         public VisualSlopeHandle()
         {
@@ -49,10 +37,6 @@ namespace CodeImp.DoomBuilder.Rendering
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This is called resets when the device is reset
         // (when resized or display adapter was changed)
@@ -105,7 +89,5 @@ namespace CodeImp.DoomBuilder.Rendering
 
             vertexgeometry = null;
         }
-
-        #endregion
     }
 }

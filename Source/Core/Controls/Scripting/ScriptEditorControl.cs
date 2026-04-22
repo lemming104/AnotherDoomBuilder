@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Compilers;
 using CodeImp.DoomBuilder.Config;
@@ -33,8 +29,6 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     internal enum ScriptStyleType
@@ -52,7 +46,6 @@ namespace CodeImp.DoomBuilder.Controls
 
     public partial class ScriptEditorControl : UserControl
     {
-        #region ================== Enums
 
         // Index for registered images
         internal enum ImageIndex
@@ -64,10 +57,6 @@ namespace CodeImp.DoomBuilder.Controls
             ScriptProperty = 4, //mxd
         }
 
-        #endregion
-
-        #region ================== Constants
-
         private const string LEXERS_RESOURCE = "Lexers.cfg";
         private const int HIGHLIGHT_INDICATOR = 8; //mxd. Indicators 0-7 could be in use by a lexer so we'll use indicator 8 to highlight words.
         private const string ENTRY_POSITION_MARKER = "[EP]"; //mxd
@@ -76,10 +65,6 @@ namespace CodeImp.DoomBuilder.Controls
         const int SCI_ENSUREVISIBLEENFORCEPOLICY = 2234;
         const int SCI_SETBACKSPACEUNINDENTS = 2262;
         const int SCI_SETTABINDENTS = 2260;
-
-        #endregion
-
-        #region ================== Delegates / Events
 
         public delegate void ExplicitSaveTabDelegate();
         public delegate void OpenScriptBrowserDelegate();
@@ -103,10 +88,6 @@ namespace CodeImp.DoomBuilder.Controls
         public event GoToLineDelegate OnGoToLine; //mxd
         public event CompileScriptDelegate OnCompileScript; //mxd
 
-        #endregion
-
-        #region ================== Variables
-
         // Script configuration
         private ScriptConfiguration scriptconfig;
 
@@ -127,10 +108,6 @@ namespace CodeImp.DoomBuilder.Controls
         //mxd. Event propagation
         private bool preventchanges;
 
-        #endregion
-
-        #region ================== Properties
-
         public bool IsChanged { get { return scriptedit.Modified; } }
         public int SelectionStart { get { return scriptedit.SelectionStart; } set { scriptedit.SelectionStart = value; } }
         public int SelectionEnd { get { return scriptedit.SelectionEnd; } set { scriptedit.SelectionEnd = value; } }
@@ -140,10 +117,6 @@ namespace CodeImp.DoomBuilder.Controls
         public bool WrapLongLines { get { return scriptedit.WrapMode != WrapMode.None; } set { scriptedit.WrapMode = value ? WrapMode.Char : WrapMode.None; } }
         internal Scintilla Scintilla { get { return scriptedit; } } //mxd
         internal static Encoding Encoding { get { return encoding; } } //mxd
-
-        #endregion
-
-        #region ================== Contructor / Disposer
 
         // Constructor
         public ScriptEditorControl()
@@ -218,10 +191,6 @@ namespace CodeImp.DoomBuilder.Controls
             scriptedit.AssignCmdKey(Keys.Control | Keys.Shift | Keys.B, Command.Null);
             scriptedit.AssignCmdKey(Keys.Control | Keys.Shift | Keys.N, Command.Null);
         }
-
-        #endregion
-
-        #region ================== Public methods
 
         // This launches keyword help website
         public bool LaunchKeywordHelp()
@@ -859,10 +828,6 @@ namespace CodeImp.DoomBuilder.Controls
             return result;
         }
 
-        #endregion
-
-        #region ================== Utility methods
-
         // This returns the ScriptStyleType for a given Scintilla style
         internal ScriptStyleType GetScriptStyle(int scintillastyle)
         {
@@ -1026,10 +991,6 @@ namespace CodeImp.DoomBuilder.Controls
             // Pass to base
             return base.ProcessCmdKey(ref msg, keydata);
         }
-
-        #endregion
-
-        #region ================== Events
 
         // Layout needs to be re-organized
         protected override void OnLayout(LayoutEventArgs e)
@@ -1299,10 +1260,6 @@ namespace CodeImp.DoomBuilder.Controls
             if (OnFunctionBarDropDown != null) OnFunctionBarDropDown(sender, e);
         }
 
-        #endregion
-
-        #region ================== Context menu Events
-
         private void contextmenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             menuundo.Enabled = scriptedit.CanUndo;
@@ -1356,8 +1313,6 @@ namespace CodeImp.DoomBuilder.Controls
         {
             scriptedit.SelectAll();
         }
-
-        #endregion
 
     }
 }

@@ -1,30 +1,18 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     public class ResultInvalidPolyobjectLines : ErrorResult
     {
-        #region ================== Variables
 
         private readonly List<Linedef> lines;
         private readonly string linesinfo;
 
-        #endregion
-
-        #region ================== Properties
-
         public override int Buttons { get { return 0; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         public ResultInvalidPolyobjectLines(List<Linedef> lines, string details)
         {
@@ -50,10 +38,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             this.description = linesinfo + ": " + details;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets if this result is displayed in ErrorCheckForm (mxd)
         internal override void Hide(bool hide)
@@ -88,7 +72,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 renderer.PlotVertex(l.End, ColorCollection.VERTICES);
             }
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,32 +11,14 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Geometry
 {
     public sealed class SidedefsTracePath : List<Sidedef>
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public SidedefsTracePath()
@@ -51,10 +32,6 @@ namespace CodeImp.DoomBuilder.Geometry
             // Initialize
             base.Add(add);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This checks if the polygon is closed
         public bool CheckIsClosed()
@@ -96,7 +73,5 @@ namespace CodeImp.DoomBuilder.Geometry
 
             return p;
         }
-
-        #endregion
     }
 }

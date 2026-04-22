@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2020 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,9 +18,6 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Controls;
@@ -43,8 +39,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.UDBScript
 {
@@ -70,22 +64,13 @@ namespace CodeImp.DoomBuilder.UDBScript
 
     public class BuilderPlug : Plug
     {
-        #region ================== Constants
 
         private static readonly string SCRIPT_FOLDER = "UDBScript";
         public static readonly uint UDB_SCRIPT_VERSION = 5;
 
-        #endregion
-
         private delegate void CallVoidMethodDeletage();
 
-        #region ================== Constants
-
         public const int NUM_SCRIPT_SLOTS = 30;
-
-        #endregion
-
-        #region ================== Variables
 
         private static BuilderPlug me;
         private ScriptDockerControl panel;
@@ -102,10 +87,6 @@ namespace CodeImp.DoomBuilder.UDBScript
         private PreferencesForm preferencesform;
         private ScriptRunnerForm scriptrunnerform;
 
-        #endregion
-
-        #region ================== Properties
-
         public static BuilderPlug Me { get { return me; } }
         public string CurrentScriptFile { get { return currentscriptfile; } set { currentscriptfile = value; } }
         internal ScriptInfo CurrentScript { get { return currentscript; } set { currentscript = value; } }
@@ -113,8 +94,6 @@ namespace CodeImp.DoomBuilder.UDBScript
         internal ScriptDirectoryStructure ScriptDirectoryStructure { get { return scriptdirectorystructure; } }
         internal string EditorExePath { get { return editorexepath; } }
         public ScriptRunnerForm ScriptRunnerForm { get { return scriptrunnerform; } }
-
-        #endregion
 
         public override void OnInitialize()
         {
@@ -619,8 +598,6 @@ namespace CodeImp.DoomBuilder.UDBScript
             return null;
         }
 
-        #region ================== Actions
-
         [BeginAction("udbscriptexecute")]
         public void ScriptExecute()
         {
@@ -680,7 +657,5 @@ namespace CodeImp.DoomBuilder.UDBScript
                 }
             }
         }
-
-        #endregion
     }
 }

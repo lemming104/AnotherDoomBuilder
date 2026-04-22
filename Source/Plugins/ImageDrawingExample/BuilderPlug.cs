@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2009 Pascal vd Heiden
-
+﻿
 /*
  * Copyright (c) 2009 Pascal vd Heiden, www.codeimp.com
  * This program is released under GNU General Public License
@@ -10,12 +9,6 @@
  * GNU General Public License for more details.
  * 
  */
-
-#endregion
-
-#region ================== Namespaces
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Plugins.ImageDrawingExample
 {

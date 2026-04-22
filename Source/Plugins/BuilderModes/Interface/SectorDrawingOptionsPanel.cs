@@ -1,18 +1,14 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Windows;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes.Interface
 {
     public partial class SectorDrawingOptionsPanel : UserControl
     {
-        #region ================== Constructor / Setup
 
         public SectorDrawingOptionsPanel()
         {
@@ -62,10 +58,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             middle.StopUpdate();
             bottom.StopUpdate();
         }
-
-        #endregion
-
-        #region ================== Checkbox Events
 
         private void cbOverrideCeilingTexture_CheckedChanged(object sender, EventArgs e)
         {
@@ -151,10 +143,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             getheightandbrightnessfromselection.Enabled = cbCeilHeight.Checked || cbFloorHeight.Checked || cbBrightness.Checked;
         }
 
-        #endregion
-
-        #region ================== Inputs Events
-
         private void ceilHeight_WhenTextChanged(object sender, EventArgs e)
         {
             General.Map.Options.CustomCeilingHeight = ceilHeight.GetResult(General.Map.Options.CustomCeilingHeight);
@@ -194,10 +182,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         {
             General.Map.Options.DefaultBottomTexture = bottom.TextureName;
         }
-
-        #endregion
-
-        #region ================== Texture Fill
 
         private void fillceiling_Click(object sender, EventArgs e)
         {
@@ -359,10 +343,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             General.Map.Map.Update();
             General.Interface.RedrawDisplay();
         }
-
-        #endregion
-
-        #region ================== Clear Textures
 
         private void clearceiling_Click(object sender, EventArgs e)
         {
@@ -530,10 +510,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             General.Interface.RedrawDisplay();
         }
 
-        #endregion
-
-        #region ================== Get Properties from Selection Events
-
         private void getsectortexturesfromselection_Click(object sender, EventArgs e)
         {
             ICollection<Sector> sectors = General.Map.Map.GetSelectedSectors(true);
@@ -589,8 +565,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             if (cbFloorHeight.Checked) floorHeight.Text = s.FloorHeight.ToString();
             if (cbBrightness.Checked) brightness.Text = s.Brightness.ToString();
         }
-
-        #endregion
 
     }
 }

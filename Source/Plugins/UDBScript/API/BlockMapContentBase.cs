@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2022 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,31 +18,21 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
     abstract class BlockMapContentBase
     {
-        #region ================== Variables
 
         protected LinedefWrapper[] wrappedlines;
         protected ThingWrapper[] wrappedthings;
         protected SectorWrapper[] wrappedsectors;
         protected VertexWrapper[] wrappedvertices;
-
-        #endregion
-
-        #region ================== Methods
 
         abstract public LinedefWrapper[] getLinedefs();
         abstract public ThingWrapper[] getThings();
@@ -70,7 +59,5 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 
             return container;
         }
-
-        #endregion
     }
 }

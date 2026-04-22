@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Controls;
@@ -25,13 +21,10 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Windows
 {
     internal partial class ThingsFiltersForm : DelayedForm
     {
-        #region ================== Structs
 
         private class ThingCategoryData //mxd
         {
@@ -50,15 +43,7 @@ namespace CodeImp.DoomBuilder.Windows
             }
         }
 
-        #endregion
-
-        #region ================== Variables
-
         private bool settingup;
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor
         public ThingsFiltersForm()
@@ -154,10 +139,6 @@ namespace CodeImp.DoomBuilder.Windows
                 listfilters.Invalidate();
             }
         }
-
-        #endregion
-
-        #region ================== Management
 
         // OK clicked
         private void apply_Click(object sender, EventArgs e)
@@ -333,10 +314,6 @@ namespace CodeImp.DoomBuilder.Windows
             General.ShowHelp("w_thingsfilter.html");
             hlpevent.Handled = true;
         }
-
-        #endregion
-
-        #region ================== Filter Settings
 
         // Category changed
         private void filtercategory_SelectedIndexChanged(object sender, EventArgs e)
@@ -599,7 +576,5 @@ namespace CodeImp.DoomBuilder.Windows
                 f.DisplayMode = (ThingsFilterDisplayMode)filtermode.SelectedIndex;
             }
         }
-
-        #endregion
     }
 }

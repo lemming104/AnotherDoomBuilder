@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,9 +18,6 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.BuilderModes;
 using CodeImp.DoomBuilder.Editing;
@@ -34,19 +30,12 @@ using System.ComponentModel;
 using System.Dynamic;
 using System.Linq;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
     class SectorWrapper : MapElementWrapper, IMoreTags, IEquatable<SectorWrapper>
     {
-        #region ================== Variables
 
         private Sector sector;
-
-        #endregion
-
-        #region IEquatable<SectorWrapper> members
 
         public bool Equals(SectorWrapper other)
         {
@@ -62,10 +51,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
         {
             return sector.GetHashCode();
         }
-
-        #endregion
-
-        #region ================== Properties
 
         internal Sector Sector { get { return sector; } }
 
@@ -483,27 +468,15 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             }
         }
 
-        #endregion
-
-        #region ================== Constructors
-
         internal SectorWrapper(Sector sector) : base(sector)
         {
             this.sector = sector;
         }
 
-        #endregion
-
-        #region ================== Update
-
         internal override void AfterFieldsUpdate()
         {
             sector.UpdateNeeded = true;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public override string ToString()
         {
@@ -770,10 +743,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             return Tools.FindLabelPositions(sector).Select(lpi => new Vector2DWrapper(lpi.position)).ToArray();
         }
 
-        #endregion
-
-        #region ================== Interface implementations
-
         /// <summary>
         /// Returns an `Array` of the `Sector`'s tags. UDMF only. Supported game configurations only.
         /// </summary>
@@ -830,7 +799,5 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 
             return false;
         }
-
-        #endregion
     }
 }

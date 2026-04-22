@@ -1,15 +1,11 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Rendering;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.GZBuilder.Data
 {
     public sealed class MapInfo
     {
-        #region ================== Enums
 
         public enum GZDoomLightMode
         {
@@ -21,10 +17,6 @@ namespace CodeImp.DoomBuilder.GZBuilder.Data
             SOFTWARE,
             UNDEFINED
         }
-
-        #endregion
-
-        #region ================== Variables
 
         private bool isdefined;
 
@@ -55,10 +47,6 @@ namespace CodeImp.DoomBuilder.GZBuilder.Data
 
         private string lightAttenuationMode;
 
-        #endregion
-
-        #region ================== Properties
-
         public bool IsDefined { get { return isdefined; } internal set { isdefined = value; } }
 
         public string Title { get { return title; } internal set { title = value; isdefined = true; } }
@@ -87,10 +75,6 @@ namespace CodeImp.DoomBuilder.GZBuilder.Data
         public bool ForceWorldPanning { get { return forceworldpanning; } internal set { forceworldpanning = value; isdefined = true; } }
         public string LightAttenuationMode { get { return lightAttenuationMode; } internal set { lightAttenuationMode = value; isdefined = true; } }
 
-        #endregion
-
-        #region ================== Constructor
-
         public MapInfo()
         {
             vertwallshade = 16;
@@ -100,7 +84,5 @@ namespace CodeImp.DoomBuilder.GZBuilder.Data
             lightmode = GZDoomLightMode.UNDEFINED;
             pixelratio = DataManager.DOOM_PIXEL_RATIO;
         }
-
-        #endregion
     }
 }

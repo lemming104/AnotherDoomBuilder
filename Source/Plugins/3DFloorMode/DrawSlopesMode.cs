@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Editing;
@@ -28,8 +24,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.ThreeDFloorMode
 {
@@ -50,13 +44,8 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
               DeprecationMessage = "Please use the visual sloping functionality instead.")]
     public class DrawSlopesMode : ClassicMode
     {
-        #region ================== Constants
 
         private const float LINE_THICKNESS = 0.8f;
-
-        #endregion
-
-        #region ================== Variables
 
         // Drawing points
         private List<DrawnVertex> points;
@@ -75,16 +64,8 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
 
         private static SlopeDrawingMode slopedrawingmode = SlopeDrawingMode.Floor;
 
-        #endregion
-
-        #region ================== Properties
-
         // Just keep the base mode button checked
         public override string EditModeButtonName { get { return General.Editing.PreviousStableMode.Name; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public DrawSlopesMode()
@@ -115,10 +96,6 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This checks if the view offset/zoom changed and updates the check
         protected bool CheckViewChanged()
@@ -546,10 +523,6 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
             return false;
         }
 
-        #endregion
-
-        #region ================== Events
-
         public override void OnHelp()
         {
             General.ShowHelp("gzdb/features/classic_modes/mode_slopes.html");
@@ -818,10 +791,6 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
                (snaptonearest != (General.Interface.CtrlState ^ General.Interface.AutoMerge))) Update();
         }
 
-        #endregion
-
-        #region ================== Actions
-
         [BeginAction("drawfloorslope")]
         public void DrawFloorSlope()
         {
@@ -888,7 +857,5 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
             // Accept the changes
             General.Editing.AcceptMode();
         }
-
-        #endregion
     }
 }

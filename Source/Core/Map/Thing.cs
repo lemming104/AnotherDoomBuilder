@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Geometry;
@@ -28,23 +24,16 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Map
 {
     public sealed class Thing : SelectableElement, ITaggedMapElement
     {
-        #region ================== Constants
 
         public const int NUM_ARGS = 5;
         public static readonly HashSet<ThingRenderMode> AlignableRenderModes = new HashSet<ThingRenderMode>
         {
             ThingRenderMode.FLATSPRITE, ThingRenderMode.WALLSPRITE, ThingRenderMode.MODEL
         };
-
-        #endregion
-
-        #region ================== Variables
 
         // Map
         private MapSet map;
@@ -93,10 +82,6 @@ namespace CodeImp.DoomBuilder.Map
         // Rendering
         private int lastProcessed;
 
-        #endregion
-
-        #region ================== Properties
-
         public MapSet Map { get { return map; } }
         public int Type { get { return type; } set { BeforePropsChange(); type = value; } } //mxd
         public GZGeneral.LightData DynamicLightType { get { return dynamiclighttype; } internal set { BeforePropsChange(); dynamiclighttype = value; } }
@@ -125,10 +110,6 @@ namespace CodeImp.DoomBuilder.Map
         public bool IsDirectional { get { return directional; } } //mxd
         public bool Highlighted { get { return highlighted; } set { highlighted = value; } } //mxd
         internal int LastProcessed { get { return lastProcessed; } set { lastProcessed = value; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal Thing(MapSet map, int listindex, bool recordundo = true)
@@ -171,10 +152,6 @@ namespace CodeImp.DoomBuilder.Map
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Management
 
         // Call this before changing properties
         protected override void BeforePropsChange()
@@ -450,10 +427,6 @@ namespace CodeImp.DoomBuilder.Map
             selecteditem = null;
         }
 
-        #endregion
-
-        #region ================== Changes
-
         // This moves the thing
         // NOTE: This does not update sector! (call DetermineSector)
         public void Move(Vector3D newpos)
@@ -698,10 +671,6 @@ namespace CodeImp.DoomBuilder.Map
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This checks and returns a flag without creating it
         public bool IsFlagSet(string flagname)
         {
@@ -786,7 +755,5 @@ namespace CodeImp.DoomBuilder.Map
             General.Map.UndoRedo.RecIndexThing(Index, newindex);
             map?.ChangeThingIndex(Index, newindex);
         }
-
-        #endregion
     }
 }

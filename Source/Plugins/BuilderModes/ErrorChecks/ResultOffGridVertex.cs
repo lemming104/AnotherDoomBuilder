@@ -1,30 +1,18 @@
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Drawing;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     public class ResultOffGridVertex : ErrorResult
     {
-        #region ================== Variables
 
         private readonly Vertex vertex;
 
-        #endregion
-
-        #region ================== Properties
-
         public override int Buttons { get { return 1; } }
         public override string Button1Text { get { return "Align Vertex"; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         public ResultOffGridVertex(Vertex v)
         {
@@ -34,10 +22,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             hidden = v.IgnoredErrorChecks.Contains(this.GetType());
             description = "This vertex is not aligned with the grid.";
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets if this result is displayed in ErrorCheckForm (mxd)
         internal override void Hide(bool hide)
@@ -69,7 +53,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             General.Map.ThingsFilter.Update();
             return true;
         }
-
-        #endregion
     }
 }

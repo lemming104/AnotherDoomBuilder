@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
@@ -22,13 +18,10 @@ using CodeImp.DoomBuilder.IO;
 using System;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Map
 {
     public sealed class Sidedef : MapElement
     {
-        #region ================== Variables
 
         // Map
         private MapSet map;
@@ -61,10 +54,6 @@ namespace CodeImp.DoomBuilder.Map
         // Rendering
         private int lastProcessed;
 
-        #endregion
-
-        #region ================== Properties
-
         public MapSet Map { get { return map; } }
         public bool IsFront { get { return (linedef != null) && (this == linedef.Front); } }
         public Linedef Line { get { return linedef; } }
@@ -82,10 +71,6 @@ namespace CodeImp.DoomBuilder.Map
         public long LongLowTexture { get { return longtexnamelow; } }
         internal int SerializedIndex { get { return serializedindex; } set { serializedindex = value; } }
         internal int LastProcessed { get { return lastProcessed; } set { lastProcessed = value; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal Sidedef(MapSet map, int listindex, Linedef l, bool front, Sector s)
@@ -156,10 +141,6 @@ namespace CodeImp.DoomBuilder.Map
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Management
 
         // Call this before changing properties
         protected override void BeforePropsChange()
@@ -300,10 +281,6 @@ namespace CodeImp.DoomBuilder.Map
             this.Fields.Clear();
             this.Flags.Clear();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This checks and returns a flag without creating it
         public bool IsFlagSet(string flagname)
@@ -667,11 +644,6 @@ namespace CodeImp.DoomBuilder.Map
 #endif
         }
 
-
-        #endregion
-
-        #region ================== Changes
-
         // This updates all properties
         public void Update(int offsetx, int offsety, string thigh, string tmid, string tlow)
         {
@@ -778,7 +750,5 @@ namespace CodeImp.DoomBuilder.Map
                 UniFields.SetFloat(Fields, "offsetx_bottom", result);
             }
         }
-
-        #endregion
     }
 }

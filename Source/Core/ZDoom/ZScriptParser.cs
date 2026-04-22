@@ -9,7 +9,6 @@ namespace CodeImp.DoomBuilder.ZDoom
 {
     public sealed class ZScriptParser : ZDTextParser
     {
-        #region ================== Internal classes
 
         public class ZScriptClassStructure
         {
@@ -164,21 +163,9 @@ namespace CodeImp.DoomBuilder.ZDoom
             }
         }
 
-        #endregion
-
-        #region ================== Delegates
-
         public delegate void IncludeDelegate(ZScriptParser parser, string includefile);
 
         public IncludeDelegate OnInclude;
-
-        #endregion
-
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         //mxd. Script type
         internal override ScriptType ScriptType { get { return ScriptType.ZSCRIPT; } }
@@ -212,10 +199,6 @@ namespace CodeImp.DoomBuilder.ZDoom
         //
         public bool NoWarnings = false;
 
-        #endregion
-
-        #region ================== Properties
-
         /// <summary>
         /// All actors that are supported by the current game.
         /// </summary>
@@ -242,10 +225,6 @@ namespace CodeImp.DoomBuilder.ZDoom
         /// </summary>
         public HashSet<string> LastClasses { get; internal set; }
 
-        #endregion
-
-        #region ================== Constructor / Disposer
-
         // Constructor
         public ZScriptParser()
         {
@@ -267,10 +246,6 @@ namespace CodeImp.DoomBuilder.ZDoom
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== Parsing
 
         private bool ParseInclude(string filename)
         {
@@ -1500,10 +1475,6 @@ namespace CodeImp.DoomBuilder.ZDoom
                 actor.uservars[uservarname] = mixincls.Actor.uservars[uservarname];
         }
 
-        #endregion
-
-        #region ================== Methods
-
         protected override int GetCurrentLineNumber()
         {
             prevstreamposition = (tokenizer != null) ? tokenizer.LastPosition : -1;
@@ -1550,8 +1521,6 @@ namespace CodeImp.DoomBuilder.ZDoom
             mixinclasses = new Dictionary<string, ZScriptClassStructure>();
             mixinclasseslist = new List<ZScriptClassStructure>();
         }
-
-        #endregion
 
     }
 }

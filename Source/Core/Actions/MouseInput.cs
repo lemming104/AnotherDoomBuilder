@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using System;
@@ -22,23 +18,16 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Actions
 {
     internal class MouseInput : IDisposable
     {
-        #region ================== Variables
 
         // Mouse input
         private RawMouse mouse;
         private bool firstProcess = true;
         private Point lastPos = new Point();
         private Control source;
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public MouseInput(Control source)
@@ -77,14 +66,6 @@ namespace CodeImp.DoomBuilder.Actions
 #endif
         }
 
-        #endregion
-
-        #region ================== Methods
-
-        #endregion
-
-        #region ================== Processing
-
         // This processes the input
         public Vector2D Process()
         {
@@ -119,8 +100,6 @@ namespace CodeImp.DoomBuilder.Actions
 
             return new Vector2D(changex, changey);
         }
-
-        #endregion
 
 #if MONO_WINFORMS
 		[DllImport("BuilderNative.dll", CallingConvention = CallingConvention.Cdecl)]

@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,19 +18,13 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
     struct ImageInfo
     {
-        #region ================== Variables
 
         private string _name;
         private string _fullname;
@@ -39,10 +32,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
         private int _height;
         private Vector2DWrapper _scale;
         private bool _isflat;
-
-        #endregion
-
-        #region ================== Properties
 
         /// <summary>
         /// Name of the image.
@@ -84,10 +73,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             get { return _isflat; }
         }
 
-        #endregion
-
-        #region ================== Constructors
-
         internal ImageInfo(ImageData image)
         {
             _name = image.ShortName;
@@ -97,7 +82,5 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             _scale = new Vector2DWrapper(image.Scale);
             _isflat = image.TextureNamespace == TextureNamespace.FLAT;
         }
-
-        #endregion
     }
 }

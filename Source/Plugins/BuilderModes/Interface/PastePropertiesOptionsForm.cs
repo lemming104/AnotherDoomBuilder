@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Controls;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Windows;
@@ -9,21 +8,14 @@ using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes.Interface
 {
     public partial class PastePropertiesOptionsForm : DelayedForm
     {
-        #region ================== Variables
 
         private static Size size = Size.Empty;
         private static Point location = Point.Empty;
         private Dictionary<object, CheckboxArrayControl> typecontrols;
-
-        #endregion
-
-        #region ================== Constructor / Setup
 
         public PastePropertiesOptionsForm()
         {
@@ -110,10 +102,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             return true;
         }
 
-        #endregion
-
-        #region ================== Methods
-
         private bool ShowTabs(Dictionary<TabPage, CheckboxArrayControl> pageslist)
         {
             List<TabPage> toshow = new List<TabPage>();
@@ -157,10 +145,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             }
         }
 
-        #endregion
-
-        #region ================== Events
-
         private void apply_Click(object sender, EventArgs e)
         {
             foreach (KeyValuePair<object, CheckboxArrayControl> group in typecontrols)
@@ -194,7 +178,5 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             size = this.Size;
             location = this.Location;
         }
-
-        #endregion
     }
 }

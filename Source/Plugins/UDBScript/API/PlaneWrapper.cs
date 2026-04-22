@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2022 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,25 +18,15 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
     class PlaneWrapper
     {
-        #region ================== Variables
 
         private Plane plane;
-
-        #endregion
-
-        #region ================== Properties
 
         /// <summary>
         /// The plane's normal vector.
@@ -119,10 +108,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             }
         }
 
-        #endregion
-
-        #region ================== Constructors
-
         /// <summary>
         /// Creates a new `Plane` from a normal and an offset. The normal vector has to be `Vector3D`, `Array`s of 3 numbers, or an object with x, y, and z properties.
         /// ```
@@ -172,10 +157,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
                 throw BuilderPlug.Me.ScriptRunner.CreateRuntimeException(e.Message);
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Checks if the line between `from` and `to` intersects the plane.
@@ -267,14 +248,8 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             return plane.GetHashCode();
         }
 
-        #endregion
-
-        #region ================== Statics
-
         public static bool operator ==(PlaneWrapper a, PlaneWrapper b) => a.plane == b.plane;
 
         public static bool operator !=(PlaneWrapper a, PlaneWrapper b) => a.plane != b.plane;
-
-        #endregion
     }
 }

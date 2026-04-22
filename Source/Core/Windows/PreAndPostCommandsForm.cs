@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,21 +18,15 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using System;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Windows
 {
     public partial class PreAndPostCommandsForm : DelayedForm
     {
-        #region ================== Constructors
 
         public PreAndPostCommandsForm(ExternalCommandSettings reloadresourceprecommand, ExternalCommandSettings reloadresourcepostcommand, ExternalCommandSettings testprecommand, ExternalCommandSettings testpostcommand)
         {
@@ -44,10 +37,6 @@ namespace CodeImp.DoomBuilder.Windows
             testpre.Setup(testprecommand);
             testpost.Setup(testpostcommand);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public ExternalCommandSettings GetReloadResourcePreCommand()
         {
@@ -69,10 +58,6 @@ namespace CodeImp.DoomBuilder.Windows
             return testpost.GetSettings();
         }
 
-        #endregion
-
-        #region ================== Events
-
         private void btnCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
@@ -84,7 +69,5 @@ namespace CodeImp.DoomBuilder.Windows
             DialogResult = DialogResult.OK;
             Close();
         }
-
-        #endregion
     }
 }

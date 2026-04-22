@@ -1,16 +1,12 @@
 ﻿
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     public class ActionFloorLowerToLowestTextures : BaseActionTextures
     {
-        #region ================== Methods
 
         // Gather the lift and lower to lowest floor specials from the configuration.
         protected override bool InspectsAction(LinedefActionInfo info)
@@ -34,7 +30,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             return side.Other.Sector.FloorHeight > lowestheight;
         }
-
-        #endregion
     }
 }

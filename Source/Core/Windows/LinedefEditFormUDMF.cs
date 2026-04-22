@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Controls;
@@ -26,19 +22,12 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Windows
 {
     internal partial class LinedefEditFormUDMF : DelayedForm
     {
-        #region ================== Events
 
         public event EventHandler OnValuesChanged; //mxd
-
-        #endregion
-
-        #region ================== Variables
 
         private ICollection<Linedef> lines;
         private List<LinedefProperties> linedefprops; //mxd
@@ -128,10 +117,6 @@ namespace CodeImp.DoomBuilder.Windows
                 LowTexture = side.LowTexture;
             }
         }
-
-        #endregion
-
-        #region ================== Constructor
 
         public LinedefEditFormUDMF(bool selectfront, bool selectback)
         {
@@ -231,10 +216,6 @@ namespace CodeImp.DoomBuilder.Windows
             lightbackmiddle.Setup(VisualModes.VisualGeometryType.WALL_MIDDLE);
             lightbacklower.Setup(VisualModes.VisualGeometryType.WALL_LOWER);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets up the form to edit the given lines
         public void Setup(ICollection<Linedef> lines, bool selectfront, bool selectback)
@@ -708,10 +689,6 @@ namespace CodeImp.DoomBuilder.Windows
                 EnableDisableControlAndChildren(c, state);
         }
 
-        #endregion
-
-        #region ================== Events
-
         // Apply clicked
         private void apply_Click(object sender, EventArgs e)
         {
@@ -923,10 +900,6 @@ namespace CodeImp.DoomBuilder.Windows
             hlpevent.Handled = true;
         }
 
-        #endregion
-
-        #region ================== mxd. Realtime events (linedef)
-
         private void cbRenderStyle_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (preventchanges) return;
@@ -1007,12 +980,6 @@ namespace CodeImp.DoomBuilder.Windows
             if (preventchanges) return;
             CheckActivationFlagsRequired();
         }
-
-        #endregion
-
-        #region ================== mxd. Realtime events (sides)
-
-        #region Custom fields changed
 
         // Custom fields on front sides
         private void customfrontbutton_Click(object sender, EventArgs e)
@@ -1135,10 +1102,6 @@ namespace CodeImp.DoomBuilder.Windows
             General.Map.IsChanged = true;
             if (OnValuesChanged != null) OnValuesChanged(this, EventArgs.Empty);
         }
-
-        #endregion
-
-        #region Texture changed
 
         private void fronthigh_OnValueChanged(object sender, EventArgs e)
         {
@@ -1325,10 +1288,6 @@ namespace CodeImp.DoomBuilder.Windows
             General.Map.IsChanged = true;
             if (OnValuesChanged != null) OnValuesChanged(this, EventArgs.Empty);
         }
-
-        #endregion
-
-        #region Brightness changed
 
         private void lightFront_WhenTextChanged(object sender, EventArgs e)
         {
@@ -1565,10 +1524,6 @@ namespace CodeImp.DoomBuilder.Windows
             if (OnValuesChanged != null) OnValuesChanged(this, EventArgs.Empty);
         }
 
-        #endregion
-
-        #region Global texture offsets changed
-
         private void frontTextureOffset_OnValuesChanged(object sender, EventArgs e)
         {
             if (preventchanges) return;
@@ -1632,10 +1587,6 @@ namespace CodeImp.DoomBuilder.Windows
             General.Map.IsChanged = true;
             if (OnValuesChanged != null) OnValuesChanged(this, EventArgs.Empty);
         }
-
-        #endregion
-
-        #region Texture offsets changed
 
         private void pfcFrontOffsetTop_OnValuesChanged(object sender, EventArgs e)
         {
@@ -1785,10 +1736,6 @@ namespace CodeImp.DoomBuilder.Windows
             General.Map.IsChanged = true;
             if (OnValuesChanged != null) OnValuesChanged(this, EventArgs.Empty);
         }
-
-        #endregion
-
-        #region Scale changed
 
         private void pfcFrontScaleTop_OnValuesChanged(object sender, EventArgs e)
         {
@@ -1940,10 +1887,6 @@ namespace CodeImp.DoomBuilder.Windows
             if (OnValuesChanged != null) OnValuesChanged(this, EventArgs.Empty);
         }
 
-        #endregion
-
-        #region Flags cahnged
-
         private void flagsFront_OnValueChanged(object sender, EventArgs e)
         {
             if (preventchanges) return;
@@ -2003,9 +1946,5 @@ namespace CodeImp.DoomBuilder.Windows
             General.Map.IsChanged = true;
             if (OnValuesChanged != null) OnValuesChanged(this, EventArgs.Empty);
         }
-
-        #endregion
-
-        #endregion
     }
 }

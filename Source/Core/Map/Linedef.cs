@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
@@ -24,20 +20,13 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Map
 {
     public sealed class Linedef : SelectableElement, IMultiTaggedMapElement
     {
-        #region ================== Constants
 
         public const double SIDE_POINT_DISTANCE = 0.01;
         public const int NUM_ARGS = 5;
-
-        #endregion
-
-        #region ================== Variables
 
         // Map
         private MapSet map;
@@ -81,10 +70,6 @@ namespace CodeImp.DoomBuilder.Map
         // Rendering
         private int lastProcessed;
 
-        #endregion
-
-        #region ================== Properties
-
         public MapSet Map { get { return map; } }
         public Vertex Start { get { return start; } }
         public Vertex End { get { return end; } }
@@ -111,10 +96,6 @@ namespace CodeImp.DoomBuilder.Map
         internal bool ImpassableFlag { get { return impassableflag; } }
         internal int ColorPresetIndex { get { return colorPresetIndex; } } //mxd
         internal bool ExtraFloorFlag; //mxd
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal Linedef(MapSet map, int listindex, Vertex start, Vertex end)
@@ -183,10 +164,6 @@ namespace CodeImp.DoomBuilder.Map
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Management
 
         // Call this before changing properties
         protected override void BeforePropsChange()
@@ -814,10 +791,6 @@ namespace CodeImp.DoomBuilder.Map
             if (selecteditem.List != null) selecteditem.List.Remove(selecteditem);
             selecteditem = null;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Plane Align (181) (see http://zdoom.org/wiki/Plane_Align
         public bool HasActionPlaneAlign()
@@ -1460,10 +1433,6 @@ namespace CodeImp.DoomBuilder.Map
 #endif
         }
 
-        #endregion
-
-        #region ================== Changes
-
         // This updates all properties
         public void Update(Dictionary<string, bool> flags, ushort rawflags, int activate, List<int> tags, int action, int[] args)
         {
@@ -1663,7 +1632,5 @@ namespace CodeImp.DoomBuilder.Map
                     break;
             }
         }
-
-        #endregion
     }
 }

@@ -301,8 +301,6 @@ namespace CodeImp.DoomBuilder.SoundPropagationMode
             editmode.CenterOnArea(area, 0.0f);
         }
 
-        #region ================== Events
-
         private void soundenvironments_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (IsClickOnText(soundenvironments, e.Node, e.Location))
@@ -323,7 +321,5 @@ namespace CodeImp.DoomBuilder.SoundPropagationMode
         {
             if (OnShowWarningsOnlyChanged != null) OnShowWarningsOnlyChanged(this, EventArgs.Empty);
         }
-
-        #endregion
     }
 }

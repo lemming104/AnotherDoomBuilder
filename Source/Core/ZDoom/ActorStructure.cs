@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
@@ -23,20 +19,13 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.ZDoom
 {
     public class ActorStructure
     {
-        #region ================== Constants
 
         private readonly string[] SPRITE_CHECK_STATES = { "idle", "see", "inactive", "spawn" }; //mxd
         internal const string ACTOR_CLASS_SPECIAL_TOKENS = ":{}\n;,"; //mxd
-
-        #endregion
-
-        #region ================== Variables
 
         // Declaration
         internal string classname;
@@ -65,10 +54,6 @@ namespace CodeImp.DoomBuilder.ZDoom
         // States
         internal Dictionary<string, StateStructure> states;
 
-        #endregion
-
-        #region ================== Properties
-
         public Dictionary<string, bool> Flags { get { return flags; } }
         public Dictionary<string, List<string>> Properties { get { return props; } }
         public string ClassName { get { return classname; } }
@@ -79,10 +64,6 @@ namespace CodeImp.DoomBuilder.ZDoom
         public Dictionary<string, UniversalType> UserVars { get { return uservars; } } //mxd
         public Dictionary<string, object> UserVarDefaults { get { return uservar_defaults; } } // [ZZ]
         internal DecorateCategoryInfo CategoryInfo { get { return catinfo; } } //mxd
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal ActorStructure()
@@ -111,10 +92,6 @@ namespace CodeImp.DoomBuilder.ZDoom
             props = null;
             states = null;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// This checks if the actor has a specific property.
@@ -423,7 +400,5 @@ namespace CodeImp.DoomBuilder.ZDoom
                 return baseclass.GetArgumentInfo(idx);
             return null;
         }
-
-        #endregion
     }
 }

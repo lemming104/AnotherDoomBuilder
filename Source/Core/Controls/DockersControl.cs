@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,36 +11,22 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     internal partial class DockersControl : UserControl
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Delegates
 
         public event EventHandler MouseContainerEnter;
         public event EventHandler MouseContainerLeave;
         public event EventHandler Collapsed;
         public event EventHandler Expanded;
         public event EventHandler UserResize;
-
-        #endregion
-
-        #region ================== Variables
 
         // Behaviour
         private bool rightalign;
@@ -59,10 +44,6 @@ namespace CodeImp.DoomBuilder.Controls
         private string previousselected;
         private bool controlledselection;
 
-        #endregion
-
-        #region ================== Properties
-
         public bool IsCollpased { get { return iscollapsed; } }
         public string SelectedTabName { get { return tabs.SelectedTab == null ? "None" : tabs.SelectedTab.Text; } } //mxd
 
@@ -79,20 +60,12 @@ namespace CodeImp.DoomBuilder.Controls
             }
         }
 
-        #endregion
-
-        #region ================== Constructor
-
         // Constructor
         public DockersControl()
         {
             InitializeComponent();
             expandedwidth = (int)(this.Width * (this.CurrentAutoScaleDimensions.Width / this.AutoScaleDimensions.Width));
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This returns the active child control
         private Control FindActiveControl()
@@ -348,10 +321,6 @@ namespace CodeImp.DoomBuilder.Controls
                 pinbutton.Image = General.Settings.CollapseDockers ? Properties.Resources.DockerExpand : Properties.Resources.DockerCollapse;
         }
 
-        #endregion
-
-        #region ================== Events
-
         // This raises the MouseContainerEnter event
         private void RaiseMouseContainerEnter(object sender, EventArgs e)
         {
@@ -469,7 +438,5 @@ namespace CodeImp.DoomBuilder.Controls
         {
             pinbutton.Width = this.Width - pinbutton.Margin.Left - pinbutton.Margin.Right;
         }
-
-        #endregion
     }
 }

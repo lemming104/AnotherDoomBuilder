@@ -1,15 +1,11 @@
-#region === Copyright (c) 2010 Pascal van der Heiden ===
 
 using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     internal class ThingData
     {
-        #region ================== Variables
 
         // VisualMode
         private BaseVisualMode mode;
@@ -22,17 +18,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // indicates if the sidedefs of neighbouring sectors should also be rebuilt.
         private Dictionary<Sector, bool> updatesectors;
 
-        #endregion
-
-        #region ================== Properties
-
         public Thing Thing { get { return thing; } }
         public BaseVisualMode Mode { get { return mode; } }
         public Dictionary<Sector, bool> UpdateAlso { get { return updatesectors; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public ThingData(BaseVisualMode mode, Thing t)
@@ -43,16 +31,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
             this.updatesectors = new Dictionary<Sector, bool>(2);
         }
 
-        #endregion
-
-        #region ================== Public Methods
-
         // This adds a sector for updating
         public void AddUpdateSector(Sector s, bool includeneighbours)
         {
             updatesectors[s] = includeneighbours;
         }
-
-        #endregion
     }
 }

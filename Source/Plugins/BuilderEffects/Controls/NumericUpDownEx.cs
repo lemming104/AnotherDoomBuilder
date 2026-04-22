@@ -117,9 +117,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
 
         }
 
-
-        #region New properties
-
         [DefaultValue(false)]
         [Category("Behavior")]
         [Description("Automatically select control text when it receives focus.")]
@@ -218,11 +215,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
         }
         private bool _wrapValue;
 
-        #endregion
-
-
-        #region Text selection
-
         // select all the text on focus enter
         protected override void OnGotFocus(EventArgs e)
         {
@@ -244,11 +236,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
             }
             base.OnMouseUp(mevent);
         }
-
-        #endregion
-
-
-        #region Additional events
 
         // these events will be raised correctly, when mouse enters on the textbox
         public new event EventHandler<EventArgs> MouseEnter;
@@ -299,11 +286,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
 
         }
 
-        #endregion
-
-
-        #region Value increment/decrement management
-
         // raises the two new events
         public override void DownButton()
         {
@@ -341,11 +323,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
                 base.UpButton();
             }
         }
-
-        #endregion
-
-
-        #region UpDownButtons visibility management
 
         /// <summary>
         /// Show or hide the UpDownButtons, according to ShowUpDownButtons property value
@@ -418,8 +395,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
             }
 
         }
-
-        #endregion
 
     }
 }

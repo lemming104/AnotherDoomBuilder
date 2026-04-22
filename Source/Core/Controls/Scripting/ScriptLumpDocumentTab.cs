@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Compilers;
 using CodeImp.DoomBuilder.Config;
@@ -22,34 +18,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     internal sealed class ScriptLumpDocumentTab : ScriptDocumentTab
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private readonly string lumpname;
         private readonly bool ismapheader;
-
-        #endregion
-
-        #region ================== Properties
 
         public override bool ExplicitSave { get { return false; } }
         public override bool IsSaveAsRequired { get { return false; } }
         public override bool IsClosable { get { return false; } }
         public override bool IsReconfigurable { get { return false; } }
         public override string Filename { get { return lumpname; } } //mxd
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public ScriptLumpDocumentTab(ScriptEditorPanel panel, string lumpname, ScriptConfiguration config) : base(panel, config)
@@ -79,10 +60,6 @@ namespace CodeImp.DoomBuilder.Controls
             // Set title
             SetTitle(ismapheader ? General.Map.Options.CurrentName : this.lumpname.ToUpper());
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Compile script
         public override void Compile()
@@ -127,11 +104,5 @@ namespace CodeImp.DoomBuilder.Controls
         {
             return string.Compare(e.filename, "?" + lumpname, true) == 0;
         }
-
-        #endregion
-
-        #region ================== Events
-
-        #endregion
     }
 }

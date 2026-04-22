@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,11 +10,8 @@ using System.Windows.Forms;
 using JetBrains.Profiler.Core.Api;
 #endif
 
-#endregion
-
 namespace CodeImp.DoomBuilder
 {
-    #region ================== Enums
 
     [Flags]
     public enum DebugMessageType
@@ -27,11 +23,8 @@ namespace CodeImp.DoomBuilder
         SPECIAL = 16,
     }
 
-    #endregion
-
     public partial class DebugConsole : UserControl
     {
-        #region ================== Variables
 
         private const int MAX_MESSAGES = 1024;
         private static readonly List<KeyValuePair<DebugMessageType, string>> messages = new List<KeyValuePair<DebugMessageType, string>>(MAX_MESSAGES);
@@ -47,16 +40,8 @@ namespace CodeImp.DoomBuilder
         private static string storedtext = string.Empty;
         private static DebugConsole me;
 
-        #endregion
-
-        #region ================== Properties
-
         public bool AlwaysOnTop { get { return alwaysontop.Checked; } }
         public static int Counter { get { return counter; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         public DebugConsole()
         {
@@ -93,10 +78,6 @@ namespace CodeImp.DoomBuilder
             // Pending messages?
             if (messages.Count > 0) UpdateMessages();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         [Conditional("DEBUG")]
         public static void StoreText(string text) { storedtext += text + Environment.NewLine; }
@@ -315,10 +296,6 @@ namespace CodeImp.DoomBuilder
             return text.ToUpperInvariant().Contains(filter.ToUpperInvariant());
         }
 
-        #endregion
-
-        #region ================== Events
-
         private void clearall_Click(object sender, EventArgs e)
         {
             Clear();
@@ -335,10 +312,6 @@ namespace CodeImp.DoomBuilder
             console.WordWrap = wordwrap.Checked;
         }
 
-        #endregion
-
-        #region ================== Search events
-
         private void searchclear_Click(object sender, EventArgs e)
         {
             searchbox.Clear();
@@ -348,8 +321,6 @@ namespace CodeImp.DoomBuilder
         {
             if (string.IsNullOrEmpty(searchbox.Text) || searchbox.Text.Length > 2) UpdateMessages();
         }
-
-        #endregion
 
     }
 }

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -22,25 +18,14 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Windows
 {
     internal partial class VertexEditForm : DelayedForm
     {
-        #region ================== Constants
 
         private const string CLEAR_VALUE = "Unused"; //mxd
 
-        #endregion
-
-        #region ================== Events
-
         public event EventHandler OnValuesChanged; //mxd
-
-        #endregion
-
-        #region ================== Variables
 
         private ICollection<Vertex> vertices;
         private bool preventchanges; //mxd
@@ -63,10 +48,6 @@ namespace CodeImp.DoomBuilder.Windows
                 ZFloor = v.ZFloor;
             }
         }
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor
         public VertexEditForm()
@@ -112,10 +93,6 @@ namespace CodeImp.DoomBuilder.Windows
                 zfloor.AllowDecimal = true;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets up the form to edit the given vertices
         public void Setup(ICollection<Vertex> vertices, bool allowPositionChange)
@@ -201,10 +178,6 @@ namespace CodeImp.DoomBuilder.Windows
                 foreach (Vertex v in vertices) v.Fields.BeforeFieldsChange();
             }
         }
-
-        #endregion
-
-        #region ================== mxd. Realtime Events
 
         private void positionx_WhenTextChanged(object sender, EventArgs e)
         {
@@ -332,10 +305,6 @@ namespace CodeImp.DoomBuilder.Windows
             zceiling.Text = CLEAR_VALUE;
         }
 
-        #endregion
-
-        #region ================== Events
-
         // OK clicked
         private void apply_Click(object sender, EventArgs e)
         {
@@ -395,7 +364,5 @@ namespace CodeImp.DoomBuilder.Windows
             General.ShowHelp("w_vertexedit.html");
             hlpevent.Handled = true;
         }
-
-        #endregion
     }
 }

@@ -1,18 +1,14 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.ZDoom
 {
     internal sealed class ModeldefStructure
     {
-        #region ================== Structs
 
         internal struct FrameStructure
         {
@@ -21,10 +17,6 @@ namespace CodeImp.DoomBuilder.ZDoom
             public int FrameIndex;
             public string FrameName;
         }
-
-        #endregion
-
-        #region ================== Variables
 
         private Dictionary<int, string> skinnames;
         private Dictionary<int, Dictionary<int, string>> surfaceskinenames;
@@ -43,10 +35,6 @@ namespace CodeImp.DoomBuilder.ZDoom
 
         private Dictionary<string, HashSet<FrameStructure>> frames;
 
-        #endregion
-
-        #region ================== Properties
-
         public Dictionary<int, string> SkinNames { get { return skinnames; } }
         public Dictionary<int, Dictionary<int, string>> SurfaceSkinNames { get { return surfaceskinenames; } }
         public Dictionary<int, string> ModelNames { get { return modelnames; } }
@@ -64,10 +52,6 @@ namespace CodeImp.DoomBuilder.ZDoom
 
         public Dictionary<string, HashSet<FrameStructure>> Frames { get { return frames; } }
 
-        #endregion
-
-        #region ================== Constructor
-
         internal ModeldefStructure()
         {
             path = string.Empty;
@@ -77,10 +61,6 @@ namespace CodeImp.DoomBuilder.ZDoom
             scale = new Vector3f(1.0f, 1.0f, 1.0f);
             surfaceskinenames = new Dictionary<int, Dictionary<int, string>>();
         }
-
-        #endregion
-
-        #region ================== Parsing
 
         internal bool Parse(ModeldefParser parser)
         {
@@ -607,7 +587,5 @@ namespace CodeImp.DoomBuilder.ZDoom
 
             return true;
         }
-
-        #endregion
     }
 }

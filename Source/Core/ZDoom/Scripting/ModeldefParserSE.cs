@@ -1,12 +1,9 @@
 ﻿
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.GZBuilder.Data;
 using System.Collections.Generic;
-
-#endregion
 
 //mxd. Modeldef parser used to create ScriptItems for use in script editor's navigator
 //Should be parse model definitions even from invalid MODELDEF and should never fail parsing

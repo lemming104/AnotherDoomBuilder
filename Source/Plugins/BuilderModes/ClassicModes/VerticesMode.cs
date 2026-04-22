@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
@@ -29,8 +25,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [EditMode(DisplayName = "Vertices Mode",
@@ -43,11 +37,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
     public class VerticesMode : BaseClassicMode
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Highlighted item
         private Vertex highlighted;
@@ -65,21 +54,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Autosave
         private bool allowautosave;
 
-        #endregion
-
-        #region ================== Properties
-
         public override object HighlightedObject { get { return highlighted; } }
 
         public override bool AlwaysShowVertices { get { return true; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Create a blockmap containing linedefs. This is used to speed up determining the closest line
@@ -792,10 +769,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             CreateBlockmap();
         }
 
-        #endregion
-
-        #region ================== Actions
-
         // This copies the properties
         [BeginAction("classiccopyproperties")]
         public void CopyProperties()
@@ -1260,10 +1233,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
         }
 
-        #endregion
-
-        #region ================== Action assist (mxd)
-
         //mxd
         private static void MergeLines(ICollection<Vertex> selected, Linedef ld1, Linedef ld2, Vertex v)
         {
@@ -1342,7 +1311,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     ld.Front.Sector.Join(ld.Back.Sector);
             }
         }
-
-        #endregion
     }
 }

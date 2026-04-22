@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Data;
@@ -27,17 +23,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder
 {
     internal class Launcher : IDisposable
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private string tempwad;
         private Dictionary<Process, string> processes; //mxd
@@ -66,15 +55,7 @@ namespace CodeImp.DoomBuilder
 
         delegate void EngineExitedCallback(Process p); //mxd
 
-        #endregion
-
-        #region ================== Properties
-
         public string TempWAD { get { return tempwad; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public Launcher(MapManager manager)
@@ -125,10 +106,6 @@ namespace CodeImp.DoomBuilder
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== Parameters
 
         // This takes the unconverted parameters (with placeholders) and converts it
         // to parameters with full paths, names and numbers where placeholders were put.
@@ -278,10 +255,6 @@ namespace CodeImp.DoomBuilder
             // Return result
             return outp;
         }
-
-        #endregion
-
-        #region ================== Test
 
         // This saves the map to a temporary file and launches a test
         [BeginAction("testmap")]
@@ -493,7 +466,5 @@ namespace CodeImp.DoomBuilder
             tempwad = General.MakeTempFilename(manager.TempPath, "wad");
             File.WriteAllText(tempwad, "");
         }
-
-        #endregion
     }
 }

@@ -1,17 +1,13 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Types
 {
     [TypeHandler(UniversalType.PolyobjectNumber, "Polyobject Number", false)]
     internal class PolyobjectNumberHandler : SectorTagHandler
     {
-        #region ================== Setup
 
         protected override EnumList CreateEnumList()
         {
@@ -37,15 +33,9 @@ namespace CodeImp.DoomBuilder.Types
             return polist;
         }
 
-        #endregion
-
-        #region ================== Methods
-
         public override string GetStringValue()
         {
             return this.value != null ? this.value.Title : "0: 0";
         }
-
-        #endregion
     }
 }

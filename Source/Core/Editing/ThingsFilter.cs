@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Geometry;
@@ -24,8 +20,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Editing
 {
@@ -38,11 +32,6 @@ namespace CodeImp.DoomBuilder.Editing
 
     public class ThingsFilter
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Display name of this filter
         protected string name;
@@ -81,10 +70,6 @@ namespace CodeImp.DoomBuilder.Editing
         // Disposing
         protected bool isdisposed;
 
-        #endregion
-
-        #region ================== Properties
-
         public string Name { get { return name; } internal set { name = value; } }
         public string CategoryName { get { return categoryname; } internal set { categoryname = value; } }
         public bool Invert { get { return invert; } internal set { invert = value; } } //mxd
@@ -102,10 +87,6 @@ namespace CodeImp.DoomBuilder.Editing
         public ICollection<Thing> HiddenThings { get { return hiddenthings; } }
         internal bool IsDisposed { get { return isdisposed; } }
         public const string DEFAULT_NAME = "Unnamed filter"; //mxd
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Copy constructor
         internal ThingsFilter(ThingsFilter f)
@@ -217,10 +198,6 @@ namespace CodeImp.DoomBuilder.Editing
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets some fields to <any> when they are not valid for the current map format
         private void AdjustForMapFormat()
@@ -457,7 +434,5 @@ namespace CodeImp.DoomBuilder.Editing
         {
             return name;
         }
-
-        #endregion
     }
 }

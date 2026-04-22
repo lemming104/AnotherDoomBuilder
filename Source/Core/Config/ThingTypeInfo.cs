@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Dehacked;
@@ -29,8 +25,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Config
 {
     public struct SpriteFrameInfo //mxd
@@ -42,7 +36,6 @@ namespace CodeImp.DoomBuilder.Config
 
     public class ThingTypeInfo : INumberedTitle, IComparable<ThingTypeInfo>
     {
-        #region ================== Constants
 
         public const int THING_BLOCKING_NONE = 0;
         public const int THING_BLOCKING_FULL = 1;
@@ -51,10 +44,6 @@ namespace CodeImp.DoomBuilder.Config
         public const int THING_ERROR_INSIDE = 1;
         public const int THING_ERROR_INSIDE_STUCK = 2;
         private const float THING_FIXED_SIZE = 14f; //mxd
-
-        #endregion
-
-        #region ================== Variables
 
         // Properties
         private readonly int index;
@@ -106,10 +95,6 @@ namespace CodeImp.DoomBuilder.Config
         // [ZZ] optional thing is a thing that can have nonexistent sprite. this is currently only used for Skulltag things.
         private bool optional;
 
-        #endregion
-
-        #region ================== Properties
-
         public int Index { get { return index; } }
         public string Title { get { return title; } internal set { title = value; } } //mxd. Added setter
         public string Sprite { get { return sprite; } }
@@ -158,10 +143,6 @@ namespace CodeImp.DoomBuilder.Config
 
         // [ZZ]
         public bool Optional { get { return optional; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal ThingTypeInfo(int index)
@@ -509,10 +490,6 @@ namespace CodeImp.DoomBuilder.Config
 
             ModifyByDecorateActor(actor);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This updates the properties from a decorate actor
         internal void ModifyByDecorateActor(ActorStructure actor) { ModifyByDecorateActor(actor, false); } //mxd
@@ -989,7 +966,5 @@ namespace CodeImp.DoomBuilder.Config
         {
             return adduniversalfields != null && adduniversalfields.Contains(fieldname);
         }
-
-        #endregion
     }
 }

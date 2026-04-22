@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Controls;
 using CodeImp.DoomBuilder.Editing;
@@ -22,13 +18,10 @@ using CodeImp.DoomBuilder.Windows;
 using System;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes.Interface
 {
     public partial class MenusForm : Form
     {
-        #region ================== Variables
 
         // Menus list
         private readonly ToolStripItem[] menus;
@@ -62,10 +55,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             public const string EaseOutSine = "EaseOutSine";
         }
 
-        #endregion
-
-        #region ================== Properties
-
         public ToolStripButton ViewSelectionNumbers { get { return buttonselectionnumbers; } }
         public ToolStripButton ViewSelectionEffects { get { return buttonselectioneffects; } }
         public ToolStripSeparator SeparatorSectors1 { get { return separatorsectors1; } }
@@ -97,10 +86,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         public ToolStripMenuItem ItemSoundRadii { get { return itemsoundradii; } }
         public ToolStripButton ButtonLightRadii { get { return buttonlightradii; } }
         public ToolStripButton ButtonSoundRadii { get { return buttonsoundradii; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public MenusForm()
@@ -144,10 +129,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 			editmenuitem.DropDownItems.Clear();
 #endif
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This registers with the core
         public void Register()
@@ -329,7 +310,5 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             General.Interface.DisplayStatus(StatusType.Info, "Sound radii are " + (BuilderPlug.Me.ShowSoundRadii ? "SHOWN" : "HIDDEN"));
             General.Interface.RedrawDisplay();
         }
-
-        #endregion
     }
 }

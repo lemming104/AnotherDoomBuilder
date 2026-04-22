@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,9 +18,6 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
@@ -32,13 +28,10 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Dehacked
 {
     internal sealed class DehackedParser
     {
-        #region ================== Variables
 
         private StreamReader datareader;
         private List<DehackedThing> things;
@@ -54,16 +47,8 @@ namespace CodeImp.DoomBuilder.Dehacked
         private Dictionary<int, string> newsprites;
         private string[] supportedpatchversions = { "19", "21", "2021" };
 
-        #endregion
-
-        #region ================== Properties
-
         public List<DehackedThing> Things { get { return things; } }
         public Dictionary<string, string> Texts { get { return texts; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         public DehackedParser()
         {
@@ -74,10 +59,6 @@ namespace CodeImp.DoomBuilder.Dehacked
             renamedsprites = new Dictionary<int, string>();
             newsprites = new Dictionary<int, string>();
         }
-
-        #endregion
-
-        #region ================== Parsing
 
         /// <summary>
         /// Parses a dehacked patch.
@@ -638,8 +619,6 @@ namespace CodeImp.DoomBuilder.Dehacked
 
             return replace;
         }
-
-        #endregion
 
 
     }

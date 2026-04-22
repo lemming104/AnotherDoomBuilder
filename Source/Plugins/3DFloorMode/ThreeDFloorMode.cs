@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden, 2014 Boris Iwanski
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -13,9 +12,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.BuilderModes;
@@ -33,8 +29,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.ThreeDFloorMode
 {
     [EditMode(DisplayName = "3D Floor Mode",
@@ -50,13 +44,8 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
 
     public class ThreeDFloorHelperMode : ClassicMode
     {
-        #region ================== Constants
 
         private const string duplicateundodescription = "Duplicate 3D floor control sectors before pasting";
-
-        #endregion
-
-        #region ================== Variables
 
         // Highlighted item
         protected Sector highlighted;
@@ -87,16 +76,8 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
         private List<ThreeDFloor> threedfloors;
         private BlockMap<BlockEntry> blockmap;
 
-        #endregion
-
-        #region ================== Properties
-
         public override object HighlightedObject { get { return highlighted; } }
         public List<ThreeDFloor> ThreeDFloors { get { return threedfloors; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public ThreeDFloorHelperMode()
@@ -132,10 +113,6 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
 
 
@@ -683,10 +660,6 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
             // time (and add them when paint select is used t he first time)
             //addedlinedefstoblockmap = false;
         }
-
-        #endregion
-
-        #region ================== Events
 
         public override void OnHelp()
         {
@@ -1388,10 +1361,6 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
             paintselectpressed = false;
         }
 
-        #endregion
-
-        #region ================== Actions
-
         // This clears the selection
         [BeginAction("clearselection", BaseAction = true)]
         public void ClearSelection()
@@ -1734,7 +1703,5 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
 
             CopyPasteManager.DoPasteSelection(po);
         }
-
-        #endregion
     }
 }

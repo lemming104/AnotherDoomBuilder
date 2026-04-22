@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Controls;
@@ -24,26 +20,15 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Windows
 {
     public partial class ScriptFindReplaceForm : DelayedForm
     {
-        #region ================== Constants
 
         private const int MAX_DROPDOWN_ITEMS = 20;
 
-        #endregion
-
-        #region ================== Variables
-
         private bool appclose;
         private bool canreplace;
-
-        #endregion
-
-        #region ================== Properties
 
         internal bool CanReplace //mxd
         {
@@ -64,20 +49,12 @@ namespace CodeImp.DoomBuilder.Windows
             }
         }
 
-        #endregion
-
-        #region ================== Constructor
-
         // Constructor
         public ScriptFindReplaceForm()
         {
             InitializeComponent();
             LoadSettings(); //mxd
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This makes the Find & Replace options
         private FindReplaceOptions MakeOptions()
@@ -238,10 +215,6 @@ namespace CodeImp.DoomBuilder.Windows
             }
             return base.ProcessDialogKey(keyData);
         }
-
-        #endregion
-
-        #region ================== Events
 
         // Form is closing
         private void ScriptFindReplaceForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -415,7 +388,5 @@ namespace CodeImp.DoomBuilder.Windows
             if (e.KeyCode == Keys.Enter)
                 replacebutton_Click(sender, EventArgs.Empty);
         }
-
-        #endregion
     }
 }

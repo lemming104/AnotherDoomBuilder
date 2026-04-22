@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2020 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,8 +18,6 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
 using CodeImp.DoomBuilder.Controls;
 using System;
 using System.Collections.Generic;
@@ -33,22 +30,13 @@ namespace CodeImp.DoomBuilder.UDBScript
 {
     public partial class ScriptDockerControl : UserControl
     {
-        #region ================== Variables
 
         private ImageList images;
         private ContextMenuStrip filecontextmenu;
         private ContextMenuStrip foldercontextmenu;
         ToolStripItem[] slotitems;
 
-        #endregion
-
-        #region ================== Properties
-
         public ImageList Images { get { return images; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         public ScriptDockerControl(string foldername)
         {
@@ -60,10 +48,6 @@ namespace CodeImp.DoomBuilder.UDBScript
 
             filetree.ImageList = images;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Creates the context menu for file items.
@@ -345,10 +329,6 @@ namespace CodeImp.DoomBuilder.UDBScript
             scriptoptions.EndEdit();
         }
 
-        #endregion
-
-        #region ================== Events
-
         /// <summary>
         /// Sets up the the script options control for the currently selected script
         /// </summary>
@@ -451,8 +431,6 @@ namespace CodeImp.DoomBuilder.UDBScript
             // TreeNodes can't by dynamically hidden, so it's easier to just fill the tholw tree again
             FillTree();
         }
-
-        #endregion
 
         private void filetree_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
         {

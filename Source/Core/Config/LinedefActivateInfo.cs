@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,23 +11,13 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Config
 {
     public class LinedefActivateInfo : IComparable<LinedefActivateInfo>
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Properties
         private int intkey;
@@ -36,18 +25,10 @@ namespace CodeImp.DoomBuilder.Config
         private string title;
         private bool istrigger;
 
-        #endregion
-
-        #region ================== Properties
-
         public int Index { get { return intkey; } }
         public string Key { get { return key; } }
         public string Title { get { return title; } }
         public bool IsTrigger { get { return istrigger; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal LinedefActivateInfo(string key, string title, bool istrigger)
@@ -64,10 +45,6 @@ namespace CodeImp.DoomBuilder.Config
             GC.SuppressFinalize(this);
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This presents the item as string
         public override string ToString()
         {
@@ -81,7 +58,5 @@ namespace CodeImp.DoomBuilder.Config
             else if (this.intkey > other.intkey) return 1;
             else return 0;
         }
-
-        #endregion
     }
 }

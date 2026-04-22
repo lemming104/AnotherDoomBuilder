@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,39 +11,21 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using System;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Types
 {
     [TypeHandler(UniversalType.Boolean, "Boolean", true)]
     internal class BoolHandler : TypeHandler
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private EnumList list;
         private bool value;
 
-        #endregion
-
-        #region ================== Properties
-
         public override bool IsEnumerable { get { return true; } }
         public override bool IsLimitedToEnums { get { return true; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         // When set up for an argument
         public BoolHandler() : base()
@@ -54,10 +35,6 @@ namespace CodeImp.DoomBuilder.Types
             list.Add(new EnumItem("true", "True"));
             list.Add(new EnumItem("false", "False"));
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public override void SetValue(object value)
         {
@@ -111,7 +88,5 @@ namespace CodeImp.DoomBuilder.Types
         {
             return false;
         }
-
-        #endregion
     }
 }

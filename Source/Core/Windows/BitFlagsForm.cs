@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,34 +11,20 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using System;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Windows
 {
     public partial class BitFlagsForm : DelayedForm
     {
-        #region ================== Variables
 
         private bool setup;
         private int value;
 
-        #endregion
-
-        #region ================== Properties
-
         public int Value { get { return value; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor
         public BitFlagsForm()
@@ -47,10 +32,6 @@ namespace CodeImp.DoomBuilder.Windows
             // Initialize
             InitializeComponent();
         }
-
-        #endregion
-
-        #region ================== Events
 
         // When a checkbox is clicked
         private void box_CheckedChanged(object sender, EventArgs e)
@@ -108,10 +89,6 @@ namespace CodeImp.DoomBuilder.Windows
             DialogResult = DialogResult.OK;
             this.Close();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Setup from EnumList
         public void Setup(EnumList flags, int value)
@@ -171,7 +148,5 @@ namespace CodeImp.DoomBuilder.Windows
             f.Dispose();
             return result;
         }
-
-        #endregion
     }
 }

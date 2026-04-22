@@ -1,40 +1,24 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using System.Threading;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [ErrorChecker("Check obsolete things", true, 50)]
     public class CheckObsoleteThings : ErrorChecker
     {
-        #region ================== Constants
 
         private const int PROGRESS_STEP = 10;
 
-        #endregion
-
-        #region ================== Properties
-
         // Only possible when the game configuration supports the use of decorate
         public override bool SkipCheck { get { return string.IsNullOrEmpty(General.Map.Config.DecorateGames); } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         public CheckObsoleteThings()
         {
             // Total progress is done when all things are checked
             SetTotalProgress(General.Map.Map.Things.Count / PROGRESS_STEP);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This runs the check
         public override void Run()
@@ -62,7 +46,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
             }
         }
-
-        #endregion
     }
 }

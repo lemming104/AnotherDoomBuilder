@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,26 +11,16 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Data
 {
     public class DynamicBitmapImage : BitmapImage, IRenderResource
     {
-        #region ================== Variables
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public DynamicBitmapImage(Bitmap img, string name) : base(img, name)
@@ -61,10 +50,6 @@ namespace CodeImp.DoomBuilder.Data
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // Unload the resource because Direct3D says so
         public void UnloadResource()
         {
@@ -75,7 +60,5 @@ namespace CodeImp.DoomBuilder.Data
         public void ReloadResource()
         {
         }
-
-        #endregion
     }
 }

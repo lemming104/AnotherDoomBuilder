@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Controls;
@@ -27,8 +23,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Windows
 {
     /// <summary>
@@ -36,13 +30,8 @@ namespace CodeImp.DoomBuilder.Windows
     /// </summary>
     internal partial class ThingEditFormUDMF : DelayedForm
     {
-        #region ================== Events
 
         public event EventHandler OnValuesChanged; //mxd
-
-        #endregion
-
-        #region ================== Variables
 
         private ICollection<Thing> things;
         private ThingTypeInfo thinginfo;
@@ -86,10 +75,6 @@ namespace CodeImp.DoomBuilder.Windows
                 Flags = t.GetFlags();
             }
         }
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor
         public ThingEditFormUDMF()
@@ -159,10 +144,6 @@ namespace CodeImp.DoomBuilder.Windows
             // Setup types list
             thingtype.Setup();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets up the form to edit the given things
         public void Setup(ICollection<Thing> things)
@@ -450,10 +431,6 @@ namespace CodeImp.DoomBuilder.Windows
                 EnableDisableControlAndChildren(c, state);
         }
 
-        #endregion
-
-        #region ================== Events
-
         //mxd
         private void thingtype_OnTypeDoubleClicked()
         {
@@ -734,10 +711,6 @@ namespace CodeImp.DoomBuilder.Windows
             General.ShowHelp("w_thingedit.html");
             hlpevent.Handled = true;
         }
-
-        #endregion
-
-        #region ================== mxd. Realtime events
 
         private void posX_WhenTextChanged(object sender, EventArgs e)
         {
@@ -1067,8 +1040,6 @@ namespace CodeImp.DoomBuilder.Windows
         {
             fieldslist.ShowFixedFields = !hidefixedfields.Checked;
         }
-
-        #endregion
 
     }
 }

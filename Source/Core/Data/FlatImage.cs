@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,21 +11,15 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Drawing;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Data
 {
     internal sealed class FlatImage : ImageData
     {
-        #region ================== Constructor / Disposer
 
         // Constructor
         public FlatImage(string name)
@@ -39,10 +32,6 @@ namespace CodeImp.DoomBuilder.Data
             // We have no destructor
             GC.SuppressFinalize(this);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This loads the image
         protected override LocalLoadResult LocalLoadImage()
@@ -90,7 +79,5 @@ namespace CodeImp.DoomBuilder.Data
                 scale.y = General.Map.Config.DefaultFlatScale;
             });
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.IO;
 using CodeImp.DoomBuilder.Rendering;
@@ -25,20 +21,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Config
 {
     public class ArgumentInfo
     {
-        #region ================== Constants
 
         private const int HELPER_SHAPE_ALPHA = 192; //mxd
         private const int RANGE_SHAPE_ALPHA = 96; //mxd
-
-        #endregion
-
-        #region ================== Enums (mxd)
 
         public enum ArgumentRenderStyle
         {
@@ -46,10 +35,6 @@ namespace CodeImp.DoomBuilder.Config
             CIRCLE,
             RECTANGLE,
         }
-
-        #endregion
-
-        #region ================== Variables
 
         private readonly string title;
         private readonly string tooltip; //mxd
@@ -68,10 +53,6 @@ namespace CodeImp.DoomBuilder.Config
         private readonly bool str; // [ZZ]
         private readonly string titlestr; // [ZZ]
 
-        #endregion
-
-        #region ================== Properties
-
         public string Title { get { return title; } }
         public string ToolTip { get { return tooltip; } } //mxd
         public bool Used { get { return used; } }
@@ -88,10 +69,6 @@ namespace CodeImp.DoomBuilder.Config
         public int MaxRange { get { return maxrange; } } //mxd
         public bool Str { get { return str; } } // [ZZ]
         public string TitleStr { get { return titlestr; } } // [ZZ]
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor for argument info from configuration
         internal ArgumentInfo(Configuration cfg, string argspath, int argindex, IDictionary<string, EnumList> enums)
@@ -407,10 +384,6 @@ namespace CodeImp.DoomBuilder.Config
             this.defaultvalue = 0; //mxd
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This gets the description for an argument value
         public string GetValueDescription(int value)
         {
@@ -418,7 +391,5 @@ namespace CodeImp.DoomBuilder.Config
 
             return value.ToString();
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
@@ -28,8 +24,6 @@ using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Windows
 {
@@ -1029,9 +1023,6 @@ namespace CodeImp.DoomBuilder.Windows
             }
         }
 
-
-        #region ============= Copy/Paste context menu (mxd)
-
         private void copypastemenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (listconfigs.SelectedIndices.Count < 1)
@@ -1123,8 +1114,6 @@ namespace CodeImp.DoomBuilder.Windows
             listconfigs_SelectedIndexChanged(listconfigs, EventArgs.Empty);
             General.Interface.DisplayStatus(StatusType.Info, "Pasted color presets from \"" + configinfocopy.Name + "\"");
         }
-
-        #endregion
 
         private void configdata_OnWarningsChanged(int size)
         {

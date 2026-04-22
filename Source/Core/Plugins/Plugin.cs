@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Collections.Generic;
@@ -23,17 +19,10 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Plugins
 {
     internal class Plugin : IDisposable
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // The plugin assembly
         private Assembly asm;
@@ -47,18 +36,10 @@ namespace CodeImp.DoomBuilder.Plugins
         // Disposing
         private bool isdisposed;
 
-        #endregion
-
-        #region ================== Properties
-
         public Assembly Assembly { get { return asm; } }
         public Plug Plug { get { return plug; } }
         public string Name { get { return name; } }
         public bool IsDisposed { get { return isdisposed; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public Plugin(string filename)
@@ -152,10 +133,6 @@ namespace CodeImp.DoomBuilder.Plugins
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This creates a stream to read a resource or returns null when not found
         public Stream GetResourceStream(string resourcename)
         {
@@ -234,7 +211,5 @@ namespace CodeImp.DoomBuilder.Plugins
                 return default(T);
             }
         }
-
-        #endregion
     }
 }

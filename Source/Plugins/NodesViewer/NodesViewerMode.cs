@@ -1,4 +1,3 @@
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
@@ -15,8 +14,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Plugins.NodesViewer
 {
     [EditMode(DisplayName = "Nodes Viewer Mode",
@@ -29,13 +26,8 @@ namespace CodeImp.DoomBuilder.Plugins.NodesViewer
               AllowCopyPaste = false)]
     public class NodesViewerMode : ClassicMode
     {
-        #region ================== Constants
 
         private const float EPSILON = 0.00001f;
-
-        #endregion
-
-        #region ================== Variables
 
         private Seg[] segs;
         private Node[] nodes;
@@ -56,10 +48,6 @@ namespace CodeImp.DoomBuilder.Plugins.NodesViewer
                 Encoding.ASCII.GetBytes("ZGL3")
             };
 
-        #endregion
-
-        #region ================== Properties
-
         public Seg[] Segs { get { return segs; } }
         public Node[] Nodes { get { return nodes; } }
         public Vector2D[] Vertices { get { return verts; } }
@@ -67,10 +55,6 @@ namespace CodeImp.DoomBuilder.Plugins.NodesViewer
         public NodesForm Form { get { return form; } }
 
         public override bool AlwaysShowVertices { get { return true; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public NodesViewerMode()
@@ -96,10 +80,6 @@ namespace CodeImp.DoomBuilder.Plugins.NodesViewer
                 PixelColor.FromColor(Color.Magenta)
             };
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Check if a lump has a valid ZNODES header.
@@ -948,10 +928,6 @@ namespace CodeImp.DoomBuilder.Plugins.NodesViewer
             }
         }
 
-        #endregion
-
-        #region ================== Events
-
         // Mode starts
         public override void OnEngage()
         {
@@ -1319,7 +1295,5 @@ namespace CodeImp.DoomBuilder.Plugins.NodesViewer
 
             renderer.Present();
         }
-
-        #endregion
     }
 }

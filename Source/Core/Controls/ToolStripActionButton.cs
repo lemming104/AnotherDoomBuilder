@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2022 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,10 +18,7 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
 
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Plugins;
@@ -32,21 +28,14 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     [ToolStripItemDesignerAvailability(ToolStripItemDesignerAvailability.ToolStrip)]
     public class ToolStripActionButton : ToolStripButton
     {
-        #region ================== Variables
 
         private string baseToolTipText;
         private Assembly parentAssembly;
-
-        #endregion
-
-        #region ================== Constructors
 
         public ToolStripActionButton() : base()
         {
@@ -72,10 +61,6 @@ namespace CodeImp.DoomBuilder.Controls
         {
             parentAssembly = Assembly.GetCallingAssembly();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Updates the tooltip of the button with its action shortcut key description. This has to be called after the button was added to the MainForm unless the tag contains the full action name (including the assembly).
@@ -137,7 +122,5 @@ namespace CodeImp.DoomBuilder.Controls
             else
                 ToolTipText = baseToolTipText;
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,42 +11,24 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     internal class ResourceListView : ListView
     {
-        #region ================== Constants
 
         private const string DRAG_TYPE = "ReorderItems";
-
-        #endregion
-
-        #region ================== Variables
 
         // List of items
         private readonly List<ListViewItem> dragitems;
 
-        #endregion
-
-        #region ================== Properties
-
         // Disable sorting
         public new SortOrder Sorting { get { return SortOrder.None; } set { base.Sorting = SortOrder.None; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor
         public ResourceListView() : base()
@@ -55,10 +36,6 @@ namespace CodeImp.DoomBuilder.Controls
             // List for dragged items
             dragitems = new List<ListViewItem>();
         }
-
-        #endregion
-
-        #region ================== Overrides
 
         // When items are dropped
         protected override void OnDragDrop(DragEventArgs e)
@@ -265,10 +242,6 @@ namespace CodeImp.DoomBuilder.Controls
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This deselects all items
         private void DeselectAll()
         {
@@ -279,7 +252,5 @@ namespace CodeImp.DoomBuilder.Controls
                 base.SelectedItems[i].Selected = false;
             }
         }
-
-        #endregion
     }
 }

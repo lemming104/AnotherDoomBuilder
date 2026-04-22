@@ -1,15 +1,12 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Data;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
-#endregion
 
 namespace CodeImp.DoomBuilder.Controls
 {
-    #region ================== mxd. ImageBrowserItemType
 
     internal enum ImageBrowserItemType
     {
@@ -19,11 +16,8 @@ namespace CodeImp.DoomBuilder.Controls
         IMAGE,
     }
 
-    #endregion
-
     internal class ImageBrowserItem : IComparable<ImageBrowserItem>
     {
-        #region ================== Variables
 
         protected ImageData icon;
         private bool imageloaded;
@@ -40,10 +34,6 @@ namespace CodeImp.DoomBuilder.Controls
         private static readonly Font messageBoxFont = SystemFonts.MessageBoxFont;
         private static readonly int messageBoxFontHeight = messageBoxFont.Height;
 
-        #endregion
-
-        #region ================== Properties
-
         public ImageData Icon { get { return icon; } }
         public ImageBrowserItemType ItemType { get { return itemtype; } }
         public virtual bool IsPreviewLoaded { get { return icon.IsPreviewLoaded; } }
@@ -51,10 +41,6 @@ namespace CodeImp.DoomBuilder.Controls
         public virtual string TextureName { get { return ShowFullName ? icon.Name : icon.ShortName; } }
         public virtual int TextureNameWidth { get { return ShowFullName ? icon.NameWidth : icon.ShortNameWidth; } } // biwa
         public string ToolTip { get { return tooltip; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructors
         protected ImageBrowserItem() { } //mxd. Needed for inheritance...
@@ -67,10 +53,6 @@ namespace CodeImp.DoomBuilder.Controls
             this.imageloaded = icon.IsPreviewLoaded; //mxd
             this.tooltip = tooltip; //mxd
         }
-
-        #endregion
-
-        #region ================== Methods
 
         internal bool CheckRedrawNeeded()
         {
@@ -279,7 +261,5 @@ namespace CodeImp.DoomBuilder.Controls
             if (itemtype != other.itemtype) return ((int)itemtype).CompareTo((int)other.itemtype);
             return this.TextureName.ToUpperInvariant().CompareTo(other.TextureName.ToUpperInvariant());
         }
-
-        #endregion
     }
 }

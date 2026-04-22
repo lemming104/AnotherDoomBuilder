@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,17 +11,12 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.IO;
 using CodeImp.DoomBuilder.Map;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Geometry
 {
@@ -32,7 +26,6 @@ namespace CodeImp.DoomBuilder.Geometry
     /// </summary>
     public sealed class Triangulation
     {
-        #region ================== Delegates
 
 #if DEBUG
 
@@ -50,14 +43,6 @@ namespace CodeImp.DoomBuilder.Geometry
 
 #endif
 
-        #endregion
-
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
-
         // Number of vertices per island
         private ReadOnlyCollection<int> islandvertices;
 
@@ -71,17 +56,9 @@ namespace CodeImp.DoomBuilder.Geometry
         // Temporary array for the sidedefs deserialization
         private int[] sidedefindices;
 
-        #endregion
-
-        #region ================== Properties
-
         public ReadOnlyCollection<int> IslandVertices { get { return islandvertices; } }
         public ReadOnlyCollection<Vector2D> Vertices { get { return vertices; } }
         public ReadOnlyCollection<Sidedef> Sidedefs { get { return sidedefs; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public static Triangulation Create(Sector sector)
@@ -139,10 +116,6 @@ namespace CodeImp.DoomBuilder.Geometry
             vertices = Array.AsReadOnly(verticeslist.ToArray());
             sidedefs = Array.AsReadOnly(sidedefslist.ToArray());
         }
-
-        #endregion
-
-        #region ================== Serialization
 
         // Serialize / deserialize
         internal void ReadWrite(IReadWriteStream s)
@@ -203,11 +176,6 @@ namespace CodeImp.DoomBuilder.Geometry
             // Keep readonly array
             sidedefs = Array.AsReadOnly(sides.ToArray());
         }
-
-
-        #endregion
-
-        #region ================== Tracing
 
         // This traces sector lines to create a polygon tree
         private static List<EarClipPolygon> DoTrace(Sector s)
@@ -392,10 +360,6 @@ namespace CodeImp.DoomBuilder.Geometry
             // Return result
             return found;
         }
-
-        #endregion
-
-        #region ================== Cutting
 
         // This cuts into outer polygons to solve inner polygons and make the polygon tree flat
         private void DoCutting(List<EarClipPolygon> polys)
@@ -619,10 +583,6 @@ namespace CodeImp.DoomBuilder.Geometry
                     p.AddBefore(insertbefore, new EarClipVertex(split, sd));
             }
         }
-
-        #endregion
-
-        #region ================== Ear Clipping
 
         // This clips a polygon and returns the triangles
         // The polygon may not have any holes or islands
@@ -964,7 +924,5 @@ namespace CodeImp.DoomBuilder.Geometry
             // Modify the first earclipvertex of this triangle, it no longer lies along a sidedef
             v0.Sidedef = null;
         }
-
-        #endregion
     }
 }

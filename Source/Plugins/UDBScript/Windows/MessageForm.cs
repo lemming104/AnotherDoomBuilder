@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,21 +18,15 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Windows;
 using System;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.UDBScript
 {
     public partial class MessageForm : DelayedForm
     {
-        #region ================== Constructor
 
         public MessageForm(string option1text, string option2text, string message)
         {
@@ -56,10 +49,6 @@ namespace CodeImp.DoomBuilder.UDBScript
             tbMessage.Text = message.Replace("\n", Environment.NewLine);
         }
 
-        #endregion
-
-        #region ================== Events
-
         private void button_Click(object sender, EventArgs e)
         {
             Close();
@@ -73,7 +62,5 @@ namespace CodeImp.DoomBuilder.UDBScript
                 Close();
             }
         }
-
-        #endregion
     }
 }

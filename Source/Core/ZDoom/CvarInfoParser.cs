@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Rendering;
@@ -7,27 +6,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.ZDoom
 {
     internal sealed class CvarInfoParser : ZDTextParser
     {
-        #region ================== Variables
 
         private CvarsCollection cvars;
-
-        #endregion
-
-        #region ================== Properties
 
         internal override ScriptType ScriptType { get { return ScriptType.CVARINFO; } }
 
         public CvarsCollection Cvars { get { return cvars; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         internal CvarInfoParser()
         {
@@ -36,10 +24,6 @@ namespace CodeImp.DoomBuilder.ZDoom
             // Required for the "handlertoken" format
             specialtokens += "()=";
         }
-
-        #endregion
-
-        #region ================== Parsing
 
         public override bool Parse(TextResourceData data, bool clearerrors)
         {
@@ -258,7 +242,5 @@ namespace CodeImp.DoomBuilder.ZDoom
 
             return true;
         }
-
-        #endregion
     }
 }

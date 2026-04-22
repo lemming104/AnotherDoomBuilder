@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Controls;
 using CodeImp.DoomBuilder.Windows;
 using System;
@@ -10,13 +9,10 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes.Interface
 {
     public partial class WavefrontSettingsForm : DelayedForm
     {
-        #region ================== Properties
 
         public string FilePath { get { return tbExportPath.Text.Trim(); } }
         public bool ExportTextures { get { return cbExportTextures.Checked; } }
@@ -37,8 +33,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         public bool GenerateCode { get { return cbGenerateCode.Checked; } }
         public bool GenerateModeldef { get { return cbGenerateModeldef.Checked; } }
         public string Sprite { get { return tbSprite.Text.Trim().ToUpperInvariant(); } }
-
-        #endregion
 
         public WavefrontSettingsForm(int sectorsCount)
         {
@@ -110,8 +104,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 
         }
 
-        #region ================== Methods
-
         private bool PathIsValid(string path)
         {
             if (!path.EndsWith(Path.DirectorySeparatorChar.ToString()))
@@ -119,10 +111,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 
             return Directory.Exists(Path.GetDirectoryName(path));
         }
-
-        #endregion
-
-        #region ================== Events
 
         private void browse_Click(object sender, EventArgs e)
         {
@@ -221,8 +209,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         {
             this.Close();
         }
-
-        #endregion
 
         private void cbFixScale_CheckedChanged(object sender, EventArgs e)
         {

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,16 +11,11 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
@@ -36,25 +30,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
     public sealed class FindReplaceMode : BaseClassicMode
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
-
-        #endregion
-
-        #region ================== Properties
 
         internal bool Volatile { get { return attributes.Volatile; } set { attributes.Volatile = value; } } //mxd
-
-        #endregion
-
-        #region ================== Constructor / Disposer
-
-        #endregion
-
-        #region ================== Events
 
         public override void OnHelp()
         {
@@ -157,7 +134,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             renderer.Present();
         }
-
-        #endregion
     }
 }

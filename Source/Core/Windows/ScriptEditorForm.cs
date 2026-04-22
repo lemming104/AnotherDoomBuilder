@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,34 +11,20 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Controls;
 using System;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Windows
 {
     public partial class ScriptEditorForm : DelayedForm
     {
-        #region ================== Variables
 
         // Closing?
         private bool appclose;
 
-        #endregion
-
-        #region ================== Properties
-
         public ScriptEditorPanel Editor { get { return editor; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor
         public ScriptEditorForm()
@@ -51,10 +36,6 @@ namespace CodeImp.DoomBuilder.Windows
             KeyDown += new KeyEventHandler(ScriptEditorForm_KeyDown);
             KeyUp += new KeyEventHandler(ScriptEditorForm_KeyDown);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This asks to save files and returns the result
         // Also does implicit saves
@@ -86,10 +67,6 @@ namespace CodeImp.DoomBuilder.Windows
 		{
 			editor.ShowError(error);
 		}*/
-
-        #endregion
-
-        #region ================== Events
 
         private void ScriptEditorForm_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
@@ -154,7 +131,5 @@ namespace CodeImp.DoomBuilder.Windows
             if (!editor.LaunchKeywordHelp()) General.ShowHelp("w_scripteditor.html"); //mxd
             hlpevent.Handled = true;
         }
-
-        #endregion
     }
 }

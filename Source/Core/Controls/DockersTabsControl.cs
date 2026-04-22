@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Drawing;
@@ -23,19 +19,12 @@ using System.Drawing.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     internal class DockersTabsControl : TabControl
     {
-        #region ================== Constants
 
         private const int NOTIFY_BLINK_COUNT = 8; //mxd
-
-        #endregion
-
-        #region ================== Variables
 
         private int highlighttab;
         private readonly StringFormat stringformat;
@@ -44,10 +33,6 @@ namespace CodeImp.DoomBuilder.Controls
         private int notifytab;
         private int notifycounter;
         private Timer notifytimer;
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor
         public DockersTabsControl()
@@ -66,10 +51,6 @@ namespace CodeImp.DoomBuilder.Controls
             notifytimer = new Timer { Interval = 500 };
             notifytimer.Tick += NotifyTimerOnTick;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         //mxd. Start notify animation
         internal void PlayNotifyAnimation(int tabindex)
@@ -148,10 +129,6 @@ namespace CodeImp.DoomBuilder.Controls
             graphics.DrawImage(drawimage, bounds.X, bounds.Y);
             drawimage.Dispose();
         }
-
-        #endregion
-
-        #region ================== Events
 
         //mxd. Stop notify animation if user selects animated tab
         protected override void OnSelectedIndexChanged(EventArgs e)
@@ -271,7 +248,5 @@ namespace CodeImp.DoomBuilder.Controls
             // Trigger redraw
             this.Invalidate();
         }
-
-        #endregion
     }
 }

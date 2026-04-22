@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
@@ -22,25 +18,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.ZDoom
 {
     public sealed class DecorateParser : ZDTextParser
     {
-        #region ================== Delegates
 
         public delegate void IncludeDelegate(DecorateParser parser, string includefile);
 
         public IncludeDelegate OnInclude;
-
-        #endregion
-
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         //mxd. Script type
         internal override ScriptType ScriptType { get { return ScriptType.DECORATE; } }
@@ -65,10 +50,6 @@ namespace CodeImp.DoomBuilder.ZDoom
 
         //
         public bool NoWarnings = false;
-
-        #endregion
-
-        #region ================== Properties
 
         /// <summary>
         /// All actors that are supported by the current game.
@@ -99,9 +80,6 @@ namespace CodeImp.DoomBuilder.ZDoom
         /// This is used to find out what classes were parsed from specific archive
         /// </summary>
         public HashSet<string> LastClasses { get; internal set; }
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public DecorateParser(Dictionary<string, ActorStructure> _zscriptactors)
@@ -130,10 +108,6 @@ namespace CodeImp.DoomBuilder.ZDoom
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== Parsing
 
         protected internal override void LogWarning(string message, int linenumber)
         {
@@ -410,10 +384,6 @@ namespace CodeImp.DoomBuilder.ZDoom
             return ErrorDescription == null;
         }
 
-        #endregion
-
-        #region ================== Methods
-
         /// <summary>
         /// This returns a supported actor by name. Returns null when no supported actor with the specified name can be found. This operation is of O(1) complexity.
         /// </summary>
@@ -451,7 +421,5 @@ namespace CodeImp.DoomBuilder.ZDoom
             parsedlumps = new HashSet<string>(StringComparer.OrdinalIgnoreCase); //mxd
             damagetypes = new HashSet<string>(StringComparer.OrdinalIgnoreCase); //mxd
         }
-
-        #endregion
     }
 }

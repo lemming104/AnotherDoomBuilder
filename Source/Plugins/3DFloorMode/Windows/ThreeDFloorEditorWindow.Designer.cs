@@ -20,8 +20,6 @@
 			base.Dispose(disposing);
 		}
 
-		#region Vom Windows Form-Designer generierter Code
-
 		/// <summary>
 		/// Erforderliche Methode für die Designerunterstützung.
 		/// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
@@ -217,8 +215,6 @@
 			this.PerformLayout();
 
 		}
-
-		#endregion
 
 		private System.Windows.Forms.FlowLayoutPanel threeDFloorPanel;
 		private System.Windows.Forms.Button okButton;

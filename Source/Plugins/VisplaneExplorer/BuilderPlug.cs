@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2012 Pascal vd Heiden
 
 /*
  * Copyright (c) 2012 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Plugins.VisplaneExplorer.Properties;
 using CodeImp.DoomBuilder.Windows;
@@ -22,13 +18,10 @@ using System;
 using System.Globalization;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
 {
     public class BuilderPlug : Plug
     {
-        #region ================== Variables
 
         // Objects
         private static BuilderPlug me;
@@ -38,20 +31,12 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
         // Palettes
         private Palette[] palettes;
 
-        #endregion
-
-        #region ================== Properties
-
         // Properties
         public override string Name { get { return "VisplaneExplorer"; } }
         internal static VPOManager VPO { get { return me.vpo; } }
         internal static InterfaceForm InterfaceForm { get { return me.interfaceform; } }
         internal static Palette[] Palettes { get { return me.GetPalettes(); } }
         public override int MinimumRevision { get { return 2411; } }
-
-        #endregion
-
-        #region ================== Initialize / Dispose
 
         public override void OnInitialize()
         {
@@ -103,10 +88,6 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         //mxd
         private Palette[] GetPalettes()
         {
@@ -154,7 +135,5 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
             // Return the filename
             return filename;
         }
-
-        #endregion
     }
 }

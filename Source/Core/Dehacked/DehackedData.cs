@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,22 +18,16 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.IO;
 using System.Collections;
 using System.Collections.Generic;
-
-#endregion
 
 
 namespace CodeImp.DoomBuilder.Dehacked
 {
     public class DehackedData
     {
-        #region ================== Variables
 
         private Dictionary<int, DehackedThing> things;
         private Dictionary<int, DehackedFrame> frames;
@@ -44,18 +37,10 @@ namespace CodeImp.DoomBuilder.Dehacked
         private Configuration cfg;
         private string root;
 
-        #endregion
-
-        #region ================== Properties
-
         public Dictionary<int, DehackedThing> Things { get { return things; } }
         public Dictionary<int, DehackedFrame> Frames { get { return frames; } }
         public Dictionary<int, string> Sprites { get { return sprites; } }
         public Dictionary<long, string> BitMnemonics { get { return bitmnemonics; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         internal DehackedData(Configuration cfg, string root)
         {
@@ -105,10 +90,6 @@ namespace CodeImp.DoomBuilder.Dehacked
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         private DehackedThing LoadThing(DictionaryEntry entry)
         {
             int dehackedid = int.Parse(entry.Key.ToString());
@@ -154,7 +135,5 @@ namespace CodeImp.DoomBuilder.Dehacked
 
             return new DehackedFrame(frameid, props);
         }
-
-        #endregion
     }
 }

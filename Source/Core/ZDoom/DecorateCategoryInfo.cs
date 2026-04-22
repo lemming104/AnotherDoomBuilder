@@ -1,33 +1,21 @@
-﻿#region ================== Namespaces
-
+﻿
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.ZDoom
 {
     internal class DecorateCategoryInfo
     {
-        #region ================== Properties
 
         public List<string> Category;
         public Dictionary<string, List<string>> Properties;
-
-        #endregion
-
-        #region ================== Constructor
 
         public DecorateCategoryInfo()
         {
             Category = new List<string>(1);
             Properties = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public string GetPropertyValueString(string propname, int valueindex, string defaultvalue) { return GetPropertyValueString(propname, valueindex, defaultvalue, true); }
         public string GetPropertyValueString(string propname, int valueindex, string defaultvalue, bool stripquotes)
@@ -66,7 +54,5 @@ namespace CodeImp.DoomBuilder.ZDoom
             float fvalue;
             return float.TryParse(str, NumberStyles.Float, CultureInfo.InvariantCulture, out fvalue) ? fvalue : defaultvalue;
         }
-
-        #endregion
     }
 }

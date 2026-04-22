@@ -1,22 +1,14 @@
-﻿#region ================== Namespaces
-
+﻿
 using System;
 using System.Drawing;
 using System.IO;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.GZBuilder.Data
 {
     public class EngineInfo : IDisposable
     {
-        #region ================== Constants
 
         public const string DEFAULT_ENGINE_NAME = "Engine with no name";
-
-        #endregion
-
-        #region ================== Variables
 
         // Settings
         private string testprogramname;
@@ -33,18 +25,10 @@ namespace CodeImp.DoomBuilder.GZBuilder.Data
         // Disposing
         private bool isdisposed;
 
-        #endregion
-
-        #region ================== Properties
-
         public string TestProgramName { get { return testprogramname; } set { testprogramname = value; CheckProgramName(); } }
         public string TestProgram { get { return testprogram; } set { testprogram = value; CheckProgramName(); } }
         public Bitmap TestProgramIcon { get { if (icon == null) UpdateIcon(); return icon; } }
         public string AdditionalParameters { get { return additionalparameters; } internal set { additionalparameters = value; } }
-
-        #endregion
-
-        #region ================== Constructors / Disposer
 
         public EngineInfo()
         {
@@ -78,10 +62,6 @@ namespace CodeImp.DoomBuilder.GZBuilder.Data
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         private void CheckProgramName()
         {
             if (testprogramname == DEFAULT_ENGINE_NAME && !String.IsNullOrEmpty(testprogram))
@@ -109,7 +89,5 @@ namespace CodeImp.DoomBuilder.GZBuilder.Data
                 icon = new Bitmap(Properties.Resources.Warning);
             }
         }
-
-        #endregion
     }
 }

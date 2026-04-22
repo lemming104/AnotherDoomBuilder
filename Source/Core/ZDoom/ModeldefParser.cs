@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
@@ -9,8 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.ZDoom
 {
     internal class ModeldefParser : ZDTextParser
@@ -19,25 +16,13 @@ namespace CodeImp.DoomBuilder.ZDoom
 
         public IncludeDelegate OnInclude;
 
-
-        #region ================== Variables
-
         private readonly Dictionary<string, int> actorsbyclass;
         private Dictionary<string, ModelData> entries; //classname, entry
         //mxd. Includes tracking
         private HashSet<string> parsedlumps;
 
-
-        #endregion
-
-        #region ================== Properties
-
         internal override ScriptType ScriptType { get { return ScriptType.MODELDEF; } }
         internal Dictionary<string, ModelData> Entries { get { return entries; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         internal ModeldefParser(Dictionary<string, int> actorsbyclass)
         {
@@ -48,10 +33,6 @@ namespace CodeImp.DoomBuilder.ZDoom
             // We don't want the '-' as a special token because commands can contain them (like "rotation-center")
             specialtokens = ":{}+\n;";
         }
-
-        #endregion
-
-        #region ================== Parsing
 
         // Should be called after all decorate actors are parsed 
         public override bool Parse(TextResourceData data, bool clearerrors)
@@ -261,7 +242,5 @@ namespace CodeImp.DoomBuilder.ZDoom
 
             return true;
         }
-
-        #endregion
     }
 }

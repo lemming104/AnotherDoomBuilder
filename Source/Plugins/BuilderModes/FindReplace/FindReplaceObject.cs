@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,28 +11,18 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     internal class FindReplaceObject
     {
-        #region ================== Variables
 
         private object obj;
         private string title;
-
-        #endregion
-
-        #region ================== Properties
 
         public object Object { get { return obj; } set { obj = value; } }
         public Sector Sector { get { return (Sector)obj; } }
@@ -43,10 +32,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public Vertex Vertex { get { return (Vertex)obj; } }
         public string Title { get { return title; } set { title = value; } }
 
-        #endregion
-
-        #region ================== Constructor / Destructor
-
         // Constructor
         public FindReplaceObject(object obj, string title)
         {
@@ -54,10 +39,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             this.obj = obj;
             this.title = title;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // String representation
         public override string ToString()
@@ -102,7 +83,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 points.Add(p + new Vector2D(-t.Size * 2.0f, -t.Size * 2.0f));
             }
         }
-
-        #endregion
     }
 }

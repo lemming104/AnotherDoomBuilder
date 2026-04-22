@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Derek MacDonald
-
+﻿
 /*
  * Copyright (c) 2021 Derek MacDonald
  * This program is released under GNU General Public License
@@ -11,20 +10,15 @@
  * 
  */
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer.Windows
 {
     partial class SetCustomHeightDialog
     {
-        #region ================== Variables
 
         private System.Windows.Forms.Label label;
         private CodeImp.DoomBuilder.Controls.ButtonsNumericTextbox input;
         private System.Windows.Forms.Button apply;
         private System.Windows.Forms.Button cancel;
-
-        #endregion
 
         /// <summary>
         /// Required designer variable.
@@ -43,8 +37,6 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer.Windows
             }
             base.Dispose(disposing);
         }
-
-        #region Windows Form Designer generated code
 
         /// <summary>
         /// Required method for Designer support - do not modify
@@ -126,7 +118,5 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer.Windows
             this.Shown += new System.EventHandler(this.Dialog_Shown);
             this.ResumeLayout(false);
         }
-
-        #endregion
     }
 }

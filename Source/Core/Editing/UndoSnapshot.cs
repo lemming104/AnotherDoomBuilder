@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,21 +11,15 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.GZBuilder.Data; //mxd
 using System;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Editing
 {
     public class UndoSnapshot : IDisposable
     {
-        #region ================== Variables
 
         private MemoryStream recstream;
         private string filename;
@@ -37,18 +30,10 @@ namespace CodeImp.DoomBuilder.Editing
         private bool isdisposed;
         //private Dictionary<string, MemoryStream> customdata;
 
-        #endregion
-
-        #region ================== Properties
-
         public string Description { get { return description; } set { description = value; } }
         public int TicketID { get { return ticketid; } }
         internal bool StoreOnDisk { get { return storeondisk; } set { storeondisk = value; } }
         public bool IsOnDisk { get { return isondisk; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal UndoSnapshot(string description, MemoryStream recstream, int ticketid)
@@ -82,10 +67,6 @@ namespace CodeImp.DoomBuilder.Editing
                 isondisk = false;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This returns the map data
         internal MemoryStream GetStream()
@@ -149,7 +130,5 @@ namespace CodeImp.DoomBuilder.Editing
                 outstream.Dispose();
             }
         }
-
-        #endregion
     }
 }

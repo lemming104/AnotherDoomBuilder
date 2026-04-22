@@ -1,4 +1,3 @@
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Editing;
@@ -10,8 +9,6 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Plugins
 {
     /// <summary>
@@ -20,21 +17,12 @@ namespace CodeImp.DoomBuilder.Plugins
     /// </summary>
     public class Plug : IDisposable
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Internals
         private Plugin plugin;
 
         // Disposing
         private bool isdisposed;
-
-        #endregion
-
-        #region ================== Properties
 
         // Internals
         internal Plugin Plugin { get { return plugin; } set { plugin = value; } }
@@ -61,10 +49,6 @@ namespace CodeImp.DoomBuilder.Plugins
         /// Set to true to indicate that plugin revision number must match the main module revision number.
         /// </summary>
         public virtual bool StrictRevisionMatching { get { return false; } } //mxd
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         /// <summary>
         /// This is the key link between the Doom Builder core and the plugin.
@@ -99,10 +83,6 @@ namespace CodeImp.DoomBuilder.Plugins
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         /// <summary>
         /// This finds the embedded resource with the specified name in the plugin and creates
         /// a Stream from it. Returns null when the embedded resource cannot be found.
@@ -114,10 +94,6 @@ namespace CodeImp.DoomBuilder.Plugins
         {
             return plugin.GetResourceStream(resourcename);
         }
-
-        #endregion
-
-        #region ================== Events
 
         /// <summary>
         /// This iscalled when the ceiling surface buffer is updated for a sector. The plugin can
@@ -338,7 +314,5 @@ namespace CodeImp.DoomBuilder.Plugins
         public virtual void OnHighlightVertex(Vertex v) { }
         public virtual void OnHighlightRefreshed(object o) { }
         public virtual void OnHighlightLost() { }
-
-        #endregion
     }
 }

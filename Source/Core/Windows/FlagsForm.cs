@@ -6,20 +6,11 @@ namespace CodeImp.DoomBuilder.Windows
 {
     public partial class FlagsForm : DelayedForm
     {
-        #region ================== Variables
 
         private string value;
         private IDictionary<string, string> flagdefs;
 
-        #endregion
-
-        #region ================== Properties
-
         public string Value { get { return value; } }
-
-        #endregion
-
-        #region ================== Methods
 
         public FlagsForm()
         {
@@ -92,8 +83,6 @@ namespace CodeImp.DoomBuilder.Windows
             f.Dispose();
             return result;
         }
-
-        #endregion
 
 
         private void apply_Click(object sender, EventArgs e)

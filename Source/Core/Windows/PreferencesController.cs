@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,20 +11,14 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Windows
 {
     public class PreferencesController
     {
-        #region ================== Delegates
 
         public delegate void AcceptDelegate(PreferencesController controller);
         public delegate void CancelDelegate(PreferencesController controller);
@@ -33,22 +26,10 @@ namespace CodeImp.DoomBuilder.Windows
         public event AcceptDelegate OnAccept;
         public event CancelDelegate OnCancel;
 
-        #endregion
-
-        #region ================== Variables
-
         private PreferencesForm form;
         private bool allowaddtab;
 
-        #endregion
-
-        #region ================== Properties
-
         internal bool AllowAddTab { get { return allowaddtab; } set { allowaddtab = value; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         internal PreferencesController(PreferencesForm form)
@@ -64,10 +45,6 @@ namespace CodeImp.DoomBuilder.Windows
 			OnAccept = null;
 			OnCancel = null;
 		}*/
-
-        #endregion
-
-        #region ================== Methods
 
         // This adds a preferences tab
         public void AddTab(TabPage tab)
@@ -88,7 +65,5 @@ namespace CodeImp.DoomBuilder.Windows
         {
             if (OnCancel != null) OnCancel(this);
         }
-
-        #endregion
     }
 }

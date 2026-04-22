@@ -1,34 +1,18 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using System;
 using System.Globalization;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Types
 {
     [TypeHandler(UniversalType.RandomFloat, "Decimal (Random)", false)]
     internal class RandomFloatHandler : TypeHandler
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private float value;
         private bool randomvalue;
         private float min;
         private float max;
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Methods
 
         public override void SetupArgument(TypeHandlerAttribute attr, ArgumentInfo arginfo)
         {
@@ -111,7 +95,5 @@ namespace CodeImp.DoomBuilder.Types
         {
             return 0f;
         }
-
-        #endregion
     }
 }

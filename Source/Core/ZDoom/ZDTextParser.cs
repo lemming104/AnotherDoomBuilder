@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Compilers;
 using CodeImp.DoomBuilder.Config;
@@ -27,22 +23,15 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.ZDoom
 {
     public abstract class ZDTextParser
     {
-        #region ================== Constants
 
         protected static readonly string RELATIVE_PATH_MARKER = ".." + Path.DirectorySeparatorChar;
         protected static readonly string CURRENT_FOLDER_PATH_MARKER = "." + Path.DirectorySeparatorChar;
         protected static readonly string ALT_RELATIVE_PATH_MARKER = ".." + Path.AltDirectorySeparatorChar;
         protected static readonly string ALT_CURRENT_FOLDER_PATH_MARKER = "." + Path.AltDirectorySeparatorChar;
-
-        #endregion
-
-        #region ================== Variables
 
         // Parsing
         protected string whitespace = "\n \t\r\u00A0\0"; //mxd. non-breaking space is also space :)
@@ -68,9 +57,6 @@ namespace CodeImp.DoomBuilder.ZDoom
         protected string textresourcepath;
         protected readonly Dictionary<string, ScriptResource> scriptresources;
         protected readonly HashSet<string> untrackedtextresources;
-        #endregion
-
-        #region ================== Properties
 
         internal Stream DataStream { get { return datastream; } }
         internal BinaryReader DataReader { get { return datareader; } }
@@ -81,10 +67,6 @@ namespace CodeImp.DoomBuilder.ZDoom
         internal abstract ScriptType ScriptType { get; } //mxd
         internal Dictionary<string, ScriptResource> ScriptResources { get { return scriptresources; } } //mxd
 
-        #endregion
-
-        #region ================== Constructor / Disposer
-
         // Constructor
         protected ZDTextParser()
         {
@@ -94,10 +76,6 @@ namespace CodeImp.DoomBuilder.ZDoom
             untrackedtextresources = new HashSet<string>(StringComparer.OrdinalIgnoreCase); //mxd
             skipregions = true; //mxd
         }
-
-        #endregion
-
-        #region ================== Parsing
 
         //mxd. This parses the given decorate stream. Returns false on errors
         public virtual bool Parse(TextResourceData parsedata, bool clearerrors)
@@ -871,7 +849,5 @@ namespace CodeImp.DoomBuilder.ZDoom
 
             return true;
         }
-
-        #endregion
     }
 }

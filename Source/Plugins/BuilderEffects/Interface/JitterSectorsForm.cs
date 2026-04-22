@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.VisualModes;
@@ -8,13 +7,10 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderEffects
 {
     public partial class JitterSectorsForm : DelayedForm
     {
-        #region ================== Variables
 
         private readonly string editingModeName;
         private readonly List<VisualSector> visualSectors;
@@ -31,10 +27,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
         private static bool useCeilingVertexHeights;
         private static int storedceiloffsetmode;
         private static int storedflooroffsetmode;
-
-        #endregion
-
-        #region ================== Structs
 
         private struct TranslationOffsetVertexData
         {
@@ -78,10 +70,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
             public bool PegBottom;
             public bool UpdateTextureOnOtherSide;
         }
-
-        #endregion
-
-        #region ================== Constructor / Setup
 
         public JitterSectorsForm(string editingModeName)
         {
@@ -377,10 +365,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
             UpdateCeilingHeights();
         }
 
-        #endregion
-
-        #region ================== Methods
-
         private static float GetLowestCeiling(Vertex v)
         {
             if (v.Linedefs.Count == 0) return float.NaN;
@@ -438,10 +422,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
 
             return result.ToArray();
         }
-
-        #endregion
-
-        #region ================== Utility
 
         private void ApplyTranslationJitter(int ammount)
         {
@@ -643,10 +623,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
             if (updateGeometry && editingModeName == "BaseVisualMode") UpdateVisualGeometry();
         }
 
-        #endregion
-
-        #region ================== Set Textures
-
         private void SetUpperTexture(SidedefData sd, string textureName)
         {
             SetUpperTexture(sd, textureName, textureName);
@@ -674,10 +650,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
             if (sd.UpdateTextureOnOtherSide && sd.Side.Other != null && (!cbKeepExistingTextures.Checked || string.IsNullOrEmpty(sd.OtherLowTexture) || sd.OtherLowTexture == "-"))
                 sd.Side.Other.SetTextureLow(otherTextureName);
         }
-
-        #endregion
-
-        #region ================== Jitter generation
 
         private void UpdateAngles()
         {
@@ -730,10 +702,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
                 sectorData[i] = sd;
             }
         }
-
-        #endregion
-
-        #region ================== Events
 
         private void bApply_Click(object sender, EventArgs e)
         {
@@ -850,8 +818,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
             UpdateTextureSelectors();
         }
 
-        #region ================== Update Events
-
         private void bUpdateTranslation_Click(object sender, EventArgs e)
         {
             UpdateAngles();
@@ -870,10 +836,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
             ApplyFloorHeightJitter(floorHeightAmmount.Value);
         }
 
-        #endregion
-
-        #region ================== Height Offset Mode Events
-
         private void ceiloffsetmode_SelectedIndexChanged(object sender, EventArgs e)
         {
             ApplyCeilingHeightJitter(ceilingHeightAmmount.Value);
@@ -883,10 +845,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
         {
             ApplyFloorHeightJitter(floorHeightAmmount.Value);
         }
-
-        #endregion
-
-        #region ================== Texture Pegging Events
 
         private void cbPegTop_CheckedChanged(object sender, EventArgs e)
         {
@@ -928,10 +886,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
             }
         }
 
-        #endregion
-
-        #region ================== Texture Picker Events
-
         //texture pickers
         private void textureLower_OnValueChanged(object sender, EventArgs e)
         {
@@ -942,10 +896,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
         {
             UpdateUpperTextures(cbUpperTexStyle.SelectedIndex, true);
         }
-
-        #endregion
-
-        #region ================== Texture Style Selector Events
 
         //texture style selectors
         private void cbUpperTexStyle_SelectedIndexChanged(object sender, EventArgs e)
@@ -960,15 +910,11 @@ namespace CodeImp.DoomBuilder.BuilderEffects
             UpdateTextureSelectors();
         }
 
-        #endregion
-
         //HALP!
         private void JitterSectorsForm_HelpRequested(object sender, HelpEventArgs hlpevent)
         {
             General.ShowHelp("gzdb/features/all_modes/jitter.html");
             hlpevent.Handled = true;
         }
-
-        #endregion
     }
 }

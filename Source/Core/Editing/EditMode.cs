@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Config;
@@ -27,8 +23,6 @@ using System.Globalization;
 using System.Reflection;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Editing
 {
     /// <summary>
@@ -36,23 +30,14 @@ namespace CodeImp.DoomBuilder.Editing
     /// </summary>
     public abstract class EditMode
     {
-        #region ================== Constants
 
         public const int DRAG_START_MOVE_PIXELS = 5;
-
-        #endregion
-
-        #region ================== Variables
 
         // Attributes
         protected EditModeAttribute attributes; //mxd. private -> protected
 
         // Disposing
         protected bool isdisposed;
-
-        #endregion
-
-        #region ================== Properties
 
         public bool IsDisposed { get { return isdisposed; } }
 
@@ -64,10 +49,6 @@ namespace CodeImp.DoomBuilder.Editing
 
         // Override this to provide a highlighted object, if applicable
         public virtual object HighlightedObject { get { return null; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         /// <summary>
         /// Provides basic user input interface functionality for a Doom Builder editing mode.
@@ -106,10 +87,6 @@ namespace CodeImp.DoomBuilder.Editing
             }
         }
 
-        #endregion
-
-        #region ================== Static Methods
-
         // This creates an instance of a specific mode
         public static EditMode Create(Type modetype, object[] args)
         {
@@ -130,10 +107,6 @@ namespace CodeImp.DoomBuilder.Editing
                 throw e.InnerException;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         //mxd
         public virtual void UpdateSelectionInfo()
@@ -165,10 +138,6 @@ namespace CodeImp.DoomBuilder.Editing
 
             General.Interface.DisplayStatus(StatusType.Selection, result);
         }
-
-        #endregion
-
-        #region ================== Events
 
         //
         // Order in which events occur for the old and new modes:
@@ -267,7 +236,5 @@ namespace CodeImp.DoomBuilder.Editing
 
         public virtual bool OnAutoSaveBegin() { return attributes.Volatile ? false : true; } // Called before autosave is done. Returns false if autosave should not be done. By default volatile modes prevent autosave
         public virtual void OnAutoSaveEnd() { }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Dehacked;
@@ -28,8 +24,6 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Config
 {
@@ -54,11 +48,6 @@ namespace CodeImp.DoomBuilder.Config
 
     public class GameConfiguration
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Original configuration
         private readonly Configuration cfg;
@@ -228,10 +217,6 @@ namespace CodeImp.DoomBuilder.Config
         // File title style (how long file names are converted to lump names)
         private FileTitleStyle filetitlestyle;
 
-        #endregion
-
-        #region ================== Properties
-
         // General settings
         public string Name { get { return configname; } }
         public string EngineName { get { return enginename; } }
@@ -395,10 +380,6 @@ namespace CodeImp.DoomBuilder.Config
 
         // File title style
         public FileTitleStyle FileTitleStyle { get { return filetitlestyle; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal GameConfiguration(Configuration cfg)
@@ -655,10 +636,6 @@ namespace CodeImp.DoomBuilder.Config
             foreach (ThingsFilter tf in thingfilters) tf.Dispose(); //mxd
             foreach (GeneralizedCategory gc in genactioncategories) gc.Dispose(); //mxd
         }
-
-        #endregion
-
-        #region ================== Loading
 
         // This loads the map lumps
         private void LoadMapLumps()
@@ -1182,10 +1159,6 @@ namespace CodeImp.DoomBuilder.Config
                 target.Add(de.Key.ToString(), de.Value.ToString());
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // ReadSetting
         public string ReadSetting(string setting, string defaultsetting) { return cfg.ReadSetting(setting, defaultsetting); }
         public int ReadSetting(string setting, int defaultsetting) { return cfg.ReadSetting(setting, defaultsetting); }
@@ -1467,7 +1440,5 @@ namespace CodeImp.DoomBuilder.Config
 
             return false;
         }
-
-        #endregion
     }
 }

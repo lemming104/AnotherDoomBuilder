@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2022 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,9 +18,6 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Windows;
 using System;
@@ -30,22 +26,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.UDBScript
 {
     public partial class ScriptRunnerForm : DelayedForm
     {
-        #region ================== Constants
 
         /// <summary>
         /// How long a script is allowed to run until the form is made visible.
         /// </summary>
         const int RUNTIME_THRESHOLD = 1000;
-
-        #endregion
-
-        #region ================== Variables
 
         /// <summary>
         /// Cancellation token for stopping the script.
@@ -76,11 +65,6 @@ namespace CodeImp.DoomBuilder.UDBScript
         /// Timer for making the form visible when the script is running for too long.
         /// </summary>
         System.Windows.Forms.Timer timer;
-
-
-        #endregion
-
-        #region ================== Methods
 
         public ScriptRunnerForm()
         {
@@ -241,10 +225,6 @@ namespace CodeImp.DoomBuilder.UDBScript
             Opacity = 0.0;
         }
 
-        #endregion
-
-        #region ================== Events
-
         /// <summary>
         /// Cancels the currently running script, or closes the form if no script is running.
         /// </summary>
@@ -336,7 +316,5 @@ namespace CodeImp.DoomBuilder.UDBScript
         {
             timer.Stop();
         }
-
-        #endregion
     }
 }

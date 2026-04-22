@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2020 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,8 +18,6 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Windows;
 using System;
@@ -29,7 +26,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 {
     internal partial class SlopeArchForm : DelayedForm
     {
-        #region ================== Variables
 
         private double originaltheta;
         private double originaloffset;
@@ -40,10 +36,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         private double oldscale;
         private SlopeArcher slopearcher;
         public event EventHandler UpdateChangedObjects;
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         internal SlopeArchForm(SlopeArcher slopearcher)
         {
@@ -60,10 +52,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             scale.Text = (originalscale * 100.0).ToString();
             heightoffset.Text = originalheightoffset.ToString();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Updates the arch with the values currently entered in the dialog
@@ -88,10 +76,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             // BaseVisualMode added a event handler to the dialog, so BaseVisualMode will update the geometry when we tell it to
             UpdateChangedObjects?.Invoke(this, EventArgs.Empty);
         }
-
-        #endregion
-
-        #region ================== Events
 
         /// <summary>
         /// Immediately apply the arch when the form is shown
@@ -321,7 +305,5 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 
             UpdateArch();
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,20 +11,14 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Editing
 {
     internal class NullThingsFilter : ThingsFilter
     {
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal NullThingsFilter()
@@ -46,10 +39,6 @@ namespace CodeImp.DoomBuilder.Editing
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This updates the lists
         public override void Update()
         {
@@ -59,7 +48,5 @@ namespace CodeImp.DoomBuilder.Editing
             thingsvisiblestate = new Dictionary<Thing, bool>(General.Map.Map.Things.Count);
             foreach (Thing t in visiblethings) thingsvisiblestate.Add(t, true);
         }
-
-        #endregion
     }
 }

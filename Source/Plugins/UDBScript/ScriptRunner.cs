@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2020 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,9 +18,6 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.UDBScript.Wrapper;
@@ -37,32 +33,21 @@ using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.UDBScript
 {
     class ScriptRunner
     {
-        #region ================== Variables
 
         private ScriptInfo scriptinfo;
         Engine engine;
         Stopwatch stopwatch;
         int oldprocessingcount;
 
-        #endregion
-
-        #region ================== Constructor
-
         public ScriptRunner(ScriptInfo scriptoption)
         {
             this.scriptinfo = scriptoption;
             stopwatch = new Stopwatch();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Stops the timer, pausing the script's runtime constraint
@@ -438,7 +423,5 @@ namespace CodeImp.DoomBuilder.UDBScript
         {
             return string.Format("{0:D2}:{1:D2}:{2:D2}.{3:D}", stopwatch.Elapsed.Hours, stopwatch.Elapsed.Minutes, stopwatch.Elapsed.Seconds, stopwatch.Elapsed.Milliseconds);
         }
-
-        #endregion
     }
 }

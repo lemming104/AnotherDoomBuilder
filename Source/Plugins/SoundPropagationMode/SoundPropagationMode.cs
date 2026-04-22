@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden, 2014 Boris Iwanski
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -13,9 +12,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Editing;
@@ -31,8 +27,6 @@ using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.SoundPropagationMode
 {
     [EditMode(DisplayName = "Sound Propagation Mode",
@@ -46,7 +40,6 @@ namespace CodeImp.DoomBuilder.SoundPropagationMode
 
     public class SoundPropagationMode : ClassicMode
     {
-        #region ================== Variables
 
         // Highlighted item
         private Sector highlighted;
@@ -71,16 +64,8 @@ namespace CodeImp.DoomBuilder.SoundPropagationMode
         private TextLabel leakendlabel;
         private BackgroundWorker worker;
 
-        #endregion
-
-        #region ================== Properties
-
         public override object HighlightedObject { get { return highlighted; } }
         internal static string BlockSoundFlag { get { return General.Map.UDMF ? "blocksound" : "64"; } } //mxd
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Disposer
         public override void Dispose()
@@ -92,10 +77,6 @@ namespace CodeImp.DoomBuilder.SoundPropagationMode
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         private void UpdateData()
         {
@@ -191,10 +172,6 @@ namespace CodeImp.DoomBuilder.SoundPropagationMode
             blockmap.AddLinedefsSet(General.Map.Map.Linedefs);
             blockmap.AddSectorsSet(General.Map.Map.Sectors);
         }
-
-        #endregion
-
-        #region ================== Events
 
         public override void OnHelp()
         {
@@ -646,10 +623,6 @@ namespace CodeImp.DoomBuilder.SoundPropagationMode
             General.Interface.RedrawDisplay();
         }
 
-        #endregion
-
-        #region ================== Actions
-
         [BeginAction("soundpropagationcolorconfiguration")]
         public void ConfigureColors()
         {
@@ -696,7 +669,5 @@ namespace CodeImp.DoomBuilder.SoundPropagationMode
 
             General.Interface.RedrawDisplay();
         }
-
-        #endregion
     }
 }

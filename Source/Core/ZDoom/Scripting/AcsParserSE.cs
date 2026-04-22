@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.GZBuilder.Data;
@@ -8,21 +7,14 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 
-#endregion
-
 //mxd. ACS parser used to create ScriptItems for use in script editor's navigator
 namespace CodeImp.DoomBuilder.ZDoom.Scripting
 {
     internal sealed class AcsParserSE : ZDTextParser
     {
-        #region ================== Event Delegates
 
         internal delegate bool IncludeDelegate(AcsParserSE parser, string includefile, IncludeType includetype);
         internal IncludeDelegate OnInclude;
-
-        #endregion
-
-        #region ================== Variables
 
         private readonly Dictionary<string, HashSet<string>> includes; // <either "SCRIPTS" or Source library name, <List of files it #includes>>
         private HashSet<string> includestoskip;
@@ -31,10 +23,6 @@ namespace CodeImp.DoomBuilder.ZDoom.Scripting
         private readonly List<ScriptItem> namedscripts;
         private readonly List<ScriptItem> numberedscripts;
         private readonly List<ScriptItem> functions;
-
-        #endregion
-
-        #region ================== Properties
 
         internal override ScriptType ScriptType { get { return ScriptType.ACS; } }
 
@@ -48,20 +36,12 @@ namespace CodeImp.DoomBuilder.ZDoom.Scripting
         internal bool IsMapScriptsLump;
         internal bool IgnoreErrors;
 
-        #endregion
-
-        #region ================== Enums
-
         internal enum IncludeType
         {
             NONE,
             INCLUDE,
             LIBRARY
         }
-
-        #endregion
-
-        #region ================== Constructor
 
         internal AcsParserSE()
         {
@@ -72,10 +52,6 @@ namespace CodeImp.DoomBuilder.ZDoom.Scripting
             includestoskip = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             specialtokens += "(,)";
         }
-
-        #endregion
-
-        #region ================== Parsing
 
         public override bool Parse(TextResourceData data, bool clearerrors) { return Parse(data, new HashSet<string>(), false, IncludeType.NONE, clearerrors); }
         public bool Parse(TextResourceData data, bool processincludes, IncludeType includetype, bool clearerrors) { return Parse(data, includestoskip, processincludes, includetype, clearerrors); }
@@ -339,10 +315,6 @@ namespace CodeImp.DoomBuilder.ZDoom.Scripting
             return true;
         }
 
-        #endregion
-
-        #region ================== Methods
-
         internal HashSet<string> GetIncludes()
         {
             HashSet<string> result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -404,7 +376,5 @@ namespace CodeImp.DoomBuilder.ZDoom.Scripting
 
             return "(void)";
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,26 +11,16 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.VisualModes
 {
     public class VisualSector : IRenderResource, IDisposable
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Geometry
         private readonly List<VisualGeometry> fixedgeometry;
@@ -46,10 +35,6 @@ namespace CodeImp.DoomBuilder.VisualModes
         // Disposing
         private bool isdisposed;
 
-        #endregion
-
-        #region ================== Properties
-
         internal List<VisualGeometry> FixedGeometry { get { return fixedgeometry; } }
         internal List<VisualGeometry> AllGeometry { get { return allgeometry; } }
         internal VertexBuffer GeometryBuffer { get { return geobuffer; } }
@@ -61,10 +46,6 @@ namespace CodeImp.DoomBuilder.VisualModes
 
         public bool IsDisposed { get { return isdisposed; } }
         public Sector Sector { get { return sector; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public VisualSector(Sector s)
@@ -97,10 +78,6 @@ namespace CodeImp.DoomBuilder.VisualModes
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This is called before a device is reset
         // (when resized or display adapter was changed)
@@ -199,7 +176,5 @@ namespace CodeImp.DoomBuilder.VisualModes
             if (sidedefgeometry.ContainsKey(sd)) return sidedefgeometry[sd];
             return new List<VisualGeometry>();
         }
-
-        #endregion
     }
 }

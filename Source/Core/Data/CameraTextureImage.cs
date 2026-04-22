@@ -1,17 +1,13 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.ZDoom;
 using System;
 using System.Drawing;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Data
 {
     public class CameraTextureImage : ImageData
     {
-        #region ================== Constructor / Disposer
 
         // Constructor
         public CameraTextureImage(CameraTextureData data)
@@ -30,10 +26,6 @@ namespace CodeImp.DoomBuilder.Data
             // We have no destructor
             GC.SuppressFinalize(this);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This loads the image
         protected override LocalLoadResult LocalLoadImage()
@@ -109,7 +101,5 @@ namespace CodeImp.DoomBuilder.Data
 
             ComputeNamesWidth(); // biwa
         }
-
-        #endregion
     }
 }

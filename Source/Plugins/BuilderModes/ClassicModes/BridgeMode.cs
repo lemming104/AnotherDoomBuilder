@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
 using CodeImp.DoomBuilder.Editing;
@@ -11,8 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
 {
@@ -27,17 +24,12 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
 
     public class BridgeMode : BaseClassicMode
     {
-        #region ================== Constants
 
         private const float GRIP_SIZE = 9.0f;
         private const float LINE_THICKNESS = 0.8f;
 
         internal const int MAX_SUBDIVISIONS = 32;
         internal const int MIN_SUBDIVISIONS = 0;
-
-        #endregion
-
-        #region ================== Variables
 
         private Vector2D[] pointGroup1;
         private Vector2D[] pointGroup2;
@@ -62,19 +54,11 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
         //tools form
         private BridgeModeForm form;
 
-        #endregion
-
-        #region ================== Constructor / Disposer
-
         public BridgeMode()
         {
             // We have no destructor
             GC.SuppressFinalize(this);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Engaging
         public override void OnEngage()
@@ -384,10 +368,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
             General.ShowHelp("/gzdb/features/classic_modes/mode_drawbridge.html");
         }
 
-        #endregion
-
-        #region ================== Setup/Update/Utility
-
         //this checks if initial data is valid
         private bool Setup(List<Line> lines)
         {
@@ -523,10 +503,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
             return shapes;
         }
 
-        #endregion
-
-        #region ================== Point ops
-
         //this returns an array of linedef lengths relative to total segment length
         private double[] GetRelativeLengths(Vector2D[] pointGroup)
         {
@@ -577,10 +553,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
             if (zn == 0) return false;
             return ch1 / zn <= 1 && ch1 / zn >= 0 && ch2 / zn <= 1 && ch2 / zn >= 0;
         }
-
-        #endregion
-
-        #region ================== Line sorting
 
         //this gets two arrays of connected points from given lines. Returns true if all went well.
         private bool SetupPointGroups(List<Line> linesList)
@@ -706,10 +678,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
             return true;
         }
 
-        #endregion
-
-        #region ================== Easing functions
-
         private static int IntepolateValue(int val1, int val2, float delta, string mode)
         {
             switch (mode)
@@ -739,10 +707,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
             }
         }
 
-        #endregion
-
-        #region ================== Events
-
         private void form_OnSubdivisionChanged(object sender, EventArgs e)
         {
             Update();
@@ -771,10 +735,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
             Update();
         }
 
-        #endregion
-
-        #region ================== Actions
-
         // Finish drawing
         [BeginAction("finishdraw")]
         private void FinishDraw()
@@ -794,11 +754,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
         {
             if (form != null && form.Subdivisions > MIN_SUBDIVISIONS) form.Subdivisions--;
         }
-
-        #endregion
     }
-
-    #region ================== Helper classes
 
     internal struct SectorProperties
     {
@@ -885,6 +841,4 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
             end = s;
         }
     }
-
-    #endregion
 }

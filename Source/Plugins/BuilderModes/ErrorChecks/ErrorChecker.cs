@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,13 +11,8 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
@@ -26,22 +20,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
     // Do not even change element properties such as 'marked' and 'selected'!
     public class ErrorChecker : IComparable<ErrorChecker>
     {
-        #region ================== Variables
 
         private int lastprogress;
         private int totalprogress = -1;
         protected ErrorCheckerAttribute attribs;
 
-        #endregion
-
-        #region ================== Properties
-
         public int TotalProgress { get { return totalprogress; } }
         public virtual bool SkipCheck { get { return false; } } //mxd
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         // Override this to determine and set the total progress
@@ -51,10 +36,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             object[] attrs = this.GetType().GetCustomAttributes(typeof(ErrorCheckerAttribute), true);
             attribs = (ErrorCheckerAttribute)attrs[0];
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Override this to run your check
         // Use a Sleep and Try/Catch to handle thread interruption
@@ -92,7 +73,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             return other.attribs.Cost - this.attribs.Cost;
         }
-
-        #endregion
     }
 }

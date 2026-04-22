@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Data;
 using System;
 using System.Collections.Generic;
@@ -9,18 +8,11 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     //mxd. Based on (but heavily reworked since) TextureListPanel from Sledge (https://github.com/LogicAndTrick/sledge)
     internal class ImageSelectorPanel : Panel
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private VScrollBar scrollbar;
         private List<ImageBrowserItem> items;
@@ -56,10 +48,6 @@ namespace CodeImp.DoomBuilder.Controls
 
         private List<ImageBrowserItemGroup> itemgroups = new List<ImageBrowserItemGroup>();
 
-        #endregion
-
-        #region ================== Event handlers
-
         public delegate void ItemSelectedEventHandler(object sender, ImageBrowserItem item);
         public delegate void SelectionChangedEventHandler(object sender, List<ImageBrowserItem> selection);
 
@@ -80,10 +68,6 @@ namespace CodeImp.DoomBuilder.Controls
         {
             if (ItemDoubleClicked != null) ItemDoubleClicked(this, item);
         }
-
-        #endregion
-
-        #region ================== Properties
 
         public bool HideSelection
         {
@@ -155,10 +139,6 @@ namespace CodeImp.DoomBuilder.Controls
         public string Title { get { return title; } set { title = value; } }
         public string ContentType { get { return contenttype; } set { contenttype = value; } } // why do encapsulation when it's not needed?
 
-        #endregion
-
-        #region ================== Constructor / Disposer
-
         public ImageSelectorPanel()
         {
             VScroll = true;
@@ -182,10 +162,6 @@ namespace CodeImp.DoomBuilder.Controls
             if (disposing) Clear();
             base.Dispose(disposing);
         }
-
-        #endregion
-
-        #region ================== Add/Remove/Get Textures
 
         //mxd. Clears the list without redrawing it
         public void Clear()
@@ -502,10 +478,6 @@ namespace CodeImp.DoomBuilder.Controls
             return -1;
         }
 
-        #endregion
-
-        #region ================== Scrolling
-
         private void ScrollByAmount(int value)
         {
             int newvalue = Math.Max(0, scrollbar.Value + value);
@@ -553,10 +525,6 @@ namespace CodeImp.DoomBuilder.Controls
 
             base.OnKeyDown(e);
         }
-
-        #endregion
-
-        #region ================== Updating Rectangles & Dimensions
 
         protected override void OnResize(EventArgs e)
         {
@@ -636,10 +604,6 @@ namespace CodeImp.DoomBuilder.Controls
             Refresh();
         }
 
-        #endregion
-
-        #region ================== Rendering
-
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
@@ -718,10 +682,6 @@ namespace CodeImp.DoomBuilder.Controls
             }
         }
 
-        #endregion
-
-        #region ================== Image Caching
-
         // [ZZ] used during resource reload.
         public static void ClearCachedPreviews()
         {
@@ -785,7 +745,5 @@ namespace CodeImp.DoomBuilder.Controls
             // Get preview
             return cache[imagesize][item.Icon.LongName];
         }
-
-        #endregion
     }
 }

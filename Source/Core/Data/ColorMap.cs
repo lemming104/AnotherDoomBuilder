@@ -1,4 +1,3 @@
-#region ================== Copyright
 
 /*
  * This program is free software: you can redistribute it and/or modify
@@ -15,9 +14,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Rendering;
 using System;
@@ -26,29 +22,14 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Data
 {
     public sealed class ColorMap
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private PixelColor[] colors;
 
-        #endregion
-
-        #region ================== Properties
-
         public PixelColor this[int index] { get { return colors[index]; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public ColorMap()
@@ -90,10 +71,6 @@ namespace CodeImp.DoomBuilder.Data
             this.colors = colors.ToArray();
         }
 
-        #endregion
-
-        #region ================== Methods
-
         public Bitmap CreateBitmap()
         {
             var width = 256;
@@ -113,7 +90,5 @@ namespace CodeImp.DoomBuilder.Data
             }
             return bitmap;
         }
-
-        #endregion
     }
 }

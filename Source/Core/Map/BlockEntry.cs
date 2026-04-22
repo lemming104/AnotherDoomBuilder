@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,19 +11,13 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Map
 {
     public class BlockEntry
     {
-        #region ================== Variables
 
         // Members
         private List<Linedef> lines;
@@ -32,18 +25,10 @@ namespace CodeImp.DoomBuilder.Map
         private List<Sector> sectors;
         private List<Vertex> verts; //mxd
 
-        #endregion
-
-        #region ================== Properties
-
         public List<Linedef> Lines { get { return lines; } }
         public List<Thing> Things { get { return things; } }
         public List<Sector> Sectors { get { return sectors; } }
         public List<Vertex> Vertices { get { return verts; } } //mxd
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor for empty block
         public BlockEntry()
@@ -53,7 +38,5 @@ namespace CodeImp.DoomBuilder.Map
             sectors = new List<Sector>(2);
             verts = new List<Vertex>(2); //mxd
         }
-
-        #endregion
     }
 }

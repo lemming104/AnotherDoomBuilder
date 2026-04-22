@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
@@ -25,31 +21,20 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     public partial class ThingBrowserControl : UserControl
     {
-        #region ================== Constants
 
         private const int WARNING_ICON_INDEX = 20; //mxd
         private const int FOLDER_ICON_OFFSET = 21; //mxd
         private const int FOLDER_OPEN_ICON_OFFSET = 41; //mxd
-
-        #endregion
-
-        #region ================== Events
 
         public delegate void TypeChangedDeletegate(ThingTypeInfo value);
         public delegate void TypeDoubleClickDeletegate();
 
         public event TypeChangedDeletegate OnTypeChanged;
         public event TypeDoubleClickDeletegate OnTypeDoubleClicked;
-
-        #endregion
-
-        #region ================== Variables
 
         private List<TreeNode> nodes;
         private List<TreeNode> validnodes; //mxd
@@ -58,16 +43,8 @@ namespace CodeImp.DoomBuilder.Controls
         private bool doupdatetextbox;
         private TreeNode doubleclickednode; //mxd
 
-        #endregion
-
-        #region ================== Properties
-
         public string TypeStringValue { get { return typeid.Text; } }
         public bool UseMultiSelection { get { return typelist.SelectionMode == TreeViewSelectionMode.MultiSelectSameLevel; } set { typelist.SelectionMode = value ? TreeViewSelectionMode.MultiSelectSameLevel : TreeViewSelectionMode.SingleSelect; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor
         public ThingBrowserControl()
@@ -146,10 +123,6 @@ namespace CodeImp.DoomBuilder.Controls
 
             return containsobsoletethings;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Select a type
         public void SelectType(int type)
@@ -303,10 +276,6 @@ namespace CodeImp.DoomBuilder.Controls
 
             spritetex.Image = null;
         }
-
-        #endregion
-
-        #region ================== Events
 
         // List double-clicked. e.Node and typelist.SelectedNodes[0] may contain incorrect node, 
         // so we set the correct one in typelist_AfterSelect handler (mxd)
@@ -578,7 +547,5 @@ namespace CodeImp.DoomBuilder.Controls
             if (e.Node.ImageIndex > WARNING_ICON_INDEX)
                 e.Node.ImageIndex = e.Node.ImageIndex - FOLDER_OPEN_ICON_OFFSET + FOLDER_ICON_OFFSET;
         }
-
-        #endregion
     }
 }

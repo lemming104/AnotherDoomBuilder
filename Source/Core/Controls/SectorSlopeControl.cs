@@ -1,13 +1,9 @@
-﻿#region ================== Namespaces
-
+﻿
 using System;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
-    #region ================== Enums
 
     internal enum SlopePivotMode
     {
@@ -16,21 +12,13 @@ namespace CodeImp.DoomBuilder.Controls
         LOCAL,  // pivot around sector center
     }
 
-    #endregion
-
     public partial class SectorSlopeControl : UserControl
     {
-
-        #region ================== Events
 
         public event EventHandler OnAnglesChanged;
         public event EventHandler OnUseLineAnglesChanged;
         public event EventHandler OnPivotModeChanged;
         public event EventHandler OnResetClicked;
-
-        #endregion
-
-        #region ================== Variables
 
         private bool preventchanges;
 
@@ -38,10 +26,6 @@ namespace CodeImp.DoomBuilder.Controls
         private double anglexy;
         private double anglez;
         private double offset;
-
-        #endregion
-
-        #region ================== Properties
 
         public StepsList StepValues { set { sloperotation.StepValues = value; } }
         public bool UseLineAngles { get { return cbuselineangles.Checked; } set { preventchanges = true; cbuselineangles.Checked = value; preventchanges = false; } }
@@ -60,18 +44,10 @@ namespace CodeImp.DoomBuilder.Controls
             }
         }
 
-        #endregion
-
-        #region ================== Constructor
-
         public SectorSlopeControl()
         {
             InitializeComponent();
         }
-
-        #endregion
-
-        #region ================== Property accessors
 
         public double GetAngleXY(double defaultvalue)
         {
@@ -87,10 +63,6 @@ namespace CodeImp.DoomBuilder.Controls
         {
             return slopeoffset.GetResultFloat(defaultvalue);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public void SetValues(double anglexy, double anglez, double offset, bool first)
         {
@@ -162,10 +134,6 @@ namespace CodeImp.DoomBuilder.Controls
             slopeoffset.Text = double.IsNaN(offset) ? "" : offset.ToString();
             preventchanges = false;
         }
-
-        #endregion
-
-        #region ================== Events
 
         private void sloperotation_WhenTextChanged(object sender, EventArgs e)
         {
@@ -254,8 +222,6 @@ namespace CodeImp.DoomBuilder.Controls
             if (preventchanges) return;
             if (OnUseLineAnglesChanged != null) OnUseLineAnglesChanged(this, EventArgs.Empty);
         }
-
-        #endregion
 
     }
 }

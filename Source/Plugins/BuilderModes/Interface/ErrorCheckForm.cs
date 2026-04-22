@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Map;
@@ -29,25 +25,14 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes.Interface
 {
     public partial class ErrorCheckForm : DelayedForm
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Delegates
 
         private delegate void CallVoidMethodDeletage();
         private delegate void CallIntMethodDelegate(int i);
         private delegate void CallResultMethodDelegate(ErrorResult r);
-
-        #endregion
-
-        #region ================== Variables
 
         private volatile bool running;
         private Thread checksthread;
@@ -56,10 +41,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         private List<ErrorResult> resultslist; //mxd 
         private List<Type> hiddentresulttypes; //mxd 
         private bool bathselectioninprogress; //mxd
-
-        #endregion
-
-        #region ================== Properties
 
         public List<ErrorResult> SelectedResults
         {
@@ -76,10 +57,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             }
         }
         public BlockMap<BlockEntry> BlockMap { get { return blockmap; } }
-
-        #endregion
-
-        #region ================== Constructor / Show
 
         // Constructor
         public ErrorCheckForm()
@@ -156,10 +133,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             // Show window
             base.Show(owner);
         }
-
-        #endregion
-
-        #region ================== Thread Calls
 
         public void SubmitResult(ErrorResult result)
         {
@@ -292,10 +265,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 
             Cursor.Current = Cursors.Default;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This stops the checking
         public void CloseWindow()
@@ -454,10 +423,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 
             return selectedtypes;
         }
-
-        #endregion
-
-        #region ================== Events
 
         // Window closing
         private void ErrorCheckForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -680,10 +645,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             General.ShowHelp("e_mapanalysis.html");
         }
 
-        #endregion
-
-        #region ================== Results Context Menu (mxd)
-
         private void resultcontextmenustrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //disable or enable stuff
@@ -840,8 +801,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 
             results_SelectedIndexChanged(this, EventArgs.Empty); //trigger update manually
         }
-
-        #endregion
 
     }
 }

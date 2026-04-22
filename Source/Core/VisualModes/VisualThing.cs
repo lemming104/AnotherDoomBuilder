@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
@@ -27,21 +23,14 @@ using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.VisualModes
 {
     public abstract class VisualThing : IVisualPickable, IRenderResource, IDisposable
     {
-        #region ================== Constants
 
         protected const int FIXED_RADIUS = 8; //mxd. Used to render things with zero width and radius
         private const float DYNLIGHT_INTENSITY_SCALER = 255.0f;
         private const float SUBLIGHT_INTENSITY_SCALER = 255.0f * 1.5f; // Scaler for subtractive dynamic lights
-
-        #endregion
-
-        #region ================== Variables
 
         // Thing
         private readonly Thing thing;
@@ -100,10 +89,6 @@ namespace CodeImp.DoomBuilder.VisualModes
 
         // [ZZ]
         protected PixelColor stencilColor;
-
-        #endregion
-
-        #region ================== Properties
 
         internal VertexBuffer GeometryBuffer
         {
@@ -191,10 +176,6 @@ namespace CodeImp.DoomBuilder.VisualModes
         /// </summary>
         public bool Selected { get { return selected; } set { selected = value; } }
 
-        #endregion
-
-        #region ================== Constructor / Destructor
-
         // Constructor
         protected VisualThing(Thing t)
         {
@@ -238,10 +219,6 @@ namespace CodeImp.DoomBuilder.VisualModes
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         //mxd
         internal void CalculateCameraDistance(Vector3D campos)
@@ -407,8 +384,6 @@ namespace CodeImp.DoomBuilder.VisualModes
                             vertices[c][i].z = transformed.Z;
                         }
                         break;
-
-                    #region Some old GLOOME FLOOR_SPRITE/CEILING_SPRITE support code
                     /*case Thing.SpriteRenderMode.FLOOR_SPRITE:
 						Matrix floorrotation = Matrix.RotationZ(info.RollSprite ? Thing.RollRad : 0f)
 											 * Matrix.RotationY(Thing.Angle)
@@ -494,7 +469,6 @@ namespace CodeImp.DoomBuilder.VisualModes
 							}
 						}
 						break;*/
-                    #endregion
 
                     case ThingRenderMode.NORMAL:
                         transform = Matrix.Scaling((float)thing.ScaleX, (float)thing.ScaleX, (float)thing.ScaleY);
@@ -947,8 +921,6 @@ namespace CodeImp.DoomBuilder.VisualModes
         {
             return false;
         }
-
-        #endregion
     }
 }
 

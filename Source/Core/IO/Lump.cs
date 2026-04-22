@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,29 +11,19 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using System;
 using System.IO;
 using System.Text;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.IO
 {
     public class Lump : IDisposable
     {
-        #region ================== Methods
 
         // Allowed characters in a map lump name
         internal const string MAP_LUMP_NAME_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_";
-
-        #endregion
-
-        #region ================== Variables
 
         // Owner
         private WAD owner;
@@ -52,10 +41,6 @@ namespace CodeImp.DoomBuilder.IO
         // Disposing
         private bool isdisposed;
 
-        #endregion
-
-        #region ================== Properties
-
         internal WAD Owner { get { return owner; } }
         internal string Name { get { return name; } }
         internal long LongName { get { return longname; } }
@@ -64,11 +49,6 @@ namespace CodeImp.DoomBuilder.IO
         internal int Length { get { return length; } }
         internal ClippedStream Stream { get { return stream; } }
         internal bool IsDisposed { get { return isdisposed; } }
-
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal Lump(Stream data, WAD owner, byte[] fixedname, int offset, int length)
@@ -103,10 +83,6 @@ namespace CodeImp.DoomBuilder.IO
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This returns the long value for a 8 byte texture name
         /*public static unsafe long MakeLongName(string name)
@@ -220,7 +196,5 @@ namespace CodeImp.DoomBuilder.IO
             ms.Position = 0;
             return ms;
         }
-
-        #endregion
     }
 }

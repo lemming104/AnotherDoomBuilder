@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,19 +11,13 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Geometry
 {
     public class ProjectedFrustum2D
     {
-        #region ================== Variables
 
         // Frustum settings
         private readonly float near;
@@ -41,10 +34,6 @@ namespace CodeImp.DoomBuilder.Geometry
         private readonly Vector2D center;
         private readonly float radius;
 
-        #endregion
-
-        #region ================== Properties
-
         public float Near { get { return near; } }
         public float Far { get { return far; } }
         public float Fov { get { return fov; } }
@@ -54,10 +43,6 @@ namespace CodeImp.DoomBuilder.Geometry
         public Line2D[] Lines { get { return lines; } }
         public Vector2D Center { get { return center; } }
         public float Radius { get { return radius; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public ProjectedFrustum2D(Vector2D pos, float xyangle, float zangle, float near, float far, float fov)
@@ -122,10 +107,6 @@ namespace CodeImp.DoomBuilder.Geometry
             radius = (float)Math.Sqrt(radius2);
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This checks if a specified circle is intersecting the frustum
         // NOTE: This checks only against the actual frustum and does not use the frustum circle!
         public bool IntersectCircle(Vector2D circlecenter, float circleradius)
@@ -145,7 +126,5 @@ namespace CodeImp.DoomBuilder.Geometry
             // Intersecting!
             return true;
         }
-
-        #endregion
     }
 }

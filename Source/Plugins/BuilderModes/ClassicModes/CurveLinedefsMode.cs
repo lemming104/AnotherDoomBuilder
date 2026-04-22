@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
@@ -27,8 +23,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [EditMode(DisplayName = "Curve Linedefs",
@@ -36,16 +30,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
               Volatile = true)]
     public sealed class CurveLinedefsMode : BaseClassicMode
     {
-        #region ================== Constants
 
         internal const int DEFAULT_VERTICES_COUNT = 8; //mxd
         internal const int DEFAULT_DISTANCE = 128; //mxd
         internal const int DEFAULT_ANGLE = 180; //mxd
         private const float LINE_THICKNESS = 0.6f;
-
-        #endregion
-
-        #region ================== Variables
 
         // Collections
         private ICollection<Linedef> selectedlines;
@@ -59,16 +48,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private Vector2D mousedownoffset;
         private int prevoffset;
 
-        #endregion
-
-        #region ================== Properties
-
         // Just keep the base mode button checked
         public override string EditModeButtonName { get { return General.Editing.PreviousStableMode.Name; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public CurveLinedefsMode()
@@ -95,10 +76,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         //mxd
         private void GenerateCurves()
@@ -183,10 +160,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             return points;
         }
 
-        #endregion
-
-        #region ================== Settings panel (mxd)
-
         private void AddInterface()
         {
             panel = new CurveLinedefsOptionsPanel();
@@ -220,10 +193,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Redraw display
             General.Interface.RedrawDisplay();
         }
-
-        #endregion
-
-        #region ================== Events
 
         public override void OnHelp()
         {
@@ -599,10 +568,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             prevoffset = offset;
         }
 
-        #endregion
-
-        #region ================== Actions (mxd)
-
         [BeginAction("increasesubdivlevel")]
         private void IncreaseSubdivLevel() { panel.Vertices += 1; }
 
@@ -620,7 +585,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
         [BeginAction("rotatecounterclockwise")]
         private void DecreaseAngle() { panel.Angle -= panel.AngleIncrement; }
-
-        #endregion
     }
 }

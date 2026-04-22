@@ -13,9 +13,6 @@ namespace CodeImp.DoomBuilder.StairSectorBuilderMode
         private int originalfloorbase;
         private int originalceilingbase;
 
-
-        #region ================== Properties
-
         public int OriginalFloorBase
         {
             set { originalfloorbase = value; }
@@ -236,8 +233,6 @@ namespace CodeImp.DoomBuilder.StairSectorBuilderMode
             get { return lowerunpegged.Checked; }
             set { lowerunpegged.Checked = value; }
         }
-
-        #endregion
 
         public StairSectorBuilderForm()
         {

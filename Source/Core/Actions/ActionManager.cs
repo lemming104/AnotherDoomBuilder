@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.IO;
 using System;
@@ -25,19 +21,12 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Actions
 {
     public class ActionManager
     {
-        #region ================== Constants
 
         private const string ACTIONS_RESOURCE = "Actions.cfg";
-
-        #endregion
-
-        #region ================== Variables
 
         // Actions
         private Dictionary<string, Action> actions;
@@ -59,10 +48,6 @@ namespace CodeImp.DoomBuilder.Actions
         // Disposing
         private bool isdisposed;
 
-        #endregion
-
-        #region ================== Properties
-
         internal SortedDictionary<string, string> Categories { get { return categories; } }
         internal Action this[string action] { get { if (actions.ContainsKey(action)) return actions[action]; else throw new ArgumentException("There is no such action \"" + action + "\""); } }
         public bool IsDisposed { get { return isdisposed; } }
@@ -72,10 +57,6 @@ namespace CodeImp.DoomBuilder.Actions
         /// Current executing action. This returns Null when no action is invoked.
         /// </summary>
         public Action Current { get { return currentaction; } internal set { currentaction = value; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal ActionManager()
@@ -106,10 +87,6 @@ namespace CodeImp.DoomBuilder.Actions
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== Actions
 
         // This loads all actions from an assembly
         internal void LoadActions(Assembly asm)
@@ -429,10 +406,6 @@ namespace CodeImp.DoomBuilder.Actions
             return false;
         }
 
-        #endregion
-
-        #region ================== Shortcut Keys
-
         // This applies default keys if they are not already in use
         internal void ApplyDefaultShortcutKeys()
         {
@@ -671,10 +644,6 @@ namespace CodeImp.DoomBuilder.Actions
             return actionnames.ToArray();
         }
 
-        #endregion
-
-        #region ================== Exclusive Invokation
-
         // This resets the exclusive request
         internal void ResetExclusiveRequest()
         {
@@ -693,7 +662,5 @@ namespace CodeImp.DoomBuilder.Actions
             exclusiverequested = true;
             return true;
         }
-
-        #endregion
     }
 }

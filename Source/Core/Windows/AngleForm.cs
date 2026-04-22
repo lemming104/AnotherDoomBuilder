@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,43 +11,25 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Windows
 {
     public partial class AngleForm : DelayedForm
     {
-        #region ================== Variables
 
         //private bool setup;
         private int value;
 
-        #endregion
-
-        #region ================== Properties
-
         public int Value { get { return value; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor
         public AngleForm()
         {
             InitializeComponent();
         }
-
-        #endregion
-
-        #region ================== Events
 
         // Cancel clicked
         private void cancel_Click(object sender, EventArgs e)
@@ -67,10 +48,6 @@ namespace CodeImp.DoomBuilder.Windows
             DialogResult = DialogResult.OK;
             this.Close();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Setup from EnumList
         public void Setup(int value)
@@ -92,7 +69,5 @@ namespace CodeImp.DoomBuilder.Windows
             f.Dispose();
             return result;
         }
-
-        #endregion
     }
 }

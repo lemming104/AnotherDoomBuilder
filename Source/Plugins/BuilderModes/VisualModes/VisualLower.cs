@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
@@ -27,25 +23,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     internal sealed class VisualLower : BaseVisualGeometrySidedef
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Constructor / Setup
 
         // Constructor
         public VisualLower(BaseVisualMode mode, VisualSector vs, Sidedef s) : base(mode, vs, s)
@@ -246,10 +227,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 && Sidedef.LowTexture == "-";
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // Return texture name
         public override string GetTextureName()
         {
@@ -436,7 +413,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
             }
         }
-
-        #endregion
     }
 }

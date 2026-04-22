@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2010 Pascal vd Heiden
 
 /*
  * Copyright (c) 2010 Pascal vd Heiden
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.BuilderModes;
@@ -22,8 +18,6 @@ using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Plugins;
 using CodeImp.DoomBuilder.Windows;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.TagRange
 {

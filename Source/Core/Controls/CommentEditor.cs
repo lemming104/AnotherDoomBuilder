@@ -1,12 +1,8 @@
-﻿#region ================== Copyright
-
+﻿
 /*
  * Made by MaxED, mkay?
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
@@ -14,30 +10,19 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     public partial class CommentEditor : UserControl
     {
-        #region ================== Variables
 
         private const string DEFAULT_TEXT = "Click to enter a comment...";
         private bool mixedvalues;
         private int commenttype;
 
-        #endregion
-
-        #region ================== Constructor / Disposer
-
         public CommentEditor()
         {
             InitializeComponent();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public void SetValues(UniFields fields, bool first)
         {
@@ -90,10 +75,6 @@ namespace CodeImp.DoomBuilder.Controls
             UniFields.SetString(fields, "comment", text, string.Empty);
         }
 
-        #endregion
-
-        #region ================== Events
-
         private void clear_Click(object sender, EventArgs e)
         {
             textbox.Text = DEFAULT_TEXT;
@@ -142,7 +123,5 @@ namespace CodeImp.DoomBuilder.Controls
             textbox.Width = this.Width - textbox.Left - textbox.Margin.Right;
             textbox.Height = this.Height - textbox.Top - textbox.Margin.Bottom;
         }
-
-        #endregion
     }
 }

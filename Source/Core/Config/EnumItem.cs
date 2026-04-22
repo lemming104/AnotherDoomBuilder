@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,38 +11,20 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Globalization;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Config
 {
     public class EnumItem : IComparable<EnumItem>
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private readonly string value;
         private readonly string title;
 
-        #endregion
-
-        #region ================== Properties
-
         public string Value { get { return value; } }
         public string Title { get { return title; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor
         public EnumItem(string value, string title)
@@ -52,10 +33,6 @@ namespace CodeImp.DoomBuilder.Config
             this.value = value;
             this.title = title;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // String representation
         public override string ToString()
@@ -79,7 +56,5 @@ namespace CodeImp.DoomBuilder.Config
             int result;
             return int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out result) ? result : 0;
         }
-
-        #endregion
     }
 }

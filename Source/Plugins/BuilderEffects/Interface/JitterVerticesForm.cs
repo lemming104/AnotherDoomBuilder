@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.VisualModes;
@@ -8,13 +7,10 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderEffects
 {
     public partial class JitterVerticesForm : DelayedForm
     {
-        #region ================== Variables
 
         private readonly string editingModeName;
         private readonly List<Vertex> selection;
@@ -23,20 +19,12 @@ namespace CodeImp.DoomBuilder.BuilderEffects
         private readonly VertexData[] vertexData;
         private readonly int MaxSafeDistance;
 
-        #endregion
-
-        #region ================== Structs
-
         private struct VertexData
         {
             public Vector2D Position;
             public int SafeDistance;
             public float JitterAngle;
         }
-
-        #endregion
-
-        #region ================== Constructor / Setup
 
         public JitterVerticesForm(string editingModeName)
         {
@@ -194,10 +182,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
             UpdateAngles();
         }
 
-        #endregion
-
-        #region ================== Utility
-
         private void ApplyTranslationJitter(int ammount)
         {
             for (int i = 0; i < selection.Count; i++)
@@ -235,10 +219,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
                 vertexData[i] = vd;
             }
         }
-
-        #endregion
-
-        #region ================== Events
 
         private void bApply_Click(object sender, EventArgs e)
         {
@@ -281,7 +261,5 @@ namespace CodeImp.DoomBuilder.BuilderEffects
             General.ShowHelp("gzdb/features/all_modes/jitter.html");
             hlpevent.Handled = true;
         }
-
-        #endregion
     }
 }

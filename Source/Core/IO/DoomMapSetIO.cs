@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Geometry;
@@ -24,26 +20,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.IO
 {
     internal class DoomMapSetIO : MapSetIO
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public DoomMapSetIO(WAD wad, MapManager manager) : base(wad, manager)
         {
         }
-
-        #endregion
-
-        #region ================== Properties
 
         public override int MaxSidedefs { get { return ushort.MaxValue; } }
         public override int MaxVertices { get { return ushort.MaxValue; } }
@@ -83,10 +68,6 @@ namespace CodeImp.DoomBuilder.IO
         public override int MaxThingAngle { get { return short.MaxValue; } }
         public override int MinThingAngle { get { return short.MinValue; } }
         public override Dictionary<MapElementType, Dictionary<string, UniversalType>> UIFields { get { return uifields; } } //mxd
-
-        #endregion
-
-        #region ================== Reading
 
         // This reads a map from the file and returns a MapSet
         public override MapSet Read(MapSet map, string mapname)
@@ -404,10 +385,6 @@ namespace CodeImp.DoomBuilder.IO
             sidedefsmem.Dispose();
         }
 
-        #endregion
-
-        #region ================== Writing
-
         // This writes a MapSet to the file
         public override void Write(MapSet map, string mapname, int position)
         {
@@ -590,7 +567,5 @@ namespace CodeImp.DoomBuilder.IO
             mem.WriteTo(lump.Stream);
             mem.Flush();
         }
-
-        #endregion
     }
 }

@@ -14,8 +14,6 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
             slopevertexlabels.SelectedIndex = (int)BuilderPlug.Me.SlopeVertexLabelDisplayOption;
         }
 
-        #region ================== Methods
-
         // When OK is pressed on the preferences dialog
         // Prevent inlining, otherwise there are unexpected interactions with Assembly.GetCallingAssembly
         // See https://docs.microsoft.com/en-us/dotnet/api/system.reflection.assembly.getcallingassembly?view=netframework-4.6.1#remarks
@@ -39,7 +37,5 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
             // Bind events
             controller.OnAccept += OnAccept;
         }
-
-        #endregion
     }
 }

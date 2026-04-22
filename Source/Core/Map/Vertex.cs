@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,29 +11,19 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.IO;
 using System;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Map
 {
     public sealed class Vertex : SelectableElement
     {
-        #region ================== Constants
 
         public const int BUFFERVERTICES = 1;
         public const int RENDERPRIMITIVES = 1;
-
-        #endregion
-
-        #region ================== Variables
 
         // Map
         private MapSet map;
@@ -55,10 +44,6 @@ namespace CodeImp.DoomBuilder.Map
         // Cloning
         private Vertex clone;
         private int serializedindex;
-
-        #endregion
-
-        #region ================== Properties
 
         public MapSet Map { get { return map; } }
         public ICollection<Linedef> Linedefs { get { return linedefs; } }
@@ -89,10 +74,6 @@ namespace CodeImp.DoomBuilder.Map
                 }
             }
         }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal Vertex(MapSet map, int listindex, Vector2D pos)
@@ -160,10 +141,6 @@ namespace CodeImp.DoomBuilder.Map
             }
         }
 
-        #endregion
-
-        #region ================== Management
-
         // Call this before changing properties
         protected override void BeforePropsChange()
         {
@@ -227,10 +204,6 @@ namespace CodeImp.DoomBuilder.Map
             if (selecteditem.List != null) selecteditem.List.Remove(selecteditem);
             selecteditem = null;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This copies all properties to another thing
         public void CopyPropertiesTo(Vertex v)
@@ -361,7 +334,5 @@ namespace CodeImp.DoomBuilder.Map
 			return "Vertex (" + pos + ")";
 #endif
         }
-
-        #endregion
     }
 }

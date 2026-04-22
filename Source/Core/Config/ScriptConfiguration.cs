@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.IO;
 using ScintillaNET;
@@ -22,8 +18,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Config
 {
@@ -63,11 +57,6 @@ namespace CodeImp.DoomBuilder.Config
 
     public class ScriptConfiguration : IComparable<ScriptConfiguration>
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Compiler settings
         private readonly CompilerInfo compiler;
@@ -105,10 +94,6 @@ namespace CodeImp.DoomBuilder.Config
         private readonly HashSet<string> snippetkeyssorted; //mxd
         private readonly HashSet<char> braces; //mxd
 
-        #endregion
-
-        #region ================== Properties
-
         // Compiler settings
         public CompilerInfo Compiler { get { return compiler; } }
         public string Parameters { get { return parameters; } }
@@ -139,10 +124,6 @@ namespace CodeImp.DoomBuilder.Config
         public ICollection<string> Constants { get { return constants; } }
         public ICollection<string> Snippets { get { return snippetkeyssorted; } } //mxd
         public HashSet<char> BraceChars { get { return braces; } } //mxd
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // This creates the default script configuration
         // that is used for documents of unknown type
@@ -365,10 +346,6 @@ namespace CodeImp.DoomBuilder.Config
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This returns the correct case for a keyword
         // Returns the same keyword as the input when it cannot be found
         public string GetKeywordCase(string keyword)
@@ -429,7 +406,5 @@ namespace CodeImp.DoomBuilder.Config
         {
             return description;
         }
-
-        #endregion
     }
 }

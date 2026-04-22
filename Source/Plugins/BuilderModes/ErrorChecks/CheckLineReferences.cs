@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,27 +11,17 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using System.Threading;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [ErrorChecker("Check line references", true, 50)]
     public class CheckLineReferences : ErrorChecker
     {
-        #region ================== Constants
 
         private const int PROGRESS_STEP = 1000;
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public CheckLineReferences()
@@ -40,10 +29,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Total progress is done when all lines are checked
             SetTotalProgress(General.Map.Map.Linedefs.Count / PROGRESS_STEP);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This runs the check
         public override void Run()
@@ -87,7 +72,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
             }
         }
-
-        #endregion
     }
 }

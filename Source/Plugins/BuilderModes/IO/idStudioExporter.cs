@@ -22,7 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. 
 */
 
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.BuilderModes.Interface;
 using CodeImp.DoomBuilder.Data;
@@ -33,8 +32,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes.IO
 {
@@ -305,8 +302,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
         }
     }
 
-    #region 3D Math
-
     internal struct idVertex
     {
         public float x;
@@ -370,10 +365,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
             d = (n.x * point.x) + (n.y * point.y);
         }
     }
-
-    #endregion
-
-    #region Entity Writer
 
     internal class idEntityBuilder
     {
@@ -444,14 +435,8 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
             builder.Append("\t}\n}\n");
         }
     }
-
-    #endregion
-
-
-    #region Map Writer
     internal class idStudioMapWriter
     {
-        #region entities
 
         // .map files have a default entityPrefix of nothing
         private const string rootMap =
@@ -505,8 +490,6 @@ entity {{
 		}}
 	}}
 ";
-
-        #endregion
 
         public idEntityBuilder world = new idEntityBuilder();
         public idEntityBuilder ents = new idEntityBuilder();
@@ -775,9 +758,6 @@ entity {{
             ents.EndBrushDef();
         }
     }
-    #endregion
-
-    #region Texture Exports
 
     internal class idStudioTextureExporter
     {
@@ -930,6 +910,4 @@ entity {{
 
         }
     }
-
-    #endregion
 }

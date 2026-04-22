@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,41 +11,19 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [FindReplace("Thing Index", BrowseButton = false)]
     internal class FindThingNumber : BaseFindThing
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
-
-        #endregion
-
-        #region ================== Properties
 
         public override Presentation RenderPresentation { get { return Presentation.Things; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
-
-        #endregion
-
-        #region ================== Methods
 
         //mxd
         public override bool CanReplace()
@@ -75,7 +52,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             return objs.ToArray();
         }
-
-        #endregion
     }
 }

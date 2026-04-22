@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Windows;
 using System;
@@ -22,36 +18,17 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Types
 {
     [TypeHandler(UniversalType.SectorEffect, "Sector Effect", false)]
     internal class SectorEffectHandler : TypeHandler
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private int value;
-
-        #endregion
-
-        #region ================== Properties
 
         public override bool IsBrowseable { get { return true; } }
 
         public override Image BrowseImage { get { return Properties.Resources.List; } }
-
-        #endregion
-
-        #region ================== Constructor
-
-        #endregion
-
-        #region ================== Methods
 
         public override void Browse(IWin32Window parent)
         {
@@ -105,7 +82,5 @@ namespace CodeImp.DoomBuilder.Types
         {
             return 0;
         }
-
-        #endregion
     }
 }

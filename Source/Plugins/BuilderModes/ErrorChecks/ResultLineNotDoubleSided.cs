@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -22,29 +18,18 @@ using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     public class ResultLineNotDoubleSided : ErrorResult
     {
-        #region ================== Variables
 
         private readonly Linedef line;
         private readonly int buttons;
         private readonly Sidedef copysidedef;
 
-        #endregion
-
-        #region ================== Properties
-
         public override int Buttons { get { return buttons; } }
         public override string Button1Text { get { return "Make Single-Sided"; } }
         public override string Button2Text { get { return "Create Sidedef"; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public ResultLineNotDoubleSided(Linedef l)
@@ -91,10 +76,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This sets if this result is displayed in ErrorCheckForm (mxd)
         internal override void Hide(bool hide)
         {
@@ -138,7 +119,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             General.Map.Map.Update();
             return true;
         }
-
-        #endregion
     }
 }

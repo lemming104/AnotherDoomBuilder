@@ -1,35 +1,23 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.SoundPropagationMode
 {
     public class SoundPropagationDomain
     {
-        #region ================== Variables
 
         private HashSet<Sector> sectors;
         private HashSet<Sector> adjacentsectors;
         private FlatVertex[] level1geometry;
         private FlatVertex[] level2geometry;
 
-        #endregion
-
-        #region ================== Properties
-
         public HashSet<Sector> Sectors { get { return sectors; } }
         public HashSet<Sector> AdjacentSectors { get { return adjacentsectors; } }
         public FlatVertex[] Level1Geometry { get { return level1geometry; } }
         public FlatVertex[] Level2Geometry { get { return level2geometry; } }
         public int Color { get; set; } //mxd
-
-        #endregion
-
-        #region ================== Constructor
 
         public SoundPropagationDomain(Sector sector)
         {
@@ -38,10 +26,6 @@ namespace CodeImp.DoomBuilder.SoundPropagationMode
 
             CreateSoundPropagationDomain(sector);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         private void CreateSoundPropagationDomain(Sector sourcesector)
         {
@@ -120,7 +104,5 @@ namespace CodeImp.DoomBuilder.SoundPropagationMode
             return s1.CeilHeight <= s2.FloorHeight || s1.FloorHeight >= s2.CeilHeight ||
                     s2.CeilHeight <= s2.FloorHeight || s1.CeilHeight <= s1.FloorHeight;
         }
-
-        #endregion
     }
 }

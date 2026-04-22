@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
@@ -34,8 +30,6 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     internal class ToastMessages
@@ -46,22 +40,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
     public class BuilderPlug : Plug
     {
-        #region ================== API Declarations
 
         [DllImport("user32.dll")]
         internal static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 
-        #endregion
-
-        #region ================== Constants
-
         internal const int WS_HSCROLL = 0x100000;
         internal const int WS_VSCROLL = 0x200000;
         internal const int GWL_STYLE = -16;
-
-        #endregion
-
-        #region ================== Structs (mxd)
 
         public struct MakeDoorSettings
         {
@@ -82,10 +67,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 ApplyTag = applytag;
             }
         }
-
-        #endregion
-
-        #region ================== Variables
 
         // Static instance
         private static BuilderPlug me;
@@ -148,10 +129,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private bool selectadjacentvisualvertexslopehandles;
         private bool usebuggyfloodselect;
 
-        #endregion
-
-        #region ================== Properties
-
         public override string Name { get { return "Ultimate Doom Builder"; } } //mxd
         public static BuilderPlug Me { get { return me; } }
 
@@ -212,10 +189,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
         //mxd. "Make Door" action persistent settings
         internal MakeDoorSettings MakeDoor;
-
-        #endregion
-
-        #region ================== Initialize / Dispose
 
         // When plugin is initialized
         public override void OnInitialize()
@@ -292,10 +265,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This loads the plugin settings
         private void LoadSettings()
         {
@@ -360,10 +329,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             copiedsidedefprops = null;
             copiedsectorprops = null;
         }
-
-        #endregion
-
-        #region ================== Events
 
         // When floor surface geometry is created for classic modes
         public override void OnSectorFloorSurfaceUpdate(Sector s, ref FlatVertex[] vertices)
@@ -598,10 +563,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             undoredopanel.UpdateList();
         }
 
-        #endregion
-
-        #region ================== Tools
-
         //mxd. merged from GZDoomEditing plugin
         // This applies the given values on the vertices
         private static void SetupSurfaceVertices(FlatVertex[] vertices, Sector s, ImageData img, Vector2D offset,
@@ -645,10 +606,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Return list
             return found.ToArray();
         }
-
-        #endregion
-
-        #region ================== Actions (mxd)
 
         [BeginAction("exporttoidstudio")]
         private void ExportToidStudio()
@@ -701,7 +658,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             ImageExportSettingsForm form = new ImageExportSettingsForm();
             form.ShowDialog();
         }
-
-        #endregion
     }
 }

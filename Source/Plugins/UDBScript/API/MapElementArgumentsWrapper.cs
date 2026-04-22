@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,27 +18,17 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using System.Collections;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
     public sealed class MapElementArgumentsWrapper : IEnumerable<int>
     {
-        #region ================== Variables
 
         private MapElement element;
-
-        #endregion
-
-        #region ================== Properties
 
         public int this[int i]
         {
@@ -76,18 +65,10 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             }
         }
 
-        #endregion
-
-        #region ================== Constructors
-
         public MapElementArgumentsWrapper(MapElement element)
         {
             this.element = element;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public IEnumerator<int> GetEnumerator()
         {
@@ -109,7 +90,5 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
         {
             return GetEnumerator();
         }
-
-        #endregion
     }
 }

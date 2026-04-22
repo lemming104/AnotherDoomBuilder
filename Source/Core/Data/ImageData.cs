@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.IO;
@@ -27,18 +23,12 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Linq;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Data
 {
     public abstract unsafe class ImageData : IDisposable
     {
-        #region ================== Constants
 
         public const int TEXTURE_INDEXED = 1;
-        #endregion
-
-        #region ================== Variables
 
         // Properties
         protected string name;
@@ -91,10 +81,6 @@ namespace CodeImp.DoomBuilder.Data
 
         // Disposing
         protected bool isdisposed;
-
-        #endregion
-
-        #region ================== Properties
 
         public string Name { get { return name; } }
         public long LongName { get { return longname; } }
@@ -150,10 +136,6 @@ namespace CodeImp.DoomBuilder.Data
         public int NameWidth { get { return namewidth; } } // biwa
         public int ShortNameWidth { get { return shortnamewidth; } } // biwa
 
-        #endregion
-
-        #region ================== Constructor / Disposer
-
         // Constructor
         protected ImageData()
         {
@@ -196,10 +178,6 @@ namespace CodeImp.DoomBuilder.Data
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== Management
 
         // This adds a reference
         // This sets the name
@@ -832,7 +810,5 @@ namespace CodeImp.DoomBuilder.Data
         {
             return hashcode;
         }
-
-        #endregion
     }
 }

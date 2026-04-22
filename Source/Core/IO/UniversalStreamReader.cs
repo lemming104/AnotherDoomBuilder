@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Geometry;
@@ -25,36 +21,21 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.IO
 {
     internal class UniversalStreamReader
     {
-        #region ================== Constants
 
         // Name of the UDMF configuration file
         private const string UDMF_CONFIG_NAME = "UDMF.cfg";
-
-        #endregion
-
-        #region ================== Variables
 
         private readonly Configuration config;
         private bool setknowncustomtypes;
         private bool strictchecking = true;
         private readonly Dictionary<MapElementType, Dictionary<string, UniversalType>> uifields; //mxd
 
-        #endregion
-
-        #region ================== Properties
-
         public bool SetKnownCustomTypes { get { return setknowncustomtypes; } set { setknowncustomtypes = value; } }
         public bool StrictChecking { get { return strictchecking; } set { strictchecking = value; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public UniversalStreamReader(Dictionary<MapElementType, Dictionary<string, UniversalType>> uifields)
@@ -126,10 +107,6 @@ namespace CodeImp.DoomBuilder.IO
                 }
             }
         }
-
-        #endregion
-
-        #region ================== Reading
 
         // This reads from a stream
         public void Read(MapSet map, Stream stream)
@@ -650,8 +627,6 @@ namespace CodeImp.DoomBuilder.IO
 
             return list;
         }
-
-        #endregion
     }
 }
 

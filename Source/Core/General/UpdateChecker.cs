@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using SharpCompress.Archives;
 //using SharpCompress.Common;
 using SharpCompress.Readers;
@@ -12,8 +11,6 @@ using System.Net;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
-
-#endregion
 
 namespace CodeImp.DoomBuilder
 {

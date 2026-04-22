@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Config;
@@ -42,13 +38,10 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder
 {
     public static class General
     {
-        #region ================== API Declarations and Mono compatibility
 
 #if MONO_WINFORMS
 		public static void ApplyMonoListViewFix(System.Windows.Forms.ListView listview)
@@ -136,10 +129,6 @@ namespace CodeImp.DoomBuilder
         private static extern uint GetShortPathName([MarshalAs(UnmanagedType.LPTStr)] string longpath, [MarshalAs(UnmanagedType.LPTStr)] StringBuilder shortpath, uint buffersize);
 #endif
 
-        #endregion
-
-        #region ================== Constants
-
         // SendMessage API
         internal const int WM_USER = 0x400;
         internal const int WM_UIACTION = WM_USER + 1;
@@ -177,10 +166,6 @@ namespace CodeImp.DoomBuilder
         private const string SPRITES_DIR = "Sprites";
         private const string TEXTURES_DIR = "Textures"; //mxd
         private const string HELP_FILE = "Refmanual.chm";
-
-        #endregion
-
-        #region ================== Variables
 
         // Files and Folders
         private static string apppath;
@@ -244,10 +229,6 @@ namespace CodeImp.DoomBuilder
         // Autosaving
         private static AutoSaver autosaver;
 
-        #endregion
-
-        #region ================== Properties
-
         public static Assembly ThisAssembly { get { return thisasm; } }
         public static string AppPath { get { return apppath; } }
         public static string TempPath { get { return temppath; } }
@@ -291,10 +272,6 @@ namespace CodeImp.DoomBuilder
         public static string CommitHash { get { return commithash; } } //mxd
         public static ToastManager ToastManager { get => toastmanager; }
         internal static AutoSaver AutoSaver { get => autosaver; }
-
-        #endregion
-
-        #region ================== Configurations
 
         /// <summary>
         /// Checks if a given game configuration file exists.
@@ -600,10 +577,6 @@ namespace CodeImp.DoomBuilder
             // Save game configuration settings
             if (configs != null) foreach (ConfigurationInfo ci in configs) ci.SaveSettings();
         }
-
-        #endregion
-
-        #region ================== Startup
 
         // Main program entry
         [STAThread]
@@ -1037,10 +1010,6 @@ namespace CodeImp.DoomBuilder
             autoloadfile = null;
         }
 
-        #endregion
-
-        #region ================== Terminate
-
         // This is for plugins to use
         public static void Exit(bool properexit)
         {
@@ -1106,10 +1075,6 @@ namespace CodeImp.DoomBuilder
             // Die.
             Process.GetCurrentProcess().Kill();
         }
-
-        #endregion
-
-        #region ================== Management
 
         // This creates a new map
         [BeginAction("newmap")]
@@ -1757,10 +1722,6 @@ namespace CodeImp.DoomBuilder
             return returnvalue;
         }
 
-        #endregion
-
-        #region ================== Debug
-
         // This shows a major failure
         public static void Fail(string message)
         {
@@ -1806,10 +1767,6 @@ namespace CodeImp.DoomBuilder
                 catch (Exception) { }
             }
         }
-
-        #endregion
-
-        #region ================== Tools
 
         // This swaps two pointers
         public static void Swap<T>(ref T a, ref T b)
@@ -2284,10 +2241,6 @@ namespace CodeImp.DoomBuilder
             return plugins.GetPluginAssemblies();
         }
 
-        #endregion
-
-        #region ==================  mxd. Uncaught exceptions handling
-
         // In some cases the program can remain operational after these
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
@@ -2348,8 +2301,6 @@ namespace CodeImp.DoomBuilder
                 finally { Process.GetCurrentProcess().Kill(); }
             }
         }
-
-        #endregion
 
     }
 }

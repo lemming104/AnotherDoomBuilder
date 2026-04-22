@@ -1,24 +1,16 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Map;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [ErrorChecker("Check overlapping vertices", true, 500)]
     public class CheckOverlappingVertices : ErrorChecker
     {
-        #region ================== Constants
 
         private const int PROGRESS_STEP = 100;
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public CheckOverlappingVertices()
@@ -26,10 +18,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Total progress is done when all lines are checked
             SetTotalProgress(General.Map.Map.Vertices.Count / PROGRESS_STEP);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This runs the check
         public override void Run()
@@ -73,7 +61,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
             }
         }
-
-        #endregion
     }
 }

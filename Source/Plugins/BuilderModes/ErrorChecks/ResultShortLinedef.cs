@@ -1,29 +1,17 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Drawing;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     public class ResultShortLinedef : ErrorResult
     {
-        #region ================== Variables
 
         private readonly Linedef line;
 
-        #endregion
-
-        #region ================== Properties
-
         public override int Buttons { get { return 0; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public ResultShortLinedef(Linedef l)
@@ -34,10 +22,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             hidden = l.IgnoredErrorChecks.Contains(this.GetType()); //mxd
             description = "This linedef is shorter than 1 map unit. This can potentially cause nodebuilding errors.";
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets if this result is displayed in ErrorCheckForm (mxd)
         internal override void Hide(bool hide)
@@ -74,7 +58,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Return area
             return area;
         }
-
-        #endregion
     }
 }

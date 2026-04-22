@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2016 Boris Iwanski
 
 /*
  * Copyright (c) 2016 Boris Iwanski https://github.com/biwa/automapmode
@@ -12,13 +11,8 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Plugins;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.AutomapMode
 {
@@ -33,7 +27,6 @@ namespace CodeImp.DoomBuilder.AutomapMode
 
     public class BuilderPlug : Plug
     {
-        #region ================== Variables
 
         private float highlightrange;
 
@@ -41,10 +34,6 @@ namespace CodeImp.DoomBuilder.AutomapMode
         // be instantiated by the core, so we keep a static reference. (this technique
         // should be familiar to object-oriented programmers)
         private static BuilderPlug me;
-
-        #endregion
-
-        #region ================== Properties
 
         public float HighlightRange { get { return highlightrange; } }
         public string SecretFlag { get { return General.Map.UDMF ? "secret" : "32"; } }
@@ -55,10 +44,6 @@ namespace CodeImp.DoomBuilder.AutomapMode
 
         // Static property to access the BuilderPlug
         public static BuilderPlug Me { get { return me; } }
-
-        #endregion
-
-        #region ================== Methods
 
         // This event is called when the plugin is initialized
         public override void OnInitialize()
@@ -120,7 +105,5 @@ namespace CodeImp.DoomBuilder.AutomapMode
         {
             highlightrange = General.Settings.ReadPluginSetting("buildermodes", "highlightrange", 20);
         }
-
-        #endregion
     }
 }

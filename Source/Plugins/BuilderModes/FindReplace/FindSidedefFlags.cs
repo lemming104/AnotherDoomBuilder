@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Windows;
 using System;
@@ -7,20 +6,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [FindReplace("Sidedef Flags", BrowseButton = true)]
     internal class FindSidedefFlags : BaseFindSidedef
     {
-        #region ================== Properties
 
         public override Image BrowseImage { get { return Properties.Resources.List; } }
-
-        #endregion
-
-        #region ================== Methods
 
         // This is called to test if the item should be displayed
         public override bool DetermineVisiblity()
@@ -123,7 +115,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             return objs.ToArray();
         }
-
-        #endregion
     }
 }

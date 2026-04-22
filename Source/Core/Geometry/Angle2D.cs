@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,29 +11,19 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Geometry
 {
     public struct Angle2D
     {
-        #region ================== Constants
 
         public const double PI = Math.PI;
         public const double PIHALF = Math.PI * 0.5;
         public const double PI2 = Math.PI * 2;
         public const double PIDEG = 57.295779513082320876798154814105;
         public const double SQRT2 = 1.4142135623730950488016887242097;
-
-        #endregion
-
-        #region ================== Methods
 
         // This converts doom angle to real angle
         public static double DoomToReal(int doomangle)
@@ -128,7 +117,5 @@ namespace CodeImp.DoomBuilder.Geometry
 
             return rs;
         }
-
-        #endregion
     }
 }

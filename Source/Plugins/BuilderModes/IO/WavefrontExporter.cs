@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.BuilderModes.Interface;
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
@@ -17,11 +16,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes.IO
 {
-    #region ================== Structs
 
     internal struct WavefrontExportSettings
     {
@@ -99,12 +95,8 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
         }
     }
 
-    #endregion
-
     internal class WavefrontExporter
     {
-
-        #region ================== Variables and structs
 
         private const string DEFAULT = "Default";
 
@@ -114,10 +106,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
             public int UVIndex;
             public int NormalIndex;
         }
-
-        #endregion
-
-        #region ================== Export
 
         public void Export(ICollection<Sector> sectors, WavefrontExportSettings settings)
         {
@@ -362,10 +350,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
             //done
             General.Interface.DisplayStatus(StatusType.Info, "Geometry exported to \"" + savePath);
         }
-
-        #endregion
-
-        #region ================== Utility
 
         private static void CreateObjFromSelection(ICollection<Sector> sectors, ref WavefrontExportSettings data)
         {
@@ -637,10 +621,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
             }
         }
 
-        #endregion
-
-        #region ================== Surface optimization
-
         private static List<WorldVertex[]> OptimizeGeometry(WorldVertex[] verts, VisualGeometryType geotype)
         {
             return OptimizeGeometry(verts, geotype, false);
@@ -666,10 +646,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
 
             return groups;
         }
-
-        #endregion
-
-        #region ================== OBJ Creation
 
         private static StringBuilder CreateObjGeometry(List<Dictionary<string, List<WorldVertex[]>>> geometryByTexture, ref WavefrontExportSettings data)
         {
@@ -846,7 +822,5 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
 
             return obj;
         }
-
-        #endregion
     }
 }

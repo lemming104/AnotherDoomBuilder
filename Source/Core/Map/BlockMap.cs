@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,26 +11,16 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Map
 {
     public class BlockMap<BE> where BE : BlockEntry, new()
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Blocks
         protected BE[,] blockmap;
@@ -44,19 +33,11 @@ namespace CodeImp.DoomBuilder.Map
         // State
         private bool isdisposed;
 
-        #endregion
-
-        #region ================== Properties
-
         public bool IsDisposed { get { return isdisposed; } }
         public Size Size { get { return size; } }
         public RectangleF Range { get { return range; } }
         public int BlockSize { get { return blocksize; } }
         internal BE[,] Map { get { return blockmap; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public BlockMap(RectangleF range)
@@ -106,10 +87,6 @@ namespace CodeImp.DoomBuilder.Map
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This returns the block coordinates
         internal Point GetBlockCoordinates(Vector2D v)
@@ -542,7 +519,5 @@ namespace CodeImp.DoomBuilder.Map
                 }
             }
         }
-
-        #endregion
     }
 }

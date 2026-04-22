@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Compilers;
 using CodeImp.DoomBuilder.Config;
@@ -29,13 +25,10 @@ using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     public abstract class ScriptDocumentTab : TabPage
     {
-        #region ================== Constants
 
         private const int EDITOR_BORDER_TOP = 4;
         private const int EDITOR_BORDER_BOTTOM = 4;
@@ -43,10 +36,6 @@ namespace CodeImp.DoomBuilder.Controls
         private const int EDITOR_BORDER_RIGHT = 4;
 
         const int SC_FOLDLEVELBASE = 1024;
-
-        #endregion
-
-        #region ================== Variables
 
         // The script edit control
         protected readonly ScriptEditorControl editor;
@@ -58,10 +47,6 @@ namespace CodeImp.DoomBuilder.Controls
 
         // The panel we're on
         protected readonly ScriptEditorPanel panel;
-
-        #endregion
-
-        #region ================== Properties
 
         public virtual bool ExplicitSave { get { return true; } }
         public virtual bool IsSaveAsRequired { get { return true; } }
@@ -80,15 +65,7 @@ namespace CodeImp.DoomBuilder.Controls
         public string SelectedText { get { return editor.SelectedText; } } //mxd
         public ScriptConfiguration Config { get { return config; } }
 
-        #endregion
-
-        #region ================== Events (mxd)
-
         public new event EventHandler OnTextChanged; //mxd
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor
         protected ScriptDocumentTab(ScriptEditorPanel panel, ScriptConfiguration config)
@@ -148,10 +125,6 @@ namespace CodeImp.DoomBuilder.Controls
 
             base.Dispose(disposing);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This launches keyword help website
         public bool LaunchKeywordHelp()
@@ -497,10 +470,6 @@ namespace CodeImp.DoomBuilder.Controls
             };
         }
 
-        #endregion
-
-        #region ================== Events
-
         // Mouse released
         protected override void OnMouseUp(MouseEventArgs e)
         {
@@ -533,7 +502,5 @@ namespace CodeImp.DoomBuilder.Controls
             UpdateTitle();
             if (OnTextChanged != null) OnTextChanged(this, EventArgs.Empty);
         }
-
-        #endregion
     }
 }

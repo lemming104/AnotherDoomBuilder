@@ -8,17 +8,12 @@ namespace CodeImp.DoomBuilder.Controls
 {
     public class TransparentTrackBar : TrackBar
     {
-        #region ================== Constructor / Disposer
 
         // Constructor
         public TransparentTrackBar()
         {
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         protected override void OnCreateControl()
         {
@@ -35,7 +30,5 @@ namespace CodeImp.DoomBuilder.Controls
             if (BackColor != Color.Transparent)
                 e.Graphics.Clear(BackColor);
         }
-
-        #endregion
     }
 }

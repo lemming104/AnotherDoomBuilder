@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Editing;
@@ -31,17 +27,10 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Plugins
 {
     internal class PluginManager
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Plugins
         private List<Plugin> plugins;
@@ -49,16 +38,8 @@ namespace CodeImp.DoomBuilder.Plugins
         // Disposing
         private bool isdisposed;
 
-        #endregion
-
-        #region ================== Properties
-
         internal List<Plugin> Plugins { get { return plugins; } }
         public bool IsDisposed { get { return isdisposed; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public PluginManager()
@@ -83,10 +64,6 @@ namespace CodeImp.DoomBuilder.Plugins
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This creates a list of assemblies
         public List<Assembly> GetPluginAssemblies()
@@ -220,10 +197,6 @@ namespace CodeImp.DoomBuilder.Plugins
             return null;
         }
 
-        #endregion
-
-        #region ================== Events
-
         public bool ModeChanges(EditMode oldmode, EditMode newmode)
         {
             bool result = true;
@@ -310,7 +283,5 @@ namespace CodeImp.DoomBuilder.Plugins
         public void OnHighlightVertex(Vertex v) { foreach (Plugin p in plugins) p.Plug.OnHighlightVertex(v); }
         public void OnHighlightRefreshed(object o) { foreach (Plugin p in plugins) p.Plug.OnHighlightRefreshed(o); }
         public void OnHighlightLost() { foreach (Plugin p in plugins) p.Plug.OnHighlightLost(); }
-
-        #endregion
     }
 }

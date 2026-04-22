@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,33 +11,19 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using System;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Windows
 {
     internal partial class PasteOptionsForm : DelayedForm
     {
-        #region ================== Variables
 
         private PasteOptions options;
 
-        #endregion
-
-        #region ================== Properties
-
         public PasteOptions Options { get { return options; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor
         public PasteOptionsForm()
@@ -49,10 +34,6 @@ namespace CodeImp.DoomBuilder.Windows
             options = General.Settings.PasteOptions.Copy();
             pasteoptions.Setup(options);
         }
-
-        #endregion
-
-        #region ================== Events
 
         // Paste clicked
         private void paste_Click(object sender, EventArgs e)
@@ -68,7 +49,5 @@ namespace CodeImp.DoomBuilder.Windows
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
-
-        #endregion
     }
 }

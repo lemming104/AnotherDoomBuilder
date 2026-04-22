@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using System;
@@ -24,13 +20,10 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Compilers
 {
     public abstract class Compiler : IDisposable
     {
-        #region ================== Variables
 
         // Parameters
         protected readonly CompilerInfo info;
@@ -49,10 +42,6 @@ namespace CodeImp.DoomBuilder.Compilers
         // Disposing
         protected bool isdisposed;
 
-        #endregion
-
-        #region ================== Properties
-
         public string Parameters { get { return parameters; } set { parameters = value; } }
         public string WorkingDirectory { get { return workingdir; } set { workingdir = value; } }
         public string SourceFile { get { return sourcefile; } set { sourcefile = value; } }
@@ -61,10 +50,6 @@ namespace CodeImp.DoomBuilder.Compilers
         public string Location { get { return tempdir.FullName; } }
         public bool IsDisposed { get { return isdisposed; } }
         public CompilerError[] Errors { get { return errors.ToArray(); } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         protected Compiler(CompilerInfo info, bool copyrequiredfiles)
@@ -127,10 +112,6 @@ namespace CodeImp.DoomBuilder.Compilers
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This copies all compiler files to a given destination
         private void CopyRequiredFiles()
@@ -210,8 +191,6 @@ namespace CodeImp.DoomBuilder.Compilers
             // No such compiler
             return null;
         }
-
-        #endregion
     }
 }
 

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,35 +11,21 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Rendering;
 using System;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Geometry
 {
     public struct Vector3D
     {
-        #region ================== Constants
 
         private const double TINY_VALUE = 0.0000000001f;
-
-        #endregion
-
-        #region ================== Variables
 
         // Coordinates
         public double x;
         public double y;
         public double z;
-
-        #endregion
-
-        #region ================== Constructors
 
         // Constructor
         public Vector3D(double x, double y, double z)
@@ -65,10 +50,6 @@ namespace CodeImp.DoomBuilder.Geometry
             this.y = v.y;
             this.z = z;
         }
-
-        #endregion
-
-        #region ================== Statics
 
         // Conversion to Vector2D
         public static implicit operator Vector2D(Vector3D a)
@@ -257,10 +238,6 @@ namespace CodeImp.DoomBuilder.Geometry
             };
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This calculates the angle
         public double GetAngleXY()
         {
@@ -365,8 +342,5 @@ namespace CodeImp.DoomBuilder.Geometry
             if (z != other.z) return false;
             return true;
         }
-
-
-        #endregion
     }
 }

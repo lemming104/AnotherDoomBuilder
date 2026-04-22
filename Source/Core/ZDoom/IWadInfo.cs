@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,26 +18,13 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
 namespace CodeImp.DoomBuilder.ZDoom
 {
     class IWadInfo
     {
-        #region ================== Variables
 
         private string autoname;
 
-        #endregion
-
-        #region ================== Properties
-
         public string AutoName { get { return autoname; } internal set { autoname = value; } }
-
-        #endregion
-
-        #region ================== Constructors
-
-        #endregion
     }
 }

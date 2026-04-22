@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Controls;
@@ -40,13 +36,10 @@ using System.Threading;
 using System.Windows.Forms;
 using Matrix = CodeImp.DoomBuilder.Rendering.Matrix;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Data
 {
     public sealed class DataManager
     {
-        #region ================== Constants
 
         public const string INTERNAL_PREFIX = "internal:";
         public const int CLASIC_IMAGE_NAME_LENGTH = 8; //mxd
@@ -55,10 +48,6 @@ namespace CodeImp.DoomBuilder.Data
 
         private long UNKNOWN_THING; //mxd
         private long MISSING_THING; //mxd
-
-        #endregion
-
-        #region ================== Variables
 
         // Data containers
         private List<DataReader> containers;
@@ -142,10 +131,6 @@ namespace CodeImp.DoomBuilder.Data
         // Disposing
         private bool isdisposed;
 
-        #endregion
-
-        #region ================== Properties
-
         //mxd
         internal Dictionary<int, ModelData> ModeldefEntries { get { return modeldefentries; } }
         internal Dictionary<int, DynamicLightData> GldefsEntries { get { return gldefsentries; } }
@@ -227,10 +212,6 @@ namespace CodeImp.DoomBuilder.Data
             }
         }
 
-        #endregion
-
-        #region ================== Constructor / Disposer
-
         // Constructor
         internal DataManager()
         {
@@ -303,10 +284,6 @@ namespace CodeImp.DoomBuilder.Data
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== Loading / Unloading
 
         // This loads all data resources
         internal void Load(DataLocationList configlist, DataLocationList maplist, DataLocation maplocation)
@@ -679,10 +656,6 @@ namespace CodeImp.DoomBuilder.Data
             mapinfo = null; //mxd
         }
 
-        #endregion
-
-        #region ================== Suspend / Resume
-
         // This suspends data resources
         internal void Suspend()
         {
@@ -721,10 +694,6 @@ namespace CodeImp.DoomBuilder.Data
             // Start background loading
             StartBackgroundLoader();
         }
-
-        #endregion
-
-        #region ================== Background Loading
 
         // This starts background loading
         private void StartBackgroundLoader()
@@ -842,10 +811,6 @@ namespace CodeImp.DoomBuilder.Data
             return false;
         }
 
-        #endregion
-
-        #region ================== Palette
-
         // This loads the PLAYPAL palette
         private void LoadPalette()
         {
@@ -882,10 +847,6 @@ namespace CodeImp.DoomBuilder.Data
                 mainColormap = new ColorMap();
             }
         }
-
-        #endregion
-
-        #region ================== Colormaps
 
         // This loads the colormaps
         private int LoadColormaps(Dictionary<long, ImageData> list)
@@ -928,10 +889,6 @@ namespace CodeImp.DoomBuilder.Data
             // No such patch found
             return null;
         }
-
-        #endregion
-
-        #region ================== Textures
 
         // This loads the textures
         private int LoadTextures(Dictionary<long, ImageData> list, Dictionary<long, long> nametranslation, Dictionary<string, TexturesParser> cachedparsers)
@@ -1151,10 +1108,6 @@ namespace CodeImp.DoomBuilder.Data
             return result;
         }
 
-        #endregion
-
-        #region ================== Flats
-
         // This loads the flats
         private int LoadFlats(Dictionary<long, ImageData> list, Dictionary<long, long> nametranslation, Dictionary<string, TexturesParser> cachedparsers)
         {
@@ -1282,10 +1235,6 @@ namespace CodeImp.DoomBuilder.Data
             return flatnamesfulltoshort.ContainsKey(hash) ? flatnamesfulltoshort[hash] : hash;
         }
 
-        #endregion
-
-        #region ================== mxd. HiRes textures
-
         // This loads the textures
         private int LoadHiResTextures()
         {
@@ -1377,10 +1326,6 @@ namespace CodeImp.DoomBuilder.Data
             // No such patch texture
             return null;
         }
-
-        #endregion
-
-        #region ================== Sprites
 
         // This loads the hard defined sprites (not all the lumps, we do that on a need-to-know basis, see LoadThingSprites)
         private int LoadSprites(Dictionary<string, TexturesParser> cachedparsers)
@@ -1706,10 +1651,6 @@ namespace CodeImp.DoomBuilder.Data
             return result;
         }
 
-        #endregion
-
-        #region ================== mxd. Voxels
-
         // This returns a specific voxel stream
         internal Stream GetVoxelData(string pname, ref string voxellocation)
         {
@@ -1727,10 +1668,6 @@ namespace CodeImp.DoomBuilder.Data
             // No such voxel found
             return null;
         }
-
-        #endregion
-
-        #region ================== Things
 
         private void LoadZScriptThings()
         {
@@ -2347,10 +2284,6 @@ namespace CodeImp.DoomBuilder.Data
             // No such thing type known
             return null;
         }
-
-        #endregion
-
-        #region ================== mxd. Modeldef, Voxeldef, Gldefs, Mapinfo
 
         //mxd. This creates <Actor Class, Thing.Type> dictionary. Should be called after all DECORATE actors are parsed
         private Dictionary<string, int> CreateActorsByClassList()
@@ -3161,10 +3094,6 @@ namespace CodeImp.DoomBuilder.Data
             return null;
         }
 
-        #endregion
-
-        #region ================== Tools
-
         // This finds the first IWAD or IPK3 resource
         // Returns false when not found
         public bool FindFirstIWAD(out DataLocation result)
@@ -3343,10 +3272,6 @@ namespace CodeImp.DoomBuilder.Data
             // Update icon
             General.MainWindow.UpdateStatus();
         }
-
-        #endregion
-
-        #region ================== mxd. Skybox Making
 
         internal void SetupSkybox()
         {
@@ -3876,7 +3801,5 @@ namespace CodeImp.DoomBuilder.Data
                 return new Texture(General.Map.Graphics, bitmap);
             }
         }
-
-        #endregion
     }
 }

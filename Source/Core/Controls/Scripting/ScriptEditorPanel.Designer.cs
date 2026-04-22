@@ -20,8 +20,6 @@ namespace CodeImp.DoomBuilder.Controls
 			base.Dispose(disposing);
 		}
 
-		#region Component Designer generated code
-
 		/// <summary> 
 		/// Required method for Designer support - do not modify 
 		/// the contents of this method with the code editor.
@@ -980,8 +978,6 @@ namespace CodeImp.DoomBuilder.Controls
 			this.PerformLayout();
 
 		}
-
-#endregion
 		private System.Windows.Forms.ToolStrip toolbar;
 		private System.Windows.Forms.OpenFileDialog openfile;
 		private System.Windows.Forms.SaveFileDialog savefile;

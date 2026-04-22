@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Data;
@@ -28,13 +24,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     public abstract class FlatAlignMode : BaseClassicMode
     {
-        #region ================== Enums and Structs
 
         private enum ModifyMode
         {
@@ -61,18 +54,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
             public Vector2D offset;
         }
 
-        #endregion
-
-        #region ================== Constants
-
         private const float GRIP_SIZE = 9.0f;
         private readonly Cursor[] RESIZE_CURSORS = { Cursors.SizeNS, Cursors.SizeNWSE, Cursors.SizeWE, Cursors.SizeNESW };
         private const byte RECTANGLE_ALPHA = 60;
         private const byte EXTENSION_LINE_ALPHA = 150;
-
-        #endregion
-
-        #region ================== Variables
 
         private ICollection<Sector> selection;
         private Sector editsector;
@@ -117,20 +102,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private bool snaptogrid;        // SHIFT to toggle
         private bool snaptonearest;     // CTRL to enable
 
-        #endregion
-
-        #region ================== Properties
-
         protected abstract string XScaleName { get; }
         protected abstract string YScaleName { get; }
         protected abstract string XOffsetName { get; }
         protected abstract string YOffsetName { get; }
         protected abstract string RotationName { get; }
         protected abstract string UndoDescription { get; }
-
-        #endregion
-
-        #region ================== Methods
 
         protected abstract ImageData GetTexture(Sector editsector);
 
@@ -551,10 +528,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             return Grip.None;
         }
 
-        #endregion
-
-        #region ================== Events
-
         // Mode engages
         public override void OnEngage()
         {
@@ -922,10 +895,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             renderer.Present();
         }
 
-        #endregion
-
-        #region ================== Actions
-
         // This clears the selection
         [BeginAction("clearselection", BaseAction = true)]
         public void ClearSelection()
@@ -935,7 +904,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             General.Map.Map.ClearAllSelected();
             General.Interface.RedrawDisplay();
         }
-
-        #endregion
     }
 }

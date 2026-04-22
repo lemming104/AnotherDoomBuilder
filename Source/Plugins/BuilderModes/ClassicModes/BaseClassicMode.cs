@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Config;
@@ -26,24 +22,13 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     public abstract class BaseClassicMode : ClassicMode
     {
-        #region ================== Variables
 
         protected bool paintselectpressed; //mxd
         protected bool marqueSelectionIncludesThings; //mxd
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         protected BaseClassicMode()
@@ -66,10 +51,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This occurs when the user presses Copy. All selected geometry must be marked for copying!
         public override bool OnCopyBegin()
@@ -268,10 +249,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public virtual void OnViewSelectionNumbersChanged(bool enabled) { } //mxd
         public virtual void OnViewSelectionEffectsChanged(bool enabled) { } //mxd
 
-        #endregion
-
-        #region ================== Events (mxd)
-
         //mxd
         private void thingEditForm_OnValuesChanged(object sender, EventArgs e)
         {
@@ -281,10 +258,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Update entire display
             General.Interface.RedrawDisplay();
         }
-
-        #endregion
-
-        #region ================== Actions
 
         [BeginAction("placevisualstart")]
         public void PlaceVisualStartThing()
@@ -382,7 +355,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             BuilderPlug.Me.MenusForm.SyncronizeThingEditLinedefsItem.Checked = BuilderPlug.Me.SyncronizeThingEdit;
             BuilderPlug.Me.MenusForm.SyncronizeThingEditSectorsItem.Checked = BuilderPlug.Me.SyncronizeThingEdit;
         }
-
-        #endregion
     }
 }

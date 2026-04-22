@@ -20,8 +20,6 @@
 			base.Dispose(disposing);
 		}
 
-		#region Vom Windows Form-Designer generierter Code
-
 		/// <summary>
 		/// Erforderliche Methode für die Designerunterstützung.
 		/// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
@@ -146,8 +144,6 @@
 			this.ResumeLayout(false);
 
 		}
-
-		#endregion
 
 		private System.Windows.Forms.GroupBox groupBox1;
 		private CodeImp.DoomBuilder.Controls.NumericTextbox firstTag;

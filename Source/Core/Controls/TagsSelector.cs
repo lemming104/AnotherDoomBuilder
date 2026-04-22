@@ -1,28 +1,20 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Types;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     public partial class TagsSelector : UserControl
     {
-        #region ================== Structs
 
         private struct TagLinkData
         {
             public int Index;
             public int Tag;
         }
-
-        #endregion
-
-        #region ================== Variables
 
         private List<int> usedtags; // Tags already used in the map
         private List<TagInfo> infos;
@@ -34,19 +26,11 @@ namespace CodeImp.DoomBuilder.Controls
         private int curtagindex;
         private bool blockupdate;
 
-        #endregion
-
-        #region ================== Constructor
-
         public TagsSelector()
         {
             InitializeComponent();
             Reset();
         }
-
-        #endregion
-
-        #region ================== Setup
 
         public void SetValues(ICollection<Sector> sectors)
         {
@@ -153,10 +137,6 @@ namespace CodeImp.DoomBuilder.Controls
             tagpicker.DropDownWidth = DoomBuilder.Geometry.Tools.GetDropDownWidth(tagpicker);
         }
 
-        #endregion
-
-        #region ================== Apply
-
         public void ApplyTo(ICollection<Sector> sectors)
         {
             List<IMultiTaggedMapElement> taglist = new List<IMultiTaggedMapElement>(sectors.Count);
@@ -209,10 +189,6 @@ namespace CodeImp.DoomBuilder.Controls
                 offset++;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
         public void Reset()
         {
             tagspermapelement = new List<List<int>>();
@@ -313,10 +289,6 @@ namespace CodeImp.DoomBuilder.Controls
 
             blockupdate = false;
         }
-
-        #endregion
-
-        #region ================== Events
 
         private void newtag_Click(object sender, EventArgs e)
         {
@@ -546,7 +518,5 @@ namespace CodeImp.DoomBuilder.Controls
             tagpicker.Text = tag.ToString();
             buttons.Value = 0;
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Rendering;
@@ -27,19 +23,12 @@ using System.Linq;
 using System.Windows.Forms;
 using Action = CodeImp.DoomBuilder.Actions.Action;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Windows
 {
     internal partial class PreferencesForm : DelayedForm
     {
-        #region ================== Constants
 
         private const float VIEW_DISTANCE_STEP_SIZE = 500.0f;
-
-        #endregion
-
-        #region ================== Variables
 
         private PreferencesController controller;
         private bool allowapplycontrol;
@@ -50,15 +39,7 @@ namespace CodeImp.DoomBuilder.Windows
 
         private bool reloadresources;
 
-        #endregion
-
-        #region ================== Properties
-
         public bool ReloadResources { get { return reloadresources; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor
         public PreferencesForm()
@@ -308,10 +289,6 @@ namespace CodeImp.DoomBuilder.Windows
             allowapplycontrol = true;
         }
 
-        #endregion
-
-        #region ================== OK / Cancel
-
         // OK clicked
         private void apply_Click(object sender, EventArgs e)
         {
@@ -494,10 +471,6 @@ namespace CodeImp.DoomBuilder.Windows
             this.Close();
         }
 
-        #endregion
-
-        #region ================== Tabs
-
         // This adds a tab page
         public void AddTabPage(TabPage tab)
         {
@@ -528,10 +501,6 @@ namespace CodeImp.DoomBuilder.Windows
             colorsgroup1.Visible = tabs.SelectedTab == tabcolors;
             previewgroup.Visible = tabs.SelectedTab == tabscripteditor;
         }
-
-        #endregion
-
-        #region ================== Interface Panel
 
         private void fieldofview_ValueChanged(object sender, EventArgs e)
         {
@@ -587,10 +556,6 @@ namespace CodeImp.DoomBuilder.Windows
         {
             labelRecentFiles.Text = recentFiles.Value.ToString();
         }
-
-        #endregion
-
-        #region ================== Controls Panel
 
         // This updates the used keys info
         private void UpdateKeyUsedActions()
@@ -1029,10 +994,6 @@ namespace CodeImp.DoomBuilder.Windows
             allowapplycontrol = true;
         }
 
-        #endregion
-
-        #region ================== Colors Panel
-
         private void imagebrightness_ValueChanged(object sender, EventArgs e)
         {
             imagebrightnesslabel.Text = "+ " + imagebrightness.Value + " y";
@@ -1082,10 +1043,6 @@ namespace CodeImp.DoomBuilder.Windows
         {
             labelantialiasing.Text = antialiasing.Value == 0 ? "None" : RenderDevice.AA_STEPS[antialiasing.Value] + " samples";
         }
-
-        #endregion
-
-        #region ================== Script Editor Panel (mxd)
 
         private void scriptfontbold_CheckedChanged(object sender, EventArgs e)
         {
@@ -1307,10 +1264,6 @@ namespace CodeImp.DoomBuilder.Windows
             scriptedit.FoldBackColor = colorfoldback.Color.ToColor();
         }
 
-        #endregion
-
-        #region ================== Recovery
-
         private void autosave_CheckedChanged(object sender, EventArgs e)
         {
             // Enable or disable all controls except the enable/disable checkbox in the group box
@@ -1325,10 +1278,6 @@ namespace CodeImp.DoomBuilder.Windows
             autosavedisabledwarning.Visible = !autosave.Checked;
 
         }
-
-        #endregion
-
-        #region ================== Toasts
 
         private void tbToastDuration_WhenTextChanged(object sender, EventArgs e)
         {
@@ -1369,10 +1318,6 @@ namespace CodeImp.DoomBuilder.Windows
             autosavecountlabel.Text = autosavecount.Value.ToString();
         }
 
-        #endregion
-
-        #region ================== Screenshots Stuff (mxd)
-
         private void resetscreenshotsdir_Click(object sender, EventArgs e)
         {
             screenshotsfolderpath.Text = General.DefaultScreenshotsPath;
@@ -1384,8 +1329,6 @@ namespace CodeImp.DoomBuilder.Windows
             if (browseScreenshotsFolderDialog.ShowDialog(General.MainWindow) == DialogResult.OK)
                 screenshotsfolderpath.Text = browseScreenshotsFolderDialog.SelectedPath;
         }
-
-        #endregion
 
         // Help
         private void PreferencesForm_HelpRequested(object sender, HelpEventArgs hlpevent)

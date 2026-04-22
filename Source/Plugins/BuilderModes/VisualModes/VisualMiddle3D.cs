@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
@@ -27,27 +23,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     internal class VisualMiddle3D : BaseVisualGeometrySidedef
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         protected Effect3DFloor extrafloor;
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Constructor / Setup
 
         // Constructor
         public VisualMiddle3D(BaseVisualMode mode, VisualSector vs, Sidedef s) : base(mode, vs, s)
@@ -338,10 +319,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             return false;
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This performs a fast test in object picking (mxd)
         public override bool PickFastReject(Vector3D from, Vector3D to, Vector3D dir)
         {
@@ -536,7 +513,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Update the model sector to update all 3d floors
             mode.GetVisualSector(extrafloor.Linedef.Front.Sector).UpdateSectorGeometry(false);
         }
-
-        #endregion
     }
 }

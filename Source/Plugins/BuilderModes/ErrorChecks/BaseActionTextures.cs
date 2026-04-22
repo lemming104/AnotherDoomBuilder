@@ -1,33 +1,21 @@
 ﻿
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Types;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     public abstract class BaseActionTextures
     {
-        #region ================== Variables
 
         private List<int> tags;
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         public BaseActionTextures()
         {
             tags = FindTags();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Determine if the sidedef's sector tag is for an inspected action and the sidedef will require a texture.
         public bool RequiresTexture(Sidedef side, int tag)
@@ -103,7 +91,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
         // Determine whether an upper or lower texture is required after the sector tag is activated.
         protected abstract bool HasAdjustedSector(Sidedef side);
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
 using CodeImp.DoomBuilder.Controls;
@@ -12,8 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
@@ -28,7 +25,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
     public class DrawGridMode : DrawGeometryMode
     {
-        #region ================== Enums
 
         public enum GridLockMode
         {
@@ -37,10 +33,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             VERTICAL,
             BOTH,
         }
-
-        #endregion
-
-        #region ================== Variables
 
         // Settings
         private int horizontalslices;
@@ -66,10 +58,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private DrawGridOptionsPanel panel;
         private Docker docker;
 
-        #endregion
-
-        #region ================== Constructor
-
         public DrawGridMode()
         {
             snaptogrid = true;
@@ -77,10 +65,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             autoclosedrawing = false;
             gridpoints = new List<DrawnVertex[]>();
         }
-
-        #endregion
-
-        #region ================== Events
 
         override public void OnAccept()
         {
@@ -194,10 +178,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             General.ShowHelp("/gzdb/features/classic_modes/mode_drawgrid.html");
         }
-
-        #endregion
-
-        #region ================== Methods
 
         override protected void Update()
         {
@@ -524,10 +504,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             height = (int)(end.y - start.y);
         }
 
-        #endregion
-
-        #region ================== Settings panel
-
         protected override void SetupInterface()
         {
             // Load stored settings
@@ -595,10 +571,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             Update();
         }
 
-        #endregion
-
-        #region ================== Actions
-
         [BeginAction("increasebevel")]
         protected void IncreaseBevel()
         {
@@ -646,8 +618,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 Update();
             }
         }
-
-        #endregion
 
     }
 }

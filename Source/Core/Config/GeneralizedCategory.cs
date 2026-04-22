@@ -10,11 +10,6 @@ namespace CodeImp.DoomBuilder.Config
     /// </summary>
     public class GeneralizedCategory
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Category properties
         private string title;
@@ -25,19 +20,11 @@ namespace CodeImp.DoomBuilder.Config
         // Disposing
         private bool isdisposed;
 
-        #endregion
-
-        #region ================== Properties
-
         public string Title { get { return title; } }
         public int Offset { get { return offset; } }
         public int Length { get { return length; } }
         public List<GeneralizedOption> Options { get { return options; } }
         public bool IsDisposed { get { return isdisposed; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal GeneralizedCategory(string structure, string name, Configuration cfg)
@@ -96,16 +83,10 @@ namespace CodeImp.DoomBuilder.Config
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // String representation
         public override string ToString()
         {
             return title;
         }
-
-        #endregion
     }
 }

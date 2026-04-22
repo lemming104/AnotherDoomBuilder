@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,25 +11,15 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using System;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes.Interface
 {
     public partial class EditSelectionPanel : UserControl
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Editing mode
         private EditSelectionMode mode;
@@ -47,10 +36,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         private Vector2D abssize;
         private Vector2D relsize;
         private double absrotate;
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor
         public EditSelectionPanel(EditSelectionMode mode)
@@ -76,10 +61,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             // and stay there forever preventing tab collapsing when in collapsed mode
             label1.Focus();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets the original size
         public void ShowOriginalValues(Vector2D pos, Vector2D size)
@@ -147,10 +128,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             heightmode.Enabled = enable;
             preventchanges = false;
         }
-
-        #endregion
-
-        #region ================== Events
 
         // User input given
         private void WhenTextChanged(object sender, EventArgs e)
@@ -265,8 +242,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             if (preventchanges || heightmode.SelectedIndex == -1) return;
             mode.SectorHeightAdjustMode = (EditSelectionMode.HeightAdjustMode)heightmode.SelectedIndex;
         }
-
-        #endregion
 
         private void cbPinFloorTextures_CheckedChanged(object sender, EventArgs e)
         {

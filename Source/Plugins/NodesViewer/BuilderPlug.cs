@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2012 Pascal vd Heiden
 
 /*
  * Copyright (c) 2012 Pascal vd Heiden, www.codeimp.com
@@ -11,12 +10,6 @@
  * GNU General Public License for more details.
  * 
  */
-
-#endregion
-
-#region ================== Namespaces
-
-#endregion
 
 using System;
 
@@ -35,23 +28,14 @@ namespace CodeImp.DoomBuilder.Plugins.NodesViewer
 
     public class BuilderPlug : Plug
     {
-        #region ================== Variables
 
         // Objects
         private static BuilderPlug me;
-
-        #endregion
-
-        #region ================== Properties
 
         // Properties
         public static BuilderPlug Me { get { return me; } }
         public override string Name { get { return "NodesViewer"; } }
         public override int MinimumRevision { get { return 1545; } }
-
-        #endregion
-
-        #region ================== Initialize / Dispose
 
         // This event is called when the plugin is initialized
         public override void OnInitialize()
@@ -75,10 +59,6 @@ namespace CodeImp.DoomBuilder.Plugins.NodesViewer
             base.Dispose();
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This returns a unique temp filename
         /*public static string MakeTempFilename(string extension)
 		{
@@ -99,7 +79,5 @@ namespace CodeImp.DoomBuilder.Plugins.NodesViewer
 			// Return the filename
 			return filename;
 		}*/
-
-        #endregion
     }
 }

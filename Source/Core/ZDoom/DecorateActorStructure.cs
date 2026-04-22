@@ -11,7 +11,6 @@ namespace CodeImp.DoomBuilder.ZDoom
 
     public sealed class DecorateActorStructure : ActorStructure
     {
-        #region ================== DECORATE Actor Structure parsing
 
         private DecorateParser parser;
 
@@ -513,7 +512,5 @@ namespace CodeImp.DoomBuilder.ZDoom
             // but we need to make the compiler happy
             return false;
         }
-
-        #endregion
     }
 }

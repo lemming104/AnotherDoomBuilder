@@ -1,16 +1,12 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Data
 {
     internal class CvarsCollection
     {
-        #region ================== Variables
 
         internal readonly Dictionary<string, int> Integers;
         internal readonly Dictionary<string, float> Floats;
@@ -18,10 +14,6 @@ namespace CodeImp.DoomBuilder.Data
         internal readonly Dictionary<string, bool> Booleans;
         internal readonly Dictionary<string, string> Strings;
         internal readonly HashSet<string> AllNames;
-
-        #endregion
-
-        #region ================== Constructor
 
         public CvarsCollection()
         {
@@ -32,10 +24,6 @@ namespace CodeImp.DoomBuilder.Data
             Strings = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             AllNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public bool AddValue(string name, int value)
         {
@@ -76,7 +64,5 @@ namespace CodeImp.DoomBuilder.Data
             Strings.Add(name, value);
             return true;
         }
-
-        #endregion
     }
 }

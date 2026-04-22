@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,21 +11,15 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.IO;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Actions
 {
     public class Action
     {
-        #region ================== Variables
 
         // Description
         private readonly string name;
@@ -54,10 +47,6 @@ namespace CodeImp.DoomBuilder.Actions
         private readonly List<ActionDelegate> begindelegates;
         private readonly List<ActionDelegate> enddelegates;
 
-        #endregion
-
-        #region ================== Properties
-
         public string Name { get { return name; } }
         public string ShortName { get { return shortname; } }
         public string Category { get { return category; } }
@@ -76,10 +65,6 @@ namespace CodeImp.DoomBuilder.Actions
         public bool Repeat { get { return repeat; } }
         public bool BeginBound { get { return begindelegates.Count > 0; } }
         public bool EndBound { get { return enddelegates.Count > 0; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal Action(Configuration cfg, string name, string shortname, int key)
@@ -117,10 +102,6 @@ namespace CodeImp.DoomBuilder.Actions
                 this.key = key & keymask;
             }
         }
-
-        #endregion
-
-        #region ================== Static Methods
 
         // This returns the shortcut key description for a key
         public static string GetShortcutKeyDesc(int key)
@@ -210,10 +191,6 @@ namespace CodeImp.DoomBuilder.Actions
             return GetShortcutKeyDesc(a.ShortcutKey);
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This invokes the action
         public void Invoke()
         {
@@ -297,7 +274,5 @@ namespace CodeImp.DoomBuilder.Actions
         {
             return key == (pressedkey & keymask);
         }
-
-        #endregion
     }
 }

@@ -19,8 +19,6 @@
 			base.Dispose(disposing);
 		}
 
-		#region Код, автоматически созданный конструктором компонентов
-
 		/// <summary> 
 		/// Обязательный метод для поддержки конструктора - не изменяйте 
 		/// содержимое данного метода при помощи редактора кода.
@@ -102,8 +100,6 @@
 			this.PerformLayout();
 
 		}
-
-		#endregion
 
 		private System.Windows.Forms.TrackBar trackBar1;
 		private System.Windows.Forms.Label label1;

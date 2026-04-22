@@ -1,4 +1,3 @@
-#region ================== Copyright
 
 // *****************************************************************************
 // 
@@ -62,9 +61,6 @@
 // 
 // *****************************************************************************
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Collections;
@@ -73,11 +69,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
-    #region TreeViewSelectionMode enumeration
 
     /// <summary>
     /// Selection mode for the treeview.	
@@ -113,16 +106,10 @@ namespace CodeImp.DoomBuilder.Controls
         MultiSelectSameParent
     }
 
-    #endregion
-
-    #region Delegates
-
     /// <summary>
     /// Delegate used for tree node events.
     /// </summary>
     public delegate void TreeNodeEventHandler(TreeNode tn);
-
-    #endregion
 
     /// <summary>
     /// The TreeView control is a regular treeview with multi-selection capability.
@@ -158,8 +145,6 @@ namespace CodeImp.DoomBuilder.Controls
                     SelectionsChanged(this, new EventArgs());
                 }
         }
-
-        #region Private variables
 
         /// <summary> 
         /// Required designer variable.
@@ -241,10 +226,6 @@ namespace CodeImp.DoomBuilder.Controls
         /// Keeps track of the first selected node when selection has begun with the keyboard.
         /// </summary>
         private TreeNode tnKeysStartNode;
-
-        #endregion
-
-        #region SelectedNode, SelectionMode, SelectionBackColor, SelectedNodes + events
 
         /// <summary>
         /// This property is for internal use only. Use SelectedNodes instead.
@@ -381,10 +362,6 @@ namespace CodeImp.DoomBuilder.Controls
 
             OnSelectionsChanged();
         }
-
-        #endregion
-
-        #region Node selection methods
 
         /// <summary>
         /// Unselects all selected nodes.
@@ -695,10 +672,6 @@ namespace CodeImp.DoomBuilder.Controls
             }
         }
 
-        #endregion
-
-        #region Helper methods
-
         /// <summary>
         /// Determines whether a mouse click was inside the node bounds or outside the node bounds..
         /// </summary>
@@ -878,10 +851,6 @@ namespace CodeImp.DoomBuilder.Controls
             }
         }
 
-        #endregion
-
-        #region Dispose
-
         /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
@@ -897,10 +866,6 @@ namespace CodeImp.DoomBuilder.Controls
             base.Dispose(disposing);
         }
 
-        #endregion
-
-        #region Component Designer generated code
-
         /// <summary> 
         /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
@@ -911,10 +876,6 @@ namespace CodeImp.DoomBuilder.Controls
             DoubleBuffered = true; //mxd
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true); //mxd
         }
-
-        #endregion
-
-        #region OnMouseUp, OnMouseDown
 
         /// <summary>
         /// Occurs when mouse button is up after a click.
@@ -1005,10 +966,6 @@ namespace CodeImp.DoomBuilder.Controls
             base.OnMouseDown(e);
         }
 
-        #endregion
-
-        #region FlashNode, StartEdit
-
         /// <summary>
         /// Flashes node.
         /// </summary>
@@ -1058,10 +1015,6 @@ namespace CodeImp.DoomBuilder.Controls
                 blnWasDoubleClick = false;
             }
         }
-
-        #endregion
-
-        #region ProcessNodeRange
 
         /// <summary>
         /// Processes a node range.
@@ -1401,10 +1354,6 @@ namespace CodeImp.DoomBuilder.Controls
             OnSelectionsChanged();
         }
 
-        #endregion
-
-        #region OnBeforeLabelEdit
-
         /// <summary>
         /// Occurs before node goes into edit mode.
         /// </summary>
@@ -1421,10 +1370,6 @@ namespace CodeImp.DoomBuilder.Controls
 
             base.OnBeforeLabelEdit(e);
         }
-
-        #endregion
-
-        #region OnKeyDown
 
         /// <summary>
         /// occurs when a key is down.
@@ -1545,10 +1490,6 @@ namespace CodeImp.DoomBuilder.Controls
             base.OnKeyDown(e);
         }
 
-        #endregion
-
-        #region OnAfterCollapse
-
         /// <summary>
         /// Occurs after a node is collapsed.
         /// </summary>
@@ -1578,10 +1519,6 @@ namespace CodeImp.DoomBuilder.Controls
             base.OnAfterCollapse(e);
         }
 
-        #endregion
-
-        #region OnItemDrag
-
         /// <summary>
         /// Occurs when an item is being dragged.
         /// </summary>
@@ -1592,18 +1529,13 @@ namespace CodeImp.DoomBuilder.Controls
             base.OnItemDrag(e);
         }
 
-        #endregion
-
     }
-
-    #region SelectedNodesCollection
 
     /// <summary>
     /// Collection of selected nodes.
     /// </summary>
     public class NodesCollection : CollectionBase
     {
-        #region Events
 
         /// <summary>
         /// Event fired when a tree node has been added to the collection.
@@ -1624,10 +1556,6 @@ namespace CodeImp.DoomBuilder.Controls
         /// Event fired the collection has been cleared.
         /// </summary>
         internal event EventHandler SelectedNodesCleared;
-
-        #endregion
-
-        #region CollectionBase members
 
         /// <summary>
         /// Gets tree node at specified index.
@@ -1695,10 +1623,6 @@ namespace CodeImp.DoomBuilder.Controls
             return List.IndexOf(treeNode);
         }
 
-        #endregion
-
-        #region OnClear
-
         /// <summary>
         /// Occurs when collection is being cleared.
         /// </summary>
@@ -1710,9 +1634,5 @@ namespace CodeImp.DoomBuilder.Controls
             base.OnClear();
         }
 
-        #endregion
-
     }
-
-    #endregion
 }

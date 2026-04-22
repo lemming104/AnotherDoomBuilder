@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,26 +11,16 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data.Scripting;
 using System;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Types
 {
     public class TypesManager : IDisposable
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // List of handler types
         private Dictionary<int, TypeHandlerAttribute> handlertypes;
@@ -42,15 +31,7 @@ namespace CodeImp.DoomBuilder.Types
         // Disposing
         private bool isdisposed;
 
-        #endregion
-
-        #region ================== Properties
-
         public bool IsDisposed { get { return isdisposed; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public TypesManager()
@@ -104,10 +85,6 @@ namespace CodeImp.DoomBuilder.Types
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This returns the type handler for the given argument
         public TypeHandler GetArgumentHandler(ArgumentInfo arginfo)
@@ -211,7 +188,5 @@ namespace CodeImp.DoomBuilder.Types
             ScriptHandler th = (ScriptHandler)General.ThisAssembly.CreateInstance(t.FullName);
             return th;
         }
-
-        #endregion
     }
 }

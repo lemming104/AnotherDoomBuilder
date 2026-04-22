@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,24 +11,14 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Config
 {
     public class LinedefActionCategory : IComparable<LinedefActionCategory>
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Category properties
         private string name;
@@ -41,18 +30,10 @@ namespace CodeImp.DoomBuilder.Config
         // Disposing
         private bool isdisposed;
 
-        #endregion
-
-        #region ================== Properties
-
         public string Name { get { return name; } }
         public string Title { get { return title; } }
         public List<LinedefActionInfo> Actions { get { return actions; } }
         public bool IsDisposed { get { return isdisposed; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal LinedefActionCategory(string name, string title)
@@ -80,10 +61,6 @@ namespace CodeImp.DoomBuilder.Config
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This adds an action to this category
         internal void Add(LinedefActionInfo a)
         {
@@ -102,7 +79,5 @@ namespace CodeImp.DoomBuilder.Config
         {
             return title;
         }
-
-        #endregion
     }
 }

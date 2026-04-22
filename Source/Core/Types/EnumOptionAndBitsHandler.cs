@@ -1,23 +1,15 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Windows;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Types
 {
     [TypeHandler(UniversalType.EnumOptionAndBits, "Options and Bits", false)]
     internal class EnumOptionAndBitsHandler : EnumBitsHandler
     {
-        #region ================== Variables
 
         private EnumList flags;
-
-        #endregion
-
-        #region ================== Methods
 
         // When set up for an argument
         public override void SetupArgument(TypeHandlerAttribute attr, ArgumentInfo arginfo)
@@ -32,7 +24,5 @@ namespace CodeImp.DoomBuilder.Types
         {
             value = BitFlagsAndOptionsForm.ShowDialog(parent, list, flags, value);
         }
-
-        #endregion
     }
 }

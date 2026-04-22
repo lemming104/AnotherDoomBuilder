@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
@@ -27,8 +23,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Geometry
 {
     /// <summary>
@@ -36,7 +30,6 @@ namespace CodeImp.DoomBuilder.Geometry
     /// </summary>
     public static class Tools
     {
-        #region ================== Structures
 
         private struct SidedefSettings
         {
@@ -53,16 +46,8 @@ namespace CodeImp.DoomBuilder.Geometry
             public bool forward;
         }
 
-        #endregion
-
-        #region ================== Constants
-
         //mxd
         private const float MINIMUM_INTERSECTION_DISTANCE = 0.25f;
-
-        #endregion
-
-        #region ================== Polygons and Triangles
 
         // Point inside the polygon?
         // See: http://local.wasp.uwa.edu.au/~pbourke/geometry/insidepoly/
@@ -99,10 +84,6 @@ namespace CodeImp.DoomBuilder.Geometry
             // Inside this polygon?
             return (c & 0x00000001UL) != 0;
         }
-
-        #endregion
-
-        #region ================== Pathfinding
 
         /// <summary>
         /// This finds a potential sector at the given coordinates,
@@ -488,10 +469,6 @@ namespace CodeImp.DoomBuilder.Geometry
             return path;
         }
 
-        #endregion
-
-        #region ================== Sector Making
-
         // This makes the sector from the given lines and sides
         // If nearbylines is not null, then this method will find the default
         // properties from the nearest line in this collection when the
@@ -819,10 +796,6 @@ namespace CodeImp.DoomBuilder.Geometry
             if (sd.LowRequired() && General.Map.Options.OverrideBottomTexture) sd.SetTextureLow(General.Map.Options.DefaultBottomTexture);
         }
 
-        #endregion
-
-        #region ================== Sector Labels
-
         // This finds the ideal label positions for a sector
         public static List<LabelPositionInfo> FindLabelPositions(Sector s)
         {
@@ -945,10 +918,6 @@ namespace CodeImp.DoomBuilder.Geometry
             // Done
             return positions;
         }
-
-        #endregion
-
-        #region ================== Drawing
 
         //mxd
         public static bool DrawLines(IList<DrawnVertex> points)
@@ -1749,10 +1718,6 @@ namespace CodeImp.DoomBuilder.Geometry
             }
         }
 
-        #endregion
-
-        #region ================== Flat Floodfill
-
         // This performs flat floodfill over sector floors or ceilings that match with the same flat
         // NOTE: This method uses the sectors marking to indicate which sides have been filled
         // When resetsectormarks is set to true, all sectors will first be marked false (not aligned).
@@ -1801,10 +1766,6 @@ namespace CodeImp.DoomBuilder.Geometry
                 }
             }
         }
-
-        #endregion
-
-        #region ================== Texture Floodfill
 
         // This performs texture floodfill along all walls that match with the same texture
         // NOTE: This method uses the sidedefs marking to indicate which sides have been filled
@@ -1899,10 +1860,6 @@ namespace CodeImp.DoomBuilder.Geometry
                 }
             }
         }
-
-        #endregion
-
-        #region ================== Texture Alignment
 
         // This checks if any of the sidedef texture match the given texture
         /*public static bool SidedefTextureMatch(Sidedef sd, long texturelongname)
@@ -2022,10 +1979,6 @@ namespace CodeImp.DoomBuilder.Geometry
             return Math.Round(fromNormalized ? offset + surfaceHeight : offset - surfaceHeight, General.Map.FormatInterface.VertexDecimals);
         }
 
-        #endregion
-
-        #region ================== Tags and Actions
-
         /// <summary>
         /// This removes all tags on the marked geometry.
         /// </summary>
@@ -2101,10 +2054,6 @@ namespace CodeImp.DoomBuilder.Geometry
                 }
             }
         }
-
-        #endregion
-
-        #region ================== Things (mxd)
 
         public static bool TryAlignThingToLine(Thing t, Linedef l)
         {
@@ -2246,10 +2195,6 @@ namespace CodeImp.DoomBuilder.Geometry
             return (int)t.Position.z;
         }
 
-        #endregion
-
-        #region ================== Sectors (mxd)
-
         public static void SplitOuterSectors(IEnumerable<Linedef> drawnlines)
         {
             Dictionary<Sector, HashSet<Sidedef>> sectorsidesref = new Dictionary<Sector, HashSet<Sidedef>>();
@@ -2366,10 +2311,6 @@ namespace CodeImp.DoomBuilder.Geometry
             return false;
         }
 
-        #endregion
-
-        #region ================== Linedefs (mxd)
-
         /// <summary>Flips sector linedefs so they all face either inward or outward.</summary>
         public static void FlipSectorLinedefs(ICollection<Sector> sectors, bool selectedlinesonly)
         {
@@ -2425,10 +2366,6 @@ namespace CodeImp.DoomBuilder.Geometry
             }
         }
 
-        #endregion
-
-        #region ================== Sidedefs (mxd)
-
         /// <summary>Updates the 'lightfog' UDMF flag to display sidedef brightness on fogged walls. Returns 1 if flag was added, -1 if it was removed, 0 if flag wasn't changed</summary>
         public static int UpdateLightFogFlag(Sidedef side)
         {
@@ -2470,10 +2407,6 @@ namespace CodeImp.DoomBuilder.Geometry
             return 0;
         }
 
-        #endregion
-
-        #region ================== Misc Exported Functions
-
         /// <summary>
         /// This performs a Hermite spline interpolation and returns the result position.
         /// Where u (0 - 1) is the wanted position on the curve between p1 (using tangent t1) and p2 (using tangent t2).
@@ -2513,7 +2446,5 @@ namespace CodeImp.DoomBuilder.Geometry
 
             return PixelColor.FromColor(General.Map.Data.MapInfo.HasFadeColor ? General.Map.Data.MapInfo.FadeColor.ToColor() : Color.Black);
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,17 +11,12 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.IO
 {
@@ -49,24 +43,11 @@ namespace CodeImp.DoomBuilder.IO
 
     internal sealed class DirectoryFilesList
     {
-        #region ================== Constants (mxd)
-
-        #endregion
-
-        #region ================== Variables
 
         private Dictionary<string, DirectoryFileEntry> entries; //mxd
         private List<string> wadentries; //mxd
 
-        #endregion
-
-        #region ================== Properties
-
         public int Count { get { return entries.Count; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor to fill list from directory and optionally subdirectories
         public DirectoryFilesList(string path, GameConfiguration config, bool subdirectories, FileTitleStyle filetitlestyle)
@@ -144,10 +125,6 @@ namespace CodeImp.DoomBuilder.IO
                 AddOrReplaceEntry(e);
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This checks whether a file is in the entry dictionary, adds it if it
         // isn't, and replaces the existing entry if the new entry is lowercase
@@ -396,7 +373,5 @@ namespace CodeImp.DoomBuilder.IO
 
             return path;
         }
-
-        #endregion
     }
 }

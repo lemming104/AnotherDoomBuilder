@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,9 +18,6 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.BuilderModes;
 using CodeImp.DoomBuilder.Editing;
@@ -31,13 +27,10 @@ using CodeImp.DoomBuilder.VisualModes;
 using System.Collections.Generic;
 using System.Linq;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
     internal class MapWrapper
     {
-        #region ================== Enums
 
         /// <summary>
         /// How geometry should be merged when geometry is stitched.
@@ -56,18 +49,10 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             REPLACE = Map.MergeGeometryMode.REPLACE
         }
 
-        #endregion
-
-        #region ================== Variables
-
         private MapSet map;
         private VisualCameraWrapper visualcamera;
         private Vector2D mousemappos;
         private object highlightedobject;
-
-        #endregion
-
-        #region ================== Properties
 
         /// <summary>
         /// `true` if the map is in Doom format, `false` if it isn't. Read-only.
@@ -124,10 +109,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             }
         }
 
-        #endregion
-
-        #region ================== Constructors
-
         internal MapWrapper()
         {
             map = General.Map.Map;
@@ -141,10 +122,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             else
                 mousemappos = ((VisualMode)General.Editing.Mode).GetHitPosition();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Returns the given point snapped to the current grid.
@@ -460,10 +437,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             return success;
         }
 
-        #endregion
-
-        #region ================== Marks
-
         /// <summary>
         /// Sets the `marked` property of all map elements. Can be passed `true` to mark all map elements.
         /// </summary>
@@ -681,10 +654,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
         {
             General.Map.Map.MarkSelectedThings(true, mark);
         }
-
-        #endregion
-
-        #region ================== Selected
 
         /// <summary>
         /// Gets all selected (default) or unselected vertices.
@@ -1074,10 +1043,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             General.Map.Map.ClearSelectedSectors();
         }
 
-        #endregion
-
-        #region ================== Creation
-
         /// <summary>
         /// Creates a new `Vertex` at the given position. The position can be a `Vector2D` or an `Array` of two numbers.
         /// ```
@@ -1143,10 +1108,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
                 throw BuilderPlug.Me.ScriptRunner.CreateRuntimeException(e.Message);
             }
         }
-
-        #endregion
-
-        #region ================== Merging/Joining
 
         /// <summary>
         /// Joins `Sector`s, keeping lines shared by the `Sector`s. All `Sector`s will be joined with the first `Sector` in the array.
@@ -1219,7 +1180,5 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             // Update
             BuilderPlug.Me.ScriptRunnerForm.RunAction(() => General.Map.Map.Update());
         }
-
-        #endregion
     }
 }

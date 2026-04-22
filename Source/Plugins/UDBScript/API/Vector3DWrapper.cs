@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,30 +18,20 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using System.Dynamic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
     internal struct Vector3DWrapper
     {
-        #region ================== Variables
 
         public double _x;
         public double _y;
         public double _z;
         private MapElement parent;
-
-        #endregion
-
-        #region ================== Constructors
 
         internal Vector3DWrapper(Vector3D v, MapElement parent = null)
         {
@@ -51,8 +40,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             _z = v.z;
             this.parent = parent;
         }
-
-        #region ================== Properties
 
         /// <summary>
         /// The `x` value of the vector.
@@ -114,8 +101,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             }
         }
 
-        #endregion
-
         /// <summary>
         /// Creates a new `Vector3D` from x and y coordinates
         /// ```
@@ -157,25 +142,15 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             }
         }
 
-        #endregion
-
-        #region ================== Internal
-
         internal Vector3D AsVector3D()
         {
             return new Vector3D(_x, _y, _z);
         }
 
-        #endregion
-
-        #region ================== Operators
-
         public static implicit operator Vector2DWrapper(Vector3DWrapper a)
         {
             return new Vector2DWrapper(a._x, a._y);
         }
-
-        #region ================== Addition
 
         public static object operator +(Vector3DWrapper lhs, object rhs)
         {
@@ -227,10 +202,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             }
         }
 
-        #endregion
-
-        #region ================== Subtraction
-
         public static object operator -(Vector3DWrapper lhs, object rhs)
         {
             if (rhs is double)
@@ -264,10 +235,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
                 throw BuilderPlug.Me.ScriptRunner.CreateRuntimeException(e.Message);
             }
         }
-
-        #endregion
-
-        #region ================== Multiplication
 
         public static object operator *(Vector3DWrapper lhs, object rhs)
         {
@@ -303,10 +270,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             }
         }
 
-        #endregion
-
-        #region ================== Division
-
         public static object operator /(Vector3DWrapper lhs, object rhs)
         {
             if (rhs is double)
@@ -340,10 +303,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
                 throw BuilderPlug.Me.ScriptRunner.CreateRuntimeException(e.Message);
             }
         }
-
-        #endregion
-
-        #region ================== Equality
 
         public static bool operator ==(Vector3DWrapper lhs, object rhs)
         {
@@ -396,12 +355,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
                 throw BuilderPlug.Me.ScriptRunner.CreateRuntimeException(e.Message);
             }
         }
-
-        #endregion
-
-        #endregion
-
-        #region ================== Statics
 
         /// <summary>
         /// Returns the dot product of two `Vector3D`s.
@@ -522,10 +475,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             return new Vector3DWrapper(Vector3D.FromAngleXYZ(Angle2D.DegToRad(anglexy), Angle2D.DegToRad(anglez)));
         }
 
-        #endregion
-
-        #region ================== Methods
-
         /// <summary>
         /// Returns the x/y angle of the `Vector3D` in radians.
         /// </summary>
@@ -638,7 +587,5 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             if (_z != other._z) return false;
             return true;
         }
-
-        #endregion
     }
 }

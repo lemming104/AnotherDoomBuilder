@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,9 +18,6 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
@@ -33,19 +29,12 @@ using System.Dynamic;
 using System.Linq;
 using System.Numerics;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
     internal abstract class MapElementWrapper
     {
-        #region ================== Variables
 
         private MapElement element;
-
-        #endregion
-
-        #region ================== Properties
 
         /// <summary>
         /// UDMF fields. It's an object with the fields as properties.
@@ -255,18 +244,10 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             }
         }
 
-        #endregion
-
-        #region ================== Constructors
-
         internal MapElementWrapper(MapElement element)
         {
             this.element = element;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Called after the UDMF fields were updated, so other changes can be made to the map element, if necessary.
@@ -287,7 +268,5 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
         /// <param name="newvalue">field value</param>
         /// <returns>true if the field needed to be processed, false if it didn't</returns>
         internal virtual bool ProcessManagedField(UniFields fields, string pname, object newvalue) { return false; }
-
-        #endregion
     }
 }

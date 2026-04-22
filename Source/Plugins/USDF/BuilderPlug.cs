@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2010 Pascal vd Heiden
 
 /*
  * Copyright (c) 2010 Pascal vd Heiden
@@ -12,22 +11,16 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Plugins;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.USDF
 {
     public class BuilderPlug : Plug
     {
-        #region ================== Variables
 
         // Static instance
         private static BuilderPlug me;
@@ -38,19 +31,11 @@ namespace CodeImp.DoomBuilder.USDF
         // Main form
         private MainForm mainform;
 
-        #endregion
-
-        #region ================== Properties
-
         // Static property to access the BuilderPlug
         public static BuilderPlug Me { get { return me; } }
 
         // Is the editor opened?
         public bool EditorOpen { get { return (mainform != null) && !mainform.IsDisposed; } }
-
-        #endregion
-
-        #region ================== Methods
 
         // This loads what is needed to support USDF
         private void Load()
@@ -82,10 +67,6 @@ namespace CodeImp.DoomBuilder.USDF
 
             toolsform = null;
         }
-
-        #endregion
-
-        #region ================== Events
 
         // This event is called when the plugin is initialized
         public override void OnInitialize()
@@ -143,10 +124,6 @@ namespace CodeImp.DoomBuilder.USDF
             Load();
         }
 
-        #endregion
-
-        #region ================== Actions
-
         [BeginAction("opendialogeditor")]
         public void OpenConversationEditor()
         {
@@ -164,7 +141,5 @@ namespace CodeImp.DoomBuilder.USDF
                 mainform.Activate();
             }
         }
-
-        #endregion
     }
 }

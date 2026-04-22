@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
@@ -29,19 +25,12 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     internal abstract class BaseVisualGeometrySector : VisualGeometry, IVisualEventReceiver
     {
-        #region ================== Constants
 
         private const float DRAG_ANGLE_TOLERANCE = 0.06f;
-
-        #endregion
-
-        #region ================== Variables
 
         protected readonly BaseVisualMode mode;
         protected long setuponloadedtexture;
@@ -72,28 +61,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private static List<BaseVisualSector> updatelist; //mxd
         protected bool performautoselection; //mxd
 
-        #endregion
-
-        #region ================== Properties
-
         new public BaseVisualSector Sector { get { return (BaseVisualSector)base.Sector; } }
         public bool Changed { get { return changed; } set { changed = value; } }
         public SectorLevel Level { get { return level; } }
         public Effect3DFloor ExtraFloor { get { return extrafloor; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         protected BaseVisualGeometrySector(BaseVisualMode mode, VisualSector vs) : base(vs)
         {
             this.mode = mode;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This changes the height
         protected abstract void ChangeHeight(int amount);
@@ -380,10 +357,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
             }
         }
-
-        #endregion
-
-        #region ================== Events
 
         // Unused
         public virtual void OnEditBegin() { }
@@ -1032,7 +1005,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 selected = !selected;
             }
         }
-
-        #endregion
     }
 }

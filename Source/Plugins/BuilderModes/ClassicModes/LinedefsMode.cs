@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
@@ -30,8 +26,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [EditMode(DisplayName = "Linedefs Mode",
@@ -44,13 +38,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
     public class LinedefsMode : BaseClassicMode
     {
-        #region ================== Constants
 
         private const int MAX_LINEDEF_LABELS = 256; //mxd
-
-        #endregion
-
-        #region ================== Variables
 
         // Highlighted item
         private Linedef highlighted;
@@ -77,17 +66,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Autosave
         private bool allowautosave;
 
-        #endregion
-
-        #region ================== Properties
-
         public override object HighlightedObject { get { return highlighted; } }
 
         public override bool AlwaysShowVertices { get { return true; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         public LinedefsMode()
         {
@@ -115,10 +96,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This highlights a new item
         private void Highlight(Linedef l)
@@ -576,10 +553,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 renderer.Finish();
             }
         }
-
-        #endregion
-
-        #region ================== Events
 
         public override void OnHelp()
         {
@@ -1289,10 +1262,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 renderer.RenderRectangleFilled(rect, c, true, General.Map.Data.CommentTextures[iconindex]);
             }
         }
-
-        #endregion
-
-        #region ================== Actions
 
         // This copies the properties
         [BeginAction("classiccopyproperties")]
@@ -2202,7 +2171,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 General.ToastManager.ShowToast(ToastMessages.CHANGEMAPELEMENTINDEX, ToastType.INFO, "Successfully change linedef index", $"Changed index of linedef {oldindex} to {newindex}.");
             }
         }
-
-        #endregion
     }
 }

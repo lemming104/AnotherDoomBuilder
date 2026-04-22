@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
@@ -27,8 +23,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
@@ -44,13 +38,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
     public class DrawGeometryMode : BaseClassicMode
     {
-        #region ================== Constants
 
         protected const float LINE_THICKNESS = 0.8f;
-
-        #endregion
-
-        #region ================== Variables
 
         // Drawing points
         protected List<DrawnVertex> points;
@@ -77,14 +66,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
         //mxd. Interface
         private DrawLineOptionsPanel panel;
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public DrawGeometryMode()
@@ -118,10 +99,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This checks if the view offset/zoom changed and updates the check (never used. mxd)
         /*protected bool CheckViewChanged()
@@ -712,10 +689,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             return result;
         }
 
-        #endregion
-
-        #region ================== mxd. Settings panel
-
         protected virtual void SetupInterface()
         {
             //Add options docker
@@ -759,10 +732,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             General.Settings.WritePluginSetting("drawlinesmode.showguidelines", panel.ShowGuidelines);
             panel.Unregister();
         }
-
-        #endregion
-
-        #region ================== Events
 
         public override void OnHelp()
         {
@@ -960,10 +929,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             General.Interface.RedrawDisplay();
         }
 
-        #endregion
-
-        #region ================== Actions
-
         // Drawing a point
         [BeginAction("drawpoint")]
         public void DrawPoint()
@@ -1004,7 +969,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Accept the changes
             General.Editing.AcceptMode();
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,13 +11,8 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System.IO;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.IO
 {

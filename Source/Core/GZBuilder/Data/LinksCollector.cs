@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -9,13 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.GZBuilder.Data
 {
     public static class LinksCollector
     {
-        #region ================== SpecialThings
 
         private class SpecialThings
         {
@@ -44,10 +40,6 @@ namespace CodeImp.DoomBuilder.GZBuilder.Data
                 PolyobjectStartSpots = new Dictionary<int, List<Thing>>();
             }
         }
-
-        #endregion
-
-        #region ================== PathNode
 
         private class PathNode
         {
@@ -89,15 +81,7 @@ namespace CodeImp.DoomBuilder.GZBuilder.Data
             }
         }
 
-        #endregion
-
-        #region ================== Constants
-
         private const int CIRCLE_SIDES = 24;
-
-        #endregion
-
-        #region ================== Shape creation methods
 
         private static IEnumerable<Line3D> MakeCircleLines(Vector3D pos, PixelColor color, double radius, int numsides)
         {
@@ -131,10 +115,6 @@ namespace CodeImp.DoomBuilder.GZBuilder.Data
                 new Line3D(bl, tl, color, false),
             };
         }
-
-        #endregion
-
-        #region ================== GetHelperShapes
 
         public static List<Line3D> GetHelperShapes(ICollection<Thing> things) { return GetHelperShapes(things, null); }
         public static List<Line3D> GetHelperShapes(ICollection<Thing> things, VisualBlockMap blockmap)
@@ -480,10 +460,6 @@ namespace CodeImp.DoomBuilder.GZBuilder.Data
             return lines;
         }
 
-        #endregion
-
-        #region ================== GetThingArgumentShapes
-
         // Create argument value/min/max shapes
         private static List<Line3D> GetThingArgumentShapes(ICollection<Thing> things, VisualBlockMap blockmap, int numsides)
         {
@@ -527,10 +503,6 @@ namespace CodeImp.DoomBuilder.GZBuilder.Data
 
             return lines;
         }
-
-        #endregion
-
-        #region ================== GetDynamicLightShapes
 
         public static List<Line3D> GetPointLightShape(Thing t, bool highlight, GZGeneral.LightData ld, int linealpha)
         {
@@ -770,10 +742,6 @@ namespace CodeImp.DoomBuilder.GZBuilder.Data
             return circles;
         }
 
-        #endregion
-
-        #region ================== GetAmbientSoundShapes
-
         public static List<Line3D> GetAmbientSoundShapes(IEnumerable<Thing> things, bool highlight)
         {
             List<Line3D> circles = new List<Line3D>();
@@ -843,10 +811,6 @@ namespace CodeImp.DoomBuilder.GZBuilder.Data
             return circles;
         }
 
-        #endregion
-
-        #region ================== Utility
-
         // Taken from Xabis' "curved interpolation points paths" patch.
         private static double SplineLerp(double u, double p1, double p2, double p3, double p4)
         {
@@ -869,7 +833,5 @@ namespace CodeImp.DoomBuilder.GZBuilder.Data
             if (thing.Sector != null) height += thing.Sector.FloorHeight;
             return height;
         }
-
-        #endregion
     }
 }

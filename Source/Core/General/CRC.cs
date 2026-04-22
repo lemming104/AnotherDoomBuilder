@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,35 +11,17 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
-
-#endregion
 
 namespace CodeImp.DoomBuilder
 {
     public class CRC
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private Crc32 crc;
 
-        #endregion
-
-        #region ================== Properties
-
         public long Value { get { return crc.Value; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public CRC()
@@ -50,10 +31,6 @@ namespace CodeImp.DoomBuilder
             // We have no destructor
             GC.SuppressFinalize(this);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public void Add(long value)
         {
@@ -78,10 +55,7 @@ namespace CodeImp.DoomBuilder
             crc.Reset();
         }
 
-        #endregion
-
         //mxd. Taken from SharpZip
-        #region ================== Crc32
         sealed class Crc32
         {
             const uint CRC_SEED = 0xFFFFFFFF;
@@ -214,6 +188,5 @@ namespace CodeImp.DoomBuilder
                 crc ^= CRC_SEED;
             }
         }
-        #endregion
     }
 }

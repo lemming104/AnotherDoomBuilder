@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2020 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,9 +18,6 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Types;
@@ -31,13 +27,10 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     public partial class SidedefPartLightControl : UserControl
     {
-        #region ================== Variables
 
         private string fieldname;
         private string fieldabsolutename;
@@ -46,18 +39,10 @@ namespace CodeImp.DoomBuilder.Controls
         private Dictionary<Sidedef, bool> originalabsolute;
         private bool preventchanges;
 
-        #endregion
-
-        #region ================== Constructors
-
         public SidedefPartLightControl()
         {
             InitializeComponent();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Sets up the control for the specified geometry type.
@@ -140,10 +125,6 @@ namespace CodeImp.DoomBuilder.Controls
 
             preventchanges = false;
         }
-
-        #endregion
-
-        #region ================== Events
 
         private void reset_Click(object sender, EventArgs e)
         {
@@ -236,7 +217,5 @@ namespace CodeImp.DoomBuilder.Controls
 
             ((LinedefEditFormUDMF)ParentForm).ValuesChangedExternal();
         }
-
-        #endregion
     }
 }

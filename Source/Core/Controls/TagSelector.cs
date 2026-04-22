@@ -1,13 +1,10 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Types;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Controls
 {
@@ -30,7 +27,6 @@ namespace CodeImp.DoomBuilder.Controls
 
     public partial class TagSelector : UserControl
     {
-        #region ================== Variables
 
         private List<int> tags;
         private List<TagInfo> infos;
@@ -40,18 +36,10 @@ namespace CodeImp.DoomBuilder.Controls
         private int rangemode; //0 - none, 1 - positive (>=), -1 - negative (<=)
         private int offsetmode; //0 - none, 1 - positive (++), -1 - negative (--)
 
-        #endregion
-
-        #region ================== Constructor
-
         public TagSelector()
         {
             InitializeComponent();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public void Setup(UniversalType mapelementtype)
         {
@@ -222,10 +210,6 @@ namespace CodeImp.DoomBuilder.Controls
             valid = true;
         }
 
-        #endregion
-
-        #region ================== Events
-
         private void newTag_Click(object sender, EventArgs e)
         {
             //todo: check tag labels?
@@ -276,7 +260,5 @@ namespace CodeImp.DoomBuilder.Controls
             buttons.Value = 0;
             valid = true;
         }
-
-        #endregion
     }
 }

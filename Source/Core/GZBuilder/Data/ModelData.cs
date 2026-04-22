@@ -1,24 +1,16 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.GZBuilder.Models;
 using CodeImp.DoomBuilder.Rendering;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.GZBuilder.Data
 {
     internal sealed class ModelData
     {
-        #region ================== Constants
 
         // Keep sage order of extensions as in GZDoom's r_data\models\models.cpp FindGFXFile function. That doesn't
         // list .dds, but just keep it in here
         public static readonly string[] SUPPORTED_TEXTURE_EXTENSIONS = { ".png", ".jpg", ".tga", ".pcx", ".dds" };
-
-        #endregion
-
-        #region ================== Variables
 
         private ModelLoadState loadstate;
         private Vector3f scale;
@@ -26,10 +18,6 @@ namespace CodeImp.DoomBuilder.GZBuilder.Data
         private Matrix transform;
         private Matrix transformrotation;
         private Matrix transformstretched;
-
-        #endregion
-
-        #region ================== Properties
 
         internal List<string> ModelNames;
         internal List<string> SkinNames;
@@ -61,10 +49,6 @@ namespace CodeImp.DoomBuilder.GZBuilder.Data
         private bool isdisposed;
 
         public ModelLoadState LoadState { get { return loadstate; } internal set { loadstate = value; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         internal ModelData()
         {
@@ -110,7 +94,5 @@ namespace CodeImp.DoomBuilder.GZBuilder.Data
         {
             return hashcode;
         }
-
-        #endregion
     }
 }

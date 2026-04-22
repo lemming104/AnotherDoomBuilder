@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
@@ -24,20 +20,13 @@ using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.VisualModes
 {
     public abstract class VisualGeometry : IVisualPickable
     {
-        #region ================== Constants
 
         private const float FOG_DENSITY_SCALER = -1.442692f / 512000f; //mxd. It's -1.442692f / 64000f in GZDoom...;
         private const int FADE_MULTIPLIER = 4; //mxd
-
-        #endregion
-
-        #region ================== Variables
 
         // Texture
         private ImageData texture;
@@ -78,10 +67,6 @@ namespace CodeImp.DoomBuilder.VisualModes
         protected bool renderassky;
 
         protected Vector2f skew;
-
-        #endregion
-
-        #region ================== Properties
 
         // Internal properties
         public WorldVertex[] Vertices { get { return vertices; } } //mxd
@@ -124,10 +109,6 @@ namespace CodeImp.DoomBuilder.VisualModes
         /// </summary>
         public Vector2f Skew { get { return skew; } }
 
-        #endregion
-
-        #region ================== Constructor / Destructor
-
         /// <summary>
         /// This creates sector-global visual geometry. This geometry is always visible when any of the sector is visible.
         /// </summary>
@@ -148,10 +129,6 @@ namespace CodeImp.DoomBuilder.VisualModes
             this.geometrytype = VisualGeometryType.UNKNOWN; //mxd
             skew = new Vector2f(0.0f);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets the vertices for this geometry
         protected void SetVertices(ICollection<WorldVertex> verts)
@@ -285,8 +262,6 @@ namespace CodeImp.DoomBuilder.VisualModes
 
         //mxd
         public abstract void PerformAutoSelection();
-
-        #endregion
     }
 
     //mxd

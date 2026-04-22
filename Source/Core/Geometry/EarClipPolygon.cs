@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,37 +11,23 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Geometry
 {
     [Serializable]
     public sealed class EarClipPolygon : LinkedList<EarClipVertex>
     {
-        #region ================== Variables
 
         // Tree variables
         private List<EarClipPolygon> children;
         private bool inner;
 
-        #endregion
-
-        #region ================== Properties
-
         public List<EarClipPolygon> Children { get { return children; } }
         public bool Inner { get { return inner; } set { inner = value; } }
-
-        #endregion
-
-        #region ================== Constructors
 
         // Constructor
         internal EarClipPolygon()
@@ -58,10 +43,6 @@ namespace CodeImp.DoomBuilder.Geometry
             base.AddLast(add);
             children = new List<EarClipPolygon>();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This merges a polygon into this one
         public void Add(EarClipPolygon p)
@@ -177,7 +158,5 @@ namespace CodeImp.DoomBuilder.Geometry
             // Can't insert it as a child
             return false;
         }
-
-        #endregion
     }
 }

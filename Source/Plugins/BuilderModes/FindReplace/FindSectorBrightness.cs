@@ -1,18 +1,14 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Map;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [FindReplace("Sector Brightness", BrowseButton = false)]
     internal class FindSectorBrightness : BaseFindSector
     {
-        #region ================== Properties
 
         //mxd. Prefixes usage
         public override string UsageHint
@@ -26,10 +22,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                                                     + "\">\" - finds values greater than given value.";
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This is called to perform a search (and replace)
         // Returns a list of items to show in the results list
@@ -105,8 +97,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 default: throw new NotImplementedException("Unknown prefix");
             }
         }
-
-        #endregion
 
     }
 }

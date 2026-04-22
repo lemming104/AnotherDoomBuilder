@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Geometry;
@@ -32,8 +28,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Map
 {
     /// <summary>
@@ -43,7 +37,6 @@ namespace CodeImp.DoomBuilder.Map
     /// </summary>
     public sealed class MapSet
     {
-        #region ================== Constants
 
         /// <summary>Stiching distance. This is only to get around inaccuracies. Basically,
         /// geometry only stitches when exactly on top of each other.</summary>
@@ -60,10 +53,6 @@ namespace CodeImp.DoomBuilder.Map
 
         // Handler for tag fields
         public delegate void TagHandler<T>(MapElement element, bool actionargument, UniversalType type, ref int value, T obj);
-
-        #endregion
-
-        #region ================== Variables
 
         // Sector indexing
         private List<int> indexholes;
@@ -107,10 +96,6 @@ namespace CodeImp.DoomBuilder.Map
 
         // Disposing
         private bool isdisposed;
-
-        #endregion
-
-        #region ================== Properties
 
         /// <summary>Returns the number of selected sectors.</summary>
         public int SelectedSectorsCount { get { return sel_sectors.Count; } }
@@ -178,10 +163,6 @@ namespace CodeImp.DoomBuilder.Map
         /// this setting to avoid exceptions
         /// </summary>
         public bool IsSafeToAccess { get { return issafetoaccess; } set { issafetoaccess = value; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor for new empty map
         internal MapSet()
@@ -287,10 +268,6 @@ namespace CodeImp.DoomBuilder.Map
             emptylongname = Lump.MakeLongName("-", false);
             virtualsectorvalue = new UniValue((int)UniversalType.Integer, 0);
         }
-
-        #endregion
-
-        #region ================== Management
 
         // This begins large add/remove operations
         public void BeginAddRemove()
@@ -850,10 +827,6 @@ namespace CodeImp.DoomBuilder.Map
 
         internal void ChangeVertexIndex(int oldindex, int newindex) => ChangeItemIndex(ref vertices, oldindex, newindex, numvertices);
 
-        #endregion
-
-        #region ================== Serialization
-
         // This serializes the MapSet
         internal MemoryStream Serialize()
         {
@@ -966,10 +939,6 @@ namespace CodeImp.DoomBuilder.Map
                 s.Triangles.ReadWrite(stream); //mxd
             }
         }
-
-        #endregion
-
-        #region ================== Deserialization
 
         // This deserializes the MapSet
         internal void Deserialize(MemoryStream stream)
@@ -1103,10 +1072,6 @@ namespace CodeImp.DoomBuilder.Map
             return array;
         }
 
-        #endregion
-
-        #region ================== Updating
-
         /// <summary>
         /// This updates the cache of all elements where needed. You must call this after making changes to the map.
         /// </summary>
@@ -1147,10 +1112,6 @@ namespace CodeImp.DoomBuilder.Map
             // Update all things
             foreach (Thing t in things) t.UpdateConfiguration();
         }
-
-        #endregion
-
-        #region ================== Selection
 
         // This checks a flag in a selection type
         private static bool InSelectionType(SelectionType value, SelectionType bits)
@@ -1416,10 +1377,6 @@ namespace CodeImp.DoomBuilder.Map
             foreach (Thing t in things) if (t.Marked == mark) t.Selected = select;
         }
 
-        #endregion
-
-        #region ================== Selection groups
-
         /// <summary>This selects geometry by selection group index.</summary>
         public void SelectVerticesByGroup(int groupmask)
         {
@@ -1607,10 +1564,6 @@ namespace CodeImp.DoomBuilder.Map
 
             return result;
         }
-
-        #endregion
-
-        #region ================== Marking
 
         /// <summary>This clears all marks on all elements.</summary>
         public void ClearAllMarks(bool mark)
@@ -1905,10 +1858,6 @@ namespace CodeImp.DoomBuilder.Map
                 General.Map.Map.MarkSidedefsFromLinedefs(true, mark);
         }
 
-        #endregion
-
-        #region ================== Indexing
-
         /// <summary>
         /// Returns the vertex at the specified index. Returns null when index is out of range. This is an O(1) operation.
         /// </summary>
@@ -1948,10 +1897,6 @@ namespace CodeImp.DoomBuilder.Map
         {
             return index < numthings ? things[index] : null;
         }
-
-        #endregion
-
-        #region ================== Areas
 
         /// <summary>This creates an initial, undefined area.</summary>
         public static RectangleF CreateEmptyArea()
@@ -2174,10 +2119,6 @@ namespace CodeImp.DoomBuilder.Map
             // Return result
             return newverts;
         }
-
-        #endregion
-
-        #region ================== Stitching
 
         /// <summary>
         /// Stitches marked geometry with non-marked geometry. Returns false when the operation failed.
@@ -2718,10 +2659,6 @@ namespace CodeImp.DoomBuilder.Map
 
             return "-";
         }
-
-        #endregion
-
-        #region ================== Geometry Tools
 
         /// <summary>This removes any virtual sectors in the map and returns the number of sectors removed.</summary>
         public int RemoveVirtualSectors()
@@ -3747,10 +3684,6 @@ namespace CodeImp.DoomBuilder.Map
             return closest;
         }
 
-        #endregion
-
-        #region ================== Tools
-
         /// <summary>This snaps all vertices to the map format accuracy. Call this to ensure the vertices are at valid coordinates.</summary>
         public void SnapAllToAccuracy()
         {
@@ -4352,7 +4285,5 @@ namespace CodeImp.DoomBuilder.Map
         {
             foreach (Linedef l in linedefs) l.UpdateColorPreset();
         }
-
-        #endregion
     }
 }

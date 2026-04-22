@@ -1,22 +1,14 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Windows;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes.Interface
 {
     internal partial class FitTexturesForm : DelayedForm
     {
-        #region ================== Event handlers
-
-        #endregion
-
-        #region ================== Variables
 
         private static Point location = Point.Empty;
         private bool blockupdate;
@@ -33,10 +25,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         //Surface stuff
         private List<SortedVisualSide> strips;
 
-        #endregion
-
-        #region ================== Constructor
-
         public FitTexturesForm()
         {
             InitializeComponent();
@@ -47,10 +35,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                 this.Location = location;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public bool Setup(IEnumerable<BaseVisualGeometrySidedef> sides)
         {
@@ -146,10 +130,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             resetvert.Enabled = cbfitheight.Checked && !cbautoheight.Checked;
         }
 
-        #endregion
-
-        #region ================== Events
-
         private void FitTexturesForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             location = this.Location;
@@ -217,7 +197,5 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             if (blockupdate) return;
             UpdateChanges();
         }
-
-        #endregion
     }
 }

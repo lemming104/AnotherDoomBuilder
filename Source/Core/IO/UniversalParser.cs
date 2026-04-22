@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Collections.Generic;
@@ -22,13 +18,10 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.IO
 {
     public sealed class UniversalParser
     {
-        #region ================== Constants
 
         // Path seperator
         //public const string DEFAULT_SEPERATOR = ".";
@@ -52,10 +45,6 @@ namespace CodeImp.DoomBuilder.IO
         private const string ERROR_KEYWITHOUTVALUE = "Key has no value assigned.";
         private const string ERROR_KEYWORDUNKNOWN = "Unknown keyword in assignment. Missing a previous terminator symbol?";
 
-        #endregion
-
-        #region ================== Variables
-
         // Error result
         private int cpErrorResult;
         private string cpErrorDescription = "";
@@ -75,10 +64,6 @@ namespace CodeImp.DoomBuilder.IO
         // Settings
         private bool strictchecking = true;
 
-        #endregion
-
-        #region ================== Properties
-
         // Properties
         public int ErrorResult { get { return cpErrorResult; } }
         public string ErrorDescription { get { return cpErrorDescription; } }
@@ -87,10 +72,6 @@ namespace CodeImp.DoomBuilder.IO
         public bool StrictChecking { get { return strictchecking; } set { strictchecking = value; } }
         public bool HasWarnings { get { return warnings.Count != 0; } }
         public List<string> Warnings { get { return warnings; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public UniversalParser()
@@ -111,10 +92,6 @@ namespace CodeImp.DoomBuilder.IO
             // We have no destructor
             GC.SuppressFinalize(this);
         }
-
-        #endregion
-
-        #region ================== Private Methods
 
         // This returns a string added with escape characters
         private static string EscapedString(string str)
@@ -738,10 +715,6 @@ namespace CodeImp.DoomBuilder.IO
             return db.ToString();
         }
 
-        #endregion
-
-        #region ================== Public Methods
-
         // This clears the last error
         public void ClearError()
         {
@@ -840,7 +813,5 @@ namespace CodeImp.DoomBuilder.IO
             // Return true when done, false when errors occurred
             return cpErrorResult == 0;
         }
-
-        #endregion
     }
 }

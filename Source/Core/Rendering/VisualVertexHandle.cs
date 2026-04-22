@@ -1,30 +1,18 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.VisualModes;
 using System;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Rendering
 {
     internal sealed class VisualVertexHandle : IDisposable, IRenderResource
     {
-        #region ================== Variables
 
         private VertexBuffer upper;
         private VertexBuffer lower;
         private bool isdisposed;
 
-        #endregion
-
-        #region ================== Properties
-
         public VertexBuffer Upper { get { return upper; } }
         public VertexBuffer Lower { get { return lower; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         public VisualVertexHandle()
         {
@@ -52,10 +40,6 @@ namespace CodeImp.DoomBuilder.Rendering
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This is called resets when the device is reset
         // (when resized or display adapter was changed)
@@ -111,7 +95,5 @@ namespace CodeImp.DoomBuilder.Rendering
             if (lower != null) lower.Dispose();
             lower = null;
         }
-
-        #endregion
     }
 }

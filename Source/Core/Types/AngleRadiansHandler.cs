@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Windows;
@@ -23,36 +19,17 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Types
 {
     [TypeHandler(UniversalType.AngleRadians, "Radians", false)]
     internal class AngleRadiansHandler : AngleDegreesHandler
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private new double value;
-
-        #endregion
-
-        #region ================== Properties
 
         public override bool IsBrowseable { get { return true; } }
 
         public override Image BrowseImage { get { return angleicons[General.ClampAngle(Angle2D.RealToDoom(value) + 22) / 45]; } }
-
-        #endregion
-
-        #region ================== Constructor
-
-        #endregion
-
-        #region ================== Methods
 
         public override void Browse(IWin32Window parent)
         {
@@ -106,7 +83,5 @@ namespace CodeImp.DoomBuilder.Types
         {
             return 0f;
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,23 +11,13 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Geometry
 {
     public struct Plane
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         //
         // Plane definition:
@@ -40,20 +29,12 @@ namespace CodeImp.DoomBuilder.Geometry
         private Vector3D normal;
         private double offset;
 
-        #endregion
-
-        #region ================== Properties
-
         public Vector3D Normal { get { return normal; } }
         public double Offset { get { return offset; } set { offset = value; } }
         public double a { get { return normal.x; } }
         public double b { get { return normal.y; } }
         public double c { get { return normal.z; } }
         public double d { get { return offset; } set { offset = value; } }
-
-        #endregion
-
-        #region ================== Constructors
 
         /// <summary></summary>
         public Plane(Vector3D normal, double offset)
@@ -104,10 +85,6 @@ namespace CodeImp.DoomBuilder.Geometry
 
             this.offset = -Vector3D.DotProduct(normal, p3);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// This tests for intersection with a line.
@@ -185,10 +162,6 @@ namespace CodeImp.DoomBuilder.Geometry
             return (normal != other.normal) || (offset != other.offset);
         }
 
-        #endregion
-
-        #region ================== Statics (mxd)
-
         // This compares a vector
         public static bool operator ==(Plane a, Plane b)
         {
@@ -200,7 +173,5 @@ namespace CodeImp.DoomBuilder.Geometry
         {
             return (a.normal != b.normal) || (a.offset != b.offset);
         }
-
-        #endregion
     }
 }

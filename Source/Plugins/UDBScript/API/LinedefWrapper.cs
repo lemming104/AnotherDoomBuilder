@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,9 +18,6 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -31,20 +27,13 @@ using System.ComponentModel;
 using System.Dynamic;
 using System.Linq;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
     class LinedefWrapper : MapElementWrapper, IMoreTags, IEquatable<LinedefWrapper>
     {
-        #region ================== Variables
 
         private Linedef linedef;
         private MapElementArgumentsWrapper elementargs;
-
-        #endregion
-
-        #region IEquatable<LinedefWrapper> members
 
         public bool Equals(LinedefWrapper other)
         {
@@ -60,10 +49,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
         {
             return linedef.GetHashCode();
         }
-
-        #endregion
-
-        #region ================== Properties
 
         /// <summary>
         /// The linedef's index. Read-only.
@@ -393,27 +378,15 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             }
         }
 
-        #endregion
-
-        #region ================== Constructors
-
         internal LinedefWrapper(Linedef linedef) : base(linedef)
         {
             this.linedef = linedef;
             elementargs = new MapElementArgumentsWrapper(linedef);
         }
 
-        #endregion
-
-        #region ================== Update
-
         internal override void AfterFieldsUpdate()
         {
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public override string ToString()
         {
@@ -687,10 +660,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             linedef.Dispose();
         }
 
-        #endregion
-
-        #region ================== Interface implementations
-
         /// <summary>
         /// Returns an `Array` of the `Linedef`'s tags. UDMF only. Supported game configurations only.
         /// </summary>
@@ -747,7 +716,5 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 
             return false;
         }
-
-        #endregion
     }
 }

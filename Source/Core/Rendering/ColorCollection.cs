@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using System;
@@ -22,13 +18,10 @@ using System.Drawing;
 using System.Globalization;
 using Configuration = CodeImp.DoomBuilder.IO.Configuration;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Rendering
 {
     public sealed class ColorCollection
     {
-        #region ================== Constants
 
         // Assist color creation
         private const float BRIGHT_MULTIPLIER = 1.0f;
@@ -96,10 +89,6 @@ namespace CodeImp.DoomBuilder.Rendering
         public const int PROPERTIES = 51;
         public const int GUIDELINECOLOR = 52; //mxd
 
-        #endregion
-
-        #region ================== Variables
-
         // Colors
         private readonly PixelColor[] colors;
         private readonly PixelColor[] brightcolors;
@@ -107,10 +96,6 @@ namespace CodeImp.DoomBuilder.Rendering
 
         // Color-correction table
         private byte[] correctiontable;
-
-        #endregion
-
-        #region ================== Properties
 
         public PixelColor[] Colors { get { return colors; } }
         public PixelColor[] BrightColors { get { return brightcolors; } }
@@ -153,10 +138,6 @@ namespace CodeImp.DoomBuilder.Rendering
         public PixelColor Includes { get { return colors[INCLUDES]; } internal set { colors[INCLUDES] = value; } } //mxd
         public PixelColor ScriptFoldForeColor { get { return colors[SCRIPTFOLDFORE]; } internal set { colors[SCRIPTFOLDFORE] = value; } } //mxd
         public PixelColor ScriptFoldBackColor { get { return colors[SCRIPTFOLDBACK]; } internal set { colors[SCRIPTFOLDBACK] = value; } } //mxd
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor for settings from configuration
         internal ColorCollection(Configuration cfg)
@@ -241,10 +222,6 @@ namespace CodeImp.DoomBuilder.Rendering
             // We have no destructor
             GC.SuppressFinalize(this);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This generates a color-correction table
         internal void CreateCorrectionTable()
@@ -337,7 +314,5 @@ namespace CodeImp.DoomBuilder.Rendering
                 cfg.WriteSetting("colors.color" + i.ToString(CultureInfo.InvariantCulture), colors[i].ToInt());
             }
         }
-
-        #endregion
     }
 }

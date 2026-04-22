@@ -1,31 +1,19 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using System;
 using System.Globalization;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Types
 {
     [TypeHandler(UniversalType.RandomInteger, "Integer (Random)", false)]
     internal class RandomIntegerHandler : TypeHandler
     {
-        #region ================== Variables
 
         private int value;
         private int defaultvalue;
         private bool randomvalue;
         private int min;
         private int max;
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Methods
 
         public override void SetupArgument(TypeHandlerAttribute attr, ArgumentInfo arginfo)
         {
@@ -117,7 +105,5 @@ namespace CodeImp.DoomBuilder.Types
         {
             return defaultvalue;
         }
-
-        #endregion
     }
 }

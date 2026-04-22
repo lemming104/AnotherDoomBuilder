@@ -1,11 +1,7 @@
-﻿#region ================== Copyright (c) 2015 MaxED
-
+﻿
 // Parts of the code are based on "Collapsible Splitter control in C#" by Furty
 // http://www.codeproject.com/Articles/3025/Collapsible-Splitter-control-in-C
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Windows;
 using System;
@@ -15,14 +11,11 @@ using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     [Designer("System.Windows.Forms.Design.SplitContainerDesigner, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
     public class CollapsibleSplitContainer : SplitContainer, ISupportInitialize
     {
-        #region ================== Private Properties
 
         // Declare and define some base properties
         private bool hot;
@@ -37,10 +30,6 @@ namespace CodeImp.DoomBuilder.Controls
         private int storedsplitterdistance;
         private int storedheight;
         private int storedwidth;
-
-        #endregion
-
-        #region ================== Public Properties
 
         [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -65,10 +54,6 @@ namespace CodeImp.DoomBuilder.Controls
             get { return base.SplitterWidth; }
             set { base.SplitterWidth = value; }
         }
-
-        #endregion
-
-        #region ================== Constructor
 
         public CollapsibleSplitContainer()
         {
@@ -96,10 +81,6 @@ namespace CodeImp.DoomBuilder.Controls
             scaled = new Dictionary<int, int>(coords.Length);
             foreach (int i in coords) scaled[i] = (int)Math.Round(i * MainForm.DPIScaler.Width);
         }
-
-        #endregion
-
-        #region ================== Event Handlers
 
         protected override void OnResize(EventArgs e)
         {
@@ -179,10 +160,6 @@ namespace CodeImp.DoomBuilder.Controls
                 this.Invalidate();
             }
         }
-
-        #endregion
-
-        #region ================== Paint
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -289,10 +266,6 @@ namespace CodeImp.DoomBuilder.Controls
             brushdark.Dispose();
             brushdarkdark.Dispose();
         }
-
-        #endregion
-
-        #region ================== Helper methods
 
         private void ToggleSplitter()
         {
@@ -438,6 +411,5 @@ namespace CodeImp.DoomBuilder.Controls
             storedpanel1minsize = Panel1MinSize;
             storedpanel2minsize = Panel2MinSize;
         }
-        #endregion
     }
 }

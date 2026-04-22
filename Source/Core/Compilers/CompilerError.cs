@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -11,12 +10,6 @@
  * GNU General Public License for more details.
  * 
  */
-
-#endregion
-
-#region ================== Namespaces
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Compilers
 {

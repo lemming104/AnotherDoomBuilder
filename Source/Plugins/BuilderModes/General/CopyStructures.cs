@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Geometry;
@@ -23,8 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
@@ -152,8 +146,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
         }
     }
 
-    #region ================== Vertex
-
     //mxd
     public class VertexPropertiesCopySettings : MapElementPropertiesCopySettings
     {
@@ -203,10 +195,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
         }
     }
-
-    #endregion
-
-    #region ================== Sector
 
     //mxd
     public class SectorPropertiesCopySettings : MapElementPropertiesCopySettings
@@ -440,10 +428,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
         }
     }
 
-    #endregion
-
-    #region ================== Sidedef
-
     //mxd
     public class SidedefPropertiesCopySettings : MapElementPropertiesCopySettings
     {
@@ -552,10 +536,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             ApplyUIFields(sides, settings);
         }
     }
-
-    #endregion
-
-    #region ================== Linedef
 
     //mxd
     public class LinedefPropertiesCopySettings : MapElementPropertiesCopySettings
@@ -690,10 +670,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
         }
     }
-
-    #endregion
-
-    #region ================== Thing
 
     //mxd
     public class ThingPropertiesCopySettings : MapElementPropertiesCopySettings
@@ -859,15 +835,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
         }
     }
 
-    #endregion
-
-    #region ================== Properties Comparer
-
     //mxd. A class, which checks whether source and target map element's properties match
     public static class PropertiesComparer
     {
-
-        #region Vertex
 
         public static bool PropertiesMatch(VertexPropertiesCopySettings flags, Vertex source, Vertex target)
         {
@@ -880,10 +850,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Custom fields
             return !flags.Fields || UniFields.CustomFieldsMatch(source.Fields, target.Fields);
         }
-
-        #endregion
-
-        #region Sector
 
         public static bool PropertiesMatch(SectorPropertiesCopySettings flags, Sector source, Sector target)
         {
@@ -919,10 +885,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Custom fields
             return !flags.Fields || UniFields.CustomFieldsMatch(source.Fields, target.Fields);
         }
-
-        #endregion
-
-        #region Linedef
 
         public static bool PropertiesMatch(LinedefPropertiesCopySettings linedefflags, SidedefPropertiesCopySettings sideflags, Linedef source, Linedef target)
         {
@@ -964,10 +926,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                    (source.Back != null && target.Back != null && PropertiesMatch(sideflags, source.Back, target.Back));
         }
 
-        #endregion
-
-        #region Sidedef
-
         public static bool PropertiesMatch(SidedefPropertiesCopySettings flags, Sidedef source, Sidedef target)
         {
             // Built-in properties
@@ -987,10 +945,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Custom fields
             return !flags.Fields || UniFields.CustomFieldsMatch(source.Fields, target.Fields);
         }
-
-        #endregion
-
-        #region Thing
 
         public static bool PropertiesMatch(ThingPropertiesCopySettings flags, Thing source, Thing target)
         {
@@ -1029,10 +983,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Custom fields
             return !flags.Fields || UniFields.CustomFieldsMatch(source.Fields, target.Fields);
         }
-
-        #endregion
-
-        #region Utility
 
         private static bool FlagsMatch(HashSet<string> flags1, HashSet<string> flags2)
         {
@@ -1096,10 +1046,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             return true;
         }
-
-        #endregion
     }
-
-    #endregion
 
 }

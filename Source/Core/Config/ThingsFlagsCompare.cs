@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,17 +11,12 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.IO;
 using CodeImp.DoomBuilder.Map;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Config
 {
@@ -139,12 +133,6 @@ namespace CodeImp.DoomBuilder.Config
             And
         };
 
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
-
         private readonly string flag;
         private readonly HashSet<string> requiredgroups; //mxd. This flag only works if at least one flag is set in the "requiredgroup"
         private readonly HashSet<string> ignoredgroups; //mxd. If this flag is set, flags from ignoredgroup can be... well... ignored!
@@ -154,19 +142,11 @@ namespace CodeImp.DoomBuilder.Config
         private readonly bool invert;
         private readonly char[] comma = new[] { ',' };
 
-        #endregion
-
-        #region ================== Properties
-
         public string Flag { get { return flag; } }
         public HashSet<string> RequiredGroups { get { return requiredgroups; } } //mxd
         public HashSet<string> IgnoredGroups { get { return ignoredgroups; } } //mxd
         public string RequiredFlag { get { return requiredflag; } internal set { requiredflag = value; } } //mxd
         public bool IgnoreGroupWhenUnset { get { return ingnorethisgroupwhenunset; } } //mxd
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public ThingFlagsCompare(Configuration cfg, string group, string flag)
@@ -208,10 +188,6 @@ namespace CodeImp.DoomBuilder.Config
             // We have no destructor
             GC.SuppressFinalize(this);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Compares the flag of the two things.
         public bool Compare(Thing t1, Thing t2)
@@ -309,8 +285,6 @@ namespace CodeImp.DoomBuilder.Config
             bool result = flags.Contains(flag);
             return invert ? !result : result;
         }
-
-        #endregion
     }
 }
 

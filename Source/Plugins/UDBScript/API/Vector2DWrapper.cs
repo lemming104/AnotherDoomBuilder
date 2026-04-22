@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,29 +18,19 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using System.Dynamic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
     internal struct Vector2DWrapper
     {
-        #region ================== Variables
 
         public double _x;
         public double _y;
         private readonly MapElement parent;
-
-        #endregion
-
-        #region ================== Properties
 
         /// <summary>
         /// The `x` value of the vector.
@@ -82,10 +71,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
                     ((Thing)parent).Move(new Vector2D(_x, _y));
             }
         }
-
-        #endregion
-
-        #region ================== Constructors
 
         internal Vector2DWrapper(Vector2D v, MapElement parent = null)
         {
@@ -139,25 +124,15 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             }
         }
 
-        #endregion
-
-        #region ================== Internal
-
         internal Vector2D AsVector2D()
         {
             return new Vector2D(_x, _y);
         }
 
-        #endregion
-
-        #region ================== Operators
-
         public static implicit operator Vector3DWrapper(Vector2DWrapper a)
         {
             return new Vector3DWrapper(a._x, a._y, 0.0);
         }
-
-        #region ================== Addition
 
         public static object operator +(Vector2DWrapper lhs, object rhs)
         {
@@ -209,10 +184,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             }
         }
 
-        #endregion
-
-        #region ================== Subtraction
-
         public static object operator -(Vector2DWrapper lhs, object rhs)
         {
             if (rhs is double)
@@ -252,10 +223,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             return new Vector2DWrapper(-a._x, -a._y);
         }
 
-        #endregion
-
-        #region ================== Multiply
-
         public static object operator *(Vector2DWrapper lhs, object rhs)
         {
             if (rhs is double)
@@ -290,10 +257,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             }
         }
 
-        #endregion
-
-        #region ================== Divide
-
         public static object operator /(Vector2DWrapper lhs, object rhs)
         {
             if (rhs is double)
@@ -327,10 +290,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
                 throw BuilderPlug.Me.ScriptRunner.CreateRuntimeException(e.Message);
             }
         }
-
-        #endregion
-
-        #region ================== Equality
 
         public static bool operator ==(Vector2DWrapper lhs, object rhs)
         {
@@ -383,12 +342,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
                 throw BuilderPlug.Me.ScriptRunner.CreateRuntimeException(e.Message);
             }
         }
-
-        #endregion
-
-        #endregion
-
-        #region ================== Statics
 
         /// <summary>
         /// Returns the dot product of two `Vector2D`s.
@@ -569,10 +522,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         /// <summary>
         /// Returns the perpendicular to the `Vector2D`.
         /// </summary>
@@ -711,7 +660,5 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             if (_y != other._y) return false;
             return true;
         }
-
-        #endregion
     }
 }

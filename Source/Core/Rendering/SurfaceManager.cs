@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Map;
@@ -22,13 +18,10 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Rendering
 {
     internal class SurfaceManager : IRenderResource
     {
-        #region ================== Constants
 
         // The true maximum lies at 65535 if I remember correctly, but that
         // is a scary big number for a vertexbuffer.
@@ -37,10 +30,6 @@ namespace CodeImp.DoomBuilder.Rendering
         // When a sector exceeds this number of vertices, it should split up it's triangles
         // This number must be a multiple of 3.
         public const int MAX_VERTICES_PER_SECTOR = 6000;
-
-        #endregion
-
-        #region ================== Variables
 
         // Set of buffers for a specific number of vertices per sector
         private Dictionary<int, SurfaceBufferSet> sets;
@@ -62,14 +51,6 @@ namespace CodeImp.DoomBuilder.Rendering
 
         // This is set to true when the resources have been unloaded
         private bool resourcesunloaded;
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public SurfaceManager()
@@ -104,10 +85,6 @@ namespace CodeImp.DoomBuilder.Rendering
                 sets = null;
             }
         }
-
-        #endregion
-
-        #region ================== Management
 
         // Called when all resource must be unloaded
         public void UnloadResource()
@@ -506,10 +483,6 @@ namespace CodeImp.DoomBuilder.Rendering
             return set;
         }
 
-        #endregion
-
-        #region ================== Rendering
-
         // This renders all sector floors
         internal void RenderSectorFloors(RectangleF viewport, bool skipHidden)
         {
@@ -643,7 +616,5 @@ namespace CodeImp.DoomBuilder.Rendering
                 graphics.SetUniform(UniformName.desaturation, 0.0f);
             }
         }
-
-        #endregion
     }
 }

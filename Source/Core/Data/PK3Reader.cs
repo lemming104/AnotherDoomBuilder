@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Compilers;
 using CodeImp.DoomBuilder.Config;
@@ -27,13 +23,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Data
 {
     internal sealed class PK3Reader : PK3StructuredReader
     {
-        #region ================== Variables
 
         private /*readonly*/ DirectoryFilesList files;
         private IArchive archive; //mxd
@@ -41,10 +34,6 @@ namespace CodeImp.DoomBuilder.Data
         private /*readonly*/ Dictionary<string, byte[]> sevenzipentries; //mxd
         private bool batchmode = true; //mxd
         private FileStream filestream;
-
-        #endregion
-
-        #region ================== Properties (mxd)
 
         public bool BatchMode
         {
@@ -62,10 +51,6 @@ namespace CodeImp.DoomBuilder.Data
                 }
             }
         }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public PK3Reader(DataLocation dl, GameConfiguration config, bool asreadonly) : base(dl, asreadonly)
@@ -231,10 +216,6 @@ namespace CodeImp.DoomBuilder.Data
             }
         }
 
-        #endregion
-
-        #region ================== Textures
-
         // This finds and returns a patch stream
         public override Stream GetPatchData(string pname, bool longname, ref string patchlocation)
         {
@@ -380,10 +361,6 @@ namespace CodeImp.DoomBuilder.Data
             return null;
         }
 
-        #endregion
-
-        #region ================== Sprites
-
         // This finds and returns a sprite stream
         public override Stream GetSpriteData(string pname, ref string spritelocation)
         {
@@ -435,10 +412,6 @@ namespace CodeImp.DoomBuilder.Data
             // Nothing found
             return false;
         }
-
-        #endregion
-
-        #region ================== Voxels (mxd)
 
         //mxd. This finds and returns a voxel stream or null if no voxel was found
         public override Stream GetVoxelData(string name, ref string voxellocation)
@@ -493,10 +466,6 @@ namespace CodeImp.DoomBuilder.Data
             // Nothing found
             return null;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Return a short name for this data location
         public override string GetTitle()
@@ -763,10 +732,6 @@ namespace CodeImp.DoomBuilder.Data
             return true;
         }
 
-        #endregion
-
-        #region ================== Compiling (mxd)
-
         // This compiles a script lump and returns any errors that may have occurred
         // Returns true when our code worked properly (even when the compiler returned errors)
         internal override bool CompileLump(string filename, int unused, ScriptConfiguration scriptconfig, List<CompilerError> errors) { return CompileLump(filename, scriptconfig, errors); }
@@ -877,7 +842,5 @@ namespace CodeImp.DoomBuilder.Data
             compiler.Dispose();
             return false;
         }
-
-        #endregion
     }
 }

@@ -1,41 +1,25 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.GZBuilder;
 using CodeImp.DoomBuilder.Map;
 using System;
 using System.Threading;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [ErrorChecker("Check unknown ACS scripts", true, 50)]
     public class CheckUnknownScripts : ErrorChecker
     {
-        #region ================== Constants
 
         private const int PROGRESS_STEP = 1000;
 
-        #endregion
-
-        #region ================== Properties
-
         // Only possible in Hexen/UDMF map formats
         public override bool SkipCheck { get { return !General.Map.UDMF && !General.Map.HEXEN; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         public CheckUnknownScripts()
         {
             // Total progress is done when all things are checked
             SetTotalProgress((General.Map.Map.Things.Count + General.Map.Map.Linedefs.Count) / PROGRESS_STEP);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This runs the check
         public override void Run()
@@ -100,7 +84,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
             }
         }
-
-        #endregion
     }
 }

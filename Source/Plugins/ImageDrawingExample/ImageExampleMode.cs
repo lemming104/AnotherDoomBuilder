@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2009 Pascal vd Heiden
 
 /*
  * Copyright (c) 2009 Pascal vd Heiden, www.codeimp.com
@@ -12,17 +11,12 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Drawing;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Statistics
 {

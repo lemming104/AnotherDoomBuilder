@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,20 +11,14 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.IO;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.IO
 {
     internal class ClippedStream : Stream
     {
-        #region ================== Variables
 
         // Base stream
         private Stream basestream;
@@ -38,10 +31,6 @@ namespace CodeImp.DoomBuilder.IO
         // Disposing
         private bool isdisposed;
 
-        #endregion
-
-        #region ================== Properties
-
         public Stream BaseStream { get { return basestream; } }
         public override long Length { get { return length; } }
         public override long Position { get { return position; } set { this.Seek(value, SeekOrigin.Begin); } }
@@ -49,10 +38,6 @@ namespace CodeImp.DoomBuilder.IO
         public override bool CanSeek { get { return basestream.CanSeek; } }
         public override bool CanWrite { get { return basestream.CanWrite; } }
         public bool IsDisposed { get { return isdisposed; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public ClippedStream(Stream basestream, int offset, int length)
@@ -86,10 +71,6 @@ namespace CodeImp.DoomBuilder.IO
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This flushes the written changes
         public override void Flush()
@@ -265,7 +246,5 @@ namespace CodeImp.DoomBuilder.IO
             Read(bytes, 0, length);
             return bytes;
         }
-
-        #endregion
     }
 }

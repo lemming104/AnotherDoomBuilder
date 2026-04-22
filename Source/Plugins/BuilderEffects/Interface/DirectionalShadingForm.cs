@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
@@ -9,13 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderEffects
 {
     public partial class DirectionalShadingForm : DelayedForm
     {
-        #region ================== Variables
 
         private Dictionary<Sector, Vector3D> sectors; // <sector, floor normal>
         private Dictionary<Sidedef, Vector3D> sides; // <side, side normal>
@@ -25,10 +21,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
         private IEnumerable<VisualSector> visualsectors;
         private Vector3D sunvector;
         private bool blockupdate;
-
-        #endregion
-
-        #region ================== Constructor
 
         private DirectionalShadingForm() { }
         public DirectionalShadingForm(IEnumerable<Sector> selectedsectors, IEnumerable<Sidedef> selectedsides, IEnumerable<VisualSector> selectedvisualsectors)
@@ -94,10 +86,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
 
             OnSunAngleChanged();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         private void UpdateShading()
         {
@@ -195,10 +183,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
             UpdateShading();
         }
 
-        #endregion
-
-        #region ================== Events
-
         private void sunangle_AngleChanged(object sender, EventArgs e)
         {
             if (blockupdate) return;
@@ -255,8 +239,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
                 General.Map.UndoRedo.WithdrawUndo();
             }
         }
-
-        #endregion
 
     }
 }

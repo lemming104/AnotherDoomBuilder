@@ -23,8 +23,6 @@ namespace CodeImp.DoomBuilder.Windows
 			base.Dispose(disposing);
 		}
 
-		#region Windows Form Designer generated code
-
 		/// <summary>
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
@@ -100,8 +98,6 @@ namespace CodeImp.DoomBuilder.Windows
 			this.PerformLayout();
 
 		}
-
-		#endregion
 
 		private System.Windows.Forms.Button cancel;
 		private System.Windows.Forms.Button apply;

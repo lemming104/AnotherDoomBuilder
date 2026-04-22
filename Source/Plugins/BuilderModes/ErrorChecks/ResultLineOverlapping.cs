@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,34 +11,20 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     public class ResultLineOverlapping : ErrorResult
     {
-        #region ================== Variables
 
         private readonly Linedef line1;
         private readonly Linedef line2;
 
-        #endregion
-
-        #region ================== Properties
-
         public override int Buttons { get { return 0; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public ResultLineOverlapping(Linedef l1, Linedef l2)
@@ -52,10 +37,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             hidden = l1.IgnoredErrorChecks.Contains(this.GetType()) && l2.IgnoredErrorChecks.Contains(this.GetType()); //mxd
             description = "These linedefs are overlapping and they do not reference the same sector on all sides. Overlapping lines is only allowed when they reference the same sector on all sides.";
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets if this result is displayed in ErrorCheckForm (mxd)
         internal override void Hide(bool hide)
@@ -90,7 +71,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             renderer.PlotVertex(line2.Start, ColorCollection.VERTICES);
             renderer.PlotVertex(line2.End, ColorCollection.VERTICES);
         }
-
-        #endregion
     }
 }

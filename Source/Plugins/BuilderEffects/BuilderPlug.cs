@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Plugins;
@@ -7,13 +6,10 @@ using CodeImp.DoomBuilder.VisualModes;
 using CodeImp.DoomBuilder.Windows;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderEffects
 {
     public class BuilderPlug : Plug
     {
-        #region ================== Variables
 
         // Static instance
         private static BuilderPlug me;
@@ -21,16 +17,8 @@ namespace CodeImp.DoomBuilder.BuilderEffects
         // Main objects
         private MenusForm menusform;
 
-        #endregion
-
-        #region ================== Properties
-
         public override string Name { get { return "Builder Effects"; } }
         public static BuilderPlug Me { get { return me; } }
-
-        #endregion
-
-        #region ================== Disposer
 
         public override void Dispose()
         {
@@ -46,10 +34,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Events
 
         // When plugin is initialized
         public override void OnInitialize()
@@ -87,10 +71,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
             base.OnReloadResources();
             menusform.Register();
         }
-
-        #endregion
-
-        #region ================== Actions
 
         [BeginAction("applyjitter")]
         private void ApplyJitterTransform()
@@ -313,7 +293,5 @@ namespace CodeImp.DoomBuilder.BuilderEffects
             // Show the form
             form.ShowDialog(General.Interface);
         }
-
-        #endregion
     }
 }

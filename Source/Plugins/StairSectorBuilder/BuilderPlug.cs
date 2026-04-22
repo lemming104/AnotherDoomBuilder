@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2009 Boris Iwanski
 
 /*
  * Copyright (c) 2009 Boris Iwanski
@@ -12,16 +11,11 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Plugins;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.StairSectorBuilderMode
 {
@@ -138,8 +132,6 @@ namespace CodeImp.DoomBuilder.StairSectorBuilderMode
             General.Actions.UnbindMethods(this);
         }
 
-        #region ================== Actions
-
         [BeginAction("selectsectorsoutline")]
         public void SelectSectorsOutline()
         {
@@ -167,11 +159,5 @@ namespace CodeImp.DoomBuilder.StairSectorBuilderMode
             General.Editing.Mode.UpdateSelectionInfo();
             General.Interface.RedrawDisplay();
         }
-
-        #endregion
-
-        #region ================== Methods
-
-        #endregion
     }
 }

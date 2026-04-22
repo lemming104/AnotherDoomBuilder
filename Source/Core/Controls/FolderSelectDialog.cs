@@ -21,14 +21,9 @@ namespace CodeImp.DoomBuilder.Controls
     /// </summary>
     internal class Reflector
     {
-        #region variables
 
         string m_ns;
         Assembly m_asmb;
-
-        #endregion
-
-        #region Constructors
 
         /// <summary>
         /// Constructor
@@ -56,10 +51,6 @@ namespace CodeImp.DoomBuilder.Controls
                 }
             }
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Return a Type instance for a type 'typeName'
@@ -192,8 +183,6 @@ namespace CodeImp.DoomBuilder.Controls
             return fieldInfo.GetValue(null);
         }
 
-        #endregion
-
     }
 
     public class FolderSelectDialog
@@ -214,8 +203,6 @@ namespace CodeImp.DoomBuilder.Controls
             ofd.DereferenceLinks = true;
             ofd.Multiselect = false;
         }
-
-        #region Properties
 
         /// <summary>
         /// Gets/Sets the initial folder to be selected. A null value selects the current directory.
@@ -260,10 +247,6 @@ namespace CodeImp.DoomBuilder.Controls
         {
             get { return ofd.FileName; }
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Shows the dialog
@@ -328,8 +311,6 @@ namespace CodeImp.DoomBuilder.Controls
 
             return flag;
         }
-
-        #endregion
     }
 
     /// <summary>

@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,23 +18,12 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
-
-#endregion
-
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
     class DataWrapper
     {
-        #region ================== Constructors
 
         internal DataWrapper() { }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Returns an `Array` of all texture names.
@@ -94,7 +82,5 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
         {
             return new ImageInfo(General.Map.Data.GetFlatImage(name));
         }
-
-        #endregion
     }
 }

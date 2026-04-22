@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,34 +11,20 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     public class ResultThingOutside : ErrorResult
     {
-        #region ================== Variables
 
         private readonly Thing thing;
 
-        #endregion
-
-        #region ================== Properties
-
         public override int Buttons { get { return 1; } }
         public override string Button1Text { get { return "Delete Thing"; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public ResultThingOutside(Thing t)
@@ -50,10 +35,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             hidden = t.IgnoredErrorChecks.Contains(this.GetType()); //mxd
             description = "This thing is completely outside the map.";
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets if this result is displayed in ErrorCheckForm (mxd)
         internal override void Hide(bool hide)
@@ -85,7 +66,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             General.Map.ThingsFilter.Update();
             return true;
         }
-
-        #endregion
     }
 }

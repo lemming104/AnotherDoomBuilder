@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
@@ -26,17 +22,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     internal class BaseVisualThing : VisualThing, IVisualEventReceiver
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private readonly BaseVisualMode mode;
 
@@ -55,15 +44,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // If this is set to true, the thing will be rebuilt after the action is performed.
         private bool changed;
 
-        #endregion
-
-        #region ================== Properties
-
         public bool Changed { get { return changed; } set { changed |= value; } }
-
-        #endregion
-
-        #region ================== Constructor / Setup
 
         // Constructor
         public BaseVisualThing(BaseVisualMode mode, Thing t) : base(t)
@@ -498,10 +479,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This forces to rebuild the whole thing
         public void Rebuild()
         {
@@ -649,10 +626,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             return selected;
         }
-
-        #endregion
-
-        #region ================== Events
 
         // Unused
         public void OnSelectBegin() { }
@@ -972,7 +945,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             mode.SetActionResult("Changed thing roll to " + Thing.Roll + ".");
             this.Changed = true;
         }
-
-        #endregion
     }
 }

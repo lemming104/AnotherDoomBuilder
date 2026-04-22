@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
@@ -25,33 +21,14 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [FindReplace("Thing Type", BrowseButton = true)]
     internal class FindThingType : BaseFindThing
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
-
-        #endregion
-
-        #region ================== Properties
 
         public override Presentation RenderPresentation { get { return Presentation.Things; } }
         public override Image BrowseImage { get { return Properties.Resources.List; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
-
-        #endregion
-
-        #region ================== Methods
 
         // This is called when the browse button is pressed
         public override string Browse(string initialvalue)
@@ -136,7 +113,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             return objs.ToArray();
         }
-
-        #endregion
     }
 }

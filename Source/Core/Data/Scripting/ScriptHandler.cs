@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,8 +10,6 @@ using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Controls;
 using CodeImp.DoomBuilder.IO;
 
-#endregion
-
 using ScintillaNET;
 
 namespace CodeImp.DoomBuilder.Data.Scripting
@@ -20,13 +17,8 @@ namespace CodeImp.DoomBuilder.Data.Scripting
     [ScriptHandler(ScriptType.UNKNOWN)]
     public class ScriptHandler
     {
-        #region ================== Constants
 
         protected const int MAX_BACKTRACK_LENGTH = 200;
-
-        #endregion
-
-        #region ================== Variables
 
         private ScriptEditorControl scriptcontrol;
         protected Scintilla scriptedit;
@@ -39,10 +31,6 @@ namespace CodeImp.DoomBuilder.Data.Scripting
         private string curfunctionname = "";
         private int curargumentindex;
         private int curfunctionstartpos;
-
-        #endregion
-
-        #region ================== Methods
 
         public virtual void Initialize(ScriptEditorControl scriptcontrol, ScriptConfiguration scriptconfig)
         {
@@ -367,10 +355,6 @@ namespace CodeImp.DoomBuilder.Data.Scripting
             }
         }
 
-        #endregion
-
-        #region ================== Events
-
         private void scriptedit_KeyUp(object sender, KeyEventArgs e)
         {
             bool showcalltip = false;
@@ -449,7 +433,5 @@ namespace CodeImp.DoomBuilder.Data.Scripting
                 }
             }
         }
-
-        #endregion
     }
 }

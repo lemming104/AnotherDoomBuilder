@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,41 +11,23 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.IO;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Config
 {
     public class PasteOptions
     {
-        #region ================== Constants
 
         public const int TAGS_KEEP = 0;
         public const int TAGS_RENUMBER = 1;
         public const int TAGS_REMOVE = 2;
 
-        #endregion
-
-        #region ================== Variables
-
         private int changetags;             // See TAGS_ constants
         private bool removeactions;
 
-        #endregion
-
-        #region ================== Properties
-
         public int ChangeTags { get { return changetags; } set { changetags = value; } }
         public bool RemoveActions { get { return removeactions; } set { removeactions = value; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public PasteOptions()
@@ -59,10 +40,6 @@ namespace CodeImp.DoomBuilder.Config
             this.changetags = p.changetags;
             this.removeactions = p.removeactions;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Make a copy
         public PasteOptions Copy()
@@ -83,7 +60,5 @@ namespace CodeImp.DoomBuilder.Config
             cfg.WriteSetting(path + ".changetags", changetags);
             cfg.WriteSetting(path + ".removeactions", removeactions);
         }
-
-        #endregion
     }
 }

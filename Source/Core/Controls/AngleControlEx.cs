@@ -1,5 +1,4 @@
-﻿#region Namespaces
-
+﻿
 //Downloaded from
 //Visual C# Kicks - http://vckicks.110mb.com
 //The Code Project - http://www.codeproject.com
@@ -11,13 +10,10 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     public partial class AngleControlEx : UserControl
     {
-        #region Variables
 
         private int angle;
         private int angleoffset;
@@ -39,10 +35,6 @@ namespace CodeImp.DoomBuilder.Controls
         private readonly Color marksColor = SystemColors.ActiveBorder;
         private readonly Color marksInactiveColor = SystemColors.ControlDark;
 
-        #endregion
-
-        #region Properties
-
         public event EventHandler AngleChanged;
 
         public int Angle
@@ -61,15 +53,11 @@ namespace CodeImp.DoomBuilder.Controls
         public bool DoomAngleClamping { get { return doomangleclamping; } set { doomangleclamping = value; } }
         public const int NO_ANGLE = int.MinValue;
 
-        #endregion
-
         public AngleControlEx()
         {
             InitializeComponent();
             this.DoubleBuffered = true;
         }
-
-        #region Methods
 
         private void SetDrawRegion()
         {
@@ -101,10 +89,6 @@ namespace CodeImp.DoomBuilder.Controls
             float yDiff = xy.Y - origin.Y;
             return ((int)Math.Round(Math.Atan2(-yDiff, xDiff) * 180.0 / Angle2D.PI) + 360) % 360;
         }
-
-        #endregion
-
-        #region Events
 
         private void AngleSelector_Load(object sender, EventArgs e)
         {
@@ -218,7 +202,5 @@ namespace CodeImp.DoomBuilder.Controls
                 }
             }
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,16 +11,11 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Controls
 {
@@ -30,15 +24,10 @@ namespace CodeImp.DoomBuilder.Controls
 #endif
     public partial class ButtonsNumericTextbox : UserControl
     {
-        #region ================== Events
 
         public event EventHandler WhenTextChanged;
         public event EventHandler WhenButtonsClicked;
         public event EventHandler WhenEnterPressed;
-
-        #endregion
-
-        #region ================== Variables
 
         private bool ignorebuttonchange;
         private StepsList steps;
@@ -48,10 +37,6 @@ namespace CodeImp.DoomBuilder.Controls
         private float stepsizeSmall = 0.1f; //mxd
         private bool wrapsteps; //mxd
         private bool usemodifierkeys; //mxd
-
-        #endregion
-
-        #region ================== Properties
 
         public bool AllowDecimal { get { return textbox.AllowDecimal; } set { textbox.AllowDecimal = value; UpdateButtonsTooltip(); } }
         public bool AllowNegative { get { return textbox.AllowNegative; } set { textbox.AllowNegative = value; } }
@@ -67,10 +52,6 @@ namespace CodeImp.DoomBuilder.Controls
         public bool ButtonStepsWrapAround { get { return wrapsteps; } set { wrapsteps = value; } }
         public bool ButtonStepsUseModifierKeys { get { return usemodifierkeys; } set { usemodifierkeys = value; UpdateButtonsTooltip(); } }
 
-        #endregion
-
-        #region ================== Constructor / Disposer
-
         // Constructor
         public ButtonsNumericTextbox()
         {
@@ -79,10 +60,6 @@ namespace CodeImp.DoomBuilder.Controls
             textbox.MouseWheel += textbox_MouseWheel;
             UpdateButtonsTooltip(); //mxd
         }
-
-        #endregion
-
-        #region ================== Interface
 
         // Client size changes
         protected override void OnClientSizeChanged(EventArgs e)
@@ -190,10 +167,6 @@ namespace CodeImp.DoomBuilder.Controls
                 WhenEnterPressed(this, EventArgs.Empty);
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This checks if the number is relative
         public bool CheckIsRelative()
         {
@@ -251,7 +224,5 @@ namespace CodeImp.DoomBuilder.Controls
         {
             textbox.SelectAll();
         }
-
-        #endregion
     }
 }

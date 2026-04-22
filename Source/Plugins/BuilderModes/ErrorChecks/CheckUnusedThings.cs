@@ -1,34 +1,22 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
 using System.Threading;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [ErrorChecker("Check unused things", true, 50)]
     public class CheckUnusedThings : ErrorChecker
     {
-        #region ================== Constants
 
         private const int PROGRESS_STEP = 10;
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         public CheckUnusedThings()
         {
             // Total progress is done when all things are checked
             SetTotalProgress(General.Map.Map.Things.Count / PROGRESS_STEP);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This runs the check
         public override void Run()
@@ -65,7 +53,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
             }
         }
-
-        #endregion
     }
 }

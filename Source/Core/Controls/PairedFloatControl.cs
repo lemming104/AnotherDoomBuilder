@@ -7,22 +7,13 @@ namespace CodeImp.DoomBuilder.Controls
 {
     public partial class PairedFloatControl : UserControl
     {
-        #region ================== Events
 
         public event EventHandler OnValuesChanged;
-
-        #endregion
-
-        #region ================== Variables
 
         private double defaultValue;
         private bool blockUpdate;
         private bool linkValues;
         private bool changed;
-
-        #endregion
-
-        #region ================== Properties
 
         public bool NonDefaultValue { get { return changed; } }
         public double DefaultValue { get { return defaultValue; } set { defaultValue = value; } }
@@ -31,8 +22,6 @@ namespace CodeImp.DoomBuilder.Controls
         public float ButtonStepSmall { get { return value1.ButtonStepSmall; } set { value1.ButtonStepSmall = value; value2.ButtonStepSmall = value; } }
         public bool ButtonStepsUseModifierKeys { get { return value1.ButtonStepsUseModifierKeys; } set { value1.ButtonStepsUseModifierKeys = value; value2.ButtonStepsUseModifierKeys = value; } }
         public bool LinkValues { get { return linkValues; } set { linkValues = value; bLink.Image = linkValues ? Resources.Link : Resources.Unlink; } }
-
-        #endregion
 
         public PairedFloatControl()
         {

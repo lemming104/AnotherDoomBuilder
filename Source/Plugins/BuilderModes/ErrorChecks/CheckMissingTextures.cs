@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,36 +11,22 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using System.Threading;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [ErrorChecker("Check missing textures", true, 80)]
     public class CheckMissingTextures : BaseCheckTextures
     {
-        #region ================== Constants
 
         private const int PROGRESS_STEP = 1000;
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public CheckMissingTextures() : base()
         {
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This runs the check
         public override void Run()
@@ -168,7 +153,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
             }
         }
-
-        #endregion
     }
 }

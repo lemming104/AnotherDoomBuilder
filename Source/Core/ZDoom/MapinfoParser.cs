@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.GZBuilder.Data;
@@ -9,20 +8,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.ZDoom
 {
     internal sealed class MapinfoParser : ZDTextParser
     {
-        #region ================== Delegates
 
         public delegate void IncludeDelegate(MapinfoParser parser, string includefile, bool clearerror);
         public IncludeDelegate OnInclude;
-
-        #endregion
-
-        #region ================== Variables
 
         private MapInfo mapinfo;
         private string mapname;
@@ -30,19 +22,11 @@ namespace CodeImp.DoomBuilder.ZDoom
         private readonly Dictionary<int, string> doomednums; // <DoomEdNum, <lowercase classname, List of default arguments>>
         private readonly HashSet<string> parsedlumps;
 
-        #endregion
-
-        #region ================== Properties
-
         internal override ScriptType ScriptType { get { return ScriptType.MAPINFO; } }
 
         public MapInfo MapInfo { get { return mapinfo; } }
         public Dictionary<int, string> SpawnNums { get { return spawnnums; } }
         public Dictionary<int, string> DoomEdNums { get { return doomednums; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         public MapinfoParser()
         {
@@ -55,10 +39,6 @@ namespace CodeImp.DoomBuilder.ZDoom
             doomednums = new Dictionary<int, string>();
             parsedlumps = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         }
-
-        #endregion
-
-        #region ================== Parsing
 
 
         override public bool Parse(TextResourceData data, bool clearerrors)
@@ -404,10 +384,6 @@ namespace CodeImp.DoomBuilder.ZDoom
             // All done here
             return true;
         }
-
-        #endregion
-
-        #region ================== Map block parsing
 
         private bool ParseMapBlock()
         {
@@ -781,8 +757,6 @@ namespace CodeImp.DoomBuilder.ZDoom
             return true;
 
         }
-
-        #endregion
 
     }
 }

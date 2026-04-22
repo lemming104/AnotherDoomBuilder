@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,37 +11,23 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     public class ResultMissingTexture : ErrorResult
     {
-        #region ================== Variables
 
         private readonly Sidedef side;
         private readonly SidedefPart part;
         private static string imagename = "-"; //mxd
 
-        #endregion
-
-        #region ================== Properties
-
         public override int Buttons { get { return 2; } }
         public override string Button1Text { get { return "Add Default Texture"; } }
         public override string Button2Text { get { return "Browse Texture..."; } } //mxd
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public ResultMissingTexture(Sidedef sd, SidedefPart part)
@@ -55,10 +40,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             imagename = "-"; //mxd
             this.description = "This sidedef is missing a texture where it is required and could cause a 'Hall Of Mirrors' visual problem in the map.";
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets if this result is displayed in ErrorCheckForm (mxd)
         internal override void Hide(bool hide)
@@ -131,7 +112,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             General.Map.Map.Update();
             return true;
         }
-
-        #endregion
     }
 }

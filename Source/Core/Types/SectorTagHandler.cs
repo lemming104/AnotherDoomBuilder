@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
@@ -22,28 +18,17 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Types
 {
     [TypeHandler(UniversalType.SectorTag, "Sector Tag", false)]
     internal class SectorTagHandler : IntegerHandler
     {
-        #region ================== Variables
 
         private EnumList list;
         protected EnumItem value;
         private EnumItem defaultvalue;
 
-        #endregion
-
-        #region ================== Properties
-
         public override bool IsEnumerable { get { return true; } }
-
-        #endregion
-
-        #region ================== Setup
 
         // When set up for an argument
         public override void SetupArgument(TypeHandlerAttribute attr, ArgumentInfo arginfo)
@@ -100,10 +85,6 @@ namespace CodeImp.DoomBuilder.Types
 
             return taglist;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public override void SetValue(object value)
         {
@@ -218,7 +199,5 @@ namespace CodeImp.DoomBuilder.Types
         {
             return General.Types.GetAttribute((int)UniversalType.Integer);
         }
-
-        #endregion
     }
 }

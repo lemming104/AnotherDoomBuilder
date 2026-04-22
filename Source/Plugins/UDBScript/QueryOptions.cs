@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2020 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,16 +18,11 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.UDBScript
 {
@@ -48,13 +42,8 @@ namespace CodeImp.DoomBuilder.UDBScript
     /// </summary>
     class QueryOptions
     {
-        #region ================== Variables
 
         private QueryOptionsForm form;
-
-        #endregion
-
-        #region ================== Properties
 
         /// <summary>
         /// Object containing all the added options as properties.
@@ -67,10 +56,6 @@ namespace CodeImp.DoomBuilder.UDBScript
             }
         }
 
-        #endregion
-
-        #region ================== Constructor
-
         /// <summary>
         /// Initializes a new `QueryOptions` object.
         /// </summary>
@@ -78,10 +63,6 @@ namespace CodeImp.DoomBuilder.UDBScript
         {
             form = new QueryOptionsForm();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Adds a parameter to query
@@ -155,7 +136,5 @@ namespace CodeImp.DoomBuilder.UDBScript
                 return dr == DialogResult.OK;
             }));
         }
-
-        #endregion
     }
 }

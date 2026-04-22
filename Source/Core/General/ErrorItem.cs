@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
@@ -25,11 +21,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-#endregion
-
 namespace CodeImp.DoomBuilder
 {
-    #region ================== ErrorItem (mxd)
 
     public class ErrorItem
     {
@@ -56,10 +49,6 @@ namespace CodeImp.DoomBuilder
 
         internal virtual void ShowSource() { }
     }
-
-    #endregion
-
-    #region ================== MapElementErrorItem (mxd)
 
     public class MapElementErrorItem : ErrorItem
     {
@@ -200,10 +189,6 @@ namespace CodeImp.DoomBuilder
         }
     }
 
-    #endregion
-
-    #region ================== TextResourceErrorItem (mxd)
-
     public class TextResourceErrorItem : ErrorItem
     {
         private string resourcelocation;
@@ -248,11 +233,6 @@ namespace CodeImp.DoomBuilder
         }
     }
 
-
-    #endregion
-
-    #region ================== TextFileErrorItem (mxd)
-
     /*public class TextFileErrorItem : ErrorItem
 	{
 		private string filepathname;
@@ -291,10 +271,6 @@ namespace CodeImp.DoomBuilder
 		}
 	}*/
 
-    #endregion
-
-    #region ================== ErrorType
-
     public enum ErrorType
     {
         /// <summary>
@@ -307,6 +283,4 @@ namespace CodeImp.DoomBuilder
         /// </summary>
         Warning
     }
-
-    #endregion
 }

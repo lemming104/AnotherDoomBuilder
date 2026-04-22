@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2010 Pascal vd Heiden
 
 /*
  * Copyright (c) 2010 Pascal vd Heiden
@@ -12,13 +11,8 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Plugins;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.WadAuthorMode
 {

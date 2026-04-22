@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2020 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,35 +18,21 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
 using System.Collections.Generic;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.ZDoom
 {
     internal sealed class DecalDefsParser : ZDTextParser
     {
-        #region ================== Variables
 
         private Dictionary<string, DecalInfo> decals = new Dictionary<string, DecalInfo>();
 
-        #endregion
-
-        #region ================== Properties
-
         internal override ScriptType ScriptType { get { return ScriptType.UNKNOWN; } }
         public Dictionary<string, DecalInfo> Decals { get { return decals; } }
-
-        #endregion
-
-        #region ================== Constructors
 
         /// <summary>
         /// Constructor
@@ -56,10 +41,6 @@ namespace CodeImp.DoomBuilder.ZDoom
         {
 
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Parses DECALDEF data
@@ -177,7 +158,5 @@ namespace CodeImp.DoomBuilder.ZDoom
 
             return dict;
         }
-
-        #endregion
     }
 }

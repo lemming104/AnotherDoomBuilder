@@ -1,9 +1,6 @@
-﻿#region ================== Namespaces
-
+﻿
 using System.Collections.Generic;
 using System.Globalization;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
 {
@@ -26,8 +23,6 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
 			}
 			base.Dispose(disposing);
 		}
-
-		#region Windows Form Designer generated code
 
 		/// <summary>
 		/// Required method for Designer support - do not modify
@@ -221,8 +216,6 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
 			this.PerformLayout();
 
 		}
-
-		#endregion
 
 		private System.Windows.Forms.ToolStrip toolstrip;
 		private System.Windows.Forms.ToolStripDropDownButton statsbutton;

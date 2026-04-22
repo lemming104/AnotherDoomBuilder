@@ -1,30 +1,18 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Geometry;
 using System.Drawing;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultMapTooBig : ErrorResult
     {
-        #region ================== Variables
 
         private readonly bool toowide;
         private readonly bool toohigh;
         private readonly Vector2D min;
         private readonly Vector2D max;
 
-        #endregion
-
-        #region ================== Properties
-
         public override int Buttons { get { return 0; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         public ResultMapTooBig(Vector2D min, Vector2D max)
         {
@@ -35,10 +23,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
             this.toohigh = max.y - min.y > General.Map.Config.SafeBoundary;
             description = "Map is too big.";
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public override RectangleF GetZoomArea()
         {
@@ -59,7 +43,5 @@ namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
             if (toowide) return "Map is wider than " + General.Map.Config.SafeBoundary + " m.u. This can cause rendering and physics issues.";
             return "Map is taller than " + General.Map.Config.SafeBoundary + " m.u. This can cause rendering and physics issues.";
         }
-
-        #endregion
     }
 }

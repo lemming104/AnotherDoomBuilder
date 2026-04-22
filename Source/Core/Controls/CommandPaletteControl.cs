@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2022 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,9 +18,6 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Windows;
 using System;
@@ -31,13 +27,10 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     public partial class CommandPaletteControl : UserControl
     {
-        #region ================== Constants
 
         private const int MAX_ITEMS = 20;
         private const int MAX_RECENT_ACTIONS = 5;
@@ -45,16 +38,7 @@ namespace CodeImp.DoomBuilder.Controls
         private const int GROUP_USABLE = 1;
         private const int GROUP_UNUSABLE = 2;
 
-
-        #endregion
-
-        #region ================== Variables
-
         private readonly List<Actions.Action> recentactions;
-
-        #endregion
-
-        #region ================== Constructor
 
         public CommandPaletteControl()
         {
@@ -64,10 +48,6 @@ namespace CodeImp.DoomBuilder.Controls
 
             Enabled = false;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Hides the palette. Disabled it and sends it to the background.
@@ -384,10 +364,6 @@ namespace CodeImp.DoomBuilder.Controls
             commandlist.EndUpdate();
         }
 
-        #endregion
-
-        #region ================== Events
-
         private void commandsearch_TextChanged(object sender, EventArgs e)
         {
             string searchtext = commandsearch.Text.Trim();
@@ -455,7 +431,5 @@ namespace CodeImp.DoomBuilder.Controls
 
             RunAction((Actions.Action)commandlist.SelectedItems[0].Tag);
         }
-
-        #endregion
     }
 }

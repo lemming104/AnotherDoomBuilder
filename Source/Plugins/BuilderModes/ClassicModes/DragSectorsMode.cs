@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
@@ -22,8 +18,6 @@ using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
@@ -39,22 +33,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
     public sealed class DragSectorsMode : DragGeometryMode
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private ICollection<Linedef> draglines;
         private ICollection<Sector> dragsectors;
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor to start dragging immediately
         public DragSectorsMode(Vector2D dragstartmappos, ICollection<Sector> sectors, ICollection<Thing> things)
@@ -99,10 +80,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Mode engages
         public override void OnEngage()
@@ -168,7 +145,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 renderer.Finish();
             }
         }
-
-        #endregion
     }
 }

@@ -1,31 +1,19 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     public class ResultUnusedThing : ErrorResult
     {
-        #region ================== Variables
 
         private readonly Thing thing;
         private readonly string details;
 
-        #endregion
-
-        #region ================== Properties
-
         public override int Buttons { get { return 2; } }
         public override string Button1Text { get { return "Delete Thing"; } }
         public override string Button2Text { get { return "Apply default flags"; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         public ResultUnusedThing(Thing t, string details)
         {
@@ -36,10 +24,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             this.hidden = t.IgnoredErrorChecks.Contains(this.GetType());
             this.description = "This thing won't be shown in any game mode.";
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets if this result is displayed in ErrorCheckForm (mxd)
         internal override void Hide(bool hide)
@@ -81,7 +65,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             General.Map.ThingsFilter.Update();
             return true;
         }
-
-        #endregion
     }
 }

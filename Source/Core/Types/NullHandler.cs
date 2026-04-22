@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,31 +11,12 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
-
-#endregion
-
 namespace CodeImp.DoomBuilder.Types
 {
     internal class NullHandler : TypeHandler
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private object value = 0;
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Methods
 
         public override void SetValue(object value)
         {
@@ -67,7 +47,5 @@ namespace CodeImp.DoomBuilder.Types
         {
             return 0;
         }
-
-        #endregion
     }
 }

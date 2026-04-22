@@ -1,31 +1,19 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     public class ResultSectorInvalid : ErrorResult
     {
-        #region ================== Variables
 
         private readonly Sector sector;
 
-        #endregion
-
-        #region ================== Properties
-
         public override int Buttons { get { return 1; } }
         public override string Button1Text { get { return "Dissolve"; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public ResultSectorInvalid(Sector s)
@@ -36,10 +24,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             hidden = s.IgnoredErrorChecks.Contains(this.GetType()); //mxd
             description = "This sector has invalid geometry (it has less than 3 sidedefs or linedefs, or it's area is 0). This could cause problems with clipping and rendering in the game.";
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets if this result is displayed in ErrorCheckForm (mxd)
         internal override void Hide(bool hide)
@@ -147,7 +131,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             General.Map.Map.Update();
             return true;
         }
-
-        #endregion
     }
 }

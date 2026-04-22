@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,13 +11,8 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Geometry
 {
@@ -27,27 +21,14 @@ namespace CodeImp.DoomBuilder.Geometry
     /// </summary>
     public sealed class LinedefSide
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private Linedef line;
         private bool front;
         private bool ignore; //mxd
 
-        #endregion
-
-        #region ================== Properties
-
         public Linedef Line { get { return line; } set { line = value; } }
         public bool Front { get { return front; } set { front = value; } }
         public bool Ignore { get { return ignore; } set { ignore = value; } } //mxd
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         /// <summary>
         /// This is used to indicate a side of a line without the need for a sidedef.
@@ -68,10 +49,6 @@ namespace CodeImp.DoomBuilder.Geometry
             this.line = original.line;
             this.front = original.front;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This compares a linedef side
         public static bool operator ==(LinedefSide a, LinedefSide b)
@@ -114,7 +91,5 @@ namespace CodeImp.DoomBuilder.Geometry
             return line + " (" + (front ? "front" : "back") + ")" + (sector != null ? ", Sector " + sector.Index : ", no sector");
         }
 #endif
-
-        #endregion
     }
 }

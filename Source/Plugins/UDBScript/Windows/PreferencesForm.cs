@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2020 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,9 +18,6 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Windows;
 using System;
@@ -29,13 +25,10 @@ using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.UDBScript
 {
     public partial class PreferencesForm : Form
     {
-        #region ================== Constructor
 
         public PreferencesForm()
         {
@@ -43,10 +36,6 @@ namespace CodeImp.DoomBuilder.UDBScript
 
             exepath.Text = BuilderPlug.Me.EditorExePath;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // When OK is pressed on the preferences dialog
         // Prevent inlining, otherwise there are unexpected interactions with Assembly.GetCallingAssembly
@@ -74,10 +63,6 @@ namespace CodeImp.DoomBuilder.UDBScript
             controller.OnAccept += OnAccept;
         }
 
-        #endregion
-
-        #region ================== Events
-
         private void btnSelectExe_Click(object sender, EventArgs e)
         {
             if (filedialog.ShowDialog() == DialogResult.OK)
@@ -85,7 +70,5 @@ namespace CodeImp.DoomBuilder.UDBScript
                 exepath.Text = filedialog.FileName;
             }
         }
-
-        #endregion
     }
 }

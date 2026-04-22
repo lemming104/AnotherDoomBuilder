@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.IO;
@@ -23,8 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Map
 {
@@ -39,7 +33,6 @@ namespace CodeImp.DoomBuilder.Map
 
     public sealed class Sector : SelectableElement, IMultiTaggedMapElement
     {
-        #region ================== Variables
 
         // Map
         private MapSet map;
@@ -89,10 +82,6 @@ namespace CodeImp.DoomBuilder.Map
         private Vector3D ceilslope;
         private double ceiloffset;
 
-        #endregion
-
-        #region ================== Properties
-
         public MapSet Map { get { return map; } }
         public ICollection<Sidedef> Sidedefs { get { return sidedefs; } }
 
@@ -141,10 +130,6 @@ namespace CodeImp.DoomBuilder.Map
         public Vector3D CeilSlope { get { return ceilslope; } set { BeforePropsChange(); ceilslope = value; updateneeded = true; } }
         public double CeilSlopeOffset { get { return ceiloffset; } set { BeforePropsChange(); ceiloffset = value; updateneeded = true; } }
         internal int LastProcessed { get { return lastProcessed; } set { lastProcessed = value; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal Sector(MapSet map, int listindex, int index)
@@ -212,10 +197,6 @@ namespace CodeImp.DoomBuilder.Map
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Management
 
         // Call this before changing properties
         protected override void BeforePropsChange()
@@ -501,10 +482,6 @@ namespace CodeImp.DoomBuilder.Map
             ceilslope = new Vector3D();
             ceiloffset = 0;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This checks and returns a flag without creating it
         public bool IsFlagSet(string flagname)
@@ -839,10 +816,6 @@ namespace CodeImp.DoomBuilder.Map
 #endif
         }
 
-        #endregion
-
-        #region ================== Changes
-
         //mxd. This updates all properties (Doom/Hexen version)
         public void Update(int hfloor, int hceil, string tfloor, string tceil, int effect, int tag, int brightness)
         {
@@ -931,7 +904,5 @@ namespace CodeImp.DoomBuilder.Map
                 fogmode = brightness < 248 ? SectorFogMode.CLASSIC : SectorFogMode.NONE;
             }
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Types;
@@ -8,13 +7,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.ThreeDFloorMode
 {
     public class SlopeVertexGroup
     {
-        #region ================== Variables
         private List<SlopeVertex> vertices;
         private List<Sector> sectors;
         private Dictionary<Sector, PlaneType> sectorplanes;
@@ -26,14 +22,6 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
         private bool reposition;
         private bool spline;
 
-        #endregion
-
-        #region ================== Enums
-
-        #endregion
-
-        #region ================== Properties
-
         public List<SlopeVertex> Vertices { get { return vertices; } set { vertices = value; ComputeHeight(); } }
         public List<Sector> Sectors { get { return sectors; } set { sectors = value; } }
         public Dictionary<Sector, PlaneType> SectorPlanes { get { return sectorplanes; } }
@@ -42,10 +30,6 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
         public int Height { get { return height; } set { height = value; } }
         public bool Reposition { get { return reposition; } set { reposition = value; } }
         public bool Spline { get { return spline; } set { spline = value; } }
-
-        #endregion
-
-        #region ================== Constructors
 
         public SlopeVertexGroup(int id, Sector sector)
         {
@@ -99,10 +83,6 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
 
             ComputeHeight();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public void FindSectors()
         {
@@ -468,7 +448,5 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
 
             return true;
         }
-
-        #endregion
     }
 }

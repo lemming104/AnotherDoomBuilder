@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2014 Boris Iwanski
 
 /*
  * Copyright (c) 2014 Boris Iwanski
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.BuilderModes;
 using CodeImp.DoomBuilder.Editing;
@@ -32,8 +28,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.ThreeDFloorMode
 {
@@ -63,7 +57,6 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
 
     public class BuilderPlug : Plug
     {
-        #region ================== Variables
 
         private bool additiveselect;
         private bool additivepaintselect;
@@ -86,10 +79,6 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
         // TMP
         public List<Line3D> drawlines;
         public List<Vector3D> drawpoints;
-
-        #endregion
-
-        #region ================== Properties
 
         public bool AdditiveSelect { get { return additiveselect; } }
         public bool AdditivePaintSelect { get { return additivepaintselect; } }
@@ -119,8 +108,6 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
 
         public LabelDisplayOption SectorLabelDisplayOption { get { return sectorlabeldisplayoption; } set { sectorlabeldisplayoption = value; } }
         public LabelDisplayOption SlopeVertexLabelDisplayOption { get { return slopevertexlabeldisplayoption; } set { slopevertexlabeldisplayoption = value; } }
-
-        #endregion
 
         // Static instance. We can't use a real static class, because BuilderPlug must
         // be instantiated by the core, so we keep a static reference. (this technique
@@ -417,12 +404,6 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
             preferencesform.Dispose();
             preferencesform = null;
         }
-
-        #region ================== Actions
-
-        #endregion
-
-        #region ================== Methods
 
         private Sector GetSlopeDataSector()
         {
@@ -1073,8 +1054,6 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
 
             return taggedsectors;
         }
-
-        #endregion
     }
 
     public static class ThreeDFloorHelpers

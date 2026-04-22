@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,25 +11,15 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Compilers;
 using CodeImp.DoomBuilder.IO;
 using System;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Config
 {
     internal class NodebuilderInfo : IComparable<NodebuilderInfo>
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private readonly string name;
         private readonly string title;
@@ -38,19 +27,11 @@ namespace CodeImp.DoomBuilder.Config
         private readonly string parameters;
         private readonly bool specialoutputfile;
 
-        #endregion
-
-        #region ================== Properties
-
         public string Name { get { return name; } }
         public string Title { get { return title; } }
         public CompilerInfo Compiler { get { return compiler; } }
         public string Parameters { get { return parameters; } }
         public bool HasSpecialOutputFile { get { return specialoutputfile; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public NodebuilderInfo(string filename, string name, Configuration cfg)
@@ -94,10 +75,6 @@ namespace CodeImp.DoomBuilder.Config
             this.specialoutputfile = false;
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This compares it to other ConfigurationInfo objects
         public int CompareTo(NodebuilderInfo other)
         {
@@ -116,7 +93,5 @@ namespace CodeImp.DoomBuilder.Config
         {
             return compiler.Create();
         }
-
-        #endregion
     }
 }

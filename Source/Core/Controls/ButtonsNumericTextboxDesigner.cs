@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,19 +11,14 @@
  * 
  */
 
-#endregion
-
 #if !NO_FORMS_DESIGN
 
-#region ================== Namespaces
 
 using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Windows.Forms.Design;
 using System.Windows.Forms.Design.Behavior;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Controls
 {

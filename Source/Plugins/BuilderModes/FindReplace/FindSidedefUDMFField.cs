@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * Copyright (c) 2021 Boris Iwanski
  * This program is released under GNU General Public License
@@ -11,21 +10,15 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [FindReplace("Sidedef UDMF Field", BrowseButton = false)]
     internal class FindSidedefUDMFField : BaseFindUDMFField
     {
-        #region ================== Methods
 
         public override bool CanReplace()
         {
@@ -65,7 +58,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             return GetObjects(value, list);
         }
-
-        #endregion
     }
 }

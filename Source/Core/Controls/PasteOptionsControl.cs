@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,38 +11,20 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Controls
 {
     public partial class PasteOptionsControl : UserControl
     {
-        #region ================== Variables
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor
         public PasteOptionsControl()
         {
             InitializeComponent();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets the options from the given PasteOptions
         public void Setup(PasteOptions options)
@@ -68,7 +49,5 @@ namespace CodeImp.DoomBuilder.Controls
 
             return options;
         }
-
-        #endregion
     }
 }

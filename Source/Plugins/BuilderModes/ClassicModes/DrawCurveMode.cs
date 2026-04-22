@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
 using CodeImp.DoomBuilder.Editing;
@@ -11,8 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
@@ -27,7 +24,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
     public class DrawCurveMode : DrawGeometryMode
     {
-        #region ================== Variables
 
         private readonly HintLabel hintlabel;
         private Curve curve;
@@ -37,10 +33,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
         // Interface
         private DrawCurveOptionsPanel panel;
-
-        #endregion
-
-        #region ================== Constructor/Disposer
 
         public DrawCurveMode()
         {
@@ -60,10 +52,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         protected override void Update()
         {
@@ -160,10 +148,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Done
             renderer.Present();
         }
-
-        #endregion
-
-        #region ================== Events
 
         public override void OnEngage()
         {
@@ -328,10 +312,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             General.ShowHelp("/gzdb/features/classic_modes/mode_drawcurve.html");
         }
 
-        #endregion
-
-        #region ================== mxd. Settings panel
-
         protected override void SetupInterface()
         {
             // Load stored settings
@@ -368,10 +348,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             panel.Unregister();
         }
 
-        #endregion
-
-        #region ================== Actions
-
         [BeginAction("increasesubdivlevel")]
         protected virtual void IncreaseSubdivLevel()
         {
@@ -399,8 +375,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 Update();
             }
         }
-
-        #endregion
 
     }
 }

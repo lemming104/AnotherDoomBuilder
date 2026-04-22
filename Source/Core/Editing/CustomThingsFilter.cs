@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,34 +11,21 @@
  * 
  */
 
-#endregion
-
 /*#region ================== Namespaces
 
 using System;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Editing
 {
 	public class CustomThingsFilter : ThingsFilter
 	{
-		#region ================== Variables
-
-		#endregion
-
-		#region ================== Properties
 
 		new public string Name { get { return name; } set { name = value; } }
 		new public string CategoryName { get { return categoryname; } set { categoryname = value; } }
 		new public int ThingType { get { return thingtype; } set { thingtype = value; } }
 		new public ICollection<string> RequiredFields { get { return requiredfields; } }
 		new public ICollection<string> ForbiddenFields { get { return forbiddenfields; } }
-
-		#endregion
-
-		#region ================== Constructor / Disposer
 
 		// Constructor for a new filter
 		public CustomThingsFilter()
@@ -60,11 +46,5 @@ namespace CodeImp.DoomBuilder.Editing
 		{
 			base.Dispose();
 		}
-
-		#endregion
-
-		#region ================== Methods
-
-		#endregion
 	}
 }*/

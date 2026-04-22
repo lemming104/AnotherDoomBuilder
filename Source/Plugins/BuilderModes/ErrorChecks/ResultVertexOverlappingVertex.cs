@@ -1,30 +1,18 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     public class ResultVertexOverlappingVertex : ErrorResult
     {
-        #region ================== Variables
 
         private readonly Vertex vertex1;
         private readonly Vertex vertex2;
 
-        #endregion
-
-        #region ================== Properties
-
         public override int Buttons { get { return 1; } }
         public override string Button1Text { get { return "Merge Vertices"; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public ResultVertexOverlappingVertex(Vertex v1, Vertex v2)
@@ -37,10 +25,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             hidden = v1.IgnoredErrorChecks.Contains(this.GetType()) && v2.IgnoredErrorChecks.Contains(this.GetType()); //mxd
             description = "These vertices have the same position.";
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets if this result is displayed in ErrorCheckForm (mxd)
         internal override void Hide(bool hide)
@@ -79,7 +63,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             General.Map.Map.Update();
             return true;
         }
-
-        #endregion
     }
 }

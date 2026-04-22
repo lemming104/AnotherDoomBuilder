@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,21 +11,15 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Windows;
 using System;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes.Interface
 {
     public partial class MakeDoorForm : DelayedForm
     {
-        #region ================== Properties
 
         public string DoorTexture { get { return doortexture.TextureName; } }
         public string TrackTexture { get { return tracktexture.TextureName; } }
@@ -35,10 +28,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         public bool ResetOffsets { get { return resetoffsets.Checked; } }
         public bool ApplyActionSpecials { get { return applyactionspecials.Checked; } }
         public bool ApplyTag { get { return applytag.Checked; } }
-
-        #endregion
-
-        #region ================== Constructor / Show
 
         // Constructor
         public MakeDoorForm()
@@ -58,10 +47,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             this.applytag.Checked = applytag;
             return this.ShowDialog(owner);
         }
-
-        #endregion
-
-        #region ================== Events
 
         // Cancel clicked
         private void cancel_Click(object sender, EventArgs e)
@@ -90,7 +75,5 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         {
             General.ShowHelp("e_sectors.html");
         }
-
-        #endregion
     }
 }

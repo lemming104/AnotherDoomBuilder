@@ -1,32 +1,20 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     public class ResultMissingFlat : ErrorResult
     {
-        #region ================== Variables
 
         private readonly Sector sector;
         private readonly bool ceiling;
         private static string imagename = "-"; //mxd
 
-        #endregion
-
-        #region ================== Properties
-
         public override int Buttons { get { return 2; } }
         public override string Button1Text { get { return "Add Default Flat"; } }
         public override string Button2Text { get { return "Browse Flat..."; } } //mxd
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public ResultMissingFlat(Sector s, bool ceiling)
@@ -41,10 +29,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             string objname = ceiling ? "ceiling" : "floor";
             this.description = "This sector's " + objname + " is missing a flat where it is required and could cause a 'Hall Of Mirrors' visual problem in the map.";
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets if this result is displayed in ErrorCheckForm (mxd)
         internal override void Hide(bool hide)
@@ -104,7 +88,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             General.Map.Data.UpdateUsedTextures();
             return true;
         }
-
-        #endregion
     }
 }

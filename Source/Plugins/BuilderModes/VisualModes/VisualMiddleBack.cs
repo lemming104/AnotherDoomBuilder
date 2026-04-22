@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -8,14 +7,11 @@ using CodeImp.DoomBuilder.VisualModes;
 using System;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     //mxd. Used to render translucent 3D floor's inner sides
     internal sealed class VisualMiddleBack : VisualMiddle3D
     {
-        #region ================== Constructor / Setup
 
         // Constructor
         public VisualMiddleBack(BaseVisualMode mode, VisualSector vs, Sidedef s) : base(mode, vs, s) { }
@@ -265,7 +261,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.SetVertices(null); //mxd
             return false;
         }
-
-        #endregion
     }
 }

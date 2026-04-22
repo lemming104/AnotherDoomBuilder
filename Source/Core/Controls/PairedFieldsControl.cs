@@ -1,24 +1,16 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Properties;
 using System;
 using System.Globalization;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     public partial class PairedFieldsControl : UserControl
     {
-        #region ================== Events
 
         public event EventHandler OnValuesChanged;
-
-        #endregion
-
-        #region ================== Variables
 
         private float defaultValue;
         private string field1;
@@ -28,10 +20,6 @@ namespace CodeImp.DoomBuilder.Controls
         private bool blockUpdate;
         private readonly int bResetOffsetX;
         private bool changed;
-
-        #endregion
-
-        #region ================== Properties
 
         public bool NonDefaultValue { get { return changed; } }
         public float DefaultValue { get { return defaultValue; } set { defaultValue = value; } }
@@ -46,19 +34,11 @@ namespace CodeImp.DoomBuilder.Controls
         public bool AllowValueLinking { get { return allowValueLinking; } set { allowValueLinking = value; UpdateButtons(); } }
         public bool LinkValues { get { return linkValues; } set { linkValues = value; UpdateButtons(); } }
 
-        #endregion
-
-        #region ================== Constructor
-
         public PairedFieldsControl()
         {
             InitializeComponent();
             bResetOffsetX = this.Width - bReset.Left;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public void SetValuesFrom(UniFields fields, bool first)
         {
@@ -136,10 +116,6 @@ namespace CodeImp.DoomBuilder.Controls
             value2.ResetIncrementStep();
         }
 
-        #endregion
-
-        #region ================== Events
-
         private void bLink_Click(object sender, EventArgs e)
         {
             linkValues = !linkValues;
@@ -180,7 +156,5 @@ namespace CodeImp.DoomBuilder.Controls
 
             CheckValues();
         }
-
-        #endregion
     }
 }

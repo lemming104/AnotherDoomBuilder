@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,22 +11,16 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Types
 {
     [TypeHandler(UniversalType.LinedefTag, "Linedef Tag", false)]
     internal class LinedefTagHandler : SectorTagHandler
     {
-        #region ================== Setup (mxd)
 
         protected override EnumList CreateEnumList()
         {
@@ -60,7 +53,5 @@ namespace CodeImp.DoomBuilder.Types
 
             return taglist;
         }
-
-        #endregion
     }
 }

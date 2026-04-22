@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,19 +11,13 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.ZDoom
 {
     public class StateStructure
     {
-        #region ================== FrameInfo (mxd)
 
         public class FrameInfo
         {
@@ -39,23 +32,11 @@ namespace CodeImp.DoomBuilder.ZDoom
             }
         }
 
-        #endregion
-
-        #region ================== Variables
-
         // All we care about is the first sprite in the sequence
         internal List<FrameInfo> sprites;
         internal StateGoto gotostate;
 
-        #endregion
-
-        #region ================== Properties
-
         public int SpritesCount { get { return sprites.Count; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal StateStructure()
@@ -70,10 +51,6 @@ namespace CodeImp.DoomBuilder.ZDoom
             this.gotostate = null;
             this.sprites = new List<FrameInfo> { new FrameInfo { Sprite = spritename } };
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This removes useless images from the start of the state (TNT1)
         protected void TrimLeft() // :)
@@ -130,7 +107,5 @@ namespace CodeImp.DoomBuilder.ZDoom
 
             return new FrameInfo();
         }
-
-        #endregion
     }
 }

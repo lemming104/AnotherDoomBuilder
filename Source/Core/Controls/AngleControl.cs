@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,17 +11,12 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Controls
 {
@@ -31,20 +25,11 @@ namespace CodeImp.DoomBuilder.Controls
     /// </summary>
     public partial class AngleControl : UserControl
     {
-        #region ================== Constants
 
         private const float LINE_THICKNESS = 3f;
 
-        #endregion
-
-        #region ================== Events
-
         public event EventHandler ValueChanged;
         public event EventHandler ButtonClicked;
-
-        #endregion
-
-        #region ================== Variables
 
         // Buttons
         private RadioButton[] buttons;
@@ -53,15 +38,7 @@ namespace CodeImp.DoomBuilder.Controls
         private int angle;
         private bool settingangle;
 
-        #endregion
-
-        #region ================== Properties
-
         public int Value { get { return angle; } set { SetAngle(value, true); } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public AngleControl()
@@ -80,10 +57,6 @@ namespace CodeImp.DoomBuilder.Controls
             buttons[6] = button6;
             buttons[7] = button7;
         }
-
-        #endregion
-
-        #region ================== Interface
 
         // Redraw the control
         private void AngleControl_Paint(object sender, PaintEventArgs e)
@@ -108,10 +81,6 @@ namespace CodeImp.DoomBuilder.Controls
             }
             linepen.Dispose(); //mxd
         }
-
-        #endregion
-
-        #region ================== Control
 
         // This sets an angle manually
         private void SetAngle(int newangle, bool changebuttons)
@@ -149,7 +118,5 @@ namespace CodeImp.DoomBuilder.Controls
                 if (ButtonClicked != null) ButtonClicked(this, EventArgs.Empty);
             }
         }
-
-        #endregion
     }
 }

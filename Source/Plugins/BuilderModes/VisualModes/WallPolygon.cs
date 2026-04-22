@@ -1,9 +1,6 @@
-﻿#region === Copyright (c) 2010 Pascal van der Heiden ===
-
+﻿
 using CodeImp.DoomBuilder.Geometry;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {

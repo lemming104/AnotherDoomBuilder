@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
@@ -28,27 +24,12 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Globalization;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     internal sealed class VisualFloor : BaseVisualGeometrySector
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private bool innerside; //mxd
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Constructor / Setup
 
         // Constructor
         public VisualFloor(BaseVisualMode mode, VisualSector vs) : base(mode, vs)
@@ -194,10 +175,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.SetVertices(verts);
             return verts.Length > 0;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         //mxd
         public override void OnChangeScale(int incrementX, int incrementY)
@@ -595,7 +572,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             AlignTextureToClosestLine(alignx, aligny);
         }
-
-        #endregion
     }
 }

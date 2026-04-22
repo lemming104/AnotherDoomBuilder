@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,37 +11,19 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.IO;
 using System.Collections;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Config
 {
     public class EnumList : List<EnumItem>
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private readonly string name; //mxd
 
-        #endregion
-
-        #region ================== Properties
-
         public string Name { get { return name; } } //mxd
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor for custom list
         internal EnumList() { }
@@ -79,10 +60,6 @@ namespace CodeImp.DoomBuilder.Config
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This gets an item by value
         // Returns null when item could not be found
         public EnumItem GetByEnumIndex(string value)
@@ -96,7 +73,5 @@ namespace CodeImp.DoomBuilder.Config
             // Nothing found
             return null;
         }
-
-        #endregion
     }
 }

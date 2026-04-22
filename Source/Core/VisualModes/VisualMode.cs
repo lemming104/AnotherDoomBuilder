@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Editing;
@@ -25,8 +21,6 @@ using CodeImp.DoomBuilder.Windows;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.VisualModes
 {
@@ -42,15 +36,10 @@ namespace CodeImp.DoomBuilder.VisualModes
     /// </summary>
     public abstract class VisualMode : EditMode
     {
-        #region ================== Constants
 
         private const double MOVE_SPEED_MULTIPLIER = 0.001;
         protected const float PICK_RANGE = 0.98f;
         private const float MOVE_CAMERA_DISTANCE = 64.0f;
-
-        #endregion
-
-        #region ================== Variables
 
         // Graphics
         protected IRenderer3D renderer;
@@ -100,10 +89,6 @@ namespace CodeImp.DoomBuilder.VisualModes
         protected List<VisualGeometry> visiblegeometry;
         protected HashSet<VisualSlope> usedslopehandles;
 
-        #endregion
-
-        #region ================== Properties
-
         public bool ProcessGeometry { get { return processgeometry; } set { processgeometry = value; } }
         public bool ProcessThings { get { return processthings; } set { processthings = value; } }
         public VisualBlockMap BlockMap { get { return blockmap; } }
@@ -115,10 +100,6 @@ namespace CodeImp.DoomBuilder.VisualModes
 
         // Rendering
         public IRenderer3D Renderer { get { return renderer; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         /// <summary>
         /// Provides specialized functionality for a visual (3D) Doom Builder editing mode.
@@ -180,10 +161,6 @@ namespace CodeImp.DoomBuilder.VisualModes
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Start / Stop
 
         // Mode is engaged
         public override void OnEngage()
@@ -274,10 +251,6 @@ namespace CodeImp.DoomBuilder.VisualModes
             General.Interface.DisableProcessing();
             General.Interface.StopExclusiveMouseInput();
         }
-
-        #endregion
-
-        #region ================== Events
 
         public override bool OnUndoBegin()
         {
@@ -395,10 +368,6 @@ namespace CodeImp.DoomBuilder.VisualModes
                 playerStart = null;
             }
         }
-
-        #endregion
-
-        #region ================== Input
 
         // Mouse input
         public override void OnMouseInput(Vector2D delta)
@@ -647,10 +616,6 @@ namespace CodeImp.DoomBuilder.VisualModes
         //mxd. Should move selected things in specified direction
         protected virtual void MoveSelectedThings(Vector2D direction, bool absolutePosition) { }
 
-        #endregion
-
-        #region ================== Visibility Culling
-
         int lastProcessed = 0;
 
         // This preforms visibility culling
@@ -832,10 +797,6 @@ namespace CodeImp.DoomBuilder.VisualModes
 
             return ld.Back != null ? ld.Back.Sector : null;
         }
-
-        #endregion
-
-        #region ================== Object Picking
 
         // This picks an object from the scene
         public VisualPickResult PickObject(Vector3D from, Vector3D to)
@@ -1042,10 +1003,6 @@ namespace CodeImp.DoomBuilder.VisualModes
             // Done
             return result;
         }
-
-        #endregion
-
-        #region ================== Processing
 
         /// <summary>
         /// This disposes all resources. Needed geometry will be rebuild automatically.
@@ -1351,10 +1308,6 @@ namespace CodeImp.DoomBuilder.VisualModes
             General.Interface.RedrawDisplay();
         }
 
-        #endregion
-
-        #region ================== Actions
-
         //mxd
         [BeginAction("centeroncoordinates", BaseAction = true)]
         protected virtual void CenterOnCoordinates()
@@ -1393,7 +1346,5 @@ namespace CodeImp.DoomBuilder.VisualModes
 
             General.ToastManager.ShowToast("togglehighlight", ToastType.INFO, "Changed highlight", text, shorttext);
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
@@ -14,11 +13,8 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.TagExplorer
 {
-    #region ================== Structs
 
     internal struct SortMode
     {
@@ -34,8 +30,6 @@ namespace CodeImp.DoomBuilder.TagExplorer
         public NodeInfoType Type;
         public int Index;
     }
-
-    #endregion
 
     public sealed partial class TagExplorer : UserControl
     {
@@ -66,8 +60,6 @@ namespace CodeImp.DoomBuilder.TagExplorer
 
         private static bool udmf;
         internal static bool UDMF { get { return udmf; } }
-
-        #region ================== Constructor / Disposer
 
         public TagExplorer()
         {
@@ -121,10 +113,6 @@ namespace CodeImp.DoomBuilder.TagExplorer
             if (disposing && (components != null)) components.Dispose();
             base.Dispose(disposing);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public void Setup()
         {
@@ -716,10 +704,6 @@ namespace CodeImp.DoomBuilder.TagExplorer
             return int.MinValue;
         }
 
-        #endregion
-
-        #region ================== Sorting
-
         private void Sort(ref List<TreeNode> nodes, string sortMode)
         {
             switch (sortMode)
@@ -861,10 +845,6 @@ namespace CodeImp.DoomBuilder.TagExplorer
 
             return result;
         }
-
-        #endregion
-
-        #region ================== Events
 
         private void cbDisplayMode_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1165,7 +1145,5 @@ namespace CodeImp.DoomBuilder.TagExplorer
             if (Visible)
                 UpdateTree(true);
         }
-
-        #endregion
     }
 }

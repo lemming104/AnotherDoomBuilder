@@ -1,49 +1,29 @@
-﻿#region ================== Namespaces
-
+﻿
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Actions
 {
     public class HintsManager
     {
-        #region ================== Public constants
 
         public const string GENERAL = "general";
         public const string MULTISELECTION = "multiselection";
-
-        #endregion
-
-        #region ================== Constants
 
         private const string HINTS_RESOURCE = "Hints.cfg";
         private const string CLASS_MARKER = "class";
         private const string GROUP_MARKER = "group";
         private const string DEFAULT_HINT = "{\\rtf1 Press {\\b F1} to show help for current editing mode}";
 
-        #endregion
-
-        #region ================== Variables
-
         private readonly Dictionary<string, Dictionary<string, string>> hints; //<classname, <group, hints as rtf string>>
-
-        #endregion
-
-        #region ================== Constructor
 
         public HintsManager()
         {
             hints = new Dictionary<string, Dictionary<string, string>>(StringComparer.Ordinal);
         }
-
-        #endregion
-
-        #region ================== Hints
 
         //Hints.cfg is dev-only stuff so bare minimum of boilerplate is present 
         //(e.g. create your Hints.cfg exactly the way it's done in the main project). 
@@ -148,16 +128,10 @@ namespace CodeImp.DoomBuilder.Actions
             General.Interface.ShowHints(hints[fullname][groupname]);
         }
 
-        #endregion
-
-        #region ================== Utility
-
         public static string GetRtfString(string text)
         {
             text = text.Replace("<b>", "{\\b ").Replace("</b>", "}").Replace("<br>", "\\par\\par ");
             return "{\\rtf1" + text + "}";
         }
-
-        #endregion
     }
 }

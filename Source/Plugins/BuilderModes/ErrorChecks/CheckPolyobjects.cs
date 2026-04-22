@@ -1,42 +1,26 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [ErrorChecker("Check polyobjects", true, 100)]
     public class CheckPolyobjects : ErrorChecker
     {
-        #region ================== Constants
 
         private const int PROGRESS_STEP = 1000;
 
-        #endregion
-
-        #region ================== Properties
-
         // Only possible in Hexen/UDMF map formats
         public override bool SkipCheck { get { return !General.Map.UDMF && !General.Map.HEXEN; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         public CheckPolyobjects()
         {
             // Total progress is somewhat done when all linedefs and things are checked
             SetTotalProgress((General.Map.Map.Linedefs.Count + General.Map.Map.Things.Count) / PROGRESS_STEP);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This runs the check
         public override void Run()
@@ -200,7 +184,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 AddProgress(1);
             }
         }
-
-        #endregion
     }
 }

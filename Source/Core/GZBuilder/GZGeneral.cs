@@ -1,19 +1,15 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.ZDoom;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.GZBuilder
 {
     //mxd. should get rid of this class one day...
     public static class GZGeneral
     {
-        #region ================== Properties
 
         //gzdoom light types
 
@@ -405,8 +401,6 @@ namespace CodeImp.DoomBuilder.GZBuilder
                 throw new NullReferenceException(whatisit + " is null");
             }
         }
-
-        #endregion
 
     }
 }

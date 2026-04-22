@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
@@ -24,8 +20,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
@@ -41,11 +35,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
     public sealed class DragThingsMode : BaseClassicMode
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Mode to return to
         private readonly EditMode basemode;
@@ -102,16 +91,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private bool snaptogridincrement; //mxd. ALT to toggle
         private bool snaptocardinaldirection; //mxd. ALT-SHIFT to enable
 
-        #endregion
-
-        #region ================== Properties
-
         // Just keep the base mode button checked
         public override string EditModeButtonName { get { return basemode.GetType().Name; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor to start dragging immediately
         public DragThingsMode(EditMode basemode, Vector2D dragstartmappos, ICollection<Thing> things, bool makeundo)
@@ -173,10 +154,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This moves the selected things relatively
         // Returns true when things has actually moved
@@ -517,7 +494,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 snaptogridincrement != General.Interface.AltState ||
                 snaptocardinaldirection != (General.Interface.AltState && General.Interface.ShiftState)) Update();
         }
-
-        #endregion
     }
 }

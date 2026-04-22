@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
@@ -7,28 +6,17 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     public partial class ColorFieldsControl : UserControl
     {
-        #region ================== Events
 
         public event EventHandler OnValueChanged;
-
-        #endregion
-
-        #region ================== Variables
 
         private int defaultvalue;
         private string field;
         private bool blockupdate;
         private bool blockevents;
-
-        #endregion
-
-        #region ================== Properties
 
         public int DefaultValue { get { return defaultvalue; } set { defaultvalue = value; } }
         public string Label { get { return cpColor.Label; } set { cpColor.Label = value; } }
@@ -44,18 +32,10 @@ namespace CodeImp.DoomBuilder.Controls
             }
         }
 
-        #endregion
-
-        #region ================== Constructor
-
         public ColorFieldsControl()
         {
             InitializeComponent();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public void SetValueFrom(UniFields fields, bool first)
         {
@@ -92,10 +72,6 @@ namespace CodeImp.DoomBuilder.Controls
             tbColor.ForeColor = changed ? SystemColors.WindowText : SystemColors.GrayText;
         }
 
-        #endregion
-
-        #region ================== Events
-
         private void bReset_Click(object sender, EventArgs e)
         {
             cpColor.Focus(); // Otherwise the focus will go to cpColor's textbox, which is not what we want
@@ -129,7 +105,5 @@ namespace CodeImp.DoomBuilder.Controls
             CheckColor();
             if (!blockevents && OnValueChanged != null) OnValueChanged(this, EventArgs.Empty);
         }
-
-        #endregion
     }
 }

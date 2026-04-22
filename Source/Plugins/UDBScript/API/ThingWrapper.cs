@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,9 +18,6 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -30,20 +26,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
     internal class ThingWrapper : MapElementWrapper, IEquatable<ThingWrapper>
     {
-        #region ================== Variables
 
         private Thing thing;
         private MapElementArgumentsWrapper elementargs;
-
-        #endregion
-
-        #region IEquatable<ThingWrapper> members
 
         public bool Equals(ThingWrapper other)
         {
@@ -59,10 +48,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
         {
             return thing.GetHashCode();
         }
-
-        #endregion
-
-        #region ================== Properties
 
         /// <summary>
         /// Index of the `Thing`. Read-only.
@@ -372,27 +357,15 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             }
         }
 
-        #endregion
-
-        #region ================== Constructors
-
         internal ThingWrapper(Thing thing) : base(thing)
         {
             this.thing = thing;
             elementargs = new MapElementArgumentsWrapper(thing);
         }
 
-        #endregion
-
-        #region ================== Update
-
         internal override void AfterFieldsUpdate()
         {
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public override string ToString()
         {
@@ -520,10 +493,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             return new SectorWrapper(thing.Sector);
         }
 
-        #endregion
-
-        #region ================== Management
-
         /// <summary>
         /// Adds fields to the dictionary that are handled directly by UDB, but changing them is emulated through the UDMF fields.
         /// </summary>
@@ -576,7 +545,5 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 
             return false;
         }
-
-        #endregion
     }
 }

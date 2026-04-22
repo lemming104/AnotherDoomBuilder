@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,23 +11,13 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder
 {
     public class ErrorLogger
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private readonly List<ErrorItem> errors;
         private volatile bool changed;
@@ -36,29 +25,17 @@ namespace CodeImp.DoomBuilder
         private volatile bool warningadded;
         private object threadlock = new object(); //mxd
 
-        #endregion
-
-        #region ================== Properties
-
         public bool HasErrors { get { return errors.Count > 0; } }
         public int ErrorsCount { get { return errors.Count; } } //mxd
         public bool HasChanged { get { return changed; } set { changed = value; } }
         public bool IsErrorAdded { get { return erroradded; } set { erroradded = value; } }
         public bool IsWarningAdded { get { return warningadded; } set { warningadded = value; } }
 
-        #endregion
-
-        #region ================== Constructor / Disposer
-
         // Constructor
         internal ErrorLogger()
         {
             errors = new List<ErrorItem>();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This clears the errors
         public void Clear()
@@ -137,7 +114,5 @@ namespace CodeImp.DoomBuilder
 
             return result;
         }
-
-        #endregion
     }
 }

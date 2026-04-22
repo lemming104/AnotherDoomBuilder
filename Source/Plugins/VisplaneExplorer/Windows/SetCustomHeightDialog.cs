@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Derek MacDonald
-
+﻿
 /*
  * Copyright (c) 2021 Derek MacDonald
  * This program is released under GNU General Public License
@@ -11,8 +10,6 @@
  * 
  */
 
-#endregion
-
 using System;
 using System.Windows.Forms;
 
@@ -20,22 +17,15 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer.Windows
 {
     public partial class SetCustomHeightDialog : Form
     {
-        #region ================== Variables
 
         private int customheight;
-
-        #endregion
 
         public SetCustomHeightDialog()
         {
             InitializeComponent();
         }
 
-        #region ================== Properties
-
         public int CustomHeight { get { return customheight; } set { customheight = value; } }
-
-        #endregion
 
         // Redraw the display using a user-entered view height. Blank input resets to the default.
         private void apply_Clicked(object sender, EventArgs e)

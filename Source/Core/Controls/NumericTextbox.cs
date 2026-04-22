@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.ComponentModel;
@@ -23,19 +19,12 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     public class NumericTextbox : AutoSelectTextbox
     {
-        #region ================== Constants
 
         private const int ROUNDING_PRECISION = 4; //mxd
-
-        #endregion
-
-        #region ================== Variables
 
         private bool allownegative;     // Allow negative numbers
         private bool allowrelative;     // Allow ++, --, * and / prefix for relative changes
@@ -48,18 +37,10 @@ namespace CodeImp.DoomBuilder.Controls
         //mxd. Used to compute expressions
         private static DataTable datatable = new DataTable();
 
-        #endregion
-
-        #region ================== Properties
-
         public bool AllowNegative { get { return allownegative; } set { allownegative = value; } }
         public bool AllowRelative { get { return allowrelative; } set { allowrelative = value; UpdateTextboxStyle(); } }
         public bool AllowDecimal { get { return allowdecimal; } set { allowdecimal = value; } }
         public bool AllowExpressions { get { return allowexpressions; } set { allowexpressions = value; } } //mxd/mgr_inz_rafal
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public NumericTextbox()
@@ -81,10 +62,6 @@ namespace CodeImp.DoomBuilder.Controls
             }
             base.Dispose(disposing);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Key pressed
         protected override void OnKeyDown(KeyEventArgs e)
@@ -450,7 +427,5 @@ namespace CodeImp.DoomBuilder.Controls
         {
             incrementstep = 1;
         }
-
-        #endregion
     }
 }

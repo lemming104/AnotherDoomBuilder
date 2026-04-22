@@ -20,8 +20,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 			base.Dispose(disposing);
 		}
 
-		#region Windows Form Designer generated code
-
 		/// <summary>
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
@@ -299,8 +297,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 			this.PerformLayout();
 
 		}
-
-		#endregion
 
 		private CodeImp.DoomBuilder.Controls.CheckboxArrayControl checks;
 		private System.Windows.Forms.Button buttoncheck;

@@ -1,30 +1,18 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.ZDoom
 {
     internal sealed class SndSeqParser : ZDTextParser
     {
-        #region ================== Variables
 
         private readonly List<string> sequences;
         private readonly List<string> sequencegroups;
         private readonly HashSet<string> seqencenames;
 
-        #endregion
-
-        #region ================== Properties
-
         internal override ScriptType ScriptType { get { return ScriptType.SNDSEQ; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         public SndSeqParser()
         {
@@ -33,10 +21,6 @@ namespace CodeImp.DoomBuilder.ZDoom
             sequencegroups = new List<string>();
             seqencenames = new HashSet<string>();
         }
-
-        #endregion
-
-        #region ================== Parsing
 
         public override bool Parse(TextResourceData data, bool clearerrors)
         {
@@ -100,7 +84,5 @@ namespace CodeImp.DoomBuilder.ZDoom
             // Return the collection
             return result.ToArray();
         }
-
-        #endregion
     }
 }

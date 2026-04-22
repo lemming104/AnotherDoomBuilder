@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2020 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,42 +18,24 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using Jint;
 using System.Diagnostics;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.UDBScript
 {
     class RuntimeConstraint : Constraint
     {
-        #region ================== Constants
 
         private const long CHECK_MILLISECONDS = 5000;
 
-        #endregion
-
-        #region ================== Variables
-
         private Stopwatch stopwatch;
-
-        #endregion
-
-        #region ================== Constructor
 
         public RuntimeConstraint(Stopwatch stopwatch)
         {
             this.stopwatch = stopwatch;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public override void Reset()
         {
@@ -77,7 +58,5 @@ namespace CodeImp.DoomBuilder.UDBScript
                 }
             }
         }
-
-        #endregion
     }
 }

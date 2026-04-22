@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Geometry;
@@ -28,13 +24,10 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Editing
 {
     public class UndoManager : IDisposable
     {
-        #region ================== Constants
 
         // Maximum undo/redo levels
         private const int MAX_UNDO_LEVELS = 2000;
@@ -73,10 +66,6 @@ namespace CodeImp.DoomBuilder.Editing
             IndexVertex,
         }
 
-        #endregion
-
-        #region ================== Variables
-
         // Undo and redo stacks
         private List<UndoSnapshot> undos;
         private List<UndoSnapshot> redos;
@@ -108,10 +97,6 @@ namespace CodeImp.DoomBuilder.Editing
 
         // Disposing
         private bool isdisposed;
-
-        #endregion
-
-        #region ================== Properties
 
         public UndoSnapshot NextUndo
         {
@@ -157,10 +142,6 @@ namespace CodeImp.DoomBuilder.Editing
         /// After undo or redo, this returns if things were added/removed. This does not include thing property changes.
         /// </summary>
         public bool PopulationChanged { get { return populationchanged; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal UndoManager()
@@ -212,10 +193,6 @@ namespace CodeImp.DoomBuilder.Editing
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== Private Methods
 
         // This clears the redos
         private void ClearRedos()
@@ -452,10 +429,6 @@ namespace CodeImp.DoomBuilder.Editing
 
             General.Map.Map.AutoRemove = true;
         }
-
-        #endregion
-
-        #region ================== Public Methods
 
         // This makes a list of the undo levels in order they will be undone
         public List<UndoSnapshot> GetUndoList()
@@ -880,10 +853,6 @@ namespace CodeImp.DoomBuilder.Editing
 
             Cursor.Current = oldcursor;
         }
-
-        #endregion
-
-        #region ================== Record and Playback
 
         internal void RecAddVertex(Vertex v)
         {
@@ -1409,7 +1378,5 @@ namespace CodeImp.DoomBuilder.Editing
             General.Map.UndoRedo.RecIndexVertex(newindex, oldindex);
             General.Map.Map.ChangeVertexIndex(newindex, oldindex);
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,29 +11,19 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System.Drawing;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Controls
 {
     public class TransparentPanel : Panel
     {
-        #region ================== Constructor / Disposer
 
         // Constructor
         public TransparentPanel()
         {
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Override this property
         protected override CreateParams CreateParams
@@ -53,7 +42,5 @@ namespace CodeImp.DoomBuilder.Controls
             if (BackColor != Color.Transparent)
                 e.Graphics.Clear(BackColor);
         }
-
-        #endregion
     }
 }

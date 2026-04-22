@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,20 +11,14 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Drawing;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Rendering
 {
     public struct PixelColor
     {
-        #region ================== Constants
 
         public const float BYTE_TO_FLOAT = 0.00392156862745098f;
 
@@ -36,25 +29,13 @@ namespace CodeImp.DoomBuilder.Rendering
         //mxd. Some color constants, no alpha
         public const int INT_WHITE_NO_ALPHA = 16777215;
 
-        #endregion
-
-        #region ================== Statics
-
         public static readonly PixelColor Transparent = new PixelColor(0, 0, 0, 0);
-
-        #endregion
-
-        #region ================== Variables
 
         // Members
         public byte b;
         public byte g;
         public byte r;
         public byte a;
-
-        #endregion
-
-        #region ================== Constructors
 
         // Constructor
         public PixelColor(byte a, byte r, byte g, byte b)
@@ -75,10 +56,6 @@ namespace CodeImp.DoomBuilder.Rendering
             this.g = p.g;
             this.b = p.b;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Construct from color
         public static PixelColor FromColor(Color c)
@@ -222,7 +199,5 @@ namespace CodeImp.DoomBuilder.Rendering
         {
             return r == other.r && g == other.g && b == other.b && a == other.a;
         }
-
-        #endregion
     }
 }

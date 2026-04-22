@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2022 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,9 +18,6 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Controls;
 using CodeImp.DoomBuilder.IO;
@@ -34,8 +30,6 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder
 {
@@ -72,15 +66,10 @@ namespace CodeImp.DoomBuilder
 
     public class ToastManager
     {
-        #region ================== Static variables
 
         public static readonly string TITLE_INFO = "Information";
         public static readonly string TITLE_WARNING = "Warning";
         public static readonly string TITLE_ERROR = "Error";
-
-        #endregion
-
-        #region ================== Variables
 
         private List<ToastControl> toasts;
         private Control bindcontrol;
@@ -90,18 +79,10 @@ namespace CodeImp.DoomBuilder
         private long duration;
         private Dictionary<string, ToastRegistryEntry> registry;
 
-        #endregion
-
-        #region ================== Properties
-
         internal bool Enabled { get => enabled; set => enabled = value; }
         internal ToastAnchor Anchor { get => anchor; set => anchor = value; }
         internal long Duration { get => duration; set => duration = value; }
         internal Dictionary<string, ToastRegistryEntry> Registry { get => registry; }
-
-        #endregion
-
-        #region ================== Constructors
 
         public ToastManager(Control bindcontrol)
         {
@@ -117,12 +98,6 @@ namespace CodeImp.DoomBuilder
             // Create registry and load toasts from actions
             registry = new Dictionary<string, ToastRegistryEntry>();
         }
-
-
-
-        #endregion
-
-        #region ================== Events
 
         private void UpdateEvent(object sender, EventArgs args)
         {
@@ -206,10 +181,6 @@ namespace CodeImp.DoomBuilder
                 }
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public void LoadSettings(Configuration cfg)
         {
@@ -437,7 +408,5 @@ namespace CodeImp.DoomBuilder
             else if (type == ToastType.ERROR)
                 General.MessageBeep(MessageBeepType.Error);
         }
-
-        #endregion
     }
 }

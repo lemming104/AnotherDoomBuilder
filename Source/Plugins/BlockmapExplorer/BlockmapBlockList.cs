@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2026 Boris Iwanski
 
 /*
  * Copyright (c) 2026 Boris Iwanski 
@@ -21,13 +20,8 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BlockmapExplorer
 {

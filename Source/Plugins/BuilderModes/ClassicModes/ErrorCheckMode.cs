@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,17 +11,12 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System.Collections.Generic;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
@@ -37,23 +31,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
     public sealed class ErrorCheckMode : BaseClassicMode
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Constructor / Disposer
-
-        #endregion
-
-        #region ================== Events
 
         public override void OnHelp()
         {
@@ -150,7 +127,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             renderer.Present();
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2009 Boris Iwanski
 
 /*
  * Copyright (c) 2009 Boris Iwanski
@@ -12,28 +11,18 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
 using System.Threading;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [ErrorChecker("Check invalid sectors", true, 300)]
     public class CheckClosedSectors : ErrorChecker
     {
-        #region ================== Constants
 
         private const int PROGRESS_STEP = 40;
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public CheckClosedSectors()
@@ -41,10 +30,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Total progress is done when all sectors are checked
             SetTotalProgress(General.Map.Map.Sectors.Count / PROGRESS_STEP);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This runs the check
         public override void Run()
@@ -179,7 +164,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
             }
         }
-
-        #endregion
     }
 }

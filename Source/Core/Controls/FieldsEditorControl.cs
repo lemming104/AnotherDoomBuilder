@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
@@ -25,8 +21,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     /// <summary>
@@ -34,15 +28,10 @@ namespace CodeImp.DoomBuilder.Controls
     /// </summary>
     public partial class FieldsEditorControl : UserControl
     {
-        #region ================== Constants
 
         // Constants
         private const string ADD_FIELD_TEXT = "   (click to add custom field)";
         private const string FIELD_PREFIX_SUGGESTION = "user_";
-
-        #endregion
-
-        #region ================== Variables
 
         public delegate void SingleFieldNameEvent(string fieldname);
         public delegate void DualFieldNameEvent(string oldname, string newname);
@@ -62,10 +51,6 @@ namespace CodeImp.DoomBuilder.Controls
         private Dictionary<string, UniversalType> uifields;//mxd
         private bool showfixedfields = true; //mxd
 
-        #endregion
-
-        #region ================== Properties
-
         public bool AllowInsert { get { return fieldslist.AllowUserToAddRows; } set { fieldslist.AllowUserToAddRows = value; SetupNewRowStyle(); } }
         public bool AutoInsertUserPrefix { get { return autoinsertuserprefix; } set { autoinsertuserprefix = value; } }
         public int PropertyColumnWidth { get { return fieldname.Width; } set { fieldname.Width = value; UpdateValueColumn(); UpdateBrowseButton(); } }
@@ -75,10 +60,6 @@ namespace CodeImp.DoomBuilder.Controls
         public bool ValueColumnVisible { get { return fieldvalue.Visible; } set { fieldvalue.Visible = value; UpdateValueColumn(); UpdateBrowseButton(); } }
         public bool ShowFixedFields { get { return showfixedfields; } set { showfixedfields = value; UpdateFixedFieldsVisibility(); } } //mxd
 
-        #endregion
-
-        #region ================== Constructor
-
         // Constructor
         public FieldsEditorControl()
         {
@@ -87,10 +68,6 @@ namespace CodeImp.DoomBuilder.Controls
             autoinsertuserprefix = true;
             enumscombo.Location = new Point(-1000, 1);
         }
-
-        #endregion
-
-        #region ================== Setup / Apply
 
         // This sets up the control
         public void Setup(string elementname)
@@ -452,10 +429,6 @@ namespace CodeImp.DoomBuilder.Controls
                 }
             }
         }
-
-        #endregion
-
-        #region ================== Events
 
         // Column header clicked
         private void fieldslist_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -858,10 +831,6 @@ namespace CodeImp.DoomBuilder.Controls
             }
         }
 
-        #endregion
-
-        #region ================== Private Methods
-
         // This applies a value to a row
         private void ApplyValue(FieldsEditorRow frow, object value)
         {
@@ -1030,7 +999,5 @@ namespace CodeImp.DoomBuilder.Controls
             for (int i = removeindices.Count - 1; i >= 0; i--)
                 fieldslist.Rows.RemoveAt(removeindices[i]);
         }
-
-        #endregion
     }
 }

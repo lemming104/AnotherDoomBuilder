@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,16 +11,11 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Config
 {
@@ -30,11 +24,6 @@ namespace CodeImp.DoomBuilder.Config
     /// </summary>
     public class GeneralizedOption
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Properties
         private string name;
@@ -42,16 +31,8 @@ namespace CodeImp.DoomBuilder.Config
         private int bitstep; //mxd
         public int BitsStep { get { return bitstep; } } // mxd. Each subsequent value is incremented  by this number
 
-        #endregion
-
-        #region ================== Properties
-
         public string Name { get { return name; } }
         public List<GeneralizedBit> Bits { get { return bits; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal GeneralizedOption(string structure, string cat, string name, IDictionary bitslist)
@@ -112,16 +93,10 @@ namespace CodeImp.DoomBuilder.Config
             GC.SuppressFinalize(this);
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This presents the item as string
         public override string ToString()
         {
             return name;
         }
-
-        #endregion
     }
 }

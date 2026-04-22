@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
@@ -24,22 +20,11 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [FindReplace("Sidedef Texture (Any)", BrowseButton = true)]
     internal class FindSidedefTexture : BaseFindSidedef
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
-
-        #endregion
-
-        #region ================== Properties
 
         public override Image BrowseImage { get { return Properties.Resources.List; } }
         public override string UsageHint
@@ -51,14 +36,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             + "? - one character";
             }
         }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
-
-        #endregion
-
-        #region ================== Methods
 
         // This is called when the browse button is pressed
         public override string Browse(string initialvalue)
@@ -120,7 +97,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             return objs.ToArray();
         }
-
-        #endregion
     }
 }

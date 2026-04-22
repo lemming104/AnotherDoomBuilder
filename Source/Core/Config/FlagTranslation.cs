@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,37 +11,23 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Config
 {
     public class FlagTranslation : IComparable<FlagTranslation>
     {
-        #region ================== Variables
 
         private int flag;
         private List<string> fields;
         private List<bool> values;
 
-        #endregion
-
-        #region ================== Properties
-
         public int Flag { get { return flag; } }
         public List<string> Fields { get { return fields; } }
         public List<bool> FieldValues { get { return values; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor
         public FlagTranslation(DictionaryEntry de)
@@ -73,10 +58,6 @@ namespace CodeImp.DoomBuilder.Config
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // String representation
         public override string ToString()
         {
@@ -88,7 +69,5 @@ namespace CodeImp.DoomBuilder.Config
         {
             return other.flag - this.flag;
         }
-
-        #endregion
     }
 }

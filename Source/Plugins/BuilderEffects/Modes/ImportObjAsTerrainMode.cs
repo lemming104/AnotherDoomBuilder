@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -10,8 +9,6 @@ using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderEffects
 {
     [EditMode(DisplayName = "Terrain Importer",
@@ -21,15 +18,10 @@ namespace CodeImp.DoomBuilder.BuilderEffects
               AllowCopyPaste = false)]
     public class ImportObjAsTerrainMode : ClassicMode
     {
-        #region ================== Constants
 
         private readonly static char[] space = { ' ' };
         private const string slash = "/";
         internal const int VERTEX_HEIGHT_THING_TYPE = 1504;
-
-        #endregion
-
-        #region ================== Variables
 
         private struct Face
         {
@@ -47,10 +39,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
 
         private readonly ObjImportSettingsForm form;
 
-        #endregion
-
-        #region ================== Properties
-
         internal enum UpAxis
         {
             Y,
@@ -58,18 +46,10 @@ namespace CodeImp.DoomBuilder.BuilderEffects
             X
         }
 
-        #endregion
-
-        #region ================== Constructor
-
         public ImportObjAsTerrainMode()
         {
             form = new ObjImportSettingsForm();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public override void OnEngage()
         {
@@ -133,10 +113,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
             // Return to base mode
             General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
         }
-
-        #endregion
-
-        #region ================== Geometry creation
 
         private bool CreateGeometry(List<Vector3D> verts, List<Face> faces, int maxZ)
         {
@@ -301,10 +277,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
             return v;
         }
 
-        #endregion
-
-        #region ================== .obj import
-
         private static bool ReadGeometry(string path, float scale, UpAxis axis, List<Vector3D> verts, List<Face> faces, ref int minZ, ref int maxZ)
         {
             using (StreamReader reader = File.OpenText(path))
@@ -400,7 +372,5 @@ namespace CodeImp.DoomBuilder.BuilderEffects
             if (slashpos != -1) def = def.Substring(0, slashpos);
             return int.Parse(def);
         }
-
-        #endregion
     }
 }

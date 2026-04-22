@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
@@ -27,29 +23,14 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     internal sealed class VisualMiddleDouble : BaseVisualGeometrySidedef
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private bool repeatmidtex;
         private Plane topclipplane;
         private Plane bottomclipplane;
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Constructor / Setup
 
         // Constructor
         public VisualMiddleDouble(BaseVisualMode mode, VisualSector vs, Sidedef s) : base(mode, vs, s)
@@ -283,10 +264,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.SetVertices(null); //mxd
             return false;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This performs a fast test in object picking
         public override bool PickFastReject(Vector3D from, Vector3D to, Vector3D dir)
@@ -709,7 +686,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 return (rightz - leftz, new Line2D(ls, le));
             }
         }
-
-        #endregion
     }
 }

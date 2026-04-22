@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.IO;
 using CodeImp.DoomBuilder.ZDoom;
@@ -23,17 +19,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Config
 {
     public class ThingCategory
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Things
         private List<ThingTypeInfo> things;
@@ -69,10 +58,6 @@ namespace CodeImp.DoomBuilder.Config
         // [ZZ]
         private bool optional;
 
-        #endregion
-
-        #region ================== Properties
-
         public string Name { get { return name; } }
         public string Title { get { return title; } }
         public string Sprite { get { return sprite; } }
@@ -95,10 +80,6 @@ namespace CodeImp.DoomBuilder.Config
         public float SpriteScale { get { return spritescale; } }
         public List<ThingTypeInfo> Things { get { return things; } }
         public bool Optional { get { return optional; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal ThingCategory(ThingCategory parent, string name, string title, DecorateCategoryInfo catinfo)
@@ -298,10 +279,6 @@ namespace CodeImp.DoomBuilder.Config
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This sorts the category, if preferred
         internal void SortIfNeeded()
         {
@@ -330,8 +307,6 @@ namespace CodeImp.DoomBuilder.Config
         {
             return title;
         }
-
-        #endregion
     }
 }
 

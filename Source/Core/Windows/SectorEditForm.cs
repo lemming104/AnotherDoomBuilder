@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Types;
@@ -22,19 +18,12 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Windows
 {
     internal partial class SectorEditForm : DelayedForm
     {
-        #region ================== Events
 
         public event EventHandler OnValuesChanged; //mxd
-
-        #endregion
-
-        #region ================== Variables
 
         private ICollection<Sector> sectors;
         private List<SectorProperties> sectorprops; //mxd
@@ -60,10 +49,6 @@ namespace CodeImp.DoomBuilder.Windows
             }
         }
 
-        #endregion
-
-        #region ================== Constructor
-
         // Constructor
         public SectorEditForm()
         {
@@ -81,10 +66,6 @@ namespace CodeImp.DoomBuilder.Windows
             // Set steps for brightness field
             brightness.StepValues = General.Map.Config.BrightnessLevels;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets up the form to edit the given sectors
         public void Setup(ICollection<Sector> sectors)
@@ -299,10 +280,6 @@ namespace CodeImp.DoomBuilder.Windows
             }
         }
 
-        #endregion
-
-        #region ================== Events
-
         // OK clicked
         private void apply_Click(object sender, EventArgs e)
         {
@@ -375,10 +352,6 @@ namespace CodeImp.DoomBuilder.Windows
             General.ShowHelp("w_sectoredit.html");
             hlpevent.Handled = true;
         }
-
-        #endregion
-
-        #region ================== mxd. Realtime Events
 
         // Ceiling height changes
         private void ceilingheight_TextChanged(object sender, EventArgs e)
@@ -489,8 +462,6 @@ namespace CodeImp.DoomBuilder.Windows
             General.Map.IsChanged = true;
             if (OnValuesChanged != null) OnValuesChanged(this, EventArgs.Empty);
         }
-
-        #endregion
 
     }
 }

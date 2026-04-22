@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.GZBuilder;
@@ -12,22 +11,15 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     public partial class ArgumentsControl : UserControl
     {
-        #region ================== Native stuff
 
         [DllImport("user32.dll")]
         private static extern int SendMessage(IntPtr hWnd, Int32 wMsg, bool wParam, Int32 lParam);
 
         private const int WM_SETREDRAW = 11;
-
-        #endregion
-
-        #region ================== Enums
 
         private enum ArgZeroMode
         {
@@ -35,10 +27,6 @@ namespace CodeImp.DoomBuilder.Controls
             INT,
             STRING,
         }
-
-        #endregion
-
-        #region ================== Variables
 
         private string arg0strval;
         private bool havearg0str;
@@ -55,20 +43,12 @@ namespace CodeImp.DoomBuilder.Controls
             }
         }
 
-        #endregion
-
-        #region ================== Constructor
-
         public ArgumentsControl()
         {
             InitializeComponent();
 
             Reset();
         }
-
-        #endregion
-
-        #region ================== Setup
 
         public void Reset()
         {
@@ -125,10 +105,6 @@ namespace CodeImp.DoomBuilder.Controls
                 if (!string.IsNullOrEmpty(arg4.Text) && args[4] != arg4.GetResult(int.MinValue)) arg4.ClearValue();
             }
         }
-
-        #endregion
-
-        #region ================== Apply
 
         public void Apply(Linedef l, int step)
         {
@@ -237,10 +213,6 @@ namespace CodeImp.DoomBuilder.Controls
             t.Args[3] = arg3.GetResult(t.Args[3], step);
             t.Args[4] = arg4.GetResult(t.Args[4], step);
         }
-
-        #endregion
-
-        #region ================== Update
 
         public void UpdateAction(int action, bool setuponly)
         {
@@ -491,10 +463,6 @@ namespace CodeImp.DoomBuilder.Controls
             return haveusedargs;
         }
 
-        #endregion
-
-        #region ================== Redraw control
-
         private void BeginUpdate()
         {
             SendMessage(this.Parent.Handle, WM_SETREDRAW, false, 0);
@@ -505,10 +473,6 @@ namespace CodeImp.DoomBuilder.Controls
             SendMessage(this.Parent.Handle, WM_SETREDRAW, true, 0);
             this.Parent.Refresh();
         }
-
-        #endregion
-
-        #region ================== Events
 
         private void cbuseargstr_CheckedChanged(object sender, EventArgs e)
         {
@@ -556,8 +520,6 @@ namespace CodeImp.DoomBuilder.Controls
 
             UpdateScriptArguments(item);
         }
-
-        #endregion
 
         private void scriptnames_TextChanged(object sender, EventArgs e)
         {

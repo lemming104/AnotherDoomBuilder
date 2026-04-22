@@ -1,5 +1,4 @@
-﻿#region Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.VisualModes;
@@ -8,13 +7,10 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderEffects
 {
     public partial class JitterThingsForm : DelayedForm
     {
-        #region Variables
 
         private readonly string editingModeName;
         private readonly List<Thing> selection;
@@ -51,10 +47,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
             public float JitterScaleY;
             public float JitterHeight;
         }
-
-        #endregion
-
-        #region Constructor
 
         public JitterThingsForm(string editingModeName)
         {
@@ -183,10 +175,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
             foreach (Thing t in selection) t.Move(t.Position);
         }
 
-        #endregion
-
-        #region Apply logic
-
         private void ApplyTranslation(int ammount)
         {
             for (int i = 0; i < selection.Count; i++)
@@ -309,10 +297,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
             }
         }
 
-        #endregion
-
-        #region Update logic
-
         private void UpdateGeometry()
         {
             // Update what must be updated
@@ -410,10 +394,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
             }
         }
 
-        #endregion
-
-        #region Events
-
         private void bApply_Click(object sender, EventArgs e)
         {
             // Store settings
@@ -482,10 +462,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
         {
             ApplyScale();
         }
-
-        #endregion
-
-        #region Buttons & checkboxes events
 
         private void bUpdateTranslation_Click(object sender, EventArgs e)
         {
@@ -579,8 +555,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
             UpdateScaleY();
             ApplyScale();
         }
-
-        #endregion
 
         //HALP!
         private void JitterThingsForm_HelpRequested(object sender, HelpEventArgs hlpevent)

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -13,9 +12,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.BuilderModes;
@@ -31,8 +27,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 // using CodeImp.DoomBuilder.GZBuilder.Geometry;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.ThreeDFloorMode
 {
@@ -60,11 +54,6 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
 
     public class SlopeMode : ClassicMode
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Highlighted item
         private SlopeVertex highlightedslope;
@@ -85,20 +74,8 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
 
         private bool contextmenuclosing = false;
 
-        #endregion
-
-        #region ================== Properties
-
         public Sector HighlightedSector { get { return highlightedsector; } }
         public bool ContextMenuClosing { get { return contextmenuclosing; } set { contextmenuclosing = value; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
-
-        #endregion
-
-        #region ================== Methods
 
         public override void OnHelp()
         {
@@ -1188,10 +1165,6 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
             return svgs;
         }
 
-        #endregion
-
-        #region ================== Actions
-
         [BeginAction("drawfloorslope")]
         public void DrawFloorSlope()
         {
@@ -1369,7 +1342,5 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
             UpdateOverlay();
             General.Interface.RedrawDisplay();
         }
-
-        #endregion
     }
 }

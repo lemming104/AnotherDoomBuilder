@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2026 Boris Iwanski
 
 /*
  * Copyright (c) 2026 Boris Iwanski 
@@ -21,16 +20,11 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BlockmapExplorer
 {

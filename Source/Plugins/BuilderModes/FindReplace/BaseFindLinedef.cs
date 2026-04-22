@@ -1,17 +1,13 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     //mxd. Encapsulates boring stuff
     internal class BaseFindLinedef : FindReplaceType
     {
-        #region ================== Methods
 
         // This is called when a specific object is selected from the list
         public override void ObjectSelected(FindReplaceObject[] selection)
@@ -45,7 +41,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 if (!linedefs.Contains(o.Linedef)) linedefs.Add(o.Linedef);
             General.Interface.ShowEditLinedefs(linedefs);
         }
-
-        #endregion
     }
 }

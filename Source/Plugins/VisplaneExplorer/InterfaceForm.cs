@@ -1,28 +1,16 @@
-﻿#region === Copyright (c) 2010 Pascal van der Heiden ===
-
+﻿
 using CodeImp.DoomBuilder.Windows;
 using System;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
 {
     public partial class InterfaceForm : DelayedForm
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== mxd. Event handlers
 
         public event EventHandler OnVisplaneSettingsChanged;
-
-        #endregion
-
-        #region ================== Variables
 
         private ViewStats viewstats;
         private Point oldttposition;
@@ -30,19 +18,11 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
         private int viewheightcustom;
         private int viewheightdefault;
 
-        #endregion
-
-        #region ================== Properties
-
         internal ViewStats ViewStats { get { return viewstats; } }
         internal bool OpenDoors { get { return cbopendoors.Checked; } } //mxd
         internal bool ShowHeatmap { get { return cbheatmap.Checked; } } //mxd
         internal int ViewHeight { get { return viewheight; } }
         internal int ViewHeightDefault { get { return viewheightdefault; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public InterfaceForm()
@@ -56,10 +36,6 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
 
             RedrawViewHeightMenuItems();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This adds the buttons to the toolbar
         public void AddToInterface()
@@ -110,10 +86,6 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
         {
             tooltip.Hide(General.Interface);
         }
-
-        #endregion
-
-        #region ================== Events
 
         // Selecting a type of stats to view
         private void stats_Click(object sender, EventArgs e)
@@ -200,7 +172,5 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
             foreach (ToolStripMenuItem heightitem in heightbutton.DropDownItems)
                 heightitem.Checked = viewheight == int.Parse((string)heightitem.Tag, CultureInfo.InvariantCulture);
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using System;
@@ -22,8 +18,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using Font = System.Drawing.Font;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Rendering
 {
@@ -45,11 +39,6 @@ namespace CodeImp.DoomBuilder.Rendering
 
     public class TextLabel : IDisposable, IRenderResource, ITextLabel
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // The text is stored as a polygon in a vertex buffer
         private VertexBuffer textbuffer;
@@ -95,10 +84,6 @@ namespace CodeImp.DoomBuilder.Rendering
         private static SolidBrush brush;
         private static Pen pen;
 
-        #endregion
-
-        #region ================== Properties
-
         // Properties
         public Vector2D Location { get { return location; } set { location = value; updateneeded = true; } } //mxd
         public string Text { get { return text; } set { if (text != value) { text = value; textsize = Size.Empty; textureupdateneeded = true; } } }
@@ -137,10 +122,6 @@ namespace CodeImp.DoomBuilder.Rendering
 
         // Disposing
         public bool IsDisposed { get { return isdisposed; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         private FontFamily GetFontFamily()
         {
@@ -224,10 +205,6 @@ namespace CodeImp.DoomBuilder.Rendering
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // ano - share resources instead of constantly alloc/dealloc
         public void InitializeStatics()
@@ -480,7 +457,5 @@ namespace CodeImp.DoomBuilder.Rendering
                 location.y <= (General.Map.CRenderer2D.Viewport.Y - height) &&
                 location.y > (General.Map.CRenderer2D.Viewport.Y + General.Map.CRenderer2D.Viewport.Height + height);
         }
-
-        #endregion
     }
 }

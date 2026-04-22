@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Windows;
@@ -23,8 +19,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq; // biwa
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Controls
 {
@@ -45,23 +39,14 @@ namespace CodeImp.DoomBuilder.Controls
 
     internal partial class ImageBrowserControl : UserControl
     {
-        #region ================== Constants
 
         private static readonly HashSet<char> AllowedSpecialChars = new HashSet<char>("!@#$%^&*()-_=+<>,.?/'\"\\;:[]{}`~".ToCharArray()); //mxd
-
-        #endregion
-
-        #region ================== Delegates / Events
 
         public delegate void SelectedItemChangedDelegate(ImageBrowserItem item);
         public delegate void SelectedItemDoubleClickDelegate(ImageBrowserItem item);
 
         public event SelectedItemChangedDelegate SelectedItemChanged;
         public event SelectedItemDoubleClickDelegate SelectedItemDoubleClicked;
-
-        #endregion
-
-        #region ================== Variables
 
         // Properties
         private bool preventselection;
@@ -80,10 +65,6 @@ namespace CodeImp.DoomBuilder.Controls
 
         //mxd
         private int texturetype;
-
-        #endregion
-
-        #region ================== Properties
 
         public bool PreventSelection { get { return preventselection; } set { preventselection = value; } }
         public bool HideInputBox { get { return splitter.Panel2Collapsed; } set { splitter.Panel2Collapsed = value; } }
@@ -104,10 +85,6 @@ namespace CodeImp.DoomBuilder.Controls
             get { return imagesize; }
             set { imagesize = value; }
         }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public ImageBrowserControl()
@@ -216,10 +193,6 @@ namespace CodeImp.DoomBuilder.Controls
             refreshtimer.Enabled = false;
         }
 
-        #endregion
-
-        #region ================== Rendering
-
         // Refresher
         private void refreshtimer_Tick(object sender, EventArgs e)
         {
@@ -242,10 +215,6 @@ namespace CodeImp.DoomBuilder.Controls
             // Redraw the list if needed
             if (redrawneeded) list.Invalidate();
         }
-
-        #endregion
-
-        #region ================== Events
 
         // Name typed
         private void objectname_TextChanged(object sender, EventArgs e)
@@ -414,10 +383,6 @@ namespace CodeImp.DoomBuilder.Controls
                 list.Focus();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This selects an item by longname (mxd - changed from name to longname)
         public void SelectItem(long longname)
@@ -706,7 +671,5 @@ namespace CodeImp.DoomBuilder.Controls
         {
             list.CenterItem = centeritem.Checked;
         }
-
-        #endregion
     }
 }

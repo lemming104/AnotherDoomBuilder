@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,40 +11,22 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using System.Globalization;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Types
 {
     [TypeHandler(UniversalType.EnumStrings, "Setting", false)]
     internal class EnumStringsHandler : TypeHandler
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private EnumList list;
         private EnumItem value;
         private EnumItem defaultvalue; //mxd
 
-        #endregion
-
-        #region ================== Properties
-
         public override bool IsBrowseable { get { return true; } }
         public override bool IsEnumerable { get { return true; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         // When set up for an argument
         public override void SetupArgument(TypeHandlerAttribute attr, ArgumentInfo arginfo)
@@ -66,10 +47,6 @@ namespace CodeImp.DoomBuilder.Types
             // Keep enum list reference
             if (fieldinfo != null) list = fieldinfo.Enum; else list = new EnumList();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public override void SetValue(object value)
         {
@@ -176,7 +153,5 @@ namespace CodeImp.DoomBuilder.Types
         {
             return defaultvalue;
         }
-
-        #endregion
     }
 }

@@ -1,30 +1,18 @@
-﻿#region ================== Namespaces
-
+﻿
 using System;
 using System.Globalization;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Controls
 {
     public partial class PairedIntControl : UserControl
     {
-        #region ================== Events
 
         public event EventHandler OnValuesChanged;
-
-        #endregion
-
-        #region ================== Variables
 
         private int defaultValue;
         private bool blockUpdate;
         private bool changed;
-
-        #endregion
-
-        #region ================== Properties
 
         public bool NonDefaultValue { get { return changed; } }
         public int DefaultValue { get { return defaultValue; } set { defaultValue = value; } }
@@ -32,8 +20,6 @@ namespace CodeImp.DoomBuilder.Controls
         public float ButtonStepBig { get { return value1.ButtonStepBig; } set { value1.ButtonStepBig = value; value2.ButtonStepBig = value; } }
         public float ButtonStepSmall { get { return value1.ButtonStepSmall; } set { value1.ButtonStepSmall = value; value2.ButtonStepSmall = value; } }
         public bool ButtonStepsUseModifierKeys { get { return value1.ButtonStepsUseModifierKeys; } set { value1.ButtonStepsUseModifierKeys = value; value2.ButtonStepsUseModifierKeys = value; } }
-
-        #endregion
 
         public PairedIntControl()
         {

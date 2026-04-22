@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,29 +11,15 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Windows;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes.Interface
 {
     public partial class PreferencesForm : DelayedForm
     {
-        #region ================== Variables
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Contrustor
         public PreferencesForm()
@@ -71,10 +56,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             selectafterundoredo.Checked = General.Settings.ReadPluginSetting("selectchangedafterundoredo", false);
             usebuggyfloodselect.Checked = General.Settings.ReadPluginSetting("usebuggyfloodselect", false);
         }
-
-        #endregion
-
-        #region ================== Events
 
         // When OK is pressed on the preferences dialog
         public void OnAccept(PreferencesController controller)
@@ -123,10 +104,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         {
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This sets up the form with the preferences controller
         public void Setup(PreferencesController controller)
         {
@@ -140,8 +117,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             controller.OnAccept += OnAccept;
             controller.OnCancel += OnCancel;
         }
-
-        #endregion
 
     }
 }

@@ -9,8 +9,6 @@ namespace CodeImp.DoomBuilder.VisualModes
     internal abstract class BaseVisualSlope : VisualSlope, IVisualEventReceiver
     {
 
-        #region ================== Variables
-
         protected readonly BaseVisualMode mode;
         protected readonly SectorLevel level;
         protected Vector3D pickintersect;
@@ -18,15 +16,7 @@ namespace CodeImp.DoomBuilder.VisualModes
         protected readonly bool up;
         protected Plane plane;
 
-        #endregion
-
-        #region ================== Properties
-
         public SectorLevel Level { get { return level; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         public BaseVisualSlope(BaseVisualMode mode, SectorLevel level, bool up)
         {
@@ -34,10 +24,6 @@ namespace CodeImp.DoomBuilder.VisualModes
             this.level = level;
             this.up = up;
         }
-
-        #endregion
-
-        #region ================== Events
 
         // Select or deselect
         public virtual void OnSelectEnd()
@@ -133,7 +119,5 @@ namespace CodeImp.DoomBuilder.VisualModes
         public void OnDelete() { }
         public void OnPaintSelectBegin() { }
         public void OnMouseMove(MouseEventArgs e) { }
-
-        #endregion
     }
 }

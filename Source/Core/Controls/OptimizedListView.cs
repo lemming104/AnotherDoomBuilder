@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,29 +11,19 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     public class OptimizedListView : ListView
     {
-        #region ================== API Declarations
 
         [DllImport("user32.dll")]
         private static extern int SendMessage(IntPtr window, int message, int wParam, ref LVGROUP lParam);
-
-        #endregion
-
-        #region ================== Structs
 
         [StructLayout(LayoutKind.Sequential)]
         private struct LVGROUP
@@ -53,10 +42,6 @@ namespace CodeImp.DoomBuilder.Controls
             public int uAlign;
         }
 
-        #endregion
-
-        #region ================== Enums
-
         [Flags]
         private enum GroupState
         {
@@ -65,16 +50,8 @@ namespace CodeImp.DoomBuilder.Controls
             EXPANDED = 0
         }
 
-        #endregion
-
-        #region ================== Delegates
-
         private delegate bool CallBackSetGroupCollapsible(ListViewGroup group, bool collapsed);
         private delegate bool CallBackGetGroupCollapsed(ListViewGroup group);
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor
         public OptimizedListView()
@@ -82,10 +59,6 @@ namespace CodeImp.DoomBuilder.Controls
             this.DoubleBuffered = true;
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         //mxd. Collapsible groups support. Created using http://www.codeproject.com/Articles/31276/Add-Group-Collapse-Behavior-on-a-Listview-Control as a reference
         public bool SetGroupCollapsed(ListViewGroup group, bool collapsed)
@@ -153,7 +126,5 @@ namespace CodeImp.DoomBuilder.Controls
                     break;
             }
         }
-
-        #endregion
     }
 }

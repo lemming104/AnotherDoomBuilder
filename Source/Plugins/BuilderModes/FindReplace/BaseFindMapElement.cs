@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * Copyright (c) 2021 Boris Iwanski
  * This program is released under GNU General Public License
@@ -11,21 +10,15 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     internal class BaseFindMapElement : FindReplaceType
     {
-        #region ================== Methods
 
         // This is called when a specific object is selected from the list
         public override void ObjectSelected(FindReplaceObject[] selection)
@@ -124,7 +117,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (vertices.Count > 0)
                 General.Interface.ShowEditVertices(vertices);
         }
-
-        #endregion
     }
 }

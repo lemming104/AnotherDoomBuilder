@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,9 +18,6 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.BuilderModes;
 using CodeImp.DoomBuilder.Editing;
@@ -33,19 +29,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
     class SidedefWrapper : MapElementWrapper, IEquatable<SidedefWrapper>
     {
-        #region ================== Variables
 
         private Sidedef sidedef;
-
-        #endregion
-
-        #region IEquatable<SidedefWrapper> members
 
         public bool Equals(SidedefWrapper other)
         {
@@ -61,10 +50,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
         {
             return sidedef.GetHashCode();
         }
-
-        #endregion
-
-        #region ================== Properties
 
         /// <summary>
         /// The `Sidedef`'s index. Read-only.
@@ -499,32 +484,18 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             }
         }
 
-        #endregion
-
-        #region ================== Constructors
-
         internal SidedefWrapper(Sidedef sidedef) : base(sidedef)
         {
             this.sidedef = sidedef;
         }
 
-        #endregion
-
-        #region ================== Update
-
         internal override void AfterFieldsUpdate()
         {
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public override string ToString()
         {
             return sidedef.ToString();
         }
-
-        #endregion
     }
 }

@@ -11,7 +11,6 @@ namespace CodeImp.DoomBuilder.Data.Scripting
     [ScriptHandler(ScriptType.ZSCRIPT)]
     internal class ZScriptScriptHandler : ScriptHandler
     {
-        #region ================== Methods
 
         //TODO: Remove ScriptDocumentTab from here
         public override List<CompilerError> UpdateFunctionBarItems(ScriptDocumentTab tab, MemoryStream stream, ComboBox target)
@@ -31,7 +30,5 @@ namespace CodeImp.DoomBuilder.Data.Scripting
 
             return result;
         }
-
-        #endregion
     }
 }

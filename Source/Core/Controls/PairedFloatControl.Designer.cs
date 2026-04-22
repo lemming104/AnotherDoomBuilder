@@ -20,8 +20,6 @@
             base.Dispose(disposing);
         }
 
-        #region Component Designer generated code
-
         /// <summary> 
         /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
@@ -117,8 +115,6 @@
 			this.ResumeLayout(false);
 
         }
-
-        #endregion
 
         private System.Windows.Forms.Button bReset;
         private System.Windows.Forms.Button bLink;

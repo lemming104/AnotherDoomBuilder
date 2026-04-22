@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Config;
@@ -42,13 +38,10 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Windows
 {
     public partial class MainForm : DelayedForm, IMainForm
     {
-        #region ================== Constants
 
         // Recent files
         private const int MAX_RECENT_FILES_PIXELS = 250;
@@ -77,23 +70,11 @@ namespace CodeImp.DoomBuilder.Windows
             }
         };
 
-        #endregion
-
-        #region ================== Delegates
-
         //private delegate void CallUpdateStatusIcon();
         //private delegate void CallImageDataLoaded(ImageData img);
         private delegate void CallBlink(); //mxd
 
-        #endregion
-
-        #region ================== mxd. Events
-
         public event EventHandler OnEditFormValuesChanged; //mxd
-
-        #endregion
-
-        #region ================== Variables
 
         // Position/size
         private bool displayresized = true;
@@ -162,10 +143,6 @@ namespace CodeImp.DoomBuilder.Windows
 
         private CommandPaletteControl commandpalette;
 
-        #endregion
-
-        #region ================== Properties
-
         public bool ShiftState { get { return shift; } }
         public bool CtrlState { get { return ctrl; } }
         public bool AltState { get { return alt; } }
@@ -183,10 +160,6 @@ namespace CodeImp.DoomBuilder.Windows
         public static Size ScaledIconSize = new Size(16, 16); //mxd
         public static SizeF DPIScaler = new SizeF(1.0f, 1.0f); //mxd
         public int ProcessingCount { get { return processingcount; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal MainForm()
@@ -293,10 +266,6 @@ namespace CodeImp.DoomBuilder.Windows
             KeyPreview = true;
             PreviewKeyDown += new PreviewKeyDownEventHandler(MainForm_PreviewKeyDown);
         }
-
-        #endregion
-
-        #region ================== General
 
         // Editing mode changed!
         internal void EditModeChanged()
@@ -484,10 +453,6 @@ namespace CodeImp.DoomBuilder.Windows
 
             commandpalette.MakeVisible();
         }
-
-        #endregion
-
-        #region ================== Window
 
         // This locks the window for updating
         internal void LockUpdate()
@@ -764,10 +729,6 @@ namespace CodeImp.DoomBuilder.Windows
             }
         }
 
-        #endregion
-
-        #region ================== Statusbar
-
         // This updates the status bar
         private void UpdateStatusbar()
         {
@@ -1014,10 +975,6 @@ namespace CodeImp.DoomBuilder.Windows
             if (General.Map != null) GridSetup.ShowGridSetup();
         }
 
-        #endregion
-
-        #region ================== Display
-
         // This shows the splash screen on display
         internal void ShowSplashDisplay()
         {
@@ -1260,10 +1217,6 @@ namespace CodeImp.DoomBuilder.Windows
                 General.Editing.Mode.OnMouseUp(e);
             }
         }
-
-        #endregion
-
-        #region ================== Input
 
         // This is a tool to lock the mouse in exclusive mode
         private void StartMouseExclusive()
@@ -1559,10 +1512,6 @@ namespace CodeImp.DoomBuilder.Windows
                 MainForm_KeyDown(sender, ea);
             }
         }
-
-        #endregion
-
-        #region ================== Toolbar
 
         // This updates the skills list
         private void UpdateSkills()
@@ -2393,10 +2342,6 @@ namespace CodeImp.DoomBuilder.Windows
             }
         }
 
-        #endregion
-
-        #region ================== Toolbar context menu (mxd)
-
         private void toolbarContextMenu_Opening(object sender, CancelEventArgs e)
         {
             if (General.Map == null)
@@ -2521,10 +2466,6 @@ namespace CodeImp.DoomBuilder.Windows
             if (toolbarContextMenuShiftPressed)
                 toggleRendering.Image = General.Settings.GZToolbarGZDoom ? Resources.Check : null;
         }
-
-        #endregion
-
-        #region ================== Menus
 
         // This adds a menu to the menus bar
         public void AddMenu(ToolStripItem menu) { AddMenu(menu, MenuSection.Top, General.Plugins.FindPluginByAssembly(Assembly.GetCallingAssembly())); }
@@ -2683,10 +2624,6 @@ namespace CodeImp.DoomBuilder.Windows
                 }
             }
         }
-
-        #endregion
-
-        #region ================== File Menu
 
         // This sets up the file menu
         private void UpdateFileMenu()
@@ -2878,10 +2815,6 @@ namespace CodeImp.DoomBuilder.Windows
         {
             UpdateRecentItems();
         }
-
-        #endregion
-
-        #region ================== Edit Menu
 
         // This sets up the edit menu
         private void UpdateEditMenu()
@@ -3216,10 +3149,6 @@ namespace CodeImp.DoomBuilder.Windows
             DisplayStatus(StatusType.Action, "\"Replace with Dragged Geometry\" mode selected");
         }
 
-        #endregion
-
-        #region ================== View Menu
-
         // This sets up the View menu
         private void UpdateViewMenu()
         {
@@ -3366,19 +3295,11 @@ namespace CodeImp.DoomBuilder.Windows
             General.MainWindow.UpdateGZDoomPanel();
         }
 
-        #endregion
-
-        #region ================== Mode Menu
-
         // This sets up the modes menu
         private void UpdateModeMenu()
         {
             menumode.Visible = General.Map != null;
         }
-
-        #endregion
-
-        #region ================== Help Menu
 
         // This sets up the help menu
         private void UpdateHelpMenu()
@@ -3542,10 +3463,6 @@ namespace CodeImp.DoomBuilder.Windows
                 + "I swear it was here: \"" + General.SettingsPath + "\"!", MessageBoxButtons.OK); // I don't think this will ever happen
         }
 
-        #endregion
-
-        #region ================== Prefabs Menu
-
         // This sets up the prefabs menu
         private void UpdatePrefabsMenu()
         {
@@ -3560,10 +3477,6 @@ namespace CodeImp.DoomBuilder.Windows
             buttoninsertprefabfile.Enabled = iteminsertprefabfile.Enabled;
             buttoninsertpreviousprefab.Enabled = iteminsertpreviousprefab.Enabled;
         }
-
-        #endregion
-
-        #region ================== Tools Menu
 
         // This sets up the tools menu
         private void UpdateToolsMenu()
@@ -3831,10 +3744,6 @@ namespace CodeImp.DoomBuilder.Windows
             }
         }
 
-        #endregion
-
-        #region ================== Models and Lights mode (mxd)
-
         private void ChangeModelRenderingMode(object sender, EventArgs e)
         {
             General.Settings.GZDrawModelsMode = (ModelRenderMode)((ToolStripMenuItem)sender).Tag;
@@ -3886,11 +3795,6 @@ namespace CodeImp.DoomBuilder.Windows
             UpdateGZDoomPanel();
             RedrawDisplay();
         }
-
-
-        #endregion
-
-        #region ================== Info Panels
 
         // This toggles the panel expanded / collapsed
         [BeginAction("toggleinfopanel")]
@@ -4181,10 +4085,6 @@ namespace CodeImp.DoomBuilder.Windows
             panelinfo.ResumeLayout();
         }
 
-        #endregion
-
-        #region ================== Dialogs
-
         // This browses for a texture
         // Returns the new texture name or the same texture name when cancelled
         public string BrowseTexture(IWin32Window owner, string initialvalue)
@@ -4470,10 +4370,6 @@ namespace CodeImp.DoomBuilder.Windows
             }
         }
 
-        #endregion
-
-        #region ================== Threadsafe updates
-
         object syncobject = new object();
         List<System.Action> queuedActions = new List<System.Action>();
 
@@ -4546,10 +4442,6 @@ namespace CodeImp.DoomBuilder.Windows
                 }
             });
         }
-
-        #endregion
-
-        #region ================== Message Pump
 
         // This handles messages
         protected override void WndProc(ref Message m)
@@ -4631,10 +4523,6 @@ namespace CodeImp.DoomBuilder.Windows
             }
             catch (ObjectDisposedException) { } //la-la-la. We don't care.
         }
-
-        #endregion
-
-        #region ================== Processing
 
         // This is called from the background thread when images are loaded
         // but only when first loaded or when dimensions were changed
@@ -4735,10 +4623,6 @@ namespace CodeImp.DoomBuilder.Windows
                 General.Editing.Mode.OnProcess(deltatime);
             }
         }
-
-        #endregion
-
-        #region ================== Dockers
 
         // This adds a docker
         public void AddDocker(Docker d)
@@ -4847,10 +4731,6 @@ namespace CodeImp.DoomBuilder.Windows
             }
         }
 
-        #endregion
-
-        #region ================== Updater (mxd)
-
         private delegate void UpdateAvailableCallback(int remoterev, string changelog);
         internal void UpdateAvailable(int remoterev, string changelog)
         {
@@ -4866,10 +4746,6 @@ namespace CodeImp.DoomBuilder.Windows
                 form.Show(this);
             });
         }
-
-        #endregion
-
-        #region ================== Graphics (mxd)
 
         public SizeF MeasureString(string text, Font font)
         {
@@ -4897,7 +4773,5 @@ namespace CodeImp.DoomBuilder.Windows
 
             return length;
         }
-
-        #endregion
     }
 }

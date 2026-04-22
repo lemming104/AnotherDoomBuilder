@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.ZDoom;
@@ -22,13 +18,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Data
 {
     internal abstract class PK3StructuredReader : DataReader
     {
-        #region ================== Constants
 
         protected const string PATCHES_DIR = "patches";
         protected const string TEXTURES_DIR = "textures";
@@ -38,10 +31,6 @@ namespace CodeImp.DoomBuilder.Data
         protected const string COLORMAPS_DIR = "colormaps";
         protected const string GRAPHICS_DIR = "graphics"; //mxd
         protected const string VOXELS_DIR = "voxels"; //mxd
-
-        #endregion
-
-        #region ================== Variables
 
         // Optional setting
         public bool Silent = false;
@@ -53,16 +42,8 @@ namespace CodeImp.DoomBuilder.Data
         // WAD files that must be loaded as well
         protected List<WADReader> wads;
 
-        #endregion
-
-        #region ================== Properties
-
         protected readonly string[] PatchLocations = { PATCHES_DIR, TEXTURES_DIR, FLATS_DIR, SPRITES_DIR, GRAPHICS_DIR }; //mxd. Because ZDoom looks for patches and sprites in this order
         internal List<WADReader> Wads { get { return wads; } } //mxd
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         protected PK3StructuredReader(DataLocation dl, bool asreadonly) : base(dl, asreadonly)
@@ -102,10 +83,6 @@ namespace CodeImp.DoomBuilder.Data
             }
         }
 
-        #endregion
-
-        #region ================== Management
-
         // This suspends use of this resource
         public override void Suspend()
         {
@@ -119,10 +96,6 @@ namespace CodeImp.DoomBuilder.Data
             foreach (WADReader wr in wads) wr.Resume();
             base.Resume();
         }
-
-        #endregion
-
-        #region ================== Palette
 
         // This loads the PLAYPAL palette
         public override Playpal LoadPalette()
@@ -185,10 +158,6 @@ namespace CodeImp.DoomBuilder.Data
             // Done
             return colormap;
         }
-
-        #endregion
-
-        #region ================== Textures
 
         // This loads the textures
         public override IEnumerable<ImageData> LoadTextures(PatchNames pnames, Dictionary<string, TexturesParser> cachedparsers)
@@ -327,10 +296,6 @@ namespace CodeImp.DoomBuilder.Data
             return null;
         }
 
-        #endregion
-
-        #region ================== Flats
-
         // This loads the textures
         public override IEnumerable<ImageData> LoadFlats(Dictionary<string, TexturesParser> cachedparsers)
         {
@@ -412,10 +377,6 @@ namespace CodeImp.DoomBuilder.Data
             return null;
         }
 
-        #endregion
-
-        #region ================== Sprites
-
         // This loads the sprites
         public override IEnumerable<ImageData> LoadSprites(Dictionary<string, TexturesParser> cachedparsers)
         {
@@ -488,10 +449,6 @@ namespace CodeImp.DoomBuilder.Data
             return result;
         }
 
-        #endregion
-
-        #region ================== Colormaps
-
         // This loads the textures
         public override ICollection<ImageData> LoadColormaps()
         {
@@ -519,10 +476,6 @@ namespace CodeImp.DoomBuilder.Data
             return new List<ImageData>(images.Values);
         }
 
-        #endregion
-
-        #region ================== DEHACKED
-
         // This finds and returns DEHACKED streams
         public override IEnumerable<TextResourceData> GetDehackedData()
         {
@@ -547,10 +500,6 @@ namespace CodeImp.DoomBuilder.Data
             return result;
         }
 
-        #endregion
-
-        #region ================== IWADINFO
-
         public override List<IWadInfo> GetIWadInfos()
         {
             IWadInfoParser parser = new IWadInfoParser();
@@ -569,10 +518,6 @@ namespace CodeImp.DoomBuilder.Data
 
             return parser.IWads;
         }
-
-        #endregion
-
-        #region ================== DECORATE
 
         // This finds and returns DECORATE streams
         public override IEnumerable<TextResourceData> GetDecorateData(string pname, bool exactmatch)
@@ -604,10 +549,6 @@ namespace CodeImp.DoomBuilder.Data
             return result;
         }
 
-        #endregion
-
-        #region ================== ZSCRIPT
-
         // This finds and returns ZSCRIPT streams
         public override IEnumerable<TextResourceData> GetZScriptData(string pname, bool exactmatch)
         {
@@ -637,10 +578,6 @@ namespace CodeImp.DoomBuilder.Data
 
             return result;
         }
-
-        #endregion
-
-        #region ================== MODELDEF
 
         // This finds and returns MODELDEF streams
         public override IEnumerable<TextResourceData> GetModeldefData(string pname)
@@ -672,10 +609,6 @@ namespace CodeImp.DoomBuilder.Data
             return result;
         }
 
-        #endregion
-
-        #region ================== VOXELDEF (mxd)
-
         //mxd. This returns the list of voxels, which can be used without VOXELDEF definition
         public override HashSet<string> GetVoxelNames()
         {
@@ -702,10 +635,6 @@ namespace CodeImp.DoomBuilder.Data
             return result;
         }
 
-        #endregion
-
-        #region ================== (Z)MAPINFO (mxd)
-
         //mxd
         public override IEnumerable<TextResourceData> GetMapinfoData()
         {
@@ -728,10 +657,6 @@ namespace CodeImp.DoomBuilder.Data
 
             return result;
         }
-
-        #endregion
-
-        #region ================== GLDEFS (mxd)
 
         //mxd
         public override IEnumerable<TextResourceData> GetGldefsData(string basegame)
@@ -764,10 +689,6 @@ namespace CodeImp.DoomBuilder.Data
             return result;
         }
 
-        #endregion
-
-        #region ================== Generic text lumps loading (mxd)
-
         public override IEnumerable<TextResourceData> GetTextLumpData(ScriptType scripttype, bool singular, bool partialtitlematch)
         {
             // Error when suspended
@@ -799,10 +720,6 @@ namespace CodeImp.DoomBuilder.Data
 
             return result;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This loads the images in this directory
         private ICollection<ImageData> LoadDirectoryImages(string path, int imagetype, bool includesubdirs)
@@ -929,7 +846,5 @@ namespace CodeImp.DoomBuilder.Data
         {
             return LoadFile(name);
         }
-
-        #endregion
     }
 }

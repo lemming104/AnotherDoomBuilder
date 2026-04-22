@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2014 Boris Iwanski
-
+﻿
 /*
  * Copyright (c) 2014 Boris Iwanski
  * This program is released under GNU General Public License
@@ -10,8 +9,6 @@
  * GNU General Public License for more details.
  * 
  */
-
-#endregion
 
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
@@ -43,8 +40,6 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
     public class ControlSectorArea
     {
 
-        #region ================== Enums
-
         public enum Highlight
         {
             None,
@@ -58,10 +53,6 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
             OuterBottomRight,
             Body
         };
-
-        #endregion
-
-        #region ================== Variables
 
         private RectangleF outerborder;
         private PixelColor bordercolor = new PixelColor(255, 0, 192, 0);
@@ -82,10 +73,6 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
         private bool usecustomtagrange;
         private int firsttag;
         private int lasttag;
-
-        #endregion
-
-        #region ================== Properties
 
         public double GridSize { get { return gridsize; } }
         public double SectorSize { get { return sectorsize; } }
@@ -120,10 +107,6 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
         public int FirstTag { get { return firsttag; } set { firsttag = value; } }
         public int LastTag { get { return lasttag; } set { lasttag = value; } }
 
-        #endregion
-
-        #region ================== Constructor / Disposer
-
         public ControlSectorArea(float outerleft, float outerright, float outertop, float outerbottom, float gridsize, float sectorsize)
         {
             this.outerleft = outerleft;
@@ -141,10 +124,6 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
 
             UpdateLinesAndPoints();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public void UpdateLinesAndPoints()
         {
@@ -634,7 +613,5 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
         {
             return b == 0 ? a : GCD(b, a % b);
         }
-
-        #endregion
     }
 }

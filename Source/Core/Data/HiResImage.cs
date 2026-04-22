@@ -1,36 +1,24 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.IO;
 using System;
 using System.Drawing;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Data
 {
     public sealed class HiResImage : ImageData
     {
-        #region ================== Variables
 
         private Vector2D sourcescale;
         private Size sourcesize;
         private bool overridesettingsapplied;
-
-        #endregion
-
-        #region ================== Properties
 
         public override int Width { get { return sourcesize.Width; } }
         public override int Height { get { return sourcesize.Height; } }
         public override float ScaledWidth { get { return (float)Math.Round(sourcesize.Width * sourcescale.x); } }
         public override float ScaledHeight { get { return (float)Math.Round(sourcesize.Height * sourcescale.y); } }
         public override Vector2D Scale { get { return sourcescale; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         public HiResImage(string name)
         {
@@ -72,10 +60,6 @@ namespace CodeImp.DoomBuilder.Data
             // We have no destructor
             GC.SuppressFinalize(this);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         protected override void SetName(string name)
         {
@@ -172,7 +156,5 @@ namespace CodeImp.DoomBuilder.Data
                 }
             });
         }
-
-        #endregion
     }
 }

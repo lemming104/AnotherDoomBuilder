@@ -1,14 +1,10 @@
-﻿#region ================== Namespaces
-
+﻿
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.ZDoom
 {
     public class SoundInfo
     {
-        #region ================== Enums
 
         public enum RolloffType
         {
@@ -25,17 +21,9 @@ namespace CodeImp.DoomBuilder.ZDoom
             GROUP_RANDOM,
         }
 
-        #endregion
-
-        #region ================== Variables
-
         private string name;
         private List<SoundInfo> children;
         private SoundInfoType type;
-
-        #endregion
-
-        #region ================== Properties
 
         public string Name { get { return name; } }
         public List<SoundInfo> Children { get { return children; } }
@@ -49,10 +37,6 @@ namespace CodeImp.DoomBuilder.ZDoom
         public int MaximumDistance;
         public RolloffType Rolloff;
         public float RolloffFactor;
-
-        #endregion
-
-        #region ================== Constructor
 
         public SoundInfo(string name)
         {
@@ -84,7 +68,5 @@ namespace CodeImp.DoomBuilder.ZDoom
             Rolloff = RolloffType.NONE;
             RolloffFactor = 1.0f; // Is this the default value?
         }
-
-        #endregion
     }
 }

@@ -1,39 +1,23 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Windows
 {
     public partial class BitFlagsAndOptionsForm : DelayedForm
     {
-        #region ================== Variables
 
         private bool blockupdate;
         private int value;
 
-        #endregion
-
-        #region ================== Properties
-
         public int Value { get { return value; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         public BitFlagsAndOptionsForm()
         {
             InitializeComponent();
         }
-
-        #endregion
-
-        #region ================== Events
 
         // When a flags checkbox is clicked
         private void flagsbox_CheckedChanged(object sender, EventArgs e)
@@ -133,10 +117,6 @@ namespace CodeImp.DoomBuilder.Windows
             this.Close();
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // Setup from EnumList
         public void Setup(EnumList optionslist, EnumList flagslist, int value)
         {
@@ -217,7 +197,5 @@ namespace CodeImp.DoomBuilder.Windows
             f.Dispose();
             return result;
         }
-
-        #endregion
     }
 }

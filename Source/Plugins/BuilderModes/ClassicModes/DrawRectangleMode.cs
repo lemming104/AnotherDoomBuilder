@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
 using CodeImp.DoomBuilder.Editing;
@@ -11,8 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
@@ -27,7 +24,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
     public class DrawRectangleMode : DrawGeometryMode
     {
-        #region ================== Variables
 
         protected HintLabel hintlabel;
         protected int bevelwidth;
@@ -53,10 +49,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Interface
         private DrawRectangleOptionsPanel panel;
 
-        #endregion
-
-        #region ================== Constructor/Disposer
-
         public DrawRectangleMode()
         {
             snaptogrid = true;
@@ -76,10 +68,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Settings panel
 
         protected override void SetupInterface()
         {
@@ -131,10 +119,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Remove the buttons
             panel.Unregister();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         override protected void Update()
         {
@@ -419,10 +403,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             RemovePoint();
         }
 
-        #endregion
-
-        #region ================== Events
-
         override public void OnAccept()
         {
             Cursor.Current = Cursors.AppStarting;
@@ -546,10 +526,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             radialdrawing = (bool)value;
         }
 
-        #endregion
-
-        #region ================== Actions
-
         [BeginAction("increasesubdivlevel")]
         protected virtual void IncreaseSubdivLevel()
         {
@@ -593,8 +569,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 Update();
             }
         }
-
-        #endregion
 
     }
 }

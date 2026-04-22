@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,28 +11,18 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Drawing;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     public class LineLengthLabel : CustomTextLabel, IDisposable
     {
-        #region ================== Constants
 
         private const string VALUE_FORMAT = "0";
-
-        #endregion
-
-        #region ================== Variables
 
         protected Vector2D start;
         protected Vector2D end;
@@ -42,17 +31,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private bool showangle;
         private bool offsetposition;
 
-        #endregion
-
-        #region ================== Properties
-
         //mxd. Display options
         public bool ShowAngle { get { return showangle; } set { showangle = value; UpdateText(); } }
         public bool OffsetPosition { get { return offsetposition; } set { offsetposition = value; Move(start, end); } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public LineLengthLabel()
@@ -114,10 +95,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             label.Dispose();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This updates the text
         protected virtual void UpdateText()
@@ -200,7 +177,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             Vector2D delta = end - start;
             label.Location = new Vector2D(start.x + (delta.x * 0.5f), start.y + (delta.y * 0.5f));
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
@@ -7,13 +6,10 @@ using CodeImp.DoomBuilder.VisualModes;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     internal class BaseVisualVertex : VisualVertex, IVisualEventReceiver
     {
-        #region ================== Variables
 
         private readonly BaseVisualMode mode;
         private readonly double cageradius2;
@@ -25,8 +21,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
         //updating
         private static Dictionary<BaseVisualSector, bool> updateList;
-
-        #endregion
 
         // Constructor
         public BaseVisualVertex(BaseVisualMode mode, Vertex v, bool ceilingVertex)
@@ -126,8 +120,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             return selected;
         }
-
-        #region ================== Object picking
 
         // This performs a fast test in object picking
         public override bool PickFastReject(Vector3D from, Vector3D to, Vector3D dir)
@@ -232,10 +224,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             return true;
         }
 
-        #endregion
-
-        #region ================== Unused events
-
         // Unused
         public void OnSelectBegin() { }
         public void OnEditBegin() { }
@@ -264,10 +252,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void SelectNeighbours(bool select, bool withSameTexture, bool withSameHeight, bool stopatselected) { } //mxd
         public virtual void OnPaintSelectBegin() { } // biwa
         public virtual void OnPaintSelectEnd() { } // biwa
-
-        #endregion
-
-        #region ================== Events
 
         // Select or deselect
         public void OnSelectEnd()
@@ -398,7 +382,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             UpdateGeometry(vertex);
             changed = true;
         }
-
-        #endregion
     }
 }

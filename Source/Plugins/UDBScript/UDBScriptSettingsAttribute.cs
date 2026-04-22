@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2022 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,30 +18,18 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.UDBScript
 {
     sealed internal class UDBScriptSettingsAttribute : Attribute
     {
-        #region ================== Properties
 
         public int MinVersion { get; set; }
-
-        #endregion
-
-        #region ================== Constructors
 
         public UDBScriptSettingsAttribute()
         {
         }
-
-        #endregion
     }
 }

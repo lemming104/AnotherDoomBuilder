@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
@@ -22,21 +18,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.ZDoom
 {
     public sealed class TexturesParser : ZDTextParser
     {
-        #region ================== Delegates
-
-        #endregion
-
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private readonly Dictionary<string, TextureStructure> textures;
         private readonly Dictionary<string, TextureStructure> walltextures;
@@ -44,20 +29,12 @@ namespace CodeImp.DoomBuilder.ZDoom
         private readonly Dictionary<string, TextureStructure> sprites;
         private readonly char[] pathtrimchars = { '_', '.', ' ', '-' }; //mxd
 
-        #endregion
-
-        #region ================== Properties
-
         internal override ScriptType ScriptType { get { return ScriptType.TEXTURES; } } //mxd
 
         public IEnumerable<TextureStructure> Textures { get { return textures.Values; } }
         public IEnumerable<TextureStructure> WallTextures { get { return walltextures.Values; } }
         public IEnumerable<TextureStructure> Flats { get { return flats.Values; } }
         public IEnumerable<TextureStructure> Sprites { get { return sprites.Values; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public TexturesParser()
@@ -72,10 +49,6 @@ namespace CodeImp.DoomBuilder.ZDoom
             flats = new Dictionary<string, TextureStructure>(StringComparer.Ordinal);
             sprites = new Dictionary<string, TextureStructure>(StringComparer.Ordinal);
         }
-
-        #endregion
-
-        #region ================== Parsing
 
         // This parses the given stream
         // Returns false on errors
@@ -263,7 +236,5 @@ namespace CodeImp.DoomBuilder.ZDoom
 
             return new List<TextureStructure>(images.Values);
         }
-
-        #endregion
     }
 }

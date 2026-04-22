@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Windows;
@@ -23,34 +19,19 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Types
 {
     [TypeHandler(UniversalType.EnumBits, "Options", false)]
     internal class EnumBitsHandler : TypeHandler
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         protected EnumList list;
         protected int value;
         protected int defaultvalue; //mxd
 
-        #endregion
-
-        #region ================== Properties
-
         public override bool IsBrowseable { get { return true; } }
 
         public override Image BrowseImage { get { return Properties.Resources.List; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         // When set up for an argument
         public override void SetupArgument(TypeHandlerAttribute attr, ArgumentInfo arginfo)
@@ -71,9 +52,6 @@ namespace CodeImp.DoomBuilder.Types
             // Keep enum list reference
             list = fieldinfo.Enum;
         }
-        #endregion
-
-        #region ================== Methods
 
         public override void Browse(IWin32Window parent)
         {
@@ -133,7 +111,5 @@ namespace CodeImp.DoomBuilder.Types
         {
             return defaultvalue;
         }
-
-        #endregion
     }
 }

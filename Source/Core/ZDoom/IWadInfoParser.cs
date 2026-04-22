@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,34 +18,20 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.ZDoom
 {
     class IWadInfoParser : ZDTextParser
     {
-        #region ================== Variables
 
         private List<IWadInfo> iwads;
 
-        #endregion
-
-        #region ================== Properties
-
         internal override ScriptType ScriptType { get { return ScriptType.UNKNOWN; } }
         public List<IWadInfo> IWads { get { return iwads; } }
-
-        #endregion
-
-        #region ================== Constructors
 
         public IWadInfoParser()
         {
@@ -55,10 +40,6 @@ namespace CodeImp.DoomBuilder.ZDoom
             whitespace = "\n \t\r\u00A0";
             specialtokens = ",{}=\n";
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Parses DECALDEF data
@@ -184,7 +165,5 @@ namespace CodeImp.DoomBuilder.ZDoom
 
             return false;
         }
-
-        #endregion
     }
 }

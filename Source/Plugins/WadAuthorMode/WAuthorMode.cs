@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,17 +11,12 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes.Editing
 {
@@ -36,29 +30,16 @@ namespace CodeImp.DoomBuilder.BuilderModes.Editing
 
     public class WadAuthorMode : ClassicMode
     {
-        #region ================== Constants
 
         protected const float LINEDEF_HIGHLIGHT_RANGE = 10f;
         protected const float VERTEX_HIGHLIGHT_RANGE = 8f;
         protected const float THING_HIGHLIGHT_RANGE = 2f;
-
-        #endregion
-
-        #region ================== Variables
 
         // Tools
         protected WAuthorTools tools;
 
         // Highlighted item
         protected object highlighted;
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public WadAuthorMode()
@@ -83,10 +64,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Editing
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Cancel mode
         public override void OnCancel()
@@ -370,7 +347,5 @@ namespace CodeImp.DoomBuilder.BuilderModes.Editing
             // This shows a popup menu
             tools.LinedefPopup.Show(Cursor.Position);
         }
-
-        #endregion
     }
 }

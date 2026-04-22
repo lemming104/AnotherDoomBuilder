@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Rendering;
@@ -23,20 +19,13 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.IO
 {
     internal class DoomColormapReader : IImageReader
     {
-        #region ================== Variables
 
         // Palette to use
         private readonly Playpal palette;
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public DoomColormapReader(Playpal palette)
@@ -47,10 +36,6 @@ namespace CodeImp.DoomBuilder.IO
             // We have no destructor
             GC.SuppressFinalize(this);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This validates the data as doom flat
         public bool Validate(Stream stream)
@@ -171,8 +156,6 @@ namespace CodeImp.DoomBuilder.IO
 			}
 #endif
         }
-
-        #endregion
 
     }
 }

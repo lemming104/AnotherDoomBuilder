@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Compilers;
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Controls;
@@ -8,14 +7,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Data.Scripting
 {
     [ScriptHandler(ScriptType.MODELDEF)]
     internal class ModeldefScriptHandler : ScriptHandler
     {
-        #region ================== Methods
 
         //TODO: Remove ScriptDocumentTab from here
         public override List<CompilerError> UpdateFunctionBarItems(ScriptDocumentTab tab, MemoryStream stream, ComboBox target)
@@ -35,7 +31,5 @@ namespace CodeImp.DoomBuilder.Data.Scripting
 
             return result;
         }
-
-        #endregion
     }
 }

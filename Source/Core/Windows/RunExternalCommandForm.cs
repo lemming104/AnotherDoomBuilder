@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,9 +18,6 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using System;
@@ -31,13 +27,10 @@ using System.Management;
 using System.Threading;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Windows
 {
     public partial class RunExternalCommandForm : DelayedForm
     {
-        #region ================== Variables
 
         private Process process;
         private ProcessStartInfo startinfo;
@@ -46,16 +39,8 @@ namespace CodeImp.DoomBuilder.Windows
         private bool haserrors;
         private ExternalCommandSettings settings;
 
-        #endregion
-
-        #region ================== Delegates
-
         private delegate void CallStringBoolMethodDeletage(string s, bool iserror);
         private delegate void CallVoidMethodDeletage();
-
-        #endregion
-
-        #region ================== Constructors
 
         public RunExternalCommandForm(ProcessStartInfo startinfo, ExternalCommandSettings settings)
         {
@@ -69,10 +54,6 @@ namespace CodeImp.DoomBuilder.Windows
             this.startinfo = startinfo;
             this.settings = settings;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Starts execution of the external command
@@ -246,10 +227,6 @@ namespace CodeImp.DoomBuilder.Windows
             }
         }
 
-        #endregion
-
-        #region ================== Events
-
         private void RunExternalCommandForm_Shown(object sender, EventArgs e)
         {
             Start();
@@ -284,7 +261,5 @@ namespace CodeImp.DoomBuilder.Windows
             if (!process.HasExited)
                 e.Cancel = true;
         }
-
-        #endregion
     }
 }

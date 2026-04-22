@@ -1,31 +1,19 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     public class ResultVertexOverlappingLine : ErrorResult
     {
-        #region ================== Variables
 
         private readonly Linedef line;
         private readonly Vertex vertex;
 
-        #endregion
-
-        #region ================== Properties
-
         public override int Buttons { get { return 1; } }
         public override string Button1Text { get { return "Split Linedef"; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public ResultVertexOverlappingLine(Vertex v, Linedef l)
@@ -38,10 +26,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             hidden = l.IgnoredErrorChecks.Contains(this.GetType()) && v.IgnoredErrorChecks.Contains(this.GetType()); //mxd
             description = "This vertex overlaps this linedef without splitting it.";
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets if this result is displayed in ErrorCheckForm (mxd)
         internal override void Hide(bool hide)
@@ -104,7 +88,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             General.Map.Map.Update();
             return true;
         }
-
-        #endregion
     }
 }

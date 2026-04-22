@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
@@ -8,29 +7,18 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Data
 {
     public sealed class VoxelImage : ImageData, ISpriteImage
     {
-        #region ================== Variables
 
         private readonly string voxelname;
         private bool overridepalette;
         private int angleoffset;
 
-        #endregion
-
-        #region ================== Properties
-
         public string VoxelName { get { return voxelname; } }
         public bool OverridePalette { get { return overridepalette; } internal set { overridepalette = value; } }
         public int AngleOffset { get { return angleoffset; } internal set { angleoffset = value; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal VoxelImage(string name, string voxelname)
@@ -42,10 +30,6 @@ namespace CodeImp.DoomBuilder.Data
             // We have no destructor
             GC.SuppressFinalize(this);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This loads the image
         protected unsafe override LocalLoadResult LocalLoadImage()
@@ -294,7 +278,5 @@ namespace CodeImp.DoomBuilder.Data
                 offsety = pivotz;
             });
         }
-
-        #endregion
     }
 }

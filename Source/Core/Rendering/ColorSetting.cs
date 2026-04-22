@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -11,40 +10,22 @@
  * GNU General Public License for more details.
  * 
  */
-
-#endregion
 /*
-#region ================== Namespaces
 
 using System;
 using System.Drawing;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Rendering
 {
 	internal sealed class ColorSetting : IEquatable<ColorSetting>
 	{
-		#region ================== Constants
-
-		#endregion
-
-		#region ================== Variables
 
 		private string name;
 		private PixelColor color;
 
-		#endregion
-
-		#region ================== Properties
-
 		public Color Color { get { return Color.FromArgb(color.ToInt()); } set { color = PixelColor.FromColor(value); } }
 		public PixelColor PixelColor { get { return color; } set { color = value; } }
 		public string Name { get { return name; } }
-
-		#endregion
-
-		#region ================== Constructor / Disposer
 
 		// Constructor
 		public ColorSetting(string name, PixelColor color)
@@ -56,10 +37,6 @@ namespace CodeImp.DoomBuilder.Rendering
 			// We have no destructor
 			GC.SuppressFinalize(this);
 		}
-
-		#endregion
-
-		#region ================== Methods
 
 		// This returns a PixelColor with adjusted alpha
 		public PixelColor WithAlpha(byte a)
@@ -84,8 +61,6 @@ namespace CodeImp.DoomBuilder.Rendering
 		{
 			return Color.FromArgb(c.color.ToInt());
 		}
-		
-		#endregion
 	}
 }
 */

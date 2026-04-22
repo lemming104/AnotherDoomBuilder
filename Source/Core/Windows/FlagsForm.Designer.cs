@@ -20,8 +20,6 @@
 			base.Dispose(disposing);
 		}
 
-		#region Vom Windows Form-Designer generierter Code
-
 		/// <summary>
 		/// Erforderliche Methode für die Designerunterstützung.
 		/// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
@@ -106,8 +104,6 @@
 			this.ResumeLayout(false);
 
 		}
-
-		#endregion
 
 		private CodeImp.DoomBuilder.Controls.CheckboxArrayControl flags;
 		private System.Windows.Forms.Button cancel;

@@ -1,9 +1,6 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Geometry;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Map
 {
@@ -12,7 +9,6 @@ namespace CodeImp.DoomBuilder.Map
     //TODO: Replace with existing implementations if results are the same & existing code performs faster
     internal sealed class SectorBuilder
     {
-        #region ================== Variables
 
         private List<LinedefSide> sector_edges;
         private HashSet<Vertex> vertex_valid;
@@ -20,15 +16,7 @@ namespace CodeImp.DoomBuilder.Map
         // Current outline
         private List<LinedefSide> o_edges;
 
-        #endregion
-
-        #region ================== Properties
-
         public List<LinedefSide> SectorEdges { get { return sector_edges; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         public SectorBuilder()
         {
@@ -36,10 +24,6 @@ namespace CodeImp.DoomBuilder.Map
             vertex_valid = new HashSet<Vertex>();
             o_edges = new List<LinedefSide>();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         ///<summary>Traces all edges to build a closed sector starting from [line]</summary>
         internal bool TraceSector(Linedef line, bool front)
@@ -196,7 +180,5 @@ namespace CodeImp.DoomBuilder.Map
 
             return sector_copy;
         }
-
-        #endregion
     }
 }

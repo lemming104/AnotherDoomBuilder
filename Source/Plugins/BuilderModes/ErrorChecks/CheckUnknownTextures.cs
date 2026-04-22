@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,28 +11,18 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using System.Threading;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [ErrorChecker("Check unknown textures", true, 60)]
     public class CheckUnknownTextures : ErrorChecker
     {
-        #region ================== Constants
 
         private const int PROGRESS_STEP = 1000;
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public CheckUnknownTextures()
@@ -41,10 +30,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Total progress is done when all lines are checked
             SetTotalProgress(General.Map.Map.Sidedefs.Count / PROGRESS_STEP);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This runs the check
         public override void Run()
@@ -98,7 +83,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
             }
         }
-
-        #endregion
     }
 }

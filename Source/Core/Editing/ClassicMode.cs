@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Geometry;
@@ -28,8 +24,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Editing
 {
     /// <summary>
@@ -37,7 +31,6 @@ namespace CodeImp.DoomBuilder.Editing
     /// </summary>
     public abstract class ClassicMode : EditMode
     {
-        #region ================== Constants
 
         private const float SCALE_MAX = 90f;
         private const float SCALE_MIN = 0.01f;
@@ -45,10 +38,6 @@ namespace CodeImp.DoomBuilder.Editing
         private const int SELECTION_ALPHA = 200;
         private const float CENTER_VIEW_PADDING = 0.06f;
         private const float AUTOPAN_BORDER_SIZE = 100.0f;
-
-        #endregion
-
-        #region ================== Variables
 
         // Cancelled?
         protected bool cancelled;
@@ -85,10 +74,6 @@ namespace CodeImp.DoomBuilder.Editing
         private bool playerStartIsTempThing;
         private bool mapWasChangedBeforeTest;
 
-        #endregion
-
-        #region ================== Properties
-
         // If false, then vertices will not be drawn if "hide vertices outside vertex mode" is enabled
         public virtual bool AlwaysShowVertices { get { return false; } }
 
@@ -114,10 +99,6 @@ namespace CodeImp.DoomBuilder.Editing
 
         // Rendering
         public IRenderer2D Renderer { get { return renderer; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         /// <summary>
         /// Provides specialized functionality for a classic (2D) Doom Builder editing mode.
@@ -155,10 +136,6 @@ namespace CodeImp.DoomBuilder.Editing
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Scroll / Zoom
 
         // This scrolls the view north
         [BeginAction("scrollnorth", BaseAction = true)]
@@ -480,10 +457,6 @@ namespace CodeImp.DoomBuilder.Editing
             }
         }
 
-        #endregion
-
-        #region ================== Processing
-
         // Processing
         public override void OnProcess(long deltatime)
         {
@@ -521,10 +494,6 @@ namespace CodeImp.DoomBuilder.Editing
                 }
             }
         }
-
-        #endregion
-
-        #region ================== Input
 
         // Mouse leaves the display
         public override void OnMouseLeave(EventArgs e)
@@ -647,10 +616,6 @@ namespace CodeImp.DoomBuilder.Editing
         {
         }
 
-        #endregion
-
-        #region ================== Display
-
         // This just refreshes the display
         public override void OnPresentDisplay()
         {
@@ -664,10 +629,6 @@ namespace CodeImp.DoomBuilder.Editing
             General.MainWindow.UpdateInterface();
             General.MainWindow.RedrawDisplay();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Automatically called by the core when this editing mode is engaged.
@@ -974,10 +935,6 @@ namespace CodeImp.DoomBuilder.Editing
             element.Selected = true;
         }
 
-        #endregion
-
-        #region ================== Actions
-
         [BeginAction("gridsetup", BaseAction = true)]
         protected void ShowGridSetup()
         {
@@ -1074,8 +1031,6 @@ namespace CodeImp.DoomBuilder.Editing
             // Redraw display to show changes
             General.Interface.RedrawDisplay();
         }
-
-        #endregion
     }
 
     //mxd

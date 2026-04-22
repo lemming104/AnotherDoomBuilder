@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== CFG file structure syntax
 
 /*
 ' ====================================================================================
@@ -127,9 +123,6 @@
 '              }
 */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Collections;
@@ -139,13 +132,10 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.IO
 {
     public sealed class Configuration
     {
-        #region ================== Constants
 
         // Path seperator
         public const string DEFAULT_SEPERATOR = ".";
@@ -166,10 +156,6 @@ namespace CodeImp.DoomBuilder.IO
         public const string NUMBERS = "0123456789";
         public const string NUMBERS2 = "0123456789-.&";
 
-        #endregion
-
-        #region ================== Variables
-
         // Error result
         private bool cpErrorResult;
         private string cpErrorDescription = "";
@@ -184,10 +170,6 @@ namespace CodeImp.DoomBuilder.IO
         //mxd. Cache
         private static Dictionary<string, IDictionary> cfgcache = new Dictionary<string, IDictionary>(StringComparer.Ordinal);
 
-        #endregion
-
-        #region ================== Properties
-
         // Properties
         public bool ErrorResult { get { return cpErrorResult; } }
         public string ErrorDescription { get { return cpErrorDescription; } }
@@ -195,10 +177,6 @@ namespace CodeImp.DoomBuilder.IO
         public string ErrorFile { get { return cpErrorFile; } }
         public IDictionary Root { get { return root; } set { root = value; } }
         public bool Sorted { get { return root is ListDictionary; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public Configuration()
@@ -239,10 +217,6 @@ namespace CodeImp.DoomBuilder.IO
             // We have no destructor
             GC.SuppressFinalize(this);
         }
-
-        #endregion
-
-        #region ================== Private Methods
 
         // This merges two structures
         private static IDictionary Combine(IDictionary d1, IDictionary d2, bool sorted)
@@ -525,10 +499,6 @@ namespace CodeImp.DoomBuilder.IO
             // Return result
             return validateresult;
         }
-
-        #endregion
-
-        #region ================== Parsing
 
         // This parses an assignment
         private object ParseAssignment(ref string file, ref string data, ref int pos, ref int line)
@@ -1171,10 +1141,6 @@ namespace CodeImp.DoomBuilder.IO
             }
         }
 
-        #endregion
-
-        #region ================== Writing
-
         // This will create a data structure from the given object
         private static string OutputStructure(IDictionary cs, int level, string newline, bool whitespace)
         {
@@ -1261,10 +1227,6 @@ namespace CodeImp.DoomBuilder.IO
             // Return the structure
             return db.ToString();
         }
-
-        #endregion
-
-        #region ================== Public Methods
 
         // This clears the last error
         public void ClearError()
@@ -1549,7 +1511,5 @@ namespace CodeImp.DoomBuilder.IO
             // Return true when done, false when errors occurred
             return !cpErrorResult;
         }
-
-        #endregion
     }
 }

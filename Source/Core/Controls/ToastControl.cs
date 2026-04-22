@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2022 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,30 +18,20 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     internal partial class ToastControl : UserControl
     {
-        #region ================== Variables
 
         private long startime;
         private long lifetime;
         private bool pausedecay;
         private bool remove;
-
-        #endregion
-
-        #region ================== Constructors
 
         public ToastControl(ToastType type, string title, string text, long lifetime = 3000)
         {
@@ -72,10 +61,6 @@ namespace CodeImp.DoomBuilder.Controls
 
             pausedecay = false;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Checks if the toast is decaying, i.e. the cursor is currently not inside the control.
@@ -116,7 +101,5 @@ namespace CodeImp.DoomBuilder.Controls
         {
             remove = true;
         }
-
-        #endregion
     }
 }

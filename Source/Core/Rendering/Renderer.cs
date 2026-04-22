@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,26 +11,16 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.GZBuilder.Data;
 using CodeImp.DoomBuilder.Map;
 using System;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Rendering
 {
     internal abstract class Renderer : IRenderResource, IDisposable
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Graphics
         protected RenderDevice graphics;
@@ -40,17 +29,9 @@ namespace CodeImp.DoomBuilder.Rendering
         // Disposing
         protected bool isdisposed;
 
-        #endregion
-
-        #region ================== Properties
-
         // Disposing
         public bool IsDisposed { get { return isdisposed; } }
         public static bool FullBrightness { get { return fullbrightness; } set { fullbrightness = value; } } //mxd
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         protected Renderer(RenderDevice g)
@@ -81,10 +62,6 @@ namespace CodeImp.DoomBuilder.Rendering
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This calculates the sector brightness level
         public int CalculateBrightness(int level)
@@ -170,7 +147,5 @@ namespace CodeImp.DoomBuilder.Rendering
         // For DirectX resources
         public virtual void UnloadResource() { }
         public virtual void ReloadResource() { }
-
-        #endregion
     }
 }

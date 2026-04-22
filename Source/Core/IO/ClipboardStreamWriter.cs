@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Types;
@@ -8,25 +7,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.IO
 {
     internal class ClipboardStreamWriter
     {
-        #region ================== Constants
 
         private const string UDMF_CONFIG_NAME = "UDMF.cfg";
 
-        #endregion
-
-        #region ================== Variables
-
         private readonly Configuration config;
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         public ClipboardStreamWriter()
         {
@@ -81,10 +69,6 @@ namespace CodeImp.DoomBuilder.IO
                 }
             }
         }
-
-        #endregion
-
-        #region ================== Writing
 
         public void Write(MapSet map, Stream stream)
         {
@@ -320,7 +304,5 @@ namespace CodeImp.DoomBuilder.IO
                 writer.Write(group.Value);
             }
         }
-
-        #endregion
     }
 }

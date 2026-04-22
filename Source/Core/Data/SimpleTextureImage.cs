@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,31 +11,17 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Drawing;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Data
 {
     internal class SimpleTextureImage : ImageData
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private readonly string lumpname;
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public SimpleTextureImage(string name, string lumpname, float scalex, float scaley)
@@ -52,10 +37,6 @@ namespace CodeImp.DoomBuilder.Data
             // We have no destructor
             GC.SuppressFinalize(this);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This loads the image
         protected override LocalLoadResult LocalLoadImage()
@@ -97,7 +78,5 @@ namespace CodeImp.DoomBuilder.Data
 
             return new LocalLoadResult(bitmap, error);
         }
-
-        #endregion
     }
 }

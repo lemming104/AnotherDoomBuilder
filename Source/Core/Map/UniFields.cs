@@ -1,10 +1,7 @@
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Types;
 using System;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Map
 {
@@ -14,20 +11,11 @@ namespace CodeImp.DoomBuilder.Map
     [Serializable]
     public class UniFields : Dictionary<string, UniValue>
     {
-        #region ================== Variables
 
         // Owner of this list
         private MapElement owner;
 
-        #endregion
-
-        #region ================== Properties
-
         public MapElement Owner { get { return owner; } internal set { owner = value; } }
-
-        #endregion
-
-        #region ================== Constructors
 
         // New constructor
         ///<summary></summary>
@@ -69,10 +57,6 @@ namespace CodeImp.DoomBuilder.Map
                 this.Add(v.Key, new UniValue(v.Value));
         }
 
-        #endregion
-
-        #region ================== Mathods
-
         /// <summary>Call this before making changes to the fields, or they may not be updated correctly with undo/redo!</summary>
         public void BeforeFieldsChange()
         {
@@ -94,10 +78,6 @@ namespace CodeImp.DoomBuilder.Map
                 return defaultvalue;
             }
         }
-
-        #endregion
-
-        #region ================== mxd. Static methods
 
         // float
         public static void SetFloat(UniFields fields, string key, double value) { SetFloat(fields, key, value, 0.0); }
@@ -263,7 +243,5 @@ namespace CodeImp.DoomBuilder.Map
             if (e1.Fields == null && e2.Fields == null) return true;
             return ValuesMatch(key1, key2, e1.Fields, e2.Fields);
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Controls;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -10,27 +9,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Windows
 {
     internal partial class SectorEditFormUDMF : DelayedForm
     {
-        #region ================== Events
 
         public event EventHandler OnValuesChanged; //mxd
-
-        #endregion
-
-        #region ================== Constants
 
         private const string NO_SOUND_SEQUENCE = "None"; //mxd
         private const string NO_TERRAIN = "Default"; //mxd
         private const string NO_DAMAGETYPE = "None"; //mxd
-
-        #endregion
-
-        #region ================== Variables
 
         private ICollection<Sector> sectors;
         private Dictionary<Sector, SectorProperties> sectorprops; //mxd
@@ -45,10 +33,6 @@ namespace CodeImp.DoomBuilder.Windows
         private Dictionary<Sector, Vector2D> slopepivots;
 
         private bool oldmapischanged;
-
-        #endregion
-
-        #region ================== Structs
 
         private struct SectorProperties //mxd
         {
@@ -180,10 +164,6 @@ namespace CodeImp.DoomBuilder.Windows
             }
         }
 
-        #endregion
-
-        #region ================== Constructor
-
         public SectorEditFormUDMF()
         {
             InitializeComponent();
@@ -310,10 +290,6 @@ namespace CodeImp.DoomBuilder.Windows
                 resetfloorlight.Enabled = false;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets up the form to edit the given sectors
         public void Setup(ICollection<Sector> sectors)
@@ -867,10 +843,6 @@ namespace CodeImp.DoomBuilder.Windows
                 EnableDisableControlAndChildren(c, state);
         }
 
-        #endregion
-
-        #region ================== Events
-
         private void apply_Click(object sender, EventArgs e)
         {
             // Verify the effect
@@ -1167,10 +1139,6 @@ namespace CodeImp.DoomBuilder.Windows
             alphaceiling.Text = "1";
         }
 
-        #endregion
-
-        #region ================== Sector Realtime events (mxd)
-
         private void ceilingheight_WhenTextChanged(object sender, EventArgs e)
         {
             if (preventchanges) return;
@@ -1380,10 +1348,6 @@ namespace CodeImp.DoomBuilder.Windows
             General.Map.IsChanged = true;
             if (OnValuesChanged != null) OnValuesChanged(this, EventArgs.Empty);
         }
-
-        #endregion
-
-        #region ================== Ceiling/Floor realtime events (mxd)
 
         private void ceilOffsets_OnValuesChanged(object sender, EventArgs e)
         {
@@ -1712,10 +1676,6 @@ namespace CodeImp.DoomBuilder.Windows
             if (OnValuesChanged != null) OnValuesChanged(this, EventArgs.Empty);
         }
 
-        #endregion
-
-        #region ================== Slope Utility (mxd)
-
         private void SetupFloorSlope(Sector s, bool first)
         {
             if (s.FloorSlope.GetLengthSq() > 0)
@@ -1814,10 +1774,6 @@ namespace CodeImp.DoomBuilder.Windows
                     throw new NotImplementedException("Unknown SlopePivotMode: " + (int)mode);
             }
         }
-
-        #endregion
-
-        #region ================== Slopes realtime events (mxd)
 
         private void ceilingslopecontrol_OnAnglesChanged(object sender, EventArgs e)
         {
@@ -1989,10 +1945,6 @@ namespace CodeImp.DoomBuilder.Windows
         {
             floorslopecontrol.StepValues = floorslopecontrol.UseLineAngles ? anglesteps : null;
         }
-
-        #endregion
-
-        #region ================== Glow realtime events (mxd)
 
         private void UpdateCeilingGlowHeightWarning()
         {
@@ -2191,9 +2143,6 @@ namespace CodeImp.DoomBuilder.Windows
             floorglowheight.Text = "0";
         }
 
-        #endregion
-        #region ================== D64 colors realtime events (mxd)
-
         // generic function: use sender
         private void d64color_OnValueChanged(object sender, EventArgs e)
         {
@@ -2231,7 +2180,5 @@ namespace CodeImp.DoomBuilder.Windows
             General.Map.IsChanged = true;
             if (OnValuesChanged != null) OnValuesChanged(this, EventArgs.Empty);
         }
-
-        #endregion
     }
 }

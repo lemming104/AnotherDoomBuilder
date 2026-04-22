@@ -1,9 +1,6 @@
-﻿#region === Copyright (c) 2015 MaxED ===
-
+﻿
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {

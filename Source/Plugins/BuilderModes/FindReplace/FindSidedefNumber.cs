@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,37 +11,15 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [FindReplace("Sidedef Index", BrowseButton = false)]
     internal class FindSidedefNumber : BaseFindSidedef
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Constructor / Destructor
-
-        #endregion
-
-        #region ================== Methods
 
         //mxd
         public override bool CanReplace()
@@ -67,7 +44,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             return objs.ToArray();
         }
-
-        #endregion
     }
 }

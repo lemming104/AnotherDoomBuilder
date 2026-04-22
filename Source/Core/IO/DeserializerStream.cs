@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,26 +11,16 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.IO
 {
     internal sealed class DeserializerStream : IReadWriteStream, IDisposable
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private Stream stream;
         private readonly BinaryReader reader;
@@ -39,17 +28,9 @@ namespace CodeImp.DoomBuilder.IO
         private int stringtablepos;
         private bool isdisposed; //mxd
 
-        #endregion
-
-        #region ================== Properties
-
         public bool IsWriting { get { return false; } }
 
         public int EndPosition { get { return stringtablepos; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public DeserializerStream(Stream stream)
@@ -75,10 +56,6 @@ namespace CodeImp.DoomBuilder.IO
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Management
         public void Begin()
@@ -215,7 +192,5 @@ namespace CodeImp.DoomBuilder.IO
             v.y = reader.ReadDouble();
             v.z = reader.ReadDouble();
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2007 Pascal vd Heiden
-
+﻿
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
  * Copyright (c) 2019 Boris Iwanski
@@ -12,36 +11,22 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using System;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     public abstract class BaseCheckTextures : ErrorChecker
     {
-        #region ================== Constants
 
         private const int PROGRESS_STEP = 1000;
-
-        #endregion
-
-        #region ================== Variables
 
         protected Dictionary<int, Flags3DFloor> sector3dfloors;
         protected ActionFloorLowerToLowestTextures floorlowertolowest;
         protected ActionFloorRaiseToNextHigherTextures floorraisetonexthigher;
         protected ActionFloorRaiseToHighestTextures floorraisetohighest;
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public BaseCheckTextures()
@@ -55,10 +40,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             floorraisetohighest = new ActionFloorRaiseToHighestTextures();
         }
 
-        #endregion
-
-        #region ================== Enum
-
         [Flags]
         protected enum Flags3DFloor
         {
@@ -66,10 +47,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             UseLower = 2,
             RenderInside = 4
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Create a cache of sectors that have 3D floors, with their flags relevant to the error checker
         protected void Build3DFloorCache()
@@ -108,7 +85,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
             }
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,37 +11,19 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.IO
 {
     public sealed class UniversalEntry
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private string key;
         private object value;
 
-        #endregion
-
-        #region ================== Properties
-
         public string Key { get { return key; } }
         public object Value { get { return value; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public UniversalEntry(string key, object value)
@@ -51,10 +32,6 @@ namespace CodeImp.DoomBuilder.IO
             this.key = key;
             this.value = value;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This checks if the value is of the given type
         // Will throw and exception when it is not
@@ -68,7 +45,5 @@ namespace CodeImp.DoomBuilder.IO
         {
             return value.GetType() == t;
         }
-
-        #endregion
     }
 }

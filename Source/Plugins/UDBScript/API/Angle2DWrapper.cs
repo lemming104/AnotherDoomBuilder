@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,19 +18,13 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
     internal struct Angle2DWrapper
     {
-        #region ================== Methods
 
         /// <summary>
         /// Converts a Doom angle (where 0° is east) to a real world angle (where 0° is north).
@@ -160,7 +153,5 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
                 throw BuilderPlug.Me.ScriptRunner.CreateRuntimeException(e.Message);
             }
         }
-
-        #endregion
     }
 }

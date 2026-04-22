@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2010 Pascal vd Heiden
 
 /*
  * Copyright (c) 2010 Pascal vd Heiden
@@ -12,15 +11,10 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.CommentsPanel
 {

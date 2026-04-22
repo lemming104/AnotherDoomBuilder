@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Plugins;
@@ -24,17 +20,10 @@ using System;
 using System.Drawing;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Editing
 {
     internal class EditModeInfo : IComparable<EditModeInfo>
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Mode type
         private Plugin plugin;
@@ -53,10 +42,6 @@ namespace CodeImp.DoomBuilder.Editing
         //mxd. Disposing
         private bool isdisposed;
 
-        #endregion
-
-        #region ================== Properties
-
         public Plugin Plugin { get { return plugin; } }
         public Type Type { get { return type; } }
         public bool IsOptional { get { return ((switchactionattr != null) || (buttonimage != null)) && attribs.Optional; } }
@@ -64,10 +49,6 @@ namespace CodeImp.DoomBuilder.Editing
         public Image ButtonImage { get { return buttonimage; } }
         public string ButtonDesc { get { return buttondesc; } }
         public EditModeAttribute Attributes { get { return attribs; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public EditModeInfo(Plugin plugin, Type type, EditModeAttribute attr)
@@ -116,10 +97,6 @@ namespace CodeImp.DoomBuilder.Editing
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This binds the action to switch to this editing mode
         public void BindSwitchAction()
@@ -222,7 +199,5 @@ namespace CodeImp.DoomBuilder.Editing
             if (this.buttonorder < other.buttonorder) return -1;
             return 0;
         }
-
-        #endregion
     }
 }

@@ -1,31 +1,19 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Map;
 using System.Threading;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [ErrorChecker("Check unused textures", true, 60)]
     public class CheckUnusedTextures : BaseCheckTextures
     {
-        #region ================== Constants
 
         private const int PROGRESS_STEP = 1000;
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public CheckUnusedTextures() : base()
         {
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This runs the check
         public override void Run()
@@ -142,7 +130,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
             }
         }
-
-        #endregion
     }
 }

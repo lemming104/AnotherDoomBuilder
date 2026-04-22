@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,27 +11,17 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Drawing;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Data
 {
     public class BitmapImage : ImageData
     {
-        #region ================== Variables
 
         // Image source
         private Bitmap img;
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public BitmapImage(Bitmap img, string name)
@@ -52,10 +41,6 @@ namespace CodeImp.DoomBuilder.Data
             GC.SuppressFinalize(this);
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This loads the image
         protected override LocalLoadResult LocalLoadImage()
         {
@@ -64,7 +49,5 @@ namespace CodeImp.DoomBuilder.Data
 
             return new LocalLoadResult(new Bitmap(img));
         }
-
-        #endregion
     }
 }

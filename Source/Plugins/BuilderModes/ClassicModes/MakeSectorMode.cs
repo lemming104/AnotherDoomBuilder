@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
@@ -23,8 +19,6 @@ using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
@@ -37,13 +31,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
     public class MakeSectorMode : BaseClassicMode
     {
-        #region ================== Constants
 
         private const float FLASH_DURATION = 300.0f;
-
-        #endregion
-
-        #region ================== Variables
 
         // Nearest sidedef
         private LinedefSide editside;
@@ -61,14 +50,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
         //mxd. Used in overlay rendering
         private Dictionary<Sector, Sector> associates;
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public MakeSectorMode()
@@ -89,10 +70,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This draws the geometry
         private void DrawGeometry()
@@ -265,10 +242,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 return null;
             }
         }
-
-        #endregion
-
-        #region ================== Events
 
         public override void OnHelp()
         {
@@ -525,7 +498,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 renderer.Present();
             }
         }
-
-        #endregion
     }
 }

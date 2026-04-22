@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Compilers;
 using CodeImp.DoomBuilder.Config;
@@ -27,13 +23,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Data
 {
     internal sealed class WADReader : DataReader
     {
-        #region ================== Constants
 
         //mxd. TEXTUREx flags
         private const int TX_WORLDPANNING = 0x8000;
@@ -45,19 +38,11 @@ namespace CodeImp.DoomBuilder.Data
         //mxd. Voxel recognition.
         private static readonly Regex voxel = new Regex(@"^\S{4}(([A-Za-z][0-9]){0,2}|[A-Za-z]{0,1})$");
 
-        #endregion
-
-        #region ================== Structures
-
         private struct LumpRange
         {
             public int start;
             public int end;
         }
-
-        #endregion
-
-        #region ================== Variables
 
         // Optional setting
         public bool Silent = false;
@@ -77,17 +62,9 @@ namespace CodeImp.DoomBuilder.Data
         private List<LumpRange> colormapranges;
         private List<LumpRange> voxelranges; //mxd
 
-        #endregion
-
-        #region ================== Properties
-
         public bool IsIWAD { get { return is_iwad; } }
         internal WAD WadFile { get { return file; } } //mxd
         internal PK3StructuredReader ParentResource; //mxd
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public WADReader(DataLocation dl, GameConfiguration config, bool asreadonly) : base(dl, asreadonly)
@@ -200,10 +177,6 @@ namespace CodeImp.DoomBuilder.Data
             }
         }
 
-        #endregion
-
-        #region ================== Management
-
         // Return a short name for this data location
         public override string GetTitle()
         {
@@ -292,10 +265,6 @@ namespace CodeImp.DoomBuilder.Data
             }
         }
 
-        #endregion
-
-        #region ================== Palette
-
         // This loads the PLAYPAL palette
         public override Playpal LoadPalette()
         {
@@ -326,10 +295,6 @@ namespace CodeImp.DoomBuilder.Data
             }
             return null; // No palette
         }
-
-        #endregion
-
-        #region ================== Colormaps
 
         // This loads the textures
         public override ICollection<ImageData> LoadColormaps()
@@ -415,10 +380,6 @@ namespace CodeImp.DoomBuilder.Data
 
             return null;
         }
-
-        #endregion
-
-        #region ================== Textures
 
         // This loads the textures
         public override IEnumerable<ImageData> LoadTextures(PatchNames pnames, Dictionary<string, TexturesParser> cachedparsers)
@@ -751,10 +712,6 @@ namespace CodeImp.DoomBuilder.Data
             return null;
         }
 
-        #endregion
-
-        #region ================== Flats
-
         //mxd. This loads the flats
         public override IEnumerable<ImageData> LoadFlats(Dictionary<string, TexturesParser> cachedparsers)
         {
@@ -855,10 +812,6 @@ namespace CodeImp.DoomBuilder.Data
 
             return null;
         }
-
-        #endregion
-
-        #region ================== Sprites
 
         // This loads the textures
         public override IEnumerable<ImageData> LoadSprites(Dictionary<string, TexturesParser> cachedparsers)
@@ -978,10 +931,6 @@ namespace CodeImp.DoomBuilder.Data
             return (name.Length == 6 && sprite6.IsMatch(name)) || (name.Length == 8 && sprite8.IsMatch(name));
         }
 
-        #endregion
-
-        #region ================== Voxels (mxd)
-
         //mxd. This returns the list of voxels, which can be used without VOXELDEF definition
         public override HashSet<string> GetVoxelNames()
         {
@@ -1030,18 +979,12 @@ namespace CodeImp.DoomBuilder.Data
             return name.Length > 3 && name.Length < 7 && voxel.IsMatch(name);
         }
 
-        #endregion
-
-        #region ================== Decorate, Gldefs, Mapinfo, etc...
-
         public override IEnumerable<TextResourceData> GetDehackedData()
         {
             if (issuspended) throw new Exception("Data reader is suspended");
 
             return GetAllLumpsData("DEHACKED");
         }
-
-        #region ================== IWADINFO
 
         public override List<IWadInfo> GetIWadInfos()
         {
@@ -1055,8 +998,6 @@ namespace CodeImp.DoomBuilder.Data
 
             return parser.IWads;
         }
-
-        #endregion
 
         // This finds and returns DECORATE streams
         public override IEnumerable<TextResourceData> GetDecorateData(string pname, bool exactmatch)
@@ -1182,10 +1123,6 @@ namespace CodeImp.DoomBuilder.Data
             return result;
         }
 
-        #endregion
-
-        #region ================== IO (mxd)
-
         internal override MemoryStream LoadFile(string name)
         {
             Lump l = file.FindLump(name);
@@ -1260,10 +1197,6 @@ namespace CodeImp.DoomBuilder.Data
         {
             return file.FindLumpIndex(lumpname) == lumpindex;
         }
-
-        #endregion
-
-        #region ================== Compiling (mxd)
 
         // This compiles a script lump and returns any errors that may have occurred
         // Returns true when our code worked properly (even when the compiler returned errors)
@@ -1414,7 +1347,5 @@ namespace CodeImp.DoomBuilder.Data
             compiler.Dispose();
             return false;
         }
-
-        #endregion
     }
 }

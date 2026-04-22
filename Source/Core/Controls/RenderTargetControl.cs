@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,37 +11,19 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System.Drawing;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Controls
 {
     public class RenderTargetControl : Panel
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private ToolTip tooltip; //mxd
 
-        #endregion
-
-        #region ================== Properties
-
         public event KeyEventHandler OnKeyReleased; //mxd. Sometimes it's handeled here, not by MainForm
         public Point LocationAbs { get { return this.PointToScreen(new Point(-(General.MainWindow.Width - General.MainWindow.ClientSize.Width) / 2, 0)); } } //mxd
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal RenderTargetControl()
@@ -66,10 +47,6 @@ namespace CodeImp.DoomBuilder.Controls
             base.Dispose(disposing);
         }
 
-        #endregion
-
-        #region ================== Overrides
-
 #if MONO_WINFORMS
 		// This workarounds menubar getting the focus all the time
 		protected override bool IsInputChar(char charCode)
@@ -83,10 +60,6 @@ namespace CodeImp.DoomBuilder.Controls
         {
             if (OnKeyReleased != null) OnKeyReleased(this, e);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets up the control to display the splash logo
         public void SetSplashLogoDisplay()
@@ -132,7 +105,5 @@ namespace CodeImp.DoomBuilder.Controls
         {
             tooltip.Hide(this);
         }
-
-        #endregion
     }
 }

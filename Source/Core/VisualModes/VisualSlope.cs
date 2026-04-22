@@ -11,7 +11,6 @@ namespace CodeImp.DoomBuilder.VisualModes
 
     public abstract class VisualSlope : IVisualPickable
     {
-        #region ================== Variables
 
         // Selected?
         protected bool selected;
@@ -29,10 +28,6 @@ namespace CodeImp.DoomBuilder.VisualModes
         protected double length;
 
         private Matrix position;
-
-        #endregion
-
-        #region ================== Properties
 
         /// <summary>
         /// Selected or not? This is only used by the core to determine what color to draw it with.
@@ -54,19 +49,11 @@ namespace CodeImp.DoomBuilder.VisualModes
 
         public Matrix Position { get { return position; } }
 
-        #endregion
-
-        #region ================== Constructor / Destructor
-
         public VisualSlope()
         {
             pivot = false;
             smartpivot = false;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This is called before a device is reset (when resized or display adapter was changed)
         public void UnloadResource()
@@ -133,7 +120,5 @@ namespace CodeImp.DoomBuilder.VisualModes
 
             position = Matrix.Multiply(m, Matrix.Translation(RenderDevice.V3(tp)));
         }
-
-        #endregion
     }
 }

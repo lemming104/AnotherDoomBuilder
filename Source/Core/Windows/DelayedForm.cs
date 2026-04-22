@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using System;
@@ -22,8 +18,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using Action = CodeImp.DoomBuilder.Actions.Action;
-
-#endregion
 
 // This Form is a workaround for the slow drawing of the .NET Forms.
 // By showing the Form at 0% Opacity it allows the .NET framework to complete

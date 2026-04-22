@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Geometry;
@@ -24,8 +20,6 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     /// <summary>
@@ -33,15 +27,10 @@ namespace CodeImp.DoomBuilder.Controls
     /// </summary>
     public partial class ArgumentBox : UserControl
     {
-        #region ================== Variables
 
         private TypeHandler typehandler;
         private bool ignorebuttonchange;
         private bool forcevalidate;
-
-        #endregion
-
-        #region ================== Properties
 
         public override string Text { get { return combobox.Text; } } //mxd
 
@@ -49,10 +38,6 @@ namespace CodeImp.DoomBuilder.Controls
         [Category("Action")]
         [Description("Invoked when user clicks button")]
         public event EventHandler ValueChanged;
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor
         public ArgumentBox()
@@ -62,10 +47,6 @@ namespace CodeImp.DoomBuilder.Controls
             scrollbuttons.Value = 0;
             combobox.MouseWheel += combobox_MouseWheel;
         }
-
-        #endregion
-
-        #region ================== Events
 
         // When control resizes
         private void ArgumentBox_Resize(object sender, EventArgs e)
@@ -185,10 +166,6 @@ namespace CodeImp.DoomBuilder.Controls
                 ignorebuttonchange = false;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets up the control for a specific argument
         public void Setup(ArgumentInfo arginfo)
@@ -375,7 +352,5 @@ namespace CodeImp.DoomBuilder.Controls
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
-
-        #endregion
     }
 }

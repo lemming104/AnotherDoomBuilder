@@ -1,4 +1,3 @@
-#region === Copyright (c) 2010 Pascal van der Heiden ===
 
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Editing;
@@ -16,8 +15,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
 {
     [EditMode(DisplayName = "Visplane Explorer",
@@ -31,7 +28,6 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
               AllowCopyPaste = false)]
     public class VisplaneExplorerMode : ClassicMode
     {
-        #region ================== Variables
 
         // The image is the ImageData resource for Doom Builder to work with
         private DynamicBitmapImage image;
@@ -54,10 +50,6 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
 
         // Are we processing?
         private bool processingenabled;
-
-        #endregion
-
-        #region ================== Methods
 
         // This cleans up anything we used for this mode
         private void CleanUp()
@@ -272,10 +264,6 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
 
             return (true, string.Empty);
         }
-
-        #endregion
-
-        #region ================== Events
 
         // Mode starts
         public override void OnEngage()
@@ -563,6 +551,5 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
                     return 0;
             }
         }
-        #endregion
     }
 }

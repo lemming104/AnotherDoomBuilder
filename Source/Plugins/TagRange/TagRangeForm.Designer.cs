@@ -20,8 +20,6 @@ namespace CodeImp.DoomBuilder.TagRange
 			base.Dispose(disposing);
 		}
 
-		#region Windows Form Designer generated code
-
 		/// <summary>
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
@@ -235,8 +233,6 @@ namespace CodeImp.DoomBuilder.TagRange
 			this.PerformLayout();
 
 		}
-
-		#endregion
 
 		private CodeImp.DoomBuilder.Controls.ButtonsNumericTextbox rangestart;
 		private System.Windows.Forms.Label label1;

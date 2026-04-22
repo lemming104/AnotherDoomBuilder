@@ -7,26 +7,13 @@ namespace CodeImp.DoomBuilder.Config
     /// </summary>
     public class GeneralizedBit : INumberedTitle, IComparable<GeneralizedBit>
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Properties
         private int index;
         private string title;
 
-        #endregion
-
-        #region ================== Properties
-
         public int Index { get { return index; } }
         public string Title { get { return title; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal GeneralizedBit(int index, string title)
@@ -38,10 +25,6 @@ namespace CodeImp.DoomBuilder.Config
             // We have no destructor
             GC.SuppressFinalize(this);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This presents the item as string
         public override string ToString()
@@ -56,7 +39,5 @@ namespace CodeImp.DoomBuilder.Config
             else if (this.index > other.index) return 1;
             else return 0;
         }
-
-        #endregion
     }
 }

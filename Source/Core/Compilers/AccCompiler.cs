@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
@@ -26,38 +22,19 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Compilers
 {
     internal class AccCompiler : Compiler
     {
-        #region ================== Internal classes
 
         protected class CompileContext { }
 
-        #endregion
-
-        #region ================== Constants
-
         private const string ACS_ERROR_FILE = "acs.err";
-
-        #endregion
-
-        #region ================== Variables
 
         private AcsParserSE parser; //mxd
 
-        #endregion
-
-        #region ================== Properties
-
         public bool SourceIsMapScriptsLump; //mxd
         internal AcsParserSE Parser { get { return parser; } } //mxd
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor
         public AccCompiler(CompilerInfo info) : base(info, false)
@@ -76,10 +53,6 @@ namespace CodeImp.DoomBuilder.Compilers
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         protected virtual CompileContext OnBeforeProcessStart(ProcessStartInfo info)
         {
@@ -300,7 +273,5 @@ namespace CodeImp.DoomBuilder.Compilers
 
             return true;
         }
-
-        #endregion
     }
 }

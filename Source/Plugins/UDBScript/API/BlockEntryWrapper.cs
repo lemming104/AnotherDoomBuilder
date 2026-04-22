@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2022 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,13 +18,8 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
@@ -34,22 +28,13 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
     /// </summary>
     class BlockEntryWrapper : BlockMapContentBase
     {
-        #region ================== Variables
 
         private BlockEntry entry;
-
-        #endregion
-
-        #region ================== Constructors
 
         internal BlockEntryWrapper(BlockEntry entry)
         {
             this.entry = entry;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Gets all `Linedef`s in the blockmap entry.
@@ -90,7 +75,5 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
         {
             return GetArray(entry.Vertices, ref wrappedvertices);
         }
-
-        #endregion
     }
 }

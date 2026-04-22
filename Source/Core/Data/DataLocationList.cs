@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.IO;
 using System.Collections;
@@ -23,13 +19,10 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Data
 {
     public sealed class DataLocationList : List<DataLocation>
     {
-        #region ================== Constructors
 
         // This creates a new list
         public DataLocationList()
@@ -70,10 +63,6 @@ namespace CodeImp.DoomBuilder.Data
                 }
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This merges two lists together
         public static DataLocationList Combined(DataLocationList a, DataLocationList b)
@@ -121,7 +110,5 @@ namespace CodeImp.DoomBuilder.Data
             foreach (DataLocation location in this) if (!location.IsValid()) return false;
             return true;
         }
-
-        #endregion
     }
 }

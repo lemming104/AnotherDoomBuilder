@@ -1,9 +1,6 @@
-﻿#region === Copyright (c) 2010 Pascal van der Heiden ===
-
+﻿
 using System;
 using System.Drawing;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
 {

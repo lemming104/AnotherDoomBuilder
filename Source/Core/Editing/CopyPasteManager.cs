@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Config;
@@ -31,20 +27,13 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Editing
 {
     public class CopyPasteManager
     {
-        #region ================== Constants
 
         private const string CLIPBOARD_DATA_FORMAT = "GZDOOM_BUILDER_GEOMETRY";
         private const string CLIPBOARD_DATA_FORMAT_DB2 = "DOOM_BUILDER_GEOMETRY";
-
-        #endregion
-
-        #region ================== Variables
 
         // Disposing
         private bool isdisposed;
@@ -52,16 +41,8 @@ namespace CodeImp.DoomBuilder.Editing
         // Last inserted prefab
         private string lastprefabfile;
 
-        #endregion
-
-        #region ================== Properties
-
         public bool IsDisposed { get { return isdisposed; } }
         public bool IsPreviousPrefabAvailable { get { return lastprefabfile != null; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal CopyPasteManager()
@@ -88,10 +69,6 @@ namespace CodeImp.DoomBuilder.Editing
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This makes a prefab of the selection. Returns null when cancelled.
         private static MemoryStream MakePrefab()
@@ -421,10 +398,6 @@ namespace CodeImp.DoomBuilder.Editing
             }
         }
 
-        #endregion
-
-        #region ================== Actions
-
         // This copies the current selection
         [BeginAction("copyselection")]
         public void CopySelection()
@@ -670,7 +643,5 @@ namespace CodeImp.DoomBuilder.Editing
                 General.MessageBeep(MessageBeepType.Warning);
             }
         }
-
-        #endregion
     }
 }

@@ -1,12 +1,9 @@
-﻿#region ================== Namespaces
-
+﻿
 using System;
 using System.IO;
 using System.Management;
 using System.Threading;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Windows
 {

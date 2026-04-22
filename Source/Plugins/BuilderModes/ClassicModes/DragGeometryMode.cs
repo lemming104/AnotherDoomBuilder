@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
@@ -25,17 +21,10 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     public abstract class DragGeometryMode : BaseClassicMode
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Mouse position on map where dragging started
         private Vector2D dragstartmappos;
@@ -88,16 +77,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private bool snaptogridincrement; //mxd. ALT to toggle 
         private bool snaptocardinaldirection; //mxd. ALT-SHIFT to enable
 
-        #endregion
-
-        #region ================== Properties
-
         // Just keep the base mode button checked
         public override string EditModeButtonName { get { return General.Editing.PreviousStableMode.Name; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Disposer
         public override void Dispose()
@@ -113,10 +94,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Constructor to start dragging immediately
         protected void StartDrag(Vector2D dragstartmappos)
@@ -653,7 +630,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                (snaptogridincrement != General.Interface.AltState) ||
                (snaptocardinaldirection != (General.Interface.AltState && General.Interface.ShiftState))) Update();
         }
-
-        #endregion
     }
 }

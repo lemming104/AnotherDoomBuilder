@@ -1,10 +1,7 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.ZDoom
 {
@@ -22,30 +19,17 @@ namespace CodeImp.DoomBuilder.ZDoom
     //mxd. Currently this only parses cameratextures
     internal sealed class AnimdefsParser : ZDTextParser
     {
-        #region ================== Variables
 
         private readonly Dictionary<string, CameraTextureData> cameratextures;
-
-        #endregion
-
-        #region ================== Properties
 
         internal override ScriptType ScriptType { get { return ScriptType.ANIMDEFS; } }
 
         public Dictionary<string, CameraTextureData> CameraTextures { get { return cameratextures; } }
 
-        #endregion
-
-        #region ================== Constructor
-
         internal AnimdefsParser()
         {
             cameratextures = new Dictionary<string, CameraTextureData>();
         }
-
-        #endregion
-
-        #region ================== Parsing
 
         public override bool Parse(TextResourceData data, bool clearerrors)
         {
@@ -164,7 +148,5 @@ namespace CodeImp.DoomBuilder.ZDoom
 
             return true;
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Editing;
 using System;
@@ -22,38 +18,23 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes.Interface
 {
     public partial class UndoRedoPanel : UserControl
     {
-        #region ================== Constants
 
         private const int MAX_DISPLAY_LEVELS = 400;
-
-        #endregion
-
-        #region ================== Variables
 
         private bool ignoreevents;
         private int currentselection;
         private int addindex;
         private string begindescription;
 
-        #endregion
-
-        #region ================== Constructor
-
         // Constructor
         public UndoRedoPanel()
         {
             InitializeComponent();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets the description for the first item
         public void SetBeginDescription(string description)
@@ -199,10 +180,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                 coldescription.Width = list.ClientRectangle.Width - SystemInformation.VerticalScrollBarWidth - 2;
         }
 
-        #endregion
-
-        #region ================== Events
-
         // When layout changes
         protected override void OnLayout(LayoutEventArgs e)
         {
@@ -302,7 +279,5 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 
             ignoreevents = false;
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
@@ -31,8 +27,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [EditMode(DisplayName = "Things Mode",
@@ -45,13 +39,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
     public class ThingsMode : BaseClassicMode
     {
-        #region ================== Constants
 
         private const int MAX_THING_LABELS = 256; //mxd
-
-        #endregion
-
-        #region ================== Variables
 
         // Highlighted item
         private Thing highlighted;
@@ -81,15 +70,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Autosave
         private bool allowautosave;
 
-        #endregion
-
-        #region ================== Properties
-
         public override object HighlightedObject { get { return highlighted; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         public ThingsMode()
         {
@@ -117,10 +98,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         //mxd. This makes a CRC for given selection
         private static int CreateSelectionCRC(ICollection<Thing> selection)
@@ -1134,10 +1111,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             ambientsoundshapes = LinksCollector.GetAmbientSoundShapes(General.Map.ThingsFilter.VisibleThings, false);
         }
 
-        #endregion
-
-        #region ================== Actions
-
         // This copies the properties
         [BeginAction("classiccopyproperties")]
         public void CopyProperties()
@@ -1662,7 +1635,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 General.ToastManager.ShowToast(ToastMessages.CHANGEMAPELEMENTINDEX, ToastType.INFO, "Successfully change thing index", $"Changed index of thing {oldindex} to {newindex}.");
             }
         }
-
-        #endregion
     }
 }

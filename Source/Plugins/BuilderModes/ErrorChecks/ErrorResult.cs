@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -22,21 +18,14 @@ using CodeImp.DoomBuilder.Rendering;
 using System.Collections.Generic;
 using System.Drawing;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     public abstract class ErrorResult
     {
-        #region ================== Variables
 
         protected string description;
         protected readonly List<MapElement> viewobjects;
         protected bool hidden;
-
-        #endregion
-
-        #region ================== Properties
 
         public string Description { get { return description; } }
 
@@ -47,20 +36,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public virtual string Button3Text { get { return ""; } }
         public bool IsHidden { get { return hidden; } }
 
-        #endregion
-
-        #region ================== Constructor / Destructor
-
         // Constructor
         protected ErrorResult()
         {
             // Initialize
             viewobjects = new List<MapElement>(1);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // When the first button is clicked
         // Return true when map geometry or things have been added/removed so that the checker can restart
@@ -173,7 +154,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
         }
 
         internal abstract void Hide(bool hide); //mxd. Marks map elements of this result as hidden in ErrorCheckForm
-
-        #endregion
     }
 }

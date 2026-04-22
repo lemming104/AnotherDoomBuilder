@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -23,20 +19,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [ErrorChecker("Check overlapping lines", true, 500)]
     public class CheckOverlappingLines : ErrorChecker
     {
-        #region ================== Constants
 
         private const int PROGRESS_STEP = 100;
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public CheckOverlappingLines()
@@ -44,10 +33,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Total progress is done when all lines are checked
             SetTotalProgress(General.Map.Map.Linedefs.Count / PROGRESS_STEP);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This runs the check
         public override void Run()
@@ -164,7 +149,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
             }
         }
-
-        #endregion
     }
 }

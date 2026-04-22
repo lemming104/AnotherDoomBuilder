@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -10,11 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
-    #region ================== Structs
 
     // A struct, which contains information about visual sides connected to start and end of given visual side
     internal class SortedVisualSide
@@ -108,11 +104,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
         }
     }
 
-    #endregion
-
     internal static class BuilderModesTools
     {
-        #region ================== Sidedef
 
         internal static Rectangle GetSidedefPartSize(BaseVisualGeometrySidedef side)
         {
@@ -346,10 +339,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     ApplyHorizontalOffset(pair.Key, side, false, processed);
             }
         }
-
-        #endregion
-
-        #region ================== Things
 
         internal static double GetHigherThingZ(BaseVisualMode mode, SectorData sd, VisualThing thing)
         {
@@ -618,10 +607,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             return intersectingthings;
         }
 
-        #endregion
-
-        #region ================== Sectors
-
         // This gets sectors which surround given sectors
         internal static IEnumerable<Sector> GetSectorsAround(BaseVisualMode mode, IEnumerable<Sector> selected)
         {
@@ -686,10 +671,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             return result;
         }
-
-        #endregion
-
-        #region ================== Texture Floodfill
 
         // This performs texture floodfill along all walls that match with the same texture
         // NOTE: This method uses the sidedefs marking to indicate which sides have been filled
@@ -778,10 +759,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
         }
 
-        #endregion
-
-        #region ================== Texture Alignment
-
         public static bool SidedefTextureMatch(BaseVisualMode mode, Sidedef sd, HashSet<long> texturelongnames)
         {
             return SidedefTextureMatch(mode, sd, texturelongnames, false);
@@ -798,7 +775,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                    (texturelongnames.Contains(sd.LongMiddleTexture)
                    && ((parts.middledouble != null && (needgeometry ? parts.middledouble.Triangles > 0 : true)) || (parts.middlesingle != null && (needgeometry ? parts.middlesingle.Triangles > 0 : true))));
         }
-
-        #endregion
     }
 }

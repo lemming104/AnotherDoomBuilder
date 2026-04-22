@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2014 Boris Iwanski
 
 /*
  * Copyright (c) 2014 Boris Iwanski
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
@@ -28,8 +24,6 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Runtime.InteropServices;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.SoundPropagationMode
 {
@@ -49,14 +43,9 @@ namespace CodeImp.DoomBuilder.SoundPropagationMode
 
     public class BuilderPlug : Plug
     {
-        #region ================== Constants
 
         internal const int SOUND_ENVIROMNEMT_THING_TYPE = 9048; //mxd
         internal const float LINE_LENGTH_SCALER = 0.001f; //mxd
-
-        #endregion
-
-        #region ================== Variables
 
         // Interface
         private MenusForm menusform;
@@ -76,10 +65,6 @@ namespace CodeImp.DoomBuilder.SoundPropagationMode
         private bool soundenvironmentisupdated;
         private bool dataisdirty;
 
-        #endregion
-
-        #region ================== Properties
-
         // Interface
         public MenusForm MenusForm { get { return menusform; } }
         internal List<Bitmap> DistinctIcons { get { return distincticons; } } //mxd
@@ -97,8 +82,6 @@ namespace CodeImp.DoomBuilder.SoundPropagationMode
         public FlatVertex[] OverlayGeometry { get { return overlayGeometry; } set { overlayGeometry = value; } }
         public bool SoundEnvironmentIsUpdated { get { return soundenvironmentisupdated; } }
         public bool DataIsDirty { get { return dataisdirty; } set { dataisdirty = value; } }
-
-        #endregion
 
         // Static instance. We can't use a real static class, because BuilderPlug must
         // be instantiated by the core, so we keep a static reference. (this technique

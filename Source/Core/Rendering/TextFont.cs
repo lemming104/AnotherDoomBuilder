@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -11,10 +10,7 @@
  * GNU General Public License for more details.
  * 
  */
-
-#endregion
 /*
-#region ================== Namespaces
 
 using System;
 using System.Collections;
@@ -25,13 +21,10 @@ using SlimDX;
 
 using Configuration = CodeImp.DoomBuilder.IO.Configuration;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Rendering
 {
 	internal class TextFont : IDisposable
 	{
-		#region ================== Structures
 		
 		// This structure defines character properties
 		private struct FontCharacter
@@ -45,19 +38,11 @@ namespace CodeImp.DoomBuilder.Rendering
 			public float v2;
 		}
 
-		#endregion
-		
-		#region ================== Constants
-
 		// Font resource name
 		private const string FONT_RESOURCE = "Font.cfg";
 		
 		// Spacing adjustments
 		private const float ADJUST_SPACING = -0.08f;
-		
-		#endregion
-
-		#region ================== Variables
 
 		// Characters
 		private FontCharacter[] characters;
@@ -65,15 +50,7 @@ namespace CodeImp.DoomBuilder.Rendering
 		// Disposing
 		private bool isdisposed;
 
-		#endregion
-
-		#region ================== Properties
-
 		public bool IsDisposed { get { return isdisposed; } }
-
-		#endregion
-
-		#region ================== Constructor / Disposer
 
 		// Constructor
 		internal TextFont()
@@ -138,10 +115,6 @@ namespace CodeImp.DoomBuilder.Rendering
 				isdisposed = true;
 			}
 		}
-		
-		#endregion
-		
-		#region ================== Methods
 
 		// This sets up vertices for a specific character
 		// also advances vertsoffset and textx
@@ -241,8 +214,6 @@ namespace CodeImp.DoomBuilder.Rendering
 			// Return size
 			return new SizeF(sizex, sizey);
 		}
-		
-		#endregion
 	}
 }
 */

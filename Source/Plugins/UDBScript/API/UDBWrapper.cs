@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2022 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,9 +18,6 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using Jint;
 using Jint.Runtime.Interop;
@@ -29,13 +25,10 @@ using System;
 using System.Dynamic;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
     internal class UDBWrapper
     {
-        #region ================== Variables
 
         private GameConfigurationWrapper gameconfiguration;
         private TypeReference queryoptions;
@@ -62,10 +55,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
         private IProgress<int> progress;
         private IProgress<string> status;
         private IProgress<string> logger;
-
-        #endregion
-
-        #region ================== Properties
 
         /// <summary>
         /// Class containing methods related to the game configuration. See [GameConfiguration](GameConfiguration.md) for more information.
@@ -228,10 +217,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             }
         }
 
-        #endregion
-
-        #region ================== Constructors
-
         internal UDBWrapper(Engine engine, ScriptInfo scriptinfo, IProgress<int> progress, IProgress<string> status, IProgress<string> logger)
         {
             gameconfiguration = new GameConfigurationWrapper();
@@ -262,10 +247,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             this.status = status;
             this.logger = logger;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Set the progress of the script in percent. Value can be between 0 and 100. Also shows the script running dialog.
@@ -359,7 +340,5 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 
             throw new DieScriptException(s);
         }
-
-        #endregion
     }
 }

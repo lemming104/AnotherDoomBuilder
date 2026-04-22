@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,41 +11,23 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Config
 {
     internal sealed class ResourceTextureSet : TextureSet, IFilledTextureSet
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Matching textures and flats
         private Dictionary<long, ImageData> textures;
         private Dictionary<long, ImageData> flats;
         private DataLocation location;
 
-        #endregion
-
-        #region ================== Properties
-
         public ICollection<ImageData> Textures { get { return textures.Values; } }
         public ICollection<ImageData> Flats { get { return flats.Values; } }
         public DataLocation Location { get { return location; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // New texture set constructor
         public ResourceTextureSet(string name, DataLocation location)
@@ -56,10 +37,6 @@ namespace CodeImp.DoomBuilder.Config
             this.textures = new Dictionary<long, ImageData>();
             this.flats = new Dictionary<long, ImageData>();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Add a texture
         internal void AddTexture(ImageData image)
@@ -120,7 +97,5 @@ namespace CodeImp.DoomBuilder.Config
                 if (!textures.ContainsKey(f.Key)) textures.Add(f.Key, f.Value);
             }
         }
-
-        #endregion
     }
 }

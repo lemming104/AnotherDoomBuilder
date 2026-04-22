@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Controls;
 using CodeImp.DoomBuilder.GZBuilder.Data;
@@ -10,13 +9,10 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Windows
 {
     public partial class LinedefColorPresetsForm : Form
     {
-        #region ================== Structs
 
         private class PresetItem : IColoredListBoxItem
         {
@@ -47,15 +43,7 @@ namespace CodeImp.DoomBuilder.Windows
             }
         }
 
-        #endregion
-
-        #region ================== Variables
-
         private bool preventchanges;
-
-        #endregion
-
-        #region ================== Constructor / Setup
 
         public LinedefColorPresetsForm()
         {
@@ -282,10 +270,6 @@ namespace CodeImp.DoomBuilder.Windows
             }
         }
 
-        #endregion
-
-        #region ================== Apply / Cancel
-
         private void apply_Click(object sender, EventArgs e)
         {
             // Replace all presets
@@ -316,10 +300,6 @@ namespace CodeImp.DoomBuilder.Windows
             if (preventchanges || colorpresets.SelectedItem == null) return;
             ((PresetItem)colorpresets.SelectedItem).Preset.Enabled = e.NewValue == CheckState.Checked;
         }
-
-        #endregion
-
-        #region ================== Presets list events
 
         private void colorpresets_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -441,10 +421,6 @@ namespace CodeImp.DoomBuilder.Windows
             colorpresets.SelectedIndex++;
         }
 
-        #endregion
-
-        #region ================== Current preset events
-
         private void presetname_Validating(object sender, CancelEventArgs e)
         {
             if (preventchanges || colorpresets.SelectedItem == null) return;
@@ -520,8 +496,6 @@ namespace CodeImp.DoomBuilder.Windows
             item.Preset.Activation = ((LinedefActivateInfo)activation.SelectedItem).Index;
             ValidatePreset(item);
         }
-
-        #endregion
 
     }
 }

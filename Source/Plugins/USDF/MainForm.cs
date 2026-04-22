@@ -1,4 +1,3 @@
-#region === Copyright (c) 2010 Pascal van der Heiden ===
 
 using CodeImp.DoomBuilder.Windows;
 using System;
@@ -6,29 +5,14 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.USDF
 {
     public partial class MainForm : DelayedForm
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Position/size
         private Point lastposition;
         private Size lastsize;
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public MainForm()
@@ -43,18 +27,10 @@ namespace CodeImp.DoomBuilder.USDF
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // Called before the map is saved so we can save our data
         public void SaveData()
         {
         }
-
-        #endregion
-
-        #region ================== Events
 
         // Form loaded
         private void MainForm_Load(object sender, EventArgs e)
@@ -121,7 +97,5 @@ namespace CodeImp.DoomBuilder.USDF
                 lastsize = this.Size;
             }
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,16 +18,10 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
-#endregion
-
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
     class GameConfigurationWrapper
     {
-        #region ================== Properties
 
         /// <summary>
         /// Engine name, like `doom`, `boom`, `zdoom` etc. Used for the namespace in UDMF maps. Read-only.
@@ -51,7 +44,5 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
                 return General.Map.Config.UseLocalSidedefTextureOffsets;
             }
         }
-
-        #endregion
     }
 }

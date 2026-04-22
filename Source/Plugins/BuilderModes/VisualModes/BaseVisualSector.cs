@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -23,17 +19,10 @@ using CodeImp.DoomBuilder.VisualModes;
 using System;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     internal class BaseVisualSector : VisualSector
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private readonly BaseVisualMode mode;
 
@@ -51,10 +40,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Prevent recursion
         private bool isupdating;
 
-        #endregion
-
-        #region ================== Properties
-
         public VisualFloor Floor { get { return floor; } }
         public VisualCeiling Ceiling { get { return ceiling; } }
         public List<VisualFloor> ExtraFloors { get { return extrafloors; } }
@@ -63,10 +48,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public List<VisualCeiling> ExtraBackCeilings { get { return extrabackceilings; } } //mxd
         public Dictionary<Sidedef, VisualSidedefParts> Sides { get { return sides; } } //mxd
         public bool Changed { get { return changed; } set { changed |= value; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public BaseVisualSector(BaseVisualMode mode, Sector s) : base(s)
@@ -101,10 +82,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This retreives the sector data for this sector
         public SectorData GetSectorData()
@@ -414,7 +391,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             return false;
         }
-
-        #endregion
     }
 }

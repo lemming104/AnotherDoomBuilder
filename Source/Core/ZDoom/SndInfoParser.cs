@@ -1,18 +1,14 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.ZDoom
 {
     internal sealed class SndInfoParser : ZDTextParser
     {
-        #region ================== Variables
 
         private Dictionary<int, AmbientSoundInfo> ambientsounds;
         private Dictionary<string, SoundInfo> sounds;
@@ -26,18 +22,10 @@ namespace CodeImp.DoomBuilder.ZDoom
         private enum SndInfoFormat { None, Old, New }
         private SndInfoFormat format = SndInfoFormat.None;
 
-        #endregion
-
-        #region ================== Properties
-
         internal override ScriptType ScriptType { get { return ScriptType.SNDINFO; } }
 
         internal Dictionary<int, AmbientSoundInfo> AmbientSounds { get { return ambientsounds; } }
         internal Dictionary<string, SoundInfo> Sounds { get { return sounds; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         public SndInfoParser()
         {
@@ -47,10 +35,6 @@ namespace CodeImp.DoomBuilder.ZDoom
             skipeditorcomments = true; // otherwise //$AMBIENT will be treated like one...
             globalprops = new SoundInfo();
         }
-
-        #endregion
-
-        #region ================== Parsing
 
         public override bool Parse(TextResourceData data, bool clearerrors)
         {
@@ -433,10 +417,6 @@ namespace CodeImp.DoomBuilder.ZDoom
             return true;
         }
 
-        #endregion
-
-        #region ================== Methods
-
         private SoundInfo GetSoundInfo(string soundname)
         {
             if (soundname == "*") return globalprops;
@@ -523,7 +503,5 @@ namespace CodeImp.DoomBuilder.ZDoom
                     throw new NotImplementedException("Unknown SoundInfoType");
             }
         }
-
-        #endregion
     }
 }

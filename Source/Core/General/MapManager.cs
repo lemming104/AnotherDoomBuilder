@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Compilers;
@@ -39,14 +35,10 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-
-#endregion
-
 namespace CodeImp.DoomBuilder
 {
     public sealed class MapManager : IDisposable
     {
-        #region ================== Constants
 
         // Map header name in temporary file
         internal const string TEMP_MAP_HEADER = "TEMPMAP";
@@ -55,10 +47,6 @@ namespace CodeImp.DoomBuilder
         public const string CONFIG_MAP_NAME_FORMAT_EPISODE = "ExMy";
         public const string CONFIG_MAP_NAME_FORMAT_NO_EPISODE = "MAPxy";
         private const int REPLACE_TARGET_MAP = -1; //mxd
-
-        #endregion
-
-        #region ================== Variables
 
         // Status
         private bool changed;
@@ -98,10 +86,6 @@ namespace CodeImp.DoomBuilder
         // Disposing
         private bool isdisposed;
 
-        #endregion
-
-        #region ================== Properties
-
         public string FilePathName { get { return filepathname; } }
         public string FileTitle { get { return filetitle; } internal set { filetitle = value; } } //mxd. Added setter
         public string TempPath { get { return temppath; } }
@@ -139,10 +123,6 @@ namespace CodeImp.DoomBuilder
         internal Dictionary<int, ScriptItem> NumberedScripts { get { return numberedscripts; } }
 
         public ViewMode ViewMode { get { return renderer2d.ViewMode; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal MapManager()
@@ -244,10 +224,6 @@ namespace CodeImp.DoomBuilder
                 isdisposed = true;
             }
         }
-
-        #endregion
-
-        #region ================== New / Open
 
         // Initializes for a new map
         internal bool InitializeNewMap(MapOptions options)
@@ -670,10 +646,6 @@ namespace CodeImp.DoomBuilder
 
             return true;
         }
-
-        #endregion
-
-        #region ================== Save
 
         /// <summary>
         /// This exports the structures from memory into a WAD file with the current map format.
@@ -1226,10 +1198,6 @@ namespace CodeImp.DoomBuilder
 #endif
         }
 
-        #endregion
-
-        #region ================== Nodebuild
-
         /// <summary>
         /// This stores the current structures in memory to the temporary file and rebuilds the nodes.
         /// The 'nodebuildername' must be a valid nodebuilder configuration profile.
@@ -1422,10 +1390,6 @@ namespace CodeImp.DoomBuilder
 
             return lumpscomplete;
         }
-
-        #endregion
-
-        #region ================== Lumps
 
         // This returns a copy of the requested lump stream data
         // This is copied from the temp wad file and returns null when the lump is not found
@@ -1814,10 +1778,6 @@ namespace CodeImp.DoomBuilder
             return lumpindex;
         }
 
-        #endregion
-
-        #region ================== Selection Groups
-
         // This adds selection to a group
         private void AddSelectionToGroup(int groupindex)
         {
@@ -1923,10 +1883,6 @@ namespace CodeImp.DoomBuilder
         [BeginAction("cleargroup10")]
         internal void ClearGroup10() { ClearGroup(9); }
 
-        #endregion
-
-        #region ================== [mxd] GZDB actions
-
         [BeginAction("gztogglemodels")]
         internal void ToggleModelsRenderingMode()
         {
@@ -2011,10 +1967,6 @@ namespace CodeImp.DoomBuilder
         {
             data.ReloadGldefs();
         }
-
-        #endregion
-
-        #region ================== Script Editing
 
         // Show the script editor
         [BeginAction("openscripteditor")]
@@ -2306,10 +2258,6 @@ namespace CodeImp.DoomBuilder
         {
             return namedscripts.ContainsKey(scriptname);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This updates everything after the configuration or settings have been changed
         internal void UpdateConfiguration()
@@ -2883,7 +2831,5 @@ namespace CodeImp.DoomBuilder
             changed = false;
             General.MainWindow.UpdateMapChangedStatus();
         }
-
-        #endregion
     }
 }

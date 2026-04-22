@@ -18,8 +18,6 @@
 			base.Dispose(disposing);
 		}
 
-		#region Код, автоматически созданный конструктором форм Windows
-
 		/// <summary>
 		/// Обязательный метод для поддержки конструктора - не изменяйте
 		/// содержимое данного метода при помощи редактора кода.
@@ -210,8 +208,6 @@
 			this.PerformLayout();
 
 		}
-
-		#endregion
 
 		private System.Windows.Forms.Button buttonOK;
 		private System.Windows.Forms.Button buttonCancel;

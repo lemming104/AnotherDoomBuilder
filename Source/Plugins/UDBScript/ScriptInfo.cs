@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,9 +18,6 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.IO;
 using Esprima;
@@ -32,13 +28,10 @@ using System.Dynamic;
 using System.IO;
 using System.Text.RegularExpressions;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.UDBScript
 {
     public class ScriptInfo
     {
-        #region ================== Variables
 
         private uint version;
         private bool ignoreversion;
@@ -47,20 +40,12 @@ namespace CodeImp.DoomBuilder.UDBScript
         private string scriptfile;
         private List<ScriptOption> options;
 
-        #endregion
-
-        #region ================== Properties
-
         public uint Version { get { return version; } }
         public bool IgnoreVersion { get { return ignoreversion; } set { ignoreversion = value; } }
         public string Name { get { return name; } }
         public string Description { get { return description; } }
         public string ScriptFile { get { return scriptfile; } }
         public List<ScriptOption> Options { get { return options; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         internal ScriptInfo(string file)
         {
@@ -123,10 +108,6 @@ namespace CodeImp.DoomBuilder.UDBScript
             if (!string.IsNullOrWhiteSpace(configstring))
                 CreateOptions(configstring);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Create script options from a config string
@@ -229,7 +210,5 @@ namespace CodeImp.DoomBuilder.UDBScript
         {
             return SHA256Hash.Get(scriptfile);
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,19 +18,13 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Dehacked
 {
     public class DehackedFrame
     {
-        #region ================== Variables
 
         private int number;
         private int spritenumber;
@@ -40,20 +33,12 @@ namespace CodeImp.DoomBuilder.Dehacked
         private string sprite;
         private bool bright;
 
-        #endregion
-
-        #region ================== Properties
-
         public int Number { get { return number; } internal set { number = value; } }
         public int SpriteNumber { get { return spritenumber; } internal set { spritenumber = value; } }
         public long SpriteSubNumber { get { return spritesubnumber; } internal set { spritesubnumber = value; } }
         public Dictionary<string, string> Props { get { return props; } }
         public string Sprite { get { return sprite; } internal set { sprite = value; } }
         public bool Bright { get { return bright; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         internal DehackedFrame(int number)
         {
@@ -67,10 +52,6 @@ namespace CodeImp.DoomBuilder.Dehacked
             foreach (string key in props.Keys)
                 this.props[key.ToLowerInvariant()] = props[key];
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Processes the frame, setting it up so it can be used by things
@@ -112,7 +93,5 @@ namespace CodeImp.DoomBuilder.Dehacked
                 }
             }
         }
-
-        #endregion
     }
 }

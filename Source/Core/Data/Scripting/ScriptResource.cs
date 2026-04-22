@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Controls;
 using CodeImp.DoomBuilder.Windows;
@@ -8,13 +7,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Data.Scripting
 {
     public sealed class ScriptResource
     {
-        #region ================== Variables
 
         private string filename;
         private string filepathname;
@@ -29,10 +25,6 @@ namespace CodeImp.DoomBuilder.Data.Scripting
         // Special cases...
         private string parentresourcelocation;
 
-        #endregion
-
-        #region ================== Properties
-
         public string Filename { get { return filename; } } // Path to text file inside of Resource
         public string FilePathName { get { return filepathname; } } // Resource location and file path inside resource combined
         public int LumpIndex { get { return lumpindex; } } // Text lump index if Resource is wad, -1 otherwise
@@ -40,10 +32,6 @@ namespace CodeImp.DoomBuilder.Data.Scripting
         public HashSet<string> Entries { get { return entries; } } // Actors/models/sounds etc.
         public ScriptType ScriptType { get { return scripttype; } }
         public bool IsReadOnly { get { return isreadonly; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         public ScriptResource(TextResourceData source, ScriptType type)
         {
@@ -65,10 +53,6 @@ namespace CodeImp.DoomBuilder.Data.Scripting
                     parentresourcelocation = wr.ParentResource.Location.location;
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         internal bool ContainsText(FindReplaceOptions options)
         {
@@ -185,7 +169,5 @@ namespace CodeImp.DoomBuilder.Data.Scripting
         {
             return (lumpindex != -1 ? lumpindex + ":" : "") + Path.GetFileName(filename);
         }
-
-        #endregion
     }
 }

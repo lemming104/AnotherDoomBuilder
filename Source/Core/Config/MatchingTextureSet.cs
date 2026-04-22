@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using System;
@@ -22,13 +18,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Config
 {
     public sealed class MatchingTextureSet : TextureSet, IFilledTextureSet, IComparable<MatchingTextureSet>
     {
-        #region ================== Variables
 
         // Never stored, only used at run-time
         private Regex regex;
@@ -37,16 +30,8 @@ namespace CodeImp.DoomBuilder.Config
         private List<ImageData> textures;
         private List<ImageData> flats;
 
-        #endregion
-
-        #region ================== Properties
-
         public ICollection<ImageData> Textures { get { return textures; } }
         public ICollection<ImageData> Flats { get { return flats; } } //mxd
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // New texture set for quick matching
         public MatchingTextureSet(ICollection<string> filters)
@@ -69,10 +54,6 @@ namespace CodeImp.DoomBuilder.Config
             // Setup
             Setup();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets up the object
         private void Setup()
@@ -188,7 +169,5 @@ namespace CodeImp.DoomBuilder.Config
         {
             return string.Compare(this.name, other.name);
         }
-
-        #endregion
     }
 }

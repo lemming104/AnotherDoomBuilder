@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.IO;
 using CodeImp.DoomBuilder.Map;
@@ -30,17 +26,10 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Config
 {
     public class ProgramConfiguration
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Original configuration
         private Configuration cfg;
@@ -165,10 +154,6 @@ namespace CodeImp.DoomBuilder.Config
         private bool autosave;
         private int autosavecount;
         private int autosaveinterval;
-
-        #endregion
-
-        #region ================== Properties
 
         internal Configuration Config { get { return cfg; } }
         public bool BlackBrowsers { get { return blackbrowsers; } internal set { blackbrowsers = value; } }
@@ -308,10 +293,6 @@ namespace CodeImp.DoomBuilder.Config
         public int AutosaveCount { get { return autosavecount; } internal set { autosavecount = value; } }
         public int AutosaveInterval { get { return autosaveinterval; } internal set { autosaveinterval = value; } }
 
-        #endregion
-
-        #region ================== Constructor / Disposer
-
         // Constructor
         internal ProgramConfiguration()
         {
@@ -320,10 +301,6 @@ namespace CodeImp.DoomBuilder.Config
             defaultthingflags = new List<string>();
             pasteoptions = new PasteOptions();
         }
-
-        #endregion
-
-        #region ================== Loading / Saving
 
         // This loads the program configuration
         internal bool Load(string cfgfilepathname, string defaultfilepathname, string legacyfilepathname)
@@ -688,10 +665,6 @@ namespace CodeImp.DoomBuilder.Config
             return true;
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This makes the path prefix for the given assembly
         private static string GetPluginPathPrefix(Assembly asm)
         {
@@ -748,10 +721,6 @@ namespace CodeImp.DoomBuilder.Config
         // DeleteSetting
         internal bool DeleteSetting(string setting) { return cfg.DeleteSetting(setting); }
         internal bool DeleteSetting(string setting, string pathseperator) { return cfg.DeleteSetting(setting, pathseperator); }
-
-        #endregion
-
-        #region ================== Default Settings
 
         // This sets the default thing flags
         public void SetDefaultThingFlags(ICollection<string> setflags)
@@ -1001,7 +970,5 @@ namespace CodeImp.DoomBuilder.Config
             if (string.IsNullOrEmpty(General.Map.Options.DefaultFloorTexture)) General.Map.Options.DefaultFloorTexture = "-";
             if (string.IsNullOrEmpty(General.Map.Options.DefaultCeilingTexture)) General.Map.Options.DefaultCeilingTexture = "-";
         }
-
-        #endregion
     }
 }

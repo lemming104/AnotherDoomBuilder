@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Windows;
 using System;
@@ -24,17 +20,10 @@ using System.Globalization;
 using System.Reflection;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes.Interface
 {
     public partial class FindReplaceForm : DelayedForm
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private FindReplaceMode mode; //mxd
         private FindReplaceType newfinder;
@@ -45,15 +34,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         private bool suppressevents;
         private Font hintfont; //mxd
 
-        #endregion
-
-        #region ================== Properties
-
         internal FindReplaceType Finder { get { return finder; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor
         public FindReplaceForm()
@@ -98,10 +79,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                 }
             }
         }
-
-        #endregion
-
-        #region ================== Events
 
         // Replace (un)checked
         private void doreplace_CheckedChanged(object sender, EventArgs e)
@@ -368,10 +345,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             General.ShowHelp("e_findreplace.html");
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This shows the window
         public void Show(Form owner, FindReplaceMode mode)
         {
@@ -431,8 +404,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             }
             return list;
         }
-
-        #endregion
 
     }
 }

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,21 +11,10 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
-
-#endregion
-
 namespace CodeImp.DoomBuilder.Map
 {
     public abstract class SelectableElement : MapElement
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Selected or not?
         private bool selected;
@@ -34,15 +22,7 @@ namespace CodeImp.DoomBuilder.Map
         // Group bitmask
         private int groups;
 
-        #endregion
-
-        #region ================== Properties
-
         public bool Selected { get { return selected; } set { if (value && !selected) DoSelect(); else if (!value && selected) DoUnselect(); } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Disposer
         public override void Dispose()
@@ -57,10 +37,6 @@ namespace CodeImp.DoomBuilder.Map
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This makes the selection
         protected virtual void DoSelect()
@@ -105,7 +81,5 @@ namespace CodeImp.DoomBuilder.Map
         {
             return (groups & groupsmask) != 0;
         }
-
-        #endregion
     }
 }

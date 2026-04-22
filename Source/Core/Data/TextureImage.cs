@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Rendering;
 using System;
@@ -25,19 +21,12 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Data
 {
     internal sealed unsafe class TextureImage : ImageData
     {
-        #region ================== Variables
 
         private List<TexturePatch> patches;
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public TextureImage(string group, string name, int width, int height, float scalex, float scaley, bool worldpanning)
@@ -56,10 +45,6 @@ namespace CodeImp.DoomBuilder.Data
             // We have no destructor
             GC.SuppressFinalize(this);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This adds a patch to the texture
         public void AddPatch(TexturePatch patch)
@@ -282,7 +267,5 @@ namespace CodeImp.DoomBuilder.Data
             bmp.UnlockBits(bmpdata);
             return false;
         }
-
-        #endregion
     }
 }

@@ -20,8 +20,6 @@ namespace CodeImp.DoomBuilder.USDF
 			base.Dispose(disposing);
 		}
 
-		#region Windows Form Designer generated code
-
 		/// <summary>
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
@@ -78,8 +76,6 @@ namespace CodeImp.DoomBuilder.USDF
 			this.ResumeLayout(false);
 
 		}
-
-		#endregion
 
 		private System.Windows.Forms.TreeView tree;
 		private System.Windows.Forms.ImageList treeimages;

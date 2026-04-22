@@ -20,8 +20,6 @@
 			base.Dispose(disposing);
 		}
 
-		#region Component Designer generated code
-
 		/// <summary> 
 		/// Required method for Designer support - do not modify 
 		/// the contents of this method with the code editor.
@@ -392,8 +390,6 @@
 			this.ResumeLayout(false);
 
 		}
-
-		#endregion
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Label lblQuestionableOffsets;

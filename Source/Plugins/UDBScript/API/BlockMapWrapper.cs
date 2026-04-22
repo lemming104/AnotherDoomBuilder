@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2022 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,17 +18,12 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Dynamic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
@@ -69,14 +63,9 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
     /// </summary>
     class BlockMapWrapper
     {
-        #region ================== Variables
 
         private BlockMap<BlockEntry> blockmap;
         private Dictionary<BlockEntry, BlockEntryWrapper> blockentries;
-
-        #endregion
-
-        #region ================== Constructors
 
         /// <summary>
         /// Creates a blockmap that includes linedefs, things, sectors, and vertices.
@@ -117,10 +106,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 
             CreateBlockmap(lines, things, sectors, vertices);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Generates the blockmap and adds the wanted map elements.
@@ -222,7 +207,5 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
         {
             return new BlockMapQueryResult(blockmap.GetSquareRange(new RectangleF(x, y, width, height)));
         }
-
-        #endregion
     }
 }

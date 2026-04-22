@@ -16,8 +16,6 @@
 			base.Dispose(disposing);
 		}
 
-		#region Код, автоматически созданный конструктором форм Windows
-
 		/// <summary>
 		/// Обязательный метод для поддержки конструктора - не изменяйте
 		/// содержимое данного метода при помощи редактора кода.
@@ -96,8 +94,6 @@
 			this.PerformLayout();
 
 		}
-
-		#endregion
 
 		private CodeImp.DoomBuilder.ColorPicker.Controls.ColorPickerControl colorPickerControl1;
 		private System.Windows.Forms.CheckBox cbRelativeMode;

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
@@ -33,8 +29,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [EditMode(DisplayName = "Sectors Mode",
@@ -47,13 +41,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
     public class SectorsMode : BaseClassicMode
     {
-        #region ================== Constants
 
         private const int MAX_SECTOR_LABELS = 256; //mxd
-
-        #endregion
-
-        #region ================== Variables
 
         // Highlighted item
         private Sector highlighted;
@@ -89,15 +78,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Autosave
         private bool allowautosave;
 
-        #endregion
-
-        #region ================== Properties
-
         public override object HighlightedObject { get { return highlighted; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public SectorsMode()
@@ -129,10 +110,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This makes a CRC for the selection
         /*public int CreateSelectionCRC()
@@ -788,10 +765,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // time (and add them when paint select is used t he first time)
             addedlinedefstoblockmap = false;
         }
-
-        #endregion
-
-        #region ================== Events
 
         public override void OnHelp()
         {
@@ -1673,10 +1646,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             PixelColor c = s == highlighted ? General.Colors.Highlight : PixelColor.FromColor(Color.White);
             renderer.RenderRectangleFilled(rect, c, true, General.Map.Data.CommentTextures[iconindex]);
         }
-
-        #endregion
-
-        #region ================== Actions
 
         // This copies the properties
         [BeginAction("classiccopyproperties")]
@@ -2889,7 +2858,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 General.ToastManager.ShowToast(ToastMessages.CHANGEMAPELEMENTINDEX, ToastType.INFO, "Successfully change sector index", $"Changed index of sector {oldindex} to {newindex}.");
             }
         }
-
-        #endregion
     }
 }

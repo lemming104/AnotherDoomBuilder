@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
@@ -33,8 +29,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [EditMode(DisplayName = "Edit Selection Mode",
@@ -48,7 +42,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
     public class EditSelectionMode : BaseClassicMode
     {
-        #region ================== Enums
 
         private enum ModifyMode
         {
@@ -79,10 +72,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             ADJUST_CEILINGS,
             ADJUST_BOTH,
         }
-
-        #endregion
-
-        #region ================== Structs (mxd)
 
         private struct SectorTextureInfo
         {
@@ -135,19 +124,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
             public string Part;
         }
 
-        #endregion
-
-        #region ================== Constants
-
         private const float GRIP_SIZE = 9.0f;
         private const float ZERO_SIZE_ADDITION = 20.0f;
         private const byte RECTANGLE_ALPHA = 60;
         private const byte EXTENSION_LINE_ALPHA = 150;
         private readonly Cursor[] RESIZE_CURSORS = { Cursors.SizeNS, Cursors.SizeNWSE, Cursors.SizeWE, Cursors.SizeNESW };
-
-        #endregion
-
-        #region ================== Variables
 
         // Modes
         private bool modealreadyswitching;
@@ -220,10 +201,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
         private bool updateslopes;
 
-        #endregion
-
-        #region ================== Properties
-
         public override object HighlightedObject { get { return highlighted; } }
 
         public bool Pasting { get { return pasting; } set { pasting = value; } }
@@ -240,10 +217,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
         //mxd. Height offset mode
         internal HeightAdjustMode SectorHeightAdjustMode { get { return heightadjustmode; } set { heightadjustmode = value; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public EditSelectionMode()
@@ -274,10 +247,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // The following functions set different properties and update
 
@@ -1136,10 +1105,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
         }
 
-        #endregion
-
-        #region ================== Sector height adjust methods (mxd)
-
         //x = floor height, y = ceiling height
         private static Point GetOutsideHeights(HashSet<Sector> sectors)
         {
@@ -1279,10 +1244,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
             }
         }
-
-        #endregion
-
-        #region ================== Events
 
         public override void OnHelp()
         {
@@ -2307,12 +2268,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                (snaptonearest != (General.Interface.CtrlState ^ General.Interface.AutoMerge))) Update();
         }
 
-
-
-        #endregion
-
-        #region ================== Actions
-
         // This clears the selection
         [BeginAction("clearselection", BaseAction = true)]
         public void ClearSelection()
@@ -2426,7 +2381,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             General.Map.Map.Update();
             General.Interface.RedrawDisplay();
         }
-
-        #endregion
     }
 }

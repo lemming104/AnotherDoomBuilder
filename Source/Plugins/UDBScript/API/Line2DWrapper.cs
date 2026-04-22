@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,19 +18,13 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
     internal struct Line2DWrapper
     {
-        #region ================== Variables
 
         /// <summary>
         /// `Vector2D` position of start of the line.
@@ -42,10 +35,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
         /// `Vector2D` position of end of the line.
         /// </summary>
         public Vector2DWrapper v2;
-
-        #endregion
-
-        #region ================== Constructors
 
         internal Line2DWrapper(Line2D line)
         {
@@ -75,18 +64,10 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             }
         }
 
-        #endregion
-
-        #region ================== Internals
-
         internal Line2D AsLine2D()
         {
             return new Line2D(v1._x, v1._y, v2._x, v2._y);
         }
-
-        #endregion
-
-        #region ================== Statics
 
         /// <summary>
         /// Checks if two lines intersect. If `bounded` is set to `true` (default) the finite length of the lines is used, otherwise the infinite length of the lines is used.
@@ -270,10 +251,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         /// <summary>
         /// Returns the coordinates on the line, where `u` is the position between the first and second point, `u = 0.0` being on the first point, `u = 1.0` being on the second point, and `u = 0.5` being in the middle between the points.
         /// </summary>
@@ -419,7 +396,5 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
         {
             return AsLine2D().ToString();
         }
-
-        #endregion
     }
 }

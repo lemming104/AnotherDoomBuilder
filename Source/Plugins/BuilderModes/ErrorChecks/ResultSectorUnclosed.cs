@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,34 +11,20 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     public class ResultSectorUnclosed : ErrorResult
     {
-        #region ================== Variables
 
         private readonly Sector sector;
         private readonly List<Vertex> vertices;
         private readonly int index;
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public ResultSectorUnclosed(Sector s, List<Vertex> v)
@@ -53,10 +38,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             description = "This sector is not a closed region and could cause problems with clipping and rendering in the game. The 'leaks' in the sector are indicated by the colored vertices.";
             index = s.Index;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets if this result is displayed in ErrorCheckForm (mxd)
         internal override void Hide(bool hide)
@@ -80,7 +61,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             foreach (Vertex v in vertices)
                 renderer.PlotVertex(v, ColorCollection.SELECTION);
         }
-
-        #endregion
     }
 }

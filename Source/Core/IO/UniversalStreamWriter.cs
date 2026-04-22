@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
@@ -23,33 +19,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.IO
 {
     internal class UniversalStreamWriter
     {
-        #region ================== Constants
 
         // Name of the UDMF configuration file
         private const string UDMF_CONFIG_NAME = "UDMF.cfg";
 
-        #endregion
-
-        #region ================== Variables
-
         private Configuration config;
         private bool remembercustomtypes;
 
-        #endregion
-
-        #region ================== Properties
-
         public bool RememberCustomTypes { get { return remembercustomtypes; } set { remembercustomtypes = value; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public UniversalStreamWriter()
@@ -105,10 +86,6 @@ namespace CodeImp.DoomBuilder.IO
                 }
             }
         }
-
-        #endregion
-
-        #region ================== Writing
 
         // This writes the structures to a stream
         // writenamespace may be null to omit writing the namespace to the stream
@@ -408,8 +385,6 @@ namespace CodeImp.DoomBuilder.IO
                 }
             }
         }
-
-        #endregion
     }
 }
 

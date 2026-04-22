@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Compilers;
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
@@ -8,32 +7,21 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     //mxd. Document tab bound to a resource entry. Script type can't be changed. Can be readonly.
     //Must be replaced with ScriptFileDocumentTab when unable to locate target resource entry to save to.
     internal sealed class ScriptResourceDocumentTab : ScriptDocumentTab
     {
-        #region ================== Variables
 
         private ScriptResource source;
         private string hash;
         private string filepathname;
 
-        #endregion
-
-        #region ================== Properties
-
         public override bool IsReconfigurable { get { return false; } }
         public override bool IsSaveAsRequired { get { return false; } }
         public override string Filename { get { return filepathname; } }
         internal ScriptResource Resource { get { return source; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         internal ScriptResourceDocumentTab(ScriptEditorPanel panel, ScriptResource resource, ScriptConfiguration config) : base(panel, config)
         {
@@ -64,10 +52,6 @@ namespace CodeImp.DoomBuilder.Controls
             // Update navigator
             panel.ShowErrors(UpdateNavigator(), true);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public override void Compile()
         {
@@ -162,7 +146,5 @@ namespace CodeImp.DoomBuilder.Controls
                 this.ToolTipText = filepathname;
             }
         }
-
-        #endregion
     }
 }

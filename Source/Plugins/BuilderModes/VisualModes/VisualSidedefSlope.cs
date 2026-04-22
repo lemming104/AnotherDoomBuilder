@@ -10,26 +10,13 @@ namespace CodeImp.DoomBuilder.VisualModes
 {
     internal class VisualSidedefSlope : BaseVisualSlope // VisualSlope, IVisualEventReceiver
     {
-        #region ================== Variables
 
         private readonly Sidedef sidedef;
 
-        #endregion
-
-        #region ================== Constants
-
         private const int SIZE = 8;
-
-        #endregion
-
-        #region ================== Properties
 
         public Sidedef Sidedef { get { return sidedef; } }
         public int NormalizedAngleDeg { get { return (sidedef.Line.AngleDeg >= 180) ? (sidedef.Line.AngleDeg - 180) : sidedef.Line.AngleDeg; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         public VisualSidedefSlope(BaseVisualMode mode, SectorLevel level, Sidedef sidedef, bool up) : base(mode, level, up)
         {
@@ -41,10 +28,6 @@ namespace CodeImp.DoomBuilder.VisualModes
             // We have no destructor
             GC.SuppressFinalize(this);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public Vector3D GetCenterPoint()
         {
@@ -311,10 +294,6 @@ namespace CodeImp.DoomBuilder.VisualModes
             };
         }
 
-        #endregion
-
-        #region ================== Events
-
         public override void OnChangeTargetHeight(int amount)
         {
             VisualSlope pivothandle = null;
@@ -383,7 +362,5 @@ namespace CodeImp.DoomBuilder.VisualModes
 
             mode.SetActionResult("Changed slope.");
         }
-
-        #endregion
     }
 }

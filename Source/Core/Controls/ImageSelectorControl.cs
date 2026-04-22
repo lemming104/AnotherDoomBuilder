@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Rendering;
@@ -23,8 +19,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     /// <summary>
@@ -32,7 +26,6 @@ namespace CodeImp.DoomBuilder.Controls
     /// </summary>
     public abstract partial class ImageSelectorControl : UserControl
     {
-        #region ================== Variables
 
         public event EventHandler OnValueChanged; //mxd
 
@@ -41,18 +34,10 @@ namespace CodeImp.DoomBuilder.Controls
         private string previousimagename; //mxd
         protected bool multipletextures; //mxd
 
-        #endregion
-
-        #region ================== Properties
-
         public string TextureName { get { return name.Text; } set { name.Text = value; } }
 
         [Browsable(false)]
         public bool MultipleTextures { get { return multipletextures; } set { multipletextures = value; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         protected ImageSelectorControl()
@@ -69,10 +54,6 @@ namespace CodeImp.DoomBuilder.Controls
             if (!General.Map.Options.UseLongTextureNames) this.name.CharacterCasing = CharacterCasing.Upper; //mxd
             labelSize.BackColor = Color.FromArgb(196, labelSize.BackColor);
         }
-
-        #endregion
-
-        #region ================== Events
 
         // When resized
         private void ImageSelectorControl_Resize(object sender, EventArgs e)
@@ -172,10 +153,6 @@ namespace CodeImp.DoomBuilder.Controls
             // Update icon and tooltip
             UpdateToggleImageNameButton(image);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This refreshes the control
         new public void Refresh()
@@ -303,7 +280,5 @@ namespace CodeImp.DoomBuilder.Controls
             if (v > 1f) return 1f;
             return v;
         }
-
-        #endregion
     }
 }

@@ -1,16 +1,12 @@
 
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     public class ActionFloorRaiseToNextHigherTextures : BaseActionTextures
     {
-        #region ================== Methods
 
         // Gather the raise floor to next higher floor specials from the configuration.
         protected override bool InspectsAction(LinedefActionInfo info)
@@ -34,7 +30,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             return nextheight.HasValue && side.Other.Sector.FloorHeight < nextheight.Value;
         }
-
-        #endregion
     }
 }

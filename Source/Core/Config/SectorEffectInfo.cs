@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,23 +11,13 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Config
 {
     public class SectorEffectInfo : INumberedTitle, IComparable<SectorEffectInfo>
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Properties
         private int index;
@@ -36,19 +25,11 @@ namespace CodeImp.DoomBuilder.Config
         private bool isknown;
         private bool isgeneralized;
 
-        #endregion
-
-        #region ================== Properties
-
         public int Index { get { return index; } }
         public string Title { get { return title; } }
         public bool IsGeneralized { get { return isgeneralized; } }
         public bool IsKnown { get { return isknown; } }
         public bool IsNull { get { return index == 0; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal SectorEffectInfo(int index, string title, bool isknown, bool isgeneralized)
@@ -63,10 +44,6 @@ namespace CodeImp.DoomBuilder.Config
             GC.SuppressFinalize(this);
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This presents the item as string
         public override string ToString()
         {
@@ -80,7 +57,5 @@ namespace CodeImp.DoomBuilder.Config
             else if (this.index > other.index) return 1;
             else return 0;
         }
-
-        #endregion
     }
 }

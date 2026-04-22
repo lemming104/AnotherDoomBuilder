@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2014 Boris Iwanski
-
+﻿
 /*
  * Copyright (c) 2014 Boris Iwanski
  * This program is released under GNU General Public License
@@ -10,8 +9,6 @@
  * GNU General Public License for more details.
  * 
  */
-
-#endregion
 
 using CodeImp.DoomBuilder.BuilderModes;
 using CodeImp.DoomBuilder.Geometry;

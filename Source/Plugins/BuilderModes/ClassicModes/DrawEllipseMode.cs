@@ -1,13 +1,10 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
 using System;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
@@ -22,7 +19,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
     public class DrawEllipseMode : DrawRectangleMode
     {
-        #region ================== Variables
 
         // Interface
         private DrawEllipseOptionsPanel panel;
@@ -30,18 +26,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Drawing
         private double angle; // in radians
 
-        #endregion
-
-        #region ================== Constructor
-
         public DrawEllipseMode()
         {
             autoclosedrawing = false;
         }
-
-        #endregion
-
-        #region ================== Settings panel
 
         override protected void SetupInterface()
         {
@@ -99,10 +87,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Remove the buttons
             panel.Unregister();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         override protected Vector2D[] GetShape(Vector2D pStart, Vector2D pEnd)
         {
@@ -217,10 +201,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             return string.Join("; ", result.ToArray());
         }
 
-        #endregion
-
-        #region ================== Events
-
         public override void OnAccept()
         {
             switch (points.Count - 1) // Last point matches the first one
@@ -261,10 +241,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             General.ShowHelp("/gzdb/features/classic_modes/mode_drawellipse.html");
         }
-
-        #endregion
-
-        #region ================== Actions
 
         override protected void IncreaseSubdivLevel()
         {
@@ -321,7 +297,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             angle = Angle2D.DegToRad(panel.Angle);
             Update();
         }
-
-        #endregion
     }
 }

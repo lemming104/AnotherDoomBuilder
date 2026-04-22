@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using System;
@@ -22,25 +18,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Compilers
 {
     internal sealed class NodesCompiler : Compiler
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public NodesCompiler(CompilerInfo info) : base(info, true)
@@ -63,10 +44,6 @@ namespace CodeImp.DoomBuilder.Compilers
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This runs the compiler with a file as input.
         public override bool Run()
@@ -155,7 +132,5 @@ namespace CodeImp.DoomBuilder.Compilers
 
             return true;
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
@@ -27,8 +23,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Drawing;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.StairSectorBuilderMode
 {
@@ -46,16 +40,11 @@ namespace CodeImp.DoomBuilder.StairSectorBuilderMode
 
     public sealed class StairSectorBuilderMode : ClassicMode
     {
-        #region ================== Constants
 
         private const float LINE_THICKNESS = 0.6f;
         private const float CONTROLPOINT_SIZE = 10.0f;
         private const int INNER_SPLINE = 0;
         private const int OUTER_SPLINE = 1;
-
-        #endregion
-
-        #region ================== Variables
 
         private StairSectorBuilderForm stairsectorbuilderform;
         private List<StairInfo> stairsectors;
@@ -69,10 +58,6 @@ namespace CodeImp.DoomBuilder.StairSectorBuilderMode
         private bool baseheightset;
         private int oldflipping = -1;
         private List<List<Vector2D>> exactsplines;
-
-        #endregion
-
-        #region ================== Structures
 
         private struct CatmullRomSplineData
         {
@@ -110,21 +95,8 @@ namespace CodeImp.DoomBuilder.StairSectorBuilderMode
             public List<List<Vector2D>> postlines;
         }
 
-
-        #endregion
-
-        #region ================== Properties
-
         // Just keep the base mode button checked
         public override string EditModeButtonName { get { return General.Editing.PreviousStableMode.Name; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
-
-        #endregion
-
-        #region ================== Methods
 
         private void InitializeCatmullRomSplines()
         {
@@ -1209,10 +1181,6 @@ namespace CodeImp.DoomBuilder.StairSectorBuilderMode
             }
         }
 
-        #endregion
-
-        #region ================== Events
-
         public override void OnHelp()
         {
             General.ShowHelp("e_curvelinedefs.html");
@@ -1731,7 +1699,5 @@ namespace CodeImp.DoomBuilder.StairSectorBuilderMode
                 BuilderPlug.Me.Prefabs.Add(p);
             }
         }
-
-        #endregion
     }
 }

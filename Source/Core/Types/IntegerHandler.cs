@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,37 +11,19 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using System;
 using System.Globalization;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Types
 {
     [TypeHandler(UniversalType.Integer, "Integer", true)]
     internal class IntegerHandler : TypeHandler
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private int value;
         private int defaultvalue; //mxd
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Methods
 
         //mxd
         public override void SetupArgument(TypeHandlerAttribute attr, ArgumentInfo arginfo)
@@ -115,7 +96,5 @@ namespace CodeImp.DoomBuilder.Types
         {
             return defaultvalue;
         }
-
-        #endregion
     }
 }

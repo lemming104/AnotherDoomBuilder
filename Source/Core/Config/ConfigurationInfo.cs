@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Editing;
@@ -28,13 +24,10 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Config
 {
     public class ConfigurationInfo : IComparable<ConfigurationInfo>
     {
-        #region ================== Constants
 
         private const string MODE_DISABLED_KEY = "disabled";
         private const string MODE_ENABLED_KEY = "enabled";
@@ -42,10 +35,6 @@ namespace CodeImp.DoomBuilder.Config
         // The { and } are invalid key names in a configuration so this ensures this string is unique
         private const string MISSING_NODEBUILDER = "{missing nodebuilder}";
         private readonly string[] LINEDEF_COLOR_PRESET_FLAGS_SEPARATOR = new[] { "^" }; //mxd
-
-        #endregion
-
-        #region ================== Variables
 
         private string name;
         private string filename;
@@ -68,10 +57,6 @@ namespace CodeImp.DoomBuilder.Config
         private List<DefinedTextureSet> texturesets;
         private Dictionary<string, bool> editmodes;
         private string startmode;
-
-        #endregion
-
-        #region ================== Properties
 
         public string Name { get { return name; } }
         public string Filename { get { return filename; } }
@@ -102,10 +87,6 @@ namespace CodeImp.DoomBuilder.Config
         internal List<DefinedTextureSet> TextureSets { get { return texturesets; } }
         internal Dictionary<string, bool> EditModes { get { return editmodes; } }
         public string StartMode { get { return startmode; } internal set { startmode = value; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal ConfigurationInfo(Configuration cfg, string filename)
@@ -243,10 +224,6 @@ namespace CodeImp.DoomBuilder.Config
             if (thingsfilters != null) foreach (ThingsFilter tf in thingsfilters) if (tf != null) tf.Dispose();
             if (testEngines != null) foreach (EngineInfo ei in testEngines) if (ei != null) ei.Dispose();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// This returns the resource locations as configured.
@@ -552,7 +529,5 @@ namespace CodeImp.DoomBuilder.Config
 
             return true;
         }
-
-        #endregion
     }
 }

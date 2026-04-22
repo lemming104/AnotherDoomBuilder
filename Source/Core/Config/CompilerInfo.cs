@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Compilers;
 using CodeImp.DoomBuilder.IO;
@@ -22,17 +18,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Config
 {
     public sealed class CompilerInfo
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private readonly string filename;
         private readonly string name;
@@ -41,20 +30,12 @@ namespace CodeImp.DoomBuilder.Config
         private readonly string path;
         private readonly HashSet<string> files;
 
-        #endregion
-
-        #region ================== Properties
-
         public string FileName { get { return filename; } }
         public string Name { get { return name; } }
         public string Path { get { return path; } }
         public string ProgramFile { get { return programfile; } }
         public string ProgramInterface { get { return programinterface; } }
         public HashSet<string> Files { get { return files; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal CompilerInfo(string filename, string name, string path, Configuration cfg)
@@ -87,16 +68,10 @@ namespace CodeImp.DoomBuilder.Config
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This creates the actual compiler interface
         internal Compiler Create()
         {
             return Compiler.Create(this);
         }
-
-        #endregion
     }
 }

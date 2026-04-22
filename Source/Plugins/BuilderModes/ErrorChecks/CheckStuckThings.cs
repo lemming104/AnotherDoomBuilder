@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Geometry;
@@ -24,21 +20,14 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [ErrorChecker("Check stuck things", true, 1000)]
     public class CheckStuckThings : ErrorChecker
     {
-        #region ================== Constants
 
         private const int PROGRESS_STEP = 10;
         private const float ALLOWED_STUCK_DISTANCE = 6.0f;
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public CheckStuckThings()
@@ -46,10 +35,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Total progress is done when all things are checked
             SetTotalProgress(General.Map.Map.Things.Count / PROGRESS_STEP);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This runs the check
         public override void Run()
@@ -269,7 +254,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // All groups have to overlap for the things to show up at the same time
             return totalgroupscount > 0 && overlappinggroupscount == totalgroupscount;
         }
-
-        #endregion
     }
 }

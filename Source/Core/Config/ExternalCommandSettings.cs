@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,19 +18,13 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.IO;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Config
 {
     public class ExternalCommandSettings
     {
-        #region ================== Variables
 
         private string workingdirectory;
         private string commands;
@@ -39,19 +32,11 @@ namespace CodeImp.DoomBuilder.Config
         private bool exitcodeiserror;
         private bool stderriserror;
 
-        #endregion
-
-        #region ================== Properties
-
         public string WorkingDirectory { get { return workingdirectory; } set { workingdirectory = value; } }
         public string Commands { get { return commands; } set { commands = value; } }
         public bool AutoCloseOnSuccess { get { return autocloseonsuccess; } set { autocloseonsuccess = value; } }
         public bool ExitCodeIsError { get { return exitcodeiserror; } set { exitcodeiserror = value; } }
         public bool StdErrIsError { get { return stderriserror; } set { stderriserror = value; } }
-
-        #endregion
-
-        #region ================== Constructors
 
         public ExternalCommandSettings()
         {
@@ -71,10 +56,6 @@ namespace CodeImp.DoomBuilder.Config
         {
             LoadSettings(cfg, section);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Loads the settings from a given section in a configuration.
@@ -111,7 +92,5 @@ namespace CodeImp.DoomBuilder.Config
             cfg.WriteSetting(section + ".exitcodeiserror", ExitCodeIsError);
             cfg.WriteSetting(section + ".stderriserror", StdErrIsError);
         }
-
-        #endregion
     }
 }

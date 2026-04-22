@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2026 Boris Iwanski
 
 /*
  * Copyright (c) 2026 Boris Iwanski 
@@ -21,9 +20,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.BlockmapExplorer.Controls;
 using CodeImp.DoomBuilder.Controls;
@@ -39,8 +35,6 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BlockmapExplorer
 {
     [EditMode(DisplayName = "Blockmap Explorer Mode",
@@ -53,13 +47,8 @@ namespace CodeImp.DoomBuilder.BlockmapExplorer
               Volatile = true)]
     public class BlockmapExplorerMode : ClassicMode
     {
-        #region ================== Constants
 
         private const float LINE_LENGTH_SCALER = 0.001f;
-
-        #endregion
-
-        #region ================== Variables
 
         // Highlighted items
         private int highlightedBlockRow;
@@ -72,19 +61,11 @@ namespace CodeImp.DoomBuilder.BlockmapExplorer
         private BlockmapExplorerDocker panel;
         private Docker docker;
 
-        #endregion
-
-        #region ================== Constructor / Disposer
-
         //mxd
         public BlockmapExplorerMode()
         {
             // Do something
         }
-
-        #endregion
-
-        #region ================== Methods
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private short GetShort(byte[] data, int pos) => (short)(data[pos] | (data[pos + 1] << 8));
@@ -308,10 +289,6 @@ namespace CodeImp.DoomBuilder.BlockmapExplorer
             General.Interface.RedrawDisplay();
         }
 
-        #endregion
-
-        #region ================== Events
-
         public override void OnHelp()
         {
             General.ShowHelp("/gzdb/features/classic_modes/mode_blockmapexplorer.html");
@@ -504,7 +481,5 @@ namespace CodeImp.DoomBuilder.BlockmapExplorer
 
             UpdateOptions();
         }
-
-        #endregion
     }
 }

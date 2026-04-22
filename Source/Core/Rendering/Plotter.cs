@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,26 +11,16 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Geometry;
 using System;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Rendering
 {
     internal unsafe sealed class Plotter : IDisposable
     {
-        #region ================== Constants
 
         private const int DASH_INTERVAL = 16; //mxd
-
-        #endregion
-
-        #region ================== Variables
 
         // Memory
         private PixelColor[] pixels;
@@ -42,18 +31,10 @@ namespace CodeImp.DoomBuilder.Rendering
         // GL
         public Texture Texture { get; private set; }
 
-        #endregion
-
-        #region ================== Properties
-
         public int VisibleWidth { get { return visiblewidth; } }
         public int VisibleHeight { get { return visibleheight; } }
         public int Width { get { return width; } }
         public int Height { get { return height; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public Plotter(int width, int height)
@@ -75,10 +56,6 @@ namespace CodeImp.DoomBuilder.Rendering
                 Texture = null;
             }
         }
-
-        #endregion
-
-        #region ================== Pixel Rendering
 
         private int TransformY(int y)
         {
@@ -407,10 +384,6 @@ namespace CodeImp.DoomBuilder.Rendering
             }
         }
 
-        #endregion
-
-        #region ================== Drawing to rendertarget
-
         public void DrawContents(RenderDevice graphics)
         {
             // set pixels of texture
@@ -424,7 +397,5 @@ namespace CodeImp.DoomBuilder.Rendering
                 graphics.UnmapPBO(Texture);
             }
         }
-
-        #endregion
     }
 }

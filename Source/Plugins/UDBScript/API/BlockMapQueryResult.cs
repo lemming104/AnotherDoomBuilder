@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2022 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,16 +18,11 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
@@ -57,7 +51,6 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
     /// </summary>
     class BlockMapQueryResult : BlockMapContentBase, IEnumerable<BlockEntryWrapper>
     {
-        #region ================== Variables
 
         private BlockEntryWrapper[] wrappedentries;
         private IEnumerable<BlockEntry> entries;
@@ -66,18 +59,10 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
         private HashSet<Sector> sectors;
         private HashSet<Vertex> vertices;
 
-        #endregion
-
-        #region ================== Constructors
-
         internal BlockMapQueryResult(IEnumerable<BlockEntry> entries)
         {
             this.entries = entries;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Gets all `Linedef`s in the blockmap query result.
@@ -132,14 +117,8 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             return GetArray(vertices, ref wrappedvertices);
         }
 
-        #endregion
-
-        #region ================== Enumeration
-
         public IEnumerator<BlockEntryWrapper> GetEnumerator() => ((IEnumerable<BlockEntryWrapper>)GetArray(entries, ref wrappedentries)).GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetArray(entries, ref wrappedentries).GetEnumerator();
-
-        #endregion
     }
 }

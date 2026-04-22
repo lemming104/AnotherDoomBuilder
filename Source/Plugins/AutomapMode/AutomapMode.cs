@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2016 Boris Iwanski
 
 /*
  * Copyright (c) 2016 Boris Iwanski https://github.com/biwa/automapmode
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Editing;
@@ -24,8 +20,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.AutomapMode
 {
@@ -38,7 +32,6 @@ namespace CodeImp.DoomBuilder.AutomapMode
 
     public class AutomapMode : ClassicMode
     {
-        #region ================== Enums
 
         internal enum ColorPreset
         {
@@ -47,15 +40,7 @@ namespace CodeImp.DoomBuilder.AutomapMode
             STRIFE,
         }
 
-        #endregion
-
-        #region ================== Constants
-
         private const float LINE_LENGTH_SCALER = 0.001f; //mxd
-
-        #endregion
-
-        #region ================== Variables
 
         private CustomPresentation automappresentation;
         private List<Linedef> validlinedefs;
@@ -82,10 +67,6 @@ namespace CodeImp.DoomBuilder.AutomapMode
         private bool invertLineVisibility; // CTRL to toggle
         private bool editSectors; // SHIFT to toggle
 
-        #endregion
-
-        #region ================== Properties
-
         public override object HighlightedObject
         {
             get
@@ -96,10 +77,6 @@ namespace CodeImp.DoomBuilder.AutomapMode
                     return highlightedSector;
             }
         }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         //mxd
         public AutomapMode()
@@ -132,10 +109,6 @@ namespace CodeImp.DoomBuilder.AutomapMode
             // Apply color preset
             ApplyColorPreset(menusform.ColorPreset);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Update the current highlight
         private void UpdateHighlight()
@@ -387,10 +360,6 @@ namespace CodeImp.DoomBuilder.AutomapMode
             }
         }
 
-        #endregion
-
-        #region ================== Events
-
         public override void OnHelp()
         {
             General.ShowHelp("/gzdb/features/classic_modes/mode_automap.html");
@@ -603,7 +572,5 @@ namespace CodeImp.DoomBuilder.AutomapMode
                 UpdateHighlight();
             }
         }
-
-        #endregion
     }
 }

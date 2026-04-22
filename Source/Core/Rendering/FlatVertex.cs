@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,11 +11,7 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 using System.Runtime.InteropServices;
-#endregion
 
 namespace CodeImp.DoomBuilder.Rendering
 {

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Plugins;
@@ -24,17 +20,10 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Editing
 {
     public sealed class EditingManager
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // All editing mode groups, sorted alphabetically
         private List<string> groups;
@@ -56,10 +45,6 @@ namespace CodeImp.DoomBuilder.Editing
         // Disposing
         private bool isdisposed;
 
-        #endregion
-
-        #region ================== Properties
-
         internal List<EditModeInfo> ModesInfo { get { return allmodes; } }
         public EditMode Mode { get { return mode; } }
         public EditMode NewMode { get { return newmode; } }
@@ -67,10 +52,6 @@ namespace CodeImp.DoomBuilder.Editing
         public Type PreviousStableMode { get { return prevstablemode; } }
         public Type PreviousClassicMode { get { return prevclassicmode; } }
         public bool IsDisposed { get { return isdisposed; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal EditingManager()
@@ -133,10 +114,6 @@ namespace CodeImp.DoomBuilder.Editing
             }
         }
 
-        #endregion
-
-        #region ================== Switch Actions
-
         // This unbinds all editing mode switch actions
         private void UnbindSwitchActions()
         {
@@ -166,10 +143,6 @@ namespace CodeImp.DoomBuilder.Editing
                 }
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This cancels a volatile mode, as if the user presses cancel
         public bool CancelVolatileMode()
@@ -420,10 +393,6 @@ namespace CodeImp.DoomBuilder.Editing
             return (obj != null) ? obj.GetType().Name : "NULL";
         }
 
-        #endregion
-
-        #region ================== Actions
-
         /// <summary>
         /// This cancels the current mode.
         /// </summary>
@@ -451,7 +420,5 @@ namespace CodeImp.DoomBuilder.Editing
                 mode.OnAccept();
             }
         }
-
-        #endregion
     }
 }

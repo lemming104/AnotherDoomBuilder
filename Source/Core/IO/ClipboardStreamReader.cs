@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -9,14 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.IO
 {
     internal class ClipboardStreamReader
     {
-
-        #region ================== Variables
 
         private struct SidedefData
         {
@@ -29,14 +24,6 @@ namespace CodeImp.DoomBuilder.IO
             public Dictionary<string, UniValue> Fields;
             public Dictionary<string, bool> Flags;
         }
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Reading
 
         // This reads from a stream
         public bool Read(MapSet map, Stream stream)
@@ -438,8 +425,6 @@ namespace CodeImp.DoomBuilder.IO
             for (int i = 0; i < len; ++i) chars[i] = reader.ReadChar();
             return new string(chars);
         }
-
-        #endregion
 
     }
 }

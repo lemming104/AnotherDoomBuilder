@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
@@ -33,8 +29,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [EditMode(DisplayName = "Visual Mode",
@@ -46,17 +40,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
     public class BaseVisualMode : VisualMode
     {
-        #region ================== Constants
         // Object picking
         private const long PICK_INTERVAL = 80;
         private const long PICK_INTERVAL_PAINT_SELECT = 10; // biwa
 
         // Gravity
         private const float GRAVITY = -0.06f;
-
-        #endregion
-
-        #region ================== Variables
 
         // Gravity
         private Vector3D gravity;
@@ -133,10 +122,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             public bool forward;
         }
 
-        #endregion
-
-        #region ================== Properties
-
         public override object HighlightedObject
         {
             get
@@ -169,10 +154,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public Type PaintSelectType { get { return paintselecttype; } set { paintselecttype = value; } } // biwa
         public IVisualPickable Highlighted { get { return highlighted; } } // biwa
 
-        #endregion
-
-        #region ================== Constructor / Disposer
-
         // Constructor
         public BaseVisualMode()
         {
@@ -203,10 +184,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This calculates brightness level
         internal int CalculateBrightness(int level)
@@ -887,10 +864,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             return handles;
         }
 
-        #endregion
-
-        #region ================== Extended Methods
-
         // This requests a sector's extra data
         internal SectorData GetSectorData(Sector s)
         {
@@ -1426,10 +1399,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
             }
         }
-
-        #endregion
-
-        #region ================== Events
 
         // Help!
         public override void OnHelp()
@@ -2055,10 +2024,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             UpdateSelectionInfo();
         }
 
-        #endregion
-
-        #region ================== Action Assist
-
         // Because some actions can only be called on a single (the targeted) object because
         // they show a dialog window or something, these functions help applying the result
         // to all compatible selected objects.
@@ -2539,10 +2504,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             return t;
         }
-
-        #endregion
-
-        #region ================== Actions
 
         // [ZZ] I moved this out of ClearSelection because "cut selection" action needs this to only affect things.
         private void ClearSelection(bool clearsectors, bool clearsidedefs, bool clearthings, bool clearvertices, bool clearslopehandles, bool displaystatus)
@@ -4820,10 +4781,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
         }
 
-        #endregion
-
-        #region ================== Texture Alignment
-
         //mxd. If checkSelectedSidedefParts is set to true, only selected linedef parts will be aligned (when a sidedef has both top and bottom parts, but only bottom is selected, top texture won't be aligned)
         internal void AutoAlignTextures(BaseVisualGeometrySidedef start, ImageData texture, bool alignx, bool aligny, bool resetsidemarks, bool checkSelectedSidedefParts)
         {
@@ -5534,7 +5491,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             return sides;
         }
-
-        #endregion
     }
 }

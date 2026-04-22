@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,37 +11,19 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.IO;
 using System.IO;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Data
 {
     internal sealed class PatchNames
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private string[] pnames;
 
-        #endregion
-
-        #region ================== Properties
-
         public string this[int index] { get { return pnames[index]; } }
         public int Length { get { return pnames.Length; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor for empty list
         public PatchNames()
@@ -70,11 +51,5 @@ namespace CodeImp.DoomBuilder.Data
                 pnames[i] = Lump.MakeNormalName(bytes, WAD.ENCODING).ToUpperInvariant();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
-
-        #endregion
     }
 }

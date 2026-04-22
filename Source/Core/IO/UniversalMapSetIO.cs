@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
@@ -24,13 +20,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.IO
 {
     internal class UniversalMapSetIO : MapSetIO
     {
-        #region ================== Constructor / Disposer
 
         // Constructor
         public UniversalMapSetIO(WAD wad, MapManager manager) : base(wad, manager)
@@ -53,10 +46,6 @@ namespace CodeImp.DoomBuilder.IO
                 }
             }
         }
-
-        #endregion
-
-        #region ================== Properties
 
         public override int MaxSidedefs { get { return int.MaxValue; } }
         public override int MaxVertices { get { return int.MaxValue; } }
@@ -97,10 +86,6 @@ namespace CodeImp.DoomBuilder.IO
         public override int MinThingAngle { get { return int.MinValue; } }
         public override Dictionary<MapElementType, Dictionary<string, UniversalType>> UIFields { get { return uifields; } } //mxd
 
-        #endregion
-
-        #region ================== Reading
-
         // This reads a map from the file and returns a MapSet
         public override MapSet Read(MapSet map, string mapname)
         {
@@ -121,10 +106,6 @@ namespace CodeImp.DoomBuilder.IO
             // Return result
             return map;
         }
-
-        #endregion
-
-        #region ================== Writing
 
         // This writes a MapSet to the file
         public override void Write(MapSet map, string mapname, int position)
@@ -150,8 +131,6 @@ namespace CodeImp.DoomBuilder.IO
             // Done
             memstream.Dispose();
         }
-
-        #endregion
     }
 }
 

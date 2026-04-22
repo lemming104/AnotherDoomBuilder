@@ -1,31 +1,18 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     public class ResultTexturesMisaligned : ErrorResult
     {
 
-        #region ================== Variables
-
         private readonly Sidedef side1;
         private readonly Sidedef side2;
         private readonly string texturename;
 
-        #endregion
-
-        #region ================== Properties
-
         public override int Buttons { get { return 0; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         public ResultTexturesMisaligned(Sidedef side1, Sidedef side2, string texturename)
         {
@@ -38,10 +25,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             hidden = side1.IgnoredErrorChecks.Contains(this.GetType()) && side2.IgnoredErrorChecks.Contains(this.GetType());
             description = "Textures are not aligned on given sidedefs. Some players may not like that.";
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets if this result is displayed in ErrorCheckForm (mxd)
         internal override void Hide(bool hide)
@@ -77,7 +60,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             renderer.PlotVertex(side2.Line.Start, ColorCollection.VERTICES);
             renderer.PlotVertex(side2.Line.End, ColorCollection.VERTICES);
         }
-
-        #endregion
     }
 }

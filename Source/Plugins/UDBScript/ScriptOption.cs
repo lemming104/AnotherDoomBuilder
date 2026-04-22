@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2020 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,21 +18,15 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Types;
 using System.Collections;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.UDBScript
 {
     public class ScriptOption
     {
-        #region ================== Variables
 
         public string name;
         public string description;
@@ -42,10 +35,6 @@ namespace CodeImp.DoomBuilder.UDBScript
         public object value;
         public TypeHandler typehandler;
         private IDictionary enumvalues;
-
-        #endregion
-
-        #region ================== Constants
 
         public static readonly UniversalType[] ValidTypes =
         {
@@ -76,10 +65,6 @@ namespace CodeImp.DoomBuilder.UDBScript
 			UniversalType.PolyobjectNumber
         };
 
-        #endregion
-
-        #region ================== Constructors
-
         public ScriptOption(string name, string description, int type, IDictionary enumvalues, object defaultvalue)
         {
             this.name = name;
@@ -108,10 +93,6 @@ namespace CodeImp.DoomBuilder.UDBScript
 
             FillEnumList();
         }
-
-        #endregion
-
-        #region ================== Methods
 
         /// <summary>
         /// Reloads the type handler. This is necessary so that changed enums (like sector tags) are updated
@@ -147,7 +128,5 @@ namespace CodeImp.DoomBuilder.UDBScript
                 }
             }
         }
-
-        #endregion
     }
 }

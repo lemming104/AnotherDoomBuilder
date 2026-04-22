@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * Copyright (c) 2021 Boris Iwanski
  * This program is released under GNU General Public License
@@ -11,22 +10,16 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     class BaseFindUDMFField : BaseFindMapElement
     {
-        #region ================== Properties
 
         public override string UsageHint
         {
@@ -38,10 +31,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     + "? - one character";
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         public override bool CanReplace()
         {
@@ -119,7 +108,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             return "^" + Regex.Escape(value).Replace("\\?", ".").Replace("\\*", ".*") + "$";
         }
-
-        #endregion
     }
 }

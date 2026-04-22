@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -11,10 +10,7 @@
  * GNU General Public License for more details.
  * 
  */
-
-#endregion
 /*
-#region ================== Namespaces
 
 using System;
 using System.Collections.Generic;
@@ -25,8 +21,6 @@ using System.IO;
 using System.Drawing;
 using System.Windows.Forms.VisualStyles;
 using Microsoft.Win32;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Windows
 {

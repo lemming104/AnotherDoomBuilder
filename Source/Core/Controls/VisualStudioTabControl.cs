@@ -1,5 +1,4 @@
-﻿#region ======================== Namespaces
-
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,20 +7,13 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Windows.Forms;
 
-#endregion
-
 // Based on http://www.codeproject.com/Articles/1106140/VisualStudio-Like-TabControl
 namespace CodeImp.DoomBuilder.Controls
 {
     public class VSTabControl : TabControl
     {
-        #region ======================== Events
 
         public event EventHandler<TabControlEventArgs> OnCloseTabClicked;
-
-        #endregion
-
-        #region ======================== Properties
 
         public bool ShowClosingButton { get; set; }
 
@@ -43,10 +35,6 @@ namespace CodeImp.DoomBuilder.Controls
         [Category("Colors"), Browsable(true), Description("The color of the title of the page")]
         public Color SelectedTextColor { get { return selectedTextColor; } set { selectedTextColor = value; } }
 
-        #endregion
-
-        #region ======================== Variables
-
         private readonly StringFormat centersringformat = new StringFormat { Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Center };
         private TabPage predraggedTab;
 
@@ -59,10 +47,6 @@ namespace CodeImp.DoomBuilder.Controls
 
         private int closebuttonmouseoverindex = -1; //mxd
 
-        #endregion
-
-        #region ======================== Constructor
-
         public VSTabControl()
         {
             SetStyle(
@@ -74,10 +58,6 @@ namespace CodeImp.DoomBuilder.Controls
             ItemSize = new Size(240, 16);
             AllowDrop = true;
         }
-
-        #endregion
-
-        #region ======================== Event overrides
 
         protected override void CreateHandle()
         {
@@ -273,10 +253,6 @@ namespace CodeImp.DoomBuilder.Controls
                 g.DrawLine(linepen, new Point(0, ItemSize.Height - 1), new Point(Width, ItemSize.Height - 1));
         }
 
-        #endregion
-
-        #region ======================== Methods
-
         //mxd
         private static Rectangle GetCloseButtonRect(Rectangle tabrect)
         {
@@ -330,7 +306,5 @@ namespace CodeImp.DoomBuilder.Controls
 
             Refresh();
         }
-
-        #endregion
     }
 }

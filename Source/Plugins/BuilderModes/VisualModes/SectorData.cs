@@ -1,4 +1,3 @@
-#region === Copyright (c) 2010 Pascal van der Heiden ===
 
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.GZBuilder.Data;
@@ -7,13 +6,10 @@ using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     internal class SectorData
     {
-        #region ================== Variables
 
         // VisualMode
         private readonly BaseVisualMode mode;
@@ -69,10 +65,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private int lightfloor;
         private int lightceiling;
 
-        #endregion
-
-        #region ================== Properties
-
         public Sector Sector { get { return sector; } }
         public bool Updated { get { return updated; } }
         public bool FloorChanged { get { return floorchanged; } set { floorchanged |= value; } }
@@ -84,10 +76,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public SectorLevel Ceiling { get { return ceiling; } }
         public BaseVisualMode Mode { get { return mode; } }
         public Dictionary<Sector, bool> UpdateAlso { get { return updatesectors; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public SectorData(BaseVisualMode mode, Sector s)
@@ -114,10 +102,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             BasicSetup();
         }
-
-        #endregion
-
-        #region ================== Public Methods
 
         // 3D Floor effect
         public void AddEffect3DFloor(Linedef sourcelinedef)
@@ -629,7 +613,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             PixelColor color = PixelColor.Modulate(target.d64color, PixelColor.Modulate(src.colorbelow, brightness));
             return color.WithAlpha(255).ToInt();
         }
-
-        #endregion
     }
 }

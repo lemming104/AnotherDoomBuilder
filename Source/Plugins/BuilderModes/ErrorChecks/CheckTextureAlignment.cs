@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -9,27 +8,16 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [ErrorChecker("Check texture alignment", false, 1000)]
     public class CheckTextureAlignment : ErrorChecker
     {
-        #region ================== Constants
 
         private const int PROGRESS_STEP = 100;
 
-        #endregion
-
-        #region ================== Variables
-
         // Now THAT'S what I call a collection! :)
         private Dictionary<VisualGeometryType, Dictionary<int, Dictionary<VisualGeometryType, Dictionary<int, bool>>>> donesides;
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public CheckTextureAlignment()
@@ -37,10 +25,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Total progress is done when all lines are checked
             SetTotalProgress(General.Map.Map.Linedefs.Count / PROGRESS_STEP);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This runs the check
         public override void Run()
@@ -102,10 +86,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             donesides.Clear();
         }
 
-        #endregion
-
-        #region ================== Alignment checks
-
         private void CheckTopAlignment(Sidedef sidedef)
         {
             if (!sidedef.HighRequired() || sidedef.LongHighTexture == MapSet.EmptyLongName) return;
@@ -144,10 +124,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
             int y = (int)Tools.GetSidedefBottomOffsetY(sidedef, sidedef.OffsetY + localY, scaleY, false);
             CheckAlignment(sidedef, x, y, scaleX, scaleY, VisualGeometryType.WALL_LOWER, sidedef.LowTexture);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         private void CheckAlignment(Sidedef sidedef, int offsetx, int offsety, double linescalex, double linescaley, VisualGeometryType parttype, string texturename)
         {
@@ -330,7 +306,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             matchingparttype = VisualGeometryType.UNKNOWN;
             return int.MinValue;
         }
-
-        #endregion
     }
 }

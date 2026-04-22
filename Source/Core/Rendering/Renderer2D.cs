@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config; //mxd
 using CodeImp.DoomBuilder.Data;
@@ -29,8 +25,6 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Rendering
 {
 
@@ -41,7 +35,6 @@ namespace CodeImp.DoomBuilder.Rendering
 
     internal sealed class Renderer2D : Renderer, IRenderer2D
     {
-        #region ================== Constants
 
         private const float FSAA_FACTOR = 0.6f;
         private const int MAP_CENTER_SIZE = 16; //mxd
@@ -55,10 +48,6 @@ namespace CodeImp.DoomBuilder.Rendering
         internal const float FIXED_THING_SIZE = 48.0f; //mxd
 
         internal const int NUM_VIEW_MODES = 4;
-
-        #endregion
-
-        #region ================== Variables
 
         // Rendertargets
         private Plotter gridplotter;
@@ -111,10 +100,6 @@ namespace CodeImp.DoomBuilder.Rendering
         // Presentation
         private Presentation present;
 
-        #endregion
-
-        #region ================== Properties
-
         public float OffsetX { get { return offsetx; } }
         public float OffsetY { get { return offsety; } }
         public float TranslateX { get { return translatex; } }
@@ -137,10 +122,6 @@ namespace CodeImp.DoomBuilder.Rendering
                 return mode.AlwaysShowVertices || General.Settings.AlwaysShowVertices;
             }
         }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal Renderer2D(RenderDevice graphics) : base(graphics)
@@ -171,10 +152,6 @@ namespace CodeImp.DoomBuilder.Rendering
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Presenting
 
         // This sets the presentation to use
         public void SetPresentation(Presentation present)
@@ -314,10 +291,6 @@ namespace CodeImp.DoomBuilder.Rendering
             graphics.SetVertexBuffer(null);
         }
 
-        #endregion
-
-        #region ================== Management
-
         // This is called before a device is reset
         // (when resized or display adapter was changed)
         public override void UnloadResource()
@@ -451,10 +424,6 @@ namespace CodeImp.DoomBuilder.Rendering
             return screenverts;
         }
 
-        #endregion
-
-        #region ================== View
-
         // This changes view mode
         public void SetViewMode(ViewMode mode)
         {
@@ -556,10 +525,6 @@ namespace CodeImp.DoomBuilder.Rendering
         {
             return mappos.GetTransformed(translatex, translatey, scale, -scale);
         }
-
-        #endregion
-
-        #region ================== Colors
 
         // This returns the color for a thing
         public PixelColor DetermineThingColor(Thing t)
@@ -681,10 +646,6 @@ namespace CodeImp.DoomBuilder.Rendering
             }
         }
 
-        #endregion
-
-        #region ================== Start / Finish
-
         // This begins a drawing session
         public bool StartPlotter(bool clear)
         {
@@ -799,10 +760,6 @@ namespace CodeImp.DoomBuilder.Rendering
             // Done
             renderlayer = RenderLayers.None;
         }
-
-        #endregion
-
-        #region ================== Background
 
         // This sets up background image vertices
         private void SetupBackground()
@@ -1067,10 +1024,6 @@ namespace CodeImp.DoomBuilder.Rendering
         {
             lastgridscale = -1;
         }
-
-        #endregion
-
-        #region ================== Things
 
         // This makes vertices for a thing
         // Returns false when not on the screen
@@ -1604,11 +1557,6 @@ namespace CodeImp.DoomBuilder.Rendering
             RenderThingsBatch(things, alpha, false, c);
         }
 
-
-        #endregion
-
-        #region ================== Surface
-
         // This redraws the surface
         public void RedrawSurface()
         {
@@ -1660,10 +1608,6 @@ namespace CodeImp.DoomBuilder.Rendering
             // Done
             Finish();
         }
-
-        #endregion
-
-        #region ================== Overlay
 
         // This renders geometry
         // The geometry must be a triangle list
@@ -2046,10 +1990,6 @@ namespace CodeImp.DoomBuilder.Rendering
             graphics.Draw(PrimitiveType.TriangleStrip, 0, 2, verts);
         }
 
-        #endregion
-
-        #region ================== Geometry
-
         // This renders the linedefs of a sector with special color
         public void PlotSector(Sector s, PixelColor c)
         {
@@ -2285,7 +2225,5 @@ namespace CodeImp.DoomBuilder.Rendering
                 }
             }
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,37 +11,23 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Drawing;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Rendering
 {
     // FlatQuad
     internal class FlatQuad
     {
-        #region ================== Variables
 
         // Vertices
         private FlatVertex[] vertices;
         private PrimitiveType type;
         private int numvertices;
 
-        #endregion
-
-        #region ================== Properties
-
         public FlatVertex[] Vertices { get { return vertices; } }
         public PrimitiveType Type { get { return type; } }
-
-        #endregion
-
-        #region ================== Constructors
 
         // Constructor
         public FlatQuad(PrimitiveType type, float left, float top, float right, float bottom)
@@ -131,10 +116,6 @@ namespace CodeImp.DoomBuilder.Rendering
             // We have no destructor
             GC.SuppressFinalize(this);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets the color on all vertices
         public void SetColors(int color)
@@ -250,17 +231,11 @@ namespace CodeImp.DoomBuilder.Rendering
             }
         }
 
-        #endregion
-
-        #region ================== Rendering
-
         // This renders the quad
         public void Render(RenderDevice device)
         {
             // Render the quad
             device.Draw(type, 0, 2, vertices);
         }
-
-        #endregion
     }
 }

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,45 +11,23 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Types
 {
     [TypeHandler(UniversalType.Color, "Color", false)]
     internal class ColorHandler : TypeHandler
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private int value;      // XXRRGGBB color
-
-        #endregion
-
-        #region ================== Properties
 
         public override bool IsBrowseable { get { return true; } }
 
         public override Image BrowseImage { get { return Properties.Resources.ColorPick; } }
-
-        #endregion
-
-        #region ================== Constructor
-
-        #endregion
-
-        #region ================== Methods
 
         public override void Browse(IWin32Window parent)
         {
@@ -117,7 +94,5 @@ namespace CodeImp.DoomBuilder.Types
         {
             return 0;
         }
-
-        #endregion
     }
 }

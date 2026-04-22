@@ -20,8 +20,6 @@ namespace CodeImp.DoomBuilder.Windows
 			base.Dispose(disposing);
 		}
 
-		#region Windows Form Designer generated code
-
 		/// <summary>
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
@@ -331,8 +329,6 @@ namespace CodeImp.DoomBuilder.Windows
 			this.ResumeLayout(false);
 
 		}
-
-		#endregion
 		private System.Windows.Forms.Button selecttexture;
 		private System.Windows.Forms.Button selectflat;
 		private System.Windows.Forms.CheckBox showbackground;

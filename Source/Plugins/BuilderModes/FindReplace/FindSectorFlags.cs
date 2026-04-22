@@ -1,5 +1,4 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Windows;
@@ -8,20 +7,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [FindReplace("Sector Flags", BrowseButton = true)]
     internal class FindSectorFlags : BaseFindSector
     {
-        #region ================== Properties
 
         public override Image BrowseImage { get { return Properties.Resources.List; } }
-
-        #endregion
-
-        #region ================== Methods
 
         // This is called to test if the item should be displayed
         public override bool DetermineVisiblity()
@@ -145,7 +137,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             return allflags;
         }
-
-        #endregion
     }
 }

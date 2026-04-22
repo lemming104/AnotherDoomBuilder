@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,35 +11,21 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.IO;
 using CodeImp.DoomBuilder.Types;
 using System;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Map
 {
     public class UniValue
     {
-        #region ================== Constants
 
         private const string NAME_CHARS = "abcdefghijklmnopqrstuvwxyz0123456789_";
         private const string START_CHARS = "abcdefghijklmnopqrstuvwxyz_";
 
-        #endregion
-
-        #region ================== Variables
-
         private object value;
         private int type;
-
-        #endregion
-
-        #region ================== Properties
 
         public object Value
         {
@@ -60,10 +45,6 @@ namespace CodeImp.DoomBuilder.Map
         }
 
         public int Type { get { return this.type; } set { this.type = value; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor
         public UniValue(int type, object value)
@@ -109,10 +90,6 @@ namespace CodeImp.DoomBuilder.Map
             // We have no destructor
             GC.SuppressFinalize(this);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // Serialize / deserialize
         internal void ReadWrite(IReadWriteStream s)
@@ -197,7 +174,5 @@ namespace CodeImp.DoomBuilder.Map
             }
             return validname;
         }
-
-        #endregion
     }
 }

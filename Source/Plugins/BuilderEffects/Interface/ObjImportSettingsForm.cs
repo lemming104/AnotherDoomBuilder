@@ -1,24 +1,16 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Windows;
 using System;
 using System.IO;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderEffects
 {
     public partial class ObjImportSettingsForm : DelayedForm
     {
-        #region ================== Variables
 
         private ImportObjAsTerrainMode.UpAxis axis;
         private bool slopessupported;
-
-        #endregion
-
-        #region ================== Properties
 
         internal string FilePath { get { return tbImportPath.Text.Trim(); } }
         internal ImportObjAsTerrainMode.UpAxis UpAxis { get { return axis; } }
@@ -26,8 +18,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
         internal bool UseVertexHeights { get { return slopessupported && cbusevertexheight.Checked; } }
 
         //todo: floor/ceiling textures? height offsets? ceiling extra height?
-
-        #endregion
 
         public ObjImportSettingsForm()
         {
@@ -50,8 +40,6 @@ namespace CodeImp.DoomBuilder.BuilderEffects
                 default: axisy.Checked = true; break;
             }
         }
-
-        #region ================== Events
 
         private void browse_Click(object sender, EventArgs e)
         {
@@ -86,7 +74,5 @@ namespace CodeImp.DoomBuilder.BuilderEffects
         {
             this.Close();
         }
-
-        #endregion
     }
 }

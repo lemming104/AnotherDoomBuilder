@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,26 +11,16 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Actions
 {
     internal struct KeyControl
     {
-        #region ================== Variables
 
         public int key;
         public string name;
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public KeyControl(Keys key, string name)
@@ -57,16 +46,10 @@ namespace CodeImp.DoomBuilder.Actions
             this.name = name;
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // Returns name
         public override string ToString()
         {
             return name;
         }
-
-        #endregion
     }
 }

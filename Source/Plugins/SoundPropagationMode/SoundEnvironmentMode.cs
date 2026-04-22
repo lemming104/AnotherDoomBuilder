@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2007 Pascal vd Heiden, 2014 Boris Iwanski
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -13,9 +12,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Controls;
@@ -27,8 +23,6 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.SoundPropagationMode
 {
@@ -44,7 +38,6 @@ namespace CodeImp.DoomBuilder.SoundPropagationMode
 
     public class SoundEnvironmentMode : ClassicMode
     {
-        #region ================== Variables
 
         // Highlighted item
         private Sector highlighted;
@@ -62,17 +55,9 @@ namespace CodeImp.DoomBuilder.SoundPropagationMode
         // The blockmap makes is used to make finding lines faster
         BlockMap<BlockEntry> blockmap;
 
-        #endregion
-
-        #region ================== Properties
-
         public override object HighlightedObject { get { return highlighted; } }
         internal const string ZoneBoundaryFlag = "zoneboundary"; //mxd
         internal static SoundEnvironmentPanel SoundEnvironmentPanel { get { return panel; } } //mxd
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Disposer
         public override void Dispose()
@@ -84,10 +69,6 @@ namespace CodeImp.DoomBuilder.SoundPropagationMode
                 base.Dispose();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This highlights a new item
         private void Highlight(Sector s)
@@ -145,10 +126,6 @@ namespace CodeImp.DoomBuilder.SoundPropagationMode
             blockmap = new BlockMap<BlockEntry>(area);
             blockmap.AddLinedefsSet(General.Map.Map.Linedefs);
         }
-
-        #endregion
-
-        #region ================== Events
 
         public override void OnHelp()
         {
@@ -531,10 +508,6 @@ namespace CodeImp.DoomBuilder.SoundPropagationMode
             UpdateData();
         }
 
-        #endregion
-
-        #region ================== Actions
-
         [BeginAction("soundpropagationcolorconfiguration")]
         public void ConfigureColors()
         {
@@ -656,7 +629,5 @@ namespace CodeImp.DoomBuilder.SoundPropagationMode
             // Redraw screen
             General.Interface.RedrawDisplay();
         }
-
-        #endregion
     }
 }

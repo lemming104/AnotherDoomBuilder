@@ -4,7 +4,6 @@ namespace CodeImp.DoomBuilder.ZDoom
 {
     public class AmbientSoundInfo
     {
-        #region ================== Enums
 
         public enum AmbientType
         {
@@ -21,10 +20,6 @@ namespace CodeImp.DoomBuilder.ZDoom
             RANDOM,
             PERIODIC
         }
-
-        #endregion
-
-        #region ================== Variables
 
         private string soundname;
         private string sounddescription;
@@ -43,10 +38,6 @@ namespace CodeImp.DoomBuilder.ZDoom
         // Editor sound radii
         private float minradius;
         private float maxradius;
-
-        #endregion
-
-        #region ================== Properties
 
         public string SoundName { get { return soundname; } }
         public string SoundDescription { get { return sounddescription; } }
@@ -70,10 +61,6 @@ namespace CodeImp.DoomBuilder.ZDoom
         // Editor sound radii
         public float MinimumRadius { get { return minradius; } }
         public float MaximumRadius { get { return maxradius; } }
-
-        #endregion
-
-        #region ================== Methods
 
         internal bool Setup(SndInfoParser parser)
         {
@@ -228,7 +215,5 @@ namespace CodeImp.DoomBuilder.ZDoom
             }
             maxradius /= info.Attenuation;
         }
-
-        #endregion
     }
 }

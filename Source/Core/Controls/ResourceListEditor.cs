@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
@@ -27,13 +23,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     internal partial class ResourceListEditor : UserControl
     {
-        #region ================== Internal warning struct
         class Warning
         {
             public Panel Wrapper;
@@ -47,9 +40,6 @@ namespace CodeImp.DoomBuilder.Controls
                 Text = text;
             }
         }
-        #endregion
-
-        #region ================== Delegates / Events
 
         public delegate void ContentChanged();
         public delegate void WarningsChanged(int size);
@@ -57,10 +47,6 @@ namespace CodeImp.DoomBuilder.Controls
         public event WarningsChanged OnWarningsChanged;
         public string StartPath; //mxd
         public bool IsMapControl = false;
-
-        #endregion
-
-        #region ================== Variables
 
         private Point dialogoffset = new Point(40, 20);
         private readonly DataLocationList copiedresources; //mxd
@@ -72,16 +58,8 @@ namespace CodeImp.DoomBuilder.Controls
         private readonly Dictionary<string, CancellationTokenSource> loadingrequiredarchives;
         private readonly List<Warning> warnings;
 
-        #endregion
-
-        #region ================== Properties
-
         public Point DialogOffset { get { return dialogoffset; } set { dialogoffset = value; } }
         public GameConfiguration GameConfiguration { get; set; }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public ResourceListEditor()
@@ -117,10 +95,6 @@ namespace CodeImp.DoomBuilder.Controls
             Resize += HandleResize;
             HandleResize(null, null);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This gets the icon index for a resource location type
         private int GetIconIndex(int locationtype, bool locked)
@@ -757,10 +731,6 @@ namespace CodeImp.DoomBuilder.Controls
             ResizeColumnHeader();
         }
 
-        #endregion
-
-        #region ================== Copy / Paste (mxd)
-
         private void CopySelectedResources()
         {
             // Don't do stupid things
@@ -853,10 +823,6 @@ namespace CodeImp.DoomBuilder.Controls
             if (OnContentChanged != null) OnContentChanged();
         }
 
-        #endregion
-
-        #region ================== Copy / Paste Events (mxd)
-
         private void copyresources_Click(object sender, EventArgs e)
         {
             CopySelectedResources();
@@ -908,11 +874,6 @@ namespace CodeImp.DoomBuilder.Controls
             }
         }
 
-        #endregion
-
-
-        #region ================== Events (mxd)
-
         //mxd. Because anchor-based alignment fails when using high-Dpi settings...
         private void HandleResize(object sender, EventArgs e)
         {
@@ -936,7 +897,5 @@ namespace CodeImp.DoomBuilder.Controls
             editresource.Left = addresource.Right + addresource.Margin.Left;
             deleteresources.Left = editresource.Right + addresource.Margin.Left;
         }
-
-        #endregion
     }
 }

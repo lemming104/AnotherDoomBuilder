@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,9 +11,6 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Compilers;
 using CodeImp.DoomBuilder.Config;
@@ -29,19 +25,12 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Controls
 {
     public partial class ScriptEditorPanel : UserControl
     {
-        #region ================== Constants
 
         private static readonly Color QUICKSEARCH_FAIL_COLOR = Color.MistyRose; //mxd
-
-        #endregion
-
-        #region ================== Variables
 
         private List<ScriptConfiguration> scriptconfigs;
         private List<CompilerError> compilererrors;
@@ -68,18 +57,10 @@ namespace CodeImp.DoomBuilder.Controls
         private bool wraplonglines;
         private bool blockupdate;
 
-        #endregion
-
-        #region ================== Properties
-
         public ScriptDocumentTab ActiveTab { get { return tabs.SelectedTab as ScriptDocumentTab; } }
         internal ScriptIconsManager Icons { get { return iconsmgr; } }
         public bool ShowWhitespace { get { return showwhitespace; } }
         public bool WrapLongLines { get { return wraplonglines; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         // Constructor
         public ScriptEditorPanel()
@@ -283,10 +264,6 @@ namespace CodeImp.DoomBuilder.Controls
                 tabs.ResumeLayout();
             }
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // [ZZ] Find and Replace
         //      Search the editor text with wrap-around disabled to avoid infinite
@@ -1056,10 +1033,6 @@ namespace CodeImp.DoomBuilder.Controls
             }
         }
 
-        #endregion
-
-        #region ================== Events
-
         private void ScriptEditorPanel_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.F10)
@@ -1442,10 +1415,6 @@ namespace CodeImp.DoomBuilder.Controls
             }
         }
 
-        #endregion
-
-        #region ================== Quick Search (mxd)
-
         private FindReplaceOptions GetQuickSearchOptions()
         {
             return new FindReplaceOptions
@@ -1488,10 +1457,6 @@ namespace CodeImp.DoomBuilder.Controls
         {
             DisplayStatus(ScriptStatusType.Ready, null);
         }
-
-        #endregion
-
-        #region ================== Menu opening events (mxd)
 
         private void filemenuitem_DropDownOpening(object sender, EventArgs e)
         {
@@ -1560,8 +1525,6 @@ namespace CodeImp.DoomBuilder.Controls
             ScriptDocumentTab t = ActiveTab;
             menucompile.Enabled = ActiveTab != null && !t.IsReadOnly && t.Config.Compiler != null;
         }
-
-        #endregion
 
         private void ScriptEditorPanel_Load(object sender, EventArgs e)
         {

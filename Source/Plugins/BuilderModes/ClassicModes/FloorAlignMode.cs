@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,15 +11,10 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Map;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
@@ -35,7 +29,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
     public class FloorAlignMode : FlatAlignMode
     {
-        #region ================== Properties
 
         protected override string XScaleName { get { return "xscalefloor"; } }
         protected override string YScaleName { get { return "yscalefloor"; } }
@@ -44,19 +37,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
         protected override string RotationName { get { return "rotationfloor"; } }
         protected override string UndoDescription { get { return "Floor Alignment"; } }
 
-        #endregion
-
-        #region ================== Methods
-
         // Get the texture data to align
         protected override ImageData GetTexture(Sector editsector)
         {
             return General.Map.Data.GetFlatImage(editsector.LongFloorTexture);
         }
-
-        #endregion
-
-        #region ================== Events
 
         // Mode engages
         public override void OnEngage()
@@ -64,7 +49,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnEngage();
             General.Actions.InvokeAction("builder_viewmodefloors");
         }
-
-        #endregion
     }
 }

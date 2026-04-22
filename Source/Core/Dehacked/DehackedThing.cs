@@ -1,5 +1,4 @@
-﻿#region ================== Copyright (c) 2021 Boris Iwanski
-
+﻿
 /*
  * This program is free software: you can redistribute it and/or modify
  *
@@ -19,14 +18,9 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Dehacked
 {
@@ -39,7 +33,6 @@ namespace CodeImp.DoomBuilder.Dehacked
 
     public class DehackedThing
     {
-        #region ================== Variables
 
         private int number;
         private string name;
@@ -56,10 +49,6 @@ namespace CodeImp.DoomBuilder.Dehacked
         private bool bright;
         private ThingAngled angled;
 
-        #endregion
-
-        #region ================== Properties
-
         public int Number { get { return number; } }
         public Dictionary<string, string> Props { get { return props; } }
         public int DoomEdNum { get { return doomednum; } internal set { doomednum = value; } }
@@ -74,10 +63,6 @@ namespace CodeImp.DoomBuilder.Dehacked
         public int Color { get { return color; } }
         public bool Bright { get { return bright; } }
         public ThingAngled Angled { get { return angled; } }
-
-        #endregion
-
-        #region ================== Constructor
 
         internal DehackedThing(int number, string name)
         {
@@ -102,8 +87,6 @@ namespace CodeImp.DoomBuilder.Dehacked
                     hasdoomednum = true;
             }
         }
-
-        #endregion
 
         /// <summary>
         /// Processes the thing, setting it up according to the properties defined in the Dehacked patch.

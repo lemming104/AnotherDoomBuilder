@@ -1,5 +1,4 @@
-﻿#region === Copyright (c) 2010 Pascal van der Heiden ===
-
+﻿
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Windows;
@@ -8,29 +7,18 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Plugins.NodesViewer
 {
     public partial class NodesForm : DelayedForm
     {
-        #region ================== Variables
 
         private NodesViewerMode mode;
-
-        #endregion
-
-        #region ================== Properties
 
         public int SelectedTab { get { return tabs.SelectedIndex; } }
         public int ViewSplitIndex { get { return (int)splitindex.Value; } }
         public int ViewSubsectorIndex { get { return (int)ssectorindex.Value; } }
         public int ViewSegIndex { get { return viewsegbox.Checked ? (int)segindex.Value : -1; } }
         public bool ShowSegsVertices { get { return showsegsvertices.Checked; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         // Constructor
         public NodesForm()
@@ -90,10 +78,6 @@ namespace CodeImp.DoomBuilder.Plugins.NodesViewer
             base.Dispose(disposing);
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This calculates the tree depth recursively
         private void DiveTree(int node, int level, List<int> leafdepths)
         {
@@ -128,10 +112,6 @@ namespace CodeImp.DoomBuilder.Plugins.NodesViewer
             ssectorindex.Value = ssindex;
             tabs.SelectTab(tabsubsectors);
         }
-
-        #endregion
-
-        #region ================== Form / Overview Events
 
         // Exit this mode
         private void closebutton_Click(object sender, EventArgs e)
@@ -176,10 +156,6 @@ namespace CodeImp.DoomBuilder.Plugins.NodesViewer
                 newmode.Form.Location = this.Location; //mxd
             }
         }
-
-        #endregion
-
-        #region ================== Splits Events
 
         // Go to the root split
         private void rootbutton_Click(object sender, EventArgs e)
@@ -261,10 +237,6 @@ namespace CodeImp.DoomBuilder.Plugins.NodesViewer
             General.Interface.RedrawDisplay();
         }
 
-        #endregion
-
-        #region ================== Subsectors Events
-
         // Go to parent split for this subsector
         private void ssparentsplit_Click(object sender, EventArgs e)
         {
@@ -331,7 +303,5 @@ namespace CodeImp.DoomBuilder.Plugins.NodesViewer
         {
             General.Interface.RedrawDisplay();
         }
-
-        #endregion
     }
 }

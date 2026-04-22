@@ -5,20 +5,11 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 {
     public partial class CurveLinedefsOptionsPanel : UserControl
     {
-        #region ================== Event Handlers
 
         public event EventHandler OnValueChanged;
 
-        #endregion
-
-        #region ================== Variables
-
         private bool blockevents;
         private bool fixedcurveoutwards;
-
-        #endregion
-
-        #region ================== Properties
 
         public int Vertices { get { return (int)verts.Value; } set { verts.Value = General.Clamp(value, (int)verts.Minimum, (int)verts.Maximum); } }
         public int Distance { get { return (int)distance.Value; } set { distance.Value = General.Clamp(value, (int)distance.Minimum, (int)distance.Maximum); } }
@@ -29,18 +20,10 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         public bool FixedCurve { get { return fixedcurve.Checked; } }
         public bool FixedCurveOutwards { get { return fixedcurveoutwards; } }
 
-        #endregion
-
-        #region ================== Constructor
-
         public CurveLinedefsOptionsPanel()
         {
             InitializeComponent();
         }
-
-        #endregion
-
-        #region ================== Mathods
 
         public void SetValues(int verts, int distance, int angle, bool fixedcurve, bool fixeddirection)
         {
@@ -100,10 +83,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             General.Interface.EndToolbarUpdate();
         }
 
-        #endregion
-
-        #region ================== Events
-
         private void apply_Click(object sender, EventArgs e)
         {
             // Apply now
@@ -147,8 +126,6 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             SetValues(CurveLinedefsMode.DEFAULT_VERTICES_COUNT, CurveLinedefsMode.DEFAULT_DISTANCE, CurveLinedefsMode.DEFAULT_ANGLE, false, true);
             if (OnValueChanged != null) OnValueChanged(this, EventArgs.Empty);
         }
-
-        #endregion
 
     }
 }

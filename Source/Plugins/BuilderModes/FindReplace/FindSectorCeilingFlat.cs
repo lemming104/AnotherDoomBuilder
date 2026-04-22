@@ -1,19 +1,15 @@
-﻿#region ================== Namespaces
-
+﻿
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Forms;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.BuilderModes
 {
     [FindReplace("Sector Flat (Ceiling)", BrowseButton = true)]
     internal class FindSectorCeilingFlat : FindSectorFlat
     {
-        #region ================== Methods
 
         // This is called to perform a search (and replace)
         // Returns a list of items to show in the results list
@@ -58,7 +54,5 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             return objs.ToArray();
         }
-
-        #endregion
     }
 }

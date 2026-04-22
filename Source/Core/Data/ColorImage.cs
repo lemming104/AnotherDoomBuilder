@@ -1,5 +1,4 @@
 ﻿
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -11,29 +10,19 @@
  * GNU General Public License for more details.
  * 
  */
-
-#endregion
 /*
-#region ================== Namespaces
 
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using CodeImp.DoomBuilder.Rendering;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Data
 {
 	internal sealed unsafe class ColorImage : ImageData
 	{
-		#region ================== Variables
 
 		private PixelColor color;
-
-		#endregion
-		
-		#region ================== Constructor / Disposer
 
 		// Constructor
 		public ColorImage(PixelColor color, int width, int height)
@@ -47,10 +36,6 @@ namespace CodeImp.DoomBuilder.Data
 			// We have no destructor
 			GC.SuppressFinalize(this);
 		}
-
-		#endregion
-
-		#region ================== Methods
 
 		// This loads the image
 		protected override void LocalLoadImage()
@@ -82,8 +67,6 @@ namespace CodeImp.DoomBuilder.Data
 
 			EndLoadImage(bitmap, error);
 		}
-
-		#endregion
 	}
 }
 */

@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,17 +11,12 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.IO;
 using CodeImp.DoomBuilder.Types;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Config
 {
@@ -50,11 +44,6 @@ namespace CodeImp.DoomBuilder.Config
 
     public class UniversalFieldInfo : IComparable<UniversalFieldInfo>
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         // Properties
         private string name;
@@ -65,10 +54,6 @@ namespace CodeImp.DoomBuilder.Config
         private EnumList enumlist;
         private Dictionary<string, UDMFFieldAssociation> associations;
 
-        #endregion
-
-        #region ================== Properties
-
         public string Name { get { return name; } }
         public int Type { get { return type; } }
         public object Default { get { return defaultvalue; } }
@@ -76,10 +61,6 @@ namespace CodeImp.DoomBuilder.Config
         public bool Managed { get { return managed; } }
         public EnumList Enum { get { return enumlist; } }
         public Dictionary<string, UDMFFieldAssociation> Associations { get { return associations; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         internal UniversalFieldInfo(string path, string name, string configname, Configuration cfg, IDictionary<string, EnumList> enums)
@@ -171,10 +152,6 @@ namespace CodeImp.DoomBuilder.Config
             this.defaultvalue = defaultvalue;
         }
 
-        #endregion
-
-        #region ================== Methods
-
         // This presents the item as string
         public override string ToString()
         {
@@ -186,7 +163,5 @@ namespace CodeImp.DoomBuilder.Config
         {
             return string.Compare(this.name, other.name);
         }
-
-        #endregion
     }
 }

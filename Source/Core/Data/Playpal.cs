@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,39 +11,21 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Rendering;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Data
 {
     public sealed class Playpal
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private PixelColor[] colors;
 
-        #endregion
-
-        #region ================== Properties
-
         public PixelColor this[int index] { get { return colors[index]; } }
         public int Length { get { return colors.Length; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Constructor
         public Playpal()
@@ -83,10 +64,6 @@ namespace CodeImp.DoomBuilder.Data
             }
         }
 
-        #endregion
-
-        #region ================== Methods
-
         public Bitmap CreateBitmap()
         {
             var bitmap = new Bitmap(16, 16, PixelFormat.Format32bppRgb);
@@ -124,7 +101,5 @@ namespace CodeImp.DoomBuilder.Data
 
             return minIndex;
         }
-
-        #endregion
     }
 }

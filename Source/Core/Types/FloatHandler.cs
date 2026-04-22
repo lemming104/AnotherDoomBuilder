@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,37 +11,19 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Config;
 using System;
 using System.Globalization;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Types
 {
     [TypeHandler(UniversalType.Float, "Decimal", true)]
     internal class FloatHandler : TypeHandler
     {
-        #region ================== Constants
-
-        #endregion
-
-        #region ================== Variables
 
         private double value;
         private double defaultvalue;
-
-        #endregion
-
-        #region ================== Properties
-
-        #endregion
-
-        #region ================== Methods
 
         public override void SetupArgument(TypeHandlerAttribute attr, ArgumentInfo arginfo)
         {
@@ -104,7 +85,5 @@ namespace CodeImp.DoomBuilder.Types
         {
             return defaultvalue;
         }
-
-        #endregion
     }
 }

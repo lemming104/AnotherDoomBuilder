@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,13 +11,8 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using System;
-
-#endregion
 
 namespace CodeImp.DoomBuilder.Editing
 {
@@ -29,7 +23,6 @@ namespace CodeImp.DoomBuilder.Editing
     [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
     public sealed class EditModeAttribute : Attribute
     {
-        #region ================== Variables
 
         // Properties
         private string switchaction;
@@ -46,10 +39,6 @@ namespace CodeImp.DoomBuilder.Editing
         private string[] requiredmapfeatures;
         private bool isdeprecated = false;
         private string deprecationmessage = string.Empty;
-
-        #endregion
-
-        #region ================== Properties
 
         /// <summary>
         /// Sets the action name (as defined in the Actions.cfg resource) to
@@ -133,10 +122,6 @@ namespace CodeImp.DoomBuilder.Editing
         /// </summary>
         public string DeprecationMessage { get { return deprecationmessage; } set { deprecationmessage = value; } }
 
-        #endregion
-
-        #region ================== Constructor / Disposer
-
         /// <summary>
         /// This registers an EditMode derived class as a known editing mode within Doom Builder.
         /// Allows automatic binding with an action and a button on the toolbar/menu.
@@ -145,11 +130,5 @@ namespace CodeImp.DoomBuilder.Editing
         {
             // Initialize
         }
-
-        #endregion
-
-        #region ================== Methods
-
-        #endregion
     }
 }

@@ -40,22 +40,13 @@ namespace CodeImp.DoomBuilder.VisualModes
 
     internal class VisualVertexSlope : BaseVisualSlope
     {
-        #region ================== Variables
 
         private readonly Vertex vertex;
         private readonly Sector sector;
         private double angle;
 
-        #endregion
-
-        #region ================== Properties
-
         public Vertex Vertex { get { return vertex; } }
         public Sector Sector { get { return sector; } }
-
-        #endregion
-
-        #region ================== Constructor / Destructor
 
         public VisualVertexSlope(BaseVisualMode mode, SectorLevel level, Vertex vertex, Sector sector, bool up) : base(mode, level, up)
         {
@@ -70,10 +61,6 @@ namespace CodeImp.DoomBuilder.VisualModes
 
             GC.SuppressFinalize(this);
         }
-
-        #endregion
-
-        #region ================== Methods
 
         private void ComputeAngle()
         {
@@ -278,10 +265,6 @@ namespace CodeImp.DoomBuilder.VisualModes
             return new Vector3D(vertex.Position, level.plane.GetZ(vertex.Position));
         }
 
-        #endregion
-
-        #region ================== Events
-
         public override void OnChangeTargetHeight(int amount)
         {
             VisualSlope pivothandle = null;
@@ -430,7 +413,5 @@ namespace CodeImp.DoomBuilder.VisualModes
                 }
             }
         }
-
-        #endregion
     }
 }

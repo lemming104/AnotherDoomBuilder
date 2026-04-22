@@ -1,5 +1,4 @@
 
-#region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
@@ -12,21 +11,15 @@
  * 
  */
 
-#endregion
-
-#region ================== Namespaces
 
 using CodeImp.DoomBuilder.Map;
 using System;
 using System.Collections.Generic;
 
-#endregion
-
 namespace CodeImp.DoomBuilder.Geometry
 {
     public sealed class EarClipVertex
     {
-        #region ================== Variables
 
         // Position
         private Vector2D pos;
@@ -39,19 +32,11 @@ namespace CodeImp.DoomBuilder.Geometry
         private LinkedListNode<EarClipVertex> reflexlink;
         private LinkedListNode<EarClipVertex> eartiplink;
 
-        #endregion
-
-        #region ================== Properties
-
         public Vector2D Position { get { return pos; } }
         internal LinkedListNode<EarClipVertex> MainListNode { get { return vertslink; } }
         public bool IsReflex { get { return reflexlink != null; } }
         public bool IsEarTip { get { return eartiplink != null; } }
         internal Sidedef Sidedef { get { return sidedef; } set { sidedef = value; } }
-
-        #endregion
-
-        #region ================== Constructor / Disposer
 
         // Copy constructor
         internal EarClipVertex(EarClipVertex v)
@@ -94,10 +79,6 @@ namespace CodeImp.DoomBuilder.Geometry
             vertslink = null;
             sidedef = null;
         }
-
-        #endregion
-
-        #region ================== Methods
 
         // This sets the main linked list node
         internal void SetVertsLink(LinkedListNode<EarClipVertex> link)
@@ -147,7 +128,5 @@ namespace CodeImp.DoomBuilder.Geometry
             if (eartiplink != null) eartiplink.List.Remove(eartiplink);
             eartiplink = null;
         }
-
-        #endregion
     }
 }
