@@ -7,8 +7,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Web.UI.Design;
 using System.Windows.Forms;
 using System.Xml;
+using SharpCompress.Archives;
 using SharpCompress.Archives.SevenZip;
 //using SharpCompress.Common;
 using SharpCompress.Readers;
@@ -219,7 +221,7 @@ namespace CodeImp.DoomBuilder
 				// Unpack update
 				try
 				{
-					using(SevenZipArchive arc = SevenZipArchive.Open(stream))
+					using(IArchive arc = ArchiveFactory.OpenArchive(stream))
 					{
 						if(!arc.IsComplete) return "downloaded Updater package is not complete.";
 						IReader reader = arc.ExtractAllEntries();
@@ -228,7 +230,7 @@ namespace CodeImp.DoomBuilder
 						while(reader.MoveToNextEntry())
 						{
 							if(reader.Entry.IsDirectory) continue; // Shouldn't be there, but who knows...
-							reader.WriteEntryToDirectory(General.AppPath, new ExtractionOptions() { ExtractFullPath = true, Overwrite = true });
+                            reader.WriteEntryToDirectory(General.AppPath, new SharpCompress.Common.ExtractionOptions(extractFullPath: true, overwrite: true));
 						}
 					}
 				}
