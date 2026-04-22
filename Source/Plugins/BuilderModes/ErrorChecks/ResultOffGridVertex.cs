@@ -1,8 +1,8 @@
 #region ================== Namespaces
 
-using System;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
+using System;
 using System.Drawing;
 
 #endregion

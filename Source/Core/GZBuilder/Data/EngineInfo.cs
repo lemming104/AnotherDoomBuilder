@@ -6,110 +6,110 @@ using System.IO;
 
 #endregion
 
-namespace CodeImp.DoomBuilder.GZBuilder.Data 
+namespace CodeImp.DoomBuilder.GZBuilder.Data
 {
-	public class EngineInfo : IDisposable
-	{
-		#region ================== Constants
+    public class EngineInfo : IDisposable
+    {
+        #region ================== Constants
 
-		public const string DEFAULT_ENGINE_NAME = "Engine with no name";
+        public const string DEFAULT_ENGINE_NAME = "Engine with no name";
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		// Settings
-		private string testprogramname;
-		private string testprogram;
-		private Bitmap icon;
-		private string additionalparameters;
+        // Settings
+        private string testprogramname;
+        private string testprogram;
+        private Bitmap icon;
+        private string additionalparameters;
 
-		public string TestParameters;
-		public bool CustomParameters;
-		public int TestSkill;
-		public bool TestShortPaths;
-		public bool TestLinuxPaths;
+        public string TestParameters;
+        public bool CustomParameters;
+        public int TestSkill;
+        public bool TestShortPaths;
+        public bool TestLinuxPaths;
 
-		// Disposing
-		private bool isdisposed;
+        // Disposing
+        private bool isdisposed;
 
-		#endregion
+        #endregion
 
-		#region ================== Properties
+        #region ================== Properties
 
-		public string TestProgramName { get { return testprogramname; } set { testprogramname = value; CheckProgramName(); } }
-		public string TestProgram { get { return testprogram; } set { testprogram = value; CheckProgramName(); } }
-		public Bitmap TestProgramIcon { get { if(icon == null) UpdateIcon(); return icon; } }
-		public string AdditionalParameters { get { return additionalparameters; } internal set { additionalparameters = value; } }
+        public string TestProgramName { get { return testprogramname; } set { testprogramname = value; CheckProgramName(); } }
+        public string TestProgram { get { return testprogram; } set { testprogram = value; CheckProgramName(); } }
+        public Bitmap TestProgramIcon { get { if (icon == null) UpdateIcon(); return icon; } }
+        public string AdditionalParameters { get { return additionalparameters; } internal set { additionalparameters = value; } }
 
-		#endregion
+        #endregion
 
-		#region ================== Constructors / Disposer
+        #region ================== Constructors / Disposer
 
-		public EngineInfo()
-		{
-			testprogramname = DEFAULT_ENGINE_NAME;
-		}
+        public EngineInfo()
+        {
+            testprogramname = DEFAULT_ENGINE_NAME;
+        }
 
-		public EngineInfo(EngineInfo other)
-		{
-			testprogramname = other.TestProgramName;
-			testprogram = other.testprogram;
-			TestParameters = other.TestParameters;
-			CustomParameters = other.CustomParameters;
-			TestSkill = other.TestSkill;
-			TestShortPaths = other.TestShortPaths;
-			TestLinuxPaths = other.TestLinuxPaths;
-			additionalparameters = other.AdditionalParameters;
+        public EngineInfo(EngineInfo other)
+        {
+            testprogramname = other.TestProgramName;
+            testprogram = other.testprogram;
+            TestParameters = other.TestParameters;
+            CustomParameters = other.CustomParameters;
+            TestSkill = other.TestSkill;
+            TestShortPaths = other.TestShortPaths;
+            TestLinuxPaths = other.TestLinuxPaths;
+            additionalparameters = other.AdditionalParameters;
 
-			UpdateIcon();
-		}
+            UpdateIcon();
+        }
 
-		public void Dispose()
-		{
-			// Not already disposed?
-			if(!isdisposed)
-			{
-				// Clean up
-				icon.Dispose();
+        public void Dispose()
+        {
+            // Not already disposed?
+            if (!isdisposed)
+            {
+                // Clean up
+                icon.Dispose();
 
-				// Done
-				isdisposed = true;
-			}
-		}
+                // Done
+                isdisposed = true;
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region ================== Methods
+        #region ================== Methods
 
-		private void CheckProgramName() 
-		{
-			if(testprogramname == DEFAULT_ENGINE_NAME && !String.IsNullOrEmpty(testprogram)) 
-			{
-				// Get engine name from path
-				testprogramname = Path.GetFileNameWithoutExtension(testprogram);
-			}
-		}
+        private void CheckProgramName()
+        {
+            if (testprogramname == DEFAULT_ENGINE_NAME && !String.IsNullOrEmpty(testprogram))
+            {
+                // Get engine name from path
+                testprogramname = Path.GetFileNameWithoutExtension(testprogram);
+            }
+        }
 
-		private void UpdateIcon()
-		{
-			if(icon != null)
-			{
-				icon.Dispose();
-				icon = null;
-			}
+        private void UpdateIcon()
+        {
+            if (icon != null)
+            {
+                icon.Dispose();
+                icon = null;
+            }
 
-			if(File.Exists(testprogram))
-			{
-				Icon i = Icon.ExtractAssociatedIcon(testprogram);
-				icon = new Bitmap(i != null ? i.ToBitmap() : Properties.Resources.Question);
-			}
-			else
-			{
-				icon = new Bitmap(Properties.Resources.Warning);
-			}
-		}
+            if (File.Exists(testprogram))
+            {
+                Icon i = Icon.ExtractAssociatedIcon(testprogram);
+                icon = new Bitmap(i != null ? i.ToBitmap() : Properties.Resources.Question);
+            }
+            else
+            {
+                icon = new Bitmap(Properties.Resources.Warning);
+            }
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

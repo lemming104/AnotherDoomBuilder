@@ -22,42 +22,42 @@ using System;
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
-	[AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
-	internal class FindReplaceAttribute : Attribute
-	{
-		#region ================== Variables
+    [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
+    internal class FindReplaceAttribute : Attribute
+    {
+        #region ================== Variables
 
-		private string displayname;
-		private bool browsebutton;
+        private string displayname;
+        private bool browsebutton;
 
-		#endregion
+        #endregion
 
-		#region ================== Properties
+        #region ================== Properties
 
-		public string DisplayName { get { return displayname; } set { displayname = value; } }
-		public bool BrowseButton { get { return browsebutton; } set { browsebutton = value; } }
+        public string DisplayName { get { return displayname; } set { displayname = value; } }
+        public bool BrowseButton { get { return browsebutton; } set { browsebutton = value; } }
 
-		#endregion
+        #endregion
 
-		#region ================== Constructor / Destructor
+        #region ================== Constructor / Destructor
 
-		// Constructor
-		public FindReplaceAttribute(string displayname)
-		{
-			// Initialize
-			this.displayname = displayname;
-		}
+        // Constructor
+        public FindReplaceAttribute(string displayname)
+        {
+            // Initialize
+            this.displayname = displayname;
+        }
 
-		#endregion
+        #endregion
 
-		#region ================== Methods
+        #region ================== Methods
 
-		// String representation
-		public override string ToString()
-		{
-			return displayname;
-		}
+        // String representation
+        public override string ToString()
+        {
+            return displayname;
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

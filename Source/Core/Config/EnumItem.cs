@@ -23,63 +23,63 @@ using System.Globalization;
 
 namespace CodeImp.DoomBuilder.Config
 {
-	public class EnumItem : IComparable<EnumItem>
-	{
-		#region ================== Constants
+    public class EnumItem : IComparable<EnumItem>
+    {
+        #region ================== Constants
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		private readonly string value;
-		private readonly string title;
+        private readonly string value;
+        private readonly string title;
 
-		#endregion
+        #endregion
 
-		#region ================== Properties
+        #region ================== Properties
 
-		public string Value { get { return value; } }
-		public string Title { get { return title; } }
+        public string Value { get { return value; } }
+        public string Title { get { return title; } }
 
-		#endregion
+        #endregion
 
-		#region ================== Constructor
+        #region ================== Constructor
 
-		// Constructor
-		public EnumItem(string value, string title)
-		{
-			// Initialize
-			this.value = value;
-			this.title = title;
-		}
-		
-		#endregion
+        // Constructor
+        public EnumItem(string value, string title)
+        {
+            // Initialize
+            this.value = value;
+            this.title = title;
+        }
 
-		#region ================== Methods
+        #endregion
 
-		// String representation
-		public override string ToString()
-		{
-			return title;
-		}
+        #region ================== Methods
 
-		//mxd. This compares against another activate info
-		public int CompareTo(EnumItem other)
-		{
-			int thisval = GetIntValue();
-			int otherval = other.GetIntValue();
-			if(thisval < otherval) return -1;
-			if(thisval > otherval) return 1;
-			return 0;
-		}
+        // String representation
+        public override string ToString()
+        {
+            return title;
+        }
 
-		// This returns the value as int
-		public int GetIntValue()
-		{
-			int result;
-			return int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out result) ? result : 0;
-		}
-		
-		#endregion
-	}
+        //mxd. This compares against another activate info
+        public int CompareTo(EnumItem other)
+        {
+            int thisval = GetIntValue();
+            int otherval = other.GetIntValue();
+            if (thisval < otherval) return -1;
+            if (thisval > otherval) return 1;
+            return 0;
+        }
+
+        // This returns the value as int
+        public int GetIntValue()
+        {
+            int result;
+            return int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out result) ? result : 0;
+        }
+
+        #endregion
+    }
 }

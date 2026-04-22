@@ -24,87 +24,87 @@ using System.Globalization;
 
 namespace CodeImp.DoomBuilder.Types
 {
-	[TypeHandler(UniversalType.Float, "Decimal", true)]
-	internal class FloatHandler : TypeHandler
-	{
-		#region ================== Constants
+    [TypeHandler(UniversalType.Float, "Decimal", true)]
+    internal class FloatHandler : TypeHandler
+    {
+        #region ================== Constants
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		private double value;
-		private double defaultvalue;
+        private double value;
+        private double defaultvalue;
 
-		#endregion
+        #endregion
 
-		#region ================== Properties
+        #region ================== Properties
 
-		#endregion
+        #endregion
 
-		#region ================== Methods
+        #region ================== Methods
 
-		public override void SetupArgument(TypeHandlerAttribute attr, ArgumentInfo arginfo)
-		{
-			defaultvalue = (double)arginfo.DefaultValue;
-			base.SetupArgument(attr, arginfo);
-		}
+        public override void SetupArgument(TypeHandlerAttribute attr, ArgumentInfo arginfo)
+        {
+            defaultvalue = (double)arginfo.DefaultValue;
+            base.SetupArgument(attr, arginfo);
+        }
 
-		public override void SetupField(TypeHandlerAttribute attr, UniversalFieldInfo fieldinfo)
-		{
-			// The default value might be given as int instead as a floating point number, so try to convert it
-			defaultvalue = (fieldinfo == null || fieldinfo.Default == null) ? 0.0 : Convert.ToDouble(fieldinfo.Default);
-			base.SetupField(attr, fieldinfo);
-		}
+        public override void SetupField(TypeHandlerAttribute attr, UniversalFieldInfo fieldinfo)
+        {
+            // The default value might be given as int instead as a floating point number, so try to convert it
+            defaultvalue = (fieldinfo == null || fieldinfo.Default == null) ? 0.0 : Convert.ToDouble(fieldinfo.Default);
+            base.SetupField(attr, fieldinfo);
+        }
 
-		public override void SetValue(object value)
-		{
-			// Null?
-			if(value == null)
-			{
-				this.value = 0.0;
-			}
-			// Compatible type?
-			else if((value is int) || (value is float) || (value is double) || (value is bool))
-			{
-				// Set directly
-				this.value = Convert.ToDouble(value);
-			}
-			else
-			{
-				// Try parsing as string
-				double result;
-				if(double.TryParse(value.ToString(), NumberStyles.Float, CultureInfo.CurrentCulture, out result))
-				{
-					this.value = result;
-				}
-				else
-				{
-					this.value = 0.0;
-				}
-			}
-		}
+        public override void SetValue(object value)
+        {
+            // Null?
+            if (value == null)
+            {
+                this.value = 0.0;
+            }
+            // Compatible type?
+            else if ((value is int) || (value is float) || (value is double) || (value is bool))
+            {
+                // Set directly
+                this.value = Convert.ToDouble(value);
+            }
+            else
+            {
+                // Try parsing as string
+                double result;
+                if (double.TryParse(value.ToString(), NumberStyles.Float, CultureInfo.CurrentCulture, out result))
+                {
+                    this.value = result;
+                }
+                else
+                {
+                    this.value = 0.0;
+                }
+            }
+        }
 
-		public override object GetValue()
-		{
-			return this.value;
-		}
+        public override object GetValue()
+        {
+            return this.value;
+        }
 
-		public override int GetIntValue()
-		{
-			return (int)this.value;
-		}
+        public override int GetIntValue()
+        {
+            return (int)this.value;
+        }
 
-		public override string GetStringValue()
-		{
-			return this.value.ToString();
-		}
+        public override string GetStringValue()
+        {
+            return this.value.ToString();
+        }
 
-		public override object GetDefaultValue()
-		{
-			return defaultvalue;
-		}
+        public override object GetDefaultValue()
+        {
+            return defaultvalue;
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

@@ -16,332 +16,332 @@
 
 #region ================== Namespaces
 
-using System;
-using System.IO;
-using System.Windows.Forms;
-using CodeImp.DoomBuilder.Windows;
-using CodeImp.DoomBuilder.IO;
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
+using CodeImp.DoomBuilder.IO;
+using CodeImp.DoomBuilder.Windows;
+using System;
+using System.IO;
+using System.Windows.Forms;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Editing
 {
-	public class GridSetup : IDisposable
-	{
-		#region ================== Constants
+    public class GridSetup : IDisposable
+    {
+        #region ================== Constants
 
-		private const float DEFAULT_GRID_SIZE = 32f;
-		internal const float MINIMUM_GRID_SIZE_UDMF = 0.125f; //mxd
-		internal const float MINIMUM_GRID_SIZE = 1.0f; //mxd
+        private const float DEFAULT_GRID_SIZE = 32f;
+        internal const float MINIMUM_GRID_SIZE_UDMF = 0.125f; //mxd
+        internal const float MINIMUM_GRID_SIZE = 1.0f; //mxd
 
-		public const int SOURCE_TEXTURES = 0;
-		public const int SOURCE_FLATS = 1;
-		public const int SOURCE_FILE = 2;
+        public const int SOURCE_TEXTURES = 0;
+        public const int SOURCE_FLATS = 1;
+        public const int SOURCE_FILE = 2;
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		// Grid
-		private int gridsize;
-		private double gridsizef;
-		private double gridsizefinv;
-		private double gridrotate;
-		private double gridoriginx, gridoriginy;
+        // Grid
+        private int gridsize;
+        private double gridsizef;
+        private double gridsizefinv;
+        private double gridrotate;
+        private double gridoriginx, gridoriginy;
 
-		// Background
-		private string background = "";
-		private int backsource;
-		private ImageData backimage = new UnknownImage();
-		private int backoffsetx, backoffsety;
-		private double backscalex, backscaley;
+        // Background
+        private string background = "";
+        private int backsource;
+        private ImageData backimage = new UnknownImage();
+        private int backoffsetx, backoffsety;
+        private double backscalex, backscaley;
 
-		// Disposing
-		private bool isdisposed;
-		
-		#endregion
+        // Disposing
+        private bool isdisposed;
 
-		#region ================== Properties
+        #endregion
 
-		public int GridSize { get { return gridsize; } } //mxd
-		public double GridSizeF { get { return gridsizef; } }
-		public double GridRotate { get { return gridrotate; }}
-		public double GridOriginX { get { return gridoriginx; }}
-		public double GridOriginY { get { return gridoriginy; }}
-		internal string BackgroundName { get { return background; } }
-		internal int BackgroundSource { get { return backsource; } }
-		internal ImageData Background { get { return backimage; } }
-		internal int BackgroundX { get { return backoffsetx; } }
-		internal int BackgroundY { get { return backoffsety; } }
-		internal double BackgroundScaleX { get { return backscalex; } }
-		internal double BackgroundScaleY { get { return backscaley; } }
-		internal bool Disposed { get { return isdisposed; } }
-		
-		#endregion
+        #region ================== Properties
 
-		#region ================== Constructor / Disposer
+        public int GridSize { get { return gridsize; } } //mxd
+        public double GridSizeF { get { return gridsizef; } }
+        public double GridRotate { get { return gridrotate; } }
+        public double GridOriginX { get { return gridoriginx; } }
+        public double GridOriginY { get { return gridoriginy; } }
+        internal string BackgroundName { get { return background; } }
+        internal int BackgroundSource { get { return backsource; } }
+        internal ImageData Background { get { return backimage; } }
+        internal int BackgroundX { get { return backoffsetx; } }
+        internal int BackgroundY { get { return backoffsety; } }
+        internal double BackgroundScaleX { get { return backscalex; } }
+        internal double BackgroundScaleY { get { return backscaley; } }
+        internal bool Disposed { get { return isdisposed; } }
 
-		// Constructor
-		internal GridSetup()
-		{
-			// Initialize
-			SetGridSize(DEFAULT_GRID_SIZE);
-			backscalex = 1.0f;
-			backscaley = 1.0f;
-			gridrotate = 0.0f;
-			gridoriginx = 0;
-			gridoriginy = 0;
-			
-			// Register actions
-			General.Actions.BindMethods(this);
-			
-			// We have no destructor
-			GC.SuppressFinalize(this);
-		}
+        #endregion
 
-		// Disposer
-		public void Dispose()
-		{
-			if(!isdisposed)
-			{
-				// Dispose image if needed
-				if(backimage is FileImage) backimage.Dispose();
-				
-				// Clean up
-				backimage = null;
+        #region ================== Constructor / Disposer
 
-				// Unregister actions
-				General.Actions.UnbindMethods(this);
+        // Constructor
+        internal GridSetup()
+        {
+            // Initialize
+            SetGridSize(DEFAULT_GRID_SIZE);
+            backscalex = 1.0f;
+            backscaley = 1.0f;
+            gridrotate = 0.0f;
+            gridoriginx = 0;
+            gridoriginy = 0;
 
-				// Done
-				isdisposed = true;
-			}
-		}
+            // Register actions
+            General.Actions.BindMethods(this);
 
-		#endregion
+            // We have no destructor
+            GC.SuppressFinalize(this);
+        }
 
-		#region ================== Methods
+        // Disposer
+        public void Dispose()
+        {
+            if (!isdisposed)
+            {
+                // Dispose image if needed
+                if (backimage is FileImage) backimage.Dispose();
 
-		// Write settings to configuration
-		internal void WriteToConfig(Configuration cfg, string path)
-		{
-			// Write settings
-			cfg.WriteSetting(path + ".background", background);
-			cfg.WriteSetting(path + ".backsource", backsource);
-			cfg.WriteSetting(path + ".backoffsetx", backoffsetx);
-			cfg.WriteSetting(path + ".backoffsety", backoffsety);
-			cfg.WriteSetting(path + ".backscalex", (int)(backscalex * 100.0f));
-			cfg.WriteSetting(path + ".backscaley", (int)(backscaley * 100.0f));
-			cfg.WriteSetting(path + ".gridsize", gridsizef);
-			cfg.WriteSetting(path + ".gridrotate", gridrotate);
-			cfg.WriteSetting(path + ".gridoriginx", gridoriginx);
-			cfg.WriteSetting(path + ".gridoriginy", gridoriginy);
-		}
+                // Clean up
+                backimage = null;
 
-		// Read settings from configuration
-		internal void ReadFromConfig(Configuration cfg, string path)
-		{
-			// Read settings
-			background = cfg.ReadSetting(path + ".background", "");
-			backsource = cfg.ReadSetting(path + ".backsource", 0);
-			backoffsetx = cfg.ReadSetting(path + ".backoffsetx", 0);
-			backoffsety = cfg.ReadSetting(path + ".backoffsety", 0);
-			backscalex = cfg.ReadSetting(path + ".backscalex", 100) / 100.0f;
-			backscaley = cfg.ReadSetting(path + ".backscaley", 100) / 100.0f;
-			gridsizef = cfg.ReadSetting(path + ".gridsize", DEFAULT_GRID_SIZE);
-			gridoriginx = cfg.ReadSetting(path + ".gridoriginx", 0);
-			gridoriginy = cfg.ReadSetting(path + ".gridoriginy", 0);
-			gridrotate = cfg.ReadSetting(path + ".gridrotate", 0.0f);
+                // Unregister actions
+                General.Actions.UnbindMethods(this);
 
-			// Setup
-			SetGridSize(gridsizef);
-			LinkBackground();
-		}
+                // Done
+                isdisposed = true;
+            }
+        }
 
-		// This sets the grid size
-		internal void SetGridSize(double size)
-		{
-			//mxd. Bad things happen when size <= 0
-			size = Math.Max(size, ((General.Map != null && General.Map.UDMF) ? MINIMUM_GRID_SIZE_UDMF : MINIMUM_GRID_SIZE));
-			
-			// Change grid
-			gridsizef = size;
-			gridsize = (int)Math.Max(1, Math.Round(gridsizef)); //mxd
-			gridsizefinv = 1f / gridsizef;
+        #endregion
 
-			// Update in main window
-			General.MainWindow.UpdateGrid(gridsizef);
-		}
+        #region ================== Methods
 
-		// Set the rotation angle of the grid
-		public void SetGridRotation(double angle)
-		{
-			gridrotate = angle;
-		}
+        // Write settings to configuration
+        internal void WriteToConfig(Configuration cfg, string path)
+        {
+            // Write settings
+            cfg.WriteSetting(path + ".background", background);
+            cfg.WriteSetting(path + ".backsource", backsource);
+            cfg.WriteSetting(path + ".backoffsetx", backoffsetx);
+            cfg.WriteSetting(path + ".backoffsety", backoffsety);
+            cfg.WriteSetting(path + ".backscalex", (int)(backscalex * 100.0f));
+            cfg.WriteSetting(path + ".backscaley", (int)(backscaley * 100.0f));
+            cfg.WriteSetting(path + ".gridsize", gridsizef);
+            cfg.WriteSetting(path + ".gridrotate", gridrotate);
+            cfg.WriteSetting(path + ".gridoriginx", gridoriginx);
+            cfg.WriteSetting(path + ".gridoriginy", gridoriginy);
+        }
 
-		// Set the origin of the grid
-		public void SetGridOrigin(double x, double y)
-		{
-			gridoriginx = x;
-			gridoriginy = y;
-		}
+        // Read settings from configuration
+        internal void ReadFromConfig(Configuration cfg, string path)
+        {
+            // Read settings
+            background = cfg.ReadSetting(path + ".background", "");
+            backsource = cfg.ReadSetting(path + ".backsource", 0);
+            backoffsetx = cfg.ReadSetting(path + ".backoffsetx", 0);
+            backoffsety = cfg.ReadSetting(path + ".backoffsety", 0);
+            backscalex = cfg.ReadSetting(path + ".backscalex", 100) / 100.0f;
+            backscaley = cfg.ReadSetting(path + ".backscaley", 100) / 100.0f;
+            gridsizef = cfg.ReadSetting(path + ".gridsize", DEFAULT_GRID_SIZE);
+            gridoriginx = cfg.ReadSetting(path + ".gridoriginx", 0);
+            gridoriginy = cfg.ReadSetting(path + ".gridoriginy", 0);
+            gridrotate = cfg.ReadSetting(path + ".gridrotate", 0.0f);
 
-		// This sets the background
-		internal void SetBackground(string name, int source)
-		{
-			// Set background
-			if(name == null) name = "";
-			this.backsource = source;
-			this.background = name;
+            // Setup
+            SetGridSize(gridsizef);
+            LinkBackground();
+        }
 
-			// Find this image
-			LinkBackground();
-		}
+        // This sets the grid size
+        internal void SetGridSize(double size)
+        {
+            //mxd. Bad things happen when size <= 0
+            size = Math.Max(size, (General.Map != null && General.Map.UDMF) ? MINIMUM_GRID_SIZE_UDMF : MINIMUM_GRID_SIZE);
 
-		// This sets the background view
-		internal void SetBackgroundView(int offsetx, int offsety, float scalex, float scaley)
-		{
-			// Set background offset
-			this.backoffsetx = offsetx;
-			this.backoffsety = offsety;
-			this.backscalex = scalex;
-			this.backscaley = scaley;
-		}
-		
-		// This finds and links the background image
-		internal void LinkBackground()
-		{
-			// Dispose image if needed
-			if(backimage is FileImage) backimage.Dispose();
-			
-			// Where to load background from?
-			switch(backsource)
-			{
-				case SOURCE_TEXTURES:
-					backimage = General.Map.Data.GetTextureImage(background);
-					break;
+            // Change grid
+            gridsizef = size;
+            gridsize = (int)Math.Max(1, Math.Round(gridsizef)); //mxd
+            gridsizefinv = 1f / gridsizef;
 
-				case SOURCE_FLATS:
-					backimage = General.Map.Data.GetFlatImage(background);
-					break;
+            // Update in main window
+            General.MainWindow.UpdateGrid(gridsizef);
+        }
 
-				case SOURCE_FILE:
-					backimage = new FileImage(Path.GetFileNameWithoutExtension(background), background, false, 1.0f, 1.0f);
-					break;
-			}
+        // Set the rotation angle of the grid
+        public void SetGridRotation(double angle)
+        {
+            gridrotate = angle;
+        }
 
-			// Make sure it is loaded
-			backimage.LoadImageNow();
-		}
-		
-		// This returns the next higher coordinate
-		public double GetHigher(double offset)
-		{
-			return Math.Round((offset + (gridsizef * 0.5f)) * gridsizefinv) * gridsizef;
-		}
+        // Set the origin of the grid
+        public void SetGridOrigin(double x, double y)
+        {
+            gridoriginx = x;
+            gridoriginy = y;
+        }
 
-		// This returns the next lower coordinate
-		public double GetLower(double offset)
-		{
-			return Math.Round((offset - (gridsizef * 0.5f)) * gridsizefinv) * gridsizef;
-		}
-		
-		// This snaps to the nearest grid coordinate
-		public Vector2D SnappedToGrid(Vector2D v)
-		{
-			return SnappedToGrid(v, gridsizef, gridsizefinv, gridrotate, gridoriginx, gridoriginy);
-		}
+        // This sets the background
+        internal void SetBackground(string name, int source)
+        {
+            // Set background
+            if (name == null) name = "";
+            this.backsource = source;
+            this.background = name;
 
-		// This snaps to the nearest grid coordinate
-		public static Vector2D SnappedToGrid(Vector2D v, double gridsize, double gridsizeinv, double gridrotate = 0.0f, double gridoriginx = 0, double gridoriginy = 0)
-		{
-			Vector2D origin = new Vector2D(gridoriginx, gridoriginy);
-			bool transformed = Math.Abs(gridrotate) > 1e-4 || gridoriginx != 0 || gridoriginy != 0;
-			if (transformed)
-			{
-				// Grid is transformed, so reverse the transformation first
-				v = ((v - origin).GetRotated(-gridrotate));
-			}
-		
-			Vector2D sv = new Vector2D(Math.Round(v.x * gridsizeinv) * gridsize,
-								Math.Round(v.y * gridsizeinv) * gridsize);
+            // Find this image
+            LinkBackground();
+        }
 
-			if (transformed)
-			{
-				// Put back into original frame
-				sv = sv.GetRotated(gridrotate) + origin;
-			}
+        // This sets the background view
+        internal void SetBackgroundView(int offsetx, int offsety, float scalex, float scaley)
+        {
+            // Set background offset
+            this.backoffsetx = offsetx;
+            this.backoffsety = offsety;
+            this.backscalex = scalex;
+            this.backscaley = scaley;
+        }
 
-			if(sv.x < General.Map.Config.LeftBoundary) sv.x = General.Map.Config.LeftBoundary;
-			else if(sv.x > General.Map.Config.RightBoundary) sv.x = General.Map.Config.RightBoundary;
+        // This finds and links the background image
+        internal void LinkBackground()
+        {
+            // Dispose image if needed
+            if (backimage is FileImage) backimage.Dispose();
 
-			if(sv.y > General.Map.Config.TopBoundary) sv.y = General.Map.Config.TopBoundary;
-			else if(sv.y < General.Map.Config.BottomBoundary) sv.y = General.Map.Config.BottomBoundary;
+            // Where to load background from?
+            switch (backsource)
+            {
+                case SOURCE_TEXTURES:
+                    backimage = General.Map.Data.GetTextureImage(background);
+                    break;
 
-			return sv;
-		}
+                case SOURCE_FLATS:
+                    backimage = General.Map.Data.GetFlatImage(background);
+                    break;
 
-		#endregion
+                case SOURCE_FILE:
+                    backimage = new FileImage(Path.GetFileNameWithoutExtension(background), background, false, 1.0f, 1.0f);
+                    break;
+            }
 
-		#region ================== Actions
+            // Make sure it is loaded
+            backimage.LoadImageNow();
+        }
 
-		// This shows the grid setup dialog
-		internal static void ShowGridSetup()
-		{
-			// Show preferences dialog
-			GridSetupForm gridform = new GridSetupForm();
-			if(gridform.ShowDialog(General.MainWindow) == DialogResult.OK)
-			{
-				// Redraw display
-				General.MainWindow.RedrawDisplay();
-			}
+        // This returns the next higher coordinate
+        public double GetHigher(double offset)
+        {
+            return Math.Round((offset + (gridsizef * 0.5f)) * gridsizefinv) * gridsizef;
+        }
 
-			// Done
-			gridform.Dispose();
-		}
-		
-		// This changes grid size
-		// Note: these were incorrectly swapped before, hence the wrong action name
-		[BeginAction("gridinc")]
-		internal void DecreaseGrid()
-		{
-			//mxd. Not lower than 0.125 in UDMF or 1 otherwise
-			float preminsize = (General.Map.UDMF ? MINIMUM_GRID_SIZE_UDMF * 2 : MINIMUM_GRID_SIZE * 2);
-			if(gridsizef >= preminsize)
-			{
-				//mxd. Disable automatic grid resizing
-				General.MainWindow.DisableDynamicGridResize();
-				
-				// Change grid
-				SetGridSize(gridsizef / 2);
-				
-				// Redraw display
-				General.MainWindow.RedrawDisplay();
-			}
-		}
+        // This returns the next lower coordinate
+        public double GetLower(double offset)
+        {
+            return Math.Round((offset - (gridsizef * 0.5f)) * gridsizefinv) * gridsizef;
+        }
 
-		// This changes grid size
-		// Note: these were incorrectly swapped before, hence the wrong action name
-		[BeginAction("griddec")]
-		internal void IncreaseGrid()
-		{
-			// Not higher than 1024
-			if(gridsizef <= 512)
-			{
-				//mxd. Disable automatic grid resizing
-				General.MainWindow.DisableDynamicGridResize();
-				
-				// Change grid
-				SetGridSize(gridsizef * 2);
+        // This snaps to the nearest grid coordinate
+        public Vector2D SnappedToGrid(Vector2D v)
+        {
+            return SnappedToGrid(v, gridsizef, gridsizefinv, gridrotate, gridoriginx, gridoriginy);
+        }
 
-				// Redraw display
-				General.MainWindow.RedrawDisplay();
-			}
-		}
+        // This snaps to the nearest grid coordinate
+        public static Vector2D SnappedToGrid(Vector2D v, double gridsize, double gridsizeinv, double gridrotate = 0.0f, double gridoriginx = 0, double gridoriginy = 0)
+        {
+            Vector2D origin = new Vector2D(gridoriginx, gridoriginy);
+            bool transformed = Math.Abs(gridrotate) > 1e-4 || gridoriginx != 0 || gridoriginy != 0;
+            if (transformed)
+            {
+                // Grid is transformed, so reverse the transformation first
+                v = (v - origin).GetRotated(-gridrotate);
+            }
 
-		#endregion
-	}
+            Vector2D sv = new Vector2D(Math.Round(v.x * gridsizeinv) * gridsize,
+                                Math.Round(v.y * gridsizeinv) * gridsize);
+
+            if (transformed)
+            {
+                // Put back into original frame
+                sv = sv.GetRotated(gridrotate) + origin;
+            }
+
+            if (sv.x < General.Map.Config.LeftBoundary) sv.x = General.Map.Config.LeftBoundary;
+            else if (sv.x > General.Map.Config.RightBoundary) sv.x = General.Map.Config.RightBoundary;
+
+            if (sv.y > General.Map.Config.TopBoundary) sv.y = General.Map.Config.TopBoundary;
+            else if (sv.y < General.Map.Config.BottomBoundary) sv.y = General.Map.Config.BottomBoundary;
+
+            return sv;
+        }
+
+        #endregion
+
+        #region ================== Actions
+
+        // This shows the grid setup dialog
+        internal static void ShowGridSetup()
+        {
+            // Show preferences dialog
+            GridSetupForm gridform = new GridSetupForm();
+            if (gridform.ShowDialog(General.MainWindow) == DialogResult.OK)
+            {
+                // Redraw display
+                General.MainWindow.RedrawDisplay();
+            }
+
+            // Done
+            gridform.Dispose();
+        }
+
+        // This changes grid size
+        // Note: these were incorrectly swapped before, hence the wrong action name
+        [BeginAction("gridinc")]
+        internal void DecreaseGrid()
+        {
+            //mxd. Not lower than 0.125 in UDMF or 1 otherwise
+            float preminsize = General.Map.UDMF ? MINIMUM_GRID_SIZE_UDMF * 2 : MINIMUM_GRID_SIZE * 2;
+            if (gridsizef >= preminsize)
+            {
+                //mxd. Disable automatic grid resizing
+                General.MainWindow.DisableDynamicGridResize();
+
+                // Change grid
+                SetGridSize(gridsizef / 2);
+
+                // Redraw display
+                General.MainWindow.RedrawDisplay();
+            }
+        }
+
+        // This changes grid size
+        // Note: these were incorrectly swapped before, hence the wrong action name
+        [BeginAction("griddec")]
+        internal void IncreaseGrid()
+        {
+            // Not higher than 1024
+            if (gridsizef <= 512)
+            {
+                //mxd. Disable automatic grid resizing
+                General.MainWindow.DisableDynamicGridResize();
+
+                // Change grid
+                SetGridSize(gridsizef * 2);
+
+                // Redraw display
+                General.MainWindow.RedrawDisplay();
+            }
+        }
+
+        #endregion
+    }
 }

@@ -32,9 +32,9 @@ namespace CodeImp.DoomBuilder.Config
             this.entries = entries;
         }
 
-        public string ID { get { return id;  } }
+        public string ID { get { return id; } }
         public string FileName { get { return filename; } }
         public bool ExcludeFromTesting { get { return excludeFromTesting; } }
-        public IReadOnlyCollection<RequiredArchiveEntry> Entries {  get { return entries; } }
+        public IReadOnlyCollection<RequiredArchiveEntry> Entries { get { return entries; } }
     }
 }

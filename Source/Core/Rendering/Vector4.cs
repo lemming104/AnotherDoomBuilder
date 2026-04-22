@@ -43,7 +43,7 @@ namespace CodeImp.DoomBuilder.Rendering
 
         public static float Dot(Vector4f a, Vector4f b)
         {
-            return a.X * b.X + a.Y * b.Y + a.Z * b.Z + a.W * b.W;
+            return (a.X * b.X) + (a.Y * b.Y) + (a.Z * b.Z) + (a.W * b.W);
         }
 
         public float Length()

@@ -23,69 +23,69 @@
 
 #region ================== Namespaces
 
+using CodeImp.DoomBuilder.Windows;
 using System;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
-using CodeImp.DoomBuilder.Windows;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.UDBScript
 {
-	public partial class PreferencesForm : Form
-	{
-		#region ================== Constructor
+    public partial class PreferencesForm : Form
+    {
+        #region ================== Constructor
 
-		public PreferencesForm()
-		{
-			InitializeComponent();
+        public PreferencesForm()
+        {
+            InitializeComponent();
 
-			exepath.Text = BuilderPlug.Me.EditorExePath;
-		}
+            exepath.Text = BuilderPlug.Me.EditorExePath;
+        }
 
-		#endregion
+        #endregion
 
-		#region ================== Methods
+        #region ================== Methods
 
-		// When OK is pressed on the preferences dialog
-		// Prevent inlining, otherwise there are unexpected interactions with Assembly.GetCallingAssembly
-		// See https://docs.microsoft.com/en-us/dotnet/api/system.reflection.assembly.getcallingassembly?view=netframework-4.6.1#remarks
-		[MethodImplAttribute(MethodImplOptions.NoInlining)]
-		public void OnAccept(PreferencesController controller)
-		{
-			BuilderPlug.Me.SetEditor(exepath.Text);
-		}
+        // When OK is pressed on the preferences dialog
+        // Prevent inlining, otherwise there are unexpected interactions with Assembly.GetCallingAssembly
+        // See https://docs.microsoft.com/en-us/dotnet/api/system.reflection.assembly.getcallingassembly?view=netframework-4.6.1#remarks
+        [MethodImplAttribute(MethodImplOptions.NoInlining)]
+        public void OnAccept(PreferencesController controller)
+        {
+            BuilderPlug.Me.SetEditor(exepath.Text);
+        }
 
-		// This sets up the form with the preferences controller
-		public void Setup(PreferencesController controller)
-		{
-			// Add tab pages
-			foreach (TabPage p in tabs.TabPages)
-			{
-				controller.AddTab(p);
+        // This sets up the form with the preferences controller
+        public void Setup(PreferencesController controller)
+        {
+            // Add tab pages
+            foreach (TabPage p in tabs.TabPages)
+            {
+                controller.AddTab(p);
 
-				// The parent tab control has its font set to bold, which inherits to the tab pages,
-				// so we need to change it back to regular
-				p.Font = new Font(p.Font, FontStyle.Regular);
-			}
+                // The parent tab control has its font set to bold, which inherits to the tab pages,
+                // so we need to change it back to regular
+                p.Font = new Font(p.Font, FontStyle.Regular);
+            }
 
-			// Bind events
-			controller.OnAccept += OnAccept;
-		}
+            // Bind events
+            controller.OnAccept += OnAccept;
+        }
 
-		#endregion
+        #endregion
 
-		#region ================== Events
+        #region ================== Events
 
-		private void btnSelectExe_Click(object sender, EventArgs e)
-		{
-			if(filedialog.ShowDialog() == DialogResult.OK)
-			{
-				exepath.Text = filedialog.FileName;
-			}
-		}
+        private void btnSelectExe_Click(object sender, EventArgs e)
+        {
+            if (filedialog.ShowDialog() == DialogResult.OK)
+            {
+                exepath.Text = filedialog.FileName;
+            }
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

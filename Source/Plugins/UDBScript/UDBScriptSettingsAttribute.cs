@@ -29,20 +29,20 @@ using System;
 
 namespace CodeImp.DoomBuilder.UDBScript
 {
-	sealed internal class UDBScriptSettingsAttribute : Attribute
-	{
-		#region ================== Properties
+    sealed internal class UDBScriptSettingsAttribute : Attribute
+    {
+        #region ================== Properties
 
-		public int MinVersion { get; set; }
+        public int MinVersion { get; set; }
 
-		#endregion
+        #endregion
 
-		#region ================== Constructors
+        #region ================== Constructors
 
-		public UDBScriptSettingsAttribute()
-		{
-		}
+        public UDBScriptSettingsAttribute()
+        {
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

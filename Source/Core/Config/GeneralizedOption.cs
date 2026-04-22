@@ -25,103 +25,103 @@ using System.Globalization;
 
 namespace CodeImp.DoomBuilder.Config
 {
-	/// <summary>
-	/// Option in generalized types.
-	/// </summary>
-	public class GeneralizedOption
-	{
-		#region ================== Constants
+    /// <summary>
+    /// Option in generalized types.
+    /// </summary>
+    public class GeneralizedOption
+    {
+        #region ================== Constants
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		// Properties
-		private string name;
-		private List<GeneralizedBit> bits;
-		private int bitstep; //mxd
-		public int BitsStep { get { return bitstep; } } // mxd. Each subsequent value is incremented  by this number
-		
-		#endregion
+        // Properties
+        private string name;
+        private List<GeneralizedBit> bits;
+        private int bitstep; //mxd
+        public int BitsStep { get { return bitstep; } } // mxd. Each subsequent value is incremented  by this number
 
-		#region ================== Properties
+        #endregion
 
-		public string Name { get { return name; } }
-		public List<GeneralizedBit> Bits { get { return bits; } }
+        #region ================== Properties
 
-		#endregion
+        public string Name { get { return name; } }
+        public List<GeneralizedBit> Bits { get { return bits; } }
 
-		#region ================== Constructor / Disposer
+        #endregion
 
-		// Constructor
-		internal GeneralizedOption(string structure, string cat, string name, IDictionary bitslist)
-		{
-			string fullpath;
-			
-			// Determine path
-			if(cat.Length > 0) fullpath = structure + "." + cat;
-				else fullpath = structure;
+        #region ================== Constructor / Disposer
 
-			// Initialize
-			this.name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name);
-			this.bits = new List<GeneralizedBit>();
+        // Constructor
+        internal GeneralizedOption(string structure, string cat, string name, IDictionary bitslist)
+        {
+            string fullpath;
 
-			// Go for all bits
-			foreach(DictionaryEntry de in bitslist)
-			{
-				// Check if the item key is numeric
-				int index;
-				string key = de.Key.ToString();
-				if (int.TryParse(key, NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite, CultureInfo.InvariantCulture, out index))
-				{
-					// Add to list
-					this.bits.Add(new GeneralizedBit(index, de.Value.ToString()));
-				}
-				else
-				{
-					if (key == "name")
-						this.name = de.Value.ToString();
-					else
-						General.ErrorLogger.Add(ErrorType.Warning, "Structure \"" + fullpath + "." + name + "\" contains invalid entries. The keys must be numeric.");
-				}
-			}
-			
-			// Sort the list
-			bits.Sort();
+            // Determine path
+            if (cat.Length > 0) fullpath = structure + "." + cat;
+            else fullpath = structure;
 
-			//mxd. Determine and check increment steps
-			// biwa. Setting this to be in debug build only. There are valid scenarios where this isn't a problem, specifically MBF21,
-			// where the "alternate damage mode" for sectors is made up of 3 bits.
-			
-			if(bits.Count > 1)
-			{
-				// Use the second bit as the structure's step
-				bitstep = bits[1].Index;
+            // Initialize
+            this.name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name);
+            this.bits = new List<GeneralizedBit>();
 
-				#if DEBUG
-				// Check the rest of the values
-				for(int i = 1; i < bits.Count; i++)
-				{
-					if(bits[i].Index - bits[i - 1].Index != bitstep)
-						General.ErrorLogger.Add(ErrorType.Warning, "Structure \"" + fullpath + "." + name + "\" contains options with mixed increments (option \"" + bits[i].Title + "\" increment (" + (bits[i - 1].Index - bits[i].Index) + ") doesn't match the structure increment (" + bitstep + ")).");
-				}
-				#endif
-			}
+            // Go for all bits
+            foreach (DictionaryEntry de in bitslist)
+            {
+                // Check if the item key is numeric
+                int index;
+                string key = de.Key.ToString();
+                if (int.TryParse(key, NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite, CultureInfo.InvariantCulture, out index))
+                {
+                    // Add to list
+                    this.bits.Add(new GeneralizedBit(index, de.Value.ToString()));
+                }
+                else
+                {
+                    if (key == "name")
+                        this.name = de.Value.ToString();
+                    else
+                        General.ErrorLogger.Add(ErrorType.Warning, "Structure \"" + fullpath + "." + name + "\" contains invalid entries. The keys must be numeric.");
+                }
+            }
 
-			// We have no destructor
-			GC.SuppressFinalize(this);
-		}
+            // Sort the list
+            bits.Sort();
 
-#endregion
+            //mxd. Determine and check increment steps
+            // biwa. Setting this to be in debug build only. There are valid scenarios where this isn't a problem, specifically MBF21,
+            // where the "alternate damage mode" for sectors is made up of 3 bits.
 
-#region ================== Methods
+            if (bits.Count > 1)
+            {
+                // Use the second bit as the structure's step
+                bitstep = bits[1].Index;
 
-		// This presents the item as string
-		public override string ToString()
-		{
-			return name;
-		}
-		
-#endregion
-	}
+#if DEBUG
+                // Check the rest of the values
+                for (int i = 1; i < bits.Count; i++)
+                {
+                    if (bits[i].Index - bits[i - 1].Index != bitstep)
+                        General.ErrorLogger.Add(ErrorType.Warning, "Structure \"" + fullpath + "." + name + "\" contains options with mixed increments (option \"" + bits[i].Title + "\" increment (" + (bits[i - 1].Index - bits[i].Index) + ") doesn't match the structure increment (" + bitstep + ")).");
+                }
+#endif
+            }
+
+            // We have no destructor
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
+
+        #region ================== Methods
+
+        // This presents the item as string
+        public override string ToString()
+        {
+            return name;
+        }
+
+        #endregion
+    }
 }

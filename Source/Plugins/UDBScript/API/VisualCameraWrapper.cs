@@ -23,39 +23,39 @@
 
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
-	class VisualCameraWrapper
-	{
-		/// <summary>
-		/// Position of the camera as `Vector3D`. Read-only.
-		/// </summary>
-		public Vector3DWrapper position
-		{
-			get
-			{
-				return new Vector3DWrapper(General.Map.VisualCamera.Position);
-			}
-		}
+    class VisualCameraWrapper
+    {
+        /// <summary>
+        /// Position of the camera as `Vector3D`. Read-only.
+        /// </summary>
+        public Vector3DWrapper position
+        {
+            get
+            {
+                return new Vector3DWrapper(General.Map.VisualCamera.Position);
+            }
+        }
 
-		/// <summary>
-		/// Angle of the camera on the X/Y axes. Read-only.
-		/// </summary>
-		public double angleXY
-		{
-			get
-			{
-				return General.Map.VisualCamera.AngleXY;
-			}
-		}
+        /// <summary>
+        /// Angle of the camera on the X/Y axes. Read-only.
+        /// </summary>
+        public double angleXY
+        {
+            get
+            {
+                return General.Map.VisualCamera.AngleXY;
+            }
+        }
 
-		/// <summary>
-		/// Angle of the camera on the Z axis. Read-only.
-		/// </summary>
-		public double angleZ
-		{
-			get
-			{
-				return General.Map.VisualCamera.AngleZ;
-			}
-		}
-	}
+        /// <summary>
+        /// Angle of the camera on the Z axis. Read-only.
+        /// </summary>
+        public double angleZ
+        {
+            get
+            {
+                return General.Map.VisualCamera.AngleZ;
+            }
+        }
+    }
 }

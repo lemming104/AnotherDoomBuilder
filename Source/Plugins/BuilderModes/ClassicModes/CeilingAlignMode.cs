@@ -17,54 +17,54 @@
 #region ================== Namespaces
 
 using CodeImp.DoomBuilder.Data;
-using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Editing;
+using CodeImp.DoomBuilder.Map;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
-	[EditMode(DisplayName = "Ceiling Align Mode",
-			  SwitchAction = "ceilingalignmode",
-			  ButtonImage = "CeilingAlign.png",
-			  ButtonOrder = int.MinValue + 311,
-			  ButtonGroup = "000_editing",
-			  UseByDefault = true, //mxd
-			  SupportedMapFormats = new[] { "UniversalMapSetIO" }, //mxd
-			  Volatile = true)]
+    [EditMode(DisplayName = "Ceiling Align Mode",
+              SwitchAction = "ceilingalignmode",
+              ButtonImage = "CeilingAlign.png",
+              ButtonOrder = int.MinValue + 311,
+              ButtonGroup = "000_editing",
+              UseByDefault = true, //mxd
+              SupportedMapFormats = new[] { "UniversalMapSetIO" }, //mxd
+              Volatile = true)]
 
-	public class CeilingAlignMode : FlatAlignMode
-	{
-		#region ================== Properties
+    public class CeilingAlignMode : FlatAlignMode
+    {
+        #region ================== Properties
 
-		protected override string XScaleName { get { return "xscaleceiling"; } }
-		protected override string YScaleName { get { return "yscaleceiling"; } }
-		protected override string XOffsetName { get { return "xpanningceiling"; } }
-		protected override string YOffsetName { get { return "ypanningceiling"; } }
-		protected override string RotationName { get { return "rotationceiling"; } }
-		protected override string UndoDescription { get { return "Ceiling Alignment"; } }
-		
-		#endregion
+        protected override string XScaleName { get { return "xscaleceiling"; } }
+        protected override string YScaleName { get { return "yscaleceiling"; } }
+        protected override string XOffsetName { get { return "xpanningceiling"; } }
+        protected override string YOffsetName { get { return "ypanningceiling"; } }
+        protected override string RotationName { get { return "rotationceiling"; } }
+        protected override string UndoDescription { get { return "Ceiling Alignment"; } }
 
-		#region ================== Methods
+        #endregion
 
-		// Get the texture data to align
-		protected override ImageData GetTexture(Sector editsector)
-		{
-			return General.Map.Data.GetFlatImage(editsector.LongCeilTexture);
-		}
+        #region ================== Methods
 
-		#endregion
+        // Get the texture data to align
+        protected override ImageData GetTexture(Sector editsector)
+        {
+            return General.Map.Data.GetFlatImage(editsector.LongCeilTexture);
+        }
 
-		#region ================== Events
+        #endregion
 
-		// Mode engages
-		public override void OnEngage()
-		{
-			base.OnEngage();
-			General.Actions.InvokeAction("builder_viewmodeceilings");
-		}
+        #region ================== Events
 
-		#endregion
-	}
+        // Mode engages
+        public override void OnEngage()
+        {
+            base.OnEngage();
+            General.Actions.InvokeAction("builder_viewmodeceilings");
+        }
+
+        #endregion
+    }
 }

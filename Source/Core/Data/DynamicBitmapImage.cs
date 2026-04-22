@@ -16,66 +16,66 @@
 
 #region ================== Namespaces
 
+using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using CodeImp.DoomBuilder.Rendering;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Data
 {
-	public class DynamicBitmapImage : BitmapImage, IRenderResource
-	{
-		#region ================== Variables
+    public class DynamicBitmapImage : BitmapImage, IRenderResource
+    {
+        #region ================== Variables
 
-		#endregion
+        #endregion
 
-		#region ================== Constructor / Disposer
+        #region ================== Constructor / Disposer
 
-		// Constructor
-		public DynamicBitmapImage(Bitmap img, string name) : base(img, name)
-		{
-			if (img.PixelFormat != PixelFormat.Format32bppArgb)
-				throw new Exception("Dynamic images must be in 32 bits ARGB format.");
+        // Constructor
+        public DynamicBitmapImage(Bitmap img, string name) : base(img, name)
+        {
+            if (img.PixelFormat != PixelFormat.Format32bppArgb)
+                throw new Exception("Dynamic images must be in 32 bits ARGB format.");
 
-			// Initialize
-			this.UseColorCorrection = false;
-			this.dynamictexture = true;
+            // Initialize
+            this.UseColorCorrection = false;
+            this.dynamictexture = true;
 
-			// This resource is volatile
-			General.Map.Graphics.RegisterResource(this);
-		}
+            // This resource is volatile
+            General.Map.Graphics.RegisterResource(this);
+        }
 
-		// Disposer
-		public override void Dispose()
-		{
-			// Not already disposed?
-			if(!isdisposed)
-			{
-				// Clean up
-				General.Map.Graphics.UnregisterResource(this);
+        // Disposer
+        public override void Dispose()
+        {
+            // Not already disposed?
+            if (!isdisposed)
+            {
+                // Clean up
+                General.Map.Graphics.UnregisterResource(this);
 
-				// Done
-				base.Dispose();
-			}
-		}
+                // Done
+                base.Dispose();
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region ================== Methods
+        #region ================== Methods
 
-		// Unload the resource because Direct3D says so
-		public void UnloadResource()
-		{
-			ReleaseTexture();
-		}
+        // Unload the resource because Direct3D says so
+        public void UnloadResource()
+        {
+            ReleaseTexture();
+        }
 
-		// Reload the resource
-		public void ReloadResource()
-		{
-		}
+        // Reload the resource
+        public void ReloadResource()
+        {
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

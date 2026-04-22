@@ -29,24 +29,24 @@ using CodeImp.DoomBuilder.Windows;
 
 namespace CodeImp.DoomBuilder.UDBScript
 {
-	public partial class UDBScriptErrorForm : DelayedForm
-	{
-		#region ================== Constructors
+    public partial class UDBScriptErrorForm : DelayedForm
+    {
+        #region ================== Constructors
 
-		public UDBScriptErrorForm(string message, string stacktrace, string internalstacktrace)
-		{
-			InitializeComponent();
+        public UDBScriptErrorForm(string message, string stacktrace, string internalstacktrace)
+        {
+            InitializeComponent();
 
-			tbStackTrace.Text = message + "\r\n" + stacktrace;
-			tbStackTrace.Select(0, 0);
+            tbStackTrace.Text = message + "\r\n" + stacktrace;
+            tbStackTrace.Select(0, 0);
 
-			tbInternalStackTrace.Text = internalstacktrace;
-			tbInternalStackTrace.Select(0, 0);
+            tbInternalStackTrace.Text = internalstacktrace;
+            tbInternalStackTrace.Select(0, 0);
 
-			if (string.IsNullOrWhiteSpace(stacktrace))
-				tabControl1.SelectedIndex = 1;
-		}
+            if (string.IsNullOrWhiteSpace(stacktrace))
+                tabControl1.SelectedIndex = 1;
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

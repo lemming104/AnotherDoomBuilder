@@ -72,7 +72,7 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
                 WorldVertex Vert = new WorldVertex();
                 if (isdeusex)
                 {
-                    stream_a.Position = start_a + (i + frame * d3d_numverts) * 8;
+                    stream_a.Position = start_a + ((i + (frame * d3d_numverts)) * 8);
                     int vx = br_a.ReadInt16();
                     int vy = br_a.ReadInt16();
                     int vz = br_a.ReadInt16();
@@ -82,7 +82,7 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
                 }
                 else
                 {
-                    stream_a.Position = start_a + (i + frame * d3d_numverts) * 4;
+                    stream_a.Position = start_a + ((i + (frame * d3d_numverts)) * 4);
                     int v_uint = br_a.ReadInt32();
                     Vert.y = -UnpackUVertex(v_uint, 0);
                     Vert.z = UnpackUVertex(v_uint, 2);
@@ -99,14 +99,14 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
             for (uint i = 0; i < d3d_numpolys; i++)
             {
                 //
-                stream_d.Position = start_d + 16 * i;
+                stream_d.Position = start_d + (16 * i);
                 polys[i].V = new int[3];
                 polys[i].S = new float[3];
                 polys[i].T = new float[3];
                 bool brokenpoly = false;
                 for (int j = 0; j < 3; j++)
                 {
-                    polyindexlist[i * 3 + j] = polys[i].V[j] = br_d.ReadInt16();
+                    polyindexlist[(i * 3) + j] = polys[i].V[j] = br_d.ReadInt16();
                     if (polys[i].V[j] >= vertices.Length || polys[i].V[j] < 0)
                         brokenpoly = true;
                 }
@@ -143,9 +143,9 @@ namespace CodeImp.DoomBuilder.GZBuilder.Models
                 dir[1].x = vertices[polys[i].V[2]].x - vertices[polys[i].V[0]].x;
                 dir[1].y = vertices[polys[i].V[2]].y - vertices[polys[i].V[0]].y;
                 dir[1].z = vertices[polys[i].V[2]].z - vertices[polys[i].V[0]].z;
-                norm.x = dir[0].y * dir[1].z - dir[0].z * dir[1].y;
-                norm.y = dir[0].z * dir[1].x - dir[0].x * dir[1].z;
-                norm.z = dir[0].x * dir[1].y - dir[0].y * dir[1].x;
+                norm.x = (dir[0].y * dir[1].z) - (dir[0].z * dir[1].y);
+                norm.y = (dir[0].z * dir[1].x) - (dir[0].x * dir[1].z);
+                norm.z = (dir[0].x * dir[1].y) - (dir[0].y * dir[1].x);
                 polys[i].Normal = norm.GetNormal();
             }
 

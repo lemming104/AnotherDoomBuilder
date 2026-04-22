@@ -16,145 +16,145 @@
 
 #region ================== Namespaces
 
+using CodeImp.DoomBuilder.Plugins.VisplaneExplorer.Properties;
+using CodeImp.DoomBuilder.Windows;
 using System;
 using System.Globalization;
 using System.IO;
-using CodeImp.DoomBuilder.Plugins.VisplaneExplorer.Properties;
-using CodeImp.DoomBuilder.Windows;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
 {
-	public class BuilderPlug : Plug
-	{
-		#region ================== Variables
+    public class BuilderPlug : Plug
+    {
+        #region ================== Variables
 
-		// Objects
-		private static BuilderPlug me;
-		private VPOManager vpo;
-		private InterfaceForm interfaceform;
+        // Objects
+        private static BuilderPlug me;
+        private VPOManager vpo;
+        private InterfaceForm interfaceform;
 
-		// Palettes
-		private Palette[] palettes;
-		
-		#endregion
+        // Palettes
+        private Palette[] palettes;
 
-		#region ================== Properties
-		
-		// Properties
-		public override string Name { get { return "VisplaneExplorer"; } }
-		internal static VPOManager VPO { get { return me.vpo; } }
-		internal static InterfaceForm InterfaceForm { get { return me.interfaceform; } }
-		internal static Palette[] Palettes { get { return me.GetPalettes(); } }
-		public override int MinimumRevision { get { return 2411; } }
-		
-		#endregion
+        #endregion
 
-		#region ================== Initialize / Dispose
+        #region ================== Properties
 
-		public override void OnInitialize()
-		{
-			base.OnInitialize();
+        // Properties
+        public override string Name { get { return "VisplaneExplorer"; } }
+        internal static VPOManager VPO { get { return me.vpo; } }
+        internal static InterfaceForm InterfaceForm { get { return me.interfaceform; } }
+        internal static Palette[] Palettes { get { return me.GetPalettes(); } }
+        public override int MinimumRevision { get { return 2411; } }
 
-			// Keep a static reference
-			me = this;
-		}
+        #endregion
 
-		//mxd
-		public static void InitVPO()
-		{
-			// Load interface controls
-			if(me.interfaceform == null) me.interfaceform = new InterfaceForm();
+        #region ================== Initialize / Dispose
 
-			// Load VPO manager (manages multithreading and communication with vpo.dll)
-			if(me.vpo == null) me.vpo = new VPOManager();
-		}
+        public override void OnInitialize()
+        {
+            base.OnInitialize();
 
-		// Preferences changed
-		public override void OnClosePreferences(PreferencesController controller)
-		{
-			base.OnClosePreferences(controller);
-			ApplyUserColors();
-		}
+            // Keep a static reference
+            me = this;
+        }
 
-		// This is called when the plugin is terminated
-		public override void Dispose()
-		{
-			//mxd. Active and not already disposed?
-			if(!IsDisposed)
-			{
-				if(interfaceform != null)
-				{
-					interfaceform.Dispose();
-					interfaceform = null;
-				}
+        //mxd
+        public static void InitVPO()
+        {
+            // Load interface controls
+            if (me.interfaceform == null) me.interfaceform = new InterfaceForm();
 
-				if(vpo != null)
-				{
-					vpo.Dispose();
-					vpo = null;
-				}
+            // Load VPO manager (manages multithreading and communication with vpo.dll)
+            if (me.vpo == null) me.vpo = new VPOManager();
+        }
 
-				// Done
-				me = null;
+        // Preferences changed
+        public override void OnClosePreferences(PreferencesController controller)
+        {
+            base.OnClosePreferences(controller);
+            ApplyUserColors();
+        }
 
-				base.Dispose();
-			}
-		}
+        // This is called when the plugin is terminated
+        public override void Dispose()
+        {
+            //mxd. Active and not already disposed?
+            if (!IsDisposed)
+            {
+                if (interfaceform != null)
+                {
+                    interfaceform.Dispose();
+                    interfaceform = null;
+                }
 
-		#endregion
+                if (vpo != null)
+                {
+                    vpo.Dispose();
+                    vpo = null;
+                }
 
-		#region ================== Methods
+                // Done
+                me = null;
 
-		//mxd
-		private Palette[] GetPalettes()
-		{
-			if(palettes == null)
-			{
-				// Load palettes
-				palettes = new Palette[(int)ViewStats.NumStats];
-				palettes[(int)ViewStats.Visplanes] = new Palette(Resources.Visplanes_pal);
-				palettes[(int)ViewStats.Drawsegs] = new Palette(Resources.Drawsegs_pal);
-				palettes[(int)ViewStats.Solidsegs] = new Palette(Resources.Solidsegs_pal);
-				palettes[(int)ViewStats.Openings] = new Palette(Resources.Openings_pal);
-				palettes[(int)ViewStats.Heatmap] = new Palette(Resources.Heatmap_pal); //mxd
-				ApplyUserColors();
-			}
-			return palettes;
-		}
+                base.Dispose();
+            }
+        }
 
-		// This applies user-defined appearance colors to the palettes
-		private void ApplyUserColors()
-		{
-			//mxd
-			if(palettes == null)
-			{
-				GetPalettes();
-				return;
-			}
-			
-			// Override special palette indices with user-defined colors
-			foreach(Palette p in palettes) p.SetColor(Tile.POINT_VOID_B, General.Colors.Background.WithAlpha(0).ToInt());
-		}
+        #endregion
 
-		// This returns a unique temp filename
-		public static string MakeTempFilename(string extension)
-		{
-			string filename;
+        #region ================== Methods
 
-			do
-			{
-				//mxd. Generate a filename
-				filename = Path.Combine(General.TempPath, MurmurHash2.Hash(DateTime.Now.Ticks.ToString(CultureInfo.InvariantCulture)) + extension);
-			}
-			// Continue while file is not unique
-			while(File.Exists(filename) || Directory.Exists(filename));
+        //mxd
+        private Palette[] GetPalettes()
+        {
+            if (palettes == null)
+            {
+                // Load palettes
+                palettes = new Palette[(int)ViewStats.NumStats];
+                palettes[(int)ViewStats.Visplanes] = new Palette(Resources.Visplanes_pal);
+                palettes[(int)ViewStats.Drawsegs] = new Palette(Resources.Drawsegs_pal);
+                palettes[(int)ViewStats.Solidsegs] = new Palette(Resources.Solidsegs_pal);
+                palettes[(int)ViewStats.Openings] = new Palette(Resources.Openings_pal);
+                palettes[(int)ViewStats.Heatmap] = new Palette(Resources.Heatmap_pal); //mxd
+                ApplyUserColors();
+            }
+            return palettes;
+        }
 
-			// Return the filename
-			return filename;
-		}
+        // This applies user-defined appearance colors to the palettes
+        private void ApplyUserColors()
+        {
+            //mxd
+            if (palettes == null)
+            {
+                GetPalettes();
+                return;
+            }
 
-		#endregion
-	}
+            // Override special palette indices with user-defined colors
+            foreach (Palette p in palettes) p.SetColor(Tile.POINT_VOID_B, General.Colors.Background.WithAlpha(0).ToInt());
+        }
+
+        // This returns a unique temp filename
+        public static string MakeTempFilename(string extension)
+        {
+            string filename;
+
+            do
+            {
+                //mxd. Generate a filename
+                filename = Path.Combine(General.TempPath, MurmurHash2.Hash(DateTime.Now.Ticks.ToString(CultureInfo.InvariantCulture)) + extension);
+            }
+            // Continue while file is not unique
+            while (File.Exists(filename) || Directory.Exists(filename));
+
+            // Return the filename
+            return filename;
+        }
+
+        #endregion
+    }
 }

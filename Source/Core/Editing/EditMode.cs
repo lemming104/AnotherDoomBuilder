@@ -16,258 +16,258 @@
 
 #region ================== Namespaces
 
+using CodeImp.DoomBuilder.Actions;
+using CodeImp.DoomBuilder.Config;
+using CodeImp.DoomBuilder.Geometry;
+using CodeImp.DoomBuilder.Windows;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Windows.Forms;
-using System.Reflection;
 using System.Diagnostics;
-using CodeImp.DoomBuilder.Actions;
-using CodeImp.DoomBuilder.Geometry;
-using CodeImp.DoomBuilder.Config;
-using CodeImp.DoomBuilder.Windows;
+using System.Globalization;
+using System.Reflection;
+using System.Windows.Forms;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Editing
 {
-	/// <summary>
-	/// Provides basic user input interface functionality for a Doom Builder editing mode.
-	/// </summary>
-	public abstract class EditMode
-	{
-		#region ================== Constants
+    /// <summary>
+    /// Provides basic user input interface functionality for a Doom Builder editing mode.
+    /// </summary>
+    public abstract class EditMode
+    {
+        #region ================== Constants
 
-		public const int DRAG_START_MOVE_PIXELS = 5;
+        public const int DRAG_START_MOVE_PIXELS = 5;
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
-		
-		// Attributes
-		protected EditModeAttribute attributes; //mxd. private -> protected
-		
-		// Disposing
-		protected bool isdisposed;
+        #region ================== Variables
 
-		#endregion
+        // Attributes
+        protected EditModeAttribute attributes; //mxd. private -> protected
 
-		#region ================== Properties
+        // Disposing
+        protected bool isdisposed;
 
-		public bool IsDisposed { get { return isdisposed; } }
+        #endregion
 
-		public EditModeAttribute Attributes { get { return attributes; } }
-		
-		// Unless overriden, this returns the name of this mode
-		// for checking the appropriate button on the toolbar.
-		public virtual string EditModeButtonName { get { return GetType().Name; } }
+        #region ================== Properties
 
-		// Override this to provide a highlighted object, if applicable
-		public virtual object HighlightedObject { get { return null; } }
+        public bool IsDisposed { get { return isdisposed; } }
 
-		#endregion
+        public EditModeAttribute Attributes { get { return attributes; } }
 
-		#region ================== Constructor / Disposer
+        // Unless overriden, this returns the name of this mode
+        // for checking the appropriate button on the toolbar.
+        public virtual string EditModeButtonName { get { return GetType().Name; } }
 
-		/// <summary>
-		/// Provides basic user input interface functionality for a Doom Builder editing mode.
-		/// </summary>
-		protected EditMode()
-		{
-			// Fetch attributes
-			object[] attrs = this.GetType().GetCustomAttributes(true);
-			foreach(object a in attrs)
-			{
-				EditModeAttribute attribute = a as EditModeAttribute;
-				if(attribute != null)
-				{
-					attributes = attribute;
-					break;
-				}
-			}
+        // Override this to provide a highlighted object, if applicable
+        public virtual object HighlightedObject { get { return null; } }
 
-			// No attributes found?
-			if(attributes == null) throw new Exception("Editing mode \"" + this.GetType().Name + "\" is missing EditMode attributes!");
-			
-			// We have no destructor
-			GC.SuppressFinalize(this);
-		}
+        #endregion
 
-		// Disposer
-		public virtual void Dispose()
-		{
-			// Not already disposed?
-			if(!isdisposed)
-			{
-				// Clean up
+        #region ================== Constructor / Disposer
 
-				// Done
-				isdisposed = true;
-			}
-		}
+        /// <summary>
+        /// Provides basic user input interface functionality for a Doom Builder editing mode.
+        /// </summary>
+        protected EditMode()
+        {
+            // Fetch attributes
+            object[] attrs = this.GetType().GetCustomAttributes(true);
+            foreach (object a in attrs)
+            {
+                EditModeAttribute attribute = a as EditModeAttribute;
+                if (attribute != null)
+                {
+                    attributes = attribute;
+                    break;
+                }
+            }
 
-		#endregion
+            // No attributes found?
+            if (attributes == null) throw new Exception("Editing mode \"" + this.GetType().Name + "\" is missing EditMode attributes!");
 
-		#region ================== Static Methods
+            // We have no destructor
+            GC.SuppressFinalize(this);
+        }
 
-		// This creates an instance of a specific mode
-		public static EditMode Create(Type modetype, object[] args)
-		{
-			try
-			{
-				// Create new mode
-				return (EditMode)General.ThisAssembly.CreateInstance(modetype.FullName, false,
-					BindingFlags.Default, null, args, CultureInfo.CurrentCulture, new object[0]);
-			}
-			// Catch errors
-			catch(TargetInvocationException e)
-			{
-				// Throw the actual exception
-				Debug.WriteLine(DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
-				Debug.WriteLine(e.InnerException.Source + " throws " + e.InnerException.GetType().Name + ":");
-				Debug.WriteLine(e.InnerException.Message);
-				Debug.WriteLine(e.InnerException.StackTrace);
-				throw e.InnerException;
-			}
-		}
-		
-		#endregion
+        // Disposer
+        public virtual void Dispose()
+        {
+            // Not already disposed?
+            if (!isdisposed)
+            {
+                // Clean up
 
-		#region ================== Methods
+                // Done
+                isdisposed = true;
+            }
+        }
 
-		//mxd
-		public virtual void UpdateSelectionInfo()
-		{
-			// Collect info
-			List<string> info = new List<string>();
+        #endregion
 
-			if(General.Map.Map.SelectedSectorsCount > 0)
-				info.Add(General.Map.Map.SelectedSectorsCount + (General.Map.Map.SelectedSectorsCount == 1 ? " sector" : " sectors"));
+        #region ================== Static Methods
 
-			if(General.Map.Map.SelectedLinedefsCount > 0)
-				info.Add(General.Map.Map.SelectedLinedefsCount + (General.Map.Map.SelectedLinedefsCount == 1 ? " linedef" : " linedefs"));
+        // This creates an instance of a specific mode
+        public static EditMode Create(Type modetype, object[] args)
+        {
+            try
+            {
+                // Create new mode
+                return (EditMode)General.ThisAssembly.CreateInstance(modetype.FullName, false,
+                    BindingFlags.Default, null, args, CultureInfo.CurrentCulture, new object[0]);
+            }
+            // Catch errors
+            catch (TargetInvocationException e)
+            {
+                // Throw the actual exception
+                Debug.WriteLine(DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
+                Debug.WriteLine(e.InnerException.Source + " throws " + e.InnerException.GetType().Name + ":");
+                Debug.WriteLine(e.InnerException.Message);
+                Debug.WriteLine(e.InnerException.StackTrace);
+                throw e.InnerException;
+            }
+        }
 
-			if(General.Map.Map.SelectedVerticessCount > 0)
-				info.Add(General.Map.Map.SelectedVerticessCount + (General.Map.Map.SelectedVerticessCount == 1 ? " vertex" : " vertices"));
+        #endregion
 
-			if(General.Map.Map.SelectedThingsCount > 0)
-				info.Add(General.Map.Map.SelectedThingsCount + (General.Map.Map.SelectedThingsCount == 1 ? " thing" : " things"));
+        #region ================== Methods
 
-			// Display results
-			string result = string.Empty;
-			if(info.Count > 0)
-			{
-				result = string.Join(", ", info.ToArray());
-				int pos = result.LastIndexOf(",", StringComparison.Ordinal);
-				if(pos != -1) result = result.Remove(pos, 1).Insert(pos, " and");
-				result += " selected.";
-			}
+        //mxd
+        public virtual void UpdateSelectionInfo()
+        {
+            // Collect info
+            List<string> info = new List<string>();
 
-			General.Interface.DisplayStatus(StatusType.Selection, result);
-		}
+            if (General.Map.Map.SelectedSectorsCount > 0)
+                info.Add(General.Map.Map.SelectedSectorsCount + (General.Map.Map.SelectedSectorsCount == 1 ? " sector" : " sectors"));
 
-		#endregion
+            if (General.Map.Map.SelectedLinedefsCount > 0)
+                info.Add(General.Map.Map.SelectedLinedefsCount + (General.Map.Map.SelectedLinedefsCount == 1 ? " linedef" : " linedefs"));
 
-		#region ================== Events
+            if (General.Map.Map.SelectedVerticessCount > 0)
+                info.Add(General.Map.Map.SelectedVerticessCount + (General.Map.Map.SelectedVerticessCount == 1 ? " vertex" : " vertices"));
 
-		//
-		// Order in which events occur for the old and new modes:
-		// 
-		// - Constructor of new mode is called
-		// - Disengage of old mode is called
-		// ----- Mode switches -----
-		// - Engage of new mode is called
-		// - Dispose of old mode is called
-		//
-		
-		// Mode engages
-		public virtual void OnEngage()
-		{
-			// Bind any methods
-			General.Actions.BindMethods(this);
+            if (General.Map.Map.SelectedThingsCount > 0)
+                info.Add(General.Map.Map.SelectedThingsCount + (General.Map.Map.SelectedThingsCount == 1 ? " thing" : " things"));
 
-			//mxd. Show hints for this mode
-			General.Hints.ShowHints(this.GetType(), HintsManager.GENERAL);
+            // Display results
+            string result = string.Empty;
+            if (info.Count > 0)
+            {
+                result = string.Join(", ", info.ToArray());
+                int pos = result.LastIndexOf(",", StringComparison.Ordinal);
+                if (pos != -1) result = result.Remove(pos, 1).Insert(pos, " and");
+                result += " selected.";
+            }
 
-			//mxd. Display new mode name
-			General.Interface.HideInfo();
-		}
+            General.Interface.DisplayStatus(StatusType.Selection, result);
+        }
 
-		// Mode disengages
-		public virtual void OnDisengage()
-		{
-			// Unbind any methods
-			General.Actions.UnbindMethods(this);
-		}
+        #endregion
 
-		// Called when the user presses F1 for Help
-		public virtual void OnHelp() { }
+        #region ================== Events
 
-		// This forces the mode to cancel and return to the "parent" mode
-		public virtual void OnCancel() { }
-		public virtual void OnAccept() { }
+        //
+        // Order in which events occur for the old and new modes:
+        // 
+        // - Constructor of new mode is called
+        // - Disengage of old mode is called
+        // ----- Mode switches -----
+        // - Engage of new mode is called
+        // - Dispose of old mode is called
+        //
 
-		// Called before copying. Return false when copying should be cancelled.
-		// The edit mode should mark all vertices, lines and sectors
-		// that need to be copied.
-		public virtual bool OnCopyBegin() { return false; }
+        // Mode engages
+        public virtual void OnEngage()
+        {
+            // Bind any methods
+            General.Actions.BindMethods(this);
 
-		// Called when the marked geometry has been copied.
-		public virtual void OnCopyEnd() { }
-		
-		// Called before pasting. Override this and return true to indicate that paste is allowed to contiue.
-		public virtual bool OnPasteBegin(PasteOptions options) { return false; }
+            //mxd. Show hints for this mode
+            General.Hints.ShowHints(this.GetType(), HintsManager.GENERAL);
 
-		// Called after new geometry has been pasted in. The new geometry is marked.
-		public virtual void OnPasteEnd(PasteOptions options) { }
-		
-		// Called when undo/redo is used
-		// Return false to cancel undo action
-		public virtual bool OnUndoBegin() { return true; }
-		public virtual bool OnRedoBegin() { return true; }
-		public virtual void OnUndoEnd() { General.Map.Renderer2D.UpdateExtraFloorFlag(); } //mxd
-		public virtual void OnRedoEnd() { General.Map.Renderer2D.UpdateExtraFloorFlag(); } //mxd
-		
-		// Interface events
-		public virtual void OnMouseClick(MouseEventArgs e) { }
-		public virtual void OnMouseDoubleClick(MouseEventArgs e) { }
-		public virtual void OnMouseDown(MouseEventArgs e) { }
-		public virtual void OnMouseEnter(EventArgs e) { }
-		public virtual void OnMouseLeave(EventArgs e) { }
-		public virtual void OnMouseMove(MouseEventArgs e) { }
-		public virtual void OnMouseUp(MouseEventArgs e) { }
-		public virtual void OnKeyDown(KeyEventArgs e) { }
-		public virtual void OnKeyUp(KeyEventArgs e) { }
-		public virtual void OnMouseInput(Vector2D delta) { }
-		
-		// Rendering events
-		public virtual void OnRedrawDisplay() { }
-		public virtual void OnPresentDisplay() { }
+            //mxd. Display new mode name
+            General.Interface.HideInfo();
+        }
 
-		// Processing events
-		public virtual void OnProcess(long deltatime) { }
-		public virtual void OnClockReset() { } //mxd
-		
-		// Generic events
-		public virtual void OnReloadResources() { }
-		public virtual void OnMapSetChangeBegin() { }
-		public virtual void OnMapSetChangeEnd() { }
+        // Mode disengages
+        public virtual void OnDisengage()
+        {
+            // Unbind any methods
+            General.Actions.UnbindMethods(this);
+        }
 
-		//mxd. map testing events
-		public virtual bool OnMapTestBegin(bool testFromCurrentPosition) { return true; } //called before test map is launched. Returns false if map launch is impossible
-		public virtual void OnMapTestEnd(bool testFromCurrentPosition) { } //called after game engine is closed
+        // Called when the user presses F1 for Help
+        public virtual void OnHelp() { }
 
-		// Script events
-		public virtual bool OnScriptRunBegin() { return true; }
-		public virtual void OnScriptRunEnd() { }
+        // This forces the mode to cancel and return to the "parent" mode
+        public virtual void OnCancel() { }
+        public virtual void OnAccept() { }
 
-		// This should be called by global actions (i.e. that are not part of an editing mode) when they changed map elements,
-		// so that the mode can react to it (for example by rebuilding a blockmap)
-		public virtual void OnMapElementsChanged() { }
+        // Called before copying. Return false when copying should be cancelled.
+        // The edit mode should mark all vertices, lines and sectors
+        // that need to be copied.
+        public virtual bool OnCopyBegin() { return false; }
 
-		public virtual bool OnAutoSaveBegin() { return attributes.Volatile ? false : true; } // Called before autosave is done. Returns false if autosave should not be done. By default volatile modes prevent autosave
-		public virtual void OnAutoSaveEnd() { }
-		
-		#endregion
-	}
+        // Called when the marked geometry has been copied.
+        public virtual void OnCopyEnd() { }
+
+        // Called before pasting. Override this and return true to indicate that paste is allowed to contiue.
+        public virtual bool OnPasteBegin(PasteOptions options) { return false; }
+
+        // Called after new geometry has been pasted in. The new geometry is marked.
+        public virtual void OnPasteEnd(PasteOptions options) { }
+
+        // Called when undo/redo is used
+        // Return false to cancel undo action
+        public virtual bool OnUndoBegin() { return true; }
+        public virtual bool OnRedoBegin() { return true; }
+        public virtual void OnUndoEnd() { General.Map.Renderer2D.UpdateExtraFloorFlag(); } //mxd
+        public virtual void OnRedoEnd() { General.Map.Renderer2D.UpdateExtraFloorFlag(); } //mxd
+
+        // Interface events
+        public virtual void OnMouseClick(MouseEventArgs e) { }
+        public virtual void OnMouseDoubleClick(MouseEventArgs e) { }
+        public virtual void OnMouseDown(MouseEventArgs e) { }
+        public virtual void OnMouseEnter(EventArgs e) { }
+        public virtual void OnMouseLeave(EventArgs e) { }
+        public virtual void OnMouseMove(MouseEventArgs e) { }
+        public virtual void OnMouseUp(MouseEventArgs e) { }
+        public virtual void OnKeyDown(KeyEventArgs e) { }
+        public virtual void OnKeyUp(KeyEventArgs e) { }
+        public virtual void OnMouseInput(Vector2D delta) { }
+
+        // Rendering events
+        public virtual void OnRedrawDisplay() { }
+        public virtual void OnPresentDisplay() { }
+
+        // Processing events
+        public virtual void OnProcess(long deltatime) { }
+        public virtual void OnClockReset() { } //mxd
+
+        // Generic events
+        public virtual void OnReloadResources() { }
+        public virtual void OnMapSetChangeBegin() { }
+        public virtual void OnMapSetChangeEnd() { }
+
+        //mxd. map testing events
+        public virtual bool OnMapTestBegin(bool testFromCurrentPosition) { return true; } //called before test map is launched. Returns false if map launch is impossible
+        public virtual void OnMapTestEnd(bool testFromCurrentPosition) { } //called after game engine is closed
+
+        // Script events
+        public virtual bool OnScriptRunBegin() { return true; }
+        public virtual void OnScriptRunEnd() { }
+
+        // This should be called by global actions (i.e. that are not part of an editing mode) when they changed map elements,
+        // so that the mode can react to it (for example by rebuilding a blockmap)
+        public virtual void OnMapElementsChanged() { }
+
+        public virtual bool OnAutoSaveBegin() { return attributes.Volatile ? false : true; } // Called before autosave is done. Returns false if autosave should not be done. By default volatile modes prevent autosave
+        public virtual void OnAutoSaveEnd() { }
+
+        #endregion
+    }
 }

@@ -16,59 +16,59 @@
 
 #region ================== Namespaces
 
-using System.Windows.Forms;
 using CodeImp.DoomBuilder.Config;
+using System.Windows.Forms;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Controls
 {
-	public partial class PasteOptionsControl : UserControl
-	{
-		#region ================== Variables
+    public partial class PasteOptionsControl : UserControl
+    {
+        #region ================== Variables
 
-		#endregion
-		
-		#region ================== Properties
+        #endregion
 
-		#endregion
-		
-		#region ================== Constructor
-		
-		// Constructor
-		public PasteOptionsControl()
-		{
-			InitializeComponent();
-		}
-		
-		#endregion
-		
-		#region ================== Methods
-		
-		// This sets the options from the given PasteOptions
-		public void Setup(PasteOptions options)
-		{
-			// Setup controls
-			keeptags.Checked = (options.ChangeTags == 0);
-			renumbertags.Checked = (options.ChangeTags == 1);
-			removetags.Checked = (options.ChangeTags == 2);
-			removeactions.Checked = options.RemoveActions;
-		}
-		
-		// This returns the options as set by the user
-		public PasteOptions GetOptions()
-		{
-			PasteOptions options = new PasteOptions();
-			
-			// Collect settings
-			if(keeptags.Checked) options.ChangeTags = 0;
-			else if(renumbertags.Checked) options.ChangeTags = 1;
-			else if(removetags.Checked) options.ChangeTags = 2;
-			options.RemoveActions = removeactions.Checked;
-			
-			return options;
-		}
-		
-		#endregion
-	}
+        #region ================== Properties
+
+        #endregion
+
+        #region ================== Constructor
+
+        // Constructor
+        public PasteOptionsControl()
+        {
+            InitializeComponent();
+        }
+
+        #endregion
+
+        #region ================== Methods
+
+        // This sets the options from the given PasteOptions
+        public void Setup(PasteOptions options)
+        {
+            // Setup controls
+            keeptags.Checked = options.ChangeTags == 0;
+            renumbertags.Checked = options.ChangeTags == 1;
+            removetags.Checked = options.ChangeTags == 2;
+            removeactions.Checked = options.RemoveActions;
+        }
+
+        // This returns the options as set by the user
+        public PasteOptions GetOptions()
+        {
+            PasteOptions options = new PasteOptions();
+
+            // Collect settings
+            if (keeptags.Checked) options.ChangeTags = 0;
+            else if (renumbertags.Checked) options.ChangeTags = 1;
+            else if (removetags.Checked) options.ChangeTags = 2;
+            options.RemoveActions = removeactions.Checked;
+
+            return options;
+        }
+
+        #endregion
+    }
 }

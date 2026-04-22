@@ -22,45 +22,45 @@ using System.Drawing;
 
 namespace CodeImp.DoomBuilder.Data
 {
-	public sealed class UnknownImage : ImageData
-	{
-		#region ================== Variables
+    public sealed class UnknownImage : ImageData
+    {
+        #region ================== Variables
 
-		private readonly Bitmap loadbitmap;
-		
-		#endregion
-		
-		#region ================== Constructor / Disposer
+        private readonly Bitmap loadbitmap;
 
-		// Constructor
-		public UnknownImage()
-		{
-			// Initialize
-			this.width = 0;
-			this.height = 0;
-			this.loadbitmap = new Bitmap(Properties.Resources.UnknownImage);
-			SetName("");
-			
-			LoadImageNow();
-		}
+        #endregion
 
-		#endregion
+        #region ================== Constructor / Disposer
 
-		#region ================== Methods
-		
-		// This 'loads' the image
-		protected override LocalLoadResult LocalLoadImage()
-		{
+        // Constructor
+        public UnknownImage()
+        {
+            // Initialize
+            this.width = 0;
+            this.height = 0;
+            this.loadbitmap = new Bitmap(Properties.Resources.UnknownImage);
+            SetName("");
+
+            LoadImageNow();
+        }
+
+        #endregion
+
+        #region ================== Methods
+
+        // This 'loads' the image
+        protected override LocalLoadResult LocalLoadImage()
+        {
             return new LocalLoadResult(new Bitmap(loadbitmap));
         }
 
         // This returns a preview image
         public override Image GetPreview()
-		{
-			// To do: do we actually need a copy here?
-			return new Bitmap(loadbitmap);
-		}
+        {
+            // To do: do we actually need a copy here?
+            return new Bitmap(loadbitmap);
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

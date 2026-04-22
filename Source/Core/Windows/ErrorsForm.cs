@@ -27,161 +27,161 @@ using System.Windows.Forms;
 
 namespace CodeImp.DoomBuilder.Windows
 {
-	public partial class ErrorsForm : DelayedForm
-	{
-		#region ================== Variables
+    public partial class ErrorsForm : DelayedForm
+    {
+        #region ================== Variables
 
-		#endregion
-		
-		#region ================== Constructor / Disposer
+        #endregion
 
-		// Constructor
-		public ErrorsForm()
-		{
-			InitializeComponent();
-			CodeImp.DoomBuilder.General.ApplyDataGridViewFix(grid);
+        #region ================== Constructor / Disposer
 
-			FillList();
-			checkerrors.Start();
-			checkshow.Checked = General.Settings.ShowErrorsWindow;
-			grid.Focus(); //mxd
-		}
+        // Constructor
+        public ErrorsForm()
+        {
+            InitializeComponent();
+            CodeImp.DoomBuilder.General.ApplyDataGridViewFix(grid);
 
-		#endregion
+            FillList();
+            checkerrors.Start();
+            checkshow.Checked = General.Settings.ShowErrorsWindow;
+            grid.Focus(); //mxd
+        }
 
-		#region ================== Methods
+        #endregion
 
-		// This sets up the list
-		private void FillList()
-		{
-			// Fill the list with the items we don't have yet
-			General.ErrorLogger.HasChanged = false;
+        #region ================== Methods
 
-			//mxd. Rewritten to get only the new items from the ErrorLogger
-			int startindex = grid.Rows.Count;
-			IEnumerable<ErrorItem> errors = General.ErrorLogger.GetErrors(startindex);
-			foreach(ErrorItem e in errors)
-			{
-				int index = grid.Rows.Add();
-				DataGridViewRow row = grid.Rows[index];
-				row.Cells[0].Value = e.Icon;
-				row.Cells[0].Style.Alignment = DataGridViewContentAlignment.TopCenter;
-				row.Cells[0].Style.Padding = new Padding(0, 5, 0, 0);
-				row.Cells[1].Value = e.Description;
-				row.Cells[1].Style.WrapMode = DataGridViewTriState.True;
-				row.Cells[1].Tag = e; //mxd
-			}
+        // This sets up the list
+        private void FillList()
+        {
+            // Fill the list with the items we don't have yet
+            General.ErrorLogger.HasChanged = false;
 
-			//mxd
-			clearlist.Enabled = (grid.Rows.Count > 0);
-		}
+            //mxd. Rewritten to get only the new items from the ErrorLogger
+            int startindex = grid.Rows.Count;
+            IEnumerable<ErrorItem> errors = General.ErrorLogger.GetErrors(startindex);
+            foreach (ErrorItem e in errors)
+            {
+                int index = grid.Rows.Add();
+                DataGridViewRow row = grid.Rows[index];
+                row.Cells[0].Value = e.Icon;
+                row.Cells[0].Style.Alignment = DataGridViewContentAlignment.TopCenter;
+                row.Cells[0].Style.Padding = new Padding(0, 5, 0, 0);
+                row.Cells[1].Value = e.Description;
+                row.Cells[1].Style.WrapMode = DataGridViewTriState.True;
+                row.Cells[1].Tag = e; //mxd
+            }
 
-		//mxd
-		private ErrorItem GetErrorItem(int rowindex)
-		{
-			if(grid.Rows.Count == 0 || grid.SelectedRows.Count != 1) return null;
-			DataGridViewRow row = grid.Rows[rowindex];
-			return (row.Cells[1].Tag as ErrorItem);
-		}
+            //mxd
+            clearlist.Enabled = grid.Rows.Count > 0;
+        }
 
-		//mxd
-		private void ShowErrorSource()
-		{
-			if(grid.Rows.Count == 0 || grid.SelectedRows.Count != 1) return;
-			ErrorItem error = GetErrorItem(grid.SelectedRows[0].Index);
-			if(error != null) error.ShowSource();
-		}
+        //mxd
+        private ErrorItem GetErrorItem(int rowindex)
+        {
+            if (grid.Rows.Count == 0 || grid.SelectedRows.Count != 1) return null;
+            DataGridViewRow row = grid.Rows[rowindex];
+            return row.Cells[1].Tag as ErrorItem;
+        }
 
-		#endregion
-		
-		#region ================== Events
+        //mxd
+        private void ShowErrorSource()
+        {
+            if (grid.Rows.Count == 0 || grid.SelectedRows.Count != 1) return;
+            ErrorItem error = GetErrorItem(grid.SelectedRows[0].Index);
+            if (error != null) error.ShowSource();
+        }
 
-		// Close clicked
-		private void close_Click(object sender, EventArgs e)
-		{
-			this.Close();
-		}
+        #endregion
 
-		// Closing
-		private void ErrorsForm_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			checkerrors.Stop();
-			General.Settings.ShowErrorsWindow = checkshow.Checked;
-		}
+        #region ================== Events
 
-		// Checking for more errors
-		private void checkerrors_Tick(object sender, EventArgs e)
-		{
-			// If errors have been added, update the list
-			if(General.ErrorLogger.HasChanged) FillList();
-		}
+        // Close clicked
+        private void close_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
 
-		// This clears all errors
-		private void clearlist_Click(object sender, EventArgs e)
-		{
-			General.ErrorLogger.Clear();
-			grid.Rows.Clear();
+        // Closing
+        private void ErrorsForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            checkerrors.Stop();
+            General.Settings.ShowErrorsWindow = checkshow.Checked;
+        }
 
-			copyselected.Enabled = false; //mxd
-			showsource.Enabled = false; //mxd
-			clearlist.Enabled = false; //mxd
-		}
-		
-		// Copy selection
-		private void copyselected_Click(object sender, EventArgs e)
-		{
-			StringBuilder str = new StringBuilder("");
-			if(grid.SelectedCells.Count > 0)
-			{
-				Clipboard.Clear();
-				foreach(DataGridViewCell c in grid.SelectedCells)
-				{
-					if(c.ValueType != typeof(Image))
-					{
-						if(str.Length > 0) str.Append("\r\n");
-						str.Append(c.Value);
-					}
-				}
+        // Checking for more errors
+        private void checkerrors_Tick(object sender, EventArgs e)
+        {
+            // If errors have been added, update the list
+            if (General.ErrorLogger.HasChanged) FillList();
+        }
 
-				//mxd
-				try { Clipboard.SetDataObject(str.ToString(), true, 5, 200); } 
-				catch(ExternalException) { General.Interface.DisplayStatus(StatusType.Warning, "Failed to perform a Clipboard operation..."); }
-			}
-		}
+        // This clears all errors
+        private void clearlist_Click(object sender, EventArgs e)
+        {
+            General.ErrorLogger.Clear();
+            grid.Rows.Clear();
 
-		//mxd
-		private void showsource_Click(object sender, EventArgs e)
-		{
-			ShowErrorSource();
-		}
+            copyselected.Enabled = false; //mxd
+            showsource.Enabled = false; //mxd
+            clearlist.Enabled = false; //mxd
+        }
 
-		// Help requested
-		private void ErrorsForm_HelpRequested(object sender, HelpEventArgs hlpevent)
-		{
-			General.ShowHelp("w_errorsandwarnings.html");
-			hlpevent.Handled = true;
-		}
+        // Copy selection
+        private void copyselected_Click(object sender, EventArgs e)
+        {
+            StringBuilder str = new StringBuilder("");
+            if (grid.SelectedCells.Count > 0)
+            {
+                Clipboard.Clear();
+                foreach (DataGridViewCell c in grid.SelectedCells)
+                {
+                    if (c.ValueType != typeof(Image))
+                    {
+                        if (str.Length > 0) str.Append("\r\n");
+                        str.Append(c.Value);
+                    }
+                }
 
-		private void ErrorsForm_Shown(object sender, EventArgs e)
-		{
-			if(grid.Rows.Count > 0) grid.Rows[0].Selected = false;
-		}
+                //mxd
+                try { Clipboard.SetDataObject(str.ToString(), true, 5, 200); }
+                catch (ExternalException) { General.Interface.DisplayStatus(StatusType.Warning, "Failed to perform a Clipboard operation..."); }
+            }
+        }
 
-		private void grid_CellContentClick(object sender, DataGridViewCellEventArgs e) 
-		{
-			copyselected.Enabled = true;
+        //mxd
+        private void showsource_Click(object sender, EventArgs e)
+        {
+            ShowErrorSource();
+        }
 
-			//mxd. Can we show error source?
-			ErrorItem error = GetErrorItem(e.RowIndex);
-			showsource.Enabled = (error != null && error.IsShowable);
-		}
+        // Help requested
+        private void ErrorsForm_HelpRequested(object sender, HelpEventArgs hlpevent)
+        {
+            General.ShowHelp("w_errorsandwarnings.html");
+            hlpevent.Handled = true;
+        }
 
-		//mxd
-		private void grid_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
-		{
-			ShowErrorSource();
-		}
+        private void ErrorsForm_Shown(object sender, EventArgs e)
+        {
+            if (grid.Rows.Count > 0) grid.Rows[0].Selected = false;
+        }
 
-		#endregion
-	}
+        private void grid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            copyselected.Enabled = true;
+
+            //mxd. Can we show error source?
+            ErrorItem error = GetErrorItem(e.RowIndex);
+            showsource.Enabled = error != null && error.IsShowable;
+        }
+
+        //mxd
+        private void grid_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            ShowErrorSource();
+        }
+
+        #endregion
+    }
 }

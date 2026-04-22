@@ -23,168 +23,168 @@
 
 #region ================== Namespaces
 
-using System.Collections.Generic;
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
+using System.Collections.Generic;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.ZDoom
 {
-	class IWadInfoParser : ZDTextParser
-	{
-		#region ================== Variables
+    class IWadInfoParser : ZDTextParser
+    {
+        #region ================== Variables
 
-		private List<IWadInfo> iwads;
+        private List<IWadInfo> iwads;
 
-		#endregion
+        #endregion
 
-		#region ================== Properties
+        #region ================== Properties
 
-		internal override ScriptType ScriptType { get { return ScriptType.UNKNOWN; } }
-		public List<IWadInfo> IWads { get { return iwads; } }
+        internal override ScriptType ScriptType { get { return ScriptType.UNKNOWN; } }
+        public List<IWadInfo> IWads { get { return iwads; } }
 
-		#endregion
+        #endregion
 
-		#region ================== Constructors
+        #region ================== Constructors
 
-		public IWadInfoParser()
-		{
-			iwads = new List<IWadInfo>();
+        public IWadInfoParser()
+        {
+            iwads = new List<IWadInfo>();
 
-			whitespace = "\n \t\r\u00A0";
-			specialtokens = ",{}=\n";
-		}
+            whitespace = "\n \t\r\u00A0";
+            specialtokens = ",{}=\n";
+        }
 
-		#endregion
+        #endregion
 
-		#region ================== Methods
+        #region ================== Methods
 
-		/// <summary>
-		/// Parses DECALDEF data
-		/// </summary>
-		/// <param name="data">The data to parse</param>
-		/// <param name="clearerrors">If errors should be cleared</param>
-		/// <returns>true if paring worked, otherwise false</returns>
-		public override bool Parse(TextResourceData data, bool clearerrors)
-		{
-			if (!AddTextResource(data))
-			{
-				if (clearerrors) ClearError();
-				return true;
-			}
+        /// <summary>
+        /// Parses DECALDEF data
+        /// </summary>
+        /// <param name="data">The data to parse</param>
+        /// <param name="clearerrors">If errors should be cleared</param>
+        /// <returns>true if paring worked, otherwise false</returns>
+        public override bool Parse(TextResourceData data, bool clearerrors)
+        {
+            if (!AddTextResource(data))
+            {
+                if (clearerrors) ClearError();
+                return true;
+            }
 
-			// Cannot process?
-			if (!base.Parse(data, clearerrors)) return false;
+            // Cannot process?
+            if (!base.Parse(data, clearerrors)) return false;
 
-			while (SkipWhitespace(true))
-			{
-				string token = ReadToken().ToLowerInvariant();
-				if (string.IsNullOrEmpty(token)) continue;
+            while (SkipWhitespace(true))
+            {
+                string token = ReadToken().ToLowerInvariant();
+                if (string.IsNullOrEmpty(token)) continue;
 
-				switch (token)
-				{
-					case "iwad":
-						ParseIWad();
-						break;
-					default:
-						SkipStructure();
-						break;
-				}
-			}
+                switch (token)
+                {
+                    case "iwad":
+                        ParseIWad();
+                        break;
+                    default:
+                        SkipStructure();
+                        break;
+                }
+            }
 
-			return true;
-		}
+            return true;
+        }
 
-		/// <summary>
-		/// Gets a pair of a key and multiple values.
-		/// The key value pair looks like this:
-		/// key = value1 [, value2 [, value3 [...] ] ]
-		/// The value(s) can also be omitted.
-		/// </summary>
-		/// <param name="key">The key</param>
-		/// <param name="values">The list of values</param>
-		/// <returns>True if a pair could be parsed, false otherwise</returns>
-		private bool GetKeyValuesPair(out string key, out List<string> values)
-		{
+        /// <summary>
+        /// Gets a pair of a key and multiple values.
+        /// The key value pair looks like this:
+        /// key = value1 [, value2 [, value3 [...] ] ]
+        /// The value(s) can also be omitted.
+        /// </summary>
+        /// <param name="key">The key</param>
+        /// <param name="values">The list of values</param>
+        /// <returns>True if a pair could be parsed, false otherwise</returns>
+        private bool GetKeyValuesPair(out string key, out List<string> values)
+        {
 
-			string token;
+            string token;
 
-			values = new List<string>();
+            values = new List<string>();
 
-			SkipWhitespace(true);
-			
-			key = ReadToken().ToLowerInvariant();
+            SkipWhitespace(true);
 
-			SkipWhitespace(false);
+            key = ReadToken().ToLowerInvariant();
 
-			token = ReadToken().ToLowerInvariant();
+            SkipWhitespace(false);
 
-			if(token.Length > 0 && IsWhitespace(token[0]))
-			{
-				// Keys actually don't need a value
-				return true;
-			}
-			if(token != "=")
-			{
-				ReportError("Expected \"=\", but got \"" + token + "\"");
-				return false; 
-			}
+            token = ReadToken().ToLowerInvariant();
 
-			// Get all values
-			do
-			{
-				SkipWhitespace(true);
-				token = ReadToken();
-				values.Add(token);
-			} while (NextTokenIs(",", false));
+            if (token.Length > 0 && IsWhitespace(token[0]))
+            {
+                // Keys actually don't need a value
+                return true;
+            }
+            if (token != "=")
+            {
+                ReportError("Expected \"=\", but got \"" + token + "\"");
+                return false;
+            }
 
-			return true;
-		}
+            // Get all values
+            do
+            {
+                SkipWhitespace(true);
+                token = ReadToken();
+                values.Add(token);
+            } while (NextTokenIs(",", false));
 
-		/// <summary>
-		/// Parses a Iwad block.
-		/// </summary>
-		/// <returns>True if parsing succeeded, false if it didn't</returns>
-		private bool ParseIWad()
-		{
-			if(!NextTokenIs("{", false))
-			{
-				ReportError("Expected opening brace");
-				return false;
-			}
+            return true;
+        }
 
-			IWadInfo iwad = new IWadInfo();
+        /// <summary>
+        /// Parses a Iwad block.
+        /// </summary>
+        /// <returns>True if parsing succeeded, false if it didn't</returns>
+        private bool ParseIWad()
+        {
+            if (!NextTokenIs("{", false))
+            {
+                ReportError("Expected opening brace");
+                return false;
+            }
 
-			while(SkipWhitespace(true))
-			{
-				string key;
-				List<string> values;
+            IWadInfo iwad = new IWadInfo();
 
-				// If we encounter a closing swirly bracke the end of the block is reached
-				if(NextTokenIs("}", false))
-				{
-					iwads.Add(iwad);
-					return true;
-				}
+            while (SkipWhitespace(true))
+            {
+                string key;
+                List<string> values;
 
-				if (!GetKeyValuesPair(out key, out values))
-					return false;
+                // If we encounter a closing swirly bracke the end of the block is reached
+                if (NextTokenIs("}", false))
+                {
+                    iwads.Add(iwad);
+                    return true;
+                }
 
-				switch(key)
-				{
-					case "autoname":
-						if (values.Count == 0)
-							ReportError("'autoname' property has no value");
-						else
-							iwad.AutoName = values[0];
-						break;
-				}
-			}
+                if (!GetKeyValuesPair(out key, out values))
+                    return false;
 
-			return false;
-		}
+                switch (key)
+                {
+                    case "autoname":
+                        if (values.Count == 0)
+                            ReportError("'autoname' property has no value");
+                        else
+                            iwad.AutoName = values[0];
+                        break;
+                }
+            }
 
-		#endregion
-	}
+            return false;
+        }
+
+        #endregion
+    }
 }

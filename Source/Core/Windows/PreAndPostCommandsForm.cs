@@ -23,68 +23,68 @@
 
 #region ================== Namespaces
 
+using CodeImp.DoomBuilder.Config;
 using System;
 using System.Windows.Forms;
-using CodeImp.DoomBuilder.Config;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Windows
 {
-	public partial class PreAndPostCommandsForm : DelayedForm
-	{
-		#region ================== Constructors
+    public partial class PreAndPostCommandsForm : DelayedForm
+    {
+        #region ================== Constructors
 
-		public PreAndPostCommandsForm(ExternalCommandSettings reloadresourceprecommand, ExternalCommandSettings reloadresourcepostcommand, ExternalCommandSettings testprecommand, ExternalCommandSettings testpostcommand)
-		{
-			InitializeComponent();
+        public PreAndPostCommandsForm(ExternalCommandSettings reloadresourceprecommand, ExternalCommandSettings reloadresourcepostcommand, ExternalCommandSettings testprecommand, ExternalCommandSettings testpostcommand)
+        {
+            InitializeComponent();
 
-			reloadpre.Setup(reloadresourceprecommand);
-			reloadpost.Setup(reloadresourcepostcommand);
-			testpre.Setup(testprecommand);
-			testpost.Setup(testpostcommand);
-		}
+            reloadpre.Setup(reloadresourceprecommand);
+            reloadpost.Setup(reloadresourcepostcommand);
+            testpre.Setup(testprecommand);
+            testpost.Setup(testpostcommand);
+        }
 
-		#endregion
+        #endregion
 
-		#region ================== Methods
+        #region ================== Methods
 
-		public ExternalCommandSettings GetReloadResourcePreCommand()
-		{
-			return reloadpre.GetSettings();
-		}
+        public ExternalCommandSettings GetReloadResourcePreCommand()
+        {
+            return reloadpre.GetSettings();
+        }
 
-		public ExternalCommandSettings GetReloadResourcePostCommand()
-		{
-			return reloadpost.GetSettings();
-		}
+        public ExternalCommandSettings GetReloadResourcePostCommand()
+        {
+            return reloadpost.GetSettings();
+        }
 
-		public ExternalCommandSettings GetTestPreCommand()
-		{
-			return testpre.GetSettings();
-		}
+        public ExternalCommandSettings GetTestPreCommand()
+        {
+            return testpre.GetSettings();
+        }
 
-		public ExternalCommandSettings GetTestPostCommand()
-		{
-			return testpost.GetSettings();
-		}
+        public ExternalCommandSettings GetTestPostCommand()
+        {
+            return testpost.GetSettings();
+        }
 
-		#endregion
+        #endregion
 
-		#region ================== Events
+        #region ================== Events
 
-		private void btnCancel_Click(object sender, EventArgs e)
-		{
-			DialogResult = DialogResult.Cancel;
-			Close();
-		}
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Close();
+        }
 
-		private void btnOK_Click(object sender, EventArgs e)
-		{
-			DialogResult = DialogResult.OK;
-			Close();
-		}
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.OK;
+            Close();
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

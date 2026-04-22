@@ -22,7 +22,7 @@ namespace CodeImp.DoomBuilder.ZDoom
                 if ((token == null) ||
                     (token.Type != ZScriptTokenType.Invalid) ||
                     (token.Value == ";") ||
-                    ((outs.Length > 0 && token.Value[0] != outs[0]) && specialinvalid.Contains(token.Value[0])))
+                    (outs.Length > 0 && token.Value[0] != outs[0] && specialinvalid.Contains(token.Value[0])))
                 {
                     if (outs.Length == 0 && (token.Type == ZScriptTokenType.String || token.Type == ZScriptTokenType.Name))
                         return token;
@@ -57,8 +57,8 @@ namespace CodeImp.DoomBuilder.ZDoom
             // todo: parse stuff
             // 
             string[] control_keywords = new string[] { "goto", "loop", "wait", "fail", "stop" };
-			string[] data_types = new string[] { "double", "int", "uint" };
-            
+            string[] data_types = new string[] { "double", "int", "uint" };
+
             while (true)
             {
                 // expect identifier or string.
@@ -108,13 +108,13 @@ namespace CodeImp.DoomBuilder.ZDoom
                         continue;
                     }
 
-					tokenizer.SkipWhitespace(); // Skip whitepace because there might be whitepsace between the state label and the colon. See https://github.com/jewalky/UltimateDoomBuilder/issues/631
-				}
+                    tokenizer.SkipWhitespace(); // Skip whitepace because there might be whitepsace between the state label and the colon. See https://github.com/jewalky/UltimateDoomBuilder/issues/631
+                }
 
                 // make sure it's not a label of the next state. if it is, break out.
                 long cpos2 = stream.Position; // local rewind point
                 ZScriptToken token2 = tokenizer.ExpectToken(ZScriptTokenType.Colon, ZScriptTokenType.Dot);
-                bool nextstate = (token2 != null && token2.IsValid);
+                bool nextstate = token2 != null && token2.IsValid;
                 stream.Position = cpos2; // rewind to before state label read
                 if (nextstate)
                 {
@@ -150,54 +150,54 @@ namespace CodeImp.DoomBuilder.ZDoom
                 token = tokenizer.ExpectToken(ZScriptTokenType.Identifier);
                 if (token != null && token.IsValid)
                 {
-					// Known data type? Then it's hopefully the .min or .max value (like int.min or int.max)
-					if (data_types.Contains(token.Value))
-					{
-						token = tokenizer.ExpectToken(ZScriptTokenType.Dot);
-						if(token == null || !token.IsValid)
-						{
-							parser.ReportError("Expected ., got " + ((Object)token ?? "<null>").ToString());
-							return;
-						}
+                    // Known data type? Then it's hopefully the .min or .max value (like int.min or int.max)
+                    if (data_types.Contains(token.Value))
+                    {
+                        token = tokenizer.ExpectToken(ZScriptTokenType.Dot);
+                        if (token == null || !token.IsValid)
+                        {
+                            parser.ReportError("Expected ., got " + ((Object)token ?? "<null>").ToString());
+                            return;
+                        }
 
-						token = tokenizer.ExpectToken(ZScriptTokenType.Identifier);
-						if (token == null || !token.IsValid)
-						{
-							parser.ReportError("Expected an identifier, got " + ((Object)token ?? "<null>").ToString());
-							return;
-						}
+                        token = tokenizer.ExpectToken(ZScriptTokenType.Identifier);
+                        if (token == null || !token.IsValid)
+                        {
+                            parser.ReportError("Expected an identifier, got " + ((Object)token ?? "<null>").ToString());
+                            return;
+                        }
 
-						if (token.Value == "min")
-						{
-							duration = int.MinValue;
-						}
-						else if (token.Value == "max")
-						{
-							duration = int.MaxValue;
-						}
-						else
-						{
-							parser.ReportError("Expected min or max, got " + ((Object)token ?? "<null>").ToString());
-							return;
-						}
-					}
-					else // No known data type
-					{
-						duration = -1;
-						tokenizer.SkipWhitespace();
-						token = tokenizer.ExpectToken(ZScriptTokenType.OpenParen);
-						if (token != null && token.IsValid)
-						{
-							List<ZScriptToken> tokens = parser.ParseExpression(true);
-							tokenizer.SkipWhitespace();
-							token = tokenizer.ExpectToken(ZScriptTokenType.CloseParen);
-							if (token == null || !token.IsValid)
-							{
-								parser.ReportError("Expected ), got " + ((Object)token ?? "<null>").ToString());
-								return;
-							}
-						}
-					}
+                        if (token.Value == "min")
+                        {
+                            duration = int.MinValue;
+                        }
+                        else if (token.Value == "max")
+                        {
+                            duration = int.MaxValue;
+                        }
+                        else
+                        {
+                            parser.ReportError("Expected min or max, got " + ((Object)token ?? "<null>").ToString());
+                            return;
+                        }
+                    }
+                    else // No known data type
+                    {
+                        duration = -1;
+                        tokenizer.SkipWhitespace();
+                        token = tokenizer.ExpectToken(ZScriptTokenType.OpenParen);
+                        if (token != null && token.IsValid)
+                        {
+                            List<ZScriptToken> tokens = parser.ParseExpression(true);
+                            tokenizer.SkipWhitespace();
+                            token = tokenizer.ExpectToken(ZScriptTokenType.CloseParen);
+                            if (token == null || !token.IsValid)
+                            {
+                                parser.ReportError("Expected ), got " + ((Object)token ?? "<null>").ToString());
+                                return;
+                            }
+                        }
+                    }
                 }
                 else
                 {

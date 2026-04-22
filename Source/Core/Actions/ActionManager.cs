@@ -16,13 +16,13 @@
 
 #region ================== Namespaces
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
 using CodeImp.DoomBuilder.IO;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Windows.Forms;
 
 #endregion
@@ -324,7 +324,7 @@ namespace CodeImp.DoomBuilder.Actions
             MethodInfo[] methods = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
             //foreach (MethodInfo m in methods)
             int methodsCount = methods.Length;
-            for(int i = 0; i < methodsCount; i++)
+            for (int i = 0; i < methodsCount; i++)
             {
                 MethodInfo m = methods[i];
                 // Check if the method has this attribute
@@ -333,7 +333,7 @@ namespace CodeImp.DoomBuilder.Actions
                 // Go for all attributes
                 //foreach (ActionAttribute a in attrs)
                 int attrsCount = attrs.Length;
-                for(int j = 0; j < attrsCount; j++)
+                for (int j = 0; j < attrsCount; j++)
                 {
                     ActionAttribute a = attrs[j];
                     // Create a delegate for this method
@@ -506,9 +506,10 @@ namespace CodeImp.DoomBuilder.Actions
             // Update pressed keys
             if (!repeat) pressedkeys.Add(strippedkey);
 
-			if (key == 0) {
-				return false;
-			}
+            if (key == 0)
+            {
+                return false;
+            }
 
             // Add action to active list
             Action[] acts = GetActionsByKey(key);

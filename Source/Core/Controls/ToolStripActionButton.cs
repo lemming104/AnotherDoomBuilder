@@ -24,71 +24,71 @@
 
 #region ================== Namespaces
 
+using CodeImp.DoomBuilder.Editing;
+using CodeImp.DoomBuilder.Plugins;
 using System;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
-using CodeImp.DoomBuilder.Editing;
-using CodeImp.DoomBuilder.Plugins;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Controls
 {
-	[ToolStripItemDesignerAvailability(ToolStripItemDesignerAvailability.ToolStrip)]
-	public class ToolStripActionButton : ToolStripButton
-	{
-		#region ================== Variables
+    [ToolStripItemDesignerAvailability(ToolStripItemDesignerAvailability.ToolStrip)]
+    public class ToolStripActionButton : ToolStripButton
+    {
+        #region ================== Variables
 
-		private string baseToolTipText;
-		private Assembly parentAssembly;
+        private string baseToolTipText;
+        private Assembly parentAssembly;
 
-		#endregion
+        #endregion
 
-		#region ================== Constructors
+        #region ================== Constructors
 
-		public ToolStripActionButton() : base()
-		{
-			parentAssembly = Assembly.GetCallingAssembly();
-		}
+        public ToolStripActionButton() : base()
+        {
+            parentAssembly = Assembly.GetCallingAssembly();
+        }
 
-		public ToolStripActionButton(string text) : base(text)
-		{
-			parentAssembly = Assembly.GetCallingAssembly();
-		}
+        public ToolStripActionButton(string text) : base(text)
+        {
+            parentAssembly = Assembly.GetCallingAssembly();
+        }
 
-		public ToolStripActionButton(string text, Image image) : base(text, image)
-		{
-			parentAssembly = Assembly.GetCallingAssembly();
-		}
+        public ToolStripActionButton(string text, Image image) : base(text, image)
+        {
+            parentAssembly = Assembly.GetCallingAssembly();
+        }
 
-		public ToolStripActionButton(string text, Image image, EventHandler onClick) : base(text, image, onClick)
-		{
-			parentAssembly = Assembly.GetCallingAssembly();
-		}
+        public ToolStripActionButton(string text, Image image, EventHandler onClick) : base(text, image, onClick)
+        {
+            parentAssembly = Assembly.GetCallingAssembly();
+        }
 
-		public ToolStripActionButton(string text, Image image, EventHandler onClick, string name) : base(text, image, onClick, name)
-		{
-			parentAssembly = Assembly.GetCallingAssembly();
-		}
+        public ToolStripActionButton(string text, Image image, EventHandler onClick, string name) : base(text, image, onClick, name)
+        {
+            parentAssembly = Assembly.GetCallingAssembly();
+        }
 
-		#endregion
+        #endregion
 
-		#region ================== Methods
+        #region ================== Methods
 
-		/// <summary>
-		/// Updates the tooltip of the button with its action shortcut key description. This has to be called after the button was added to the MainForm unless the tag contains the full action name (including the assembly).
-		/// </summary>
-		public void UpdateToolTip()
-		{
-			string actionName = string.Empty;
+        /// <summary>
+        /// Updates the tooltip of the button with its action shortcut key description. This has to be called after the button was added to the MainForm unless the tag contains the full action name (including the assembly).
+        /// </summary>
+        public void UpdateToolTip()
+        {
+            string actionName = string.Empty;
 
-			// The shotcut key can change at runtime, so we need to remember the original tooltip without the shotcut key
-			if (string.IsNullOrWhiteSpace(baseToolTipText))
-			{
+            // The shotcut key can change at runtime, so we need to remember the original tooltip without the shotcut key
+            if (string.IsNullOrWhiteSpace(baseToolTipText))
+            {
 #if !MONO_WINFORMS
-				baseToolTipText = ToolTipText;
+                baseToolTipText = ToolTipText;
 #else
 				// Mono fix. ToolTipText is empty when AutoToolTip is set to true.
 				if (string.IsNullOrWhiteSpace(ToolTipText))
@@ -96,48 +96,48 @@ namespace CodeImp.DoomBuilder.Controls
 				else
 					baseToolTipText = ToolTipText;
 #endif
-			}
+            }
 
-			// Try to figure out what's the real action name is. The action name can either be directly stored in the Tag, or
-			// (in case it's a button for edit modes) can be extracted from the EditModeInfo, which is also stored in the Tag.
-			if (Tag is string)
-			{
-				actionName = (string)Tag;
+            // Try to figure out what's the real action name is. The action name can either be directly stored in the Tag, or
+            // (in case it's a button for edit modes) can be extracted from the EditModeInfo, which is also stored in the Tag.
+            if (Tag is string)
+            {
+                actionName = (string)Tag;
 
-				// If it's not a known action we might be missing the plugin name as a prefix, so try to add it. This only works
-				// if this method is called directly from the plugin!
-				if (!General.Actions.Exists(actionName))
-				{
-					Plugin plugin = General.Plugins.FindPluginByAssembly(parentAssembly);
+                // If it's not a known action we might be missing the plugin name as a prefix, so try to add it. This only works
+                // if this method is called directly from the plugin!
+                if (!General.Actions.Exists(actionName))
+                {
+                    Plugin plugin = General.Plugins.FindPluginByAssembly(parentAssembly);
 
-					if (plugin != null)
-						actionName = plugin.Name.ToLowerInvariant() + "_" + actionName;
-				}
-			}
-			else if (Tag is EditModeInfo modeInfo) // It's a mode button
-			{
-				actionName = modeInfo.SwitchAction.ActionName;
+                    if (plugin != null)
+                        actionName = plugin.Name.ToLowerInvariant() + "_" + actionName;
+                }
+            }
+            else if (Tag is EditModeInfo modeInfo) // It's a mode button
+            {
+                actionName = modeInfo.SwitchAction.ActionName;
 
-				// If it's not a known action we might be missing the plugin name as a prefix, so add it from the mode's plugin
-				if (!General.Actions.Exists(actionName))
-					actionName = General.Plugins.FindPluginByAssembly(modeInfo.Plugin.Assembly).Name.ToLowerInvariant() + "_" + actionName;
-			}
+                // If it's not a known action we might be missing the plugin name as a prefix, so add it from the mode's plugin
+                if (!General.Actions.Exists(actionName))
+                    actionName = General.Plugins.FindPluginByAssembly(modeInfo.Plugin.Assembly).Name.ToLowerInvariant() + "_" + actionName;
+            }
 
-			// Only try to add the shortcut key if the action is valid
-			if (!string.IsNullOrWhiteSpace(actionName) && General.Actions.Exists(actionName))
-			{
-				Actions.Action action = General.Actions.GetActionByName(actionName);
-				string shortcutKey = Actions.Action.GetShortcutKeyDesc(action.ShortcutKey);
+            // Only try to add the shortcut key if the action is valid
+            if (!string.IsNullOrWhiteSpace(actionName) && General.Actions.Exists(actionName))
+            {
+                Actions.Action action = General.Actions.GetActionByName(actionName);
+                string shortcutKey = Actions.Action.GetShortcutKeyDesc(action.ShortcutKey);
 
-				if (string.IsNullOrWhiteSpace(shortcutKey))
-					ToolTipText = baseToolTipText;
-				else
-					ToolTipText = $"{baseToolTipText} ({shortcutKey})";
-			}
-			else
-				ToolTipText = baseToolTipText;
-		}
+                if (string.IsNullOrWhiteSpace(shortcutKey))
+                    ToolTipText = baseToolTipText;
+                else
+                    ToolTipText = $"{baseToolTipText} ({shortcutKey})";
+            }
+            else
+                ToolTipText = baseToolTipText;
+        }
 
-#endregion
-	}
+        #endregion
+    }
 }

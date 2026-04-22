@@ -16,127 +16,127 @@
 
 #region ================== Namespaces
 
-using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
+using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
-using CodeImp.DoomBuilder.Config;
 using System.Linq;
+using System.Windows.Forms;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
-	[FindReplace("Thing Type", BrowseButton = true)]
-	internal class FindThingType : BaseFindThing
-	{
-		#region ================== Constants
+    [FindReplace("Thing Type", BrowseButton = true)]
+    internal class FindThingType : BaseFindThing
+    {
+        #region ================== Constants
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		#endregion
+        #endregion
 
-		#region ================== Properties
+        #region ================== Properties
 
-		public override Presentation RenderPresentation { get { return Presentation.Things; } }
-		public override Image BrowseImage { get { return Properties.Resources.List; } }
-		
-		#endregion
+        public override Presentation RenderPresentation { get { return Presentation.Things; } }
+        public override Image BrowseImage { get { return Properties.Resources.List; } }
 
-		#region ================== Constructor / Destructor
+        #endregion
 
-		#endregion
+        #region ================== Constructor / Destructor
 
-		#region ================== Methods
+        #endregion
 
-		// This is called when the browse button is pressed
-		public override string Browse(string initialvalue)
-		{
-			// jaeden: enabled multiselect for thing type find
-			int[] types;
-			types = ParseTypes(initialvalue);
-			types = Windows.ThingMultipleBrowserForm.BrowseThings(BuilderPlug.Me.FindReplaceForm, types);
-			return TypesToString(types);
-		}
+        #region ================== Methods
 
-		// Converts array of thing type numbers to a string
-		private string TypesToString(int[] types)
-		{
-			return string.Join(",", types);
-		}
+        // This is called when the browse button is pressed
+        public override string Browse(string initialvalue)
+        {
+            // jaeden: enabled multiselect for thing type find
+            int[] types;
+            types = ParseTypes(initialvalue);
+            types = Windows.ThingMultipleBrowserForm.BrowseThings(BuilderPlug.Me.FindReplaceForm, types);
+            return TypesToString(types);
+        }
 
-		// Converts string of thing type numbers to number array
-		private int[] ParseTypes(string typestring)
-		{
-			string[] typestrings = typestring.Split(',');
+        // Converts array of thing type numbers to a string
+        private string TypesToString(int[] types)
+        {
+            return string.Join(",", types);
+        }
 
-			List<int> types = new List<int>();
-			foreach (var ts in typestrings)
-			{
-				string trimmed = ts.Trim();
-				if (trimmed.Length == 0)
-					continue;
+        // Converts string of thing type numbers to number array
+        private int[] ParseTypes(string typestring)
+        {
+            string[] typestrings = typestring.Split(',');
 
-				if (int.TryParse(trimmed, out int parsed))
-					types.Add(parsed);
-				else
-					return Array.Empty<int>();
-			}
-			return types.ToArray();
-		}
+            List<int> types = new List<int>();
+            foreach (var ts in typestrings)
+            {
+                string trimmed = ts.Trim();
+                if (trimmed.Length == 0)
+                    continue;
 
-		// This is called to perform a search (and replace)
-		// Returns a list of items to show in the results list
-		// replacewith is null when not replacing
-		public override FindReplaceObject[] Find(string value, bool withinselection, bool replace, string replacewith, bool keepselection)
-		{
-			List<FindReplaceObject> objs = new List<FindReplaceObject>();
+                if (int.TryParse(trimmed, out int parsed))
+                    types.Add(parsed);
+                else
+                    return Array.Empty<int>();
+            }
+            return types.ToArray();
+        }
 
-			// Interpret the replacement
-			int[] replacetypes = ParseTypes(replacewith);
-			if(replace)
-			{
-				if (replacetypes.Length == 0 || replacetypes.Any(rt => rt < General.Map.FormatInterface.MinThingType || rt > General.Map.FormatInterface.MaxThingType))
-				{
-					MessageBox.Show("Invalid replace value for this search type!", "Find and Replace", MessageBoxButtons.OK, MessageBoxIcon.Error);
-					return objs.ToArray();
-				}
-			}
+        // This is called to perform a search (and replace)
+        // Returns a list of items to show in the results list
+        // replacewith is null when not replacing
+        public override FindReplaceObject[] Find(string value, bool withinselection, bool replace, string replacewith, bool keepselection)
+        {
+            List<FindReplaceObject> objs = new List<FindReplaceObject>();
 
-			// Interpret the values to find
-			HashSet<int> valuestofind = ParseTypes(value).ToHashSet();
-			if (valuestofind.Count > 0)
-			{
-				// Where to search?
-				ICollection<Thing> list = withinselection ? General.Map.Map.GetSelectedThings(true) : General.Map.Map.Things;
+            // Interpret the replacement
+            int[] replacetypes = ParseTypes(replacewith);
+            if (replace)
+            {
+                if (replacetypes.Length == 0 || replacetypes.Any(rt => rt < General.Map.FormatInterface.MinThingType || rt > General.Map.FormatInterface.MaxThingType))
+                {
+                    MessageBox.Show("Invalid replace value for this search type!", "Find and Replace", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return objs.ToArray();
+                }
+            }
 
-				// Go for all things
-				foreach(Thing t in list)
-				{
-					// Match?
-					if(valuestofind.Contains(t.Type))
-					{
-						// Replace
-						if(replace && replacetypes.Length > 0)
-						{
-							t.Type = replacetypes[General.Random(0, replacetypes.Length - 1)];
-							t.UpdateConfiguration();
-						}
-						
-						// Add to list
-						ThingTypeInfo ti = General.Map.Data.GetThingInfo(t.Type);
-						objs.Add(new FindReplaceObject(t, "Thing " + t.Index + " (" + ti.Title + ")"));
-					}
-				}
-			}
-			
-			return objs.ToArray();
-		}
+            // Interpret the values to find
+            HashSet<int> valuestofind = ParseTypes(value).ToHashSet();
+            if (valuestofind.Count > 0)
+            {
+                // Where to search?
+                ICollection<Thing> list = withinselection ? General.Map.Map.GetSelectedThings(true) : General.Map.Map.Things;
 
-		#endregion
-	}
+                // Go for all things
+                foreach (Thing t in list)
+                {
+                    // Match?
+                    if (valuestofind.Contains(t.Type))
+                    {
+                        // Replace
+                        if (replace && replacetypes.Length > 0)
+                        {
+                            t.Type = replacetypes[General.Random(0, replacetypes.Length - 1)];
+                            t.UpdateConfiguration();
+                        }
+
+                        // Add to list
+                        ThingTypeInfo ti = General.Map.Data.GetThingInfo(t.Type);
+                        objs.Add(new FindReplaceObject(t, "Thing " + t.Index + " (" + ti.Title + ")"));
+                    }
+                }
+            }
+
+            return objs.ToArray();
+        }
+
+        #endregion
+    }
 }

@@ -234,7 +234,7 @@ namespace CodeImp.DoomBuilder.Controls
                     if (n_id_lo >= 0)
                         n_id = n_id.Substring(0, n_id_lo);
                     ofd.InitialDirectory = n_id;
-                    ofd.FileName = value.Substring(n_id_lo+1);
+                    ofd.FileName = value.Substring(n_id_lo + 1);
                 }
                 else
                 {

@@ -16,155 +16,155 @@
 
 #region ================== Namespaces
 
-using System;
-using System.Collections.Generic;
+using CodeImp.DoomBuilder.Editing;
+using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
-using CodeImp.DoomBuilder.Geometry;
-using CodeImp.DoomBuilder.Editing;
+using System;
+using System.Collections.Generic;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
-	// No action or button for this mode, it is automatic.
-	// The EditMode attribute does not have to be specified unless the
-	// mode must be activated by class name rather than direct instance.
-	// In that case, just specifying the attribute like this is enough:
-	// [EditMode]
+    // No action or button for this mode, it is automatic.
+    // The EditMode attribute does not have to be specified unless the
+    // mode must be activated by class name rather than direct instance.
+    // In that case, just specifying the attribute like this is enough:
+    // [EditMode]
 
-	[EditMode(DisplayName = "Linedefs",
-			  AllowCopyPaste = false,
-			  Volatile = true)]
-	
-	public sealed class DragLinedefsMode : DragGeometryMode
-	{
-		#region ================== Constants
+    [EditMode(DisplayName = "Linedefs",
+              AllowCopyPaste = false,
+              Volatile = true)]
 
-		#endregion
+    public sealed class DragLinedefsMode : DragGeometryMode
+    {
+        #region ================== Constants
 
-		#region ================== Variables
+        #endregion
 
-		private ICollection<Linedef> draglines;
-		private ICollection<Linedef> unmovinglines;
+        #region ================== Variables
 
-		#endregion
+        private ICollection<Linedef> draglines;
+        private ICollection<Linedef> unmovinglines;
 
-		#region ================== Properties
-		
-		#endregion
+        #endregion
 
-		#region ================== Constructor / Disposer
+        #region ================== Properties
 
-		// Constructor to start dragging immediately
-		public DragLinedefsMode(Vector2D dragstartmappos, ICollection<Linedef> lines)
-		{
-			// Mark what we are dragging
-			General.Map.Map.ClearAllMarks(false);
+        #endregion
 
-			draglines = new List<Linedef>(lines.Count);
-			foreach(Linedef ld in lines)
-			{
-				ld.Marked = true;
-				draglines.Add(ld);
-			}
+        #region ================== Constructor / Disposer
 
-			ICollection<Vertex> verts = General.Map.Map.GetVerticesFromLinesMarks(true);
-			foreach (Vertex v in verts) v.Marked = true;
+        // Constructor to start dragging immediately
+        public DragLinedefsMode(Vector2D dragstartmappos, ICollection<Linedef> lines)
+        {
+            // Mark what we are dragging
+            General.Map.Map.ClearAllMarks(false);
 
-			// Get line collections
-			unmovinglines = General.Map.Map.GetSelectedLinedefs(false);
+            draglines = new List<Linedef>(lines.Count);
+            foreach (Linedef ld in lines)
+            {
+                ld.Marked = true;
+                draglines.Add(ld);
+            }
 
-			// Initialize
-			base.StartDrag(dragstartmappos);
-			undodescription = (draglines.Count == 1 ? "Drag linedef" : "Drag " + draglines.Count + " linedefs"); //mxd
-			
-			// We have no destructor
-			GC.SuppressFinalize(this);
-		}
+            ICollection<Vertex> verts = General.Map.Map.GetVerticesFromLinesMarks(true);
+            foreach (Vertex v in verts) v.Marked = true;
 
-		// Disposer
-		public override void Dispose()
-		{
-			// Not already disposed?
-			if(!isdisposed)
-			{
-				// Clean up
+            // Get line collections
+            unmovinglines = General.Map.Map.GetSelectedLinedefs(false);
 
-				// Done
-				base.Dispose();
-			}
-		}
+            // Initialize
+            base.StartDrag(dragstartmappos);
+            undodescription = draglines.Count == 1 ? "Drag linedef" : "Drag " + draglines.Count + " linedefs"; //mxd
 
-		#endregion
+            // We have no destructor
+            GC.SuppressFinalize(this);
+        }
 
-		#region ================== Methods
-		
-		// This redraws the display
-		public override void OnRedrawDisplay()
-		{
-			renderer.RedrawSurface();
+        // Disposer
+        public override void Dispose()
+        {
+            // Not already disposed?
+            if (!isdisposed)
+            {
+                // Clean up
 
-			UpdateRedraw();
+                // Done
+                base.Dispose();
+            }
+        }
 
-			if(CheckViewChanged())
-			{
-				// Start rendering things
-				if(renderer.StartThings(true))
-				{
-					renderer.RenderThingSet(General.Map.Map.Things, General.Settings.ActiveThingsAlpha);
-					renderer.Finish();
-				}
-			}
+        #endregion
 
-			renderer.Present();
-		}
+        #region ================== Methods
 
-		// This redraws only the required things
-		protected override void UpdateRedraw()
-		{
-			// Start rendering structure
-			if(renderer.StartPlotter(true))
-			{
-				// Render lines and vertices
-				renderer.PlotLinedefSet(unmovinglines);
+        // This redraws the display
+        public override void OnRedrawDisplay()
+        {
+            renderer.RedrawSurface();
 
-				foreach (Linedef ld in draglines)
-				{
-					if (ld.Selected)
-						renderer.PlotLinedef(ld, General.Colors.Selection);
-					else
-						renderer.PlotLinedef(ld, General.Colors.Highlight);
-				}
+            UpdateRedraw();
 
-				renderer.PlotVerticesSet(General.Map.Map.Vertices);
+            if (CheckViewChanged())
+            {
+                // Start rendering things
+                if (renderer.StartThings(true))
+                {
+                    renderer.RenderThingSet(General.Map.Map.Things, General.Settings.ActiveThingsAlpha);
+                    renderer.Finish();
+                }
+            }
 
-				// Draw the dragged item highlighted
-				// This is important to know, because this item is used
-				// for snapping to the grid and snapping to nearest items
-				renderer.PlotVertex(dragitem, ColorCollection.HIGHLIGHT);
+            renderer.Present();
+        }
 
-				// Done
-				renderer.Finish();
-			}
+        // This redraws only the required things
+        protected override void UpdateRedraw()
+        {
+            // Start rendering structure
+            if (renderer.StartPlotter(true))
+            {
+                // Render lines and vertices
+                renderer.PlotLinedefSet(unmovinglines);
 
-			//mxd. Render things
-			if(renderer.StartThings(true)) 
-			{
-				renderer.RenderThingSet(General.Map.ThingsFilter.HiddenThings, General.Settings.HiddenThingsAlpha);
-				renderer.RenderThingSet(unselectedthings, General.Settings.ActiveThingsAlpha);
-				renderer.RenderThingSet(selectedthings, General.Settings.ActiveThingsAlpha);
-				renderer.Finish();
-			}
+                foreach (Linedef ld in draglines)
+                {
+                    if (ld.Selected)
+                        renderer.PlotLinedef(ld, General.Colors.Selection);
+                    else
+                        renderer.PlotLinedef(ld, General.Colors.Highlight);
+                }
 
-			// Redraw overlay
-			if(renderer.StartOverlay(true))
-			{
-				renderer.RenderText(labels);
-				renderer.Finish();
-			}
-		}
-		
-		#endregion
-	}
+                renderer.PlotVerticesSet(General.Map.Map.Vertices);
+
+                // Draw the dragged item highlighted
+                // This is important to know, because this item is used
+                // for snapping to the grid and snapping to nearest items
+                renderer.PlotVertex(dragitem, ColorCollection.HIGHLIGHT);
+
+                // Done
+                renderer.Finish();
+            }
+
+            //mxd. Render things
+            if (renderer.StartThings(true))
+            {
+                renderer.RenderThingSet(General.Map.ThingsFilter.HiddenThings, General.Settings.HiddenThingsAlpha);
+                renderer.RenderThingSet(unselectedthings, General.Settings.ActiveThingsAlpha);
+                renderer.RenderThingSet(selectedthings, General.Settings.ActiveThingsAlpha);
+                renderer.Finish();
+            }
+
+            // Redraw overlay
+            if (renderer.StartOverlay(true))
+            {
+                renderer.RenderText(labels);
+                renderer.Finish();
+            }
+        }
+
+        #endregion
+    }
 }

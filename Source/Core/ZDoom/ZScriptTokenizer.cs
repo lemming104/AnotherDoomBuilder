@@ -102,7 +102,7 @@ namespace CodeImp.DoomBuilder.ZDoom
         public ZScriptToken()
         {
             IsValid = true;
-			WarningMessage = String.Empty;
+            WarningMessage = String.Empty;
         }
 
         public ZScriptToken(ZScriptToken other)
@@ -121,7 +121,7 @@ namespace CodeImp.DoomBuilder.ZDoom
         public int ValueInt { get; internal set; }
         public double ValueDouble { get; internal set; }
         public bool IsValid { get; internal set; }
-		public string WarningMessage { get; internal set; }
+        public string WarningMessage { get; internal set; }
         public long Position { get; internal set; }
 
         public override string ToString()
@@ -192,7 +192,7 @@ namespace CodeImp.DoomBuilder.ZDoom
         {
             for (int i = 0; i < LinePositions.Count; i++)
                 if (pos <= LinePositions[i])
-                    return i+1;
+                    return i + 1;
             return LinePositions.Count;
         }
 
@@ -331,7 +331,7 @@ namespace CodeImp.DoomBuilder.ZDoom
             if ((c >= '0' && c <= '9') || c == '.')
             {
                 bool isint = true;
-                bool isdouble = (c == '.');
+                bool isdouble = c == '.';
                 bool isexponent = false;
                 if (isdouble) // make sure next character is an integer, otherwise its probably a member access
                 {
@@ -345,7 +345,7 @@ namespace CodeImp.DoomBuilder.ZDoom
 
                 if (isint)
                 {
-                    bool isoctal = (c == '0');
+                    bool isoctal = c == '0';
                     bool ishex = false;
                     SB.Length = 0;
                     SB.Append(c);
@@ -403,7 +403,7 @@ namespace CodeImp.DoomBuilder.ZDoom
 
                     ZScriptToken tok = new ZScriptToken();
                     tok.Position = cpos;
-                    tok.Type = (isdouble ? ZScriptTokenType.Double : ZScriptTokenType.Integer);
+                    tok.Type = isdouble ? ZScriptTokenType.Double : ZScriptTokenType.Integer;
                     tok.Value = SB.ToString();
                     try
                     {
@@ -422,31 +422,31 @@ namespace CodeImp.DoomBuilder.ZDoom
                             tok.ValueInt = (int)tok.ValueDouble;
                         }
                     }
-					catch (OverflowException) // biwa. If the value is too small or too big set it to the min or max, and set a warning message
-					{
-						tok.WarningMessage = "Number " + tok.Value + " too " + (tok.Value[0] == '-' ? "small" : "big") + ". Set to ";
+                    catch (OverflowException) // biwa. If the value is too small or too big set it to the min or max, and set a warning message
+                    {
+                        tok.WarningMessage = "Number " + tok.Value + " too " + (tok.Value[0] == '-' ? "small" : "big") + ". Set to ";
 
-						if (ishex || isoctal || !isdouble)
-						{
-							if (tok.Value[0] == '-')
-								tok.ValueInt = Int32.MinValue;
-							else
-								tok.ValueInt = Int32.MaxValue;
+                        if (ishex || isoctal || !isdouble)
+                        {
+                            if (tok.Value[0] == '-')
+                                tok.ValueInt = Int32.MinValue;
+                            else
+                                tok.ValueInt = Int32.MaxValue;
 
-							tok.ValueDouble = tok.ValueInt;
-							tok.WarningMessage += tok.ValueInt;
-						}
-						else if (isdouble)
-						{
-							if (tok.Value[0] == '-')
-								tok.ValueDouble = Double.MinValue;
-							else
-								tok.ValueDouble = Double.MaxValue;
+                            tok.ValueDouble = tok.ValueInt;
+                            tok.WarningMessage += tok.ValueInt;
+                        }
+                        else if (isdouble)
+                        {
+                            if (tok.Value[0] == '-')
+                                tok.ValueDouble = Double.MinValue;
+                            else
+                                tok.ValueDouble = Double.MaxValue;
 
-							tok.ValueInt = (int)tok.ValueDouble;
-							tok.WarningMessage += tok.ValueDouble;
-						}
-					}
+                            tok.ValueInt = (int)tok.ValueDouble;
+                            tok.WarningMessage += tok.ValueDouble;
+                        }
+                    }
                     catch (Exception)
                     {
                         reader.BaseStream.Position = cpos;
@@ -563,18 +563,18 @@ namespace CodeImp.DoomBuilder.ZDoom
                         while (true)
                         {
                             try
-							{
+                            {
                                 cnext = reader.ReadChar();
-							}
-                            catch(EndOfStreamException)
-							{
+                            }
+                            catch (EndOfStreamException)
+                            {
                                 break;
-							}
-                            if(cnext == '\n')
-							{
+                            }
+                            if (cnext == '\n')
+                            {
                                 reader.BaseStream.Position--;
                                 break;
-							}
+                            }
 
                             SB.Append(cnext);
                         }
@@ -592,7 +592,7 @@ namespace CodeImp.DoomBuilder.ZDoom
                 case '\'':
                     {
                         if ((c == '"' && !allowstring) || (c == '\'' && !allowname)) break;
-                        ZScriptTokenType type = (c == '"' ? ZScriptTokenType.String : ZScriptTokenType.Name);
+                        ZScriptTokenType type = c == '"' ? ZScriptTokenType.String : ZScriptTokenType.Name;
                         SB.Length = 0;
                         while (true)
                         {
@@ -614,7 +614,8 @@ namespace CodeImp.DoomBuilder.ZDoom
                                     return tok;
                                 }
                                 else SB.Append(cnext);
-                            } catch (EndOfStreamException)
+                            }
+                            catch (EndOfStreamException)
                             {
                                 reader.BaseStream.Position = cpos;
                                 return null; // bad string, unterminated and ends with EOF

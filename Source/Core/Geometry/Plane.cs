@@ -22,185 +22,185 @@ using System;
 
 namespace CodeImp.DoomBuilder.Geometry
 {
-	public struct Plane
-	{
-		#region ================== Constants
-		
-		#endregion
-		
-		#region ================== Variables
-		
-		//
-		// Plane definition:
-		// A * x + B * y + C * z + D = 0
-		//
-		// A, B, C is the normal
-		// D is the offset along the normal (negative)
-		//
-		private Vector3D normal;
-		private double offset;
-		
-		#endregion
-		
-		#region ================== Properties
-		
-		public Vector3D Normal { get { return normal; } }
-		public double Offset { get { return offset; } set { offset = value; } }
-		public double a { get { return normal.x; } }
-		public double b { get { return normal.y; } }
-		public double c { get { return normal.z; } }
-		public double d { get { return offset; } set { offset = value; } }
-		
-		#endregion
-		
-		#region ================== Constructors
-		
-		/// <summary></summary>
-		public Plane(Vector3D normal, double offset)
-		{
-			#if DEBUG
-				if(!normal.IsNormalized())
-					throw new NotSupportedException("Attempt to create a plane with a vector that is not normalized!"); // General.Fail("Attempt to create a plane with a vector that is not normalized!");
-			#endif
-			this.normal = normal;
-			this.offset = offset;
-		}
+    public struct Plane
+    {
+        #region ================== Constants
 
-		/// <summary></summary>
-		public Plane(Vector3D normal, Vector3D position)
-		{
-			#if DEBUG
-				if(!normal.IsNormalized())
-					throw new NotSupportedException("Attempt to create a plane with a vector that is not normalized!"); //General.Fail("Attempt to create a plane with a vector that is not normalized!");
-			#endif
-			this.normal = normal;
-			this.offset = -Vector3D.DotProduct(normal, position);
-		}
+        #endregion
 
-		/// <summary></summary>
-		public Plane(Vector3D p1, Vector3D p2, Vector3D p3, bool up)
-		{
-			this.normal = Vector3D.CrossProduct(p2 - p1, p3 - p1).GetNormal();
-			
-			if((up && (this.normal.z < 0.0f)) || (!up && (this.normal.z > 0.0f)))
-				this.normal = -this.normal;
-			
-			this.offset = -Vector3D.DotProduct(normal, p3);
-		}
+        #region ================== Variables
 
-		/// <summary></summary>
-		public Plane(Vector3D center, double anglexy, double anglez, bool up) //mxd
-		{
-			Vector2D point = new Vector2D(center.x + Math.Cos(anglexy) * Math.Sin(anglez), center.y + Math.Sin(anglexy) * Math.Sin(anglez));
-			Vector2D perpendicular = new Line2D(center, point).GetPerpendicular();
+        //
+        // Plane definition:
+        // A * x + B * y + C * z + D = 0
+        //
+        // A, B, C is the normal
+        // D is the offset along the normal (negative)
+        //
+        private Vector3D normal;
+        private double offset;
 
-			Vector3D p2 = new Vector3D(point.x + perpendicular.x, point.y + perpendicular.y, center.z + Math.Cos(anglez));
-			Vector3D p3 = new Vector3D(point.x - perpendicular.x, point.y - perpendicular.y, center.z + Math.Cos(anglez));
+        #endregion
 
-			this.normal = Vector3D.CrossProduct(p2 - center, p3 - center).GetNormal();
+        #region ================== Properties
 
-			if((up && (this.normal.z < 0.0f)) || (!up && (this.normal.z > 0.0f)))
-				this.normal = -this.normal;
+        public Vector3D Normal { get { return normal; } }
+        public double Offset { get { return offset; } set { offset = value; } }
+        public double a { get { return normal.x; } }
+        public double b { get { return normal.y; } }
+        public double c { get { return normal.z; } }
+        public double d { get { return offset; } set { offset = value; } }
 
-			this.offset = -Vector3D.DotProduct(normal, p3);
-		}
-		
-		#endregion
-		
-		#region ================== Methods
-		
-		/// <summary>
-		/// This tests for intersection with a line.
-		/// See http://local.wasp.uwa.edu.au/~pbourke/geometry/planeline/
-		/// </summary>
-		public bool GetIntersection(Vector3D from, Vector3D to, ref double u_ray)
-		{
-			double w = Vector3D.DotProduct(normal, from - to);
-			if(w != 0.0f)
-			{
-				double v = Vector3D.DotProduct(normal, from);
-				u_ray = (offset + v) / w;
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-		
-		/// <summary>
-		/// This returns the smallest distance to the plane and the side on which the point lies.
-		/// Greater than 0 means the point lies on the front of the plane
-		/// Less than 0 means the point lies behind the plane
-		/// See http://mathworld.wolfram.com/Point-PlaneDistance.html
-		/// </summary>
-		public double Distance(Vector3D p)
-		{
-			return Vector3D.DotProduct(normal, p) + offset;
-		}
-		
-		/// <summary>
-		/// This returns a point on the plane closest to the given point
-		/// </summary>
-		public Vector3D ClosestOnPlane(Vector3D p)
-		{
-			return p - normal * this.Distance(p);
-		}
+        #endregion
 
-		/// <summary>
-		/// This returns Z on the plane at X, Y
-		/// </summary>
-		public double GetZ(Vector2D pos)
-		{
-			return (-offset - Vector2D.DotProduct(normal, pos)) / normal.z;
-		}
+        #region ================== Constructors
 
-		/// <summary>
-		/// This returns Z on the plane at X, Y
-		/// </summary>
-		public double GetZ(double x, double y)
-		{
-			return (-offset - (normal.x * x + normal.y * y)) / normal.z;
-		}
+        /// <summary></summary>
+        public Plane(Vector3D normal, double offset)
+        {
+#if DEBUG
+            if (!normal.IsNormalized())
+                throw new NotSupportedException("Attempt to create a plane with a vector that is not normalized!"); // General.Fail("Attempt to create a plane with a vector that is not normalized!");
+#endif
+            this.normal = normal;
+            this.offset = offset;
+        }
 
-		/// <summary>
-		/// This inverts the plane
-		/// </summary>
-		public Plane GetInverted()
-		{
-			return new Plane(-normal, -offset);
-		}
+        /// <summary></summary>
+        public Plane(Vector3D normal, Vector3D position)
+        {
+#if DEBUG
+            if (!normal.IsNormalized())
+                throw new NotSupportedException("Attempt to create a plane with a vector that is not normalized!"); //General.Fail("Attempt to create a plane with a vector that is not normalized!");
+#endif
+            this.normal = normal;
+            this.offset = -Vector3D.DotProduct(normal, position);
+        }
 
-		//mxd. Addeed to make compiler a bit more happy...
-		public override int GetHashCode()
-		{
-			return base.GetHashCode();
-		}
+        /// <summary></summary>
+        public Plane(Vector3D p1, Vector3D p2, Vector3D p3, bool up)
+        {
+            this.normal = Vector3D.CrossProduct(p2 - p1, p3 - p1).GetNormal();
 
-		//mxd. Addeed to make compiler a bit more happy...
-		public override bool Equals(object obj)
-		{
-			if(!(obj is Plane)) return false;
-			Plane other = (Plane)obj;
-			return (normal != other.normal) || (offset != other.offset);
-		}
-		
-		#endregion
+            if ((up && (this.normal.z < 0.0f)) || (!up && (this.normal.z > 0.0f)))
+                this.normal = -this.normal;
 
-		#region ================== Statics (mxd)
+            this.offset = -Vector3D.DotProduct(normal, p3);
+        }
 
-		// This compares a vector
-		public static bool operator ==(Plane a, Plane b)
-		{
-			return (a.normal == b.normal) && (a.offset == b.offset);
-		}
+        /// <summary></summary>
+        public Plane(Vector3D center, double anglexy, double anglez, bool up) //mxd
+        {
+            Vector2D point = new Vector2D(center.x + (Math.Cos(anglexy) * Math.Sin(anglez)), center.y + (Math.Sin(anglexy) * Math.Sin(anglez)));
+            Vector2D perpendicular = new Line2D(center, point).GetPerpendicular();
 
-		// This compares a vector
-		public static bool operator !=(Plane a, Plane b)
-		{
-			return (a.normal != b.normal) || (a.offset != b.offset);
-		}
+            Vector3D p2 = new Vector3D(point.x + perpendicular.x, point.y + perpendicular.y, center.z + Math.Cos(anglez));
+            Vector3D p3 = new Vector3D(point.x - perpendicular.x, point.y - perpendicular.y, center.z + Math.Cos(anglez));
 
-		#endregion
-	}
+            this.normal = Vector3D.CrossProduct(p2 - center, p3 - center).GetNormal();
+
+            if ((up && (this.normal.z < 0.0f)) || (!up && (this.normal.z > 0.0f)))
+                this.normal = -this.normal;
+
+            this.offset = -Vector3D.DotProduct(normal, p3);
+        }
+
+        #endregion
+
+        #region ================== Methods
+
+        /// <summary>
+        /// This tests for intersection with a line.
+        /// See http://local.wasp.uwa.edu.au/~pbourke/geometry/planeline/
+        /// </summary>
+        public bool GetIntersection(Vector3D from, Vector3D to, ref double u_ray)
+        {
+            double w = Vector3D.DotProduct(normal, from - to);
+            if (w != 0.0f)
+            {
+                double v = Vector3D.DotProduct(normal, from);
+                u_ray = (offset + v) / w;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// This returns the smallest distance to the plane and the side on which the point lies.
+        /// Greater than 0 means the point lies on the front of the plane
+        /// Less than 0 means the point lies behind the plane
+        /// See http://mathworld.wolfram.com/Point-PlaneDistance.html
+        /// </summary>
+        public double Distance(Vector3D p)
+        {
+            return Vector3D.DotProduct(normal, p) + offset;
+        }
+
+        /// <summary>
+        /// This returns a point on the plane closest to the given point
+        /// </summary>
+        public Vector3D ClosestOnPlane(Vector3D p)
+        {
+            return p - (normal * this.Distance(p));
+        }
+
+        /// <summary>
+        /// This returns Z on the plane at X, Y
+        /// </summary>
+        public double GetZ(Vector2D pos)
+        {
+            return (-offset - Vector2D.DotProduct(normal, pos)) / normal.z;
+        }
+
+        /// <summary>
+        /// This returns Z on the plane at X, Y
+        /// </summary>
+        public double GetZ(double x, double y)
+        {
+            return (-offset - ((normal.x * x) + (normal.y * y))) / normal.z;
+        }
+
+        /// <summary>
+        /// This inverts the plane
+        /// </summary>
+        public Plane GetInverted()
+        {
+            return new Plane(-normal, -offset);
+        }
+
+        //mxd. Addeed to make compiler a bit more happy...
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        //mxd. Addeed to make compiler a bit more happy...
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Plane)) return false;
+            Plane other = (Plane)obj;
+            return (normal != other.normal) || (offset != other.offset);
+        }
+
+        #endregion
+
+        #region ================== Statics (mxd)
+
+        // This compares a vector
+        public static bool operator ==(Plane a, Plane b)
+        {
+            return (a.normal == b.normal) && (a.offset == b.offset);
+        }
+
+        // This compares a vector
+        public static bool operator !=(Plane a, Plane b)
+        {
+            return (a.normal != b.normal) || (a.offset != b.offset);
+        }
+
+        #endregion
+    }
 }

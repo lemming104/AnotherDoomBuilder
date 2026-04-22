@@ -1,96 +1,96 @@
-﻿using System;
-using System.Collections.Generic;
-using CodeImp.DoomBuilder.Config;
+﻿using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
+using System;
+using System.Collections.Generic;
 
 namespace CodeImp.DoomBuilder.ZDoom
 {
-	internal sealed class TerrainParser : ZDTextParser
-	{
-		internal override ScriptType ScriptType { get { return ScriptType.TERRAIN; } }
-		
-		private readonly HashSet<string> terrainnames;
-		public HashSet<string> TerrainNames { get { return terrainnames; } }
+    internal sealed class TerrainParser : ZDTextParser
+    {
+        internal override ScriptType ScriptType { get { return ScriptType.TERRAIN; } }
 
-		public TerrainParser()
-		{
-			terrainnames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-		}
+        private readonly HashSet<string> terrainnames;
+        public HashSet<string> TerrainNames { get { return terrainnames; } }
 
-		public override bool Parse(TextResourceData data, bool clearerrors)
-		{
-			//mxd. Already parsed?
-			if(!base.AddTextResource(data))
-			{
-				if(clearerrors) ClearError();
-				return true;
-			}
+        public TerrainParser()
+        {
+            terrainnames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        }
 
-			// Cannot process?
-			if(!base.Parse(data, clearerrors)) return false;
+        public override bool Parse(TextResourceData data, bool clearerrors)
+        {
+            //mxd. Already parsed?
+            if (!base.AddTextResource(data))
+            {
+                if (clearerrors) ClearError();
+                return true;
+            }
 
-			// Continue until at the end of the stream
-			bool skipdefinitions = false;
-			while(SkipWhitespace(true))
-			{
-				string token = ReadToken().ToLowerInvariant();
-				if(string.IsNullOrEmpty(token)) continue;
+            // Cannot process?
+            if (!base.Parse(data, clearerrors)) return false;
 
-				if(skipdefinitions)
-				{
-					do
-					{
-						SkipWhitespace(true);
-						token = ReadToken();
-					} while(!string.IsNullOrEmpty(token) && token != "endif");
+            // Continue until at the end of the stream
+            bool skipdefinitions = false;
+            while (SkipWhitespace(true))
+            {
+                string token = ReadToken().ToLowerInvariant();
+                if (string.IsNullOrEmpty(token)) continue;
 
-					skipdefinitions = false;
-					continue;
-				}
+                if (skipdefinitions)
+                {
+                    do
+                    {
+                        SkipWhitespace(true);
+                        token = ReadToken();
+                    } while (!string.IsNullOrEmpty(token) && token != "endif");
 
-				switch(token)
-				{
-					case "ifheretic":
-						skipdefinitions = (General.Map.Config.BaseGame != GameType.HERETIC);
-						break;
+                    skipdefinitions = false;
+                    continue;
+                }
 
-					case "ifhexen":
-						skipdefinitions = (General.Map.Config.BaseGame != GameType.HEXEN);
-						break;
+                switch (token)
+                {
+                    case "ifheretic":
+                        skipdefinitions = General.Map.Config.BaseGame != GameType.HERETIC;
+                        break;
 
-					case "ifstrife":
-						skipdefinitions = (General.Map.Config.BaseGame != GameType.STRIFE);
-						break;
+                    case "ifhexen":
+                        skipdefinitions = General.Map.Config.BaseGame != GameType.HEXEN;
+                        break;
 
-					case "ifdoom": // TODO: is it even a thing?..
-						skipdefinitions = (General.Map.Config.BaseGame != GameType.DOOM);
-						break;
+                    case "ifstrife":
+                        skipdefinitions = General.Map.Config.BaseGame != GameType.STRIFE;
+                        break;
 
-					case "terrain":
-						SkipWhitespace(true);
-						token = ReadToken();
-						if(string.IsNullOrEmpty(token))
-						{
-							ReportError("Expected terrain name");
-							return false;
-						}
+                    case "ifdoom": // TODO: is it even a thing?..
+                        skipdefinitions = General.Map.Config.BaseGame != GameType.DOOM;
+                        break;
 
-						// Add to collection
-						if(!terrainnames.Contains(token)) terrainnames.Add(token);
-						break;
+                    case "terrain":
+                        SkipWhitespace(true);
+                        token = ReadToken();
+                        if (string.IsNullOrEmpty(token))
+                        {
+                            ReportError("Expected terrain name");
+                            return false;
+                        }
 
-					case "{":
-						// Skip inner properties
-						do
-						{
-							SkipWhitespace(true);
-							token = ReadToken();
-						} while(!string.IsNullOrEmpty(token) && token != "}");
-						break;
-				}
-			}
+                        // Add to collection
+                        if (!terrainnames.Contains(token)) terrainnames.Add(token);
+                        break;
 
-			return true;
-		}
-	}
+                    case "{":
+                        // Skip inner properties
+                        do
+                        {
+                            SkipWhitespace(true);
+                            token = ReadToken();
+                        } while (!string.IsNullOrEmpty(token) && token != "}");
+                        break;
+                }
+            }
+
+            return true;
+        }
+    }
 }

@@ -16,87 +16,87 @@
 
 #region ================== Namespaces
 
+using CodeImp.DoomBuilder.IO;
 using System.Collections;
 using System.Collections.Generic;
-using CodeImp.DoomBuilder.IO;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Config
 {
-	public class EnumList : List<EnumItem>
-	{
-		#region ================== Constants
+    public class EnumList : List<EnumItem>
+    {
+        #region ================== Constants
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		private readonly string name; //mxd
+        private readonly string name; //mxd
 
-		#endregion
+        #endregion
 
-		#region ================== Properties
+        #region ================== Properties
 
-		public string Name { get { return name; } } //mxd
+        public string Name { get { return name; } } //mxd
 
-		#endregion
+        #endregion
 
-		#region ================== Constructor
+        #region ================== Constructor
 
-		// Constructor for custom list
-		internal EnumList() { }
+        // Constructor for custom list
+        internal EnumList() { }
 
-		//mxd. Constructor for custom list
-		internal EnumList(int capacity) : base(capacity) { }
+        //mxd. Constructor for custom list
+        internal EnumList(int capacity) : base(capacity) { }
 
-		// Constructor to load from dictionary
-		internal EnumList(IDictionary dic)
-		{
-			this.name = "<unnamed>"; //mxd
-			
-			// Read the dictionary
-			foreach(DictionaryEntry de in dic)
-			{
-				// Add item
-				EnumItem item = new EnumItem(de.Key.ToString(), de.Value.ToString());
-				base.Add(item);
-			}
-		}
+        // Constructor to load from dictionary
+        internal EnumList(IDictionary dic)
+        {
+            this.name = "<unnamed>"; //mxd
 
-		// Constructor to load from configuration
-		internal EnumList(string name, Configuration cfg)
-		{
-			this.name = name; //mxd
-			
-			// Read the list from configuration
-			IDictionary dic = cfg.ReadSetting("enums." + name, new Hashtable());
-			foreach(DictionaryEntry de in dic)
-			{
-				// Add item
-				EnumItem item = new EnumItem(de.Key.ToString(), de.Value.ToString());
-				base.Add(item);
-			}
-		}
+            // Read the dictionary
+            foreach (DictionaryEntry de in dic)
+            {
+                // Add item
+                EnumItem item = new EnumItem(de.Key.ToString(), de.Value.ToString());
+                base.Add(item);
+            }
+        }
 
-		#endregion
+        // Constructor to load from configuration
+        internal EnumList(string name, Configuration cfg)
+        {
+            this.name = name; //mxd
 
-		#region ================== Methods
+            // Read the list from configuration
+            IDictionary dic = cfg.ReadSetting("enums." + name, new Hashtable());
+            foreach (DictionaryEntry de in dic)
+            {
+                // Add item
+                EnumItem item = new EnumItem(de.Key.ToString(), de.Value.ToString());
+                base.Add(item);
+            }
+        }
 
-		// This gets an item by value
-		// Returns null when item could not be found
-		public EnumItem GetByEnumIndex(string value)
-		{
-			// Find the item
-			foreach(EnumItem i in this)
-			{
-				if(i.Value == value) return i;
-			}
+        #endregion
 
-			// Nothing found
-			return null;
-		}
+        #region ================== Methods
 
-		#endregion
-	}
+        // This gets an item by value
+        // Returns null when item could not be found
+        public EnumItem GetByEnumIndex(string value)
+        {
+            // Find the item
+            foreach (EnumItem i in this)
+            {
+                if (i.Value == value) return i;
+            }
+
+            // Nothing found
+            return null;
+        }
+
+        #endregion
+    }
 }

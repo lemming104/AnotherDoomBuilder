@@ -16,124 +16,124 @@
 
 #region ================== Namespaces
 
+using CodeImp.DoomBuilder.Config;
+using CodeImp.DoomBuilder.Windows;
 using System;
 using System.Drawing;
 using System.Globalization;
-using CodeImp.DoomBuilder.Config;
 using System.Windows.Forms;
-using CodeImp.DoomBuilder.Windows;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Types
 {
-	[TypeHandler(UniversalType.EnumBits, "Options", false)]
-	internal class EnumBitsHandler : TypeHandler
-	{
-		#region ================== Constants
+    [TypeHandler(UniversalType.EnumBits, "Options", false)]
+    internal class EnumBitsHandler : TypeHandler
+    {
+        #region ================== Constants
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		protected EnumList list;
-		protected int value;
-		protected int defaultvalue; //mxd
+        protected EnumList list;
+        protected int value;
+        protected int defaultvalue; //mxd
 
-		#endregion
+        #endregion
 
-		#region ================== Properties
+        #region ================== Properties
 
-		public override bool IsBrowseable { get { return true; } }
+        public override bool IsBrowseable { get { return true; } }
 
-		public override Image BrowseImage { get { return Properties.Resources.List; } }
-		
-		#endregion
+        public override Image BrowseImage { get { return Properties.Resources.List; } }
 
-		#region ================== Constructor
+        #endregion
 
-		// When set up for an argument
-		public override void SetupArgument(TypeHandlerAttribute attr, ArgumentInfo arginfo)
-		{
-			defaultvalue = (int)arginfo.DefaultValue;//mxd
-			base.SetupArgument(attr, arginfo);
+        #region ================== Constructor
 
-			// Keep enum list reference
-			list = arginfo.Enum;
-		}
+        // When set up for an argument
+        public override void SetupArgument(TypeHandlerAttribute attr, ArgumentInfo arginfo)
+        {
+            defaultvalue = (int)arginfo.DefaultValue;//mxd
+            base.SetupArgument(attr, arginfo);
 
-		// When set up for an UDMF field
-		public override void SetupField(TypeHandlerAttribute attr, UniversalFieldInfo fieldinfo)
-		{
-			defaultvalue = (int)fieldinfo.Default;
-			base.SetupField(attr, fieldinfo);
+            // Keep enum list reference
+            list = arginfo.Enum;
+        }
 
-			// Keep enum list reference
-			list = fieldinfo.Enum;
-		}
-		#endregion
+        // When set up for an UDMF field
+        public override void SetupField(TypeHandlerAttribute attr, UniversalFieldInfo fieldinfo)
+        {
+            defaultvalue = (int)fieldinfo.Default;
+            base.SetupField(attr, fieldinfo);
 
-		#region ================== Methods
+            // Keep enum list reference
+            list = fieldinfo.Enum;
+        }
+        #endregion
 
-		public override void Browse(IWin32Window parent)
-		{
-			value = BitFlagsForm.ShowDialog(parent, list, value);
-		}
+        #region ================== Methods
 
-		public override void SetValue(object value)
-		{
-			// Null?
-			if(value == null)
-			{
-				this.value = 0;
-			}
-			// Compatible type?
-			else if((value is int) || (value is float) || (value is bool))
-			{
-				// Set directly
-				this.value = Convert.ToInt32(value);
-			}
-			else
-			{
-				// Try parsing as string
-				int result;
-				if(int.TryParse(value.ToString(), NumberStyles.Integer, CultureInfo.CurrentCulture, out result))
-				{
-					this.value = result;
-				}
-				else
-				{
-					this.value = 0;
-				}
-			}
-		}
+        public override void Browse(IWin32Window parent)
+        {
+            value = BitFlagsForm.ShowDialog(parent, list, value);
+        }
 
-		//mxd
-		public override void ApplyDefaultValue() 
-		{
-			value = defaultvalue;
-		}
+        public override void SetValue(object value)
+        {
+            // Null?
+            if (value == null)
+            {
+                this.value = 0;
+            }
+            // Compatible type?
+            else if ((value is int) || (value is float) || (value is bool))
+            {
+                // Set directly
+                this.value = Convert.ToInt32(value);
+            }
+            else
+            {
+                // Try parsing as string
+                int result;
+                if (int.TryParse(value.ToString(), NumberStyles.Integer, CultureInfo.CurrentCulture, out result))
+                {
+                    this.value = result;
+                }
+                else
+                {
+                    this.value = 0;
+                }
+            }
+        }
 
-		public override object GetValue()
-		{
-			return this.value;
-		}
+        //mxd
+        public override void ApplyDefaultValue()
+        {
+            value = defaultvalue;
+        }
 
-		public override int GetIntValue()
-		{
-			return this.value;
-		}
+        public override object GetValue()
+        {
+            return this.value;
+        }
 
-		public override string GetStringValue()
-		{
-			return this.value.ToString();
-		}
+        public override int GetIntValue()
+        {
+            return this.value;
+        }
 
-		public override object GetDefaultValue()
-		{
-			return defaultvalue;
-		}
+        public override string GetStringValue()
+        {
+            return this.value.ToString();
+        }
 
-		#endregion
-	}
+        public override object GetDefaultValue()
+        {
+            return defaultvalue;
+        }
+
+        #endregion
+    }
 }

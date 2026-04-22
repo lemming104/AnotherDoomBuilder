@@ -15,38 +15,38 @@
 
 #region ================== Namespaces
 
-using System.Collections.Generic;
 using CodeImp.DoomBuilder.Map;
+using System.Collections.Generic;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.BuilderModes
 {
-	[FindReplace("Vertex UDMF Field", BrowseButton = false)]
-	internal class FindVertexUDMFField : BaseFindUDMFField
-	{
-		#region ================== Methods
+    [FindReplace("Vertex UDMF Field", BrowseButton = false)]
+    internal class FindVertexUDMFField : BaseFindUDMFField
+    {
+        #region ================== Methods
 
-		public override bool CanReplace()
-		{
-			return false;
-		}
+        public override bool CanReplace()
+        {
+            return false;
+        }
 
-		public override bool DetermineVisiblity()
-		{
-			return General.Map.UDMF;
-		}
+        public override bool DetermineVisiblity()
+        {
+            return General.Map.UDMF;
+        }
 
-		public override FindReplaceObject[] Find(string value, bool withinselection, bool replace, string replacewith, bool keepselection)
-		{
-			if (string.IsNullOrWhiteSpace(value))
-				return new FindReplaceObject[] { };
+        public override FindReplaceObject[] Find(string value, bool withinselection, bool replace, string replacewith, bool keepselection)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return new FindReplaceObject[] { };
 
-			ICollection<MapElement> list = withinselection ? new List<MapElement>(General.Map.Map.GetSelectedVertices(true)) : (ICollection<MapElement>)General.Map.Map.Vertices;
+            ICollection<MapElement> list = withinselection ? new List<MapElement>(General.Map.Map.GetSelectedVertices(true)) : (ICollection<MapElement>)General.Map.Map.Vertices;
 
-			return GetObjects(value, list);
-		}
+            return GetObjects(value, list);
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

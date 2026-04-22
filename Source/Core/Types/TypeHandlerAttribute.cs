@@ -22,51 +22,51 @@ using System;
 
 namespace CodeImp.DoomBuilder.Types
 {
-	public sealed class TypeHandlerAttribute : Attribute
-	{
-		#region ================== Constants
+    public sealed class TypeHandlerAttribute : Attribute
+    {
+        #region ================== Constants
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		private readonly int index;
-		private readonly string name;
-		private Type type;
-		private readonly bool customusable;
-		
-		#endregion
+        private readonly int index;
+        private readonly string name;
+        private Type type;
+        private readonly bool customusable;
 
-		#region ================== Properties
+        #endregion
 
-		public int Index { get { return index; } }
-		public string Name { get { return name; } }
-		public bool IsCustomUsable { get { return customusable; } }
-		public Type Type { get { return type; } set { type = value; } }
-		
-		#endregion
+        #region ================== Properties
 
-		#region ================== Constructor / Destructor
+        public int Index { get { return index; } }
+        public string Name { get { return name; } }
+        public bool IsCustomUsable { get { return customusable; } }
+        public Type Type { get { return type; } set { type = value; } }
 
-		// Constructor
-		public TypeHandlerAttribute(UniversalType index, string name, bool customusable)
-		{
-			// Initialize
-			this.index = (int)index;
-			this.name = name;
-			this.customusable = customusable;
-		}
+        #endregion
 
-		#endregion
+        #region ================== Constructor / Destructor
 
-		#region ================== Methods
+        // Constructor
+        public TypeHandlerAttribute(UniversalType index, string name, bool customusable)
+        {
+            // Initialize
+            this.index = (int)index;
+            this.name = name;
+            this.customusable = customusable;
+        }
 
-		// String representation
-		public override string ToString()
-		{
-			return name;
-		}
-		
-		#endregion
-	}
+        #endregion
+
+        #region ================== Methods
+
+        // String representation
+        public override string ToString()
+        {
+            return name;
+        }
+
+        #endregion
+    }
 }

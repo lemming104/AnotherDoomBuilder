@@ -16,58 +16,58 @@
 
 #region ================== Namespaces
 
-using System.Collections.Generic;
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
+using System.Collections.Generic;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Types
 {
-	[TypeHandler(UniversalType.ThingTag, "Thing Tag", false)]
-	internal class ThingTagHandler : SectorTagHandler
-	{
-		#region ================== Setup (mxd)
+    [TypeHandler(UniversalType.ThingTag, "Thing Tag", false)]
+    internal class ThingTagHandler : SectorTagHandler
+    {
+        #region ================== Setup (mxd)
 
-		protected override EnumList CreateEnumList() 
-		{
-			// Collect tags
-			List<int> tags = new List<int>();
-			EnumList taglist = new EnumList();
+        protected override EnumList CreateEnumList()
+        {
+            // Collect tags
+            List<int> tags = new List<int>();
+            EnumList taglist = new EnumList();
 
-			if(General.Map.Map != null)
-			{
-				foreach(Thing t in General.Map.Map.Things)
-				{
-					if(t.Tag == 0 || tags.Contains(t.Tag)) continue;
+            if (General.Map.Map != null)
+            {
+                foreach (Thing t in General.Map.Map.Things)
+                {
+                    if (t.Tag == 0 || tags.Contains(t.Tag)) continue;
 
-					// Check target class?
-					if(arginfo != null && arginfo.TargetClasses.Count > 0)
-					{
-						ThingTypeInfo info = General.Map.Data.GetThingInfoEx(t.Type);
-						if(info != null && !arginfo.TargetClasses.Contains(info.ClassName))
-							continue;
-					}
+                    // Check target class?
+                    if (arginfo != null && arginfo.TargetClasses.Count > 0)
+                    {
+                        ThingTypeInfo info = General.Map.Data.GetThingInfoEx(t.Type);
+                        if (info != null && !arginfo.TargetClasses.Contains(info.ClassName))
+                            continue;
+                    }
 
-					tags.Add(t.Tag);
-				}
+                    tags.Add(t.Tag);
+                }
 
-				// Now sort them in descending order
-				tags.Sort((a, b) => -1 * a.CompareTo(b));
+                // Now sort them in descending order
+                tags.Sort((a, b) => -1 * a.CompareTo(b));
 
-				// Create enum items
-				foreach(int tag in tags)
-				{
-					if(General.Map.Options.TagLabels.ContainsKey(tag)) // Tag labels
-						taglist.Add(new EnumItem(tag.ToString(), General.Map.Options.TagLabels[tag]));
-					else
-						taglist.Add(new EnumItem(tag.ToString(), tag.ToString()));
-				}
-			}
+                // Create enum items
+                foreach (int tag in tags)
+                {
+                    if (General.Map.Options.TagLabels.ContainsKey(tag)) // Tag labels
+                        taglist.Add(new EnumItem(tag.ToString(), General.Map.Options.TagLabels[tag]));
+                    else
+                        taglist.Add(new EnumItem(tag.ToString(), tag.ToString()));
+                }
+            }
 
-			return taglist;
-		}
+            return taglist;
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

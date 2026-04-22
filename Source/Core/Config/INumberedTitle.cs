@@ -20,10 +20,10 @@
 
 namespace CodeImp.DoomBuilder.Config
 {
-	public interface INumberedTitle
-	{
-		// Properties
-		int Index { get; }
-		string Title { get; }
-	}
+    public interface INumberedTitle
+    {
+        // Properties
+        int Index { get; }
+        string Title { get; }
+    }
 }

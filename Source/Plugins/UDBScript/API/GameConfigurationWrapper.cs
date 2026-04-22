@@ -26,32 +26,32 @@
 
 namespace CodeImp.DoomBuilder.UDBScript.Wrapper
 {
-	class GameConfigurationWrapper
-	{
-		#region ================== Properties
+    class GameConfigurationWrapper
+    {
+        #region ================== Properties
 
-		/// <summary>
-		/// Engine name, like `doom`, `boom`, `zdoom` etc. Used for the namespace in UDMF maps. Read-only.
-		/// </summary>
-		public string engineName
-		{
-			get
-			{
-				return General.Map.Config.EngineName;
-			}
-		}
+        /// <summary>
+        /// Engine name, like `doom`, `boom`, `zdoom` etc. Used for the namespace in UDMF maps. Read-only.
+        /// </summary>
+        public string engineName
+        {
+            get
+            {
+                return General.Map.Config.EngineName;
+            }
+        }
 
-		/// <summary>
-		/// If the game configuration supports local sidedef texture offsets (distinct offsets for upper, middle, and lower sidedef parts).
-		/// </summary>
-		public bool hasLocalSidedefTextureOffsets
-		{
-			get
-			{
-				return General.Map.Config.UseLocalSidedefTextureOffsets;
-			}
-		}
+        /// <summary>
+        /// If the game configuration supports local sidedef texture offsets (distinct offsets for upper, middle, and lower sidedef parts).
+        /// </summary>
+        public bool hasLocalSidedefTextureOffsets
+        {
+            get
+            {
+                return General.Map.Config.UseLocalSidedefTextureOffsets;
+            }
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

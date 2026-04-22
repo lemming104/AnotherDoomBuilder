@@ -35,7 +35,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // We are making progress!
                 if ((++progress / PROGRESS_STEP) > stepprogress)
                 {
-                    stepprogress = (progress / PROGRESS_STEP);
+                    stepprogress = progress / PROGRESS_STEP;
                     AddProgress(1);
                 }
             }

@@ -42,7 +42,7 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer.Windows
         {
             customheight = input.GetResult(0);
 
-            if(customheight > 32767) customheight = 0;
+            if (customheight > 32767) customheight = 0;
 
             this.DialogResult = DialogResult.OK;
             this.Close();

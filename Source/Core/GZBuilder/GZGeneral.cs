@@ -10,8 +10,8 @@ using System.Reflection;
 
 namespace CodeImp.DoomBuilder.GZBuilder
 {
-	//mxd. should get rid of this class one day...
-	public static class GZGeneral
+    //mxd. should get rid of this class one day...
+    public static class GZGeneral
     {
         #region ================== Properties
 
@@ -40,13 +40,13 @@ namespace CodeImp.DoomBuilder.GZBuilder
         public class LightDefModifier : Attribute
         {
             public LightModifier[] Modifiers { get; private set; }
-            
+
             public LightDefModifier(params LightModifier[] mods)
             {
                 Modifiers = mods;
             }
         }
-        
+
         public class LightDefRenderStyle : Attribute
         {
             public LightRenderStyle RenderStyle { get; private set; }
@@ -264,10 +264,10 @@ namespace CodeImp.DoomBuilder.GZBuilder
                 if (LightDefRenderStyle != null)
                     LightRenderStyle = LightDefRenderStyle.RenderStyle;
                 else LightRenderStyle = LightRenderStyle.NONE;
-                LightAnimated = (LightModifier == LightModifier.PULSE || LightModifier == LightModifier.FLICKER || LightModifier == LightModifier.FLICKERRANDOM);
+                LightAnimated = LightModifier == LightModifier.PULSE || LightModifier == LightModifier.FLICKER || LightModifier == LightModifier.FLICKERRANDOM;
                 LightInternal = true;
                 UpdateLightType();
-                LightVavoom = (LightType == LightType.VAVOOM);
+                LightVavoom = LightType == LightType.VAVOOM;
             }
 
             public LightData(LightDef d, string cls)
@@ -285,11 +285,11 @@ namespace CodeImp.DoomBuilder.GZBuilder
                 if (LightDefRenderStyle != null)
                     LightRenderStyle = LightDefRenderStyle.RenderStyle;
                 else LightRenderStyle = LightRenderStyle.NONE;
-                LightAnimated = (LightModifier == LightModifier.PULSE || LightModifier == LightModifier.FLICKER || LightModifier == LightModifier.FLICKERRANDOM);
+                LightAnimated = LightModifier == LightModifier.PULSE || LightModifier == LightModifier.FLICKER || LightModifier == LightModifier.FLICKERRANDOM;
                 LightInternal = true;
-                LightVavoom = (LightDef == LightDef.VAVOOM_GENERIC || LightDef == LightDef.VAVOOM_COLORED);
+                LightVavoom = LightDef == LightDef.VAVOOM_GENERIC || LightDef == LightDef.VAVOOM_COLORED;
                 UpdateLightType();
-                LightVavoom = (LightType == LightType.VAVOOM);
+                LightVavoom = LightType == LightType.VAVOOM;
             }
 
             public LightData(LightModifier mod = LightModifier.NORMAL, LightRenderStyle rs = LightRenderStyle.NONE)
@@ -299,7 +299,7 @@ namespace CodeImp.DoomBuilder.GZBuilder
                 LightNum = -1;
                 LightModifier = mod;
                 LightRenderStyle = rs;
-                LightAnimated = (LightModifier == LightModifier.PULSE || LightModifier == LightModifier.FLICKER || LightModifier == LightModifier.FLICKERRANDOM);
+                LightAnimated = LightModifier == LightModifier.PULSE || LightModifier == LightModifier.FLICKER || LightModifier == LightModifier.FLICKERRANDOM;
                 LightInternal = false;
                 LightVavoom = false;
                 LightType = LightType.POINT; // always point in GLDEFS
@@ -353,9 +353,9 @@ namespace CodeImp.DoomBuilder.GZBuilder
             return null;
         }
 
-		//asc script action specials
-		private static readonly int[] acsSpecials = { 80, 81, 82, 83, 84, 85, 226 };
-		public static int[] ACS_SPECIALS { get { return acsSpecials; } }
+        //asc script action specials
+        private static readonly int[] acsSpecials = { 80, 81, 82, 83, 84, 85, 226 };
+        public static int[] ACS_SPECIALS { get { return acsSpecials; } }
 
         // [ZZ] this is for proper inheritance of lights.
         //      technically this can be found by parsing gzdoom.pk3/mapinfo/common.txt, but I wouldn't do that without a good reason for now.

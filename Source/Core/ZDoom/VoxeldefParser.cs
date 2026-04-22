@@ -1,138 +1,138 @@
 ﻿#region ================== Namespaces
 
-using System;
-using System.Collections.Generic;
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.GZBuilder.Data;
 using CodeImp.DoomBuilder.Rendering;
+using System;
+using System.Collections.Generic;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.ZDoom
 {
-	public sealed class VoxeldefParser : ZDTextParser
-	{
-		internal override ScriptType ScriptType { get { return ScriptType.VOXELDEF; } }
-		
-		private Dictionary<string, ModelData> entries; //sprite name, entry
-		internal Dictionary<string, ModelData> Entries { get { return entries; } }
+    public sealed class VoxeldefParser : ZDTextParser
+    {
+        internal override ScriptType ScriptType { get { return ScriptType.VOXELDEF; } }
 
-		public override bool Parse(TextResourceData data, bool clearerrors) 
-		{
-			entries = new Dictionary<string, ModelData>(StringComparer.Ordinal);
-			
-			//mxd. Already parsed?
-			if(!base.AddTextResource(data))
-			{
-				if(clearerrors) ClearError();
-				return true;
-			}
+        private Dictionary<string, ModelData> entries; //sprite name, entry
+        internal Dictionary<string, ModelData> Entries { get { return entries; } }
 
-			// Cannot process?
-			if(!base.Parse(data, clearerrors)) return false;
+        public override bool Parse(TextResourceData data, bool clearerrors)
+        {
+            entries = new Dictionary<string, ModelData>(StringComparer.Ordinal);
 
-			List<string> spriteNames = new List<string>();
-			string modelName = string.Empty;
-			string prevToken = string.Empty;
+            //mxd. Already parsed?
+            if (!base.AddTextResource(data))
+            {
+                if (clearerrors) ClearError();
+                return true;
+            }
 
-			// Continue until at the end of the stream
-			while(SkipWhitespace(true)) 
-			{
-				string token = ReadToken().ToLowerInvariant();
-				if(string.IsNullOrEmpty(token)) continue;
+            // Cannot process?
+            if (!base.Parse(data, clearerrors)) return false;
 
-				if(token == ",") //previous token was a sprite name
-				{ 
-					if(!string.IsNullOrEmpty(prevToken) && !spriteNames.Contains(prevToken)) spriteNames.Add(prevToken);
-					prevToken = StripQuotes(token).ToUpperInvariant();
-				} 
-				else if(token == "=") //next token should be a voxel model name
-				{ 
-					if(!string.IsNullOrEmpty(prevToken) && !spriteNames.Contains(prevToken)) spriteNames.Add(prevToken);
+            List<string> spriteNames = new List<string>();
+            string modelName = string.Empty;
+            string prevToken = string.Empty;
 
-					SkipWhitespace(true);
-					token = ReadToken();
+            // Continue until at the end of the stream
+            while (SkipWhitespace(true))
+            {
+                string token = ReadToken().ToLowerInvariant();
+                if (string.IsNullOrEmpty(token)) continue;
 
-					if(string.IsNullOrEmpty(token)) 
-					{
-						ReportError("Expected voxel name");
-						return false;
-					}
+                if (token == ",") //previous token was a sprite name
+                {
+                    if (!string.IsNullOrEmpty(prevToken) && !spriteNames.Contains(prevToken)) spriteNames.Add(prevToken);
+                    prevToken = StripQuotes(token).ToUpperInvariant();
+                }
+                else if (token == "=") //next token should be a voxel model name
+                {
+                    if (!string.IsNullOrEmpty(prevToken) && !spriteNames.Contains(prevToken)) spriteNames.Add(prevToken);
 
-					modelName = StripQuotes(token).ToUpperInvariant();
-				} 
-				else if(token == "{") //read the settings
-				{
-					ModelData mde = new ModelData { IsVoxel = true };
-					float scale = 1.0f;
+                    SkipWhitespace(true);
+                    token = ReadToken();
 
-					while(SkipWhitespace(true)) 
-					{
-						token = ReadToken().ToLowerInvariant();
-						if(string.IsNullOrEmpty(token)) continue;
+                    if (string.IsNullOrEmpty(token))
+                    {
+                        ReportError("Expected voxel name");
+                        return false;
+                    }
 
-						if(token == "}") //store data
-						{ 
-							if(!string.IsNullOrEmpty(modelName) && spriteNames.Count > 0) 
-							{
-								mde.ModelNames.Add(modelName);
-								mde.SetTransform(Matrix.RotationZ((float)Angle2D.DegToRad(mde.AngleOffset)), Matrix.Identity, new Vector3f(scale));
+                    modelName = StripQuotes(token).ToUpperInvariant();
+                }
+                else if (token == "{") //read the settings
+                {
+                    ModelData mde = new ModelData { IsVoxel = true };
+                    float scale = 1.0f;
 
-								foreach(string s in spriteNames)
-								{
-									//TODO: is this the proper behaviour?
-									entries[s] = mde;
-								}
+                    while (SkipWhitespace(true))
+                    {
+                        token = ReadToken().ToLowerInvariant();
+                        if (string.IsNullOrEmpty(token)) continue;
 
-								//reset local data
-								modelName = string.Empty;
-								prevToken = string.Empty;
-								spriteNames.Clear();
-							}
+                        if (token == "}") //store data
+                        {
+                            if (!string.IsNullOrEmpty(modelName) && spriteNames.Count > 0)
+                            {
+                                mde.ModelNames.Add(modelName);
+                                mde.SetTransform(Matrix.RotationZ((float)Angle2D.DegToRad(mde.AngleOffset)), Matrix.Identity, new Vector3f(scale));
 
-							break;
-						} 
-						else if(token == "overridepalette")
-						{
-							mde.OverridePalette = true;
-						} 
-						else if(token == "angleoffset")
-						{
-							if(!NextTokenIs("=")) return false;
+                                foreach (string s in spriteNames)
+                                {
+                                    //TODO: is this the proper behaviour?
+                                    entries[s] = mde;
+                                }
 
-							token = ReadToken();
-							if(!ReadSignedFloat(token, ref mde.AngleOffset))
-							{
-								// Not numeric!
-								ReportError("Expected AngleOffset value, but got \"" + token + "\"");
-								return false;
-							}
-						} 
-						else if(token == "scale") 
-						{
-							if(!NextTokenIs("=")) return false;
+                                //reset local data
+                                modelName = string.Empty;
+                                prevToken = string.Empty;
+                                spriteNames.Clear();
+                            }
 
-							token = ReadToken();
-							if(!ReadSignedFloat(token, ref scale)) 
-							{
-								// Not numeric!
-								ReportError("Expected Scale value, but got \"" + token + "\"");
-								return false;
-							}
-						}
+                            break;
+                        }
+                        else if (token == "overridepalette")
+                        {
+                            mde.OverridePalette = true;
+                        }
+                        else if (token == "angleoffset")
+                        {
+                            if (!NextTokenIs("=")) return false;
 
-						prevToken = StripQuotes(token).ToUpperInvariant();
-					}
-				} 
-				else 
-				{
-					prevToken = StripQuotes(token).ToUpperInvariant();
-				}
-			}
+                            token = ReadToken();
+                            if (!ReadSignedFloat(token, ref mde.AngleOffset))
+                            {
+                                // Not numeric!
+                                ReportError("Expected AngleOffset value, but got \"" + token + "\"");
+                                return false;
+                            }
+                        }
+                        else if (token == "scale")
+                        {
+                            if (!NextTokenIs("=")) return false;
 
-			return entries.Count > 0;
-		}
-	}
+                            token = ReadToken();
+                            if (!ReadSignedFloat(token, ref scale))
+                            {
+                                // Not numeric!
+                                ReportError("Expected Scale value, but got \"" + token + "\"");
+                                return false;
+                            }
+                        }
+
+                        prevToken = StripQuotes(token).ToUpperInvariant();
+                    }
+                }
+                else
+                {
+                    prevToken = StripQuotes(token).ToUpperInvariant();
+                }
+            }
+
+            return entries.Count > 0;
+        }
+    }
 }

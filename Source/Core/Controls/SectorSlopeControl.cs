@@ -7,255 +7,255 @@ using System.Windows.Forms;
 
 namespace CodeImp.DoomBuilder.Controls
 {
-	#region ================== Enums
+    #region ================== Enums
 
-	internal enum SlopePivotMode
-	{
-		ORIGIN, // pivot around 0, 0
-		GLOBAL, // pivot around selection center
-		LOCAL,  // pivot around sector center
-	}
+    internal enum SlopePivotMode
+    {
+        ORIGIN, // pivot around 0, 0
+        GLOBAL, // pivot around selection center
+        LOCAL,  // pivot around sector center
+    }
 
-	#endregion
+    #endregion
 
-	public partial class SectorSlopeControl : UserControl
-	{
+    public partial class SectorSlopeControl : UserControl
+    {
 
-		#region ================== Events
+        #region ================== Events
 
-		public event EventHandler OnAnglesChanged;
-		public event EventHandler OnUseLineAnglesChanged;
-		public event EventHandler OnPivotModeChanged;
-		public event EventHandler OnResetClicked;
+        public event EventHandler OnAnglesChanged;
+        public event EventHandler OnUseLineAnglesChanged;
+        public event EventHandler OnPivotModeChanged;
+        public event EventHandler OnResetClicked;
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		private bool preventchanges;
-		
-		// Slope values
-		private double anglexy;
-		private double anglez;
-		private double offset;
+        private bool preventchanges;
 
-		#endregion
+        // Slope values
+        private double anglexy;
+        private double anglez;
+        private double offset;
 
-		#region ================== Properties
+        #endregion
 
-		public StepsList StepValues { set { sloperotation.StepValues = value; } }
-		public bool UseLineAngles { get { return cbuselineangles.Checked; } set { preventchanges = true; cbuselineangles.Checked = value; preventchanges = false; } }
+        #region ================== Properties
 
-		internal SlopePivotMode PivotMode 
-		{
-			get 
-			{
-				return (SlopePivotMode)pivotmodeselector.SelectedIndex;
-			}
-			set 
-			{
-				preventchanges = true;
-				pivotmodeselector.SelectedIndex = (int)value;
-				preventchanges = false;
-			}
-		}
+        public StepsList StepValues { set { sloperotation.StepValues = value; } }
+        public bool UseLineAngles { get { return cbuselineangles.Checked; } set { preventchanges = true; cbuselineangles.Checked = value; preventchanges = false; } }
 
-		#endregion
+        internal SlopePivotMode PivotMode
+        {
+            get
+            {
+                return (SlopePivotMode)pivotmodeselector.SelectedIndex;
+            }
+            set
+            {
+                preventchanges = true;
+                pivotmodeselector.SelectedIndex = (int)value;
+                preventchanges = false;
+            }
+        }
 
-		#region ================== Constructor
+        #endregion
 
-		public SectorSlopeControl() 
-		{
-			InitializeComponent();
-		}
+        #region ================== Constructor
 
-		#endregion
+        public SectorSlopeControl()
+        {
+            InitializeComponent();
+        }
 
-		#region ================== Property accessors
+        #endregion
 
-		public double GetAngleXY(double defaultvalue) 
-		{
-			return sloperotation.GetResultFloat(defaultvalue);
-		}
+        #region ================== Property accessors
 
-		public double GetAngleZ(double defaultvalue) 
-		{
-			return slopeangle.GetResultFloat(defaultvalue);
-		}
+        public double GetAngleXY(double defaultvalue)
+        {
+            return sloperotation.GetResultFloat(defaultvalue);
+        }
 
-		public double GetOffset(double defaultvalue) 
-		{
-			return slopeoffset.GetResultFloat(defaultvalue);
-		}
+        public double GetAngleZ(double defaultvalue)
+        {
+            return slopeangle.GetResultFloat(defaultvalue);
+        }
 
-		#endregion
+        public double GetOffset(double defaultvalue)
+        {
+            return slopeoffset.GetResultFloat(defaultvalue);
+        }
 
-		#region ================== Methods
+        #endregion
 
-		public void SetValues(double anglexy, double anglez, double offset, bool first) 
-		{
-			if(first) 
-			{
-				// Set values
-				this.anglexy = anglexy;
-				this.anglez = anglez;
-				this.offset = offset;
-			} 
-			else 
-			{
-				// Or update values
-				if(!double.IsNaN(this.anglexy) && this.anglexy != anglexy) this.anglexy = double.NaN;
-				if(!double.IsNaN(this.anglez) && this.anglez != anglez) this.anglez = double.NaN;
-				if(!double.IsNaN(this.offset) && this.offset != offset) this.offset = double.NaN;
-			}
-		}
+        #region ================== Methods
 
-		public void SetOffset(double offset, bool first) 
-		{
-			if(first) 
-			{
-				this.offset = offset;
-			} 
-			else if(!double.IsNaN(this.offset) && this.offset != offset)
-			{
-				this.offset = double.NaN;
-			}
-		}
+        public void SetValues(double anglexy, double anglez, double offset, bool first)
+        {
+            if (first)
+            {
+                // Set values
+                this.anglexy = anglexy;
+                this.anglez = anglez;
+                this.offset = offset;
+            }
+            else
+            {
+                // Or update values
+                if (!double.IsNaN(this.anglexy) && this.anglexy != anglexy) this.anglexy = double.NaN;
+                if (!double.IsNaN(this.anglez) && this.anglez != anglez) this.anglez = double.NaN;
+                if (!double.IsNaN(this.offset) && this.offset != offset) this.offset = double.NaN;
+            }
+        }
 
-		public void UpdateControls() 
-		{
-			preventchanges = true;
+        public void SetOffset(double offset, bool first)
+        {
+            if (first)
+            {
+                this.offset = offset;
+            }
+            else if (!double.IsNaN(this.offset) && this.offset != offset)
+            {
+                this.offset = double.NaN;
+            }
+        }
 
-			if(double.IsNaN(anglexy)) 
-			{
-				sloperotation.Text = "";
-				rotationcontrol.Angle = AngleControlEx.NO_ANGLE;
-			} 
-			else 
-			{
-				sloperotation.Text = anglexy.ToString();
-				rotationcontrol.Angle = (int)Math.Round(anglexy + 90);
-			}
+        public void UpdateControls()
+        {
+            preventchanges = true;
 
-			if(double.IsNaN(anglez)) 
-			{
-				slopeangle.Text = "";
-				angletrackbar.Value = 0;
-			} 
-			else 
-			{
-				//clamp value to [-85 .. 85]
-				anglez = General.Clamp(anglez, angletrackbar.Minimum, angletrackbar.Maximum);
+            if (double.IsNaN(anglexy))
+            {
+                sloperotation.Text = "";
+                rotationcontrol.Angle = AngleControlEx.NO_ANGLE;
+            }
+            else
+            {
+                sloperotation.Text = anglexy.ToString();
+                rotationcontrol.Angle = (int)Math.Round(anglexy + 90);
+            }
 
-				slopeangle.Text = anglez.ToString();
-				angletrackbar.Value = (int)General.Clamp(anglez, angletrackbar.Minimum, angletrackbar.Maximum);
-			}
+            if (double.IsNaN(anglez))
+            {
+                slopeangle.Text = "";
+                angletrackbar.Value = 0;
+            }
+            else
+            {
+                //clamp value to [-85 .. 85]
+                anglez = General.Clamp(anglez, angletrackbar.Minimum, angletrackbar.Maximum);
 
-			slopeoffset.Text = (double.IsNaN(offset) ? "" : offset.ToString());
+                slopeangle.Text = anglez.ToString();
+                angletrackbar.Value = (int)General.Clamp(anglez, angletrackbar.Minimum, angletrackbar.Maximum);
+            }
 
-			preventchanges = false;
-		}
+            slopeoffset.Text = double.IsNaN(offset) ? "" : offset.ToString();
 
-		public void UpdateOffset() 
-		{
-			preventchanges = true;
-			slopeoffset.Text = (double.IsNaN(offset) ? "" : offset.ToString());
-			preventchanges = false;
-		}
+            preventchanges = false;
+        }
 
-		#endregion
+        public void UpdateOffset()
+        {
+            preventchanges = true;
+            slopeoffset.Text = double.IsNaN(offset) ? "" : offset.ToString();
+            preventchanges = false;
+        }
 
-		#region ================== Events
+        #endregion
 
-		private void sloperotation_WhenTextChanged(object sender, EventArgs e) 
-		{
-			if(preventchanges) return;
-			preventchanges = true;
+        #region ================== Events
 
-			anglexy = General.ClampAngle(sloperotation.GetResultFloat(double.NaN));
-			rotationcontrol.Angle = (double.IsNaN(anglexy) ? AngleControlEx.NO_ANGLE : (int)Math.Round(anglexy + 90));
+        private void sloperotation_WhenTextChanged(object sender, EventArgs e)
+        {
+            if (preventchanges) return;
+            preventchanges = true;
 
-			if(OnAnglesChanged != null) OnAnglesChanged(this, EventArgs.Empty);
-			preventchanges = false;
-		}
+            anglexy = General.ClampAngle(sloperotation.GetResultFloat(double.NaN));
+            rotationcontrol.Angle = double.IsNaN(anglexy) ? AngleControlEx.NO_ANGLE : (int)Math.Round(anglexy + 90);
 
-		private void rotationcontrol_AngleChanged(object sender, EventArgs e) 
-		{
-			if(preventchanges) return;
-			preventchanges = true;
+            if (OnAnglesChanged != null) OnAnglesChanged(this, EventArgs.Empty);
+            preventchanges = false;
+        }
 
-			anglexy = General.ClampAngle(rotationcontrol.Angle - 90);
-			sloperotation.Text = anglexy.ToString();
+        private void rotationcontrol_AngleChanged(object sender, EventArgs e)
+        {
+            if (preventchanges) return;
+            preventchanges = true;
 
-			if(OnAnglesChanged != null) OnAnglesChanged(this, EventArgs.Empty);
-			preventchanges = false;
-		}
+            anglexy = General.ClampAngle(rotationcontrol.Angle - 90);
+            sloperotation.Text = anglexy.ToString();
 
-		private void slopeangle_WhenTextChanged(object sender, EventArgs e) 
-		{
-			if(preventchanges) return;
-			preventchanges = true;
+            if (OnAnglesChanged != null) OnAnglesChanged(this, EventArgs.Empty);
+            preventchanges = false;
+        }
 
-			anglez = General.Clamp((int)Math.Round(slopeangle.GetResultFloat(0f)), angletrackbar.Minimum, angletrackbar.Maximum);
-			angletrackbar.Value = (int)anglez;
+        private void slopeangle_WhenTextChanged(object sender, EventArgs e)
+        {
+            if (preventchanges) return;
+            preventchanges = true;
 
-			if(OnAnglesChanged != null) OnAnglesChanged(this, EventArgs.Empty);
-			preventchanges = false;
-		}
+            anglez = General.Clamp((int)Math.Round(slopeangle.GetResultFloat(0f)), angletrackbar.Minimum, angletrackbar.Maximum);
+            angletrackbar.Value = (int)anglez;
 
-		private void angletrackbar_ValueChanged(object sender, EventArgs e) 
-		{
-			if(preventchanges) return;
-			preventchanges = true;
+            if (OnAnglesChanged != null) OnAnglesChanged(this, EventArgs.Empty);
+            preventchanges = false;
+        }
 
-			slopeangle.Text = angletrackbar.Value.ToString();
-			anglez = angletrackbar.Value;
+        private void angletrackbar_ValueChanged(object sender, EventArgs e)
+        {
+            if (preventchanges) return;
+            preventchanges = true;
 
-			if(OnAnglesChanged != null) OnAnglesChanged(this, EventArgs.Empty);
-			preventchanges = false;
-		}
+            slopeangle.Text = angletrackbar.Value.ToString();
+            anglez = angletrackbar.Value;
 
-		private void slopeoffset_WhenTextChanged(object sender, EventArgs e) 
-		{
-			if (preventchanges) return;
-			preventchanges = true;
+            if (OnAnglesChanged != null) OnAnglesChanged(this, EventArgs.Empty);
+            preventchanges = false;
+        }
 
-			offset = slopeoffset.GetResultFloat(double.NaN);
-			if(OnAnglesChanged != null) OnAnglesChanged(this, EventArgs.Empty);
-			preventchanges = false;
-		}
+        private void slopeoffset_WhenTextChanged(object sender, EventArgs e)
+        {
+            if (preventchanges) return;
+            preventchanges = true;
 
-		private void reset_Click(object sender, EventArgs e) 
-		{
-			preventchanges = true;
+            offset = slopeoffset.GetResultFloat(double.NaN);
+            if (OnAnglesChanged != null) OnAnglesChanged(this, EventArgs.Empty);
+            preventchanges = false;
+        }
 
-			sloperotation.Text = "0";
-			rotationcontrol.Angle = 90;
-			slopeangle.Text = "0";
-			angletrackbar.Value = 0;
-			slopeoffset.Text = "0";
-			anglexy = 0.0;
-			anglez = 0.0;
-			offset = 0.0;
+        private void reset_Click(object sender, EventArgs e)
+        {
+            preventchanges = true;
 
-			if(OnResetClicked != null) OnResetClicked(this, EventArgs.Empty);
-			preventchanges = false;
-		}
+            sloperotation.Text = "0";
+            rotationcontrol.Angle = 90;
+            slopeangle.Text = "0";
+            angletrackbar.Value = 0;
+            slopeoffset.Text = "0";
+            anglexy = 0.0;
+            anglez = 0.0;
+            offset = 0.0;
 
-		private void pivotmodeselector_SelectedIndexChanged(object sender, EventArgs e) 
-		{
-			if(preventchanges) return;
-			if(OnPivotModeChanged != null) OnPivotModeChanged(this, EventArgs.Empty);
-		}
+            if (OnResetClicked != null) OnResetClicked(this, EventArgs.Empty);
+            preventchanges = false;
+        }
 
-		private void cbuselineangles_CheckedChanged(object sender, EventArgs e) 
-		{
-			sloperotation.ButtonStepsWrapAround = cbuselineangles.Checked;
-			if(preventchanges) return;
-			if(OnUseLineAnglesChanged != null) OnUseLineAnglesChanged(this, EventArgs.Empty);
-		}
+        private void pivotmodeselector_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (preventchanges) return;
+            if (OnPivotModeChanged != null) OnPivotModeChanged(this, EventArgs.Empty);
+        }
 
-		#endregion
+        private void cbuselineangles_CheckedChanged(object sender, EventArgs e)
+        {
+            sloperotation.ButtonStepsWrapAround = cbuselineangles.Checked;
+            if (preventchanges) return;
+            if (OnUseLineAnglesChanged != null) OnUseLineAnglesChanged(this, EventArgs.Empty);
+        }
 
-	}
+        #endregion
+
+    }
 }

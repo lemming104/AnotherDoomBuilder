@@ -29,63 +29,63 @@ using System;
 
 namespace CodeImp.DoomBuilder.UDBScript
 {
-	[Serializable]
-	public class UserScriptAbortException : Exception
-	{
-		public UserScriptAbortException()
-		{
-		}
+    [Serializable]
+    public class UserScriptAbortException : Exception
+    {
+        public UserScriptAbortException()
+        {
+        }
 
-		public UserScriptAbortException(string message) : base(message)
-		{
-		}
-	}
+        public UserScriptAbortException(string message) : base(message)
+        {
+        }
+    }
 
-	[Serializable]
-	public class CantConvertToVectorException : Exception
-	{
-		public CantConvertToVectorException()
-		{
-		}
+    [Serializable]
+    public class CantConvertToVectorException : Exception
+    {
+        public CantConvertToVectorException()
+        {
+        }
 
-		public CantConvertToVectorException(string message) : base(message)
-		{
-		}
-	}
+        public CantConvertToVectorException(string message) : base(message)
+        {
+        }
+    }
 
-	[Serializable]
-	public class ExitScriptException : Exception
-	{
-		public ExitScriptException()
-		{
-		}
+    [Serializable]
+    public class ExitScriptException : Exception
+    {
+        public ExitScriptException()
+        {
+        }
 
-		public ExitScriptException(string message) : base(message)
-		{
-		}
-	}
+        public ExitScriptException(string message) : base(message)
+        {
+        }
+    }
 
-	[Serializable]
-	public class DieScriptException : Exception
-	{
-		public DieScriptException()
-		{
-		}
+    [Serializable]
+    public class DieScriptException : Exception
+    {
+        public DieScriptException()
+        {
+        }
 
-		public DieScriptException(string message) : base(message)
-		{
-		}
-	}
+        public DieScriptException(string message) : base(message)
+        {
+        }
+    }
 
-	[Serializable]
-	public class ScriptRuntimeException : Exception
-	{
-		public ScriptRuntimeException()
-		{
-		}
+    [Serializable]
+    public class ScriptRuntimeException : Exception
+    {
+        public ScriptRuntimeException()
+        {
+        }
 
-		public ScriptRuntimeException(string message) : base(message)
-		{
-		}
-	}
+        public ScriptRuntimeException(string message) : base(message)
+        {
+        }
+    }
 }

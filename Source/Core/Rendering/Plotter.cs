@@ -16,8 +16,8 @@
 
 #region ================== Namespaces
 
-using System;
 using CodeImp.DoomBuilder.Geometry;
+using System;
 
 #endregion
 
@@ -60,7 +60,7 @@ namespace CodeImp.DoomBuilder.Rendering
         {
             // Initialize
             Texture = new Texture(width, height, TextureFormat.Bgra8);
-            this.pixels = new PixelColor[width*height];
+            this.pixels = new PixelColor[width * height];
             this.width = width;
             this.height = height;
             this.visiblewidth = width;
@@ -89,7 +89,7 @@ namespace CodeImp.DoomBuilder.Rendering
         public void Clear()
         {
             // Clear memory
-            fixed(PixelColor* pixel = pixels)
+            fixed (PixelColor* pixel = pixels)
             {
                 uint* op = (uint*)pixel;
                 for (int i = 0; i < pixels.Length; i++)
@@ -107,7 +107,7 @@ namespace CodeImp.DoomBuilder.Rendering
 
             // Draw pixel when within range
             if ((x >= 0) && (x < visiblewidth) && (y >= 0) && (y < visibleheight))
-                pixels[y * width + x] = c;
+                pixels[(y * width) + x] = c;
         }
 
         // This draws a pixel normally
@@ -126,27 +126,27 @@ namespace CodeImp.DoomBuilder.Rendering
                 // Filled square
                 for (int yp = y1; yp <= y2; yp++)
                     for (int xp = x1; xp <= x2; xp++)
-                        pixels[yp * width + xp] = c;
+                        pixels[(yp * width) + xp] = c;
 
                 if (!General.Settings.FlatShadeVertices)
                 {
                     // Vertical edges
                     for (int yp = y1 + 1; yp <= y2 - 1; yp++)
                     {
-                        pixels[yp * width + x1] = l;
-                        pixels[yp * width + x2] = d;
+                        pixels[(yp * width) + x1] = l;
+                        pixels[(yp * width) + x2] = d;
                     }
 
                     // Horizontal edges
                     for (int xp = x1 + 1; xp <= x2 - 1; xp++)
                     {
-                        pixels[y1 * width + xp] = l;
-                        pixels[y2 * width + xp] = d;
+                        pixels[(y1 * width) + xp] = l;
+                        pixels[(y2 * width) + xp] = d;
                     }
 
                     // Corners
-                    pixels[y2 * width + x2] = d;
-                    pixels[y1 * width + x1] = l;
+                    pixels[(y2 * width) + x2] = d;
+                    pixels[(y1 * width) + x1] = l;
                 }
             }
             /*
@@ -210,7 +210,7 @@ namespace CodeImp.DoomBuilder.Rendering
             if ((x >= 0) && (x < width))
             {
                 // Draw all pixels on this line
-                for (int i = y2; i < y1; i++) pixels[((i << 1) | offset) * width + x] = c;
+                for (int i = y2; i < y1; i++) pixels[(((i << 1) | offset) * width) + x] = c;
             }
         }
 
@@ -225,7 +225,7 @@ namespace CodeImp.DoomBuilder.Rendering
                 if ((x >= 0) && (x < visiblewidth) && (y >= 0) && (y < visibleheight))
                 {
                     // Get the target pixel
-                    PixelColor* p = pixels + (y * width + x);
+                    PixelColor* p = pixels + ((y * width) + x);
 
                     // Not drawn on target yet?
                     if (*(int*)p == 0)
@@ -238,9 +238,9 @@ namespace CodeImp.DoomBuilder.Rendering
                         // Blend with pixel
                         float a = c.a * 0.003921568627450980392156862745098f;
                         if (p->a + c.a > 255) p->a = 255; else p->a += c.a;
-                        p->r = (byte)(p->r * (1f - a) + c.r * a);
-                        p->g = (byte)(p->g * (1f - a) + c.g * a);
-                        p->b = (byte)(p->b * (1f - a) + c.b * a);
+                        p->r = (byte)((p->r * (1f - a)) + (c.r * a));
+                        p->g = (byte)((p->g * (1f - a)) + (c.g * a));
+                        p->b = (byte)((p->b * (1f - a)) + (c.b * a));
                     }
                 }
             }
@@ -288,7 +288,7 @@ namespace CodeImp.DoomBuilder.Rendering
                (y1 >= 0) && (y2 >= 0) && (y1 < visibleheight) && (y2 < visibleheight))
             {
                 // Draw first pixel
-                pixels[py * width + px] = c;
+                pixels[(py * width) + px] = c;
 
                 // Check if the line is more horizontal than vertical
                 if (dxabs >= dyabs)
@@ -306,7 +306,7 @@ namespace CodeImp.DoomBuilder.Rendering
                         // Draw pixel
                         if ((mask & (1 << (i & 0x7))) != 0)
                         {
-                            pixels[py * width + px] = c;
+                            pixels[(py * width) + px] = c;
                         }
                     }
                 }
@@ -326,7 +326,7 @@ namespace CodeImp.DoomBuilder.Rendering
                         // Draw pixel
                         if ((mask & (1 << (i & 0x7))) != 0)
                         {
-                            pixels[py * width + px] = c;
+                            pixels[(py * width) + px] = c;
                         }
                     }
                 }
@@ -335,7 +335,7 @@ namespace CodeImp.DoomBuilder.Rendering
             {
                 // Draw first pixel
                 if ((px >= 0) && (px < visiblewidth) && (py >= 0) && (py < visibleheight))
-                    pixels[py * width + px] = c;
+                    pixels[(py * width) + px] = c;
 
                 // Check if the line is more horizontal than vertical
                 if (dxabs >= dyabs)
@@ -354,7 +354,7 @@ namespace CodeImp.DoomBuilder.Rendering
                         if ((mask & (1 << (i & 0x7))) != 0)
                         {
                             if ((px >= 0) && (px < visiblewidth) && (py >= 0) && (py < visibleheight))
-                                pixels[py * width + px] = c;
+                                pixels[(py * width) + px] = c;
                         }
                     }
                 }
@@ -375,7 +375,7 @@ namespace CodeImp.DoomBuilder.Rendering
                         if ((mask & (1 << (i & 0x7))) != 0)
                         {
                             if ((px >= 0) && (px < visiblewidth) && (py >= 0) && (py < visibleheight))
-                                pixels[py * width + px] = c;
+                                pixels[(py * width) + px] = c;
                         }
                     }
                 }
@@ -385,8 +385,8 @@ namespace CodeImp.DoomBuilder.Rendering
         //mxd
         public void DrawLine3DFloor(int x1, int y1, int x2, int y2, ref PixelColor c, PixelColor c2)
         {
-			Line2D line = new Line2D(x1, y1, x2, y2);
-			double length = line.GetLength();
+            Line2D line = new Line2D(x1, y1, x2, y2);
+            double length = line.GetLength();
 
             if (length < DASH_INTERVAL * 2)
             {
@@ -394,12 +394,12 @@ namespace CodeImp.DoomBuilder.Rendering
             }
             else
             {
-				double d1 = DASH_INTERVAL / length;
-				double d2 = 1.0f - d1;
+                double d1 = DASH_INTERVAL / length;
+                double d2 = 1.0f - d1;
 
-				
-				Vector2D p1 = line.GetCoordinatesAt(d1);
-				Vector2D p2 = line.GetCoordinatesAt(d2);
+
+                Vector2D p1 = line.GetCoordinatesAt(d1);
+                Vector2D p2 = line.GetCoordinatesAt(d2);
 
                 DrawLineSolid(x1, y1, (int)p1.x, (int)p1.y, ref c2);
                 DrawLineSolid((int)p1.x, (int)p1.y, (int)p2.x, (int)p2.y, ref c);

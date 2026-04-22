@@ -16,86 +16,86 @@
 
 #region ================== Namespaces
 
-using System.Drawing;
 using CodeImp.DoomBuilder.Config;
-using System.Windows.Forms;
 using CodeImp.DoomBuilder.Windows;
+using System.Drawing;
+using System.Windows.Forms;
 
 #endregion
 
 namespace CodeImp.DoomBuilder.Types
 {
-	[TypeHandler(UniversalType.ThingClass, "Thing Class", false)]
-	internal class ThingClassHandler : TypeHandler
-	{
-		#region ================== Constants
+    [TypeHandler(UniversalType.ThingClass, "Thing Class", false)]
+    internal class ThingClassHandler : TypeHandler
+    {
+        #region ================== Constants
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		private string value = "";
+        private string value = "";
 
-		#endregion
+        #endregion
 
-		#region ================== Properties
+        #region ================== Properties
 
-		public override bool IsBrowseable { get { return true; } }
+        public override bool IsBrowseable { get { return true; } }
 
-		public override Image BrowseImage { get { return Properties.Resources.List; } }
-		
-		#endregion
+        public override Image BrowseImage { get { return Properties.Resources.List; } }
 
-		#region ================== Methods
+        #endregion
 
-		public override void Browse(IWin32Window parent)
-		{
-			int tid = 0;
-			
-			// Find the thing with this class name
-			foreach(ThingTypeInfo t in General.Map.Data.ThingTypes)
-			{
-				if((string.Compare(t.ClassName, value, true) == 0)) //mxd
-				{
-					tid = t.Index;
-					break;
-				}
-			}
-			
-			ThingBrowserForm f = new ThingBrowserForm(tid);
-			if(f.ShowDialog(Form.ActiveForm) == DialogResult.OK) 
-			{
-				// Find the class name for this thing
-				ThingTypeInfo t = General.Map.Data.GetThingInfo(f.SelectedType);
-				this.value = !string.IsNullOrEmpty(t.ClassName) ? t.ClassName : ""; //mxd
-			}
-			
-			f.Dispose();
-		}
+        #region ================== Methods
 
-		public override void SetValue(object value)
-		{
-			if(value != null)
-				this.value = value.ToString();
-			else
-				this.value = "";
-		}
+        public override void Browse(IWin32Window parent)
+        {
+            int tid = 0;
 
-		public override object GetValue()
-		{
-			return this.value;
-		}
+            // Find the thing with this class name
+            foreach (ThingTypeInfo t in General.Map.Data.ThingTypes)
+            {
+                if (string.Compare(t.ClassName, value, true) == 0) //mxd
+                {
+                    tid = t.Index;
+                    break;
+                }
+            }
 
-		public override string GetStringValue()
-		{
-			return this.value;
-		}
+            ThingBrowserForm f = new ThingBrowserForm(tid);
+            if (f.ShowDialog(Form.ActiveForm) == DialogResult.OK)
+            {
+                // Find the class name for this thing
+                ThingTypeInfo t = General.Map.Data.GetThingInfo(f.SelectedType);
+                this.value = !string.IsNullOrEmpty(t.ClassName) ? t.ClassName : ""; //mxd
+            }
 
-		public override object GetDefaultValue()
-		{
-			return string.Empty;
-		}
+            f.Dispose();
+        }
 
-		#endregion
-	}
+        public override void SetValue(object value)
+        {
+            if (value != null)
+                this.value = value.ToString();
+            else
+                this.value = "";
+        }
+
+        public override object GetValue()
+        {
+            return this.value;
+        }
+
+        public override string GetStringValue()
+        {
+            return this.value;
+        }
+
+        public override object GetDefaultValue()
+        {
+            return string.Empty;
+        }
+
+        #endregion
+    }
 }

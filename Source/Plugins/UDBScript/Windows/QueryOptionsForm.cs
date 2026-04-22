@@ -21,59 +21,59 @@
 
 #endregion
 
+using CodeImp.DoomBuilder.Windows;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Windows.Forms;
-using CodeImp.DoomBuilder.Windows;
 
 namespace CodeImp.DoomBuilder.UDBScript
 {
-	public partial class QueryOptionsForm : DelayedForm
-	{
-		public QueryOptionsForm()
-		{
-			InitializeComponent();
-		}
+    public partial class QueryOptionsForm : DelayedForm
+    {
+        public QueryOptionsForm()
+        {
+            InitializeComponent();
+        }
 
-		public void AddOption(string name, string description, int type, object defaultvalue)	
-		{
-			AddOption(name, description, type, defaultvalue, null);
-		}
+        public void AddOption(string name, string description, int type, object defaultvalue)
+        {
+            AddOption(name, description, type, defaultvalue, null);
+        }
 
-		public void AddOption(string name, string description, int type, object defaultvalue, Dictionary<string, object> enumvalues)
-		{
-			int index = parametersview.ParametersView.Rows.Add();
+        public void AddOption(string name, string description, int type, object defaultvalue, Dictionary<string, object> enumvalues)
+        {
+            int index = parametersview.ParametersView.Rows.Add();
 
-			ScriptOption so = new ScriptOption(name, description, type, enumvalues, defaultvalue);
+            ScriptOption so = new ScriptOption(name, description, type, enumvalues, defaultvalue);
 
-			so.ReloadTypeHandler();
+            so.ReloadTypeHandler();
 
-			parametersview.ParametersView.Rows[index].Cells["Description"].Value = description;
-			parametersview.ParametersView.Rows[index].Cells["Value"].Value = so.value;
-			parametersview.ParametersView.Rows[index].Tag = so;
-		}
+            parametersview.ParametersView.Rows[index].Cells["Description"].Value = description;
+            parametersview.ParametersView.Rows[index].Cells["Value"].Value = so.value;
+            parametersview.ParametersView.Rows[index].Tag = so;
+        }
 
-		public void Clear()
-		{
-			parametersview.ParametersView.Rows.Clear();
-		}
+        public void Clear()
+        {
+            parametersview.ParametersView.Rows.Clear();
+        }
 
-		public ExpandoObject GetScriptOptions()
-		{
-			return parametersview.GetScriptOptions();
-		}
+        public ExpandoObject GetScriptOptions()
+        {
+            return parametersview.GetScriptOptions();
+        }
 
-		private void btnOK_Click(object sender, EventArgs e)
-		{
-			DialogResult = DialogResult.OK;
-			Close();
-		}
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.OK;
+            Close();
+        }
 
-		private void btnCancel_Click(object sender, EventArgs e)
-		{
-			DialogResult = DialogResult.Cancel;
-			Close();
-		}
-	}
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Close();
+        }
+    }
 }

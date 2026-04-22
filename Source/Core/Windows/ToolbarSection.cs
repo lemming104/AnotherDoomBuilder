@@ -20,19 +20,19 @@
 
 namespace CodeImp.DoomBuilder.Windows
 {
-	public enum ToolbarSection
-	{
-		File,
-		Script,
-		UndoRedo,
-		CopyPaste,
-		Prefabs,
-		Things,
-		Views,
-		Geometry,
-		Helpers, //mxd
-		Testing,
-		Custom,
-		Modes //mxd
-	}
+    public enum ToolbarSection
+    {
+        File,
+        Script,
+        UndoRedo,
+        CopyPaste,
+        Prefabs,
+        Things,
+        Views,
+        Geometry,
+        Helpers, //mxd
+        Testing,
+        Custom,
+        Modes //mxd
+    }
 }
