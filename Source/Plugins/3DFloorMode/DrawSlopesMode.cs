@@ -11,12 +11,12 @@
  * 
  */
 
-
 using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
+using CodeImp.DoomBuilder.ThreeDFloorMode.Windows;
 using CodeImp.DoomBuilder.Types;
 using CodeImp.DoomBuilder.Windows;
 using System;

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.ThreeDFloorMode
+namespace CodeImp.DoomBuilder.ThreeDFloorMode.Windows
 {
     public partial class MenusForm : Form
     {

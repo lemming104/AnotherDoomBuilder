@@ -17,6 +17,7 @@ using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Plugins;
+using CodeImp.DoomBuilder.ThreeDFloorMode.Windows;
 using CodeImp.DoomBuilder.Types;
 // using CodeImp.DoomBuilder.GZBuilder.Geometry;
 using CodeImp.DoomBuilder.VisualModes;

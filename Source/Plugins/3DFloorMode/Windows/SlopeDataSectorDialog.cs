@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.ThreeDFloorMode
+namespace CodeImp.DoomBuilder.ThreeDFloorMode.Windows
 {
     public partial class SlopeDataSectorDialog : Form
     {

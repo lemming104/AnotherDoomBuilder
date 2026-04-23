@@ -1,4 +1,4 @@
-﻿namespace CodeImp.DoomBuilder.ThreeDFloorMode
+﻿namespace CodeImp.DoomBuilder.ThreeDFloorMode.Windows
 {
 	partial class SlopeVertexEditForm
 	{
