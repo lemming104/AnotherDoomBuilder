@@ -263,7 +263,6 @@ namespace CodeImp.DoomBuilder.Config
         public int MaxRecentFiles { get { return maxRecentFiles; } internal set { maxRecentFiles = General.Clamp(value, 8, 25); } }
         public bool AutoClearSidedefTextures { get { return autoClearSideTextures; } internal set { autoClearSideTextures = value; } }
         public bool StoreSelectedEditTab { get { return storeSelectedEditTab; } internal set { storeSelectedEditTab = value; } }
-        internal bool CheckForUpdates { get { return checkforupdates; } set { checkforupdates = value; } } //mxd
         public bool RenderComments { get { return rendercomments; } internal set { rendercomments = value; } } //mxd
         public bool FixedThingsScale { get { return fixedthingsscale; } internal set { fixedthingsscale = value; } } //mxd
         public bool RenderGrid { get { return rendergrid; } internal set { rendergrid = value; } } //mxd

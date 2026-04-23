@@ -3308,12 +3308,6 @@ namespace CodeImp.DoomBuilder.Windows
             itemhelpeditmode.Enabled = General.Map != null && General.Editing.Mode != null;
         }
 
-        //mxd. Check updates clicked
-        private void itemhelpcheckupdates_Click(object sender, EventArgs e)
-        {
-            UpdateChecker.PerformCheck(true);
-        }
-
         //mxd. Github issues clicked
         private void itemhelpissues_Click(object sender, EventArgs e)
         {
