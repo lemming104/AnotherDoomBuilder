@@ -1,7 +1,11 @@
 <Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+  
   <PropertyGroup>
-    <BaseOutputPath>$(MSBuildThisFileDirectory)..\Core\bin\</BaseOutputPath>
-    
+    <OutputPath>$(MSBuildThisFileDirectory)..\Core\bin\Plugins</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+
     <TargetFramework>net472</TargetFramework>
     <OutputType>Library</OutputType>
     <UseWindowsForms>true</UseWindowsForms>
@@ -10,6 +14,6 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <ProjectReference Include="$(MSBuildThisFileDirectory)..\Core\Builder.csproj" />
+    <ProjectReference Include="$(MSBuildThisFileDirectory)..\Core\Builder.csproj" Private="false" CopyLocalSatelliteAssemblies="false" />
   </ItemGroup>
 </Project>

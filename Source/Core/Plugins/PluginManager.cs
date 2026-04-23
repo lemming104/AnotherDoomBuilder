@@ -151,37 +151,6 @@ namespace CodeImp.DoomBuilder.Plugins
                     filenames.RemoveAt(filenameindex);
                 }
             }
-
-            // Now load the remaining files
-            foreach (string fn in filenames)
-            {
-                // Load plugin from this file
-                Plugin p;
-                try
-                {
-                    p = new Plugin(fn);
-                }
-                catch (InvalidProgramException)
-                {
-                    p = null;
-                }
-
-                // Continue if no errors
-                if ((p != null) && (!p.IsDisposed))
-                {
-                    // Add to plugins
-                    this.plugins.Add(p);
-
-                    // Load actions
-                    General.Actions.LoadActions(p.Assembly);
-
-                    //mxd. And hints
-                    General.Hints.LoadHints(p.Assembly);
-
-                    // Plugin is now initialized
-                    p.Plug.OnInitialize();
-                }
-            }
         }
 
         // This returns a plugin by assembly, or null when plugin cannot be found
