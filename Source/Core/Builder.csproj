@@ -4,14 +4,15 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>CodeImp.DoomBuilder</RootNamespace>
     <StartupObject>CodeImp.DoomBuilder.General</StartupObject>
-    
+
     <ApplicationIcon>Resources\UDB2.ico</ApplicationIcon>
     <UseWindowsForms>true</UseWindowsForms>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-    
+
     <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+
   <ItemGroup>
     <Compile Update="Controls\ActionSelectorControl.cs" SubType="UserControl" />
     <Compile Update="Controls\ActionSpecialHelpButton.cs" SubType="UserControl" />
@@ -80,6 +81,7 @@
     <Compile Update="Controls\VertexInfoPanel.cs" SubType="UserControl" />
     <Compile Update="Controls\VisualStudioTabControl.cs" SubType="Component" />
   </ItemGroup>
+
   <ItemGroup>
     <Content Include="Resources\ClassicRendering.png" />
     <Content Include="Resources\DB2.ico" />
@@ -115,49 +117,29 @@
     <EmbeddedResource Include="Resources\world3d.shader" />
     <EmbeddedResource Include="Resources\world3d_skybox.shader" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\Assets\Common\Configurations\**" Link="Configurations\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\Assets\Common\Scripting\**" Link="Scripting\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\Assets\Common\Snippets\**" Link="Snippets\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\Assets\Common\Sprites\**" Link="Sprites\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\Assets\Common\Textures\**" Link="Textures\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\Assets\Common\UDBScript\**" Link="UDBScript\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\Assets\Common\Plugins\Loadorder.cfg" Link="Plugins\Loadorder.cfg" CopyToOutputDirectory="PreserveNewest" />
+
+    <!-- The following need to be explicitly handled for Windows vs. Linux at some point in the future -->
+    <Content Include="..\..\Assets\Windows\Compilers\**" Link="Compilers\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\Assets\Windows\Scripting\**" Link="Scripting\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="System.Management" Version="10.0.6" />
     <PackageReference Include="System.Resources.Extensions" Version="10.0.6" />
     <PackageReference Include="Scintilla.NET" Version="5.3.2.9" />
     <PackageReference Include="SharpCompress" Version="0.47.4" />
   </ItemGroup>
+
   <ItemGroup>
     <Reference Include="System.Design" />
-  </ItemGroup>
-
-  <PropertyGroup>
-    <IsWindows Condition="'$(OS)' == 'Windows_NT'">true</IsWindows>
-    <IsLinux Condition="'$(OS)' != 'Windows_NT'">true</IsLinux>
-  </PropertyGroup>
-  <ItemGroup>
-    <None Include="..\..\Assets\**\*">
-      <Link>Assets\%(RecursiveDir)%(Filename)%(Extension)</Link>
-      <Visible>true</Visible>
-    </None>
-    <None Include="..\..\Assets\Common\**\*">
-      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
-      <Visible>false</Visible>
-      <IsAsset>true</IsAsset>
-    </None>
-    <None Include="..\..\Assets\Windows\**\*" Condition="'$(IsWindows)' == 'true'">
-      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
-      <Visible>false</Visible>
-      <IsAsset>true</IsAsset>
-    </None>
-    <None Include="..\..\Assets\Windows.$(Platform)\**\*" Condition="'$(IsWindows)' == 'true'">
-      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
-      <Visible>false</Visible>
-      <IsAsset>true</IsAsset>
-    </None>
-    <None Include="..\..\Assets\Linux\**\*" Condition="'$(IsLinux)' == 'true'">
-      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
-      <Visible>false</Visible>
-      <IsAsset>true</IsAsset>
-    </None>
-    <None Include="..\..\Assets\Linux.$(Platform)\**\*" Condition="'$(IsLinux)' == 'true'">
-      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
-      <Visible>false</Visible>
-      <IsAsset>true</IsAsset>
-    </None>
   </ItemGroup>
 </Project>
