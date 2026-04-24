@@ -1,4 +1,4 @@
-﻿
+﻿using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using System;
@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     [FindReplace("Sidedef Texture (Upper)", BrowseButton = true)]
     internal class FindSidedefUpperTexture : BaseFindSidedef
@@ -27,7 +27,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This is called when the browse button is pressed
         public override string Browse(string initialvalue)
         {
-            return General.Interface.BrowseTexture(BuilderPlug.Me.FindReplaceForm, initialvalue);
+            return DoomBuilder.General.Interface.BrowseTexture(BuilderPlug.Me.FindReplaceForm, initialvalue);
         }
 
         // This is called to perform a search (and replace)
@@ -38,7 +38,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             List<FindReplaceObject> objs = new List<FindReplaceObject>();
 
             // Interpret the replacement
-            if (replace && (string.IsNullOrEmpty(replacewith) || replacewith.Length > General.Map.Config.MaxTextureNameLength))
+            if (replace && (string.IsNullOrEmpty(replacewith) || replacewith.Length > DoomBuilder.General.Map.Config.MaxTextureNameLength))
             {
                 MessageBox.Show("Invalid replace value for this search type!", "Find and Replace", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return objs.ToArray();
@@ -49,7 +49,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             MatchingTextureSet set = new MatchingTextureSet(new Collection<string> { value.Trim() }); //mxd
 
             // Where to search?
-            ICollection<Sidedef> sidelist = withinselection ? General.Map.Map.GetSidedefsFromSelectedLinedefs(true) : General.Map.Map.Sidedefs;
+            ICollection<Sidedef> sidelist = withinselection ? DoomBuilder.General.Map.Map.GetSidedefsFromSelectedLinedefs(true) : DoomBuilder.General.Map.Map.Sidedefs;
 
             // Go for all sidedefs
             foreach (Sidedef sd in sidelist)
@@ -63,7 +63,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // When replacing, make sure we keep track of used textures
-            if (replace) General.Map.Data.UpdateUsedTextures();
+            if (replace) DoomBuilder.General.Map.Data.UpdateUsedTextures();
 
             return objs.ToArray();
         }

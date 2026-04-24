@@ -12,12 +12,14 @@
  */
 
 
+using CodeImp.DoomBuilder.BuilderModes.FindReplace;
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
 {
     [EditMode(DisplayName = "Find and Replace Mode",
               SwitchAction = "findmode",
@@ -35,7 +37,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
         public override void OnHelp()
         {
-            General.ShowHelp("e_findreplace.html");
+            DoomBuilder.General.ShowHelp("e_findreplace.html");
         }
 
         // Cancelled
@@ -45,7 +47,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnCancel();
 
             // Return to base mode
-            General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
+            DoomBuilder.General.Editing.ChangeMode(DoomBuilder.General.Editing.PreviousStableMode.Name);
         }
 
         // Mode engages
@@ -53,10 +55,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             base.OnEngage();
             renderer.SetPresentation(Presentation.Standard);
-            General.Map.Map.SelectionType = SelectionType.All;
+            DoomBuilder.General.Map.Map.SelectionType = SelectionType.All;
 
             // Select linedefs by sectors
-            foreach (Linedef ld in General.Map.Map.Linedefs)
+            foreach (Linedef ld in DoomBuilder.General.Map.Map.Linedefs)
             {
                 if (ld.Selected == false)
                 {
@@ -68,7 +70,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Show toolbox window
-            BuilderPlug.Me.FindReplaceForm.Show((Form)General.Interface, this);
+            BuilderPlug.Me.FindReplaceForm.Show((Form)DoomBuilder.General.Interface, this);
         }
 
         // Disenagaging
@@ -77,7 +79,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnDisengage();
 
             // Hide object info
-            General.Interface.HideInfo();
+            DoomBuilder.General.Interface.HideInfo();
 
             // Hide toolbox window
             BuilderPlug.Me.FindReplaceForm.Hide();
@@ -87,14 +89,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public override void OnAccept()
         {
             // Snap to map format accuracy
-            General.Map.Map.SnapAllToAccuracy();
+            DoomBuilder.General.Map.Map.SnapAllToAccuracy();
 
             // Update caches
-            General.Map.Map.Update();
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Map.IsChanged = true;
 
             // Return to base mode
-            General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
+            DoomBuilder.General.Editing.ChangeMode(DoomBuilder.General.Editing.PreviousStableMode.Name);
         }
 
         // Redrawing display
@@ -108,17 +110,17 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Render lines
             if (renderer.StartPlotter(true))
             {
-                renderer.PlotLinedefSet(General.Map.Map.Linedefs);
+                renderer.PlotLinedefSet(DoomBuilder.General.Map.Map.Linedefs);
                 if (BuilderPlug.Me.FindReplaceForm.Finder != null)
                     BuilderPlug.Me.FindReplaceForm.Finder.PlotSelection(renderer, selection);
-                renderer.PlotVerticesSet(General.Map.Map.Vertices);
+                renderer.PlotVerticesSet(DoomBuilder.General.Map.Map.Vertices);
                 renderer.Finish();
             }
 
             // Render things
             if (renderer.StartThings(true))
             {
-                renderer.RenderThingSet(General.Map.Map.Things, General.Settings.ActiveThingsAlpha);
+                renderer.RenderThingSet(DoomBuilder.General.Map.Map.Things, DoomBuilder.General.Settings.ActiveThingsAlpha);
                 if (BuilderPlug.Me.FindReplaceForm.Finder != null)
                     BuilderPlug.Me.FindReplaceForm.Finder.RenderThingsSelection(renderer, selection);
                 renderer.Finish();

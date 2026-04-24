@@ -1,10 +1,9 @@
-﻿
-using CodeImp.DoomBuilder.Map;
+﻿using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultInvalidPolyobjectThings : ErrorResult
     {
@@ -65,7 +64,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public override void RenderOverlaySelection(IRenderer2D renderer)
         {
             foreach (Thing thing in things)
-                renderer.RenderThing(thing, General.Colors.Selection, General.Settings.ActiveThingsAlpha);
+                renderer.RenderThing(thing, DoomBuilder.General.Colors.Selection, DoomBuilder.General.Settings.ActiveThingsAlpha);
         }
     }
 }

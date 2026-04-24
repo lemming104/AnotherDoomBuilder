@@ -12,6 +12,7 @@
  */
 
 
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
@@ -21,7 +22,7 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     [FindReplace("Any Texture or Flat", BrowseButton = true)]
     internal class FindAnyTextureFlat : FindReplaceType
@@ -41,13 +42,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd. 
         public override bool CanReplace()
         {
-            return General.Map.Config.MixTexturesFlats;
+            return DoomBuilder.General.Map.Config.MixTexturesFlats;
         }
 
         // This is called when the browse button is pressed
         public override string Browse(string initialvalue)
         {
-            return General.Interface.BrowseTexture(BuilderPlug.Me.FindReplaceForm, initialvalue);
+            return DoomBuilder.General.Interface.BrowseTexture(BuilderPlug.Me.FindReplaceForm, initialvalue);
         }
 
 
@@ -59,7 +60,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             List<FindReplaceObject> objs = new List<FindReplaceObject>();
 
             // Interpret the replacement
-            if (replace && (string.IsNullOrEmpty(replacewith) || replacewith.Length > General.Map.Config.MaxTextureNameLength))
+            if (replace && (string.IsNullOrEmpty(replacewith) || replacewith.Length > DoomBuilder.General.Map.Config.MaxTextureNameLength))
             {
                 MessageBox.Show("Invalid replace value for this search type!", "Find and Replace", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return objs.ToArray();
@@ -70,8 +71,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             MatchingTextureSet set = new MatchingTextureSet(new Collection<string> { value.Trim() }); //mxd
 
             // Where to search?
-            ICollection<Sector> seclist = withinselection ? General.Map.Map.GetSelectedSectors(true) : General.Map.Map.Sectors;
-            ICollection<Sidedef> sidelist = withinselection ? General.Map.Map.GetSidedefsFromSelectedLinedefs(true) : General.Map.Map.Sidedefs;
+            ICollection<Sector> seclist = withinselection ? DoomBuilder.General.Map.Map.GetSelectedSectors(true) : DoomBuilder.General.Map.Map.Sectors;
+            ICollection<Sidedef> sidelist = withinselection ? DoomBuilder.General.Map.Map.GetSidedefsFromSelectedLinedefs(true) : DoomBuilder.General.Map.Map.Sidedefs;
 
             // Go for all sectors
             foreach (Sector s in seclist)
@@ -122,9 +123,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // When replacing, make sure we keep track of used textures
             if (replace)
             {
-                General.Map.Data.UpdateUsedTextures();
-                General.Map.Map.Update(); //mxd. And don't forget to update the view itself
-                General.Map.IsChanged = true;
+                DoomBuilder.General.Map.Data.UpdateUsedTextures();
+                DoomBuilder.General.Map.Map.Update(); //mxd. And don't forget to update the view itself
+                DoomBuilder.General.Map.IsChanged = true;
             }
 
             return objs.ToArray();
@@ -137,14 +138,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 ZoomToSelection(selection);
                 if (selection[0].Object is Sector)
-                    General.Interface.ShowSectorInfo(selection[0].Sector);
+                    DoomBuilder.General.Interface.ShowSectorInfo(selection[0].Sector);
                 else if (selection[0].Object is Sidedef)
-                    General.Interface.ShowLinedefInfo(selection[0].Sidedef.Line);
+                    DoomBuilder.General.Interface.ShowLinedefInfo(selection[0].Sidedef.Line);
             }
             else
-                General.Interface.HideInfo();
+                DoomBuilder.General.Interface.HideInfo();
 
-            General.Map.Map.ClearAllSelected();
+            DoomBuilder.General.Map.Map.ClearAllSelected();
             foreach (FindReplaceObject obj in selection)
             {
                 if (obj.Object is Sector)
@@ -163,12 +164,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 {
                     foreach (Sidedef sd in o.Sector.Sidedefs)
                     {
-                        renderer.PlotLinedef(sd.Line, General.Colors.Selection);
+                        renderer.PlotLinedef(sd.Line, DoomBuilder.General.Colors.Selection);
                     }
                 }
                 else if (o.Object is Sidedef)
                 {
-                    renderer.PlotLinedef(o.Sidedef.Line, General.Colors.Selection);
+                    renderer.PlotLinedef(o.Sidedef.Line, DoomBuilder.General.Colors.Selection);
                 }
             }
         }
@@ -176,9 +177,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd
         public override void RenderOverlaySelection(IRenderer2D renderer, FindReplaceObject[] selection)
         {
-            if (!General.Settings.UseHighlight) return;
+            if (!DoomBuilder.General.Settings.UseHighlight) return;
 
-            int color = General.Colors.Selection.WithAlpha(64).ToInt();
+            int color = DoomBuilder.General.Colors.Selection.WithAlpha(64).ToInt();
             foreach (FindReplaceObject o in selection)
             {
                 if (o.Object is Sector) renderer.RenderHighlight(o.Sector.FlatVertices, color);
@@ -197,8 +198,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 else
                     lines.Add(o.Sidedef.Line);
             }
-            if (sectors.Count > 0) General.Interface.ShowEditSectors(sectors);
-            if (lines.Count > 0) General.Interface.ShowEditLinedefs(lines);
+            if (sectors.Count > 0) DoomBuilder.General.Interface.ShowEditSectors(sectors);
+            if (lines.Count > 0) DoomBuilder.General.Interface.ShowEditLinedefs(lines);
         }
     }
 }

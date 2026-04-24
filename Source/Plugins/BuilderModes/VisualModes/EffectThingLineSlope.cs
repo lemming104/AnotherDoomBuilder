@@ -1,8 +1,7 @@
-﻿
-using CodeImp.DoomBuilder.Geometry;
+﻿using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal class EffectThingLineSlope : SectorEffect
     {

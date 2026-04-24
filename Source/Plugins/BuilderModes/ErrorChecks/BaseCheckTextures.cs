@@ -16,7 +16,7 @@ using CodeImp.DoomBuilder.Map;
 using System;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public abstract class BaseCheckTextures : ErrorChecker
     {
@@ -32,7 +32,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public BaseCheckTextures()
         {
             // Total progress is done when all lines are checked
-            SetTotalProgress(General.Map.Map.Sidedefs.Count / PROGRESS_STEP);
+            SetTotalProgress(DoomBuilder.General.Map.Map.Sidedefs.Count / PROGRESS_STEP);
 
             sector3dfloors = new Dictionary<int, Flags3DFloor>();
             floorlowertolowest = new ActionFloorLowerToLowestTextures();
@@ -52,12 +52,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
         protected void Build3DFloorCache()
         {
             // Skip if linedef action 160 isn't the ZDoom 3D floor special.
-            if (General.Map.Config.GetLinedefActionInfo(160).Id != "Sector_Set3dFloor")
+            if (DoomBuilder.General.Map.Config.GetLinedefActionInfo(160).Id != "Sector_Set3dFloor")
             {
                 return;
             }
 
-            foreach (Linedef ld in General.Map.Map.Linedefs)
+            foreach (Linedef ld in DoomBuilder.General.Map.Map.Linedefs)
             {
                 if (ld.Action == 160)
                 {

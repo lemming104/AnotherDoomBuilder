@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     [FindReplace("Thing Flags", BrowseButton = true)]
     internal class FindThingFlag : BaseFindThing
@@ -33,13 +33,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This is called to test if the item should be displayed
         public override bool DetermineVisiblity()
         {
-            return General.Map.Config.ThingFlags.Count > 0;
+            return DoomBuilder.General.Map.Config.ThingFlags.Count > 0;
         }
 
         // This is called when the browse button is pressed
         public override string Browse(string initialvalue)
         {
-            return FlagsForm.ShowDialog(Form.ActiveForm, initialvalue, General.Map.Config.ThingFlags);
+            return FlagsForm.ShowDialog(Form.ActiveForm, initialvalue, DoomBuilder.General.Map.Config.ThingFlags);
         }
 
         // This is called to perform a search (and replace)
@@ -50,7 +50,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             List<FindReplaceObject> objs = new List<FindReplaceObject>();
 
             // Where to search?
-            ICollection<Thing> list = withinselection ? General.Map.Map.GetSelectedThings(true) : General.Map.Map.Things;
+            ICollection<Thing> list = withinselection ? DoomBuilder.General.Map.Map.GetSelectedThings(true) : DoomBuilder.General.Map.Map.Things;
 
             // Find what? (mxd)
             Dictionary<string, bool> findflagslist = new Dictionary<string, bool>();
@@ -64,7 +64,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     f = f.Substring(1, f.Length - 1);
                 }
 
-                if (General.Map.Config.ThingFlags.ContainsKey(f)) findflagslist.Add(f, setflag);
+                if (DoomBuilder.General.Map.Config.ThingFlags.ContainsKey(f)) findflagslist.Add(f, setflag);
             }
             if (findflagslist.Count == 0)
             {
@@ -87,7 +87,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         f = f.Substring(1, f.Length - 1);
                     }
 
-                    if (!General.Map.Config.ThingFlags.ContainsKey(f))
+                    if (!DoomBuilder.General.Map.Config.ThingFlags.ContainsKey(f))
                     {
                         MessageBox.Show("Invalid replace value \"" + f + "\" for this search type!", "Find and Replace", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return objs.ToArray();
@@ -123,7 +123,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     }
 
                     // Add to list
-                    ThingTypeInfo ti = General.Map.Data.GetThingInfo(t.Type);
+                    ThingTypeInfo ti = DoomBuilder.General.Map.Data.GetThingInfo(t.Type);
                     objs.Add(new FindReplaceObject(t, "Thing " + t.Index + " (" + ti.Title + ")"));
                 }
             }

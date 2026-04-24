@@ -3,7 +3,7 @@ using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Drawing;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.General
 {
     public class HintLabel : LineLengthLabel
     {
@@ -23,8 +23,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             this.end = end;
 
             // Check if start/end point is on screen...
-            Vector2D lt = General.Map.Renderer2D.DisplayToMap(new Vector2D(0.0f, General.Interface.Display.Size.Height));
-            Vector2D rb = General.Map.Renderer2D.DisplayToMap(new Vector2D(General.Interface.Display.Size.Width, 0.0f));
+            Vector2D lt = DoomBuilder.General.Map.Renderer2D.DisplayToMap(new Vector2D(0.0f, DoomBuilder.General.Interface.Display.Size.Height));
+            Vector2D rb = DoomBuilder.General.Map.Renderer2D.DisplayToMap(new Vector2D(DoomBuilder.General.Interface.Display.Size.Width, 0.0f));
             RectangleF viewport = new RectangleF((float)lt.x, (float)lt.y, (float)(rb.x - lt.x), (float)(rb.y - lt.y));
             bool startvisible = viewport.Contains((float)start.x, (float)start.y);
             bool endvisible = viewport.Contains((float)end.x, (float)end.y);

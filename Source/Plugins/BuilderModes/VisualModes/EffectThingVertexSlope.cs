@@ -1,9 +1,8 @@
-﻿
-using CodeImp.DoomBuilder.Geometry;
+﻿using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal class EffectThingVertexSlope : SectorEffect
     {
@@ -46,7 +45,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     verts[index] = new Vector3D(v.Position.x, v.Position.y, data.Ceiling.plane.GetZ(v.Position));
 
                 //mxd. UDMF vertex offset overrides this effect
-                if (General.Map.UDMF)
+                if (DoomBuilder.General.Map.UDMF)
                 {
                     if ((slopefloor && !double.IsNaN(v.ZFloor)) || !double.IsNaN(v.ZCeiling))
                     {

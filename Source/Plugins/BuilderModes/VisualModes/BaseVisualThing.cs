@@ -12,6 +12,7 @@
  */
 
 
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -22,7 +23,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal class BaseVisualThing : VisualThing, IVisualEventReceiver
     {
@@ -52,7 +53,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             this.mode = mode;
 
             // Find thing information
-            info = General.Map.Data.GetThingInfo(Thing.Type);
+            info = DoomBuilder.General.Map.Data.GetThingInfo(Thing.Type);
 
             //mxd. When true, the thing can be moved below floor/above ceiling
             nointeraction = info.Actor != null && info.Actor.GetFlagValue("nointeraction", false);
@@ -61,7 +62,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             sprites = new ImageData[info.SpriteFrame.Length];
             for (int i = 0; i < info.SpriteFrame.Length; i++)
             {
-                sprites[i] = General.Map.Data.GetSpriteImage(info.SpriteFrame[i].Sprite);
+                sprites[i] = DoomBuilder.General.Map.Data.GetSpriteImage(info.SpriteFrame[i].Sprite);
             }
 
             //mxd
@@ -88,7 +89,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 string renderstyle = info.RenderStyle.ToLowerInvariant();
                 alpha = info.AlphaByte;
 
-                if (General.Map.UDMF)
+                if (DoomBuilder.General.Map.UDMF)
                 {
                     if (Thing.IsFlagSet("translucent"))
                     {
@@ -108,7 +109,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     if ((renderstyle == "add" || renderstyle == "translucent" || renderstyle == "subtract" || renderstyle == "translucentstencil" || renderstyle == "addshaded")
                         && Thing.Fields.ContainsKey("alpha"))
                     {
-                        alpha = (byte)(General.Clamp(Thing.Fields.GetValue("alpha", info.Alpha), 0.0, 1.0) * 255.0);
+                        alpha = (byte)(DoomBuilder.General.Clamp(Thing.Fields.GetValue("alpha", info.Alpha), 0.0, 1.0) * 255.0);
                     }
                     else if (renderstyle == "soultrans")
                     {
@@ -129,7 +130,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     else if (renderstyle != "shadow")
                         stencilColor.a = 0;
                 }
-                else if (General.Map.HEXEN)
+                else if (DoomBuilder.General.Map.HEXEN)
                 {
                     if (Thing.IsFlagSet("2048"))
                     {
@@ -221,7 +222,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         // According to Graf, this is incorrect behaviour...
                         // TECH: In (G)ZDoom, this is ignored when ceiling texture is sky or a thing is below a 3D floor
                         // It's probably more involved than this, but for now let's do it only when there are no 3d floors in Thing.Sector...
-                        /*if(General.Map.UDMF && sd.LightLevels.Count == 2 && !Thing.Sector.HasSkyCeiling)
+                        /*if(DoomBuilder.General.Map.UDMF && sd.LightLevels.Count == 2 && !Thing.Sector.HasSkyCeiling)
 						{
 							if(sd.Sector.Fields.GetValue("lightfloorabsolute", false))
 								brightness = UniFields.GetInteger(sd.Sector.Fields, "lightfloor");
@@ -245,7 +246,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                                 if (nexthigher != null)
                                 {
                                     double higherz = nexthigher.plane.GetZ(thingpos);
-                                    double delta = General.Clamp(1.0f - ((thingpos.z - planez) / (higherz - planez)), 0f, 1f);
+                                    double delta = DoomBuilder.General.Clamp(1.0f - ((thingpos.z - planez) / (higherz - planez)), 0f, 1f);
                                     brightness = (int)(((glowbrightness + (level.sector.Brightness / 2)) * delta) + (nexthigher.sector.Brightness * (1.0f - delta)));
                                 }
                             }
@@ -259,7 +260,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                                 // Get glow brightness
                                 double glowz = level.plane.GetZ(thingpos);
                                 double floorz = floor.GetZ(thingpos);
-                                double delta = General.Clamp((thingpos.z - floorz) / (glowz - floorz), 0f, 1f);
+                                double delta = DoomBuilder.General.Clamp((thingpos.z - floorz) / (glowz - floorz), 0f, 1f);
 
                                 brightness = (int)((((sd.FloorGlow.Brightness / 2) + (sd.Floor.sector.Brightness / 2)) * (1.0f - delta)) + (sd.Floor.sector.Brightness * delta));
                             }
@@ -483,7 +484,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void Rebuild()
         {
             // Find thing information
-            info = General.Map.Data.GetThingInfo(Thing.Type);
+            info = DoomBuilder.General.Map.Data.GetThingInfo(Thing.Type);
 
             //mxd. When true, the thing can be moved below floor/above ceiling
             nointeraction = info.Actor != null && info.Actor.GetFlagValue("nointeraction", false);
@@ -492,7 +493,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             sprites = new ImageData[info.SpriteFrame.Length];
             for (int i = 0; i < info.SpriteFrame.Length; i++)
             {
-                sprites[i] = General.Map.Data.GetSpriteImage(info.SpriteFrame[i].Sprite);
+                sprites[i] = DoomBuilder.General.Map.Data.GetSpriteImage(info.SpriteFrame[i].Sprite);
             }
 
             // Setup visual thing
@@ -526,8 +527,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public override bool PickFastReject(Vector3D from, Vector3D to, Vector3D dir)
         {
             //mxd. Don't highlight when thing sprite is not rendered and thing cages are disabled 
-            if (!General.Map.Renderer3D.DrawThingCages && info.DistanceCheckSq < int.MaxValue
-                && (Thing.Position - General.Map.VisualCamera.Position).GetLengthSq() > info.DistanceCheckSq)
+            if (!DoomBuilder.General.Map.Renderer3D.DrawThingCages && info.DistanceCheckSq < int.MaxValue
+                && (Thing.Position - DoomBuilder.General.Map.VisualCamera.Position).GetLengthSq() > info.DistanceCheckSq)
                 return false;
 
             double distance2 = Line2D.GetDistanceToLineSq(from, to, pos2d, false);
@@ -558,7 +559,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 double tmp = 1.0f / delta.x;
                 double t1 = (boxp1.x - from.x) * tmp;
                 double t2 = (boxp2.x - from.x) * tmp;
-                if (t1 > t2) General.Swap(ref t1, ref t2);
+                if (t1 > t2) DoomBuilder.General.Swap(ref t1, ref t2);
                 if (t1 > tnear) tnear = t1;
                 if (t2 < tfar) tfar = t2;
                 if (tnear > tfar || tfar < 0.0f)
@@ -582,7 +583,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 double tmp = 1.0f / delta.y;
                 double t1 = (boxp1.y - from.y) * tmp;
                 double t2 = (boxp2.y - from.y) * tmp;
-                if (t1 > t2) General.Swap(ref t1, ref t2);
+                if (t1 > t2) DoomBuilder.General.Swap(ref t1, ref t2);
                 if (t1 > tnear) tnear = t1;
                 if (t2 < tfar) tfar = t2;
                 if (tnear > tfar || tfar < 0.0f)
@@ -606,7 +607,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 double tmp = 1.0f / delta.z;
                 double t1 = (boxp1.z - from.z) * tmp;
                 double t2 = (boxp2.z - from.z) * tmp;
-                if (t1 > t2) General.Swap(ref t1, ref t2);
+                if (t1 > t2) DoomBuilder.General.Swap(ref t1, ref t2);
                 if (t1 > tnear) tnear = t1;
                 if (t2 < tfar) tfar = t2;
                 if (tnear > tfar || tfar < 0.0f)
@@ -678,8 +679,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             this.Thing.Dispose();
             this.Dispose();
 
-            General.Map.IsChanged = true;
-            General.Map.ThingsFilter.Update();
+            DoomBuilder.General.Map.IsChanged = true;
+            DoomBuilder.General.Map.ThingsFilter.Update();
         }
 
         // Copy properties
@@ -706,7 +707,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Edit button released
         public void OnEditEnd()
         {
-            if (General.Interface.IsActiveWindow)
+            if (DoomBuilder.General.Interface.IsActiveWindow)
             {
 
                 List<Thing> things = mode.GetSelectedThings();
@@ -718,11 +719,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     if (vt != null) updateList.Add((BaseVisualThing)vt);
                 }
 
-                General.Interface.OnEditFormValuesChanged += Interface_OnEditFormValuesChanged;
+                DoomBuilder.General.Interface.OnEditFormValuesChanged += Interface_OnEditFormValuesChanged;
                 mode.StartRealtimeInterfaceUpdate(SelectionType.Things);
-                General.Interface.ShowEditThings(things);
+                DoomBuilder.General.Interface.ShowEditThings(things);
                 mode.StopRealtimeInterfaceUpdate(SelectionType.Things);
-                General.Interface.OnEditFormValuesChanged -= Interface_OnEditFormValuesChanged;
+                DoomBuilder.General.Interface.OnEditFormValuesChanged -= Interface_OnEditFormValuesChanged;
 
                 updateList.Clear();
                 updateList = null;
@@ -764,9 +765,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Raise/lower thing
         public void OnChangeTargetHeight(int amount)
         {
-            if (General.Map.FormatInterface.HasThingHeight)
+            if (DoomBuilder.General.Map.FormatInterface.HasThingHeight)
             {
-                if ((General.Map.UndoRedo.NextUndo == null) || (General.Map.UndoRedo.NextUndo.TicketID != undoticket))
+                if ((DoomBuilder.General.Map.UndoRedo.NextUndo == null) || (DoomBuilder.General.Map.UndoRedo.NextUndo.TicketID != undoticket))
                     undoticket = mode.CreateUndo("Change thing height");
 
                 Thing.Move(Thing.Position + new Vector3D(0.0f, 0.0f, info.Hangs ? -amount : amount));
@@ -791,9 +792,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd
         public void OnChangeScale(int incrementX, int incrementY)
         {
-            if (!General.Map.UDMF || sprites == null || !sprites[0].IsImageLoaded) return;
+            if (!DoomBuilder.General.Map.UDMF || sprites == null || !sprites[0].IsImageLoaded) return;
 
-            if ((General.Map.UndoRedo.NextUndo == null) || (General.Map.UndoRedo.NextUndo.TicketID != undoticket))
+            if ((DoomBuilder.General.Map.UndoRedo.NextUndo == null) || (DoomBuilder.General.Map.UndoRedo.NextUndo.TicketID != undoticket))
                 undoticket = mode.CreateUndo("Change thing scale");
 
             double scaleX = Thing.ScaleX;
@@ -824,7 +825,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd
         public void OnMove(Vector3D newposition)
         {
-            if ((General.Map.UndoRedo.NextUndo == null) || (General.Map.UndoRedo.NextUndo.TicketID != undoticket))
+            if ((DoomBuilder.General.Map.UndoRedo.NextUndo == null) || (DoomBuilder.General.Map.UndoRedo.NextUndo.TicketID != undoticket))
                 undoticket = mode.CreateUndo("Move thing");
             Thing.Move(newposition);
             mode.SetActionResult("Changed thing position to " + Thing.Position + ".");
@@ -852,7 +853,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // toggle selected state
                 if (mode.PaintSelectType == this.GetType() && mode.Highlighted != this)
                 {
-                    if (General.Interface.ShiftState ^ BuilderPlug.Me.AdditivePaintSelect)
+                    if (DoomBuilder.General.Interface.ShiftState ^ BuilderPlug.Me.AdditivePaintSelect)
                     {
                         if (!selected)
                         {
@@ -860,7 +861,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                             mode.AddSelectedObject(this);
                         }
                     }
-                    else if (General.Interface.CtrlState)
+                    else if (DoomBuilder.General.Interface.CtrlState)
                     {
                         if (selected)
                         {
@@ -887,7 +888,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             mode.PaintSelectType = this.GetType();
 
             // toggle selected state
-            if (General.Interface.ShiftState ^ BuilderPlug.Me.AdditivePaintSelect)
+            if (DoomBuilder.General.Interface.ShiftState ^ BuilderPlug.Me.AdditivePaintSelect)
             {
                 if (!selected)
                 {
@@ -895,7 +896,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     mode.AddSelectedObject(this);
                 }
             }
-            else if (General.Interface.CtrlState)
+            else if (DoomBuilder.General.Interface.CtrlState)
             {
                 if (selected)
                 {
@@ -917,7 +918,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd
         public void SetAngle(int newangle)
         {
-            if ((General.Map.UndoRedo.NextUndo == null) || (General.Map.UndoRedo.NextUndo.TicketID != undoticket))
+            if ((DoomBuilder.General.Map.UndoRedo.NextUndo == null) || (DoomBuilder.General.Map.UndoRedo.NextUndo.TicketID != undoticket))
                 undoticket = mode.CreateUndo("Change thing angle");
             Thing.Rotate(newangle);
             mode.SetActionResult("Changed thing angle to " + Thing.AngleDoom + ".");
@@ -927,8 +928,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd
         public void SetPitch(int newpitch)
         {
-            if (!General.Map.UDMF) return;
-            if ((General.Map.UndoRedo.NextUndo == null) || (General.Map.UndoRedo.NextUndo.TicketID != undoticket))
+            if (!DoomBuilder.General.Map.UDMF) return;
+            if ((DoomBuilder.General.Map.UndoRedo.NextUndo == null) || (DoomBuilder.General.Map.UndoRedo.NextUndo.TicketID != undoticket))
                 undoticket = mode.CreateUndo("Change thing pitch");
             Thing.SetPitch(newpitch);
             mode.SetActionResult("Changed thing pitch to " + Thing.Pitch + ".");
@@ -938,8 +939,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd
         public void SetRoll(int newroll)
         {
-            if (!General.Map.UDMF) return;
-            if ((General.Map.UndoRedo.NextUndo == null) || (General.Map.UndoRedo.NextUndo.TicketID != undoticket))
+            if (!DoomBuilder.General.Map.UDMF) return;
+            if ((DoomBuilder.General.Map.UndoRedo.NextUndo == null) || (DoomBuilder.General.Map.UndoRedo.NextUndo.TicketID != undoticket))
                 undoticket = mode.CreateUndo("Change thing roll");
             Thing.SetRoll(newroll);
             mode.SetActionResult("Changed thing roll to " + Thing.Roll + ".");

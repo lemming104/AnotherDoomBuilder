@@ -18,7 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultMissingActivation : ErrorResult
     {
@@ -62,7 +62,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Rendering
         public override void PlotSelection(IRenderer2D renderer)
         {
-            renderer.PlotLinedef(line, General.Colors.Selection);
+            renderer.PlotLinedef(line, DoomBuilder.General.Colors.Selection);
             renderer.PlotVertex(line.Start, ColorCollection.VERTICES);
             renderer.PlotVertex(line.End, ColorCollection.VERTICES);
         }
@@ -70,11 +70,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Fix by prompting to edit the linedef
         public override bool Button1Click(bool batchMode)
         {
-            if (!batchMode) General.Map.UndoRedo.CreateUndo("Edit linedef");
+            if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Edit linedef");
 
-            if (General.Interface.ShowEditLinedefs(new List<Linedef> { line }) == DialogResult.OK)
+            if (DoomBuilder.General.Interface.ShowEditLinedefs(new List<Linedef> { line }) == DialogResult.OK)
             {
-                General.Map.Map.Update();
+                DoomBuilder.General.Map.Map.Update();
                 return true;
             }
 

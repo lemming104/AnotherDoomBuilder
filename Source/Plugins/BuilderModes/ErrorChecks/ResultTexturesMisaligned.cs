@@ -1,9 +1,8 @@
-﻿
-using CodeImp.DoomBuilder.Map;
+﻿using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultTexturesMisaligned : ErrorResult
     {
@@ -53,8 +52,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Rendering
         public override void PlotSelection(IRenderer2D renderer)
         {
-            renderer.PlotLinedef(side1.Line, General.Colors.Selection);
-            renderer.PlotLinedef(side2.Line, General.Colors.Selection);
+            renderer.PlotLinedef(side1.Line, DoomBuilder.General.Colors.Selection);
+            renderer.PlotLinedef(side2.Line, DoomBuilder.General.Colors.Selection);
             renderer.PlotVertex(side1.Line.Start, ColorCollection.VERTICES);
             renderer.PlotVertex(side1.Line.End, ColorCollection.VERTICES);
             renderer.PlotVertex(side2.Line.Start, ColorCollection.VERTICES);

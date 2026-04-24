@@ -1,4 +1,5 @@
-﻿using CodeImp.DoomBuilder.Config;
+﻿using CodeImp.DoomBuilder.BuilderModes.ClassicModes;
+using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Windows;
 using System;
@@ -46,7 +47,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                 if (!thingcounts.ContainsKey(t.Type))
                 {
                     thingcounts.Add(t.Type, 1);
-                    ThingTypeInfo ti = General.Map.Data.GetThingInfo(t.Type);
+                    ThingTypeInfo ti = DoomBuilder.General.Map.Data.GetThingInfo(t.Type);
                     thingtitles.Add(t.Type, ti.Title);
                 }
                 else
@@ -88,7 +89,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 
                 //update display
                 mode.UpdateSelectionInfo();
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Interface.RedrawDisplay();
             }
 
             this.Close();

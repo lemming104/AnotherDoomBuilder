@@ -18,7 +18,7 @@ using CodeImp.DoomBuilder.Rendering;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public abstract class ErrorResult
     {
@@ -125,7 +125,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
                 else
                 {
-                    General.Fail("Unknown object given to zoom in on.");
+                    DoomBuilder.General.Fail("Unknown object given to zoom in on.");
                 }
             }
 

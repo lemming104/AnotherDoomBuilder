@@ -1,11 +1,10 @@
-﻿
-using CodeImp.DoomBuilder.Geometry;
+﻿using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultSectorInvalid : ErrorResult
     {
@@ -45,13 +44,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Rendering
         public override void PlotSelection(IRenderer2D renderer)
         {
-            renderer.PlotSector(sector, General.Colors.Selection);
+            renderer.PlotSector(sector, DoomBuilder.General.Colors.Selection);
         }
 
         // Fix by merging with surrounding geometry/removing
         public override bool Button1Click(bool batchMode)
         {
-            if (!batchMode) General.Map.UndoRedo.CreateUndo("Invalid sector correction");
+            if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Invalid sector correction");
 
             //collect the lines
             List<Linedef> lines = new List<Linedef>();
@@ -100,7 +99,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         {
                             // If invalid sector is inside another one, join them
                             Vector2D center = new Vector2D(sector.BBox.X + (sector.BBox.Width / 2), sector.BBox.Y + (sector.BBox.Height / 2));
-                            Linedef otherline = General.Map.Map.NearestLinedef(center, sectorlines);
+                            Linedef otherline = DoomBuilder.General.Map.Map.NearestLinedef(center, sectorlines);
                             Sidedef targetside = otherline.Front ?? otherline.Back;
 
                             if (targetside != null &&
@@ -128,7 +127,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
             }
 
-            General.Map.Map.Update();
+            DoomBuilder.General.Map.Map.Update();
             return true;
         }
     }

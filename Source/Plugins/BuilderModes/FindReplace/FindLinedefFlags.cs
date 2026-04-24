@@ -21,7 +21,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     [FindReplace("Linedef Flags", BrowseButton = true)]
     internal class FindLinedefFlags : BaseFindLinedef
@@ -33,8 +33,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public override string Browse(string initialvalue)
         {
             //mxd. Combine regular and activation flags
-            Dictionary<string, string> flags = new Dictionary<string, string>(General.Map.Config.LinedefFlags);
-            foreach (LinedefActivateInfo ai in General.Map.Config.LinedefActivates) flags.Add(ai.Key, ai.Title);
+            Dictionary<string, string> flags = new Dictionary<string, string>(DoomBuilder.General.Map.Config.LinedefFlags);
+            foreach (LinedefActivateInfo ai in DoomBuilder.General.Map.Config.LinedefActivates) flags.Add(ai.Key, ai.Title);
 
             return FlagsForm.ShowDialog(Form.ActiveForm, initialvalue, flags);
         }
@@ -47,7 +47,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             List<FindReplaceObject> objs = new List<FindReplaceObject>();
 
             // Where to search?
-            ICollection<Linedef> list = withinselection ? General.Map.Map.GetSelectedLinedefs(true) : General.Map.Map.Linedefs;
+            ICollection<Linedef> list = withinselection ? DoomBuilder.General.Map.Map.GetSelectedLinedefs(true) : DoomBuilder.General.Map.Map.Linedefs;
 
             // Find what? (mxd)
             Dictionary<string, bool> findflagslist = new Dictionary<string, bool>();
@@ -61,7 +61,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     f = f.Substring(1, f.Length - 1);
                 }
 
-                if (General.Map.Config.LinedefFlags.ContainsKey(f) || General.Map.Config.LinedefActivates.Any(la => la.Key == f)) findflagslist.Add(f, setflag);
+                if (DoomBuilder.General.Map.Config.LinedefFlags.ContainsKey(f) || DoomBuilder.General.Map.Config.LinedefActivates.Any(la => la.Key == f)) findflagslist.Add(f, setflag);
             }
             if (findflagslist.Count == 0)
             {
@@ -84,7 +84,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         f = f.Substring(1, f.Length - 1);
                     }
 
-                    if (!General.Map.Config.LinedefFlags.ContainsKey(f) && !General.Map.Config.LinedefActivates.Any(la => la.Key == f))
+                    if (!DoomBuilder.General.Map.Config.LinedefFlags.ContainsKey(f) && !DoomBuilder.General.Map.Config.LinedefActivates.Any(la => la.Key == f))
                     {
                         MessageBox.Show("Invalid replace value \"" + f + "\" for this search type!", "Find and Replace", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return objs.ToArray();
@@ -120,7 +120,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     }
 
                     // Add to list
-                    LinedefActionInfo info = General.Map.Config.GetLinedefActionInfo(l.Action);
+                    LinedefActionInfo info = DoomBuilder.General.Map.Config.GetLinedefActionInfo(l.Action);
                     if (!info.IsNull)
                         objs.Add(new FindReplaceObject(l, "Linedef " + l.Index + " (" + info.Title + ")"));
                     else

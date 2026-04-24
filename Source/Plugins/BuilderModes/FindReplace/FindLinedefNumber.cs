@@ -16,7 +16,7 @@ using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     [FindReplace("Linedef Index", BrowseButton = false)]
     internal class FindLinedefNumber : BaseFindLinedef
@@ -39,10 +39,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
             int index;
             if (int.TryParse(value, out index))
             {
-                Linedef l = General.Map.Map.GetLinedefByIndex(index);
+                Linedef l = DoomBuilder.General.Map.Map.GetLinedefByIndex(index);
                 if (l != null)
                 {
-                    LinedefActionInfo info = General.Map.Config.GetLinedefActionInfo(l.Action);
+                    LinedefActionInfo info = DoomBuilder.General.Map.Config.GetLinedefActionInfo(l.Action);
                     if (!info.IsNull)
                         objs.Add(new FindReplaceObject(l, "Linedef " + index + " (" + info.Title + ")"));
                     else

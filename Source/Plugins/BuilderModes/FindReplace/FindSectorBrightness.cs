@@ -1,10 +1,9 @@
-﻿
-using CodeImp.DoomBuilder.Map;
+﻿using CodeImp.DoomBuilder.Map;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     [FindReplace("Sector Brightness", BrowseButton = false)]
     internal class FindSectorBrightness : BaseFindSector
@@ -58,7 +57,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (int.TryParse(value, out brightness))
             {
                 // Where to search?
-                ICollection<Sector> list = withinselection ? General.Map.Map.GetSelectedSectors(true) : General.Map.Map.Sectors;
+                ICollection<Sector> list = withinselection ? DoomBuilder.General.Map.Map.GetSelectedSectors(true) : DoomBuilder.General.Map.Map.Sectors;
 
                 // Go for all sectors
                 foreach (Sector s in list)
@@ -77,8 +76,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             //refresh map
             if (replace)
             {
-                General.Map.Map.Update();
-                General.Map.IsChanged = true;
+                DoomBuilder.General.Map.Map.Update();
+                DoomBuilder.General.Map.IsChanged = true;
             }
 
             return objs.ToArray();

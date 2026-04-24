@@ -82,25 +82,25 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             exporting = false;
             cancelexport = false;
 
-            string name = Path.GetFileNameWithoutExtension(General.Map.FileTitle) + "_" + General.Map.Options.LevelName + "_" + Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
+            string name = Path.GetFileNameWithoutExtension(DoomBuilder.General.Map.FileTitle) + "_" + DoomBuilder.General.Map.Options.LevelName + "_" + Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
 
-            if (string.IsNullOrEmpty(General.Map.FilePathName))
+            if (string.IsNullOrEmpty(DoomBuilder.General.Map.FilePathName))
             {
                 saveFileDialog.FileName = name;
             }
             else
             {
-                saveFileDialog.InitialDirectory = Path.GetDirectoryName(General.Map.FilePathName);
-                saveFileDialog.FileName = Path.GetDirectoryName(General.Map.FilePathName) + Path.DirectorySeparatorChar + name + ".png";
+                saveFileDialog.InitialDirectory = Path.GetDirectoryName(DoomBuilder.General.Map.FilePathName);
+                saveFileDialog.FileName = Path.GetDirectoryName(DoomBuilder.General.Map.FilePathName) + Path.DirectorySeparatorChar + name + ".png";
                 tbExportPath.Text = saveFileDialog.FileName;
             }
 
-            cbFullbright.Checked = General.Settings.ReadPluginSetting("imageexportfullbright", true);
-            cbApplySectorColors.Checked = General.Settings.ReadPluginSetting("imageexportapplysectorcolors", true);
-            cbTransparency.Checked = General.Settings.ReadPluginSetting("imageexporttransparency", false);
-            cbBrightmap.Checked = General.Settings.ReadPluginSetting("imageexportbrightmap", false);
-            cbTiles.Checked = General.Settings.ReadPluginSetting("imageexporttiles", false);
-            cbScale.SelectedIndex = General.Settings.ReadPluginSetting("imageexportscale", 0);
+            cbFullbright.Checked = DoomBuilder.General.Settings.ReadPluginSetting("imageexportfullbright", true);
+            cbApplySectorColors.Checked = DoomBuilder.General.Settings.ReadPluginSetting("imageexportapplysectorcolors", true);
+            cbTransparency.Checked = DoomBuilder.General.Settings.ReadPluginSetting("imageexporttransparency", false);
+            cbBrightmap.Checked = DoomBuilder.General.Settings.ReadPluginSetting("imageexportbrightmap", false);
+            cbTiles.Checked = DoomBuilder.General.Settings.ReadPluginSetting("imageexporttiles", false);
+            cbScale.SelectedIndex = DoomBuilder.General.Settings.ReadPluginSetting("imageexportscale", 0);
         }
 
         #endregion
@@ -136,7 +136,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         /// </summary>
         private void StartExport()
         {
-            ICollection<Sector> sectors = General.Map.Map.SelectedSectorsCount == 0 ? General.Map.Map.Sectors : General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> sectors = DoomBuilder.General.Map.Map.SelectedSectorsCount == 0 ? DoomBuilder.General.Map.Map.Sectors : DoomBuilder.General.Map.Map.GetSelectedSectors(true);
 
             exporting = true;
             cancelexport = false;
@@ -253,7 +253,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         /// <param name="settings">Export settings</param>
         private void RunExport(ImageExportSettings settings)
         {
-            ICollection<Sector> sectors = General.Map.Map.SelectedSectorsCount == 0 ? General.Map.Map.Sectors : General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> sectors = DoomBuilder.General.Map.Map.SelectedSectorsCount == 0 ? DoomBuilder.General.Map.Map.Sectors : DoomBuilder.General.Map.Map.GetSelectedSectors(true);
 
             ImageExporter exporter = new ImageExporter(sectors, settings, AddProgress, ShowPhase, CheckCancelExport);
 
@@ -319,12 +319,12 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             }
             else
             {
-                General.Settings.WritePluginSetting("imageexportfullbright", cbFullbright.Checked);
-                General.Settings.WritePluginSetting("imageexportapplysectorcolors", cbApplySectorColors.Checked);
-                General.Settings.WritePluginSetting("imageexportbrightmap", cbBrightmap.Checked);
-                General.Settings.WritePluginSetting("imageexporttransparency", cbTransparency.Checked);
-                General.Settings.WritePluginSetting("imageexporttiles", cbTiles.Checked);
-                General.Settings.WritePluginSetting("imageexportscale", cbScale.SelectedIndex);
+                DoomBuilder.General.Settings.WritePluginSetting("imageexportfullbright", cbFullbright.Checked);
+                DoomBuilder.General.Settings.WritePluginSetting("imageexportapplysectorcolors", cbApplySectorColors.Checked);
+                DoomBuilder.General.Settings.WritePluginSetting("imageexportbrightmap", cbBrightmap.Checked);
+                DoomBuilder.General.Settings.WritePluginSetting("imageexporttransparency", cbTransparency.Checked);
+                DoomBuilder.General.Settings.WritePluginSetting("imageexporttiles", cbTiles.Checked);
+                DoomBuilder.General.Settings.WritePluginSetting("imageexportscale", cbScale.SelectedIndex);
 
                 // Exporting works like this:
                 // In here StartExport() is called

@@ -1,12 +1,11 @@
-﻿
-using CodeImp.DoomBuilder.Map;
+﻿using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Windows;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     [FindReplace("Sidedef Flags", BrowseButton = true)]
     internal class FindSidedefFlags : BaseFindSidedef
@@ -17,13 +16,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This is called to test if the item should be displayed
         public override bool DetermineVisiblity()
         {
-            return General.Map.Config.SidedefFlags.Count > 0;
+            return DoomBuilder.General.Map.Config.SidedefFlags.Count > 0;
         }
 
         // This is called when the browse button is pressed
         public override string Browse(string initialvalue)
         {
-            return FlagsForm.ShowDialog(Form.ActiveForm, initialvalue, General.Map.Config.SidedefFlags);
+            return FlagsForm.ShowDialog(Form.ActiveForm, initialvalue, DoomBuilder.General.Map.Config.SidedefFlags);
         }
 
         // This is called to perform a search (and replace)
@@ -34,7 +33,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             List<FindReplaceObject> objs = new List<FindReplaceObject>();
 
             // Where to search?
-            ICollection<Sidedef> list = withinselection ? General.Map.Map.GetSidedefsFromSelectedLinedefs(true) : General.Map.Map.Sidedefs;
+            ICollection<Sidedef> list = withinselection ? DoomBuilder.General.Map.Map.GetSidedefsFromSelectedLinedefs(true) : DoomBuilder.General.Map.Map.Sidedefs;
 
             // Find what? (mxd)
             Dictionary<string, bool> findflagslist = new Dictionary<string, bool>();
@@ -48,7 +47,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     f = f.Substring(1, f.Length - 1);
                 }
 
-                if (General.Map.Config.SidedefFlags.ContainsKey(f)) findflagslist.Add(f, setflag);
+                if (DoomBuilder.General.Map.Config.SidedefFlags.ContainsKey(f)) findflagslist.Add(f, setflag);
             }
             if (findflagslist.Count == 0)
             {
@@ -71,7 +70,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         f = f.Substring(1, f.Length - 1);
                     }
 
-                    if (!General.Map.Config.SidedefFlags.ContainsKey(f))
+                    if (!DoomBuilder.General.Map.Config.SidedefFlags.ContainsKey(f))
                     {
                         MessageBox.Show("Invalid replace value \"" + f + "\" for this search type!", "Find and Replace", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return objs.ToArray();

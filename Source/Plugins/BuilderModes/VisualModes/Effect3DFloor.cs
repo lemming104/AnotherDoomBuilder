@@ -1,10 +1,9 @@
-
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal class Effect3DFloor : SectorEffect
     {
@@ -123,7 +122,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 ignorebottomheight = (linedef.Args[2] & (int)Flags.IgnoreBottomHeight) == (int)Flags.IgnoreBottomHeight;
 
                 vavoomtype = false;
-                alpha = General.Clamp(linedef.Args[3], 0, 255);
+                alpha = DoomBuilder.General.Clamp(linedef.Args[3], 0, 255);
                 sd.Ceiling.CopyProperties(floor);
                 sd.Floor.CopyProperties(ceiling);
                 floor.type = SectorLevelType.Floor;

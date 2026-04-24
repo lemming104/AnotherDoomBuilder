@@ -15,7 +15,7 @@ using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderEffects
+namespace CodeImp.DoomBuilder.BuilderEffects.Controls
 {
     [DesignerCategory("code")]
     public class NumericUpDownEx : NumericUpDown

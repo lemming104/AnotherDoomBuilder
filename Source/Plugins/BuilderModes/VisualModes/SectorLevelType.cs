@@ -1,5 +1,4 @@
-
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal enum SectorLevelType
     {

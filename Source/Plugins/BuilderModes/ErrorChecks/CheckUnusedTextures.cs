@@ -1,8 +1,7 @@
-﻿
-using CodeImp.DoomBuilder.Map;
+﻿using CodeImp.DoomBuilder.Map;
 using System.Threading;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     [ErrorChecker("Check unused textures", true, 60)]
     public class CheckUnusedTextures : BaseCheckTextures
@@ -24,7 +23,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             Build3DFloorCache();
 
             // Go for all the sidedefs
-            foreach (Sidedef sd in General.Map.Map.Sidedefs)
+            foreach (Sidedef sd in DoomBuilder.General.Map.Map.Sidedefs)
             {
                 // Check upper texture
                 if (!(sd.HighRequired() || sd.Line.HasSkyTransfer()) && sd.LongHighTexture != MapSet.EmptyLongName)

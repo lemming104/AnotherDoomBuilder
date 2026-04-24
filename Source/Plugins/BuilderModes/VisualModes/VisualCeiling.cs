@@ -12,6 +12,7 @@
  */
 
 
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -24,7 +25,7 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Globalization;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal sealed class VisualCeiling : BaseVisualGeometrySector
     {
@@ -37,7 +38,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             //mxd
             geometrytype = VisualGeometryType.CEILING;
             partname = "ceiling";
-            performautoselection = mode.UseSelectionFromClassicMode && vs != null && vs.Sector.Selected && (General.Map.ViewMode == ViewMode.CeilingTextures || General.Map.ViewMode == ViewMode.Normal);
+            performautoselection = mode.UseSelectionFromClassicMode && vs != null && vs.Sector.Selected && (DoomBuilder.General.Map.ViewMode == ViewMode.CeilingTextures || DoomBuilder.General.Map.ViewMode == ViewMode.Normal);
 
             // We have no destructor
             GC.SuppressFinalize(this);
@@ -68,10 +69,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
             //Load ceiling texture
             if (s.LongCeilTexture != MapSet.EmptyLongName)
             {
-                base.Texture = General.Map.Data.GetFlatImage(s.LongCeilTexture);
+                base.Texture = DoomBuilder.General.Map.Data.GetFlatImage(s.LongCeilTexture);
                 if (base.Texture == null || base.Texture is UnknownImage)
                 {
-                    base.Texture = General.Map.Data.UnknownTexture3D;
+                    base.Texture = DoomBuilder.General.Map.Data.UnknownTexture3D;
                     setuponloadedtexture = s.LongCeilTexture;
                 }
                 else if (!base.Texture.IsImageLoaded)
@@ -82,7 +83,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             else
             {
                 // Use missing texture
-                base.Texture = General.Map.Data.MissingTexture3D;
+                base.Texture = DoomBuilder.General.Map.Data.MissingTexture3D;
                 setuponloadedtexture = 0;
             }
 
@@ -93,7 +94,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 texscale = new Vector2D(1.0f / 64.0f, 1.0f / 64.0f);
 
             // Determine brightness
-            byte alpha = (byte)General.Clamp(level.alpha, 0, 255);
+            byte alpha = (byte)DoomBuilder.General.Clamp(level.alpha, 0, 255);
             int color = PixelColor.FromInt(level.color).WithAlpha(alpha).ToInt();
             int targetbrightness;
             SectorData sd = mode.GetSectorData(this.Sector.Sector);
@@ -388,7 +389,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 mode.CreateUndo("Change ceiling height", UndoGroup.CeilingHeightChange, level.sector.FixedIndex);
                 level.sector.CeilHeight += amount;
 
-                if (General.Map.UDMF)
+                if (DoomBuilder.General.Map.UDMF)
                 {
                     //mxd. Modify vertex offsets?
                     if (level.sector.Sidedefs.Count == 3)
@@ -442,7 +443,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 // Change the sector brightness if the map is not in UDMF format, or this ceiling is part of 3D-floor,
                 // or the game configuration doesn't support distinct surfave brightnesses
-                if (!General.Map.UDMF || (level != null && Sector.Sector != level.sector) || !General.Map.Config.DistinctFloorAndCeilingBrightness)
+                if (!DoomBuilder.General.Map.UDMF || (level != null && Sector.Sector != level.sector) || !DoomBuilder.General.Map.Config.DistinctFloorAndCeilingBrightness)
                 {
                     base.OnChangeTargetBrightness(up);
                     return;
@@ -453,9 +454,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 int newLight;
 
                 if (up)
-                    newLight = General.Map.Config.BrightnessLevels.GetNextHigher(light, absolute);
+                    newLight = DoomBuilder.General.Map.Config.BrightnessLevels.GetNextHigher(light, absolute);
                 else
-                    newLight = General.Map.Config.BrightnessLevels.GetNextLower(light, absolute);
+                    newLight = DoomBuilder.General.Map.Config.BrightnessLevels.GetNextLower(light, absolute);
 
                 if (newLight == light) return;
 
@@ -537,8 +538,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 if (o.y < 0) o.y += imageHeight;
 
                 // Make final texture coordinates...
-                int ox = General.Clamp((int)Math.Floor(o.x), 0, imageWidth - 1);
-                int oy = General.Clamp((int)Math.Floor(o.y), 0, imageHeight - 1);
+                int ox = DoomBuilder.General.Clamp((int)Math.Floor(o.x), 0, imageWidth - 1);
+                int oy = DoomBuilder.General.Clamp((int)Math.Floor(o.y), 0, imageHeight - 1);
 
                 // Check pixel alpha
                 return Texture.AlphaTestPixel(ox, oy);
@@ -558,7 +559,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             // Set new texture
             level.sector.SetCeilTexture(texturename);
-            General.Map.Data.UpdateUsedTextures();
+            DoomBuilder.General.Map.Data.UpdateUsedTextures();
         }
 
         //mxd
@@ -643,7 +644,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd
         public void AlignTexture(bool alignx, bool aligny)
         {
-            if (!General.Map.UDMF) return;
+            if (!DoomBuilder.General.Map.UDMF) return;
 
             AlignTextureToClosestLine(alignx, aligny);
         }

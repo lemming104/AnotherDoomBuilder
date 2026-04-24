@@ -1,7 +1,7 @@
 ﻿using CodeImp.DoomBuilder.GZBuilder.Data;
 using CodeImp.DoomBuilder.Rendering;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal class EffectGlowingFlat
     {
@@ -74,7 +74,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private GlowingFlatData GetGlowData(bool floor)
         {
             // Check UDMF glow properties
-            if (General.Map.UDMF)
+            if (DoomBuilder.General.Map.UDMF)
             {
                 int glowcolor = data.Sector.Fields.GetValue(floor ? "floorglowcolor" : "ceilingglowcolor", 0);
 
@@ -101,7 +101,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             // Use GLDEFS glow if available
             long texture = floor ? data.Sector.LongFloorTexture : data.Sector.LongCeilTexture;
-            return General.Map.Data.GlowingFlats.ContainsKey(texture) ? General.Map.Data.GlowingFlats[texture] : null;
+            return DoomBuilder.General.Map.Data.GlowingFlats.ContainsKey(texture) ? DoomBuilder.General.Map.Data.GlowingFlats[texture] : null;
         }
     }
 }

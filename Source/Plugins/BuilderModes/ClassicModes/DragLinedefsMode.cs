@@ -19,7 +19,7 @@ using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
 {
     // No action or button for this mode, it is automatic.
     // The EditMode attribute does not have to be specified unless the
@@ -41,7 +41,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public DragLinedefsMode(Vector2D dragstartmappos, ICollection<Linedef> lines)
         {
             // Mark what we are dragging
-            General.Map.Map.ClearAllMarks(false);
+            DoomBuilder.General.Map.Map.ClearAllMarks(false);
 
             draglines = new List<Linedef>(lines.Count);
             foreach (Linedef ld in lines)
@@ -50,11 +50,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 draglines.Add(ld);
             }
 
-            ICollection<Vertex> verts = General.Map.Map.GetVerticesFromLinesMarks(true);
+            ICollection<Vertex> verts = DoomBuilder.General.Map.Map.GetVerticesFromLinesMarks(true);
             foreach (Vertex v in verts) v.Marked = true;
 
             // Get line collections
-            unmovinglines = General.Map.Map.GetSelectedLinedefs(false);
+            unmovinglines = DoomBuilder.General.Map.Map.GetSelectedLinedefs(false);
 
             // Initialize
             base.StartDrag(dragstartmappos);
@@ -89,7 +89,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // Start rendering things
                 if (renderer.StartThings(true))
                 {
-                    renderer.RenderThingSet(General.Map.Map.Things, General.Settings.ActiveThingsAlpha);
+                    renderer.RenderThingSet(DoomBuilder.General.Map.Map.Things, DoomBuilder.General.Settings.ActiveThingsAlpha);
                     renderer.Finish();
                 }
             }
@@ -109,12 +109,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 foreach (Linedef ld in draglines)
                 {
                     if (ld.Selected)
-                        renderer.PlotLinedef(ld, General.Colors.Selection);
+                        renderer.PlotLinedef(ld, DoomBuilder.General.Colors.Selection);
                     else
-                        renderer.PlotLinedef(ld, General.Colors.Highlight);
+                        renderer.PlotLinedef(ld, DoomBuilder.General.Colors.Highlight);
                 }
 
-                renderer.PlotVerticesSet(General.Map.Map.Vertices);
+                renderer.PlotVerticesSet(DoomBuilder.General.Map.Map.Vertices);
 
                 // Draw the dragged item highlighted
                 // This is important to know, because this item is used
@@ -128,9 +128,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
             //mxd. Render things
             if (renderer.StartThings(true))
             {
-                renderer.RenderThingSet(General.Map.ThingsFilter.HiddenThings, General.Settings.HiddenThingsAlpha);
-                renderer.RenderThingSet(unselectedthings, General.Settings.ActiveThingsAlpha);
-                renderer.RenderThingSet(selectedthings, General.Settings.ActiveThingsAlpha);
+                renderer.RenderThingSet(DoomBuilder.General.Map.ThingsFilter.HiddenThings, DoomBuilder.General.Settings.HiddenThingsAlpha);
+                renderer.RenderThingSet(unselectedthings, DoomBuilder.General.Settings.ActiveThingsAlpha);
+                renderer.RenderThingSet(selectedthings, DoomBuilder.General.Settings.ActiveThingsAlpha);
                 renderer.Finish();
             }
 

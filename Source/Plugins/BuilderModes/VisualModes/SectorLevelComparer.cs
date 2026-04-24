@@ -1,10 +1,9 @@
-﻿
-using CodeImp.DoomBuilder.Geometry;
+﻿using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using System;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal class SectorLevelComparer : IComparer<SectorLevel>
     {

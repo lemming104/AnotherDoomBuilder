@@ -1,12 +1,11 @@
-﻿
-using CodeImp.DoomBuilder.Actions;
+﻿using CodeImp.DoomBuilder.Actions;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
 using System;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
 {
     [EditMode(DisplayName = "Draw Ellipse Mode",
               SwitchAction = "drawellipsemode",
@@ -39,9 +38,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
             alwaysrendershapehints = true;
 
             // Load stored settings
-            subdivisions = General.Clamp(General.Settings.ReadPluginSetting("drawellipsemode.subdivisions", 8), minsubdivisions, maxsubdivisions);
-            bevelwidth = General.Settings.ReadPluginSetting("drawellipsemode.bevelwidth", 0);
-            int angledeg = General.Settings.ReadPluginSetting("drawellipsemode.angle", 0);
+            subdivisions = DoomBuilder.General.Clamp(DoomBuilder.General.Settings.ReadPluginSetting("drawellipsemode.subdivisions", 8), minsubdivisions, maxsubdivisions);
+            bevelwidth = DoomBuilder.General.Settings.ReadPluginSetting("drawellipsemode.bevelwidth", 0);
+            int angledeg = DoomBuilder.General.Settings.ReadPluginSetting("drawellipsemode.angle", 0);
             angle = Angle2D.DegToRad(angledeg);
             currentbevelwidth = bevelwidth;
 
@@ -49,8 +48,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             panel = new DrawEllipseOptionsPanel();
             panel.MaxSubdivisions = maxsubdivisions;
             panel.MinSubdivisions = minsubdivisions;
-            panel.MinSpikiness = (int)General.Map.FormatInterface.MinCoordinate;
-            panel.MaxSpikiness = (int)General.Map.FormatInterface.MaxCoordinate;
+            panel.MinSpikiness = (int)DoomBuilder.General.Map.FormatInterface.MinCoordinate;
+            panel.MaxSpikiness = (int)DoomBuilder.General.Map.FormatInterface.MaxCoordinate;
             panel.Spikiness = bevelwidth;
             panel.Angle = angledeg;
             panel.Subdivisions = subdivisions;
@@ -61,10 +60,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
             panel.OnPlaceThingsAtVerticesChanged += OnPlaceThingsAtVerticesChanged;
 
             // Needs to be set after adding the OnContinuousDrawingChanged event...
-            panel.ContinuousDrawing = General.Settings.ReadPluginSetting("drawellipsemode.continuousdrawing", false);
-            panel.ShowGuidelines = General.Settings.ReadPluginSetting("drawellipsemode.showguidelines", false);
-            panel.RadialDrawing = General.Settings.ReadPluginSetting("drawellipsemode.radialdrawing", false);
-            panel.PlaceThingsAtVertices = General.Settings.ReadPluginSetting("drawellipsemode.placethingsatvertices", false);
+            panel.ContinuousDrawing = DoomBuilder.General.Settings.ReadPluginSetting("drawellipsemode.continuousdrawing", false);
+            panel.ShowGuidelines = DoomBuilder.General.Settings.ReadPluginSetting("drawellipsemode.showguidelines", false);
+            panel.RadialDrawing = DoomBuilder.General.Settings.ReadPluginSetting("drawellipsemode.radialdrawing", false);
+            panel.PlaceThingsAtVertices = DoomBuilder.General.Settings.ReadPluginSetting("drawellipsemode.placethingsatvertices", false);
         }
 
         override protected void AddInterface()
@@ -75,13 +74,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
         override protected void RemoveInterface()
         {
             // Store settings
-            General.Settings.WritePluginSetting("drawellipsemode.subdivisions", subdivisions);
-            General.Settings.WritePluginSetting("drawellipsemode.bevelwidth", bevelwidth);
-            General.Settings.WritePluginSetting("drawellipsemode.angle", panel.Angle);
-            General.Settings.WritePluginSetting("drawellipsemode.continuousdrawing", panel.ContinuousDrawing);
-            General.Settings.WritePluginSetting("drawellipsemode.showguidelines", panel.ShowGuidelines);
-            General.Settings.WritePluginSetting("drawellipsemode.radialdrawing", panel.RadialDrawing);
-            General.Settings.WritePluginSetting("drawellipsemode.placethingsatvertices", panel.PlaceThingsAtVertices);
+            DoomBuilder.General.Settings.WritePluginSetting("drawellipsemode.subdivisions", subdivisions);
+            DoomBuilder.General.Settings.WritePluginSetting("drawellipsemode.bevelwidth", bevelwidth);
+            DoomBuilder.General.Settings.WritePluginSetting("drawellipsemode.angle", panel.Angle);
+            DoomBuilder.General.Settings.WritePluginSetting("drawellipsemode.continuousdrawing", panel.ContinuousDrawing);
+            DoomBuilder.General.Settings.WritePluginSetting("drawellipsemode.showguidelines", panel.ShowGuidelines);
+            DoomBuilder.General.Settings.WritePluginSetting("drawellipsemode.radialdrawing", panel.RadialDrawing);
+            DoomBuilder.General.Settings.WritePluginSetting("drawellipsemode.placethingsatvertices", panel.PlaceThingsAtVertices);
 
 
             // Remove the buttons
@@ -239,7 +238,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
         public override void OnHelp()
         {
-            General.ShowHelp("/gzdb/features/classic_modes/mode_drawellipse.html");
+            DoomBuilder.General.ShowHelp("/gzdb/features/classic_modes/mode_drawellipse.html");
         }
 
         override protected void IncreaseSubdivLevel()
@@ -266,7 +265,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             if (points.Count < 2 || currentbevelwidth == bevelwidth || bevelwidth < 0)
             {
-                bevelwidth = Math.Min(bevelwidth + General.Map.Grid.GridSize, panel.MaxSpikiness);
+                bevelwidth = Math.Min(bevelwidth + DoomBuilder.General.Map.Grid.GridSize, panel.MaxSpikiness);
                 panel.Spikiness = bevelwidth;
                 Update();
             }
@@ -276,7 +275,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             if (bevelwidth > 0 || currentbevelwidth <= bevelwidth + 1)
             {
-                bevelwidth = Math.Max(bevelwidth - General.Map.Grid.GridSize, panel.MinSpikiness);
+                bevelwidth = Math.Max(bevelwidth - DoomBuilder.General.Map.Grid.GridSize, panel.MinSpikiness);
                 panel.Spikiness = bevelwidth;
                 Update();
             }
@@ -285,7 +284,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         [BeginAction("rotateclockwise")]
         private void IncreaseAngle()
         {
-            panel.Angle = General.ClampAngle(panel.Angle + 5);
+            panel.Angle = DoomBuilder.General.ClampAngle(panel.Angle + 5);
             angle = Angle2D.DegToRad(panel.Angle);
             Update();
         }
@@ -293,7 +292,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         [BeginAction("rotatecounterclockwise")]
         private void DecreaseAngle()
         {
-            panel.Angle = General.ClampAngle(panel.Angle - 5);
+            panel.Angle = DoomBuilder.General.ClampAngle(panel.Angle - 5);
             angle = Angle2D.DegToRad(panel.Angle);
             Update();
         }

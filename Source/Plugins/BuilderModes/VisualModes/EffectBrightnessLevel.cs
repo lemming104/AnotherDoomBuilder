@@ -1,7 +1,6 @@
-﻿
-using CodeImp.DoomBuilder.Map;
+﻿using CodeImp.DoomBuilder.Map;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal class EffectBrightnessLevel : SectorEffect
     {
@@ -42,7 +41,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             // Update top level
             sd.Ceiling.CopyProperties(toplevel);
-            toplevel.lighttype = (LightLevelType)General.Clamp(linedef.Args[1], 0, 2); //mxd
+            toplevel.lighttype = (LightLevelType)DoomBuilder.General.Clamp(linedef.Args[1], 0, 2); //mxd
             toplevel.type = SectorLevelType.Light;
 
             //mxd. Create bottom level?

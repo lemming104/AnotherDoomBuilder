@@ -1,7 +1,7 @@
 ﻿using CodeImp.DoomBuilder.Map;
 using System.Threading;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     [ErrorChecker("Check very short linedefs", false, 10)]
     public class CheckShortLinedefs : ErrorChecker
@@ -9,13 +9,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private const int PROGRESS_STEP = 1000;
 
         // Only possible in UDMF map format
-        public override bool SkipCheck { get { return !General.Map.UDMF; } }
+        public override bool SkipCheck { get { return !DoomBuilder.General.Map.UDMF; } }
 
         // Constructor
         public CheckShortLinedefs()
         {
             // Total progress is done when all linedefs are checked
-            SetTotalProgress(General.Map.Map.Linedefs.Count / PROGRESS_STEP);
+            SetTotalProgress(DoomBuilder.General.Map.Map.Linedefs.Count / PROGRESS_STEP);
         }
 
         // This runs the check
@@ -25,7 +25,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             int stepprogress = 0;
 
             // Go for all linedefs
-            foreach (Linedef l in General.Map.Map.Linedefs)
+            foreach (Linedef l in DoomBuilder.General.Map.Map.Linedefs)
             {
                 if (l.Length < 1.0f) SubmitResult(new ResultShortLinedef(l));
 

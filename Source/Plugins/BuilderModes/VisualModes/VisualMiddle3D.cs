@@ -12,6 +12,7 @@
  */
 
 
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -23,7 +24,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal class VisualMiddle3D : BaseVisualGeometrySidedef
     {
@@ -121,10 +122,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (texturelong != 0)
             {
                 // Load texture
-                base.Texture = General.Map.Data.GetTextureImage(texturelong);
+                base.Texture = DoomBuilder.General.Map.Data.GetTextureImage(texturelong);
                 if (base.Texture == null || base.Texture is UnknownImage)
                 {
-                    base.Texture = General.Map.Data.UnknownTexture3D;
+                    base.Texture = DoomBuilder.General.Map.Data.UnknownTexture3D;
                     setuponloadedtexture = texturelong;
                 }
                 else if (!base.Texture.IsImageLoaded)
@@ -135,7 +136,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             else
             {
                 // Use missing texture
-                base.Texture = General.Map.Data.MissingTexture3D;
+                base.Texture = DoomBuilder.General.Map.Data.MissingTexture3D;
                 setuponloadedtexture = 0;
             }
 
@@ -148,7 +149,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             tof = tof + toffset1 + toffset2;
 
             // biwa. Also take the ForceWorldPanning MAPINFO entry into account
-            if (General.Map.Config.ScaledTextureOffsets && !base.Texture.WorldPanning && !General.Map.Data.MapInfo.ForceWorldPanning)
+            if (DoomBuilder.General.Map.Config.ScaledTextureOffsets && !base.Texture.WorldPanning && !DoomBuilder.General.Map.Data.MapInfo.ForceWorldPanning)
             {
                 tof = tof / tscaleAbs;
                 tof = tof * base.Texture.Scale;
@@ -297,7 +298,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         if (extrafloor.Alpha < 255)
                         {
                             // Apply alpha to vertices
-                            byte alpha = (byte)General.Clamp(extrafloor.Alpha, 0, 255);
+                            byte alpha = (byte)DoomBuilder.General.Clamp(extrafloor.Alpha, 0, 255);
                             if (alpha < 255)
                             {
                                 for (int i = 0; i < verts.Count; i++)
@@ -358,7 +359,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (oy < 0) oy += imageHeight;
 
             // Check pixel alpha
-            Point pixelpos = new Point(General.Clamp(ox, 0, imageWidth - 1), General.Clamp(imageHeight - oy, 0, imageHeight - 1));
+            Point pixelpos = new Point(DoomBuilder.General.Clamp(ox, 0, imageWidth - 1), DoomBuilder.General.Clamp(imageHeight - oy, 0, imageHeight - 1));
             return Texture.AlphaTestPixel(pixelpos.X, pixelpos.Y) && base.PickAccurate(@from, to, dir, ref u_ray);
         }
 
@@ -384,7 +385,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             else
                 extrafloor.Linedef.Front.SetTextureMid(texturename);
 
-            General.Map.Data.UpdateUsedTextures();
+            DoomBuilder.General.Map.Data.UpdateUsedTextures();
 
             //mxd. Update model sector
             mode.GetVisualSector(extrafloor.Linedef.Front.Sector).UpdateSectorGeometry(false);
@@ -405,7 +406,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         protected override void MoveTextureOffset(int offsetx, int offsety)
         {
             Sidedef.Fields.BeforeFieldsChange();
-            bool worldpanning = this.Texture.WorldPanning || General.Map.Data.MapInfo.ForceWorldPanning;
+            bool worldpanning = this.Texture.WorldPanning || DoomBuilder.General.Map.Data.MapInfo.ForceWorldPanning;
             double oldx = Sidedef.Fields.GetValue("offsetx_mid", 0.0);
             double oldy = Sidedef.Fields.GetValue("offsety_mid", 0.0);
             double scalex = extrafloor.Linedef.Front.Fields.GetValue("scalex_mid", 1.0);
@@ -434,7 +435,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd
         public override void OnTextureFit(FitTextureOptions options)
         {
-            if (!General.Map.UDMF) return;
+            if (!DoomBuilder.General.Map.UDMF) return;
             if (string.IsNullOrEmpty(extrafloor.Linedef.Front.MiddleTexture) || extrafloor.Linedef.Front.MiddleTexture == "-" || !Texture.IsImageLoaded) return;
             FitTexture(options);
 
@@ -445,9 +446,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd. Only control sidedef scale is used by GZDoom
         public override void OnChangeScale(int incrementX, int incrementY)
         {
-            if (!General.Map.UDMF || Texture == null || !Texture.IsImageLoaded) return;
+            if (!DoomBuilder.General.Map.UDMF || Texture == null || !Texture.IsImageLoaded) return;
 
-            if ((General.Map.UndoRedo.NextUndo == null) || (General.Map.UndoRedo.NextUndo.TicketID != undoticket))
+            if ((DoomBuilder.General.Map.UndoRedo.NextUndo == null) || (DoomBuilder.General.Map.UndoRedo.NextUndo.TicketID != undoticket))
                 undoticket = mode.CreateUndo("Change wall scale");
 
             Sidedef target = extrafloor.Linedef.Front;
@@ -502,7 +503,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd
         public override void OnResetLocalTextureOffset()
         {
-            if (!General.Map.UDMF || !General.Map.Config.UseLocalSidedefTextureOffsets)
+            if (!DoomBuilder.General.Map.UDMF || !DoomBuilder.General.Map.Config.UseLocalSidedefTextureOffsets)
             {
                 OnResetTextureOffset();
                 return;

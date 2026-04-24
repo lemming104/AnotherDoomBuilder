@@ -1,6 +1,8 @@
 ﻿namespace CodeImp.DoomBuilder.BuilderEffects
 {
-	partial class IntControl {
+    using CodeImp.DoomBuilder.BuilderEffects.Controls;
+
+    partial class IntControl {
 		/// <summary> 
 		/// Требуется переменная конструктора.
 		/// </summary>
@@ -28,7 +30,7 @@
 			this.trackBar1 = new System.Windows.Forms.TrackBar();
 			this.label1 = new System.Windows.Forms.Label();
 			#if !MONO_WINFORMS
-			this.numericUpDown1 = new CodeImp.DoomBuilder.BuilderEffects.NumericUpDownEx();
+			this.numericUpDown1 = new CodeImp.DoomBuilder.BuilderEffects.Controls.NumericUpDownEx();
 			#else
 			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
 			this.numericUpDown1.MouseWheel += (object sender, System.Windows.Forms.MouseEventArgs e) => {

@@ -12,6 +12,7 @@
  */
 
 
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
@@ -21,7 +22,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     [FindReplace("Thing Type", BrowseButton = true)]
     internal class FindThingType : BaseFindThing
@@ -77,7 +78,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             int[] replacetypes = ParseTypes(replacewith);
             if (replace)
             {
-                if (replacetypes.Length == 0 || replacetypes.Any(rt => rt < General.Map.FormatInterface.MinThingType || rt > General.Map.FormatInterface.MaxThingType))
+                if (replacetypes.Length == 0 || replacetypes.Any(rt => rt < DoomBuilder.General.Map.FormatInterface.MinThingType || rt > DoomBuilder.General.Map.FormatInterface.MaxThingType))
                 {
                     MessageBox.Show("Invalid replace value for this search type!", "Find and Replace", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return objs.ToArray();
@@ -89,7 +90,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (valuestofind.Count > 0)
             {
                 // Where to search?
-                ICollection<Thing> list = withinselection ? General.Map.Map.GetSelectedThings(true) : General.Map.Map.Things;
+                ICollection<Thing> list = withinselection ? DoomBuilder.General.Map.Map.GetSelectedThings(true) : DoomBuilder.General.Map.Map.Things;
 
                 // Go for all things
                 foreach (Thing t in list)
@@ -100,12 +101,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         // Replace
                         if (replace && replacetypes.Length > 0)
                         {
-                            t.Type = replacetypes[General.Random(0, replacetypes.Length - 1)];
+                            t.Type = replacetypes[DoomBuilder.General.Random(0, replacetypes.Length - 1)];
                             t.UpdateConfiguration();
                         }
 
                         // Add to list
-                        ThingTypeInfo ti = General.Map.Data.GetThingInfo(t.Type);
+                        ThingTypeInfo ti = DoomBuilder.General.Map.Data.GetThingInfo(t.Type);
                         objs.Add(new FindReplaceObject(t, "Thing " + t.Index + " (" + ti.Title + ")"));
                     }
                 }

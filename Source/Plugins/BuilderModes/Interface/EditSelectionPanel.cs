@@ -12,6 +12,7 @@
  */
 
 
+using CodeImp.DoomBuilder.BuilderModes.ClassicModes;
 using CodeImp.DoomBuilder.Geometry;
 using System;
 using System.Windows.Forms;
@@ -45,7 +46,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 
             //mxd
             preventchanges = true;
-            if (General.Map.UDMF)
+            if (DoomBuilder.General.Map.UDMF)
             {
                 preciseposition.Checked = mode.UsePrecisePosition;
                 preciseposition.Enabled = true;
@@ -194,38 +195,38 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 
         private void fliph_Click(object sender, EventArgs e)
         {
-            General.Actions.InvokeAction("buildermodes_flipselectionh");
-            General.Interface.FocusDisplay();
+            DoomBuilder.General.Actions.InvokeAction("buildermodes_flipselectionh");
+            DoomBuilder.General.Interface.FocusDisplay();
         }
 
         private void flipv_Click(object sender, EventArgs e)
         {
-            General.Actions.InvokeAction("buildermodes_flipselectionv");
-            General.Interface.FocusDisplay();
+            DoomBuilder.General.Actions.InvokeAction("buildermodes_flipselectionv");
+            DoomBuilder.General.Interface.FocusDisplay();
         }
 
         private void orgposx_Click(object sender, EventArgs e)
         {
             mode.SetAbsPosX(orgpos.x);
-            General.Interface.FocusDisplay();
+            DoomBuilder.General.Interface.FocusDisplay();
         }
 
         private void orgposy_Click(object sender, EventArgs e)
         {
             mode.SetAbsPosY(orgpos.y);
-            General.Interface.FocusDisplay();
+            DoomBuilder.General.Interface.FocusDisplay();
         }
 
         private void orgsizex_Click(object sender, EventArgs e)
         {
             mode.SetAbsSizeX(orgsize.x);
-            General.Interface.FocusDisplay();
+            DoomBuilder.General.Interface.FocusDisplay();
         }
 
         private void orgsizey_Click(object sender, EventArgs e)
         {
             mode.SetAbsSizeY(orgsize.y);
-            General.Interface.FocusDisplay();
+            DoomBuilder.General.Interface.FocusDisplay();
         }
 
         //mxd
@@ -233,7 +234,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         {
             if (preventchanges) return;
             mode.UsePrecisePosition = preciseposition.Checked;
-            General.Interface.FocusDisplay();
+            DoomBuilder.General.Interface.FocusDisplay();
         }
 
         //mxd

@@ -13,6 +13,7 @@
 
 
 using CodeImp.DoomBuilder.Actions;
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Editing;
@@ -27,7 +28,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
 {
     [EditMode(DisplayName = "Things Mode",
               SwitchAction = "thingsmode",      // Action name used to switch to this mode
@@ -110,7 +111,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
         public override void OnHelp()
         {
-            General.ShowHelp("e_things.html");
+            DoomBuilder.General.ShowHelp("e_things.html");
         }
 
         // Cancel mode
@@ -119,7 +120,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnCancel();
 
             // Return to this mode
-            General.Editing.ChangeMode(new ThingsMode());
+            DoomBuilder.General.Editing.ChangeMode(new ThingsMode());
         }
 
         // Mode engages
@@ -129,30 +130,30 @@ namespace CodeImp.DoomBuilder.BuilderModes
             renderer.SetPresentation(Presentation.Things);
 
             // Add toolbar buttons
-            General.Interface.BeginToolbarUpdate(); //mxd
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.CopyProperties);
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.PasteProperties);
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.PastePropertiesOptions); //mxd
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.SeparatorCopyPaste); //mxd
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.ViewSelectionNumbers); //mxd
-            if (General.Map.FormatInterface.HasThingAction)
+            DoomBuilder.General.Interface.BeginToolbarUpdate(); //mxd
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.CopyProperties);
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.PasteProperties);
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.PastePropertiesOptions); //mxd
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.SeparatorCopyPaste); //mxd
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.ViewSelectionNumbers); //mxd
+            if (DoomBuilder.General.Map.FormatInterface.HasThingAction)
             {
                 BuilderPlug.Me.MenusForm.ViewSelectionEffects.Text = "View Sector Tags"; //mxd
-                General.Interface.AddButton(BuilderPlug.Me.MenusForm.ViewSelectionEffects); //mxd
+                DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.ViewSelectionEffects); //mxd
             }
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.SeparatorSectors1); //mxd
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.AlignThingsToWall); //mxd
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.SeparatorSectors1); //mxd
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.AlignThingsToWall); //mxd
 
             //mxd. Add radii buttons/items...
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.ButtonLightRadii, ToolbarSection.Helpers);
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.ButtonSoundRadii, ToolbarSection.Helpers);
-            General.Interface.AddMenu(BuilderPlug.Me.MenusForm.ItemLightRadii, MenuSection.ViewHelpers);
-            General.Interface.AddMenu(BuilderPlug.Me.MenusForm.ItemSoundRadii, MenuSection.ViewHelpers);
-            General.Interface.EndToolbarUpdate(); //mxd
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.ButtonLightRadii, ToolbarSection.Helpers);
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.ButtonSoundRadii, ToolbarSection.Helpers);
+            DoomBuilder.General.Interface.AddMenu(BuilderPlug.Me.MenusForm.ItemLightRadii, MenuSection.ViewHelpers);
+            DoomBuilder.General.Interface.AddMenu(BuilderPlug.Me.MenusForm.ItemSoundRadii, MenuSection.ViewHelpers);
+            DoomBuilder.General.Interface.EndToolbarUpdate(); //mxd
 
             // Convert geometry selection to linedefs selection
-            General.Map.Map.ConvertSelection(SelectionType.Linedefs);
-            General.Map.Map.SelectionType = SelectionType.Things;
+            DoomBuilder.General.Map.Map.ConvertSelection(SelectionType.Linedefs);
+            DoomBuilder.General.Map.Map.SelectionType = SelectionType.Things;
             UpdateSelectionInfo(); //mxd
             UpdateHelperObjects(); //mxd
             SetupSectorLabels(); //mxd
@@ -167,35 +168,35 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnDisengage();
 
             // Remove toolbar buttons
-            General.Interface.BeginToolbarUpdate(); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.CopyProperties);
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.PasteProperties);
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.PastePropertiesOptions); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.SeparatorCopyPaste); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.ViewSelectionNumbers); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.ViewSelectionEffects); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.SeparatorSectors1); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.AlignThingsToWall); //mxd
+            DoomBuilder.General.Interface.BeginToolbarUpdate(); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.CopyProperties);
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.PasteProperties);
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.PastePropertiesOptions); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.SeparatorCopyPaste); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.ViewSelectionNumbers); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.ViewSelectionEffects); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.SeparatorSectors1); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.AlignThingsToWall); //mxd
 
             //mxd. Remove radii buttons/items...
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.ButtonLightRadii);
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.ButtonSoundRadii);
-            General.Interface.RemoveMenu(BuilderPlug.Me.MenusForm.ItemLightRadii);
-            General.Interface.RemoveMenu(BuilderPlug.Me.MenusForm.ItemSoundRadii);
-            General.Interface.EndToolbarUpdate(); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.ButtonLightRadii);
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.ButtonSoundRadii);
+            DoomBuilder.General.Interface.RemoveMenu(BuilderPlug.Me.MenusForm.ItemLightRadii);
+            DoomBuilder.General.Interface.RemoveMenu(BuilderPlug.Me.MenusForm.ItemSoundRadii);
+            DoomBuilder.General.Interface.EndToolbarUpdate(); //mxd
 
             //mxd. Do some highlight management...
             if (highlighted != null) highlighted.Highlighted = false;
 
             // Going to EditSelectionMode?
-            EditSelectionMode mode = General.Editing.NewMode as EditSelectionMode;
+            EditSelectionMode mode = DoomBuilder.General.Editing.NewMode as EditSelectionMode;
             if (mode != null)
             {
                 // Not pasting anything?
                 if (!mode.Pasting)
                 {
                     // No selection made? But we have a highlight!
-                    if ((General.Map.Map.GetSelectedThings(true).Count == 0) && (highlighted != null))
+                    if ((DoomBuilder.General.Map.Map.GetSelectedThings(true).Count == 0) && (highlighted != null))
                     {
                         // Make the highlight the selection
                         highlighted.Selected = true;
@@ -204,8 +205,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Hide highlight info and tooltip
-            General.Interface.HideInfo();
-            General.Interface.Display.HideToolTip(); //mxd
+            DoomBuilder.General.Interface.HideInfo();
+            DoomBuilder.General.Interface.Display.HideToolTip(); //mxd
         }
 
         // This redraws the display
@@ -217,8 +218,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Render lines and vertices
             if (renderer.StartPlotter(true))
             {
-                renderer.PlotLinedefSet(General.Map.Map.Linedefs);
-                renderer.PlotVerticesSet(General.Map.Map.Vertices);
+                renderer.PlotLinedefSet(DoomBuilder.General.Map.Map.Linedefs);
+                renderer.PlotVerticesSet(DoomBuilder.General.Map.Map.Vertices);
 
                 if (highlighted != null && !highlighted.IsDisposed) highlightasso.Plot();
 
@@ -228,18 +229,18 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Render things
             if (renderer.StartThings(true))
             {
-                float alpha = General.Settings.FixedThingsScale ? Presentation.THINGS_ALPHA : General.Settings.ActiveThingsAlpha; //mxd
-                renderer.RenderThingSet(General.Map.ThingsFilter.HiddenThings, General.Settings.HiddenThingsAlpha);
-                renderer.RenderThingSet(General.Map.ThingsFilter.VisibleThings, alpha);
+                float alpha = DoomBuilder.General.Settings.FixedThingsScale ? Presentation.THINGS_ALPHA : DoomBuilder.General.Settings.ActiveThingsAlpha; //mxd
+                renderer.RenderThingSet(DoomBuilder.General.Map.ThingsFilter.HiddenThings, DoomBuilder.General.Settings.HiddenThingsAlpha);
+                renderer.RenderThingSet(DoomBuilder.General.Map.ThingsFilter.VisibleThings, alpha);
 
                 if (highlighted != null && !highlighted.IsDisposed)
                 {
-                    renderer.RenderThing(highlighted, General.Colors.Highlight, alpha);
+                    renderer.RenderThing(highlighted, DoomBuilder.General.Colors.Highlight, alpha);
                     highlightasso.Render();
                 }
 
                 //mxd. Event lines
-                if (General.Settings.GZShowEventLines) eventlines.AddRange(persistenteventlines);
+                if (DoomBuilder.General.Settings.GZShowEventLines) eventlines.AddRange(persistenteventlines);
 
                 //mxd. Dynamic light radii
                 if (BuilderPlug.Me.ShowLightRadii)
@@ -270,7 +271,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 if (selecting) RenderMultiSelection();
 
                 //mxd. Render sector tag labels
-                if (BuilderPlug.Me.ViewSelectionEffects && General.Map.FormatInterface.HasThingAction)
+                if (BuilderPlug.Me.ViewSelectionEffects && DoomBuilder.General.Map.FormatInterface.HasThingAction)
                 {
                     //mxd. sectorlabels will be null after switching map configuration from one 
                     // without ThingAction to one with it while in Things mode
@@ -287,14 +288,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                             // Render only when enough space for the label to see
                             if (!textlabelsizecache.ContainsKey(group.Value[0]))
-                                textlabelsizecache[group.Value[0]] = General.Interface.MeasureString(group.Value[0], l.Font).Width;
+                                textlabelsizecache[group.Value[0]] = DoomBuilder.General.Interface.MeasureString(group.Value[0], l.Font).Width;
 
                             float requiredsize = textlabelsizecache[group.Value[0]] / 2 / renderer.Scale;
 
                             if (requiredsize > group.Key.Labels[i].radius)
                             {
                                 if (!textlabelsizecache.ContainsKey(group.Value[1]))
-                                    textlabelsizecache[group.Value[1]] = General.Interface.MeasureString(group.Value[1], l.Font).Width;
+                                    textlabelsizecache[group.Value[1]] = DoomBuilder.General.Interface.MeasureString(group.Value[1], l.Font).Width;
 
                                 requiredsize = textlabelsizecache[group.Value[1]] / 2 / renderer.Scale;
 
@@ -337,7 +338,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 //mxd. Render comments
-                if (General.Map.UDMF && General.Settings.RenderComments) foreach (Thing t in General.Map.Map.Things) RenderComment(t);
+                if (DoomBuilder.General.Map.UDMF && DoomBuilder.General.Settings.RenderComments) foreach (Thing t in DoomBuilder.General.Map.Map.Things) RenderComment(t);
 
                 renderer.Finish();
             }
@@ -352,10 +353,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (t != null)
             {
                 //mxd. Update label color?
-                if (labels.ContainsKey(t)) labels[t].Color = General.Colors.Selection;
+                if (labels.ContainsKey(t)) labels[t].Color = DoomBuilder.General.Colors.Selection;
 
                 //check if this thing directly links to another type of thing
-                ThingTypeInfo ti = General.Map.Data.GetThingInfoEx(t.Type);
+                ThingTypeInfo ti = DoomBuilder.General.Map.Data.GetThingInfoEx(t.Type);
                 int linktype = 0;
                 if (ti != null)
                     linktype = ti.ThingLink;
@@ -371,24 +372,24 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (highlighted != null) //mxd
             {
                 //mxd. Update label color?
-                if (labels.ContainsKey(highlighted)) labels[highlighted].Color = General.Colors.Highlight;
+                if (labels.ContainsKey(highlighted)) labels[highlighted].Color = DoomBuilder.General.Colors.Highlight;
 
                 highlighted.Highlighted = false;
             }
 
             // Set new highlight and redraw display
             highlighted = t;
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
 
             // Show highlight info
             if ((highlighted != null) && !highlighted.IsDisposed)
             {
-                General.Interface.ShowThingInfo(highlighted);
+                DoomBuilder.General.Interface.ShowThingInfo(highlighted);
             }
             else
             {
-                General.Interface.Display.HideToolTip(); //mxd
-                General.Interface.HideInfo();
+                DoomBuilder.General.Interface.Display.HideToolTip(); //mxd
+                DoomBuilder.General.Interface.HideInfo();
             }
         }
 
@@ -410,7 +411,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 if (renderer.StartThings(false))
                 {
                     // Redraw highlight to show selection
-                    renderer.RenderThing(highlighted, renderer.DetermineThingColor(highlighted), General.Settings.FixedThingsScale ? Presentation.THINGS_ALPHA : General.Settings.ActiveThingsAlpha);
+                    renderer.RenderThing(highlighted, renderer.DetermineThingColor(highlighted), DoomBuilder.General.Settings.FixedThingsScale ? Presentation.THINGS_ALPHA : DoomBuilder.General.Settings.ActiveThingsAlpha);
                     renderer.Finish();
                     renderer.Present();
                 }
@@ -435,23 +436,23 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     //mxd. Full redraw when labels were changed
                     if (BuilderPlug.Me.ViewSelectionNumbers)
                     {
-                        General.Interface.RedrawDisplay();
+                        DoomBuilder.General.Interface.RedrawDisplay();
                     }
                     // Update display
                     else if (renderer.StartThings(false))
                     {
                         // Render highlighted item
-                        renderer.RenderThing(highlighted, General.Colors.Highlight, General.Settings.FixedThingsScale ? Presentation.THINGS_ALPHA : General.Settings.ActiveThingsAlpha);
+                        renderer.RenderThing(highlighted, DoomBuilder.General.Colors.Highlight, DoomBuilder.General.Settings.FixedThingsScale ? Presentation.THINGS_ALPHA : DoomBuilder.General.Settings.ActiveThingsAlpha);
                         renderer.Finish();
                         renderer.Present();
                     }
                 }
                 //mxd
-                else if (BuilderPlug.Me.AutoClearSelection && General.Map.Map.SelectedThingsCount > 0)
+                else if (BuilderPlug.Me.AutoClearSelection && DoomBuilder.General.Map.Map.SelectedThingsCount > 0)
                 {
-                    General.Map.Map.ClearSelectedThings();
+                    DoomBuilder.General.Map.Map.ClearSelectedThings();
                     UpdateSelectionInfo();
-                    General.Interface.RedrawDisplay();
+                    DoomBuilder.General.Interface.RedrawDisplay();
                 }
             }
 
@@ -473,23 +474,23 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 if (!highlighted.Selected)
                 {
                     // Make this the only selection
-                    General.Map.Map.ClearSelectedThings();
+                    DoomBuilder.General.Map.Map.ClearSelectedThings();
 
                     editthings = new List<Thing> { highlighted };
 
                     UpdateSelectionInfo(); //mxd
-                    General.Interface.RedrawDisplay();
+                    DoomBuilder.General.Interface.RedrawDisplay();
                 }
                 else
                 {
-                    editthings = General.Map.Map.GetSelectedThings(true);
+                    editthings = DoomBuilder.General.Map.Map.GetSelectedThings(true);
                 }
 
                 // Update display
                 if (renderer.StartThings(false))
                 {
                     // Redraw highlight to show selection
-                    renderer.RenderThing(highlighted, General.Colors.Highlight, General.Settings.FixedThingsScale ? Presentation.THINGS_ALPHA : General.Settings.ActiveThingsAlpha);
+                    renderer.RenderThing(highlighted, DoomBuilder.General.Colors.Highlight, DoomBuilder.General.Settings.FixedThingsScale ? Presentation.THINGS_ALPHA : DoomBuilder.General.Settings.ActiveThingsAlpha);
                     renderer.Finish();
                     renderer.Present();
                 }
@@ -501,20 +502,20 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 thinginserted = true;
 
                 // Insert a new item and select it for dragging
-                General.Map.UndoRedo.CreateUndo("Insert thing");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Insert thing");
                 Thing t = InsertThing(mousemappos);
 
                 if (t == null)
                 {
-                    General.Map.UndoRedo.WithdrawUndo();
+                    DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
                 }
                 else
                 {
-                    General.Map.Map.ClearSelectedThings();
-                    General.Map.Map.ClearMarkedThings(false);
+                    DoomBuilder.General.Map.Map.ClearSelectedThings();
+                    DoomBuilder.General.Map.Map.ClearMarkedThings(false);
                     editthings = new List<Thing> { t };
                     Highlight(t);
-                    General.Interface.RedrawDisplay();
+                    DoomBuilder.General.Interface.RedrawDisplay();
                 }
             }
 
@@ -529,7 +530,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 if (editthings?.Count > 0)
                 {
-                    if (General.Interface.IsActiveWindow)
+                    if (DoomBuilder.General.Interface.IsActiveWindow)
                     {
                         // Edit only when preferred
                         if (!thinginserted || BuilderPlug.Me.EditNewThing)
@@ -538,9 +539,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
                             allowautosave = false;
 
                             //mxd. Show realtime thing edit dialog
-                            General.Interface.OnEditFormValuesChanged += thingEditForm_OnValuesChanged;
-                            DialogResult result = General.Interface.ShowEditThings(editthings);
-                            General.Interface.OnEditFormValuesChanged -= thingEditForm_OnValuesChanged;
+                            DoomBuilder.General.Interface.OnEditFormValuesChanged += thingEditForm_OnValuesChanged;
+                            DialogResult result = DoomBuilder.General.Interface.ShowEditThings(editthings);
+                            DoomBuilder.General.Interface.OnEditFormValuesChanged -= thingEditForm_OnValuesChanged;
 
                             allowautosave = true;
 
@@ -551,7 +552,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                             UpdateSelectionInfo();
 
                             // Update display
-                            General.Interface.RedrawDisplay();
+                            DoomBuilder.General.Interface.RedrawDisplay();
                         }
                     }
                 }
@@ -569,7 +570,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Select changed map elements
             if (BuilderPlug.Me.SelectChangedafterUndoRedo)
             {
-                General.Map.Map.SelectMarkedGeometry(true, true);
+                DoomBuilder.General.Map.Map.SelectMarkedGeometry(true, true);
             }
 
             // If something is highlighted make sure to update the association so that it contains valid data
@@ -589,7 +590,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Select changed map elements
             if (BuilderPlug.Me.SelectChangedafterUndoRedo)
             {
-                General.Map.Map.SelectMarkedGeometry(true, true);
+                DoomBuilder.General.Map.Map.SelectMarkedGeometry(true, true);
             }
 
             // If something is highlighted make sure to update the association so that it contains valid data
@@ -607,24 +608,24 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             UpdateSelectionInfo();
 
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         //mxd. Otherwise event lines won't be drawn after panning finishes.
         protected override void EndViewPan()
         {
             base.EndViewPan();
-            if (General.Settings.GZShowEventLines) General.Interface.RedrawDisplay();
+            if (DoomBuilder.General.Settings.GZShowEventLines) DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         //mxd
         private void thingEditForm_OnValuesChanged(object sender, EventArgs e)
         {
             // Update things filter
-            General.Map.ThingsFilter.Update();
+            DoomBuilder.General.Map.ThingsFilter.Update();
 
             // Update entire display
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         // Mouse moves
@@ -648,16 +649,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
             else if (paintselectpressed && !editpressed && !selecting) //mxd. Drag-select
             {
                 // Find the nearest thing within highlight range
-                Thing t = MapSet.NearestThingSquareRange(General.Map.ThingsFilter.VisibleThings, mousemappos, BuilderPlug.Me.HighlightThingsRange / renderer.Scale);
+                Thing t = MapSet.NearestThingSquareRange(DoomBuilder.General.Map.ThingsFilter.VisibleThings, mousemappos, BuilderPlug.Me.HighlightThingsRange / renderer.Scale);
 
                 if (t != null)
                 {
                     if (t != highlighted)
                     {
                         //toggle selected state
-                        if (General.Interface.ShiftState ^ BuilderPlug.Me.AdditivePaintSelect)
+                        if (DoomBuilder.General.Interface.ShiftState ^ BuilderPlug.Me.AdditivePaintSelect)
                             t.Selected = true;
-                        else if (General.Interface.CtrlState)
+                        else if (DoomBuilder.General.Interface.CtrlState)
                             t.Selected = false;
                         else
                             t.Selected = !t.Selected;
@@ -666,7 +667,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         UpdateSelectionInfo(); //mxd
 
                         // Update entire display
-                        General.Interface.RedrawDisplay();
+                        DoomBuilder.General.Interface.RedrawDisplay();
                     }
                 }
                 else if (highlighted != null)
@@ -674,16 +675,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     Highlight(null);
 
                     // Update entire display
-                    General.Interface.RedrawDisplay();
+                    DoomBuilder.General.Interface.RedrawDisplay();
                 }
             }
             else if (e.Button == MouseButtons.None) // Not holding any buttons?
             {
                 // Find the nearest thing within highlight range
-                Thing t = MapSet.NearestThingSquareRange(General.Map.ThingsFilter.VisibleThings, mousemappos, BuilderPlug.Me.HighlightThingsRange / renderer.Scale);
+                Thing t = MapSet.NearestThingSquareRange(DoomBuilder.General.Map.ThingsFilter.VisibleThings, mousemappos, BuilderPlug.Me.HighlightThingsRange / renderer.Scale);
 
                 //mxd. Show tooltip?
-                if (General.Map.UDMF && General.Settings.RenderComments && mouselastpos != mousepos && highlighted != null && !highlighted.IsDisposed && highlighted.Fields.ContainsKey("comment"))
+                if (DoomBuilder.General.Map.UDMF && DoomBuilder.General.Settings.RenderComments && mouselastpos != mousepos && highlighted != null && !highlighted.IsDisposed && highlighted.Fields.ContainsKey("comment"))
                 {
                     string comment = highlighted.Fields.GetValue("comment", string.Empty);
                     if (comment.Length > 2)
@@ -692,7 +693,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         int index = Array.IndexOf(CommentType.Types, type);
                         if (index > 0) comment = comment.TrimStart(type.ToCharArray());
                     }
-                    General.Interface.Display.ShowToolTip("Comment:", comment, (int)(mousepos.x + (32 * MainForm.DPIScaler.Width)), (int)(mousepos.y + (8 * MainForm.DPIScaler.Height)));
+                    DoomBuilder.General.Interface.Display.ShowToolTip("Comment:", comment, (int)(mousepos.x + (32 * MainForm.DPIScaler.Width)), (int)(mousepos.y + (8 * MainForm.DPIScaler.Height)));
                 }
 
                 // Highlight if not the same
@@ -724,7 +725,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnDragStart(e);
 
             // Edit button used?
-            if (General.Actions.CheckActionActive(null, "classicedit"))
+            if (DoomBuilder.General.Actions.CheckActionActive(null, "classicedit"))
             {
                 // Anything highlighted?
                 if ((highlighted != null) && !highlighted.IsDisposed)
@@ -735,13 +736,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     if (!highlighted.Selected)
                     {
                         // Select only this thing for dragging
-                        General.Map.Map.ClearSelectedThings();
+                        DoomBuilder.General.Map.Map.ClearSelectedThings();
                         dragthings = new List<Thing> { highlighted };
                     }
                     else
                     {
                         // Add all selected things to the things we want to drag
-                        dragthings = General.Map.Map.GetSelectedThings(true);
+                        dragthings = DoomBuilder.General.Map.Map.GetSelectedThings(true);
                     }
 
                     // Start dragging the selection
@@ -749,13 +750,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     {
                         // Shift pressed? Clone things!
                         bool thingscloned = false;
-                        if (General.Interface.ShiftState)
+                        if (DoomBuilder.General.Interface.ShiftState)
                         {
                             ICollection<Thing> clonedthings = new List<Thing>(dragthings.Count);
                             if (dragthings.Count > 0)
                             {
                                 // Make undo
-                                General.Map.UndoRedo.CreateUndo(dragthings.Count == 1 ? "Clone-drag thing" : "Clone-drag " + dragthings.Count + " things");
+                                DoomBuilder.General.Map.UndoRedo.CreateUndo(dragthings.Count == 1 ? "Clone-drag thing" : "Clone-drag " + dragthings.Count + " things");
 
                                 // Clone things
                                 foreach (Thing t in dragthings)
@@ -764,7 +765,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                                     t.CopyPropertiesTo(clone);
 
                                     // If the cloned item is an interpolation point or patrol point, then insert the point in the path
-                                    ThingTypeInfo info = General.Map.Data.GetThingInfo(t.Type);
+                                    ThingTypeInfo info = DoomBuilder.General.Map.Data.GetThingInfo(t.Type);
                                     int nextpointtagargnum = -1;
 
                                     // Thing type can be changed in MAPINFO DoomEdNums block...
@@ -782,8 +783,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                                     // Apply changes?
                                     if (nextpointtagargnum != -1)
                                     {
-                                        if (t.Tag == 0) t.Tag = General.Map.Map.GetNewTag();
-                                        t.Args[nextpointtagargnum] = clone.Tag = General.Map.Map.GetNewTag();
+                                        if (t.Tag == 0) t.Tag = DoomBuilder.General.Map.Map.GetNewTag();
+                                        t.Args[nextpointtagargnum] = clone.Tag = DoomBuilder.General.Map.Map.GetNewTag();
                                     }
 
                                     t.Selected = false;
@@ -798,18 +799,18 @@ namespace CodeImp.DoomBuilder.BuilderModes
                                 dragthings = clonedthings;
 
                                 // Update things filter
-                                General.Map.ThingsFilter.Update();
-                                General.Interface.RefreshInfo();
+                                DoomBuilder.General.Map.ThingsFilter.Update();
+                                DoomBuilder.General.Interface.RefreshInfo();
 
                                 //mxd. Update helper lines
                                 UpdateHelperObjects();
 
                                 // Redraw
-                                General.Interface.RedrawDisplay();
+                                DoomBuilder.General.Interface.RedrawDisplay();
                             }
                         }
 
-                        General.Editing.ChangeMode(new DragThingsMode(new ThingsMode(), mousedownmappos, dragthings, !thingscloned));
+                        DoomBuilder.General.Editing.ChangeMode(new DragThingsMode(new ThingsMode(), mousedownmappos, dragthings, !thingscloned));
                     }
                 }
             }
@@ -829,8 +830,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             foreach (Thing t in dragthings)
             {
                 // Make sure the vertex is inside the map boundary
-                if (t.Position.x < General.Map.Config.LeftBoundary || t.Position.x > General.Map.Config.RightBoundary
-                    || t.Position.y > General.Map.Config.TopBoundary || t.Position.y < General.Map.Config.BottomBoundary)
+                if (t.Position.x < DoomBuilder.General.Map.Config.LeftBoundary || t.Position.x > DoomBuilder.General.Map.Config.RightBoundary
+                    || t.Position.y > DoomBuilder.General.Map.Config.TopBoundary || t.Position.y < DoomBuilder.General.Map.Config.BottomBoundary)
                 {
                     unaffectedCount++;
                 }
@@ -838,14 +839,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             if (unaffectedCount == dragthings.Count)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Unable to drag selection: " + (dragthings.Count == 1 ? "selected thing is" : "all of selected things are") + " outside of map boundary!");
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Unable to drag selection: " + (dragthings.Count == 1 ? "selected thing is" : "all of selected things are") + " outside of map boundary!");
+                DoomBuilder.General.Interface.RedrawDisplay();
                 return false;
             }
 
             if (unaffectedCount > 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, unaffectedCount + " of selected vertices " + (unaffectedCount == 1 ? "is" : "are") + " outside of map boundary!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, unaffectedCount + " of selected vertices " + (unaffectedCount == 1 ? "is" : "are") + " outside of map boundary!");
                 return false;
             }
 
@@ -867,7 +868,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         List<Thing> selectresult = GetOrderedSelection(base.selectstart, selectionrect);
 
                         // First deselect everything...
-                        foreach (Thing t in General.Map.Map.Things) t.Selected = false;
+                        foreach (Thing t in DoomBuilder.General.Map.Map.Things) t.Selected = false;
 
                         // Then select things in correct order
                         foreach (Thing t in selectresult) t.Selected = true;
@@ -886,14 +887,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                     case MarqueSelectionMode.SUBTRACT:
                         // Selection order doesn't matter here
-                        foreach (Thing t in General.Map.ThingsFilter.VisibleThings)
+                        foreach (Thing t in DoomBuilder.General.Map.ThingsFilter.VisibleThings)
                             if (selectionrect.Contains((float)t.Position.x, (float)t.Position.y)) t.Selected = false;
                         break;
 
                     // Should be Intersect selection mode
                     default:
                         // Selection order doesn't matter here
-                        foreach (Thing t in General.Map.ThingsFilter.VisibleThings)
+                        foreach (Thing t in DoomBuilder.General.Map.ThingsFilter.VisibleThings)
                             if (!selectionrect.Contains((float)t.Position.x, (float)t.Position.y)) t.Selected = false;
                         break;
                 }
@@ -907,7 +908,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (renderer.StartOverlay(true)) renderer.Finish();
 
             // Redraw
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         // This is called when the selection is updated
@@ -928,7 +929,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public override bool OnCopyBegin()
         {
             // No selection made? But we have a highlight!
-            if ((General.Map.Map.GetSelectedThings(true).Count == 0) && (highlighted != null))
+            if ((DoomBuilder.General.Map.Map.GetSelectedThings(true).Count == 0) && (highlighted != null))
             {
                 // Make the highlight the selection
                 highlighted.Selected = true;
@@ -947,7 +948,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             if (t.Fields.ContainsKey("comment"))
             {
-                float size = ((t.FixedSize || General.Settings.FixedThingsScale) && renderer.Scale > 1.0f) ? t.Size / renderer.Scale : t.Size;
+                float size = ((t.FixedSize || DoomBuilder.General.Settings.FixedThingsScale) && renderer.Scale > 1.0f) ? t.Size / renderer.Scale : t.Size;
                 if (size * renderer.Scale < 1.5f) return; // Thing is too small to render
 
                 int iconindex = 0;
@@ -960,8 +961,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 RectangleF rect = new RectangleF((float)(t.Position.x + size - (10 / renderer.Scale)), (float)(t.Position.y + size + (18 / renderer.Scale)), 16 / renderer.Scale, -16 / renderer.Scale);
-                PixelColor c = t == highlighted ? General.Colors.Highlight : (t.Selected ? General.Colors.Selection : PixelColor.FromColor(Color.White));
-                renderer.RenderRectangleFilled(rect, c, true, General.Map.Data.CommentTextures[iconindex]);
+                PixelColor c = t == highlighted ? DoomBuilder.General.Colors.Highlight : (t.Selected ? DoomBuilder.General.Colors.Selection : PixelColor.FromColor(Color.White));
+                renderer.RenderRectangleFilled(rect, c, true, DoomBuilder.General.Map.Data.CommentTextures[iconindex]);
             }
         }
 
@@ -970,7 +971,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             // Gather affected sectors
             List<Thing> result = new List<Thing>();
-            foreach (Thing t in General.Map.ThingsFilter.VisibleThings)
+            foreach (Thing t in DoomBuilder.General.Map.ThingsFilter.VisibleThings)
             {
                 if (selection.Contains((float)t.Position.x, (float)t.Position.y)) result.Add(t);
             }
@@ -1000,7 +1001,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd. This sets up new labels
         private void SetupSectorLabels()
         {
-            if (!General.Map.FormatInterface.HasThingAction) return;
+            if (!DoomBuilder.General.Map.FormatInterface.HasThingAction) return;
 
             // Dispose old labels
             if (sectorlabels != null)
@@ -1012,7 +1013,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Make text labels for sectors
             sectorlabels = new Dictionary<Sector, TextLabel[]>();
             sectortexts = new Dictionary<Sector, string[]>();
-            foreach (Sector s in General.Map.Map.Sectors)
+            foreach (Sector s in DoomBuilder.General.Map.Map.Sectors)
             {
                 // Setup labels
                 if (s.Tag == 0) continue;
@@ -1043,8 +1044,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     l.Location = s.Labels[i].position;
                     l.AlignX = TextAlignmentX.Center;
                     l.AlignY = TextAlignmentY.Middle;
-                    l.Color = General.Colors.InfoLine;
-                    l.BackColor = General.Colors.Background.WithAlpha(128);
+                    l.Color = DoomBuilder.General.Colors.InfoLine;
+                    l.BackColor = DoomBuilder.General.Colors.Background.WithAlpha(128);
                     larr[i] = l;
                 }
 
@@ -1065,7 +1066,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Make text labels for selected linedefs
-            ICollection<Thing> orderedselection = General.Map.Map.GetSelectedThings(true);
+            ICollection<Thing> orderedselection = DoomBuilder.General.Map.Map.GetSelectedThings(true);
             labels = new Dictionary<Thing, TextLabel>(orderedselection.Count);
 
             // Otherwise significant delays will occure.
@@ -1091,8 +1092,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     l.AlignY = TextAlignmentY.Top;
                 }
 
-                l.Color = thing == highlighted ? General.Colors.Selection : General.Colors.Highlight;
-                l.BackColor = General.Colors.Background.WithAlpha(192);
+                l.Color = thing == highlighted ? DoomBuilder.General.Colors.Selection : DoomBuilder.General.Colors.Highlight;
+                l.BackColor = DoomBuilder.General.Colors.Background.WithAlpha(192);
                 l.Text = (++index).ToString();
                 labels.Add(thing, l);
             }
@@ -1102,13 +1103,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private void UpdateHelperObjects()
         {
             // Update event lines and argument shapes
-            persistenteventlines = LinksCollector.GetHelperShapes(General.Map.ThingsFilter.VisibleThings);
+            persistenteventlines = LinksCollector.GetHelperShapes(DoomBuilder.General.Map.ThingsFilter.VisibleThings);
 
             // Update light radii
-            dynamiclightshapes = LinksCollector.GetDynamicLightShapes(General.Map.ThingsFilter.VisibleThings, false);
+            dynamiclightshapes = LinksCollector.GetDynamicLightShapes(DoomBuilder.General.Map.ThingsFilter.VisibleThings, false);
 
             // Update ambient sound radii
-            ambientsoundshapes = LinksCollector.GetAmbientSoundShapes(General.Map.ThingsFilter.VisibleThings, false);
+            ambientsoundshapes = LinksCollector.GetAmbientSoundShapes(DoomBuilder.General.Map.ThingsFilter.VisibleThings, false);
         }
 
         // This copies the properties
@@ -1117,19 +1118,19 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             // Determine source things
             ICollection<Thing> sel = null;
-            if (General.Map.Map.SelectedThingsCount > 0) sel = General.Map.Map.GetSelectedThings(true);
+            if (DoomBuilder.General.Map.Map.SelectedThingsCount > 0) sel = DoomBuilder.General.Map.Map.GetSelectedThings(true);
             else if (highlighted != null) sel = new List<Thing> { highlighted };
 
             if (sel != null)
             {
                 // Copy properties from the first source thing
-                BuilderPlug.Me.CopiedThingProps = new ThingProperties(General.GetByIndex(sel, 0));
-                General.Interface.DisplayStatus(StatusType.Action, "Copied thing properties.");
+                BuilderPlug.Me.CopiedThingProps = new ThingProperties(DoomBuilder.General.GetByIndex(sel, 0));
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Copied thing properties.");
             }
             else
             {
                 //mxd
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
             }
         }
 
@@ -1141,39 +1142,39 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 // Determine target things
                 ICollection<Thing> sel = null;
-                if (General.Map.Map.SelectedThingsCount > 0) sel = General.Map.Map.GetSelectedThings(true);
+                if (DoomBuilder.General.Map.Map.SelectedThingsCount > 0) sel = DoomBuilder.General.Map.Map.GetSelectedThings(true);
                 else if (highlighted != null) sel = new List<Thing> { highlighted };
 
                 if (sel != null)
                 {
                     // Apply properties to selection
                     string rest = sel.Count == 1 ? "a single thing" : sel.Count + " things"; //mxd
-                    General.Map.UndoRedo.CreateUndo("Paste properties to " + rest);
+                    DoomBuilder.General.Map.UndoRedo.CreateUndo("Paste properties to " + rest);
                     BuilderPlug.Me.CopiedThingProps.Apply(sel, false);
                     foreach (Thing t in sel) t.UpdateConfiguration();
-                    General.Interface.DisplayStatus(StatusType.Action, "Pasted properties to " + rest + ".");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Pasted properties to " + rest + ".");
 
                     // Update
-                    General.Map.IsChanged = true;
-                    General.Map.ThingsFilter.Update();
-                    General.Interface.RefreshInfo();
+                    DoomBuilder.General.Map.IsChanged = true;
+                    DoomBuilder.General.Map.ThingsFilter.Update();
+                    DoomBuilder.General.Interface.RefreshInfo();
 
                     //mxd. Update helper lines
                     UpdateHelperObjects();
 
                     // Redraw
-                    General.Interface.RedrawDisplay();
+                    DoomBuilder.General.Interface.RedrawDisplay();
                 }
                 else
                 {
                     //mxd
-                    General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
                 }
             }
             else
             {
                 //mxd
-                General.Interface.DisplayStatus(StatusType.Warning, "Copy thing properties first!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Copy thing properties first!");
             }
         }
 
@@ -1185,41 +1186,41 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 // Determine target things
                 ICollection<Thing> sel = null;
-                if (General.Map.Map.SelectedThingsCount > 0) sel = General.Map.Map.GetSelectedThings(true);
+                if (DoomBuilder.General.Map.Map.SelectedThingsCount > 0) sel = DoomBuilder.General.Map.Map.GetSelectedThings(true);
                 else if (highlighted != null) sel = new List<Thing> { highlighted };
 
                 if (sel != null)
                 {
                     PastePropertiesOptionsForm form = new PastePropertiesOptionsForm();
-                    if (form.Setup(MapElementType.THING) && form.ShowDialog(General.Interface) == DialogResult.OK)
+                    if (form.Setup(MapElementType.THING) && form.ShowDialog(DoomBuilder.General.Interface) == DialogResult.OK)
                     {
                         // Apply properties to selection
                         string rest = sel.Count == 1 ? "a single thing" : sel.Count + " things";
-                        General.Map.UndoRedo.CreateUndo("Paste properties with options to " + rest);
+                        DoomBuilder.General.Map.UndoRedo.CreateUndo("Paste properties with options to " + rest);
                         BuilderPlug.Me.CopiedThingProps.Apply(sel, true);
                         foreach (Thing t in sel) t.UpdateConfiguration();
-                        General.Interface.DisplayStatus(StatusType.Action, "Pasted properties with options to " + rest + ".");
+                        DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Pasted properties with options to " + rest + ".");
 
                         // Update
-                        General.Map.IsChanged = true;
-                        General.Map.ThingsFilter.Update();
-                        General.Interface.RefreshInfo();
+                        DoomBuilder.General.Map.IsChanged = true;
+                        DoomBuilder.General.Map.ThingsFilter.Update();
+                        DoomBuilder.General.Interface.RefreshInfo();
 
                         //mxd. Update helper lines
                         UpdateHelperObjects();
 
                         // Redraw
-                        General.Interface.RedrawDisplay();
+                        DoomBuilder.General.Interface.RedrawDisplay();
                     }
                 }
                 else
                 {
-                    General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
                 }
             }
             else
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Copy thing properties first!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Copy thing properties first!");
             }
         }
 
@@ -1228,17 +1229,17 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void ClearSelection()
         {
             // Clear selection
-            General.Map.Map.ClearAllSelected();
+            DoomBuilder.General.Map.Map.ClearAllSelected();
 
             //mxd. Clear selection info
-            General.Interface.DisplayStatus(StatusType.Selection, string.Empty);
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Selection, string.Empty);
 
             //mxd. Clear selection labels
             foreach (TextLabel l in labels.Values) l.Dispose();
             labels.Clear();
 
             // Redraw
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         // This creates a new thing at the mouse position
@@ -1249,12 +1250,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (mouseinside)
             {
                 // Insert new thing
-                General.Map.UndoRedo.CreateUndo("Insert thing");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Insert thing");
                 Thing t = InsertThing(mousemappos);
 
                 if (t == null)
                 {
-                    General.Map.UndoRedo.WithdrawUndo();
+                    DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
                     return;
                 }
 
@@ -1262,46 +1263,46 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 if (BuilderPlug.Me.EditNewThing)
                 {
                     // Redraw screen
-                    General.Interface.RedrawDisplay();
-                    General.Interface.ShowEditThings(new List<Thing> { t });
+                    DoomBuilder.General.Interface.RedrawDisplay();
+                    DoomBuilder.General.Interface.ShowEditThings(new List<Thing> { t });
                 }
 
-                General.Interface.DisplayStatus(StatusType.Action, "Inserted a new thing.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Inserted a new thing.");
 
                 // Update things filter
-                General.Map.ThingsFilter.Update();
+                DoomBuilder.General.Map.ThingsFilter.Update();
 
                 //mxd. Update helper lines
                 UpdateHelperObjects();
 
                 // Redraw screen
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Interface.RedrawDisplay();
             }
         }
 
         // This creates a new thing
         private static Thing InsertThing(Vector2D pos)
         {
-            if (pos.x < General.Map.Config.LeftBoundary || pos.x > General.Map.Config.RightBoundary ||
-               pos.y > General.Map.Config.TopBoundary || pos.y < General.Map.Config.BottomBoundary)
+            if (pos.x < DoomBuilder.General.Map.Config.LeftBoundary || pos.x > DoomBuilder.General.Map.Config.RightBoundary ||
+               pos.y > DoomBuilder.General.Map.Config.TopBoundary || pos.y < DoomBuilder.General.Map.Config.BottomBoundary)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Failed to insert thing: outside of map boundaries.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Failed to insert thing: outside of map boundaries.");
                 return null;
             }
 
             // Create thing
-            Thing t = General.Map.Map.CreateThing();
+            Thing t = DoomBuilder.General.Map.Map.CreateThing();
             if (t != null)
             {
-                General.Settings.ApplyDefaultThingSettings(t);
+                DoomBuilder.General.Settings.ApplyDefaultThingSettings(t);
                 t.Move(pos);
                 t.UpdateConfiguration();
 
                 // Update things filter so that it includes this thing
-                General.Map.ThingsFilter.Update();
+                DoomBuilder.General.Map.ThingsFilter.Update();
 
                 // Snap to grid enabled?
-                if (General.Interface.SnapToGrid)
+                if (DoomBuilder.General.Interface.SnapToGrid)
                 {
                     // Snap to grid
                     t.SnapToGrid();
@@ -1320,7 +1321,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void DeleteItem()
         {
             // Make list of selected things
-            List<Thing> selected = new List<Thing>(General.Map.Map.GetSelectedThings(true));
+            List<Thing> selected = new List<Thing>(DoomBuilder.General.Map.Map.GetSelectedThings(true));
             if ((selected.Count == 0) && (highlighted != null) && !highlighted.IsDisposed) selected.Add(highlighted);
 
             // Anything to do?
@@ -1329,27 +1330,27 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // Make undo
                 if (selected.Count > 1)
                 {
-                    General.Map.UndoRedo.CreateUndo("Delete " + selected.Count + " things");
-                    General.Interface.DisplayStatus(StatusType.Action, "Deleted " + selected.Count + " things.");
+                    DoomBuilder.General.Map.UndoRedo.CreateUndo("Delete " + selected.Count + " things");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Deleted " + selected.Count + " things.");
                 }
                 else
                 {
-                    General.Map.UndoRedo.CreateUndo("Delete thing");
-                    General.Interface.DisplayStatus(StatusType.Action, "Deleted a thing.");
+                    DoomBuilder.General.Map.UndoRedo.CreateUndo("Delete thing");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Deleted a thing.");
                 }
 
                 DeleteThings(selected); //mxd
 
                 // Update cache values
-                General.Map.IsChanged = true;
-                General.Map.ThingsFilter.Update();
+                DoomBuilder.General.Map.IsChanged = true;
+                DoomBuilder.General.Map.ThingsFilter.Update();
 
                 //mxd. Update helper lines
                 UpdateHelperObjects();
 
                 // Redraw screen
                 UpdateSelectionInfo(); //mxd
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Interface.RedrawDisplay();
 
                 // Invoke a new mousemove so that the highlighted item updates
                 OnMouseMove(new MouseEventArgs(MouseButtons.None, 0, (int)mousepos.x, (int)mousepos.y, 0));
@@ -1361,12 +1362,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void AlignThingsToWall()
         {
             // Make list of selected things
-            List<Thing> selected = new List<Thing>(General.Map.Map.GetSelectedThings(true));
+            List<Thing> selected = new List<Thing>(DoomBuilder.General.Map.Map.GetSelectedThings(true));
             if ((selected.Count == 0) && (highlighted != null) && !highlighted.IsDisposed) selected.Add(highlighted);
 
             if (selected.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
                 return;
             }
 
@@ -1378,20 +1379,20 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             if (toAlign.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action only works for models or things with FLATSPRITE/WALLSPRITE flags!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action only works for models or things with FLATSPRITE/WALLSPRITE flags!");
                 return;
             }
 
             // Make undo
             if (toAlign.Count > 1)
             {
-                General.Map.UndoRedo.CreateUndo("Align " + toAlign.Count + " things");
-                General.Interface.DisplayStatus(StatusType.Action, "Aligned " + toAlign.Count + " things.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Align " + toAlign.Count + " things");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Aligned " + toAlign.Count + " things.");
             }
             else
             {
-                General.Map.UndoRedo.CreateUndo("Align thing");
-                General.Interface.DisplayStatus(StatusType.Action, "Aligned a thing.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Align thing");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Aligned a thing.");
             }
 
             //align things
@@ -1402,16 +1403,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                 do
                 {
-                    Linedef l = General.Map.Map.NearestLinedef(t.Position, excludedLines);
+                    Linedef l = DoomBuilder.General.Map.Map.NearestLinedef(t.Position, excludedLines);
                     aligned = Tools.TryAlignThingToLine(t, l);
 
                     if (!aligned)
                     {
                         excludedLines.Add(l);
-                        if (excludedLines.Count == General.Map.Map.Linedefs.Count)
+                        if (excludedLines.Count == DoomBuilder.General.Map.Map.Linedefs.Count)
                         {
-                            ThingTypeInfo tti = General.Map.Data.GetThingInfo(t.Type);
-                            General.ErrorLogger.Add(ErrorType.Warning, "Unable to align " + tti.Title + " (index " + t.Index + ") to any linedef!");
+                            ThingTypeInfo tti = DoomBuilder.General.Map.Data.GetThingInfo(t.Type);
+                            DoomBuilder.General.ErrorLogger.Add(ErrorType.Warning, "Unable to align " + tti.Title + " (index " + t.Index + ") to any linedef!");
                             aligned = true;
                         }
                     }
@@ -1419,23 +1420,23 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Update cache values
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Map.IsChanged = true;
 
             // Redraw screen
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         [BeginAction("thinglookatcursor")]
         public void ThingPointAtCursor()
         {
             // Make list of selected things
-            List<Thing> selected = new List<Thing>(General.Map.Map.GetSelectedThings(true));
+            List<Thing> selected = new List<Thing>(DoomBuilder.General.Map.Map.GetSelectedThings(true));
             if ((selected.Count == 0) && (highlighted != null) && !highlighted.IsDisposed)
                 selected.Add(highlighted);
 
             if (selected.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
                 return;
             }
 
@@ -1443,7 +1444,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (!mousemappos.IsFinite())
             {
                 awaitingMouseClick = true;
-                General.Interface.DisplayStatus(StatusType.Warning, "Now click in the editing area!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Now click in the editing area!");
                 return;
             }
 
@@ -1452,26 +1453,26 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Make undo
             if (selected.Count > 1)
             {
-                General.Map.UndoRedo.CreateUndo("Rotate " + selected.Count + " things");
-                General.Interface.DisplayStatus(StatusType.Action, "Rotated " + selected.Count + " things.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Rotate " + selected.Count + " things");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Rotated " + selected.Count + " things.");
             }
             else
             {
-                General.Map.UndoRedo.CreateUndo("Rotate thing");
-                General.Interface.DisplayStatus(StatusType.Action, "Rotated a thing.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Rotate thing");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Rotated a thing.");
             }
 
             // Change angle
-            if (General.Interface.CtrlState) // Point away
+            if (DoomBuilder.General.Interface.CtrlState) // Point away
             {
                 foreach (Thing t in selected)
                 {
-                    ThingTypeInfo info = General.Map.Data.GetThingInfo(t.Type);
+                    ThingTypeInfo info = DoomBuilder.General.Map.Data.GetThingInfo(t.Type);
                     if (info == null || info.FixedRotation == true)
                         continue;
 
                     int newangle = Angle2D.RealToDoom(Vector2D.GetAngle(mousemappos, t.Position) + Angle2D.PI);
-                    if (General.Map.Config.DoomThingRotationAngles) newangle = (newangle + 22) / 45 * 45;
+                    if (DoomBuilder.General.Map.Config.DoomThingRotationAngles) newangle = (newangle + 22) / 45 * 45;
 
                     t.Rotate(newangle);
                 }
@@ -1480,83 +1481,83 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 foreach (Thing t in selected)
                 {
-                    ThingTypeInfo info = General.Map.Data.GetThingInfo(t.Type);
+                    ThingTypeInfo info = DoomBuilder.General.Map.Data.GetThingInfo(t.Type);
                     if (info == null || info.FixedRotation == true)
                         continue;
 
                     int newangle = Angle2D.RealToDoom(Vector2D.GetAngle(mousemappos, t.Position));
-                    if (General.Map.Config.DoomThingRotationAngles) newangle = (newangle + 22) / 45 * 45;
+                    if (DoomBuilder.General.Map.Config.DoomThingRotationAngles) newangle = (newangle + 22) / 45 * 45;
 
                     t.Rotate(newangle);
                 }
             }
 
             // Redraw screen
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         //mxd. rotate clockwise
         [BeginAction("rotateclockwise")]
         public void RotateCW()
         {
-            RotateThings(General.Map.Config.DoomThingRotationAngles ? -45 : -5);
+            RotateThings(DoomBuilder.General.Map.Config.DoomThingRotationAngles ? -45 : -5);
         }
 
         //mxd. rotate counterclockwise
         [BeginAction("rotatecounterclockwise")]
         public void RotateCCW()
         {
-            RotateThings(General.Map.Config.DoomThingRotationAngles ? 45 : 5);
+            RotateThings(DoomBuilder.General.Map.Config.DoomThingRotationAngles ? 45 : 5);
         }
 
         //mxd
         private void RotateThings(int increment)
         {
             // Make list of selected things
-            List<Thing> selected = new List<Thing>(General.Map.Map.GetSelectedThings(true));
+            List<Thing> selected = new List<Thing>(DoomBuilder.General.Map.Map.GetSelectedThings(true));
             if (selected.Count == 0 && highlighted != null && !highlighted.IsDisposed)
                 selected.Add(highlighted);
 
             if (selected.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
                 return;
             }
 
             // Make undo
             if (selected.Count > 1)
             {
-                General.Map.UndoRedo.CreateUndo("Rotate " + selected.Count + " things", this, UndoGroup.ThingAngleChange, CreateSelectionCRC(selected));
-                General.Interface.DisplayStatus(StatusType.Action, "Rotated " + selected.Count + " things.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Rotate " + selected.Count + " things", this, UndoGroup.ThingAngleChange, CreateSelectionCRC(selected));
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Rotated " + selected.Count + " things.");
             }
             else
             {
-                General.Map.UndoRedo.CreateUndo("Rotate thing", this, UndoGroup.ThingAngleChange, CreateSelectionCRC(selected));
-                General.Interface.DisplayStatus(StatusType.Action, "Rotated a thing.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Rotate thing", this, UndoGroup.ThingAngleChange, CreateSelectionCRC(selected));
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Rotated a thing.");
             }
 
             // Change angle
             foreach (Thing t in selected)
             {
                 int newangle = t.AngleDoom + increment;
-                if (General.Map.Config.DoomThingRotationAngles) newangle = newangle / 45 * 45;
-                t.Rotate(General.ClampAngle(newangle));
+                if (DoomBuilder.General.Map.Config.DoomThingRotationAngles) newangle = newangle / 45 * 45;
+                t.Rotate(DoomBuilder.General.ClampAngle(newangle));
             }
 
             // Redraw screen
-            General.Interface.RedrawDisplay();
-            General.Interface.RefreshInfo();
+            DoomBuilder.General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RefreshInfo();
         }
 
         //mxd
         [BeginAction("filterselectedthings")]
         public void ShowFilterDialog()
         {
-            ICollection<Thing> selection = General.Map.Map.GetSelectedThings(true);
+            ICollection<Thing> selection = DoomBuilder.General.Map.Map.GetSelectedThings(true);
 
             if (selection.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
                 return;
             }
 
@@ -1567,47 +1568,47 @@ namespace CodeImp.DoomBuilder.BuilderModes
         [BeginAction("selectsimilar")]
         public void SelectSimilar()
         {
-            ICollection<Thing> selection = General.Map.Map.GetSelectedThings(true);
+            ICollection<Thing> selection = DoomBuilder.General.Map.Map.GetSelectedThings(true);
 
             if (selection.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
                 return;
             }
 
             var form = new SelectSimilarElementOptionsPanel();
-            if (form.Setup(this)) form.ShowDialog(General.Interface);
+            if (form.Setup(this)) form.ShowDialog(DoomBuilder.General.Interface);
         }
 
         [BeginAction("smartgridtransform", BaseAction = true)]
         protected void SmartGridTransform()
         {
-            if (General.Map.Map.SelectedThingsCount > 1)
+            if (DoomBuilder.General.Map.Map.SelectedThingsCount > 1)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Either nothing or exactly one thing must be selected");
-                General.Interface.MessageBeep(MessageBeepType.Warning);
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Either nothing or exactly one thing must be selected");
+                DoomBuilder.General.Interface.MessageBeep(MessageBeepType.Warning);
                 return;
             }
 
             Thing thing = null;
 
-            if (General.Map.Map.SelectedThingsCount == 1)
-                thing = General.Map.Map.GetSelectedThings(true).First();
+            if (DoomBuilder.General.Map.Map.SelectedThingsCount == 1)
+                thing = DoomBuilder.General.Map.Map.GetSelectedThings(true).First();
             else if (highlighted != null)
                 thing = highlighted;
 
             if (thing != null)
             {
-                General.Map.Grid.SetGridOrigin(thing.Position.x, thing.Position.y);
-                General.Map.GridVisibilityChanged();
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Map.Grid.SetGridOrigin(thing.Position.x, thing.Position.y);
+                DoomBuilder.General.Map.GridVisibilityChanged();
+                DoomBuilder.General.Interface.RedrawDisplay();
             }
             else
             {
-                General.Map.Grid.SetGridRotation(0.0);
-                General.Map.Grid.SetGridOrigin(0, 0);
-                General.Map.GridVisibilityChanged();
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Map.Grid.SetGridRotation(0.0);
+                DoomBuilder.General.Map.Grid.SetGridOrigin(0, 0);
+                DoomBuilder.General.Map.GridVisibilityChanged();
+                DoomBuilder.General.Interface.RedrawDisplay();
             }
         }
 
@@ -1615,24 +1616,24 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private void ChangeMapElementIndex()
         {
             // Make list of selected linedefs
-            List<Thing> selected = General.Map.Map.GetSelectedThings(true).ToList();
+            List<Thing> selected = DoomBuilder.General.Map.Map.GetSelectedThings(true).ToList();
             if ((selected.Count == 0) && (highlighted != null) && !highlighted.IsDisposed) selected.Add(highlighted);
             if (selected.Count != 1)
             {
-                General.ToastManager.ShowToast(ToastMessages.CHANGEMAPELEMENTINDEX, ToastType.WARNING, "Changing thing index failed", "You need to select or highlight exactly 1 thing.");
+                DoomBuilder.General.ToastManager.ShowToast(ToastMessages.CHANGEMAPELEMENTINDEX, ToastType.WARNING, "Changing thing index failed", "You need to select or highlight exactly 1 thing.");
                 return;
             }
 
-            ChangeMapElementIndexForm f = new ChangeMapElementIndexForm("thing", selected[0].Index, General.Map.Map.Things.Count - 1);
+            ChangeMapElementIndexForm f = new ChangeMapElementIndexForm("thing", selected[0].Index, DoomBuilder.General.Map.Map.Things.Count - 1);
             if (f.ShowDialog() == DialogResult.OK)
             {
                 int newindex = f.GetNewIndex();
                 int oldindex = selected[0].Index;
-                General.Map.UndoRedo.CreateUndo("Change thing index");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Change thing index");
 
                 selected[0].ChangeIndex(newindex);
 
-                General.ToastManager.ShowToast(ToastMessages.CHANGEMAPELEMENTINDEX, ToastType.INFO, "Successfully change thing index", $"Changed index of thing {oldindex} to {newindex}.");
+                DoomBuilder.General.ToastManager.ShowToast(ToastMessages.CHANGEMAPELEMENTINDEX, ToastType.INFO, "Successfully change thing index", $"Changed index of thing {oldindex} to {newindex}.");
             }
         }
     }

@@ -1,4 +1,6 @@
 ﻿
+using CodeImp.DoomBuilder.BuilderModes.General;
+using CodeImp.DoomBuilder.BuilderModes.VisualModes;
 using CodeImp.DoomBuilder.Windows;
 using System;
 using System.Collections.Generic;
@@ -44,7 +46,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             // No dice...
             if (strips.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Failed to setup sidedef chains...");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Failed to setup sidedef chains...");
                 this.DialogResult = DialogResult.Cancel;
                 this.Close();
                 return false;

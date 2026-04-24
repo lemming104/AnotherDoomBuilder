@@ -1,10 +1,9 @@
-﻿
-using CodeImp.DoomBuilder.Map;
+﻿using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Drawing;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultShortLinedef : ErrorResult
     {
@@ -41,7 +40,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Rendering
         public override void PlotSelection(IRenderer2D renderer)
         {
-            renderer.PlotLinedef(line, General.Colors.Selection);
+            renderer.PlotLinedef(line, DoomBuilder.General.Colors.Selection);
             renderer.PlotVertex(line.Start, ColorCollection.VERTICES);
             renderer.PlotVertex(line.End, ColorCollection.VERTICES);
         }

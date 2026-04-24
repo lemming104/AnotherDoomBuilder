@@ -1,9 +1,8 @@
-﻿
-using CodeImp.DoomBuilder.Geometry;
+﻿using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using System;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal class EffectThingSlope : SectorEffect
     {
@@ -37,7 +36,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 if (t.Sector != null)
                 {
                     //mxd. Vertex zheight overrides this effect
-                    if (General.Map.UDMF && t.Sector.Sidedefs.Count == 3)
+                    if (DoomBuilder.General.Map.UDMF && t.Sector.Sidedefs.Count == 3)
                     {
                         foreach (Sidedef side in t.Sector.Sidedefs)
                         {
@@ -47,7 +46,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     }
 
                     double angle = Angle2D.DoomToReal((int)Angle2D.RadToDeg(t.Angle));
-                    double vangle = Angle2D.DegToRad(General.Clamp(t.Args[0], 0, 180)); //mxd. Don't underestimate user stupidity (or curiosity)!
+                    double vangle = Angle2D.DegToRad(DoomBuilder.General.Clamp(t.Args[0], 0, 180)); //mxd. Don't underestimate user stupidity (or curiosity)!
                     Vector2D point = new Vector2D(t.Position.x + (Math.Cos(angle) * Math.Sin(vangle)), t.Position.y + (Math.Sin(angle) * Math.Sin(vangle)));
                     Vector2D perpendicular = new Line2D(t.Position, point).GetPerpendicular();
 
@@ -79,7 +78,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 if (t.Sector != null)
                 {
                     //mxd. Vertex zheight overrides this effect
-                    if (General.Map.UDMF && t.Sector.Sidedefs.Count == 3)
+                    if (DoomBuilder.General.Map.UDMF && t.Sector.Sidedefs.Count == 3)
                     {
                         foreach (Sidedef side in t.Sector.Sidedefs)
                         {
@@ -89,7 +88,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     }
 
                     double angle = Angle2D.DoomToReal((int)Angle2D.RadToDeg(t.Angle));
-                    double vangle = Angle2D.DegToRad(General.Clamp(t.Args[0], 0, 180)); //mxd. Don't underestimate user stupidity (or curiosity)!
+                    double vangle = Angle2D.DegToRad(DoomBuilder.General.Clamp(t.Args[0], 0, 180)); //mxd. Don't underestimate user stupidity (or curiosity)!
                     Vector2D point = new Vector2D(t.Position.x + (Math.Cos(angle) * Math.Sin(vangle)), t.Position.y + (Math.Sin(angle) * Math.Sin(vangle)));
                     Vector2D perpendicular = new Line2D(t.Position, point).GetPerpendicular();
 

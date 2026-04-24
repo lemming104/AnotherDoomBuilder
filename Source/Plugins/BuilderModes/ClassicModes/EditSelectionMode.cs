@@ -13,6 +13,7 @@
 
 
 using CodeImp.DoomBuilder.Actions;
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Controls;
@@ -29,7 +30,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
 {
     [EditMode(DisplayName = "Edit Selection Mode",
               SwitchAction = "editselectionmode",
@@ -104,8 +105,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             private static Size GetTextureSize(long hash)
             {
-                ImageData texture = General.Map.Data.GetFlatImage(hash);
-                if ((texture == null) || (texture == General.Map.Data.WhiteTexture) ||
+                ImageData texture = DoomBuilder.General.Map.Data.GetFlatImage(hash);
+                if ((texture == null) || (texture == DoomBuilder.General.Map.Data.WhiteTexture) ||
                    (texture.Width <= 0) || (texture.Height <= 0) || !texture.IsImageLoaded)
                 {
                     return new Size();
@@ -309,9 +310,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             UpdateGeometry();
             UpdateRectangleComponents();
-            if (General.Map.UDMF) UpdateTextureTransform(); //mxd
-            General.Map.Map.Update();
-            General.Interface.RedrawDisplay();
+            if (DoomBuilder.General.Map.UDMF) UpdateTextureTransform(); //mxd
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         // This highlights a new vertex
@@ -332,7 +333,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 {
                     if (renderer.StartThings(false))
                     {
-                        renderer.RenderThing((Thing)highlighted, renderer.DetermineThingColor((Thing)highlighted), General.Settings.ActiveThingsAlpha);
+                        renderer.RenderThing((Thing)highlighted, renderer.DetermineThingColor((Thing)highlighted), DoomBuilder.General.Settings.ActiveThingsAlpha);
                         renderer.Finish();
                     }
                 }
@@ -356,7 +357,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 {
                     if (renderer.StartThings(false))
                     {
-                        renderer.RenderThing((Thing)highlighted, General.Colors.Highlight, General.Settings.ActiveThingsAlpha);
+                        renderer.RenderThing((Thing)highlighted, DoomBuilder.General.Colors.Highlight, DoomBuilder.General.Settings.ActiveThingsAlpha);
                         renderer.Finish();
                     }
                 }
@@ -410,7 +411,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                             if (t != highlighted) Highlight(t);
                         }
 
-                        General.Interface.SetCursor(Cursors.Hand);
+                        DoomBuilder.General.Interface.SetCursor(Cursors.Hand);
                         break;
 
                     case Grip.RotateLB:
@@ -418,7 +419,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     case Grip.RotateRB:
                     case Grip.RotateRT:
                         Highlight(null);
-                        General.Interface.SetCursor(Cursors.Cross);
+                        DoomBuilder.General.Interface.SetCursor(Cursors.Cross);
                         break;
 
                     case Grip.SizeE:
@@ -432,13 +433,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         if (resizeangle > Angle2D.PI) resizeangle -= Angle2D.PI;
                         resizeangle = Math.Abs(resizeangle + (Angle2D.PI / 8.000001f));
                         int cursorindex = (int)Math.Floor(resizeangle / Angle2D.PI * 4.0f) % 4;
-                        General.Interface.SetCursor(RESIZE_CURSORS[cursorindex]);
+                        DoomBuilder.General.Interface.SetCursor(RESIZE_CURSORS[cursorindex]);
                         Highlight(null);
                         break;
 
                     default:
                         Highlight(null);
-                        General.Interface.SetCursor(Cursors.Default);
+                        DoomBuilder.General.Interface.SetCursor(Cursors.Default);
                         break;
                 }
             }
@@ -448,11 +449,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 bool dosnaptogrid = snaptogrid;
 
                 // Options
-                snaptogrid = General.Interface.ShiftState ^ General.Interface.SnapToGrid;
-                snaptonearest = General.Interface.CtrlState ^ General.Interface.AutoMerge;
+                snaptogrid = DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid;
+                snaptonearest = DoomBuilder.General.Interface.CtrlState ^ DoomBuilder.General.Interface.AutoMerge;
 
                 // Change to crosshair cursor so we can clearly see around the mouse cursor
-                General.Interface.SetCursor(Cursors.Cross);
+                DoomBuilder.General.Interface.SetCursor(Cursors.Cross);
 
                 // Check what modifying mode we are in
                 switch (mode)
@@ -488,7 +489,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                                     if (dosnaptogrid)
                                     {
                                         // Get grid intersection coordinates
-                                        List<Vector2D> coords = nl.GetGridIntersections(General.Map.Grid.GridRotate, General.Map.Grid.GridOriginX, General.Map.Grid.GridOriginY);
+                                        List<Vector2D> coords = nl.GetGridIntersections(DoomBuilder.General.Map.Grid.GridRotate, DoomBuilder.General.Map.Grid.GridOriginX, DoomBuilder.General.Map.Grid.GridOriginY);
 
                                         // Find nearest grid intersection
                                         double found_distance = double.MaxValue;
@@ -527,13 +528,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         if (dosnaptogrid && (highlighted != null))
                         {
                             // Change offset to align to grid
-                            offset += General.Map.Grid.SnappedToGrid(transformedpos) - transformedpos;
+                            offset += DoomBuilder.General.Map.Grid.SnappedToGrid(transformedpos) - transformedpos;
                         }
 
                         // Update
                         UpdateGeometry();
                         UpdateRectangleComponents();
-                        General.Interface.RedrawDisplay();
+                        DoomBuilder.General.Interface.RedrawDisplay();
                         break;
 
                     // Resizing
@@ -556,7 +557,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         if (dosnaptogrid)
                         {
                             // Aligned to grid
-                            snappedmappos = General.Map.Grid.SnappedToGrid(snappedmappos);
+                            snappedmappos = DoomBuilder.General.Map.Grid.SnappedToGrid(snappedmappos);
                         }
 
                         // Keep corner position
@@ -598,7 +599,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         // Update
                         UpdateGeometry();
                         UpdateRectangleComponents();
-                        General.Interface.RedrawDisplay();
+                        DoomBuilder.General.Interface.RedrawDisplay();
                         break;
 
                     // Rotating
@@ -638,7 +639,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         // Update
                         UpdateGeometry();
                         UpdateRectangleComponents();
-                        General.Interface.RedrawDisplay();
+                        DoomBuilder.General.Interface.RedrawDisplay();
                         break;
                 }
             }
@@ -838,7 +839,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 if (!fixedrotationthingtypes.Contains(t.Type))
                 {
                     int newangle = Angle2D.RealToDoom(Angle2D.Normalized(newthingangle[index]));
-                    if (General.Map.Config.DoomThingRotationAngles) newangle = newangle / 45 * 45;
+                    if (DoomBuilder.General.Map.Config.DoomThingRotationAngles) newangle = newangle / 45 * 45;
                     t.Rotate(newangle);
                 }
 
@@ -846,7 +847,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             UpdatePanel();
-            General.Map.Map.Update(true, false);
+            DoomBuilder.General.Map.Map.Update(true, false);
         }
 
         //mxd. This updates texture transforms for all sectors
@@ -856,8 +857,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 Sector eachSector = group.Key;
                 SectorTextureInfo eachSectorTexInfo = group.Value;
-                Vector2D newFirstVertexPosition = new Vector2D(Math.Round(eachSectorTexInfo.FirstVertex.Position.x, General.Map.FormatInterface.VertexDecimals),
-                                                                Math.Round(eachSectorTexInfo.FirstVertex.Position.y, General.Map.FormatInterface.VertexDecimals));
+                Vector2D newFirstVertexPosition = new Vector2D(Math.Round(eachSectorTexInfo.FirstVertex.Position.x, DoomBuilder.General.Map.FormatInterface.VertexDecimals),
+                                                                Math.Round(eachSectorTexInfo.FirstVertex.Position.y, DoomBuilder.General.Map.FormatInterface.VertexDecimals));
 
                 eachSector.Fields.BeforeFieldsChange();
 
@@ -871,7 +872,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Map was changed
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Map.IsChanged = true;
         }
 
         //mxd. This updates texture transforms in given UniFields
@@ -890,7 +891,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     double previousSurfaceRotationRad = Angle2D.PI2 - si.Rotation;
 
                     //Set the new surface texture rotation
-                    double newSurfaceRotationDegrees = General.ClampAngle(Math.Round(Angle2D.RadToDeg(newSurfaceRotationRad), General.Map.FormatInterface.VertexDecimals));
+                    double newSurfaceRotationDegrees = DoomBuilder.General.ClampAngle(Math.Round(Angle2D.RadToDeg(newSurfaceRotationRad), DoomBuilder.General.Map.FormatInterface.VertexDecimals));
                     fields["rotation" + si.Part] = new UniValue(UniversalType.Float, newSurfaceRotationDegrees);
 
                     //Find the offset required to place the texture origin point at the reference vector
@@ -916,8 +917,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 fields["xpanning" + si.Part] = new UniValue(UniversalType.Float, si.Offset.x);
                 fields["ypanning" + si.Part] = new UniValue(UniversalType.Float, si.Offset.y);
                 fields["rotation" + si.Part] = new UniValue(UniversalType.AngleDegreesFloat, Angle2D.RadToDeg(si.Rotation));
-                //fields["xscale" + si.Part] = new UniValue(UniversalType.Float, Math.Round(si.Scale.x * scale.x, General.Map.FormatInterface.VertexDecimals));
-                //fields["yscale" + si.Part] = new UniValue(UniversalType.Float, Math.Round(-si.Scale.y * scale.y, General.Map.FormatInterface.VertexDecimals));
+                //fields["xscale" + si.Part] = new UniValue(UniversalType.Float, Math.Round(si.Scale.x * scale.x, DoomBuilder.General.Map.FormatInterface.VertexDecimals));
+                //fields["yscale" + si.Part] = new UniValue(UniversalType.Float, Math.Round(-si.Scale.y * scale.y, DoomBuilder.General.Map.FormatInterface.VertexDecimals));
             }
         }
 
@@ -929,11 +930,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private Vector2D GetClampedOffsetVector(Vector2D v, Vector2D textureSize)
         {
             Vector2D roundedV = new Vector2D(
-                Math.Round(v.x, General.Map.FormatInterface.VertexDecimals),
-                Math.Round(v.y, General.Map.FormatInterface.VertexDecimals));
+                Math.Round(v.x, DoomBuilder.General.Map.FormatInterface.VertexDecimals),
+                Math.Round(v.y, DoomBuilder.General.Map.FormatInterface.VertexDecimals));
             Vector2D roundedTextureSize = new Vector2D(
-                Math.Round(textureSize.x, General.Map.FormatInterface.VertexDecimals),
-                Math.Round(textureSize.y, General.Map.FormatInterface.VertexDecimals));
+                Math.Round(textureSize.x, DoomBuilder.General.Map.FormatInterface.VertexDecimals),
+                Math.Round(textureSize.y, DoomBuilder.General.Map.FormatInterface.VertexDecimals));
 
             return new Vector2D(roundedV.x % roundedTextureSize.x,
                                 roundedV.y % roundedTextureSize.y);
@@ -971,7 +972,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private void UpdateRectangleComponents()
         {
             float gripsize = GRIP_SIZE / renderer.Scale;
-            PixelColor rectcolor = General.Colors.Highlight.WithAlpha(RECTANGLE_ALPHA);
+            PixelColor rectcolor = DoomBuilder.General.Colors.Highlight.WithAlpha(RECTANGLE_ALPHA);
 
             // Original (untransformed) corners
             originalcorners = new Vector2D[4];
@@ -1184,7 +1185,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // Adjust regular height
                 s.FloorHeight += flooroffset;
 
-                if (General.Map.UDMF)
+                if (DoomBuilder.General.Map.UDMF)
                 {
                     // Adjust slope height?
                     if (s.FloorSlope.GetLengthSq() > 0 && !double.IsNaN(s.FloorSlopeOffset / s.FloorSlope.z))
@@ -1217,7 +1218,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // Adjust regular height
                 s.CeilHeight += ceiloffset;
 
-                if (General.Map.UDMF)
+                if (DoomBuilder.General.Map.UDMF)
                 {
                     // Adjust slope height?
                     if (s.CeilSlope.GetLengthSq() > 0 && !double.IsNaN(s.CeilSlopeOffset / s.CeilSlope.z))
@@ -1247,7 +1248,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
         public override void OnHelp()
         {
-            General.ShowHelp("e_editselection.html");
+            DoomBuilder.General.ShowHelp("e_editselection.html");
         }
 
         // Mode engages
@@ -1256,38 +1257,38 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnEngage();
 
             autodrag = pasting && mouseinside && BuilderPlug.Me.AutoDragOnPaste;
-            snaptonearest = General.Interface.AutoMerge; //mxd
+            snaptonearest = DoomBuilder.General.Interface.AutoMerge; //mxd
             selectedsectors = new Dictionary<Sector, SectorTextureInfo>(); //mxd
 
             // Add toolbar buttons
-            General.Interface.BeginToolbarUpdate(); //mxd
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.FlipSelectionH);
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.FlipSelectionV);
-            General.Interface.EndToolbarUpdate(); //mxd
+            DoomBuilder.General.Interface.BeginToolbarUpdate(); //mxd
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.FlipSelectionH);
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.FlipSelectionV);
+            DoomBuilder.General.Interface.EndToolbarUpdate(); //mxd
 
             //mxd. Get EditPanel-related settings
-            usepreciseposition = General.Settings.ReadPluginSetting("editselectionmode.usepreciseposition", true);
-            heightadjustmode = (HeightAdjustMode)General.Settings.ReadPluginSetting("editselectionmode.heightadjustmode", (int)HeightAdjustMode.NONE);
+            usepreciseposition = DoomBuilder.General.Settings.ReadPluginSetting("editselectionmode.usepreciseposition", true);
+            heightadjustmode = (HeightAdjustMode)DoomBuilder.General.Settings.ReadPluginSetting("editselectionmode.heightadjustmode", (int)HeightAdjustMode.NONE);
 
             // Add docker
             panel = new EditSelectionPanel(this);
             docker = new Docker("editselection", "Edit Selection", panel);
-            General.Interface.AddDocker(docker, true);
-            General.Interface.SelectDocker(docker);
+            DoomBuilder.General.Interface.AddDocker(docker, true);
+            DoomBuilder.General.Interface.SelectDocker(docker);
 
             // We don't want to record this for undoing while we move the geometry around.
             // This will be set back to normal when we're done.
-            General.Map.UndoRedo.IgnorePropChanges = true;
+            DoomBuilder.General.Map.UndoRedo.IgnorePropChanges = true;
 
             // Convert geometry selection
-            General.Map.Map.ClearAllMarks(false);
-            General.Map.Map.MarkSelectedVertices(true, true);
-            General.Map.Map.MarkSelectedThings(true, true);
-            General.Map.Map.MarkSelectedLinedefs(true, true);
-            General.Map.Map.MarkSelectedSectors(true, true);
-            ICollection<Vertex> verts = General.Map.Map.GetVerticesFromLinesMarks(true);
+            DoomBuilder.General.Map.Map.ClearAllMarks(false);
+            DoomBuilder.General.Map.Map.MarkSelectedVertices(true, true);
+            DoomBuilder.General.Map.Map.MarkSelectedThings(true, true);
+            DoomBuilder.General.Map.Map.MarkSelectedLinedefs(true, true);
+            DoomBuilder.General.Map.Map.MarkSelectedSectors(true, true);
+            ICollection<Vertex> verts = DoomBuilder.General.Map.Map.GetVerticesFromLinesMarks(true);
             foreach (Vertex v in verts) v.Marked = true;
-            ICollection<Sector> sectors = General.Map.Map.GetSelectedSectors(true); //mxd
+            ICollection<Sector> sectors = DoomBuilder.General.Map.Map.GetSelectedSectors(true); //mxd
 
             foreach (Sector s in sectors)
             {
@@ -1298,21 +1299,21 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     sd.Line.End.Marked = true;
                 }
             }
-            selectedvertices = General.Map.Map.GetMarkedVertices(true);
-            selectedthings = General.Map.Map.GetMarkedThings(true);
-            unselectedvertices = General.Map.Map.GetMarkedVertices(false);
+            selectedvertices = DoomBuilder.General.Map.Map.GetMarkedVertices(true);
+            selectedthings = DoomBuilder.General.Map.Map.GetMarkedThings(true);
+            unselectedvertices = DoomBuilder.General.Map.Map.GetMarkedVertices(false);
 
             // Make sure everything is selected so that it turns up red
             foreach (Vertex v in selectedvertices) v.Selected = true;
-            ICollection<Linedef> markedlines = General.Map.Map.LinedefsFromMarkedVertices(false, true, false);
+            ICollection<Linedef> markedlines = DoomBuilder.General.Map.Map.LinedefsFromMarkedVertices(false, true, false);
             foreach (Linedef l in markedlines) l.Selected = true;
-            selectedlines = General.Map.Map.LinedefsFromMarkedVertices(false, true, false);
-            unselectedlines = General.Map.Map.LinedefsFromMarkedVertices(true, false, false);
-            unstablelines = pasting ? new List<Linedef>() : General.Map.Map.LinedefsFromMarkedVertices(false, false, true); //mxd
+            selectedlines = DoomBuilder.General.Map.Map.LinedefsFromMarkedVertices(false, true, false);
+            unselectedlines = DoomBuilder.General.Map.Map.LinedefsFromMarkedVertices(true, false, false);
+            unstablelines = pasting ? new List<Linedef>() : DoomBuilder.General.Map.Map.LinedefsFromMarkedVertices(false, false, true); //mxd
 
-            if (General.Map.UDMF)
+            if (DoomBuilder.General.Map.UDMF)
             {
-                foreach (Sector s in General.Map.Map.GetSectorsFromLinedefs(selectedlines))
+                foreach (Sector s in DoomBuilder.General.Map.Map.GetSectorsFromLinedefs(selectedlines))
                 {
                     if (!s.Fields.ContainsKey(MapSet.VIRTUAL_SECTOR_FIELD)) // Ignore sectors that have the VIRTUAL_SECTOR_FIELD UDMF field created when cloning the MapSet when copying
                     {
@@ -1363,7 +1364,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                     if (!fixedrotationthingtypes.Contains(t.Type)) //mxd
                     {
-                        ThingTypeInfo tti = General.Map.Data.GetThingInfoEx(t.Type);
+                        ThingTypeInfo tti = DoomBuilder.General.Map.Data.GetThingInfoEx(t.Type);
                         if (tti != null && tti.FixedRotation) fixedrotationthingtypes.Add(t.Type);
                     }
 
@@ -1406,13 +1407,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         offset = viewmappos - (size / 2);
                     }
 
-                    if (General.Interface.SnapToGrid) //mxd
-                        offset = General.Map.Grid.SnappedToGrid(offset);
+                    if (DoomBuilder.General.Interface.SnapToGrid) //mxd
+                        offset = DoomBuilder.General.Map.Grid.SnappedToGrid(offset);
 
                     UpdateGeometry();
-                    General.Map.Data.UpdateUsedTextures();
+                    DoomBuilder.General.Map.Data.UpdateUsedTextures();
 
-                    if (!autodrag) General.Map.Map.Update();
+                    if (!autodrag) DoomBuilder.General.Map.Map.Update();
                 }
 
                 // Set presentation
@@ -1423,7 +1424,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                 // Update
                 panel.ShowOriginalValues(baseoffset, basesize);
-                panel.SetTextureTransformSettings(General.Map.UDMF); //mxd
+                panel.SetTextureTransformSettings(DoomBuilder.General.Map.UDMF); //mxd
                 panel.SetHeightAdjustMode(heightadjustmode, sectors.Count > 0); //mxd
                 UpdateRectangleComponents();
                 UpdatePanel();
@@ -1438,11 +1439,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
             else
             {
-                General.Interface.MessageBeep(MessageBeepType.Default);
-                General.Interface.DisplayStatus(StatusType.Info, "A selection is required for this action.");
+                DoomBuilder.General.Interface.MessageBeep(MessageBeepType.Default);
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Info, "A selection is required for this action.");
 
                 // Cancel now
-                General.Editing.CancelMode();
+                DoomBuilder.General.Editing.CancelMode();
             }
         }
 
@@ -1459,19 +1460,19 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (pasting)
             {
                 // Resume normal undo/redo recording
-                General.Map.UndoRedo.IgnorePropChanges = false;
+                DoomBuilder.General.Map.UndoRedo.IgnorePropChanges = false;
 
-                General.Map.Map.BeginAddRemove(); //mxd
+                DoomBuilder.General.Map.Map.BeginAddRemove(); //mxd
 
                 // Remove the geometry
                 foreach (Vertex v in selectedvertices) v.Dispose();
                 foreach (Thing t in selectedthings) t.Dispose();
 
-                General.Map.Map.EndAddRemove(); //mxd
+                DoomBuilder.General.Map.Map.EndAddRemove(); //mxd
 
                 // Withdraw the undo
-                if (General.Map.UndoRedo.NextUndo != null)
-                    General.Map.UndoRedo.WithdrawUndo();
+                if (DoomBuilder.General.Map.UndoRedo.NextUndo != null)
+                    DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
             }
             else
             {
@@ -1488,16 +1489,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 //mxd. Reset texture offsets to original values
-                if (General.Map.UDMF) RestoreTextureTransform();
+                if (DoomBuilder.General.Map.UDMF) RestoreTextureTransform();
 
                 // Resume normal undo/redo recording
-                General.Map.UndoRedo.IgnorePropChanges = false;
+                DoomBuilder.General.Map.UndoRedo.IgnorePropChanges = false;
             }
 
-            General.Map.Map.Update(true, true);
+            DoomBuilder.General.Map.Map.Update(true, true);
 
             // Return to previous stable mode
-            General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
+            DoomBuilder.General.Editing.ChangeMode(DoomBuilder.General.Editing.PreviousStableMode.Name);
         }
 
         // When accepted
@@ -1508,8 +1509,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Anything to do?
             if ((selectedthings.Count > 0) || (selectedvertices.Count > 0))
             {
-                Vector2D tl = new Vector2D(General.Map.Config.RightBoundary, General.Map.Config.BottomBoundary);
-                Vector2D br = new Vector2D(General.Map.Config.LeftBoundary, General.Map.Config.RightBoundary);
+                Vector2D tl = new Vector2D(DoomBuilder.General.Map.Config.RightBoundary, DoomBuilder.General.Map.Config.BottomBoundary);
+                Vector2D br = new Vector2D(DoomBuilder.General.Map.Config.LeftBoundary, DoomBuilder.General.Map.Config.RightBoundary);
 
                 foreach (Vertex v in selectedvertices)
                 {
@@ -1528,10 +1529,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 // Check if the selection is outside the map boundaries
-                if (tl.x < General.Map.Config.LeftBoundary || br.x > General.Map.Config.RightBoundary ||
-                    tl.y > General.Map.Config.TopBoundary || br.y < General.Map.Config.BottomBoundary)
+                if (tl.x < DoomBuilder.General.Map.Config.LeftBoundary || br.x > DoomBuilder.General.Map.Config.RightBoundary ||
+                    tl.y > DoomBuilder.General.Map.Config.TopBoundary || br.y < DoomBuilder.General.Map.Config.BottomBoundary)
                 {
-                    General.Interface.DisplayStatus(StatusType.Warning, "Error: selection out of map boundaries.");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Error: selection out of map boundaries.");
 
                     // If we're in the process of switching to another mode, reset to selection
                     // to its old position
@@ -1550,11 +1551,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         }
 
                         //mxd. Reset texture offsets to their original position
-                        if (General.Map.UDMF) RestoreTextureTransform();
+                        if (DoomBuilder.General.Map.UDMF) RestoreTextureTransform();
 
                         // Resume normal undo/redo recording
-                        General.Map.UndoRedo.IgnorePropChanges = false;
-                        General.Map.Map.Update(true, true);
+                        DoomBuilder.General.Map.UndoRedo.IgnorePropChanges = false;
+                        DoomBuilder.General.Map.Map.Update(true, true);
                     }
 
                     return;
@@ -1578,24 +1579,24 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     }
 
                     //mxd. Reset texture offsets to their original position
-                    if (General.Map.UDMF) RestoreTextureTransform();
+                    if (DoomBuilder.General.Map.UDMF) RestoreTextureTransform();
 
-                    General.Map.Map.Update(true, true);
+                    DoomBuilder.General.Map.Map.Update(true, true);
 
                     // Make undo
-                    General.Map.UndoRedo.CreateUndo("Edit selection");
+                    DoomBuilder.General.Map.UndoRedo.CreateUndo("Edit selection");
                 }
 
                 // Resume normal undo/redo recording
-                General.Map.UndoRedo.IgnorePropChanges = false;
+                DoomBuilder.General.Map.UndoRedo.IgnorePropChanges = false;
 
                 // Mark selected geometry
-                General.Map.Map.ClearAllMarks(false);
-                General.Map.Map.MarkAllSelectedGeometry(true, true, true, true, false);
+                DoomBuilder.General.Map.Map.ClearAllMarks(false);
+                DoomBuilder.General.Map.Map.MarkAllSelectedGeometry(true, true, true, true, false);
 
                 //mxd. Update sector slopes?
                 // Do this after UpdateGeometry() because it makes calculating the new slopes much easier
-                if (General.Map.UDMF)
+                if (DoomBuilder.General.Map.UDMF)
                 {
                     Dictionary<Sector, List<Sector>> controlsectors = new Dictionary<Sector, List<Sector>>();
 
@@ -1608,7 +1609,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     // will only be updated when not pasting, since it'd otherwise screw up the original slopes 
                     if (updateslopes)
                     {
-                        foreach (Linedef ld in General.Map.Map.Linedefs)
+                        foreach (Linedef ld in DoomBuilder.General.Map.Map.Linedefs)
                         {
                             if (ld.Action != 160) // Action 160 defines a 3D floor
                                 continue;
@@ -1752,9 +1753,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 UpdateGeometry();
 
                 //mxd. Update floor/ceiling texture settings
-                if (General.Map.UDMF) UpdateTextureTransform();
+                if (DoomBuilder.General.Map.UDMF) UpdateTextureTransform();
 
-                General.Map.Map.Update(true, true);
+                DoomBuilder.General.Map.Map.Update(true, true);
 
                 //mxd
                 int oldoutsidefloorheight = int.MinValue;
@@ -1766,11 +1767,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 {
                     Sector parent = null;
                     Sector vsector = null;
-                    General.Settings.FindDefaultDrawSettings();
+                    DoomBuilder.General.Settings.FindDefaultDrawSettings();
 
                     // Go for all sidedes in the new geometry
-                    List<Sidedef> newsides = General.Map.Map.GetMarkedSidedefs(true);
-                    List<Linedef> oldlines = General.Map.Map.GetMarkedLinedefs(false); //mxd
+                    List<Sidedef> newsides = DoomBuilder.General.Map.Map.GetMarkedSidedefs(true);
+                    List<Linedef> oldlines = DoomBuilder.General.Map.Map.GetMarkedLinedefs(false); //mxd
 
                     //mxd. Let's use a blockmap...
                     RectangleF area = MapSet.CreateArea(oldlines);
@@ -1844,7 +1845,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     }
 
                     // Remove any virtual sectors
-                    General.Map.Map.RemoveVirtualSectors();
+                    DoomBuilder.General.Map.Map.RemoveVirtualSectors();
                 }
                 else
                 {
@@ -1852,7 +1853,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     if (unstablelines.Count == 0 && heightadjustmode != HeightAdjustMode.NONE)
                     {
                         // Get affected sectors
-                        HashSet<Sector> affectedsectors = new HashSet<Sector>(General.Map.Map.GetSelectedSectors(true));
+                        HashSet<Sector> affectedsectors = new HashSet<Sector>(DoomBuilder.General.Map.Map.GetSelectedSectors(true));
 
                         Point outsideheights = GetOutsideHeights(affectedsectors);
                         oldoutsidefloorheight = outsideheights.X;
@@ -1861,20 +1862,20 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 //mxd. We'll need sidedefs marked by StitchGeometry, not all sidedefs from selection...
-                General.Map.Map.ClearMarkedSidedefs(false);
+                DoomBuilder.General.Map.Map.ClearMarkedSidedefs(false);
 
                 // Snap to map format accuracy. We need to do that before stitching geometry because vertices that are very very slightly off the grid (like 0.00001) can
                 // cause problems with BlockMapGetBlockCoordinates in the 32bit version
-                General.Map.Map.SnapAllToAccuracy(General.Map.UDMF && usepreciseposition);
+                DoomBuilder.General.Map.Map.SnapAllToAccuracy(DoomBuilder.General.Map.UDMF && usepreciseposition);
 
                 // Stitch geometry
-                General.Map.Map.StitchGeometry(General.Settings.MergeGeometryMode);
+                DoomBuilder.General.Map.Map.StitchGeometry(DoomBuilder.General.Settings.MergeGeometryMode);
 
                 // Snap to map format accuracy
-                General.Map.Map.SnapAllToAccuracy(General.Map.UDMF && usepreciseposition);
+                DoomBuilder.General.Map.Map.SnapAllToAccuracy(DoomBuilder.General.Map.UDMF && usepreciseposition);
 
                 //mxd. Get new lines from linedef marks...
-                HashSet<Linedef> newlines = new HashSet<Linedef>(General.Map.Map.GetMarkedLinedefs(true));
+                HashSet<Linedef> newlines = new HashSet<Linedef>(DoomBuilder.General.Map.Map.GetMarkedLinedefs(true));
 
                 //mxd. Marked lines were created during linedef splitting
                 HashSet<Linedef> changedlines = new HashSet<Linedef>(selectedlines);
@@ -1885,7 +1886,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     && oldoutsidefloorheight != int.MinValue && oldoutsideceilingheight != int.MinValue)
                 {
                     // Sectors may've been created/removed when applying dragging...
-                    HashSet<Sector> draggedsectors = new HashSet<Sector>(General.Map.Map.GetMarkedSectors(true));
+                    HashSet<Sector> draggedsectors = new HashSet<Sector>(DoomBuilder.General.Map.Map.GetMarkedSectors(true));
                     foreach (Sector ss in selectedsectors.Keys) if (!ss.IsDisposed) draggedsectors.Add(ss);
 
                     // Change floor/ceiling height
@@ -1893,32 +1894,32 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 // Update cached values
-                General.Map.Data.UpdateUsedTextures();
-                General.Map.Map.Update();
-                General.Map.ThingsFilter.Update();
+                DoomBuilder.General.Map.Data.UpdateUsedTextures();
+                DoomBuilder.General.Map.Map.Update();
+                DoomBuilder.General.Map.ThingsFilter.Update();
 
                 // Make normal selection?
-                General.Map.Map.ClearAllSelected();
+                DoomBuilder.General.Map.Map.ClearAllSelected();
                 if (!clearselection) //mxd
                 {
                     foreach (Vertex v in selectedvertices) if (!v.IsDisposed) v.Selected = true;
                     foreach (Linedef l in selectedlines) { if (!l.IsDisposed) { l.Start.Selected = true; l.End.Selected = true; } }
                     foreach (Thing t in selectedthings) if (!t.IsDisposed) t.Selected = true;
                 }
-                General.Map.Map.SelectionType = SelectionType.Vertices | SelectionType.Things;
+                DoomBuilder.General.Map.Map.SelectionType = SelectionType.Vertices | SelectionType.Things;
 
                 // Done
                 selectedvertices = new List<Vertex>();
                 selectedthings = new List<Thing>();
                 selectedlines = new List<Linedef>();
                 Cursor.Current = Cursors.Default;
-                General.Map.IsChanged = true;
+                DoomBuilder.General.Map.IsChanged = true;
             }
 
             if (!modealreadyswitching)
             {
                 // Return to previous stable mode
-                General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
+                DoomBuilder.General.Editing.ChangeMode(DoomBuilder.General.Editing.PreviousStableMode.Name);
             }
         }
 
@@ -1928,17 +1929,17 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnDisengage();
 
             // Remove toolbar buttons
-            General.Interface.BeginToolbarUpdate(); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.FlipSelectionH);
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.FlipSelectionV);
-            General.Interface.EndToolbarUpdate(); //mxd
+            DoomBuilder.General.Interface.BeginToolbarUpdate(); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.FlipSelectionH);
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.FlipSelectionV);
+            DoomBuilder.General.Interface.EndToolbarUpdate(); //mxd
 
             //mxd. Save EditPanel-related settings 
-            General.Settings.WritePluginSetting("editselectionmode.usepreciseposition", usepreciseposition);
-            General.Settings.WritePluginSetting("editselectionmode.heightadjustmode", (int)heightadjustmode);
+            DoomBuilder.General.Settings.WritePluginSetting("editselectionmode.usepreciseposition", usepreciseposition);
+            DoomBuilder.General.Settings.WritePluginSetting("editselectionmode.heightadjustmode", (int)heightadjustmode);
 
             // Remove docker
-            General.Interface.RemoveDocker(docker);
+            DoomBuilder.General.Interface.RemoveDocker(docker);
             panel.Dispose();
             panel = null;
 
@@ -1947,16 +1948,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 modealreadyswitching = true;
                 //this.OnAccept();	// BAD! Any other plugins won't know this mode was accepted
-                General.Editing.AcceptMode();
+                DoomBuilder.General.Editing.AcceptMode();
             }
 
             // Update
-            General.Map.ThingsFilter.Update();
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.ThingsFilter.Update();
+            DoomBuilder.General.Interface.RedrawDisplay();
 
             // Hide highlight info
-            General.Interface.HideInfo();
-            General.Interface.SetCursor(Cursors.Default);
+            DoomBuilder.General.Interface.HideInfo();
+            DoomBuilder.General.Interface.SetCursor(Cursors.Default);
         }
 
         // This redraws the display
@@ -1969,8 +1970,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Render lines
             if (renderer.StartPlotter(true))
             {
-                renderer.PlotLinedefSet(General.Map.Map.Linedefs);
-                renderer.PlotVerticesSet(General.Map.Map.Vertices);
+                renderer.PlotLinedefSet(DoomBuilder.General.Map.Map.Linedefs);
+                renderer.PlotVerticesSet(DoomBuilder.General.Map.Map.Vertices);
                 if (highlighted is Vertex) renderer.PlotVertex((Vertex)highlighted, ColorCollection.HIGHLIGHT);
                 renderer.Finish();
             }
@@ -1978,9 +1979,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Render things
             if (renderer.StartThings(true))
             {
-                renderer.RenderThingSet(General.Map.ThingsFilter.HiddenThings, General.Settings.HiddenThingsAlpha);
-                renderer.RenderThingSet(General.Map.ThingsFilter.VisibleThings, General.Settings.ActiveThingsAlpha);
-                if (highlighted is Thing) renderer.RenderThing((Thing)highlighted, General.Colors.Highlight, General.Settings.ActiveThingsAlpha);
+                renderer.RenderThingSet(DoomBuilder.General.Map.ThingsFilter.HiddenThings, DoomBuilder.General.Settings.HiddenThingsAlpha);
+                renderer.RenderThingSet(DoomBuilder.General.Map.ThingsFilter.VisibleThings, DoomBuilder.General.Settings.ActiveThingsAlpha);
+                if (highlighted is Thing) renderer.RenderThing((Thing)highlighted, DoomBuilder.General.Colors.Highlight, DoomBuilder.General.Settings.ActiveThingsAlpha);
                 renderer.Finish();
             }
 
@@ -1988,7 +1989,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (renderer.StartOverlay(true))
             {
                 // Rectangle
-                PixelColor rectcolor = General.Colors.Highlight.WithAlpha(RECTANGLE_ALPHA);
+                PixelColor rectcolor = DoomBuilder.General.Colors.Highlight.WithAlpha(RECTANGLE_ALPHA);
                 renderer.RenderGeometry(cornerverts, null, true);
                 renderer.RenderLine(corners[0], corners[1], 4, rectcolor, true);
                 renderer.RenderLine(corners[1], corners[2], 4, rectcolor, true);
@@ -1997,15 +1998,15 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                 // Extension line
                 if (extensionline.GetLengthSq() > 0.0f)
-                    renderer.RenderLine(extensionline.v1, extensionline.v2, 1, General.Colors.Indication.WithAlpha(EXTENSION_LINE_ALPHA), true);
+                    renderer.RenderLine(extensionline.v1, extensionline.v2, 1, DoomBuilder.General.Colors.Indication.WithAlpha(EXTENSION_LINE_ALPHA), true);
 
                 // Grips
                 for (int i = 0; i < 4; i++)
                 {
-                    renderer.RenderRectangleFilled(resizegrips[i], General.Colors.Background, true);
-                    renderer.RenderRectangle(resizegrips[i], 2, General.Colors.Highlight, true);
-                    renderer.RenderRectangleFilled(rotategrips[i], General.Colors.Background, true);
-                    renderer.RenderRectangle(rotategrips[i], 2, General.Colors.Indication, true);
+                    renderer.RenderRectangleFilled(resizegrips[i], DoomBuilder.General.Colors.Background, true);
+                    renderer.RenderRectangle(resizegrips[i], 2, DoomBuilder.General.Colors.Highlight, true);
+                    renderer.RenderRectangleFilled(rotategrips[i], DoomBuilder.General.Colors.Background, true);
+                    renderer.RenderRectangle(rotategrips[i], 2, DoomBuilder.General.Colors.Indication, true);
                 }
 
                 renderer.Finish();
@@ -2028,7 +2029,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnMouseLeave(e);
 
             // Reset cursor
-            General.Interface.SetCursor(Cursors.Default);
+            DoomBuilder.General.Interface.SetCursor(Cursors.Default);
         }
 
         // When edit button is pressed
@@ -2222,7 +2223,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // Outside the selection?
                 default:
                     // Accept and be done with it
-                    General.Editing.AcceptMode();
+                    DoomBuilder.General.Editing.AcceptMode();
                     break;
             }
         }
@@ -2245,27 +2246,27 @@ namespace CodeImp.DoomBuilder.BuilderModes
             mode = ModifyMode.None;
 
             //mxd. Update floor/ceiling texture settings
-            if (General.Map.UDMF) UpdateTextureTransform();
+            if (DoomBuilder.General.Map.UDMF) UpdateTextureTransform();
 
             // Redraw
-            General.Map.Map.Update();
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         // When a key is released
         public override void OnKeyUp(KeyEventArgs e)
         {
             base.OnKeyUp(e);
-            if ((snaptogrid != (General.Interface.ShiftState ^ General.Interface.SnapToGrid)) ||
-               (snaptonearest != (General.Interface.CtrlState ^ General.Interface.AutoMerge))) Update();
+            if ((snaptogrid != (DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid)) ||
+               (snaptonearest != (DoomBuilder.General.Interface.CtrlState ^ DoomBuilder.General.Interface.AutoMerge))) Update();
         }
 
         // When a key is pressed
         public override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
-            if ((snaptogrid != (General.Interface.ShiftState ^ General.Interface.SnapToGrid)) ||
-               (snaptonearest != (General.Interface.CtrlState ^ General.Interface.AutoMerge))) Update();
+            if ((snaptogrid != (DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid)) ||
+               (snaptonearest != (DoomBuilder.General.Interface.CtrlState ^ DoomBuilder.General.Interface.AutoMerge))) Update();
         }
 
         // This clears the selection
@@ -2274,10 +2275,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             //mxd. Accept changes
             clearselection = true;
-            General.Editing.AcceptMode();
+            DoomBuilder.General.Editing.AcceptMode();
 
             //mxd. Clear selection info
-            General.Interface.DisplayStatus(StatusType.Selection, string.Empty);
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Selection, string.Empty);
         }
 
         // Flip vertically
@@ -2291,8 +2292,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Update
             UpdateGeometry();
             UpdateRectangleComponents();
-            General.Map.Map.Update();
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         // Flip horizontally
@@ -2306,56 +2307,56 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Update
             UpdateGeometry();
             UpdateRectangleComponents();
-            General.Map.Map.Update();
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         [BeginAction("moveselectionup")]
         public void MoveSelectionUp()
         {
-            offset.y += General.Map.Grid.GridSize;
+            offset.y += DoomBuilder.General.Map.Grid.GridSize;
 
             // Update
             UpdateGeometry();
             UpdateRectangleComponents();
-            General.Map.Map.Update();
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         [BeginAction("moveselectiondown")]
         public void MoveSelectionDown()
         {
-            offset.y -= General.Map.Grid.GridSize;
+            offset.y -= DoomBuilder.General.Map.Grid.GridSize;
 
             // Update
             UpdateGeometry();
             UpdateRectangleComponents();
-            General.Map.Map.Update();
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         [BeginAction("moveselectionleft")]
         public void MoveSelectionLeft()
         {
-            offset.x -= General.Map.Grid.GridSize;
+            offset.x -= DoomBuilder.General.Map.Grid.GridSize;
 
             // Update
             UpdateGeometry();
             UpdateRectangleComponents();
-            General.Map.Map.Update();
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         [BeginAction("moveselectionright")]
         public void MoveSelectionRight()
         {
-            offset.x += General.Map.Grid.GridSize;
+            offset.x += DoomBuilder.General.Map.Grid.GridSize;
 
             // Update
             UpdateGeometry();
             UpdateRectangleComponents();
-            General.Map.Map.Update();
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         [BeginAction("rotateclockwise")]
@@ -2366,8 +2367,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Update
             UpdateGeometry();
             UpdateRectangleComponents();
-            General.Map.Map.Update();
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         [BeginAction("rotatecounterclockwise")]
@@ -2378,8 +2379,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Update
             UpdateGeometry();
             UpdateRectangleComponents();
-            General.Map.Map.Update();
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
     }
 }

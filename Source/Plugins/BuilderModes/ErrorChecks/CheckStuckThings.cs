@@ -12,6 +12,7 @@
  */
 
 
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -20,7 +21,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     [ErrorChecker("Check stuck things", true, 1000)]
     public class CheckStuckThings : ErrorChecker
@@ -33,7 +34,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public CheckStuckThings()
         {
             // Total progress is done when all things are checked
-            SetTotalProgress(General.Map.Map.Things.Count / PROGRESS_STEP);
+            SetTotalProgress(DoomBuilder.General.Map.Map.Things.Count / PROGRESS_STEP);
         }
 
         // This runs the check
@@ -45,15 +46,15 @@ namespace CodeImp.DoomBuilder.BuilderModes
             float maxradius = 0;
             Dictionary<int, HashSet<int>> processedthingpairs = new Dictionary<int, HashSet<int>>(); //mxd
 
-            foreach (ThingTypeInfo tti in General.Map.Data.ThingTypes)
+            foreach (ThingTypeInfo tti in DoomBuilder.General.Map.Data.ThingTypes)
             {
                 if (tti.Radius > maxradius) maxradius = tti.Radius;
             }
 
             // Go for all the things
-            foreach (Thing t in General.Map.Map.Things)
+            foreach (Thing t in DoomBuilder.General.Map.Map.Things)
             {
-                ThingTypeInfo info = General.Map.Data.GetThingInfo(t.Type);
+                ThingTypeInfo info = DoomBuilder.General.Map.Data.GetThingInfo(t.Type);
                 bool stuck = false;
 
                 // Check this thing for getting stuck?
@@ -76,7 +77,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         foreach (Linedef l in b.Lines)
                         {
                             // Only test when sinlge-sided, two-sided + impassable and not already checked
-                            if (((l.Back == null) || l.IsFlagSet(General.Map.Config.ImpassableFlag)) && !doneblocklines.ContainsKey(l))
+                            if (((l.Back == null) || l.IsFlagSet(DoomBuilder.General.Map.Config.ImpassableFlag)) && !doneblocklines.ContainsKey(l))
                             {
                                 // Test if line ends are inside the thing
                                 if (PointInRect(lt, rb, l.Start.Position) || PointInRect(lt, rb, l.End.Position))
@@ -113,7 +114,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                                 if (processedthingpairs.ContainsKey(t.Index) && processedthingpairs[t.Index].Contains(ot.Index)) continue;
 
                                 // Only check of items that can block
-                                if (General.Map.Data.GetThingInfo(ot.Type).Blocking == ThingTypeInfo.THING_BLOCKING_NONE) continue;
+                                if (DoomBuilder.General.Map.Data.GetThingInfo(ot.Type).Blocking == ThingTypeInfo.THING_BLOCKING_NONE) continue;
 
                                 // need to compare the flags
                                 if (FlagsOverlap(t, ot) && ThingsOverlap(t, ot))
@@ -139,7 +140,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 {
                     // Get the nearest line to see if the thing is outside the map
                     bool outside;
-                    Linedef l = General.Map.Map.NearestLinedef(t.Position);
+                    Linedef l = DoomBuilder.General.Map.Map.NearestLinedef(t.Position);
                     if (l.SideOfLine(t.Position) <= 0)
                     {
                         outside = l.Front == null;
@@ -181,8 +182,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             Vector3D p1 = t1.Position;
             Vector3D p2 = t2.Position;
-            ThingTypeInfo t1info = General.Map.Data.GetThingInfo(t1.Type);
-            ThingTypeInfo t2info = General.Map.Data.GetThingInfo(t2.Type);
+            ThingTypeInfo t1info = DoomBuilder.General.Map.Data.GetThingInfo(t1.Type);
+            ThingTypeInfo t2info = DoomBuilder.General.Map.Data.GetThingInfo(t2.Type);
 
             // simple bounding box collision detection
             if (p1.x + t1.Size - ALLOWED_STUCK_DISTANCE < p2.x - t2.Size + ALLOWED_STUCK_DISTANCE ||
@@ -205,11 +206,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Checks if the flags of two things overlap (i.e. if they show up at the same time)
         private static bool FlagsOverlap(Thing t1, Thing t2)
         {
-            if (General.Map.Config.ThingFlagsCompare.Count < 1) return true; //mxd. Otherwise, no things will ever overlap when ThingFlagsCompare is empty
-            Dictionary<string, ThingFlagsCompareResult> results = new Dictionary<string, ThingFlagsCompareResult>(General.Map.Config.ThingFlagsCompare.Count);
+            if (DoomBuilder.General.Map.Config.ThingFlagsCompare.Count < 1) return true; //mxd. Otherwise, no things will ever overlap when ThingFlagsCompare is empty
+            Dictionary<string, ThingFlagsCompareResult> results = new Dictionary<string, ThingFlagsCompareResult>(DoomBuilder.General.Map.Config.ThingFlagsCompare.Count);
 
             // Go through all flags in all groups and check if they overlap
-            foreach (ThingFlagsCompareGroup group in General.Map.Config.ThingFlagsCompare.Values)
+            foreach (ThingFlagsCompareGroup group in DoomBuilder.General.Map.Config.ThingFlagsCompare.Values)
                 results[group.Name] = group.Compare(t1, t2);
 
             // Process Required/IgnoredGroups

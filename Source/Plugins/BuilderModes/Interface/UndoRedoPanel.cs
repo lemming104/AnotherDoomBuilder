@@ -12,6 +12,7 @@
  */
 
 
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Editing;
 using System;
 using System.Collections.Generic;
@@ -49,7 +50,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             currentselection = -1;
 
             // Check we have undo/redo capability
-            if ((General.Map == null) || General.Map.IsDisposed || (General.Map.UndoRedo == null))
+            if ((DoomBuilder.General.Map == null) || DoomBuilder.General.Map.IsDisposed || (DoomBuilder.General.Map.UndoRedo == null))
             {
                 // No, clear the list
                 list.Items.Clear();
@@ -57,10 +58,10 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             }
 
             // Make complete list of levels
-            List<UndoSnapshot> levels = General.Map.UndoRedo.GetUndoList();
+            List<UndoSnapshot> levels = DoomBuilder.General.Map.UndoRedo.GetUndoList();
             levels.Reverse();
             int numundos = levels.Count;
-            levels.AddRange(General.Map.UndoRedo.GetRedoList());
+            levels.AddRange(DoomBuilder.General.Map.UndoRedo.GetRedoList());
             //int numredos = levels.Count - numundos;
 
             // Determine the offset to show items at
@@ -234,7 +235,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                 }
             }
 
-            General.Interface.FocusDisplay();
+            DoomBuilder.General.Interface.FocusDisplay();
 
             ignoreevents = false;
         }
@@ -254,9 +255,9 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                     // Perform the undo/redos, the list will be updated automatically
                     int delta = currentselection - selectedindex;
                     if (delta < 0)
-                        General.Map.UndoRedo.PerformRedo(-delta);
+                        DoomBuilder.General.Map.UndoRedo.PerformRedo(-delta);
                     else
-                        General.Map.UndoRedo.PerformUndo(delta);
+                        DoomBuilder.General.Map.UndoRedo.PerformUndo(delta);
                 }
                 else
                 {
@@ -264,7 +265,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                 }
             }
 
-            General.Interface.FocusDisplay();
+            DoomBuilder.General.Interface.FocusDisplay();
 
             ignoreevents = false;
         }
@@ -275,7 +276,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             ignoreevents = true;
 
             list.SelectedIndices.Clear();
-            General.Interface.FocusDisplay();
+            DoomBuilder.General.Interface.FocusDisplay();
 
             ignoreevents = false;
         }

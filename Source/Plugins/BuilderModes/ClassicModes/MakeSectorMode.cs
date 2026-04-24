@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
 {
     [EditMode(DisplayName = "Make Sectors Mode",
               SwitchAction = "makesectormode",
@@ -79,7 +79,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Render lines and vertices
             if (renderer.StartPlotter(true))
             {
-                renderer.PlotLinedefSet(General.Map.Map.Linedefs);
+                renderer.PlotLinedefSet(DoomBuilder.General.Map.Map.Linedefs);
 
                 // Render sector indication
                 if (allsides != null)
@@ -92,7 +92,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                             {
                                 if (!associates.ContainsKey(sd.Line.Front.Sector))
                                 {
-                                    renderer.PlotSector(sd.Line.Front.Sector, General.Colors.Indication);
+                                    renderer.PlotSector(sd.Line.Front.Sector, DoomBuilder.General.Colors.Indication);
                                     associates[sd.Line.Front.Sector] = sd.Line.Front.Sector;
                                 }
                             }
@@ -103,7 +103,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                             {
                                 if (!associates.ContainsKey(sd.Line.Back.Sector))
                                 {
-                                    renderer.PlotSector(sd.Line.Back.Sector, General.Colors.Indication);
+                                    renderer.PlotSector(sd.Line.Back.Sector, DoomBuilder.General.Colors.Indication);
                                     associates[sd.Line.Back.Sector] = sd.Line.Back.Sector;
                                 }
                             }
@@ -114,10 +114,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // Render highlight
                 if (alllines != null)
                 {
-                    foreach (Linedef l in alllines) renderer.PlotLinedef(l, General.Colors.Highlight);
+                    foreach (Linedef l in alllines) renderer.PlotLinedef(l, DoomBuilder.General.Colors.Highlight);
                 }
 
-                renderer.PlotVerticesSet(General.Map.Map.Vertices);
+                renderer.PlotVerticesSet(DoomBuilder.General.Map.Map.Vertices);
                 renderer.Finish();
             }
         }
@@ -132,9 +132,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 {
                     renderer.RenderGeometry(flashpolygon, null, true);
                 }
-                else if (General.Settings.UseHighlight) //mxd
+                else if (DoomBuilder.General.Settings.UseHighlight) //mxd
                 {
-                    int color = General.Colors.Indication.WithAlpha(64).ToInt();
+                    int color = DoomBuilder.General.Colors.Indication.WithAlpha(64).ToInt();
                     foreach (Sector s in associates.Keys)
                     {
                         renderer.RenderHighlight(s.FlatVertices, color);
@@ -152,7 +152,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (mouseinside)
             {
                 // Highlighting from a new sidedef?
-                Linedef nl = General.Map.Map.NearestLinedef(mousemappos);
+                Linedef nl = DoomBuilder.General.Map.Map.NearestLinedef(mousemappos);
                 if (nl != null)
                 {
                     bool front = nl.SideOfLine(mousemappos) <= 0.0f; //mxd
@@ -206,14 +206,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This makes this highlighted potential sector
         private Sector MakeSector()
         {
-            General.Interface.SetCursor(Cursors.WaitCursor);
-            General.Settings.FindDefaultDrawSettings();
-            General.Map.UndoRedo.CreateUndo("Make Sector");
+            DoomBuilder.General.Interface.SetCursor(Cursors.WaitCursor);
+            DoomBuilder.General.Settings.FindDefaultDrawSettings();
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Make Sector");
 
             // Mark the lines we are going to use for this sector
-            General.Map.Map.ClearAllMarks(true);
+            DoomBuilder.General.Map.Map.ClearAllMarks(true);
             foreach (LinedefSide ls in allsides) ls.Line.Marked = false;
-            List<Linedef> oldlines = General.Map.Map.GetMarkedLinedefs(true);
+            List<Linedef> oldlines = DoomBuilder.General.Map.Map.GetMarkedLinedefs(true);
 
             // Make the sector
             Sector s = Tools.MakeSector(allsides, oldlines, false);
@@ -232,20 +232,20 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     }
                 }
 
-                General.Map.Data.UpdateUsedTextures();
-                General.Interface.SetCursor(Cursors.Default);
+                DoomBuilder.General.Map.Data.UpdateUsedTextures();
+                DoomBuilder.General.Interface.SetCursor(Cursors.Default);
                 return s;
             }
             else
             {
-                General.Map.UndoRedo.WithdrawUndo();
+                DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
                 return null;
             }
         }
 
         public override void OnHelp()
         {
-            General.ShowHelp("e_makesectors.html");
+            DoomBuilder.General.ShowHelp("e_makesectors.html");
         }
 
         // When the mapset changes (undo/redo)
@@ -265,7 +265,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnCancel();
 
             // Return to base mode
-            General.Editing.ChangeMode(new SectorsMode());
+            DoomBuilder.General.Editing.ChangeMode(new SectorsMode());
         }
 
         // Mode engages
@@ -275,14 +275,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             // Make customized presentation
             CustomPresentation p = new CustomPresentation();
-            p.AddLayer(new PresentLayer(RendererLayer.Background, BlendingMode.Mask, General.Settings.BackgroundAlpha));
+            p.AddLayer(new PresentLayer(RendererLayer.Background, BlendingMode.Mask, DoomBuilder.General.Settings.BackgroundAlpha));
             p.AddLayer(new PresentLayer(RendererLayer.Surface, BlendingMode.Mask));
             p.AddLayer(new PresentLayer(RendererLayer.Grid, BlendingMode.Mask));
             p.AddLayer(new PresentLayer(RendererLayer.Overlay, BlendingMode.Alpha, 1f, true));
-            p.AddLayer(new PresentLayer(RendererLayer.Things, BlendingMode.Alpha, General.Settings.InactiveThingsAlpha, false));
+            p.AddLayer(new PresentLayer(RendererLayer.Things, BlendingMode.Alpha, DoomBuilder.General.Settings.InactiveThingsAlpha, false));
             p.AddLayer(new PresentLayer(RendererLayer.Geometry, BlendingMode.Alpha, 1f, true));
             renderer.SetPresentation(p);
-            General.Map.Map.SelectionType = SelectionType.All;
+            DoomBuilder.General.Map.Map.SelectionType = SelectionType.All;
         }
 
         // Mode disengages
@@ -291,17 +291,17 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnDisengage();
 
             // Check which mode we are switching to
-            if (General.Editing.NewMode is VerticesMode || General.Editing.NewMode is LinedefsMode)
+            if (DoomBuilder.General.Editing.NewMode is VerticesMode || DoomBuilder.General.Editing.NewMode is LinedefsMode)
             {
                 // Clear selected sectors
-                General.Map.Map.ClearSelectedSectors();
+                DoomBuilder.General.Map.Map.ClearSelectedSectors();
             }
 
             // Hide highlight info
-            General.Interface.HideInfo();
+            DoomBuilder.General.Interface.HideInfo();
 
             // Stop processing
-            General.Interface.DisableProcessing();
+            DoomBuilder.General.Interface.DisableProcessing();
         }
 
         // This redraws the display
@@ -315,8 +315,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Render things
             if (renderer.StartThings(true))
             {
-                renderer.RenderThingSet(General.Map.ThingsFilter.HiddenThings, General.Settings.HiddenThingsAlpha);
-                renderer.RenderThingSet(General.Map.ThingsFilter.VisibleThings, General.Settings.ActiveThingsAlpha);
+                renderer.RenderThingSet(DoomBuilder.General.Map.ThingsFilter.HiddenThings, DoomBuilder.General.Settings.HiddenThingsAlpha);
+                renderer.RenderThingSet(DoomBuilder.General.Map.ThingsFilter.VisibleThings, DoomBuilder.General.Settings.ActiveThingsAlpha);
                 renderer.Finish();
             }
 
@@ -348,14 +348,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     if (s != null)
                     {
                         // Quickly flash this sector to indicate it was created
-                        General.Map.IsChanged = true;
-                        General.Map.Map.Update();
-                        General.Interface.RedrawDisplay();
+                        DoomBuilder.General.Map.IsChanged = true;
+                        DoomBuilder.General.Map.Map.Update();
+                        DoomBuilder.General.Interface.RedrawDisplay();
                         flashpolygon = new FlatVertex[s.FlatVertices.Length];
                         s.FlatVertices.CopyTo(flashpolygon, 0);
                         flashintensity = 1.0f;
                         flashstarttime = Clock.CurrentTime;
-                        General.Interface.EnableProcessing();
+                        DoomBuilder.General.Interface.EnableProcessing();
                     }
 
                     // Redraw overlay
@@ -390,25 +390,25 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     Sector s = MakeSector();
                     if (s != null)
                     {
-                        General.Map.Map.Update();
+                        DoomBuilder.General.Map.Map.Update();
 
                         // Edit the sector
                         List<Sector> secs = new List<Sector>(); secs.Add(s);
-                        if (General.Interface.ShowEditSectors(secs) == DialogResult.OK)
+                        if (DoomBuilder.General.Interface.ShowEditSectors(secs) == DialogResult.OK)
                         {
                             // Quickly flash this sector to indicate it was created
-                            General.Map.IsChanged = true;
-                            General.Map.Map.Update();
+                            DoomBuilder.General.Map.IsChanged = true;
+                            DoomBuilder.General.Map.Map.Update();
                             flashpolygon = new FlatVertex[s.FlatVertices.Length];
                             s.FlatVertices.CopyTo(flashpolygon, 0);
                             flashintensity = 1.0f;
                             flashstarttime = Clock.CurrentTime;
-                            General.Interface.EnableProcessing();
+                            DoomBuilder.General.Interface.EnableProcessing();
                         }
                         else
                         {
                             // Undo
-                            General.Map.UndoRedo.WithdrawUndo();
+                            DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
                         }
                     }
 
@@ -490,7 +490,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     // End of flash, trash the polygon
                     flashpolygon = null;
                     flashintensity = 0.0f;
-                    General.Interface.DisableProcessing();
+                    DoomBuilder.General.Interface.DisableProcessing();
                 }
 
                 // Redraw overlay

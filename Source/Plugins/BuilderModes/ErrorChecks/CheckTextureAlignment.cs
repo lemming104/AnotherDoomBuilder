@@ -1,4 +1,4 @@
-﻿
+﻿using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     [ErrorChecker("Check texture alignment", false, 1000)]
     public class CheckTextureAlignment : ErrorChecker
@@ -23,7 +23,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public CheckTextureAlignment()
         {
             // Total progress is done when all lines are checked
-            SetTotalProgress(General.Map.Map.Linedefs.Count / PROGRESS_STEP);
+            SetTotalProgress(DoomBuilder.General.Map.Map.Linedefs.Count / PROGRESS_STEP);
         }
 
         // This runs the check
@@ -38,7 +38,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             int stepprogress = 0;
 
             // Go for all the liendefs
-            foreach (Linedef l in General.Map.Map.Linedefs)
+            foreach (Linedef l in DoomBuilder.General.Map.Map.Linedefs)
             {
                 // Check if we need to align any part of the front sidedef
                 if (l.Front != null)
@@ -127,12 +127,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
         private void CheckAlignment(Sidedef sidedef, int offsetx, int offsety, double linescalex, double linescaley, VisualGeometryType parttype, string texturename)
         {
-            ImageData texture = General.Map.Data.GetTextureImage(texturename);
+            ImageData texture = DoomBuilder.General.Map.Data.GetTextureImage(texturename);
             if (!texture.IsImageLoaded) return;
             Rectangle partsize = BuilderModesTools.GetSidedefPartSize(sidedef, parttype);
 
-            double scalex = (General.Map.Config.ScaledTextureOffsets && !texture.WorldPanning) ? texture.Scale.x : 1.0f;
-            double scaley = (General.Map.Config.ScaledTextureOffsets && !texture.WorldPanning) ? texture.Scale.y : 1.0f;
+            double scalex = (DoomBuilder.General.Map.Config.ScaledTextureOffsets && !texture.WorldPanning) ? texture.Scale.x : 1.0f;
+            double scaley = (DoomBuilder.General.Map.Config.ScaledTextureOffsets && !texture.WorldPanning) ? texture.Scale.y : 1.0f;
 
             // Move offsets to proper range
             offsetx %= texture.Width;

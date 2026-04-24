@@ -1,11 +1,10 @@
-﻿
-using CodeImp.DoomBuilder.Map;
+﻿using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultObsoleteThing : ErrorResult
     {
@@ -41,24 +40,24 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This must return the string that is displayed in the listbox
         public override string ToString()
         {
-            return "Thing " + thing.Index + " (" + General.Map.Data.GetThingInfo(thing.Type).Title + ") at " + thing.Position.x + ", " + thing.Position.y + " is obsolete.";
+            return "Thing " + thing.Index + " (" + DoomBuilder.General.Map.Data.GetThingInfo(thing.Type).Title + ") at " + thing.Position.x + ", " + thing.Position.y + " is obsolete.";
         }
 
         // Rendering
         public override void RenderOverlaySelection(IRenderer2D renderer)
         {
-            renderer.RenderThing(thing, General.Colors.Selection, General.Settings.ActiveThingsAlpha);
+            renderer.RenderThing(thing, DoomBuilder.General.Colors.Selection, DoomBuilder.General.Settings.ActiveThingsAlpha);
         }
 
         // This edits the thing
         public override bool Button1Click(bool batchMode)
         {
-            if (!batchMode) General.Map.UndoRedo.CreateUndo("Edit obsolete thing");
+            if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Edit obsolete thing");
 
-            if (General.Interface.ShowEditThings(new List<Thing> { thing }) == DialogResult.OK)
+            if (DoomBuilder.General.Interface.ShowEditThings(new List<Thing> { thing }) == DialogResult.OK)
             {
-                General.Map.IsChanged = true;
-                General.Map.ThingsFilter.Update();
+                DoomBuilder.General.Map.IsChanged = true;
+                DoomBuilder.General.Map.ThingsFilter.Update();
                 return true;
             }
 
@@ -68,10 +67,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This removes the thing
         public override bool Button2Click(bool batchMode)
         {
-            if (!batchMode) General.Map.UndoRedo.CreateUndo("Delete obsolete thing");
+            if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Delete obsolete thing");
             thing.Dispose();
-            General.Map.IsChanged = true;
-            General.Map.ThingsFilter.Update();
+            DoomBuilder.General.Map.IsChanged = true;
+            DoomBuilder.General.Map.ThingsFilter.Update();
             return true;
         }
     }

@@ -1,10 +1,10 @@
-﻿using CodeImp.DoomBuilder.BuilderModes;
-using CodeImp.DoomBuilder.Geometry;
+﻿using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
+using CodeImp.DoomBuilder.VisualModes;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.VisualModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal abstract class BaseVisualSlope : VisualSlope, IVisualEventReceiver
     {
@@ -38,7 +38,7 @@ namespace CodeImp.DoomBuilder.VisualModes
             {
                 if (this.pivot)
                 {
-                    General.Interface.DisplayStatus(Windows.StatusType.Warning, "It is not allowed to mark pivot slope handles as selected.");
+                    DoomBuilder.General.Interface.DisplayStatus(Windows.StatusType.Warning, "It is not allowed to mark pivot slope handles as selected.");
                     return;
                 }
 
@@ -58,7 +58,7 @@ namespace CodeImp.DoomBuilder.VisualModes
                     if (handle == mode.HighlightedTarget)
                     {
                         if (handle.Selected)
-                            General.Interface.DisplayStatus(Windows.StatusType.Warning, "It is not allowed to mark selected slope handles as pivot slope handles.");
+                            DoomBuilder.General.Interface.DisplayStatus(Windows.StatusType.Warning, "It is not allowed to mark selected slope handles as pivot slope handles.");
                         else
                         {
                             if (handle.Pivot)

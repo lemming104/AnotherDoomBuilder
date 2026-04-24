@@ -1,8 +1,7 @@
-
 using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal class ThingData
     {

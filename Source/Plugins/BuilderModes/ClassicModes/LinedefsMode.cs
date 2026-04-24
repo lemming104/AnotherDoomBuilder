@@ -13,6 +13,7 @@
 
 
 using CodeImp.DoomBuilder.Actions;
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Editing;
@@ -26,7 +27,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
 {
     [EditMode(DisplayName = "Linedefs Mode",
               SwitchAction = "linedefsmode",    // Action name used to switch to this mode
@@ -111,7 +112,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 //mxd. Update label color?
                 if (labels.ContainsKey(highlighted))
                 {
-                    labels[highlighted].Color = General.Colors.Highlight;
+                    labels[highlighted].Color = DoomBuilder.General.Colors.Highlight;
                     completeredraw = true;
                 }
 
@@ -125,7 +126,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 //mxd. Update label color?
                 if (labels.ContainsKey(l))
                 {
-                    labels[l].Color = General.Colors.Selection;
+                    labels[l].Color = DoomBuilder.General.Colors.Selection;
                     completeredraw = true;
                 }
 
@@ -148,7 +149,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 // Set new highlight and redraw completely
                 highlighted = l;
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Interface.RedrawDisplay();
             }
             else
             {
@@ -170,7 +171,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     // Render highlighted item
                     if ((highlighted != null) && !highlighted.IsDisposed)
                     {
-                        renderer.PlotLinedef(highlighted, General.Colors.Highlight);
+                        renderer.PlotLinedef(highlighted, DoomBuilder.General.Colors.Highlight);
                         renderer.PlotVertex(highlighted.Start, renderer.DetermineVertexColor(highlighted.Start));
                         renderer.PlotVertex(highlighted.End, renderer.DetermineVertexColor(highlighted.End));
                     }
@@ -179,7 +180,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     renderer.Finish();
 
                     //mxd. Update comment highlight?
-                    if (General.Map.UDMF && General.Settings.RenderComments
+                    if (DoomBuilder.General.Map.UDMF && DoomBuilder.General.Settings.RenderComments
                         && possiblecommentline != null && !possiblecommentline.IsDisposed
                         && renderer.StartOverlay(false))
                     {
@@ -194,32 +195,32 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Show highlight info
             if ((highlighted != null) && !highlighted.IsDisposed)
             {
-                General.Interface.ShowLinedefInfo(highlighted);
+                DoomBuilder.General.Interface.ShowLinedefInfo(highlighted);
             }
             else
             {
-                General.Interface.Display.HideToolTip(); //mxd
-                General.Interface.HideInfo();
+                DoomBuilder.General.Interface.Display.HideToolTip(); //mxd
+                DoomBuilder.General.Interface.HideInfo();
             }
         }
 
         //mxd
         private void AlignTextureToLine(bool alignFloors, bool alignToFrontSide)
         {
-            ICollection<Linedef> lines = General.Map.Map.GetSelectedLinedefs(true);
+            ICollection<Linedef> lines = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
 
             if (lines.Count == 0 && highlighted != null && !highlighted.IsDisposed)
                 lines.Add(highlighted);
 
             if (lines.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
                 return;
             }
 
             //Create Undo
             string rest = (alignFloors ? "Floors" : "Ceilings") + " to " + (alignToFrontSide ? "Front" : "Back") + " Side";
-            General.Map.UndoRedo.CreateUndo("Align " + rest);
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Align " + rest);
             int counter = 0;
 
             foreach (Linedef l in lines)
@@ -240,17 +241,17 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                 s.Fields.BeforeFieldsChange();
 
-                double sourceAngle = Math.Round(General.ClampAngle(alignToFrontSide ? -Angle2D.RadToDeg(l.Angle) + 90 : -Angle2D.RadToDeg(l.Angle) - 90), 1);
-                if (!alignToFrontSide) sourceAngle = General.ClampAngle(sourceAngle + 180);
+                double sourceAngle = Math.Round(DoomBuilder.General.ClampAngle(alignToFrontSide ? -Angle2D.RadToDeg(l.Angle) + 90 : -Angle2D.RadToDeg(l.Angle) - 90), 1);
+                if (!alignToFrontSide) sourceAngle = DoomBuilder.General.ClampAngle(sourceAngle + 180);
 
                 //update angle
                 UniFields.SetFloat(s.Fields, alignFloors ? "rotationfloor" : "rotationceiling", sourceAngle, 0.0);
 
                 //update offset
                 Vector2D offset = (alignToFrontSide ? l.Start.Position : l.End.Position).GetRotated(Angle2D.DegToRad(sourceAngle));
-                ImageData texture = General.Map.Data.GetFlatImage(s.LongFloorTexture);
+                ImageData texture = DoomBuilder.General.Map.Data.GetFlatImage(s.LongFloorTexture);
 
-                if ((texture == null) || (texture == General.Map.Data.WhiteTexture) ||
+                if ((texture == null) || (texture == DoomBuilder.General.Map.Data.WhiteTexture) ||
                    (texture.Width <= 0) || (texture.Height <= 0) || !texture.IsImageLoaded)
                 {
                     //meh...
@@ -269,13 +270,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 s.UpdateCache();
             }
 
-            General.Interface.DisplayStatus(StatusType.Info, "Aligned " + counter + " " + rest);
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Info, "Aligned " + counter + " " + rest);
 
             //update
-            General.Map.Map.Update();
-            General.Interface.RedrawDisplay();
-            General.Interface.RefreshInfo();
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RefreshInfo();
+            DoomBuilder.General.Map.IsChanged = true;
         }
 
         //mxd
@@ -304,7 +305,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             // Gather affected sectors
             List<Linedef> result = new List<Linedef>();
-            foreach (Linedef l in General.Map.Map.Linedefs)
+            foreach (Linedef l in DoomBuilder.General.Map.Map.Linedefs)
             {
                 if (IsInSelectionRect(l, selectionoutline)) result.Add(l);
             }
@@ -356,7 +357,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             TextLabel dummylabel = new TextLabel();
 
             // The "+" is always shown if the space for the label isn't big enough to show the full text
-            textlabelsizecache["+"] = General.Interface.MeasureString("+", dummylabel.Font).Width;
+            textlabelsizecache["+"] = DoomBuilder.General.Interface.MeasureString("+", dummylabel.Font).Width;
 
             // Dispose old labels
             if (sectorlabels != null)
@@ -368,7 +369,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Make text labels for sectors
             sectorlabels = new Dictionary<Sector, TextLabel[]>();
             sectortexts = new Dictionary<Sector, string[]>();
-            foreach (Sector s in General.Map.Map.Sectors)
+            foreach (Sector s in DoomBuilder.General.Map.Map.Sectors)
             {
                 // Setup labels
                 if (s.Tag == 0) continue;
@@ -390,9 +391,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                 // Add string lengths to the label size cache
                 if (!textlabelsizecache.ContainsKey(tagdescarr[0]))
-                    textlabelsizecache[tagdescarr[0]] = General.Interface.MeasureString(tagdescarr[0], dummylabel.Font).Width;
+                    textlabelsizecache[tagdescarr[0]] = DoomBuilder.General.Interface.MeasureString(tagdescarr[0], dummylabel.Font).Width;
                 if (!textlabelsizecache.ContainsKey(tagdescarr[1]))
-                    textlabelsizecache[tagdescarr[1]] = General.Interface.MeasureString(tagdescarr[1], dummylabel.Font).Width;
+                    textlabelsizecache[tagdescarr[1]] = DoomBuilder.General.Interface.MeasureString(tagdescarr[1], dummylabel.Font).Width;
 
                 // Add to collection
                 sectortexts.Add(s, tagdescarr);
@@ -405,8 +406,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     l.Location = s.Labels[i].position;
                     l.AlignX = TextAlignmentX.Center;
                     l.AlignY = TextAlignmentY.Middle;
-                    l.Color = General.Colors.InfoLine;
-                    l.BackColor = General.Colors.Background.WithAlpha(128);
+                    l.Color = DoomBuilder.General.Colors.InfoLine;
+                    l.BackColor = DoomBuilder.General.Colors.Background.WithAlpha(128);
                     larr[i] = l;
                 }
 
@@ -427,7 +428,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Make text labels for selected linedefs
-            ICollection<Linedef> orderedselection = General.Map.Map.GetSelectedLinedefs(true);
+            ICollection<Linedef> orderedselection = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
             labels = new Dictionary<Linedef, SelectionLabel>(orderedselection.Count);
 
             // Otherwise significant delays will occure.
@@ -439,8 +440,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 SelectionLabel l = new SelectionLabel();
                 l.OffsetPosition = true;
-                l.Color = linedef == highlighted ? General.Colors.Selection : General.Colors.Highlight;
-                l.BackColor = General.Colors.Background.WithAlpha(192);
+                l.Color = linedef == highlighted ? DoomBuilder.General.Colors.Selection : DoomBuilder.General.Colors.Highlight;
+                l.BackColor = DoomBuilder.General.Colors.Background.WithAlpha(192);
                 l.TextLabel.Text = (++index).ToString();
                 labels.Add(linedef, l);
             }
@@ -452,9 +453,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
         /// </summary>
         private void CreateBlockmap()
         {
-            RectangleF area = MapSet.CreateArea(General.Map.Map.Vertices);
+            RectangleF area = MapSet.CreateArea(DoomBuilder.General.Map.Map.Vertices);
             blockmap = new BlockMap<BlockEntry>(area);
-            blockmap.AddLinedefsSet(General.Map.Map.Linedefs);
+            blockmap.AddLinedefsSet(DoomBuilder.General.Map.Map.Linedefs);
         }
 
         /// <summary>
@@ -462,7 +463,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         /// </summary>
         private void RenderOverlay()
         {
-            if (General.Map.Map.IsSafeToAccess && renderer.StartOverlay(true))
+            if (DoomBuilder.General.Map.Map.IsSafeToAccess && renderer.StartOverlay(true))
             {
                 if (!selecting) //mxd
                 {
@@ -479,7 +480,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     double dist = Math.Min(Vector2D.Distance(mousemappos, insertpreview), BuilderPlug.Me.HighlightRange);
                     byte alpha = (byte)(255 - (dist / BuilderPlug.Me.HighlightRange * 128));
                     float vsize = (renderer.VertexSize + 1.0f) / renderer.Scale;
-                    renderer.RenderRectangleFilled(new RectangleF((float)(insertpreview.x - vsize), (float)(insertpreview.y - vsize), vsize * 2.0f, vsize * 2.0f), General.Colors.InfoLine.WithAlpha(alpha), true);
+                    renderer.RenderRectangleFilled(new RectangleF((float)(insertpreview.x - vsize), (float)(insertpreview.y - vsize), vsize * 2.0f, vsize * 2.0f), DoomBuilder.General.Colors.InfoLine.WithAlpha(alpha), true);
                 }
 
                 //mxd. Render sector tag labels
@@ -548,7 +549,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 //mxd. Render comments
-                if (General.Map.UDMF && General.Settings.RenderComments) foreach (Linedef l in General.Map.Map.Linedefs) RenderComment(l);
+                if (DoomBuilder.General.Map.UDMF && DoomBuilder.General.Settings.RenderComments) foreach (Linedef l in DoomBuilder.General.Map.Map.Linedefs) RenderComment(l);
 
                 renderer.Finish();
             }
@@ -556,7 +557,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
         public override void OnHelp()
         {
-            General.ShowHelp("e_linedefs.html");
+            DoomBuilder.General.ShowHelp("e_linedefs.html");
         }
 
         // Cancel mode
@@ -565,7 +566,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnCancel();
 
             // Return to this mode
-            General.Editing.ChangeMode(new LinedefsMode());
+            DoomBuilder.General.Editing.ChangeMode(new LinedefsMode());
         }
 
         // Mode engages
@@ -575,38 +576,38 @@ namespace CodeImp.DoomBuilder.BuilderModes
             renderer.SetPresentation(Presentation.Standard);
 
             // Add toolbar buttons
-            General.Interface.BeginToolbarUpdate(); //mxd
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.CopyProperties);
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.PasteProperties);
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.PastePropertiesOptions); //mxd
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.SeparatorCopyPaste);
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.ViewSelectionNumbers); //mxd
+            DoomBuilder.General.Interface.BeginToolbarUpdate(); //mxd
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.CopyProperties);
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.PasteProperties);
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.PastePropertiesOptions); //mxd
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.SeparatorCopyPaste);
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.ViewSelectionNumbers); //mxd
             BuilderPlug.Me.MenusForm.ViewSelectionEffects.Text = "View Sector Tags"; //mxd
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.ViewSelectionEffects); //mxd
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.SeparatorSectors1); //mxd
-            if (General.Map.UDMF) //mxd
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.ViewSelectionEffects); //mxd
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.SeparatorSectors1); //mxd
+            if (DoomBuilder.General.Map.UDMF) //mxd
             {
-                General.Interface.AddButton(BuilderPlug.Me.MenusForm.MakeGradientBrightness);
-                General.Interface.AddButton(BuilderPlug.Me.MenusForm.GradientInterpolationMenu);
+                DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.MakeGradientBrightness);
+                DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.GradientInterpolationMenu);
             }
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.CurveLinedefs);
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.MarqueSelectTouching); //mxd
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.SyncronizeThingEditButton); //mxd
-            if (General.Map.UDMF)
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.CurveLinedefs);
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.MarqueSelectTouching); //mxd
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.SyncronizeThingEditButton); //mxd
+            if (DoomBuilder.General.Map.UDMF)
             {
-                General.Interface.AddButton(BuilderPlug.Me.MenusForm.TextureOffsetLock, ToolbarSection.Geometry); //mxd
-                General.Interface.AddButton(BuilderPlug.Me.MenusForm.TextureOffset3DFloorLock, ToolbarSection.Geometry);
+                DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.TextureOffsetLock, ToolbarSection.Geometry); //mxd
+                DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.TextureOffset3DFloorLock, ToolbarSection.Geometry);
             }
 
             //mxd. Update the tooltip
             BuilderPlug.Me.MenusForm.SyncronizeThingEditButton.ToolTipText = "Synchronized Things Editing" + Environment.NewLine + BuilderPlug.Me.MenusForm.SyncronizeThingEditLinedefsItem.ToolTipText;
-            General.Interface.EndToolbarUpdate(); //mxd
+            DoomBuilder.General.Interface.EndToolbarUpdate(); //mxd
 
             // Create the blockmap
             CreateBlockmap();
 
             // Convert geometry selection to linedefs selection
-            General.Map.Map.ConvertSelection(SelectionType.Linedefs);
+            DoomBuilder.General.Map.Map.ConvertSelection(SelectionType.Linedefs);
             UpdateSelectionInfo(); //mxd
             SetupSectorLabels(); //mxd
 
@@ -620,32 +621,32 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnDisengage();
 
             // Remove toolbar buttons
-            General.Interface.BeginToolbarUpdate(); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.CopyProperties);
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.PasteProperties);
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.PastePropertiesOptions); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.SeparatorCopyPaste);
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.ViewSelectionNumbers); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.ViewSelectionEffects); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.SeparatorSectors1); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.MakeGradientBrightness);
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.GradientInterpolationMenu);
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.CurveLinedefs);
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.MarqueSelectTouching); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.SyncronizeThingEditButton); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.TextureOffsetLock); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.TextureOffset3DFloorLock);
-            General.Interface.EndToolbarUpdate(); //mxd
+            DoomBuilder.General.Interface.BeginToolbarUpdate(); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.CopyProperties);
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.PasteProperties);
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.PastePropertiesOptions); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.SeparatorCopyPaste);
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.ViewSelectionNumbers); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.ViewSelectionEffects); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.SeparatorSectors1); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.MakeGradientBrightness);
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.GradientInterpolationMenu);
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.CurveLinedefs);
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.MarqueSelectTouching); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.SyncronizeThingEditButton); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.TextureOffsetLock); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.TextureOffset3DFloorLock);
+            DoomBuilder.General.Interface.EndToolbarUpdate(); //mxd
 
             // Going to EditSelectionMode?
-            EditSelectionMode mode = General.Editing.NewMode as EditSelectionMode;
+            EditSelectionMode mode = DoomBuilder.General.Editing.NewMode as EditSelectionMode;
             if (mode != null)
             {
                 // Not pasting anything?
                 if (!mode.Pasting)
                 {
                     // No selection made? But we have a highlight!
-                    if ((General.Map.Map.GetSelectedLinedefs(true).Count == 0) && (highlighted != null))
+                    if ((DoomBuilder.General.Map.Map.GetSelectedLinedefs(true).Count == 0) && (highlighted != null))
                     {
                         // Make the highlight the selection
                         highlighted.Selected = true;
@@ -654,8 +655,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Hide highlight info and tooltip
-            General.Interface.HideInfo();
-            General.Interface.Display.HideToolTip(); //mxd
+            DoomBuilder.General.Interface.HideInfo();
+            DoomBuilder.General.Interface.Display.HideToolTip(); //mxd
         }
 
         // This redraws the display
@@ -667,23 +668,23 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Render lines
             if (renderer.StartPlotter(true))
             {
-                renderer.PlotLinedefSet(General.Map.Map.Linedefs);
+                renderer.PlotLinedefSet(DoomBuilder.General.Map.Map.Linedefs);
 
                 if ((highlighted != null) && !highlighted.IsDisposed)
                 {
                     //BuilderPlug.PlotReverseAssociations(renderer, highlightasso, eventlines);
                     highlightasso.Plot();
-                    renderer.PlotLinedef(highlighted, General.Colors.Highlight);
+                    renderer.PlotLinedef(highlighted, DoomBuilder.General.Colors.Highlight);
                 }
-                renderer.PlotVerticesSet(General.Map.Map.Vertices);
+                renderer.PlotVerticesSet(DoomBuilder.General.Map.Map.Vertices);
                 renderer.Finish();
             }
 
             // Render things
             if (renderer.StartThings(true))
             {
-                renderer.RenderThingSet(General.Map.ThingsFilter.HiddenThings, General.Settings.HiddenThingsAlpha);
-                renderer.RenderThingSet(General.Map.ThingsFilter.VisibleThings, General.Settings.ActiveThingsAlpha);
+                renderer.RenderThingSet(DoomBuilder.General.Map.ThingsFilter.HiddenThings, DoomBuilder.General.Settings.HiddenThingsAlpha);
+                renderer.RenderThingSet(DoomBuilder.General.Map.ThingsFilter.VisibleThings, DoomBuilder.General.Settings.ActiveThingsAlpha);
                 renderer.Finish();
             }
 
@@ -730,24 +731,24 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     //mxd. Full redraw when labels were changed
                     if (BuilderPlug.Me.ViewSelectionNumbers)
                     {
-                        General.Interface.RedrawDisplay();
+                        DoomBuilder.General.Interface.RedrawDisplay();
                     }
                     // Update display
                     else if (renderer.StartPlotter(false))
                     {
                         // Render highlighted item
-                        renderer.PlotLinedef(highlighted, General.Colors.Highlight);
+                        renderer.PlotLinedef(highlighted, DoomBuilder.General.Colors.Highlight);
                         renderer.PlotVertex(highlighted.Start, renderer.DetermineVertexColor(highlighted.Start));
                         renderer.PlotVertex(highlighted.End, renderer.DetermineVertexColor(highlighted.End));
                         renderer.Finish();
                         renderer.Present();
                     }
                 }
-                else if (BuilderPlug.Me.AutoClearSelection && General.Map.Map.SelectedLinedefsCount > 0) //mxd
+                else if (BuilderPlug.Me.AutoClearSelection && DoomBuilder.General.Map.Map.SelectedLinedefsCount > 0) //mxd
                 {
-                    General.Map.Map.ClearSelectedLinedefs();
+                    DoomBuilder.General.Map.Map.ClearSelectedLinedefs();
                     UpdateSelectionInfo(); //mxd
-                    General.Interface.RedrawDisplay();
+                    DoomBuilder.General.Interface.RedrawDisplay();
                 }
             }
 
@@ -767,23 +768,23 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 if (!highlighted.Selected)
                 {
                     // Make this the only selection
-                    General.Map.Map.ClearSelectedLinedefs();
+                    DoomBuilder.General.Map.Map.ClearSelectedLinedefs();
 
                     editlines = new List<Linedef> { highlighted };
 
                     UpdateSelectionInfo(); //mxd
-                    General.Interface.RedrawDisplay();
+                    DoomBuilder.General.Interface.RedrawDisplay();
                 }
                 else
                 {
-                    editlines = General.Map.Map.GetSelectedLinedefs(true);
+                    editlines = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
                 }
 
                 // Update display
                 if (renderer.StartPlotter(false))
                 {
                     // Redraw highlight to show selection
-                    renderer.PlotLinedef(highlighted, General.Colors.Highlight);
+                    renderer.PlotLinedef(highlighted, DoomBuilder.General.Colors.Highlight);
                     renderer.PlotVertex(highlighted.Start, renderer.DetermineVertexColor(highlighted.Start));
                     renderer.PlotVertex(highlighted.End, renderer.DetermineVertexColor(highlighted.End));
                     renderer.Finish();
@@ -794,14 +795,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 // Start drawing mode
                 DrawGeometryMode drawmode = new DrawGeometryMode();
-                bool snaptogrid = General.Interface.ShiftState ^ General.Interface.SnapToGrid;
-                bool snaptonearest = General.Interface.CtrlState ^ General.Interface.AutoMerge;
+                bool snaptogrid = DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid;
+                bool snaptonearest = DoomBuilder.General.Interface.CtrlState ^ DoomBuilder.General.Interface.AutoMerge;
                 DrawnVertex v = DrawGeometryMode.GetCurrentPosition(mousemappos, snaptonearest, snaptogrid, false, false, renderer, new List<DrawnVertex>());
 
                 if (drawmode.DrawPointAt(v))
-                    General.Editing.ChangeMode(drawmode);
+                    DoomBuilder.General.Editing.ChangeMode(drawmode);
                 else
-                    General.Interface.DisplayStatus(StatusType.Warning, "Failed to draw point: outside of map boundaries.");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Failed to draw point: outside of map boundaries.");
             }
 
             base.OnEditBegin();
@@ -815,25 +816,25 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 if (editlines?.Count > 0)
                 {
-                    if (General.Interface.IsActiveWindow)
+                    if (DoomBuilder.General.Interface.IsActiveWindow)
                     {
                         // Prevent autosave while the editing dialog is shown
                         allowautosave = false;
 
                         // Show line edit dialog
-                        General.Interface.OnEditFormValuesChanged += linedefEditForm_OnValuesChanged;
-                        DialogResult result = General.Interface.ShowEditLinedefs(editlines);
-                        General.Interface.OnEditFormValuesChanged -= linedefEditForm_OnValuesChanged;
+                        DoomBuilder.General.Interface.OnEditFormValuesChanged += linedefEditForm_OnValuesChanged;
+                        DialogResult result = DoomBuilder.General.Interface.ShowEditLinedefs(editlines);
+                        DoomBuilder.General.Interface.OnEditFormValuesChanged -= linedefEditForm_OnValuesChanged;
 
                         allowautosave = true;
 
-                        General.Map.Map.Update();
+                        DoomBuilder.General.Map.Map.Update();
 
                         // Update entire display
                         SetupSectorLabels();
-                        General.Map.Renderer2D.UpdateExtraFloorFlag(); //mxd
+                        DoomBuilder.General.Map.Renderer2D.UpdateExtraFloorFlag(); //mxd
                         UpdateSelectionInfo(); //mxd
-                        General.Interface.RedrawDisplay();
+                        DoomBuilder.General.Interface.RedrawDisplay();
                     }
                 }
             }
@@ -859,8 +860,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Select changed map elements
             if (BuilderPlug.Me.SelectChangedafterUndoRedo)
             {
-                General.Map.Map.SelectMarkedGeometry(true, true);
-                General.Map.Map.ConvertSelection(SelectionType.Linedefs);
+                DoomBuilder.General.Map.Map.SelectMarkedGeometry(true, true);
+                DoomBuilder.General.Map.Map.ConvertSelection(SelectionType.Linedefs);
             }
 
             // If something is highlighted make sure to update the association so that it contains valid data
@@ -883,8 +884,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Select changed map elements
             if (BuilderPlug.Me.SelectChangedafterUndoRedo)
             {
-                General.Map.Map.SelectMarkedGeometry(true, true);
-                General.Map.Map.ConvertSelection(SelectionType.Linedefs);
+                DoomBuilder.General.Map.Map.SelectMarkedGeometry(true, true);
+                DoomBuilder.General.Map.Map.ConvertSelection(SelectionType.Linedefs);
             }
 
             // If something is highlighted make sure to update the association so that it contains valid data
@@ -907,7 +908,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             SetupSectorLabels();
 
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         // Mouse moves
@@ -939,9 +940,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     if (l != highlighted)
                     {
                         //toggle selected state
-                        if (General.Interface.ShiftState ^ BuilderPlug.Me.AdditivePaintSelect)
+                        if (DoomBuilder.General.Interface.ShiftState ^ BuilderPlug.Me.AdditivePaintSelect)
                             l.Selected = true;
-                        else if (General.Interface.CtrlState)
+                        else if (DoomBuilder.General.Interface.CtrlState)
                             l.Selected = false;
                         else
                             l.Selected = !l.Selected;
@@ -950,7 +951,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         UpdateSelectionInfo(); //mxd
 
                         // Update entire display
-                        General.Interface.RedrawDisplay();
+                        DoomBuilder.General.Interface.RedrawDisplay();
                     }
                 }
                 else if (highlighted != null)
@@ -958,7 +959,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     Highlight(null);
 
                     // Update entire display
-                    General.Interface.RedrawDisplay();
+                    DoomBuilder.General.Interface.RedrawDisplay();
                 }
             }
             else if (e.Button == MouseButtons.None) // Not holding any buttons?
@@ -970,8 +971,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 Linedef sl = MapSet.NearestLinedefRange(blockmap, mousemappos, BuilderPlug.Me.StitchRange / renderer.Scale);
                 if (sl != null)
                 {
-                    bool snaptogrid = General.Interface.ShiftState ^ General.Interface.SnapToGrid;
-                    bool snaptonearest = General.Interface.CtrlState ^ General.Interface.AutoMerge;
+                    bool snaptogrid = DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid;
+                    bool snaptonearest = DoomBuilder.General.Interface.CtrlState ^ DoomBuilder.General.Interface.AutoMerge;
 
                     Vector2D v = DrawGeometryMode.GetCurrentPosition(mousemappos, snaptonearest, snaptogrid, false, false, renderer, new List<DrawnVertex>(), blockmap).pos;
 
@@ -999,7 +1000,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 if (l != highlighted) Highlight(l);
 
                 //mxd. Show tooltip?
-                if (General.Map.UDMF && General.Settings.RenderComments && mouselastpos != mousepos && highlighted != null && !highlighted.IsDisposed && highlighted.Fields.ContainsKey("comment"))
+                if (DoomBuilder.General.Map.UDMF && DoomBuilder.General.Settings.RenderComments && mouselastpos != mousepos && highlighted != null && !highlighted.IsDisposed && highlighted.Fields.ContainsKey("comment"))
                 {
                     string comment = highlighted.Fields.GetValue("comment", string.Empty);
                     if (comment.Length > 2)
@@ -1008,7 +1009,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         int index = Array.IndexOf(CommentType.Types, type);
                         if (index > 0) comment = comment.TrimStart(type.ToCharArray());
                     }
-                    General.Interface.Display.ShowToolTip("Comment:", comment, (int)(mousepos.x + (32 * MainForm.DPIScaler.Width)), (int)(mousepos.y + (8 * MainForm.DPIScaler.Height)));
+                    DoomBuilder.General.Interface.Display.ShowToolTip("Comment:", comment, (int)(mousepos.x + (32 * MainForm.DPIScaler.Width)), (int)(mousepos.y + (8 * MainForm.DPIScaler.Height)));
                 }
             }
         }
@@ -1045,7 +1046,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnDragStart(e);
 
             // Edit button used?
-            if (General.Actions.CheckActionActive(null, "classicedit"))
+            if (DoomBuilder.General.Actions.CheckActionActive(null, "classicedit"))
             {
                 // Anything highlighted?
                 if ((highlighted != null) && !highlighted.IsDisposed)
@@ -1056,18 +1057,18 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     if (!highlighted.Selected)
                     {
                         // Select only this linedef for dragging
-                        General.Map.Map.ClearSelectedLinedefs();
+                        DoomBuilder.General.Map.Map.ClearSelectedLinedefs();
                         draglines = new List<Linedef> { highlighted };
                     }
                     else
                     {
                         // Add all selected linedefs to the linedefs we want to drag
-                        draglines = General.Map.Map.GetSelectedLinedefs(true);
+                        draglines = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
                     }
 
                     // Start dragging the selection
                     if (!BuilderPlug.Me.DontMoveGeometryOutsideMapBoundary || CanDrag(draglines)) //mxd
-                        General.Editing.ChangeMode(new DragLinedefsMode(mousedownmappos, draglines));
+                        DoomBuilder.General.Editing.ChangeMode(new DragLinedefsMode(mousedownmappos, draglines));
                 }
             }
         }
@@ -1080,10 +1081,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
             foreach (Linedef l in draglines)
             {
                 // Make sure the linedef is inside the map boundary
-                if (l.Start.Position.x < General.Map.Config.LeftBoundary || l.Start.Position.x > General.Map.Config.RightBoundary
-                    || l.Start.Position.y > General.Map.Config.TopBoundary || l.Start.Position.y < General.Map.Config.BottomBoundary
-                    || l.End.Position.x < General.Map.Config.LeftBoundary || l.End.Position.x > General.Map.Config.RightBoundary
-                    || l.End.Position.y > General.Map.Config.TopBoundary || l.End.Position.y < General.Map.Config.BottomBoundary)
+                if (l.Start.Position.x < DoomBuilder.General.Map.Config.LeftBoundary || l.Start.Position.x > DoomBuilder.General.Map.Config.RightBoundary
+                    || l.Start.Position.y > DoomBuilder.General.Map.Config.TopBoundary || l.Start.Position.y < DoomBuilder.General.Map.Config.BottomBoundary
+                    || l.End.Position.x < DoomBuilder.General.Map.Config.LeftBoundary || l.End.Position.x > DoomBuilder.General.Map.Config.RightBoundary
+                    || l.End.Position.y > DoomBuilder.General.Map.Config.TopBoundary || l.End.Position.y < DoomBuilder.General.Map.Config.BottomBoundary)
                 {
                     unaffectedCount++;
                 }
@@ -1091,14 +1092,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             if (unaffectedCount == draglines.Count)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Unable to drag selection: " + (draglines.Count == 1 ? "selected linedef is" : "all of selected linedefs are") + " outside of map boundary!");
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Unable to drag selection: " + (draglines.Count == 1 ? "selected linedef is" : "all of selected linedefs are") + " outside of map boundary!");
+                DoomBuilder.General.Interface.RedrawDisplay();
                 return false;
             }
 
             if (unaffectedCount > 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, unaffectedCount + " of selected linedefs " + (unaffectedCount == 1 ? "is" : "are") + " outside of map boundary!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, unaffectedCount + " of selected linedefs " + (unaffectedCount == 1 ? "is" : "are") + " outside of map boundary!");
                 return false;
             }
 
@@ -1129,14 +1130,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         List<Linedef> selectresult = GetOrderedSelection(base.selectstart, selectionoutline);
 
                         // First deselect everything...
-                        foreach (Linedef l in General.Map.Map.Linedefs) l.Selected = false;
+                        foreach (Linedef l in DoomBuilder.General.Map.Map.Linedefs) l.Selected = false;
 
                         // Then select lines in correct order
                         foreach (Linedef l in selectresult) l.Selected = true;
 
                         if (selectthings)
                         {
-                            foreach (Thing t in General.Map.ThingsFilter.VisibleThings)
+                            foreach (Thing t in DoomBuilder.General.Map.ThingsFilter.VisibleThings)
                                 t.Selected = selectionrect.Contains((float)t.Position.x, (float)t.Position.y);
                         }
                         break;
@@ -1153,18 +1154,18 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                         if (selectthings)
                         {
-                            foreach (Thing t in General.Map.ThingsFilter.VisibleThings)
+                            foreach (Thing t in DoomBuilder.General.Map.ThingsFilter.VisibleThings)
                                 t.Selected |= selectionrect.Contains((float)t.Position.x, (float)t.Position.y);
                         }
                         break;
 
                     case MarqueSelectionMode.SUBTRACT:
                         // Selection order doesn't matter here
-                        foreach (Linedef l in General.Map.Map.Linedefs)
+                        foreach (Linedef l in DoomBuilder.General.Map.Map.Linedefs)
                             if (IsInSelectionRect(l, selectionoutline)) l.Selected = false;
                         if (selectthings)
                         {
-                            foreach (Thing t in General.Map.ThingsFilter.VisibleThings)
+                            foreach (Thing t in DoomBuilder.General.Map.ThingsFilter.VisibleThings)
                                 if (selectionrect.Contains((float)t.Position.x, (float)t.Position.y)) t.Selected = false;
                         }
                         break;
@@ -1172,11 +1173,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     // Should be Intersect selection mode
                     default:
                         // Selection order doesn't matter here
-                        foreach (Linedef l in General.Map.Map.Linedefs)
+                        foreach (Linedef l in DoomBuilder.General.Map.Map.Linedefs)
                             if (!IsInSelectionRect(l, selectionoutline)) l.Selected = false;
                         if (selectthings)
                         {
-                            foreach (Thing t in General.Map.ThingsFilter.VisibleThings)
+                            foreach (Thing t in DoomBuilder.General.Map.ThingsFilter.VisibleThings)
                                 if (!selectionrect.Contains((float)t.Position.x, (float)t.Position.y)) t.Selected = false;
                         }
                         break;
@@ -1192,7 +1193,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (renderer.StartOverlay(true)) renderer.Finish();
 
             // Redraw
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         // This is called when the selection is updated
@@ -1213,7 +1214,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public override bool OnCopyBegin()
         {
             // No selection made? But we have a highlight!
-            if ((General.Map.Map.GetSelectedLinedefs(true).Count == 0) && (highlighted != null))
+            if ((DoomBuilder.General.Map.Map.GetSelectedLinedefs(true).Count == 0) && (highlighted != null))
             {
                 // Make the highlight the selection
                 highlighted.Selected = true;
@@ -1258,8 +1259,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                 Vector2D center = l.GetCenterPoint();
                 RectangleF rect = new RectangleF((float)(center.x - (8 / renderer.Scale)), (float)(center.y + (18 / renderer.Scale)), 16 / renderer.Scale, -16 / renderer.Scale);
-                PixelColor c = l == highlighted ? General.Colors.Highlight : (l.Selected ? General.Colors.Selection : PixelColor.FromColor(Color.White));
-                renderer.RenderRectangleFilled(rect, c, true, General.Map.Data.CommentTextures[iconindex]);
+                PixelColor c = l == highlighted ? DoomBuilder.General.Colors.Highlight : (l.Selected ? DoomBuilder.General.Colors.Selection : PixelColor.FromColor(Color.White));
+                renderer.RenderRectangleFilled(rect, c, true, DoomBuilder.General.Map.Data.CommentTextures[iconindex]);
             }
         }
 
@@ -1269,19 +1270,19 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             // Determine source linedefs
             ICollection<Linedef> sel = null;
-            if (General.Map.Map.SelectedLinedefsCount > 0) sel = General.Map.Map.GetSelectedLinedefs(true);
+            if (DoomBuilder.General.Map.Map.SelectedLinedefsCount > 0) sel = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
             else if (highlighted != null) sel = new List<Linedef> { highlighted };
 
             if (sel != null)
             {
                 // Copy properties from first source linedef
-                BuilderPlug.Me.CopiedLinedefProps = new LinedefProperties(General.GetByIndex(sel, 0));
-                General.Interface.DisplayStatus(StatusType.Action, "Copied linedef properties.");
+                BuilderPlug.Me.CopiedLinedefProps = new LinedefProperties(DoomBuilder.General.GetByIndex(sel, 0));
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Copied linedef properties.");
             }
             else
             {
                 //mxd
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
             }
         }
 
@@ -1293,34 +1294,34 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 // Determine target linedefs
                 ICollection<Linedef> sel = null;
-                if (General.Map.Map.SelectedLinedefsCount > 0) sel = General.Map.Map.GetSelectedLinedefs(true);
+                if (DoomBuilder.General.Map.Map.SelectedLinedefsCount > 0) sel = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
                 else if (highlighted != null) sel = new List<Linedef> { highlighted };
 
                 if (sel != null)
                 {
                     // Apply properties to selection
                     string rest = sel.Count == 1 ? "a single linedef" : sel.Count + " linedefs"; //mxd
-                    General.Map.UndoRedo.CreateUndo("Paste properties to " + rest);
+                    DoomBuilder.General.Map.UndoRedo.CreateUndo("Paste properties to " + rest);
                     BuilderPlug.Me.CopiedLinedefProps.Apply(sel, false);
                     foreach (Linedef l in sel) l.UpdateCache();
-                    General.Interface.DisplayStatus(StatusType.Action, "Pasted properties to " + rest + ".");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Pasted properties to " + rest + ".");
 
                     // Update and redraw
-                    General.Map.IsChanged = true;
-                    General.Interface.RefreshInfo();
-                    General.Map.Renderer2D.UpdateExtraFloorFlag(); //mxd
-                    General.Interface.RedrawDisplay();
+                    DoomBuilder.General.Map.IsChanged = true;
+                    DoomBuilder.General.Interface.RefreshInfo();
+                    DoomBuilder.General.Map.Renderer2D.UpdateExtraFloorFlag(); //mxd
+                    DoomBuilder.General.Interface.RedrawDisplay();
                 }
                 else
                 {
                     //mxd
-                    General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
                 }
             }
             else
             {
                 //mxd
-                General.Interface.DisplayStatus(StatusType.Warning, "Copy linedef properties first!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Copy linedef properties first!");
             }
         }
 
@@ -1332,36 +1333,36 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 // Determine target linedefs
                 ICollection<Linedef> sel = null;
-                if (General.Map.Map.SelectedLinedefsCount > 0) sel = General.Map.Map.GetSelectedLinedefs(true);
+                if (DoomBuilder.General.Map.Map.SelectedLinedefsCount > 0) sel = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
                 else if (highlighted != null) sel = new List<Linedef> { highlighted };
 
                 if (sel != null)
                 {
                     PastePropertiesOptionsForm form = new PastePropertiesOptionsForm();
-                    if (form.Setup(MapElementType.LINEDEF) && form.ShowDialog(General.Interface) == DialogResult.OK)
+                    if (form.Setup(MapElementType.LINEDEF) && form.ShowDialog(DoomBuilder.General.Interface) == DialogResult.OK)
                     {
                         // Apply properties to selection
                         string rest = sel.Count == 1 ? "a single linedef" : sel.Count + " linedefs";
-                        General.Map.UndoRedo.CreateUndo("Paste properties with options to " + rest);
+                        DoomBuilder.General.Map.UndoRedo.CreateUndo("Paste properties with options to " + rest);
                         BuilderPlug.Me.CopiedLinedefProps.Apply(sel, true);
                         foreach (Linedef l in sel) l.UpdateCache();
-                        General.Interface.DisplayStatus(StatusType.Action, "Pasted properties with options to " + rest + ".");
+                        DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Pasted properties with options to " + rest + ".");
 
                         // Update and redraw
-                        General.Map.IsChanged = true;
-                        General.Interface.RefreshInfo();
-                        General.Map.Renderer2D.UpdateExtraFloorFlag(); //mxd
-                        General.Interface.RedrawDisplay();
+                        DoomBuilder.General.Map.IsChanged = true;
+                        DoomBuilder.General.Interface.RefreshInfo();
+                        DoomBuilder.General.Map.Renderer2D.UpdateExtraFloorFlag(); //mxd
+                        DoomBuilder.General.Interface.RedrawDisplay();
                     }
                 }
                 else
                 {
-                    General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
                 }
             }
             else
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Copy linedef properties first!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Copy linedef properties first!");
             }
         }
 
@@ -1370,7 +1371,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void SelectSingleSided()
         {
             int counter = 0;
-            ICollection<Linedef> selected = General.Map.Map.GetSelectedLinedefs(true);
+            ICollection<Linedef> selected = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
             foreach (Linedef ld in selected)
             {
                 if ((ld.Front != null) && (ld.Back != null))
@@ -1381,8 +1382,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             UpdateSelectionInfo();
 
-            General.Interface.DisplayStatus(StatusType.Action, "Selected only single-sided linedefs (" + counter + ")");
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Selected only single-sided linedefs (" + counter + ")");
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         // This keeps only the double-sided lines selected
@@ -1390,7 +1391,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void SelectDoubleSided()
         {
             int counter = 0;
-            ICollection<Linedef> selected = General.Map.Map.GetSelectedLinedefs(true);
+            ICollection<Linedef> selected = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
             foreach (Linedef ld in selected)
             {
                 if ((ld.Front == null) || (ld.Back == null))
@@ -1401,8 +1402,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             UpdateSelectionInfo();
 
-            General.Interface.DisplayStatus(StatusType.Action, "Selected only double-sided linedefs (" + counter + ")");
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Selected only double-sided linedefs (" + counter + ")");
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         // This clears the selection
@@ -1410,17 +1411,17 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void ClearSelection()
         {
             // Clear selection
-            General.Map.Map.ClearAllSelected();
+            DoomBuilder.General.Map.Map.ClearAllSelected();
 
             //mxd. Clear selection info
-            General.Interface.DisplayStatus(StatusType.Selection, string.Empty);
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Selection, string.Empty);
 
             //mxd. Clear selection labels
             foreach (SelectionLabel l in labels.Values) l.Dispose();
             labels.Clear();
 
             // Redraw
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         // This creates a new vertex at the mouse position
@@ -1431,40 +1432,40 @@ namespace CodeImp.DoomBuilder.BuilderModes
             DrawGeometryMode drawmode = new DrawGeometryMode();
             if (mouseinside)
             {
-                bool snaptogrid = General.Interface.ShiftState ^ General.Interface.SnapToGrid;
-                bool snaptonearest = General.Interface.CtrlState ^ General.Interface.AutoMerge;
+                bool snaptogrid = DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid;
+                bool snaptonearest = DoomBuilder.General.Interface.CtrlState ^ DoomBuilder.General.Interface.AutoMerge;
                 DrawnVertex v = DrawGeometryMode.GetCurrentPosition(mousemappos, snaptonearest, snaptogrid, false, false, renderer, new List<DrawnVertex>());
                 drawmode.DrawPointAt(v);
             }
-            General.Editing.ChangeMode(drawmode);
+            DoomBuilder.General.Editing.ChangeMode(drawmode);
         }
 
         [BeginAction("deleteitem", BaseAction = true)]
         public void DeleteItem()
         {
             // Make list of selected linedefs
-            ICollection<Linedef> selected = General.Map.Map.GetSelectedLinedefs(true);
+            ICollection<Linedef> selected = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
             if ((selected.Count == 0) && (highlighted != null) && !highlighted.IsDisposed) selected.Add(highlighted);
             if (selected.Count == 0) return;
 
             // Make undo
             if (selected.Count > 1)
             {
-                General.Map.UndoRedo.CreateUndo("Delete " + selected.Count + " linedefs");
-                General.Interface.DisplayStatus(StatusType.Action, "Deleted " + selected.Count + " linedefs.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Delete " + selected.Count + " linedefs");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Deleted " + selected.Count + " linedefs.");
             }
             else
             {
-                General.Map.UndoRedo.CreateUndo("Delete linedef");
-                General.Interface.DisplayStatus(StatusType.Action, "Deleted a linedef.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Delete linedef");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Deleted a linedef.");
             }
 
             // Dispose selected linedefs
             foreach (Linedef ld in selected) ld.Dispose();
 
             // Update cache values
-            General.Map.IsChanged = true;
-            General.Map.Map.Update();
+            DoomBuilder.General.Map.IsChanged = true;
+            DoomBuilder.General.Map.Map.Update();
 
             // Recreate the blockmap since it shouldn't include the deleted linedefs anymore
             CreateBlockmap();
@@ -1472,8 +1473,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Redraw screen
             SetupSectorLabels(); //mxd
             UpdateSelectionInfo(); //mxd
-            General.Map.Renderer2D.UpdateExtraFloorFlag(); //mxd
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.Renderer2D.UpdateExtraFloorFlag(); //mxd
+            DoomBuilder.General.Interface.RedrawDisplay();
 
             // Invoke a new mousemove so that the highlighted item updates
             OnMouseMove(new MouseEventArgs(MouseButtons.None, 0, (int)mousepos.x, (int)mousepos.y, 0));
@@ -1483,7 +1484,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void DissolveItem()
         {
             // Make list of selected linedefs
-            ICollection<Linedef> selected = General.Map.Map.GetSelectedLinedefs(true);
+            ICollection<Linedef> selected = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
             if ((selected.Count == 0) && (highlighted != null) && !highlighted.IsDisposed) selected.Add(highlighted);
 
             // Anything to do?
@@ -1492,13 +1493,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // Make undo
                 if (selected.Count > 1)
                 {
-                    General.Map.UndoRedo.CreateUndo("Dissolve " + selected.Count + " linedefs");
-                    General.Interface.DisplayStatus(StatusType.Action, "Dissolved " + selected.Count + " linedefs.");
+                    DoomBuilder.General.Map.UndoRedo.CreateUndo("Dissolve " + selected.Count + " linedefs");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Dissolved " + selected.Count + " linedefs.");
                 }
                 else
                 {
-                    General.Map.UndoRedo.CreateUndo("Dissolve linedef");
-                    General.Interface.DisplayStatus(StatusType.Action, "Dissolved a linedef.");
+                    DoomBuilder.General.Map.UndoRedo.CreateUndo("Dissolve linedef");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Dissolved a linedef.");
                 }
 
                 //mxd. Find sectors, which will become invalid after linedefs removal.
@@ -1513,7 +1514,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         toMerge.Add(l.Back.Sector, new Vector2D(l.Back.Sector.BBox.Location.X + (l.Back.Sector.BBox.Width / 2), l.Back.Sector.BBox.Location.Y + (l.Back.Sector.BBox.Height / 2)));
                 }
 
-                General.Map.Map.BeginAddRemove(); //mxd
+                DoomBuilder.General.Map.Map.BeginAddRemove(); //mxd
 
                 // Dispose selected linedefs
                 foreach (Linedef ld in selected)
@@ -1532,12 +1533,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 //mxd
-                General.Map.Map.EndAddRemove();
+                DoomBuilder.General.Map.Map.EndAddRemove();
                 Tools.MergeInvalidSectors(toMerge);
 
                 // Update cache values
-                General.Map.IsChanged = true;
-                General.Map.Map.Update();
+                DoomBuilder.General.Map.IsChanged = true;
+                DoomBuilder.General.Map.Map.Update();
 
                 // Recreate the blockmap since it shouldn't include the dissolved linedefs anymore
                 CreateBlockmap();
@@ -1545,8 +1546,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // Redraw screen
                 SetupSectorLabels(); //mxd
                 UpdateSelectionInfo(); //mxd
-                General.Map.Renderer2D.UpdateExtraFloorFlag(); //mxd
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Map.Renderer2D.UpdateExtraFloorFlag(); //mxd
+                DoomBuilder.General.Interface.RedrawDisplay();
 
                 // Invoke a new mousemove so that the highlighted item updates
                 OnMouseMove(new MouseEventArgs(MouseButtons.None, 0, (int)mousepos.x, (int)mousepos.y, 0));
@@ -1557,7 +1558,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void SplitLinedefs()
         {
             // Make list of selected linedefs
-            ICollection<Linedef> selected = General.Map.Map.GetSelectedLinedefs(true);
+            ICollection<Linedef> selected = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
             if ((selected.Count == 0) && (highlighted != null) && !highlighted.IsDisposed) selected.Add(highlighted);
 
             // Anything to do?
@@ -1566,13 +1567,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // Make undo
                 if (selected.Count > 1)
                 {
-                    General.Map.UndoRedo.CreateUndo("Split " + selected.Count + " linedefs");
-                    General.Interface.DisplayStatus(StatusType.Action, "Split " + selected.Count + " linedefs.");
+                    DoomBuilder.General.Map.UndoRedo.CreateUndo("Split " + selected.Count + " linedefs");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Split " + selected.Count + " linedefs.");
                 }
                 else
                 {
-                    General.Map.UndoRedo.CreateUndo("Split linedef");
-                    General.Interface.DisplayStatus(StatusType.Action, "Split a linedef.");
+                    DoomBuilder.General.Map.UndoRedo.CreateUndo("Split linedef");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Split a linedef.");
                 }
 
                 // Go for all linedefs to split
@@ -1585,17 +1586,17 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     {
                         // Split at nearest position on the line
                         Vector2D nearestpos = ld.NearestOnLine(mousemappos);
-                        splitvertex = General.Map.Map.CreateVertex(nearestpos);
+                        splitvertex = DoomBuilder.General.Map.Map.CreateVertex(nearestpos);
                     }
                     else
                     {
                         // Split in middle of line
-                        splitvertex = General.Map.Map.CreateVertex(ld.GetCenterPoint());
+                        splitvertex = DoomBuilder.General.Map.Map.CreateVertex(ld.GetCenterPoint());
                     }
 
                     if (splitvertex == null)
                     {
-                        General.Map.UndoRedo.WithdrawUndo();
+                        DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
                         break;
                     }
 
@@ -1606,7 +1607,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     Linedef sld = ld.Split(splitvertex);
                     if (sld == null)
                     {
-                        General.Map.UndoRedo.WithdrawUndo();
+                        DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
                         break;
                     }
                     //BuilderPlug.Me.AdjustSplitCoordinates(ld, sld);
@@ -1616,11 +1617,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 CreateBlockmap();
 
                 // Update cache values
-                General.Map.IsChanged = true;
-                General.Map.Map.Update();
+                DoomBuilder.General.Map.IsChanged = true;
+                DoomBuilder.General.Map.Map.Update();
 
                 // Redraw screen
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Interface.RedrawDisplay();
             }
         }
 
@@ -1628,7 +1629,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void CurveLinedefs()
         {
             // No selected lines?
-            ICollection<Linedef> selected = General.Map.Map.GetSelectedLinedefs(true);
+            ICollection<Linedef> selected = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
             if (selected.Count == 0)
             {
                 // Anything highlighted?
@@ -1644,12 +1645,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (selected.Count > 0)
             {
                 // Go into curve linedefs mode
-                General.Editing.ChangeMode(new CurveLinedefsMode());
+                DoomBuilder.General.Editing.ChangeMode(new CurveLinedefsMode());
             }
             else
             {
                 //mxd
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requres a selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requres a selection!");
             }
         }
 
@@ -1659,7 +1660,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             bool deselect = false;
 
             // No selected lines?
-            ICollection<Linedef> selected = General.Map.Map.GetSelectedLinedefs(true);
+            ICollection<Linedef> selected = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
             if (selected.Count == 0)
             {
                 // Anything highlighted?
@@ -1677,7 +1678,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Any selected lines?
             if (selected.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
                 return;
             }
 
@@ -1693,12 +1694,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
             //mxd. Any valid lines?
             if (selected.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, selectedcount > 1 ? "Selected linedefs already point in the right direction!"
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, selectedcount > 1 ? "Selected linedefs already point in the right direction!"
                                                                                        : "Selected linedef already points in the right direction!");
 
                 // There might be linedefs that were filtered out, so deselect all linedefs (if necessary) anyway
                 if (deselect)
-                    General.Map.Map.ClearSelectedLinedefs();
+                    DoomBuilder.General.Map.Map.ClearSelectedLinedefs();
 
                 return;
             }
@@ -1706,13 +1707,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Make undo
             if (selected.Count > 1)
             {
-                General.Map.UndoRedo.CreateUndo("Flip " + selected.Count + " linedefs");
-                General.Interface.DisplayStatus(StatusType.Action, "Flipped " + selected.Count + " linedefs.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Flip " + selected.Count + " linedefs");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Flipped " + selected.Count + " linedefs.");
             }
             else
             {
-                General.Map.UndoRedo.CreateUndo("Flip linedef");
-                General.Interface.DisplayStatus(StatusType.Action, "Flipped a linedef.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Flip linedef");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Flipped a linedef.");
             }
 
             // Flip all selected linedefs
@@ -1723,20 +1724,20 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             if (deselect)
-                General.Map.Map.ClearSelectedLinedefs();
+                DoomBuilder.General.Map.Map.ClearSelectedLinedefs();
 
             // Redraw
-            General.Map.Map.Update();
-            General.Map.IsChanged = true;
-            General.Interface.RefreshInfo();
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Map.IsChanged = true;
+            DoomBuilder.General.Interface.RefreshInfo();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         [BeginAction("alignlinedefs")]
         public void AlignLinedefs() //mxd
         {
             // No selected lines?
-            ICollection<Linedef> selected = General.Map.Map.GetSelectedLinedefs(true);
+            ICollection<Linedef> selected = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
             if (selected.Count == 0)
             {
                 // Anything highlighted?
@@ -1751,20 +1752,20 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Any selected lines?
             if (selected.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
                 return;
             }
 
             // Make undo
             if (selected.Count > 1)
             {
-                General.Map.UndoRedo.CreateUndo("Align " + selected.Count + " linedefs");
-                General.Interface.DisplayStatus(StatusType.Action, "Aligned " + selected.Count + " linedefs.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Align " + selected.Count + " linedefs");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Aligned " + selected.Count + " linedefs.");
             }
             else
             {
-                General.Map.UndoRedo.CreateUndo("Align linedef");
-                General.Interface.DisplayStatus(StatusType.Action, "Aligned a linedef.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Align linedef");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Aligned a linedef.");
             }
 
             //mxd. Do it sector-wise
@@ -1805,17 +1806,17 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Redraw
-            General.Map.Map.Update();
-            General.Map.IsChanged = true;
-            General.Interface.RefreshInfo();
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Map.IsChanged = true;
+            DoomBuilder.General.Interface.RefreshInfo();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         [BeginAction("flipsidedefs")]
         public void FlipSidedefs()
         {
             // No selected lines?
-            ICollection<Linedef> selected = General.Map.Map.GetSelectedLinedefs(true);
+            ICollection<Linedef> selected = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
             if (selected.Count == 0)
             {
                 // Anything highlighted?
@@ -1828,7 +1829,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             //mxd. Any selected lines?
             if (selected.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
                 return;
             }
 
@@ -1842,20 +1843,20 @@ namespace CodeImp.DoomBuilder.BuilderModes
             //mxd. Any double-sided lines selected?
             if (validlines.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "No sidedefs to flip! Only 2-sided linedefs can be flipped.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "No sidedefs to flip! Only 2-sided linedefs can be flipped.");
                 return;
             }
 
             // Make undo
             if (validlines.Count > 1)
             {
-                General.Map.UndoRedo.CreateUndo("Flip " + validlines.Count + " sidedefs");
-                General.Interface.DisplayStatus(StatusType.Action, "Flipped " + validlines.Count + " sidedefs.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Flip " + validlines.Count + " sidedefs");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Flipped " + validlines.Count + " sidedefs.");
             }
             else
             {
-                General.Map.UndoRedo.CreateUndo("Flip sidedef");
-                General.Interface.DisplayStatus(StatusType.Action, "Flipped a sidedef.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Flip sidedef");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Flipped a sidedef.");
             }
 
             // Flip sidedefs in all selected linedefs
@@ -1867,45 +1868,45 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Redraw
-            General.Map.Map.Update();
-            General.Map.IsChanged = true;
-            General.Interface.RefreshInfo();
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Map.IsChanged = true;
+            DoomBuilder.General.Interface.RefreshInfo();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         //mxd. Make gradient brightness
         [BeginAction("gradientbrightness")]
         public void MakeGradientBrightness()
         {
-            if (!General.Map.UDMF) return;
+            if (!DoomBuilder.General.Map.UDMF) return;
 
             // Need at least 3 selected linedefs
             // The first and last are not modified
-            ICollection<Linedef> orderedselection = General.Map.Map.GetSelectedLinedefs(true);
+            ICollection<Linedef> orderedselection = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
             if (orderedselection.Count > 2)
             {
                 // Gather values
-                Linedef start = General.GetByIndex(orderedselection, 0);
-                Linedef end = General.GetByIndex(orderedselection, orderedselection.Count - 1);
+                Linedef start = DoomBuilder.General.GetByIndex(orderedselection, 0);
+                Linedef end = DoomBuilder.General.GetByIndex(orderedselection, orderedselection.Count - 1);
 
                 float startbrightness = GetLinedefBrighness(start);
                 float endbrightness = GetLinedefBrighness(end);
 
                 if (float.IsNaN(startbrightness))
                 {
-                    General.Interface.DisplayStatus(StatusType.Warning, "Start linedef doesn't have visible parts!");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Start linedef doesn't have visible parts!");
                     return;
                 }
 
                 if (float.IsNaN(endbrightness))
                 {
-                    General.Interface.DisplayStatus(StatusType.Warning, "End linedef doesn't have visible parts!");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "End linedef doesn't have visible parts!");
                     return;
                 }
 
                 //Make undo
-                General.Interface.DisplayStatus(StatusType.Action, "Created gradient brightness over selected linedefs.");
-                General.Map.UndoRedo.CreateUndo("Linedefs gradient brightness");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Created gradient brightness over selected linedefs.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Linedefs gradient brightness");
 
                 // Apply changes
                 InterpolationTools.Mode interpolationmode = (InterpolationTools.Mode)BuilderPlug.Me.MenusForm.GradientInterpolationMenu.SelectedIndex;
@@ -1922,31 +1923,31 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 // Update
-                General.Map.Map.Update();
-                General.Interface.RedrawDisplay();
-                General.Interface.RefreshInfo();
-                General.Map.IsChanged = true;
+                DoomBuilder.General.Map.Map.Update();
+                DoomBuilder.General.Interface.RedrawDisplay();
+                DoomBuilder.General.Interface.RefreshInfo();
+                DoomBuilder.General.Map.IsChanged = true;
             }
             else
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Select at least 3 linedefs first!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Select at least 3 linedefs first!");
             }
         }
 
         [BeginAction("smartgridtransform", BaseAction = true)]
         protected void SmartGridTransform()
         {
-            if (General.Map.Map.SelectedLinedefsCount > 1)
+            if (DoomBuilder.General.Map.Map.SelectedLinedefsCount > 1)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Either nothing or exactly one linedef must be selected");
-                General.Interface.MessageBeep(MessageBeepType.Warning);
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Either nothing or exactly one linedef must be selected");
+                DoomBuilder.General.Interface.MessageBeep(MessageBeepType.Warning);
                 return;
             }
 
             Linedef linedef = null;
 
-            if (General.Map.Map.SelectedLinedefsCount == 1)
-                linedef = General.Map.Map.GetSelectedLinedefs(true).First();
+            if (DoomBuilder.General.Map.Map.SelectedLinedefsCount == 1)
+                linedef = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true).First();
             else if (highlighted != null)
                 linedef = highlighted;
 
@@ -1954,17 +1955,17 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 // Get the vertex that's closest to the mouse cursor
                 Vertex vertex = (new Vertex[] { linedef.Start, linedef.End }).OrderBy(v => Vector2D.Distance(v.Position, mousemappos)).First();
-                General.Map.Grid.SetGridRotation(linedef.Angle);
-                General.Map.Grid.SetGridOrigin(vertex.Position.x, vertex.Position.y);
-                General.Map.GridVisibilityChanged();
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Map.Grid.SetGridRotation(linedef.Angle);
+                DoomBuilder.General.Map.Grid.SetGridOrigin(vertex.Position.x, vertex.Position.y);
+                DoomBuilder.General.Map.GridVisibilityChanged();
+                DoomBuilder.General.Interface.RedrawDisplay();
             }
             else
             {
-                General.Map.Grid.SetGridRotation(0.0f);
-                General.Map.Grid.SetGridOrigin(0, 0);
-                General.Map.GridVisibilityChanged();
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Map.Grid.SetGridRotation(0.0f);
+                DoomBuilder.General.Map.Grid.SetGridOrigin(0, 0);
+                DoomBuilder.General.Map.GridVisibilityChanged();
+                DoomBuilder.General.Interface.RedrawDisplay();
             }
         }
 
@@ -2006,14 +2007,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 UniFields.SetInteger(side.Fields, "light", brightness - side.Sector.Brightness, 0);
 
             //apply lightfog flag?
-            if (General.Map.UDMF) Tools.UpdateLightFogFlag(side);
+            if (DoomBuilder.General.Map.UDMF) Tools.UpdateLightFogFlag(side);
         }
 
         [BeginAction("placethings")] //mxd
         public void PlaceThings()
         {
             // Make list of selected linedefs
-            ICollection<Linedef> lines = General.Map.Map.GetSelectedLinedefs(true);
+            ICollection<Linedef> lines = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
             List<Vector2D> positions = new List<Vector2D>();
 
             if (lines.Count == 0)
@@ -2024,7 +2025,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
                 else
                 {
-                    General.Interface.DisplayStatus(StatusType.Warning, "This action requires selection of some description!");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires selection of some description!");
                     return;
                 }
             }
@@ -2038,7 +2039,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             if (positions.Count < 1)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Unable to get vertex positions from selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Unable to get vertex positions from selection!");
                 return;
             }
 
@@ -2049,7 +2050,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         [BeginAction("alignfloortofront")]
         public void AlignFloorToFront()
         {
-            if (!General.Map.UDMF) return;
+            if (!DoomBuilder.General.Map.UDMF) return;
             AlignTextureToLine(true, true);
         }
 
@@ -2057,7 +2058,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         [BeginAction("alignfloortoback")]
         public void AlignFloorToBack()
         {
-            if (!General.Map.UDMF) return;
+            if (!DoomBuilder.General.Map.UDMF) return;
             AlignTextureToLine(true, false);
         }
 
@@ -2065,7 +2066,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         [BeginAction("alignceilingtofront")]
         public void AlignCeilingToFront()
         {
-            if (!General.Map.UDMF) return;
+            if (!DoomBuilder.General.Map.UDMF) return;
             AlignTextureToLine(false, true);
         }
 
@@ -2073,7 +2074,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         [BeginAction("alignceilingtoback")]
         public void AlignCeilingToBack()
         {
-            if (!General.Map.UDMF) return;
+            if (!DoomBuilder.General.Map.UDMF) return;
             AlignTextureToLine(false, false);
         }
 
@@ -2081,26 +2082,26 @@ namespace CodeImp.DoomBuilder.BuilderModes
         [BeginAction("selectsimilar")]
         public void SelectSimilar()
         {
-            ICollection<Linedef> selection = General.Map.Map.GetSelectedLinedefs(true);
+            ICollection<Linedef> selection = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
 
             if (selection.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
                 return;
             }
 
             var form = new SelectSimilarElementOptionsPanel();
-            if (form.Setup(this)) form.ShowDialog(General.Interface);
+            if (form.Setup(this)) form.ShowDialog(DoomBuilder.General.Interface);
         }
 
         //mxd
         [BeginAction("applylightfogflag")]
         private void ApplyLightFogFlag()
         {
-            if (!General.Map.UDMF) return;
+            if (!DoomBuilder.General.Map.UDMF) return;
 
             // Make list of selected linedefs
-            ICollection<Linedef> lines = General.Map.Map.GetSelectedLinedefs(true);
+            ICollection<Linedef> lines = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
 
             if (lines.Count == 0)
             {
@@ -2110,13 +2111,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
                 else
                 {
-                    General.Interface.DisplayStatus(StatusType.Warning, "This action requires selection of some description!");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires selection of some description!");
                     return;
                 }
             }
 
             // Make undo
-            General.Map.UndoRedo.CreateUndo("Apply 'lightfog' flag");
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Apply 'lightfog' flag");
 
             // Apply the flag
             int addedcout = 0;
@@ -2144,31 +2145,31 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Display info
-            General.Interface.DisplayStatus(StatusType.Action, "Added 'lightfog' flag to " + addedcout + " sidedefs, removed it from " + removedcount + " sidedefs.");
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Added 'lightfog' flag to " + addedcout + " sidedefs, removed it from " + removedcount + " sidedefs.");
         }
 
         [BeginAction("changemapelementindex")]
         private void ChangeMapElementIndex()
         {
             // Make list of selected linedefs
-            List<Linedef> selected = General.Map.Map.GetSelectedLinedefs(true).ToList();
+            List<Linedef> selected = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true).ToList();
             if ((selected.Count == 0) && (highlighted != null) && !highlighted.IsDisposed) selected.Add(highlighted);
             if (selected.Count != 1)
             {
-                General.ToastManager.ShowToast(ToastMessages.CHANGEMAPELEMENTINDEX, ToastType.WARNING, "Changing linedef index failed", "You need to select or highlight exactly 1 linedef.");
+                DoomBuilder.General.ToastManager.ShowToast(ToastMessages.CHANGEMAPELEMENTINDEX, ToastType.WARNING, "Changing linedef index failed", "You need to select or highlight exactly 1 linedef.");
                 return;
             }
 
-            ChangeMapElementIndexForm f = new ChangeMapElementIndexForm("linedef", selected[0].Index, General.Map.Map.Linedefs.Count - 1);
+            ChangeMapElementIndexForm f = new ChangeMapElementIndexForm("linedef", selected[0].Index, DoomBuilder.General.Map.Map.Linedefs.Count - 1);
             if (f.ShowDialog() == DialogResult.OK)
             {
                 int newindex = f.GetNewIndex();
                 int oldindex = selected[0].Index;
-                General.Map.UndoRedo.CreateUndo("Change linedef index");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Change linedef index");
 
                 selected[0].ChangeIndex(newindex);
 
-                General.ToastManager.ShowToast(ToastMessages.CHANGEMAPELEMENTINDEX, ToastType.INFO, "Successfully change linedef index", $"Changed index of linedef {oldindex} to {newindex}.");
+                DoomBuilder.General.ToastManager.ShowToast(ToastMessages.CHANGEMAPELEMENTINDEX, ToastType.INFO, "Successfully change linedef index", $"Changed index of linedef {oldindex} to {newindex}.");
             }
         }
     }

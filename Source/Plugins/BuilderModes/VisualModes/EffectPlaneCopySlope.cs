@@ -1,7 +1,7 @@
 ﻿using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal class EffectPlaneCopySlope : SectorEffect
     {
@@ -37,7 +37,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             //find sector to align floor to
             if (linedef.Args[floorArg] > 0)
             {
-                foreach (Sector s in General.Map.Map.Sectors)
+                foreach (Sector s in DoomBuilder.General.Map.Map.Sectors)
                 {
                     if (s.Tags.Contains(linedef.Args[floorArg]))
                     {
@@ -65,7 +65,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 {
                     sourcesector = null;
 
-                    foreach (Sector s in General.Map.Map.Sectors)
+                    foreach (Sector s in DoomBuilder.General.Map.Map.Sectors)
                     {
                         if (s.Tags.Contains(linedef.Args[ceilingArg]))
                         {

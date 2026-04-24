@@ -1,5 +1,7 @@
 ﻿
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
+using CodeImp.DoomBuilder.BuilderModes.VisualModes;
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -113,7 +115,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
 
             if (!settings.Valid)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "OBJ creation failed. Check 'Errors and Warnings' window for details.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "OBJ creation failed. Check 'Errors and Warnings' window for details.");
                 return;
             }
 
@@ -126,12 +128,12 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
                     foreach (string s in settings.Textures)
                     {
                         if (s == DEFAULT) continue;
-                        if (General.Map.Data.GetTextureExists(s))
+                        if (DoomBuilder.General.Map.Data.GetTextureExists(s))
                         {
-                            ImageData id = General.Map.Data.GetTextureImage(s);
+                            ImageData id = DoomBuilder.General.Map.Data.GetTextureImage(s);
                             if (id.Width == 0 || id.Height == 0)
                             {
-                                General.ErrorLogger.Add(ErrorType.Warning, "OBJ Exporter: texture \"" + s + "\" has invalid size (" + id.Width + "x" + id.Height + ")!");
+                                DoomBuilder.General.ErrorLogger.Add(ErrorType.Warning, "OBJ Exporter: texture \"" + s + "\" has invalid size (" + id.Width + "x" + id.Height + ")!");
                                 continue;
                             }
 
@@ -151,7 +153,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
                         }
                         else
                         {
-                            General.ErrorLogger.Add(ErrorType.Warning, "OBJ Exporter: texture \"" + s + "\" does not exist!");
+                            DoomBuilder.General.ErrorLogger.Add(ErrorType.Warning, "OBJ Exporter: texture \"" + s + "\" does not exist!");
                         }
                     }
                 }
@@ -161,12 +163,12 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
                     foreach (string s in settings.Flats)
                     {
                         if (s == DEFAULT) continue;
-                        if (General.Map.Data.GetFlatExists(s))
+                        if (DoomBuilder.General.Map.Data.GetFlatExists(s))
                         {
-                            ImageData id = General.Map.Data.GetFlatImage(s);
+                            ImageData id = DoomBuilder.General.Map.Data.GetFlatImage(s);
                             if (id.Width == 0 || id.Height == 0)
                             {
-                                General.ErrorLogger.Add(ErrorType.Warning, "OBJ Exporter: flat \"" + s + "\" has invalid size (" + id.Width + "x" + id.Height + ")!");
+                                DoomBuilder.General.ErrorLogger.Add(ErrorType.Warning, "OBJ Exporter: flat \"" + s + "\" has invalid size (" + id.Width + "x" + id.Height + ")!");
                                 continue;
                             }
 
@@ -189,7 +191,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
                         }
                         else
                         {
-                            General.ErrorLogger.Add(ErrorType.Warning, "OBJ Exporter: flat \"" + s + "\" does not exist!");
+                            DoomBuilder.General.ErrorLogger.Add(ErrorType.Warning, "OBJ Exporter: flat \"" + s + "\" does not exist!");
                         }
                     }
                 }
@@ -211,7 +213,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
 
             //create mtl
             StringBuilder mtl = new StringBuilder();
-            mtl.Append("# MTL for " + General.Map.FileTitle + ", map " + General.Map.Options.LevelName + Environment.NewLine);
+            mtl.Append("# MTL for " + DoomBuilder.General.Map.FileTitle + ", map " + DoomBuilder.General.Map.Options.LevelName + Environment.NewLine);
             mtl.Append("# Created by Ultimate Doom Builder " + Application.ProductVersion + Environment.NewLine + Environment.NewLine);
 
             if (settings.Textures != null)
@@ -348,7 +350,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
             }
 
             //done
-            General.Interface.DisplayStatus(StatusType.Info, "Geometry exported to \"" + savePath);
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Info, "Geometry exported to \"" + savePath);
         }
 
         private static void CreateObjFromSelection(ICollection<Sector> sectors, ref WavefrontExportSettings data)
@@ -356,7 +358,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
             BaseVisualMode mode = new BaseVisualMode();
             bool renderingEffectsDisabled = false;
 
-            if (!General.Settings.EnhancedRenderingEffects)
+            if (!DoomBuilder.General.Settings.EnhancedRenderingEffects)
             {
                 renderingEffectsDisabled = true;
                 mode.ToggleEnhancedRendering();
@@ -436,7 +438,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
 
             if (visualSectors.Count == 0)
             {
-                General.ErrorLogger.Add(ErrorType.Error, "OBJ Exporter: no visual sectors to export!");
+                DoomBuilder.General.ErrorLogger.Add(ErrorType.Error, "OBJ Exporter: no visual sectors to export!");
                 return;
             }
 
@@ -452,14 +454,14 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
 
             if (obj.Length == 0)
             {
-                General.ErrorLogger.Add(ErrorType.Error, "OBJ Exporter: failed to create geometry!");
+                DoomBuilder.General.ErrorLogger.Add(ErrorType.Error, "OBJ Exporter: failed to create geometry!");
                 return;
             }
 
             //add header
-            obj.Insert(0, "o " + General.Map.Options.LevelName + Environment.NewLine); //name
+            obj.Insert(0, "o " + DoomBuilder.General.Map.Options.LevelName + Environment.NewLine); //name
             obj.Insert(0, "# Created by Ultimate Doom Builder " + Application.ProductVersion + Environment.NewLine + Environment.NewLine);
-            obj.Insert(0, "# " + General.Map.FileTitle + ", map " + General.Map.Options.LevelName + Environment.NewLine);
+            obj.Insert(0, "# " + DoomBuilder.General.Map.FileTitle + ", map " + DoomBuilder.General.Map.Options.LevelName + Environment.NewLine);
             data.Obj = obj.ToString();
 
             string[] textures = new string[geometryByTexture[0].Keys.Count];

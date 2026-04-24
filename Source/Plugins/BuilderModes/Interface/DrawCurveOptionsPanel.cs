@@ -28,28 +28,28 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 
         public void Register()
         {
-            General.Interface.BeginToolbarUpdate();
-            General.Interface.AddButton(continuousdrawing);
-            General.Interface.AddButton(autoclosedrawing);
-            General.Interface.AddButton(placethingsatvertices);
-            General.Interface.AddButton(toolStripSeparator1);
-            General.Interface.AddButton(seglabel);
-            General.Interface.AddButton(seglen);
-            General.Interface.AddButton(reset);
-            General.Interface.EndToolbarUpdate();
+            DoomBuilder.General.Interface.BeginToolbarUpdate();
+            DoomBuilder.General.Interface.AddButton(continuousdrawing);
+            DoomBuilder.General.Interface.AddButton(autoclosedrawing);
+            DoomBuilder.General.Interface.AddButton(placethingsatvertices);
+            DoomBuilder.General.Interface.AddButton(toolStripSeparator1);
+            DoomBuilder.General.Interface.AddButton(seglabel);
+            DoomBuilder.General.Interface.AddButton(seglen);
+            DoomBuilder.General.Interface.AddButton(reset);
+            DoomBuilder.General.Interface.EndToolbarUpdate();
         }
 
         public void Unregister()
         {
-            General.Interface.BeginToolbarUpdate();
-            General.Interface.RemoveButton(reset);
-            General.Interface.RemoveButton(seglen);
-            General.Interface.RemoveButton(seglabel);
-            General.Interface.RemoveButton(toolStripSeparator1);
-            General.Interface.RemoveButton(placethingsatvertices);
-            General.Interface.RemoveButton(autoclosedrawing);
-            General.Interface.RemoveButton(continuousdrawing);
-            General.Interface.EndToolbarUpdate();
+            DoomBuilder.General.Interface.BeginToolbarUpdate();
+            DoomBuilder.General.Interface.RemoveButton(reset);
+            DoomBuilder.General.Interface.RemoveButton(seglen);
+            DoomBuilder.General.Interface.RemoveButton(seglabel);
+            DoomBuilder.General.Interface.RemoveButton(toolStripSeparator1);
+            DoomBuilder.General.Interface.RemoveButton(placethingsatvertices);
+            DoomBuilder.General.Interface.RemoveButton(autoclosedrawing);
+            DoomBuilder.General.Interface.RemoveButton(continuousdrawing);
+            DoomBuilder.General.Interface.EndToolbarUpdate();
         }
 
         private void seglen_ValueChanged(object sender, EventArgs e)

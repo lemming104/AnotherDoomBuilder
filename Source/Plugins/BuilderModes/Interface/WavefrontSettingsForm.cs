@@ -38,8 +38,8 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         {
             InitializeComponent();
 
-            string name = Path.GetFileNameWithoutExtension(General.Map.FileTitle) + "_" + General.Map.Options.LevelName + ".obj";
-            if (string.IsNullOrEmpty(General.Map.FilePathName))
+            string name = Path.GetFileNameWithoutExtension(DoomBuilder.General.Map.FileTitle) + "_" + DoomBuilder.General.Map.Options.LevelName + ".obj";
+            if (string.IsNullOrEmpty(DoomBuilder.General.Map.FilePathName))
             {
                 string tmpPath = Path.GetTempPath();
                 saveFileDialog.InitialDirectory = tmpPath;
@@ -48,42 +48,42 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             }
             else
             {
-                saveFileDialog.InitialDirectory = General.Map.FilePathName;
-                saveFileDialog.FileName = Path.GetDirectoryName(General.Map.FilePathName) + Path.DirectorySeparatorChar + name;
+                saveFileDialog.InitialDirectory = DoomBuilder.General.Map.FilePathName;
+                saveFileDialog.FileName = Path.GetDirectoryName(DoomBuilder.General.Map.FilePathName) + Path.DirectorySeparatorChar + name;
                 tbExportPath.Text = saveFileDialog.FileName;
             }
 
             //restore settings
-            cbExportTextures.Checked = General.Settings.ReadPluginSetting("objexporttextures", false);
-            cbExportForGZDoom.Checked = General.Settings.ReadPluginSetting("objgzdoomscale", false);
-            nudScale.Value = (decimal)General.Settings.ReadPluginSetting("objscale", 1.0f);
+            cbExportTextures.Checked = DoomBuilder.General.Settings.ReadPluginSetting("objexporttextures", false);
+            cbExportForGZDoom.Checked = DoomBuilder.General.Settings.ReadPluginSetting("objgzdoomscale", false);
+            nudScale.Value = (decimal)DoomBuilder.General.Settings.ReadPluginSetting("objscale", 1.0f);
 
             this.Text = "Export " + (sectorsCount == -1 ? "whole map" : sectorsCount + (sectorsCount > 1 ? "sectors" : "sector")) + " to Wavefront .obj";
 
-            if (General.Map.Config.MixTexturesFlats)
+            if (DoomBuilder.General.Map.Config.MixTexturesFlats)
             {
                 bAddFlat.Visible = false;
                 bAddTexture.Width = bRemoveTexture.Width;
                 bAddTexture.Text = "Add texture/flat";
             }
 
-            string mapname = Path.GetFileNameWithoutExtension(General.Map.FileTitle);
+            string mapname = Path.GetFileNameWithoutExtension(DoomBuilder.General.Map.FileTitle);
             tbActorName.Text = char.ToUpper(mapname[0]) + mapname.Substring(1);
 
-            string initialPath = General.Map.FilePathName == "" ? Path.GetTempPath() : General.Map.FilePathName;
-            tbBasePath.Text = General.Settings.ReadPluginSetting("objbasepath", Path.GetDirectoryName(initialPath));
-            tbActorPath.Text = General.Settings.ReadPluginSetting("objactorpath", Path.GetDirectoryName(initialPath));
-            tbModelPath.Text = General.Settings.ReadPluginSetting("objmodelpath", Path.GetDirectoryName(initialPath));
-            tbSprite.Text = General.Settings.ReadPluginSetting("objsprite", "PLAY");
+            string initialPath = DoomBuilder.General.Map.FilePathName == "" ? Path.GetTempPath() : DoomBuilder.General.Map.FilePathName;
+            tbBasePath.Text = DoomBuilder.General.Settings.ReadPluginSetting("objbasepath", Path.GetDirectoryName(initialPath));
+            tbActorPath.Text = DoomBuilder.General.Settings.ReadPluginSetting("objactorpath", Path.GetDirectoryName(initialPath));
+            tbModelPath.Text = DoomBuilder.General.Settings.ReadPluginSetting("objmodelpath", Path.GetDirectoryName(initialPath));
+            tbSprite.Text = DoomBuilder.General.Settings.ReadPluginSetting("objsprite", "PLAY");
 
-            IDictionary skiptexture = General.Settings.ReadPluginSetting("objskiptextures", new Hashtable());
+            IDictionary skiptexture = DoomBuilder.General.Settings.ReadPluginSetting("objskiptextures", new Hashtable());
             foreach (DictionaryEntry de in skiptexture)
             {
                 lbSkipTextures.Items.Add(de.Value);
             }
 
-            cbGenerateCode.Checked = General.Settings.ReadPluginSetting("objgeneratecode", true);
-            cbGenerateModeldef.Checked = General.Settings.ReadPluginSetting("objgeneratemodeldef", true);
+            cbGenerateCode.Checked = DoomBuilder.General.Settings.ReadPluginSetting("objgeneratecode", true);
+            cbGenerateModeldef.Checked = DoomBuilder.General.Settings.ReadPluginSetting("objgeneratemodeldef", true);
 
             // Toggle enable/disable manually because cbFixScale is a child of the group box, so disabling
             // the group box would also disable cbFixScale
@@ -181,15 +181,15 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             }
 
             //save settings
-            General.Settings.WritePluginSetting("objexporttextures", cbExportTextures.Checked);
-            General.Settings.WritePluginSetting("objgzdoomscale", cbExportForGZDoom.Checked);
-            General.Settings.WritePluginSetting("objscale", (float)nudScale.Value);
-            General.Settings.WritePluginSetting("objbasepath", tbBasePath.Text);
-            General.Settings.WritePluginSetting("objactorpath", tbActorPath.Text);
-            General.Settings.WritePluginSetting("objmodelpath", tbModelPath.Text);
-            General.Settings.WritePluginSetting("objsprite", tbSprite.Text.ToUpperInvariant());
-            General.Settings.WritePluginSetting("objgeneratecode", cbGenerateCode.Checked);
-            General.Settings.WritePluginSetting("objgeneratemodeldef", cbGenerateModeldef.Checked);
+            DoomBuilder.General.Settings.WritePluginSetting("objexporttextures", cbExportTextures.Checked);
+            DoomBuilder.General.Settings.WritePluginSetting("objgzdoomscale", cbExportForGZDoom.Checked);
+            DoomBuilder.General.Settings.WritePluginSetting("objscale", (float)nudScale.Value);
+            DoomBuilder.General.Settings.WritePluginSetting("objbasepath", tbBasePath.Text);
+            DoomBuilder.General.Settings.WritePluginSetting("objactorpath", tbActorPath.Text);
+            DoomBuilder.General.Settings.WritePluginSetting("objmodelpath", tbModelPath.Text);
+            DoomBuilder.General.Settings.WritePluginSetting("objsprite", tbSprite.Text.ToUpperInvariant());
+            DoomBuilder.General.Settings.WritePluginSetting("objgeneratecode", cbGenerateCode.Checked);
+            DoomBuilder.General.Settings.WritePluginSetting("objgeneratemodeldef", cbGenerateModeldef.Checked);
 
             Dictionary<string, string> skiptexture = new Dictionary<string, string>();
             int i = 0;
@@ -199,7 +199,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                 i++;
             }
 
-            General.Settings.WritePluginSetting("objskiptextures", skiptexture);
+            DoomBuilder.General.Settings.WritePluginSetting("objskiptextures", skiptexture);
 
             this.DialogResult = DialogResult.OK;
             this.Close();
@@ -228,7 +228,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 
         private void bAddTexture_Click(object sender, EventArgs e)
         {
-            string name = General.Interface.BrowseTexture(General.Interface, "-");
+            string name = DoomBuilder.General.Interface.BrowseTexture(DoomBuilder.General.Interface, "-");
 
             foreach (string n in lbSkipTextures.Items)
             {
@@ -241,7 +241,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 
         private void bAddFlat_Click(object sender, EventArgs e)
         {
-            string name = General.Interface.BrowseFlat(General.Interface, "-");
+            string name = DoomBuilder.General.Interface.BrowseFlat(DoomBuilder.General.Interface, "-");
 
             foreach (string n in lbSkipTextures.Items)
             {
@@ -306,7 +306,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 
         private void bResetPaths_Click(object sender, EventArgs e)
         {
-            tbBasePath.Text = tbActorPath.Text = tbModelPath.Text = Path.GetDirectoryName(General.Map.FilePathName);
+            tbBasePath.Text = tbActorPath.Text = tbModelPath.Text = Path.GetDirectoryName(DoomBuilder.General.Map.FilePathName);
         }
 
         private void cbSpawnOnCeiling_CheckedChanged(object sender, EventArgs e)

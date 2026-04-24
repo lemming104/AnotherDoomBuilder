@@ -16,7 +16,7 @@ using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultStuckThingInThing : ErrorResult
     {
@@ -59,33 +59,33 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This must return the string that is displayed in the listbox
         public override string ToString()
         {
-            return "Thing " + thing1.Index + " (" + General.Map.Data.GetThingInfo(thing1.Type).Title + ") is stuck in thing " + thing2.Index + " (" + General.Map.Data.GetThingInfo(thing2.Type).Title + ") at " + thing1.Position.x + ", " + thing1.Position.y;
+            return "Thing " + thing1.Index + " (" + DoomBuilder.General.Map.Data.GetThingInfo(thing1.Type).Title + ") is stuck in thing " + thing2.Index + " (" + DoomBuilder.General.Map.Data.GetThingInfo(thing2.Type).Title + ") at " + thing1.Position.x + ", " + thing1.Position.y;
         }
 
         // Rendering
         public override void RenderOverlaySelection(IRenderer2D renderer)
         {
-            renderer.RenderThing(thing1, General.Colors.Selection, General.Settings.ActiveThingsAlpha);
-            renderer.RenderThing(thing2, General.Colors.Selection, General.Settings.ActiveThingsAlpha);
+            renderer.RenderThing(thing1, DoomBuilder.General.Colors.Selection, DoomBuilder.General.Settings.ActiveThingsAlpha);
+            renderer.RenderThing(thing2, DoomBuilder.General.Colors.Selection, DoomBuilder.General.Settings.ActiveThingsAlpha);
         }
 
         // This removes the first thing
         public override bool Button1Click(bool batchMode)
         {
-            if (!batchMode) General.Map.UndoRedo.CreateUndo("Delete thing");
+            if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Delete thing");
             thing1.Dispose();
-            General.Map.IsChanged = true;
-            General.Map.ThingsFilter.Update();
+            DoomBuilder.General.Map.IsChanged = true;
+            DoomBuilder.General.Map.ThingsFilter.Update();
             return true;
         }
 
         // This removes the thing
         public override bool Button2Click(bool batchMode)
         {
-            if (!batchMode) General.Map.UndoRedo.CreateUndo("Delete thing");
+            if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Delete thing");
             thing2.Dispose();
-            General.Map.IsChanged = true;
-            General.Map.ThingsFilter.Update();
+            DoomBuilder.General.Map.IsChanged = true;
+            DoomBuilder.General.Map.ThingsFilter.Update();
             return true;
         }
     }

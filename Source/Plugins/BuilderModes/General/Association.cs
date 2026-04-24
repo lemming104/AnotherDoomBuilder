@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.General
 {
     public class Association
     {
@@ -66,16 +66,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             try
             {
-                font = new Font(new FontFamily(General.Settings.TextLabelFontName), General.Settings.TextLabelFontSize, General.Settings.TextLabelFontBold ? FontStyle.Bold : FontStyle.Regular);
+                font = new Font(new FontFamily(DoomBuilder.General.Settings.TextLabelFontName), DoomBuilder.General.Settings.TextLabelFontSize, DoomBuilder.General.Settings.TextLabelFontBold ? FontStyle.Bold : FontStyle.Regular);
             }
             catch (Exception) // Fallback if the font couldn't be loaded
             {
-                font = ((MainForm)General.Interface).Font;
+                font = ((MainForm)DoomBuilder.General.Interface).Font;
             }
 
             distinctcolors = new List<PixelColor>
             {
-                General.Colors.InfoLine,
+                DoomBuilder.General.Colors.InfoLine,
                 PixelColor.FromInt(0x84d5a4).WithAlpha(255),
                 PixelColor.FromInt(0xc059cb).WithAlpha(255),
                 PixelColor.FromInt(0xd0533d).WithAlpha(255),
@@ -137,7 +137,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 Thing t = element as Thing;
                 center = t.Position;
 
-                ThingTypeInfo ti = General.Map.Data.GetThingInfoEx(t.Type);
+                ThingTypeInfo ti = DoomBuilder.General.Map.Data.GetThingInfoEx(t.Type);
 
                 if (ti != null)
                     directlinktype = ti.ThingLink;
@@ -160,7 +160,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             foreach (KeyValuePair<string, List<Line3D>> kvp in eventlines)
             {
-                SizeF size = General.Interface.MeasureString(kvp.Key, font);
+                SizeF size = DoomBuilder.General.Interface.MeasureString(kvp.Key, font);
                 textwidths[kvp.Key] = new Vector2D(size.Width, size.Height);
 
                 // Create one label for each line. We might not need them all, but better
@@ -213,7 +213,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                 if (ld.Action > 0)
                 {
-                    foreach (Linedef otherlinedef in General.Map.Map.Linedefs)
+                    foreach (Linedef otherlinedef in DoomBuilder.General.Map.Map.Linedefs)
                     {
                         if (ld.IsAssociatedWith(otherlinedef))
                         {
@@ -226,7 +226,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Special handling for Doom format maps where there the linedef's tag references sectors
-            if (General.Map.Config.LineTagIndicatesSectors)
+            if (DoomBuilder.General.Map.Config.LineTagIndicatesSectors)
             {
                 if (tags.Count == 0)
                     return;
@@ -234,7 +234,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // Forward association from linedef to sector
                 if (element is Linedef)
                 {
-                    foreach (Sector s in General.Map.Map.Sectors)
+                    foreach (Sector s in DoomBuilder.General.Map.Map.Sectors)
                     {
                         if (tags.Contains(s.Tag))
                         {
@@ -248,7 +248,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
                 else if (element is Sector)
                 {
-                    foreach (Linedef ld in General.Map.Map.Linedefs)
+                    foreach (Linedef ld in DoomBuilder.General.Map.Map.Linedefs)
                     {
                         if (tags.Contains(ld.Tag))
                         {
@@ -274,7 +274,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             Dictionary<UDMFFieldAssociation, List<Sector>> fieldassocsectors = new Dictionary<UDMFFieldAssociation, List<Sector>>();
 
             // Process all sectors in the map
-            foreach (Sector s in General.Map.Map.Sectors)
+            foreach (Sector s in DoomBuilder.General.Map.Map.Sectors)
             {
                 bool addforward = false;
                 bool addreverse = false;
@@ -303,7 +303,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 // Check arbitrary UDMF field associations
-                foreach (UniversalFieldInfo ufi in General.Map.Config.SectorFields)
+                foreach (UniversalFieldInfo ufi in DoomBuilder.General.Map.Config.SectorFields)
                 {
                     if (ufi.Associations.Count == 0)
                         continue;
@@ -356,7 +356,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Process all linedefs in the map
-            foreach (Linedef ld in General.Map.Map.Linedefs)
+            foreach (Linedef ld in DoomBuilder.General.Map.Map.Linedefs)
             {
                 bool addforward = false;
                 bool addreverse = false;
@@ -382,11 +382,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Doom format only knows associations between linedefs and sectors, but not thing, so stop here
-            if (General.Map.DOOM)
+            if (DoomBuilder.General.Map.DOOM)
                 return;
 
             // Process all things in the map
-            foreach (Thing t in General.Map.Map.Things)
+            foreach (Thing t in DoomBuilder.General.Map.Map.Things)
             {
                 bool addforward = false;
                 bool addreverse = false;
@@ -496,8 +496,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 Linedef ld = element as Linedef;
 
-                if (ld.Action > 0 && General.Map.Config.LinedefActions.ContainsKey(ld.Action))
-                    action = General.Map.Config.LinedefActions[ld.Action];
+                if (ld.Action > 0 && DoomBuilder.General.Map.Config.LinedefActions.ContainsKey(ld.Action))
+                    action = DoomBuilder.General.Map.Config.LinedefActions[ld.Action];
 
                 actionargs = ld.Args;
             }
@@ -505,8 +505,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 Thing t = element as Thing;
 
-                if (t.Action > 0 && General.Map.Config.LinedefActions.ContainsKey(t.Action))
-                    action = General.Map.Config.LinedefActions[t.Action];
+                if (t.Action > 0 && DoomBuilder.General.Map.Config.LinedefActions.ContainsKey(t.Action))
+                    action = DoomBuilder.General.Map.Config.LinedefActions[t.Action];
 
                 actionargs = t.Args;
             }
@@ -538,7 +538,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // The direct link shenanigans if the thing doesn't have an action, but still reference something through
                 // the action parameters
                 Thing t = element as Thing;
-                ThingTypeInfo ti = General.Map.Data.GetThingInfoEx(t.Type);
+                ThingTypeInfo ti = DoomBuilder.General.Map.Data.GetThingInfoEx(t.Type);
 
                 if (ti != null && directlinktype >= 0 && Math.Abs(directlinktype) != t.Type)
                 {
@@ -570,16 +570,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private bool IsAssociatedToLinedef(Linedef linedef)
         {
             // Doom style reference from linedef to sector?
-            if (General.Map.Config.LineTagIndicatesSectors && element is Sector)
+            if (DoomBuilder.General.Map.Config.LineTagIndicatesSectors && element is Sector)
             {
                 if (linedef.Action > 0 && tags.Overlaps(linedef.Tags))
                     return true;
             }
 
             // Known action on this line?
-            if ((linedef.Action > 0) && General.Map.Config.LinedefActions.ContainsKey(linedef.Action))
+            if ((linedef.Action > 0) && DoomBuilder.General.Map.Config.LinedefActions.ContainsKey(linedef.Action))
             {
-                LinedefActionInfo action = General.Map.Config.LinedefActions[linedef.Action];
+                LinedefActionInfo action = DoomBuilder.General.Map.Config.LinedefActions[linedef.Action];
                 if (((action.Args[0].Type == (int)type) && (linedef.Args[0] != 0) && tags.Contains(linedef.Args[0])) ||
                     ((action.Args[1].Type == (int)type) && (linedef.Args[1] != 0) && tags.Contains(linedef.Args[1])) ||
                     ((action.Args[2].Type == (int)type) && (linedef.Args[2] != 0) && tags.Contains(linedef.Args[2])) ||
@@ -601,17 +601,17 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private bool IsAssociatedToThing(Thing thing)
         {
             // Get the thing type info
-            ThingTypeInfo ti = General.Map.Data.GetThingInfoEx(thing.Type);
+            ThingTypeInfo ti = DoomBuilder.General.Map.Data.GetThingInfoEx(thing.Type);
 
             // Known action on this thing?
-            if ((thing.Action > 0) && General.Map.Config.LinedefActions.ContainsKey(thing.Action))
+            if ((thing.Action > 0) && DoomBuilder.General.Map.Config.LinedefActions.ContainsKey(thing.Action))
             {
                 //Do not draw the association if this is a child link.
                 //  This prevents a reverse link to a thing via an argument, when it should be a direct tag-to-tag link instead.
                 if (ti != null && directlinktype < 0 && directlinktype != -thing.Type)
                     return false;
 
-                LinedefActionInfo action = General.Map.Config.LinedefActions[thing.Action];
+                LinedefActionInfo action = DoomBuilder.General.Map.Config.LinedefActions[thing.Action];
                 if (((action.Args[0].Type == (int)type) && tags.Contains(thing.Args[0])) ||
                      ((action.Args[1].Type == (int)type) && tags.Contains(thing.Args[1])) ||
                      ((action.Args[2].Type == (int)type) && tags.Contains(thing.Args[2])) ||
@@ -671,13 +671,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             if (action > 0)
             {
-                LinedefActionInfo lai = General.Map.Config.GetLinedefActionInfo(action);
+                LinedefActionInfo lai = DoomBuilder.General.Map.Config.GetLinedefActionInfo(action);
                 List<string> argdescription = new List<string>();
 
                 string description = lai.Index + ": " + lai.Title;
 
                 // Label style: only action, or if the element can't have any parameters
-                if (BuilderPlug.Me.EventLineLabelStyle == 0 || General.Map.Config.LineTagIndicatesSectors)
+                if (BuilderPlug.Me.EventLineLabelStyle == 0 || DoomBuilder.General.Map.Config.LineTagIndicatesSectors)
                     return description;
 
                 for (int i = 0; i < 5; i++)
@@ -707,7 +707,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             else if (se is Thing) // No action, but maybe the thing args are used directly
             {
                 List<string> argdescription = new List<string>();
-                ThingTypeInfo ti = General.Map.Data.GetThingInfoEx(((Thing)se).Type);
+                ThingTypeInfo ti = DoomBuilder.General.Map.Data.GetThingInfoEx(((Thing)se).Type);
 
                 for (int i = 0; i < 5; i++)
                 {
@@ -783,8 +783,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private Vector2D GetLabelPosition(Vector2D start, Vector2D end)
         {
             // Check if start/end point is on screen...
-            Vector2D lt = General.Map.Renderer2D.DisplayToMap(new Vector2D(0.0, General.Interface.Display.Size.Height));
-            Vector2D rb = General.Map.Renderer2D.DisplayToMap(new Vector2D(General.Interface.Display.Size.Width, 0.0));
+            Vector2D lt = DoomBuilder.General.Map.Renderer2D.DisplayToMap(new Vector2D(0.0, DoomBuilder.General.Interface.Display.Size.Height));
+            Vector2D rb = DoomBuilder.General.Map.Renderer2D.DisplayToMap(new Vector2D(DoomBuilder.General.Interface.Display.Size.Width, 0.0));
             RectangleF viewport = new RectangleF((float)lt.x, (float)lt.y, (float)(rb.x - lt.x), (float)(rb.y - lt.y));
             bool startvisible = viewport.Contains((float)start.x, (float)start.y);
             bool endvisible = viewport.Contains((float)end.x, (float)end.y);
@@ -969,7 +969,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (sector == null || sector.IsDisposed || sector.Fields == null)
                 return false;
 
-            foreach (UniversalFieldInfo ufi in General.Map.Config.SectorFields)
+            foreach (UniversalFieldInfo ufi in DoomBuilder.General.Map.Config.SectorFields)
             {
                 if (sector.Fields.ContainsKey(ufi.Name))
                     return true;
@@ -987,19 +987,19 @@ namespace CodeImp.DoomBuilder.BuilderModes
             bool showlabels = BuilderPlug.Me.EventLineLabelVisibility > 0; // Show labels at all?
 
             foreach (Thing t in things)
-                renderer.RenderThing(t, General.Colors.Indication, General.Settings.ActiveThingsAlpha);
+                renderer.RenderThing(t, DoomBuilder.General.Colors.Indication, DoomBuilder.General.Settings.ActiveThingsAlpha);
 
             // There must be a better way to do this
             foreach (Sector s in sectors)
             {
-                int highlightedColor = General.Colors.Highlight.WithAlpha(128).ToInt();
+                int highlightedColor = DoomBuilder.General.Colors.Highlight.WithAlpha(128).ToInt();
                 FlatVertex[] verts = new FlatVertex[s.FlatVertices.Length];
                 s.FlatVertices.CopyTo(verts, 0);
                 for (int i = 0; i < verts.Length; i++) verts[i].c = highlightedColor;
                 renderer.RenderGeometry(verts, null, true);
             }
 
-            if (General.Settings.GZShowEventLines)
+            if (DoomBuilder.General.Settings.GZShowEventLines)
             {
                 List<Line3D> lines = new List<Line3D>(eventlines.Count);
                 List<ITextLabel> labels = new List<ITextLabel>(eventlines.Count);
@@ -1045,10 +1045,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void Plot()
         {
             foreach (Linedef ld in linedefs)
-                if (!ld.IsDisposed) renderer.PlotLinedef(ld, General.Colors.Indication);
+                if (!ld.IsDisposed) renderer.PlotLinedef(ld, DoomBuilder.General.Colors.Indication);
 
             foreach (Sector s in sectors)
-                if (!s.IsDisposed) renderer.PlotSector(s, General.Colors.Indication);
+                if (!s.IsDisposed) renderer.PlotSector(s, DoomBuilder.General.Colors.Indication);
         }
 
         // This compares an association

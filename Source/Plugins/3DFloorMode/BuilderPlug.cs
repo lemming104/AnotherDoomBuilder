@@ -12,7 +12,7 @@
  */
 
 
-using CodeImp.DoomBuilder.BuilderModes;
+using CodeImp.DoomBuilder.BuilderModes.VisualModes;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;

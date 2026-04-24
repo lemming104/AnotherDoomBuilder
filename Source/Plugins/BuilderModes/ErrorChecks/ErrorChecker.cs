@@ -12,9 +12,10 @@
  */
 
 
+using CodeImp.DoomBuilder.BuilderModes.General;
 using System;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     // NOTE: An ErrorChecker may NEVER modify the map, because it runs multithreaded.
     // Do not even change element properties such as 'marked' and 'selected'!

@@ -36,44 +36,44 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             subdivs.ValueChanged += ValueChanged;
             angle.ValueChanged += ValueChanged;
 
-            General.Interface.BeginToolbarUpdate();
+            DoomBuilder.General.Interface.BeginToolbarUpdate();
 
 #if MONO_WINFORMS
 			// Mono fix
 			toolStrip1.Items.Clear();
 #endif
 
-            General.Interface.AddButton(continuousdrawing);
-            General.Interface.AddButton(showguidelines);
-            General.Interface.AddButton(radialdrawing);
-            General.Interface.AddButton(placethingsatvertices);
-            General.Interface.AddButton(toolStripSeparator1);
-            General.Interface.AddButton(subdivslabel);
-            General.Interface.AddButton(subdivs);
-            General.Interface.AddButton(spikinesslabel);
-            General.Interface.AddButton(spikiness);
-            General.Interface.AddButton(anglelabel);
-            General.Interface.AddButton(angle);
-            General.Interface.AddButton(reset);
-            General.Interface.EndToolbarUpdate();
+            DoomBuilder.General.Interface.AddButton(continuousdrawing);
+            DoomBuilder.General.Interface.AddButton(showguidelines);
+            DoomBuilder.General.Interface.AddButton(radialdrawing);
+            DoomBuilder.General.Interface.AddButton(placethingsatvertices);
+            DoomBuilder.General.Interface.AddButton(toolStripSeparator1);
+            DoomBuilder.General.Interface.AddButton(subdivslabel);
+            DoomBuilder.General.Interface.AddButton(subdivs);
+            DoomBuilder.General.Interface.AddButton(spikinesslabel);
+            DoomBuilder.General.Interface.AddButton(spikiness);
+            DoomBuilder.General.Interface.AddButton(anglelabel);
+            DoomBuilder.General.Interface.AddButton(angle);
+            DoomBuilder.General.Interface.AddButton(reset);
+            DoomBuilder.General.Interface.EndToolbarUpdate();
         }
 
         public void Unregister()
         {
-            General.Interface.BeginToolbarUpdate();
-            General.Interface.RemoveButton(reset);
-            General.Interface.RemoveButton(angle);
-            General.Interface.RemoveButton(anglelabel);
-            General.Interface.RemoveButton(spikiness);
-            General.Interface.RemoveButton(spikinesslabel);
-            General.Interface.RemoveButton(subdivs);
-            General.Interface.RemoveButton(subdivslabel);
-            General.Interface.RemoveButton(toolStripSeparator1);
-            General.Interface.RemoveButton(showguidelines);
-            General.Interface.RemoveButton(continuousdrawing);
-            General.Interface.RemoveButton(radialdrawing);
-            General.Interface.RemoveButton(placethingsatvertices);
-            General.Interface.EndToolbarUpdate();
+            DoomBuilder.General.Interface.BeginToolbarUpdate();
+            DoomBuilder.General.Interface.RemoveButton(reset);
+            DoomBuilder.General.Interface.RemoveButton(angle);
+            DoomBuilder.General.Interface.RemoveButton(anglelabel);
+            DoomBuilder.General.Interface.RemoveButton(spikiness);
+            DoomBuilder.General.Interface.RemoveButton(spikinesslabel);
+            DoomBuilder.General.Interface.RemoveButton(subdivs);
+            DoomBuilder.General.Interface.RemoveButton(subdivslabel);
+            DoomBuilder.General.Interface.RemoveButton(toolStripSeparator1);
+            DoomBuilder.General.Interface.RemoveButton(showguidelines);
+            DoomBuilder.General.Interface.RemoveButton(continuousdrawing);
+            DoomBuilder.General.Interface.RemoveButton(radialdrawing);
+            DoomBuilder.General.Interface.RemoveButton(placethingsatvertices);
+            DoomBuilder.General.Interface.EndToolbarUpdate();
         }
 
         private void ValueChanged(object sender, EventArgs e)

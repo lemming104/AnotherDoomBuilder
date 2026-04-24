@@ -12,6 +12,7 @@
  */
 
 
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.GZBuilder;
 using CodeImp.DoomBuilder.Map;
@@ -21,7 +22,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     [FindReplace("Linedef Action and Arguments", BrowseButton = true)]
     internal class FindLinedefTypes : BaseFindLinedef
@@ -43,7 +44,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             int num;
             int.TryParse(initialvalue, out num);
-            return General.Interface.BrowseLinedefActions(BuilderPlug.Me.FindReplaceForm, num, true).ToString();
+            return DoomBuilder.General.Interface.BrowseLinedefActions(BuilderPlug.Me.FindReplaceForm, num, true).ToString();
         }
 
         //mxd. This is called when the browse replace button is pressed
@@ -51,7 +52,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             int num;
             int.TryParse(initialvalue, out num);
-            return General.Interface.BrowseLinedefActions(BuilderPlug.Me.FindReplaceForm, num).ToString();
+            return DoomBuilder.General.Interface.BrowseLinedefActions(BuilderPlug.Me.FindReplaceForm, num).ToString();
         }
 
 
@@ -88,7 +89,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     int i = 1;
 
                     //mxd. Named script search support...
-                    if (General.Map.UDMF)
+                    if (DoomBuilder.General.Map.UDMF)
                     {
                         string possiblescriptname = replaceparts[1].Trim();
                         int tmp;
@@ -133,7 +134,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     int i = 1;
 
                     //mxd. Named script search support...
-                    if (General.Map.UDMF)
+                    if (DoomBuilder.General.Map.UDMF)
                     {
                         // [ZZ] edit: we can enclose number with "" to signify a named script called "1".
                         //      this is achieved by trying to parse the number before removing "'s.
@@ -158,7 +159,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 HashSet<int> expectedbits = GetGeneralizedBits(action);
 
                 // Where to search?
-                ICollection<Linedef> list = withinselection ? General.Map.Map.GetSelectedLinedefs(true) : General.Map.Map.Linedefs;
+                ICollection<Linedef> list = withinselection ? DoomBuilder.General.Map.Map.GetSelectedLinedefs(true) : DoomBuilder.General.Map.Map.Linedefs;
 
                 // Go for all linedefs
                 foreach (Linedef l in list)
@@ -201,7 +202,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     else
                     {
                         List<string> argslist = new List<string>();
-                        LinedefActionInfo info = General.Map.Config.GetLinedefActionInfo(l.Action);
+                        LinedefActionInfo info = DoomBuilder.General.Map.Config.GetLinedefActionInfo(l.Action);
 
                         // Process args
                         for (int i = l.Args.Length - 1; i >= 0; i--)
@@ -213,7 +214,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         }
 
                         // Process arg0str...
-                        //if(Array.IndexOf(GZGeneral.ACS_SPECIALS, l.Action) != -1)
+                        //if(Array.IndexOf(GZDoomBuilder.General.ACS_SPECIALS, l.Action) != -1)
                         {
                             string s = l.Fields.GetValue("arg0str", string.Empty);
                             if (!string.IsNullOrEmpty(s))
@@ -235,12 +236,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     if (match)
                     {
                         // Replace
-                        LinedefActionInfo info = General.Map.Config.GetLinedefActionInfo(l.Action);
+                        LinedefActionInfo info = DoomBuilder.General.Map.Config.GetLinedefActionInfo(l.Action);
 
                         if (replace)
                         {
                             l.Action = replaceaction;
-                            info = General.Map.Config.GetLinedefActionInfo(l.Action);
+                            info = DoomBuilder.General.Map.Config.GetLinedefActionInfo(l.Action);
 
                             //mxd. Replace args as well?
                             if (replaceargs != null)
@@ -274,10 +275,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd
         private static HashSet<int> GetGeneralizedBits(int action)
         {
-            if (!General.Map.Config.GeneralizedActions) return new HashSet<int>();
+            if (!DoomBuilder.General.Map.Config.GeneralizedActions) return new HashSet<int>();
             HashSet<int> bits = new HashSet<int>();
 
-            foreach (GeneralizedCategory cat in General.Map.Config.GenActionCategories)
+            foreach (GeneralizedCategory cat in DoomBuilder.General.Map.Config.GenActionCategories)
             {
                 if ((action < cat.Offset) || (action >= (cat.Offset + cat.Length))) continue;
                 int actionbits = action - cat.Offset;
@@ -297,7 +298,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd
         private static bool BitsMatch(int action, HashSet<int> expectedbits)
         {
-            if (!General.Map.Config.GeneralizedActions || expectedbits.Count == 0) return false;
+            if (!DoomBuilder.General.Map.Config.GeneralizedActions || expectedbits.Count == 0) return false;
 
             HashSet<int> bits = GetGeneralizedBits(action);
             if (bits.Count == 0) return false;

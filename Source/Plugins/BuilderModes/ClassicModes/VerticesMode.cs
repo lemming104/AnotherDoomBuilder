@@ -13,6 +13,7 @@
 
 
 using CodeImp.DoomBuilder.Actions;
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
@@ -25,7 +26,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
 {
     [EditMode(DisplayName = "Vertices Mode",
               SwitchAction = "verticesmode",    // Action name used to switch to this mode
@@ -64,14 +65,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
         /// </summary>
         private void CreateBlockmap()
         {
-            RectangleF area = MapSet.CreateArea(General.Map.Map.Vertices);
+            RectangleF area = MapSet.CreateArea(DoomBuilder.General.Map.Map.Vertices);
             blockmap = new BlockMap<BlockEntry>(area);
-            blockmap.AddLinedefsSet(General.Map.Map.Linedefs);
+            blockmap.AddLinedefsSet(DoomBuilder.General.Map.Map.Linedefs);
         }
 
         public override void OnHelp()
         {
-            General.ShowHelp("e_vertices.html");
+            DoomBuilder.General.ShowHelp("e_vertices.html");
         }
 
         // Cancel mode
@@ -80,7 +81,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnCancel();
 
             // Return to this mode
-            General.Editing.ChangeMode(new VerticesMode());
+            DoomBuilder.General.Editing.ChangeMode(new VerticesMode());
         }
 
         // Mode engages
@@ -90,22 +91,22 @@ namespace CodeImp.DoomBuilder.BuilderModes
             renderer.SetPresentation(Presentation.Standard);
 
             // Add toolbar buttons
-            if (General.Map.UDMF)
+            if (DoomBuilder.General.Map.UDMF)
             {
-                General.Interface.BeginToolbarUpdate(); //mxd
-                General.Interface.AddButton(BuilderPlug.Me.MenusForm.CopyProperties);
-                General.Interface.AddButton(BuilderPlug.Me.MenusForm.PasteProperties);
-                General.Interface.AddButton(BuilderPlug.Me.MenusForm.PastePropertiesOptions); //mxd
-                General.Interface.AddButton(BuilderPlug.Me.MenusForm.TextureOffsetLock, ToolbarSection.Geometry); //mxd
-                General.Interface.AddButton(BuilderPlug.Me.MenusForm.TextureOffset3DFloorLock, ToolbarSection.Geometry);
-                General.Interface.EndToolbarUpdate(); //mxd
+                DoomBuilder.General.Interface.BeginToolbarUpdate(); //mxd
+                DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.CopyProperties);
+                DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.PasteProperties);
+                DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.PastePropertiesOptions); //mxd
+                DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.TextureOffsetLock, ToolbarSection.Geometry); //mxd
+                DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.TextureOffset3DFloorLock, ToolbarSection.Geometry);
+                DoomBuilder.General.Interface.EndToolbarUpdate(); //mxd
             }
 
             // Create the blockmap
             CreateBlockmap();
 
             // Convert geometry selection to vertices only
-            General.Map.Map.ConvertSelection(SelectionType.Vertices);
+            DoomBuilder.General.Map.Map.ConvertSelection(SelectionType.Vertices);
             UpdateSelectionInfo(); //mxd
 
             // By default we allow autosave
@@ -118,23 +119,23 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnDisengage();
 
             // Remove toolbar buttons
-            General.Interface.BeginToolbarUpdate();
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.CopyProperties);
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.PasteProperties);
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.PastePropertiesOptions); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.TextureOffsetLock); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.TextureOffset3DFloorLock);
-            General.Interface.EndToolbarUpdate();
+            DoomBuilder.General.Interface.BeginToolbarUpdate();
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.CopyProperties);
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.PasteProperties);
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.PastePropertiesOptions); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.TextureOffsetLock); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.TextureOffset3DFloorLock);
+            DoomBuilder.General.Interface.EndToolbarUpdate();
 
             // Going to EditSelectionMode?
-            EditSelectionMode mode = General.Editing.NewMode as EditSelectionMode;
+            EditSelectionMode mode = DoomBuilder.General.Editing.NewMode as EditSelectionMode;
             if (mode != null)
             {
                 // Not pasting anything?
                 if (!mode.Pasting)
                 {
                     // No selection made? But we have a highlight!
-                    if ((General.Map.Map.GetSelectedVertices(true).Count == 0) && (highlighted != null))
+                    if ((DoomBuilder.General.Map.Map.GetSelectedVertices(true).Count == 0) && (highlighted != null))
                     {
                         // Make the highlight the selection
                         highlighted.Selected = true;
@@ -143,7 +144,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Hide highlight info
-            General.Interface.HideInfo();
+            DoomBuilder.General.Interface.HideInfo();
         }
 
         // This redraws the display
@@ -154,8 +155,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Render lines and vertices
             if (renderer.StartPlotter(true))
             {
-                renderer.PlotLinedefSet(General.Map.Map.Linedefs);
-                renderer.PlotVerticesSet(General.Map.Map.Vertices);
+                renderer.PlotLinedefSet(DoomBuilder.General.Map.Map.Linedefs);
+                renderer.PlotVerticesSet(DoomBuilder.General.Map.Map.Vertices);
                 if ((highlighted != null) && !highlighted.IsDisposed)
                     renderer.PlotVertex(highlighted, ColorCollection.HIGHLIGHT);
                 renderer.Finish();
@@ -164,8 +165,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Render things
             if (renderer.StartThings(true))
             {
-                renderer.RenderThingSet(General.Map.ThingsFilter.HiddenThings, General.Settings.HiddenThingsAlpha);
-                renderer.RenderThingSet(General.Map.ThingsFilter.VisibleThings, General.Settings.ActiveThingsAlpha);
+                renderer.RenderThingSet(DoomBuilder.General.Map.ThingsFilter.HiddenThings, DoomBuilder.General.Settings.HiddenThingsAlpha);
+                renderer.RenderThingSet(DoomBuilder.General.Map.ThingsFilter.VisibleThings, DoomBuilder.General.Settings.ActiveThingsAlpha);
                 renderer.Finish();
             }
 
@@ -203,9 +204,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             // Show highlight info
             if ((highlighted != null) && !highlighted.IsDisposed)
-                General.Interface.ShowVertexInfo(highlighted);
+                DoomBuilder.General.Interface.ShowVertexInfo(highlighted);
             else
-                General.Interface.HideInfo();
+                DoomBuilder.General.Interface.HideInfo();
         }
 
         // Selection
@@ -246,11 +247,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         renderer.Present();
                     }
                 }
-                else if (BuilderPlug.Me.AutoClearSelection && General.Map.Map.SelectedVerticessCount > 0)
+                else if (BuilderPlug.Me.AutoClearSelection && DoomBuilder.General.Map.Map.SelectedVerticessCount > 0)
                 {
                     //mxd
-                    General.Map.Map.ClearSelectedVertices();
-                    General.Interface.RedrawDisplay();
+                    DoomBuilder.General.Map.Map.ClearSelectedVertices();
+                    DoomBuilder.General.Interface.RedrawDisplay();
                 }
 
                 //mxd
@@ -263,8 +264,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Start editing
         protected override void OnEditBegin()
         {
-            bool snaptogrid = General.Interface.ShiftState ^ General.Interface.SnapToGrid;
-            bool snaptonearest = General.Interface.CtrlState ^ General.Interface.AutoMerge;
+            bool snaptogrid = DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid;
+            bool snaptonearest = DoomBuilder.General.Interface.CtrlState ^ DoomBuilder.General.Interface.AutoMerge;
 
             // Vertex highlighted?
             if ((highlighted != null) && !highlighted.IsDisposed)
@@ -273,22 +274,22 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 editpressed = true;
 
                 // We use the marks to determine what to edit/drag, so clear it first
-                General.Map.Map.ClearMarkedVertices(false);
+                DoomBuilder.General.Map.Map.ClearMarkedVertices(false);
 
                 // Highlighted item not selected?
                 if (!highlighted.Selected)
                 {
                     // Make this the only selection
-                    General.Map.Map.ClearSelectedVertices();
+                    DoomBuilder.General.Map.Map.ClearSelectedVertices();
 
                     editvertices = new List<Vertex> { highlighted };
 
                     UpdateSelectionInfo(); //mxd
-                    General.Interface.RedrawDisplay();
+                    DoomBuilder.General.Interface.RedrawDisplay();
                 }
                 else
                 {
-                    editvertices = General.Map.Map.GetSelectedVertices(true);
+                    editvertices = DoomBuilder.General.Map.Map.GetSelectedVertices(true);
                 }
 
                 // Update display
@@ -307,7 +308,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 if (l != null)
                 {
                     // Create undo
-                    General.Map.UndoRedo.CreateUndo("Split linedef");
+                    DoomBuilder.General.Map.UndoRedo.CreateUndo("Split linedef");
 
                     Vector2D insertpos;
 
@@ -315,7 +316,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     if (snaptogrid)
                     {
                         // Find all points where the grid intersects the line
-                        List<Vector2D> points = l.GetGridIntersections(General.Map.Grid.GridRotate, General.Map.Grid.GridOriginX, General.Map.Grid.GridOriginY);
+                        List<Vector2D> points = l.GetGridIntersections(DoomBuilder.General.Map.Grid.GridRotate, DoomBuilder.General.Map.Grid.GridOriginX, DoomBuilder.General.Map.Grid.GridOriginY);
                         insertpos = mousemappos;
                         double distance = double.MaxValue;
                         foreach (Vector2D p in points)
@@ -335,10 +336,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     }
 
                     // Make the vertex
-                    Vertex v = General.Map.Map.CreateVertex(insertpos);
+                    Vertex v = DoomBuilder.General.Map.Map.CreateVertex(insertpos);
                     if (v == null)
                     {
-                        General.Map.UndoRedo.WithdrawUndo();
+                        DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
                         return;
                     }
 
@@ -349,7 +350,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     Linedef sld = l.Split(v);
                     if (sld == null)
                     {
-                        General.Map.UndoRedo.WithdrawUndo();
+                        DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
                         return;
                     }
                     //BuilderPlug.Me.AdjustSplitCoordinates(l, sld);
@@ -358,13 +359,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     CreateBlockmap();
 
                     // Update
-                    General.Map.Map.Update();
+                    DoomBuilder.General.Map.Map.Update();
 
                     // Highlight it
                     Highlight(v);
 
                     // Redraw display
-                    General.Interface.RedrawDisplay();
+                    DoomBuilder.General.Interface.RedrawDisplay();
                 }
                 else if (BuilderPlug.Me.AutoDrawOnEdit)
                 {
@@ -373,9 +374,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     DrawnVertex v = DrawGeometryMode.GetCurrentPosition(mousemappos, snaptonearest, snaptogrid, false, false, renderer, new List<DrawnVertex>());
 
                     if (drawmode.DrawPointAt(v))
-                        General.Editing.ChangeMode(drawmode);
+                        DoomBuilder.General.Editing.ChangeMode(drawmode);
                     else
-                        General.Interface.DisplayStatus(StatusType.Warning, "Failed to draw point: outside of map boundaries.");
+                        DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Failed to draw point: outside of map boundaries.");
                 }
             }
 
@@ -390,21 +391,21 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 if (editvertices?.Count > 0)
                 {
-                    if (General.Interface.IsActiveWindow)
+                    if (DoomBuilder.General.Interface.IsActiveWindow)
                     {
                         // Prevent autosave while the editing dialog is shown
                         allowautosave = false;
 
                         //mxd. Show realtime vertex edit dialog
-                        General.Interface.OnEditFormValuesChanged += vertexEditForm_OnValuesChanged;
-                        DialogResult result = General.Interface.ShowEditVertices(editvertices);
-                        General.Interface.OnEditFormValuesChanged -= vertexEditForm_OnValuesChanged;
+                        DoomBuilder.General.Interface.OnEditFormValuesChanged += vertexEditForm_OnValuesChanged;
+                        DialogResult result = DoomBuilder.General.Interface.ShowEditVertices(editvertices);
+                        DoomBuilder.General.Interface.OnEditFormValuesChanged -= vertexEditForm_OnValuesChanged;
 
                         allowautosave = true;
 
                         // Update entire display
                         UpdateSelectionInfo(); //mxd
-                        General.Interface.RedrawDisplay();
+                        DoomBuilder.General.Interface.RedrawDisplay();
                     }
                 }
             }
@@ -417,8 +418,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private void vertexEditForm_OnValuesChanged(object sender, EventArgs e)
         {
             // Update entire display
-            General.Map.Map.Update();
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         // Mouse moves
@@ -442,16 +443,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
             else if (paintselectpressed && !editpressed && !selecting)  //mxd. Drag-select
             {
                 // Find the nearest thing within highlight range
-                Vertex v = General.Map.Map.NearestVertexSquareRange(mousemappos, BuilderPlug.Me.HighlightRange / renderer.Scale);
+                Vertex v = DoomBuilder.General.Map.Map.NearestVertexSquareRange(mousemappos, BuilderPlug.Me.HighlightRange / renderer.Scale);
 
                 if (v != null)
                 {
                     if (v != highlighted)
                     {
                         //toggle selected state
-                        if (General.Interface.ShiftState ^ BuilderPlug.Me.AdditivePaintSelect)
+                        if (DoomBuilder.General.Interface.ShiftState ^ BuilderPlug.Me.AdditivePaintSelect)
                             v.Selected = true;
-                        else if (General.Interface.CtrlState)
+                        else if (DoomBuilder.General.Interface.CtrlState)
                             v.Selected = false;
                         else
                             v.Selected = !v.Selected;
@@ -460,7 +461,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         UpdateSelectionInfo(); //mxd
 
                         // Update entire display
-                        General.Interface.RedrawDisplay();
+                        DoomBuilder.General.Interface.RedrawDisplay();
                     }
                 }
                 else if (highlighted != null)
@@ -469,7 +470,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     Highlight(null);
 
                     // Update entire display
-                    General.Interface.RedrawDisplay();
+                    DoomBuilder.General.Interface.RedrawDisplay();
                 }
             }
             else if (e.Button == MouseButtons.None) // Not holding any buttons?
@@ -480,10 +481,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 if (l != null)
                 {
                     // Snip to grid?
-                    if (General.Interface.ShiftState ^ General.Interface.SnapToGrid)
+                    if (DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid)
                     {
                         // Find all points where the grid intersects the line
-                        List<Vector2D> points = l.GetGridIntersections(General.Map.Grid.GridRotate, General.Map.Grid.GridOriginX, General.Map.Grid.GridOriginY);
+                        List<Vector2D> points = l.GetGridIntersections(DoomBuilder.General.Map.Grid.GridRotate, DoomBuilder.General.Map.Grid.GridOriginX, DoomBuilder.General.Map.Grid.GridOriginY);
 
                         if (points.Count == 0)
                         {
@@ -516,7 +517,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         double dist = Math.Min(Vector2D.Distance(mousemappos, insertpreview), BuilderPlug.Me.SplitLinedefsRange);
                         byte alpha = (byte)(255 - (dist / BuilderPlug.Me.SplitLinedefsRange * 128));
                         float vsize = (renderer.VertexSize + 1.0f) / renderer.Scale;
-                        renderer.RenderRectangleFilled(new RectangleF((float)(insertpreview.x - vsize), (float)(insertpreview.y - vsize), vsize * 2.0f, vsize * 2.0f), General.Colors.InfoLine.WithAlpha(alpha), true);
+                        renderer.RenderRectangleFilled(new RectangleF((float)(insertpreview.x - vsize), (float)(insertpreview.y - vsize), vsize * 2.0f, vsize * 2.0f), DoomBuilder.General.Colors.InfoLine.WithAlpha(alpha), true);
                         renderer.Finish();
                         renderer.Present();
                     }
@@ -534,7 +535,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 // Find the nearest vertex within highlight range
-                Vertex v = General.Map.Map.NearestVertexSquareRange(mousemappos, BuilderPlug.Me.HighlightRange / renderer.Scale);
+                Vertex v = DoomBuilder.General.Map.Map.NearestVertexSquareRange(mousemappos, BuilderPlug.Me.HighlightRange / renderer.Scale);
 
                 // Highlight if not the same
                 if (v != highlighted) Highlight(v);
@@ -560,8 +561,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Select changed map elements
             if (BuilderPlug.Me.SelectChangedafterUndoRedo)
             {
-                General.Map.Map.SelectMarkedGeometry(true, true);
-                General.Map.Map.ConvertSelection(SelectionType.Vertices);
+                DoomBuilder.General.Map.Map.SelectMarkedGeometry(true, true);
+                DoomBuilder.General.Map.Map.ConvertSelection(SelectionType.Vertices);
             }
         }
 
@@ -575,8 +576,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Select changed map elements
             if (BuilderPlug.Me.SelectChangedafterUndoRedo)
             {
-                General.Map.Map.SelectMarkedGeometry(true, true);
-                General.Map.Map.ConvertSelection(SelectionType.Vertices);
+                DoomBuilder.General.Map.Map.SelectMarkedGeometry(true, true);
+                DoomBuilder.General.Map.Map.ConvertSelection(SelectionType.Vertices);
             }
         }
 
@@ -586,7 +587,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             CreateBlockmap();
 
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         //mxd
@@ -620,7 +621,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnDragStart(e);
 
             // Edit button used?
-            if (General.Actions.CheckActionActive(null, "classicedit"))
+            if (DoomBuilder.General.Actions.CheckActionActive(null, "classicedit"))
             {
                 // Anything highlighted?
                 if ((highlighted != null) && !highlighted.IsDisposed)
@@ -631,18 +632,18 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     if (!highlighted.Selected)
                     {
                         // Select only this vertex for dragging
-                        General.Map.Map.ClearSelectedVertices();
+                        DoomBuilder.General.Map.Map.ClearSelectedVertices();
                         dragvertices = new List<Vertex> { highlighted };
                     }
                     else
                     {
                         // Add all selected vertices to the vertices we want to drag
-                        dragvertices = General.Map.Map.GetSelectedVertices(true);
+                        dragvertices = DoomBuilder.General.Map.Map.GetSelectedVertices(true);
                     }
 
                     // Start dragging the selection
                     if (!BuilderPlug.Me.DontMoveGeometryOutsideMapBoundary || CanDrag(dragvertices)) //mxd
-                        General.Editing.ChangeMode(new DragVerticesMode(mousedownmappos, dragvertices));
+                        DoomBuilder.General.Editing.ChangeMode(new DragVerticesMode(mousedownmappos, dragvertices));
                 }
             }
         }
@@ -660,8 +661,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             foreach (Vertex v in dragvertices)
             {
                 // Make sure the vertex is inside the map boundary
-                if (v.Position.x < General.Map.Config.LeftBoundary || v.Position.x > General.Map.Config.RightBoundary
-                    || v.Position.y > General.Map.Config.TopBoundary || v.Position.y < General.Map.Config.BottomBoundary)
+                if (v.Position.x < DoomBuilder.General.Map.Config.LeftBoundary || v.Position.x > DoomBuilder.General.Map.Config.RightBoundary
+                    || v.Position.y > DoomBuilder.General.Map.Config.TopBoundary || v.Position.y < DoomBuilder.General.Map.Config.BottomBoundary)
                 {
                     unaffectedCount++;
                 }
@@ -669,14 +670,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             if (unaffectedCount == dragvertices.Count)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Unable to drag selection: " + (dragvertices.Count == 1 ? "selected vertex is" : "all of selected vertices are") + " outside of map boundary!");
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Unable to drag selection: " + (dragvertices.Count == 1 ? "selected vertex is" : "all of selected vertices are") + " outside of map boundary!");
+                DoomBuilder.General.Interface.RedrawDisplay();
                 return false;
             }
 
             if (unaffectedCount > 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, unaffectedCount + " of selected vertices " + (unaffectedCount == 1 ? "is" : "are") + " outside of map boundary!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, unaffectedCount + " of selected vertices " + (unaffectedCount == 1 ? "is" : "are") + " outside of map boundary!");
                 return false;
             }
 
@@ -694,22 +695,22 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 switch (marqueSelectionMode)
                 {
                     case MarqueSelectionMode.SELECT:
-                        foreach (Vertex v in General.Map.Map.Vertices)
+                        foreach (Vertex v in DoomBuilder.General.Map.Map.Vertices)
                             v.Selected = selectionrect.Contains((float)v.Position.x, (float)v.Position.y);
                         break;
 
                     case MarqueSelectionMode.ADD:
-                        foreach (Vertex v in General.Map.Map.Vertices)
+                        foreach (Vertex v in DoomBuilder.General.Map.Map.Vertices)
                             v.Selected |= selectionrect.Contains((float)v.Position.x, (float)v.Position.y);
                         break;
 
                     case MarqueSelectionMode.SUBTRACT:
-                        foreach (Vertex v in General.Map.Map.Vertices)
+                        foreach (Vertex v in DoomBuilder.General.Map.Map.Vertices)
                             if (selectionrect.Contains((float)v.Position.x, (float)v.Position.y)) v.Selected = false;
                         break;
 
                     default: //should be Intersect
-                        foreach (Vertex v in General.Map.Map.Vertices)
+                        foreach (Vertex v in DoomBuilder.General.Map.Map.Vertices)
                             if (!selectionrect.Contains((float)v.Position.x, (float)v.Position.y)) v.Selected = false;
                         break;
                 }
@@ -724,7 +725,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (renderer.StartOverlay(true)) renderer.Finish();
 
             // Redraw
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         // This is called when the selection is updated
@@ -745,7 +746,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public override bool OnCopyBegin()
         {
             // No selection made? But we have a highlight!
-            if ((General.Map.Map.GetSelectedVertices(true).Count == 0) && (highlighted != null))
+            if ((DoomBuilder.General.Map.Map.GetSelectedVertices(true).Count == 0) && (highlighted != null))
             {
                 // Make the highlight the selection
                 highlighted.Selected = true;
@@ -775,19 +776,19 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             // Determine source vertices
             ICollection<Vertex> sel = null;
-            if (General.Map.Map.SelectedVerticessCount > 0) sel = General.Map.Map.GetSelectedVertices(true);
+            if (DoomBuilder.General.Map.Map.SelectedVerticessCount > 0) sel = DoomBuilder.General.Map.Map.GetSelectedVertices(true);
             else if (highlighted != null) sel = new List<Vertex> { highlighted };
 
             if (sel != null)
             {
                 // Copy properties from first source vertex
-                BuilderPlug.Me.CopiedVertexProps = new VertexProperties(General.GetByIndex(sel, 0));
-                General.Interface.DisplayStatus(StatusType.Action, "Copied vertex properties.");
+                BuilderPlug.Me.CopiedVertexProps = new VertexProperties(DoomBuilder.General.GetByIndex(sel, 0));
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Copied vertex properties.");
             }
             else
             {
                 //mxd
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
             }
         }
 
@@ -799,32 +800,32 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 // Determine target vertices
                 ICollection<Vertex> sel = null;
-                if (General.Map.Map.SelectedVerticessCount > 0) sel = General.Map.Map.GetSelectedVertices(true);
+                if (DoomBuilder.General.Map.Map.SelectedVerticessCount > 0) sel = DoomBuilder.General.Map.Map.GetSelectedVertices(true);
                 else if (highlighted != null) sel = new List<Vertex> { highlighted };
 
                 if (sel != null)
                 {
                     // Apply properties to selection
                     string rest = sel.Count == 1 ? "a single vertex" : sel.Count + " vertices"; //mxd
-                    General.Map.UndoRedo.CreateUndo("Paste properties to " + rest);
+                    DoomBuilder.General.Map.UndoRedo.CreateUndo("Paste properties to " + rest);
                     BuilderPlug.Me.CopiedVertexProps.Apply(sel, false);
-                    General.Interface.DisplayStatus(StatusType.Action, "Pasted properties to " + rest + ".");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Pasted properties to " + rest + ".");
 
                     // Update and redraw
-                    General.Map.IsChanged = true;
-                    General.Interface.RefreshInfo();
-                    General.Interface.RedrawDisplay();
+                    DoomBuilder.General.Map.IsChanged = true;
+                    DoomBuilder.General.Interface.RefreshInfo();
+                    DoomBuilder.General.Interface.RedrawDisplay();
                 }
                 else
                 {
                     //mxd
-                    General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
                 }
             }
             else
             {
                 //mxd
-                General.Interface.DisplayStatus(StatusType.Warning, "Copy vertex properties first!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Copy vertex properties first!");
             }
         }
 
@@ -836,34 +837,34 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 // Determine target vertices
                 ICollection<Vertex> sel = null;
-                if (General.Map.Map.SelectedVerticessCount > 0) sel = General.Map.Map.GetSelectedVertices(true);
+                if (DoomBuilder.General.Map.Map.SelectedVerticessCount > 0) sel = DoomBuilder.General.Map.Map.GetSelectedVertices(true);
                 else if (highlighted != null) sel = new List<Vertex> { highlighted };
 
                 if (sel != null)
                 {
                     PastePropertiesOptionsForm form = new PastePropertiesOptionsForm();
-                    if (form.Setup(MapElementType.VERTEX) && form.ShowDialog(General.Interface) == DialogResult.OK)
+                    if (form.Setup(MapElementType.VERTEX) && form.ShowDialog(DoomBuilder.General.Interface) == DialogResult.OK)
                     {
                         // Apply properties to selection
                         string rest = sel.Count == 1 ? "a single vertex" : sel.Count + " vertices";
-                        General.Map.UndoRedo.CreateUndo("Paste properties with options to " + rest);
+                        DoomBuilder.General.Map.UndoRedo.CreateUndo("Paste properties with options to " + rest);
                         BuilderPlug.Me.CopiedVertexProps.Apply(sel, true);
-                        General.Interface.DisplayStatus(StatusType.Action, "Pasted properties with options to " + rest + ".");
+                        DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Pasted properties with options to " + rest + ".");
 
                         // Update and redraw
-                        General.Map.IsChanged = true;
-                        General.Interface.RefreshInfo();
-                        General.Interface.RedrawDisplay();
+                        DoomBuilder.General.Map.IsChanged = true;
+                        DoomBuilder.General.Interface.RefreshInfo();
+                        DoomBuilder.General.Interface.RedrawDisplay();
                     }
                 }
                 else
                 {
-                    General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
                 }
             }
             else
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Copy vertex properties first!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Copy vertex properties first!");
             }
         }
 
@@ -872,29 +873,29 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void ClearSelection()
         {
             // Clear selection
-            General.Map.Map.ClearAllSelected();
+            DoomBuilder.General.Map.Map.ClearAllSelected();
 
             //mxd. Clear selection info
-            General.Interface.DisplayStatus(StatusType.Selection, string.Empty);
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Selection, string.Empty);
 
             // Redraw
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         // This creates a new vertex at the mouse position
         [BeginAction("insertitem", BaseAction = true)]
         private void InsertVertex()
         {
-            bool snaptogrid = General.Interface.ShiftState ^ General.Interface.SnapToGrid;
-            bool snaptonearest = General.Interface.CtrlState ^ General.Interface.AutoMerge;
+            bool snaptogrid = DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid;
+            bool snaptonearest = DoomBuilder.General.Interface.CtrlState ^ DoomBuilder.General.Interface.AutoMerge;
 
             // Mouse in window?
-            if (General.Interface.MouseInDisplay)
+            if (DoomBuilder.General.Interface.MouseInDisplay)
             {
                 Vector2D insertpos;
 
                 // Create undo
-                General.Map.UndoRedo.CreateUndo("Insert vertex");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Insert vertex");
 
                 // Snap to geometry?
                 Linedef l = MapSet.NearestLinedefRange(blockmap, mousemappos, BuilderPlug.Me.SplitLinedefsRange / renderer.Scale);
@@ -904,7 +905,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     if (snaptogrid)
                     {
                         // Find all points where the grid intersects the line
-                        List<Vector2D> points = l.GetGridIntersections(General.Map.Grid.GridRotate, General.Map.Grid.GridOriginX, General.Map.Grid.GridOriginY);
+                        List<Vector2D> points = l.GetGridIntersections(DoomBuilder.General.Map.Grid.GridRotate, DoomBuilder.General.Map.Grid.GridOriginX, DoomBuilder.General.Map.Grid.GridOriginY);
                         if (points.Count == 0)
                         {
                             //mxd. Just use the nearest point on line
@@ -935,7 +936,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 else if (snaptogrid)
                 {
                     // Snap to grid
-                    insertpos = General.Map.Grid.SnappedToGrid(mousemappos);
+                    insertpos = DoomBuilder.General.Map.Grid.SnappedToGrid(mousemappos);
                 }
                 else
                 {
@@ -944,10 +945,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 // Make the vertex
-                Vertex v = General.Map.Map.CreateVertex(insertpos);
+                Vertex v = DoomBuilder.General.Map.Map.CreateVertex(insertpos);
                 if (v == null)
                 {
-                    General.Map.UndoRedo.WithdrawUndo();
+                    DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
                     return;
                 }
 
@@ -965,16 +966,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         //mxd
                         if (v.Position == l.Start.Position || v.Position == l.End.Position)
                         {
-                            General.Interface.DisplayStatus(StatusType.Info, "There's already a vertex here.");
-                            General.Map.UndoRedo.WithdrawUndo();
+                            DoomBuilder.General.Interface.DisplayStatus(StatusType.Info, "There's already a vertex here.");
+                            DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
                             return;
                         }
 
-                        General.Interface.DisplayStatus(StatusType.Action, "Split a linedef.");
+                        DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Split a linedef.");
                         Linedef sld = l.Split(v);
                         if (sld == null)
                         {
-                            General.Map.UndoRedo.WithdrawUndo();
+                            DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
                             return;
                         }
                         //BuilderPlug.Me.AdjustSplitCoordinates(l, sld);
@@ -982,17 +983,17 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
                 else
                 {
-                    General.Interface.DisplayStatus(StatusType.Action, "Inserted a vertex.");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Inserted a vertex.");
                 }
 
                 // Create the blockmap
                 CreateBlockmap();
 
                 // Update
-                General.Map.Map.Update();
+                DoomBuilder.General.Map.Map.Update();
 
                 // Redraw screen
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Interface.RedrawDisplay();
             }
         }
 
@@ -1000,20 +1001,20 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void DeleteItem()
         {
             // Make list of selected vertices
-            ICollection<Vertex> selected = General.Map.Map.GetSelectedVertices(true);
+            ICollection<Vertex> selected = DoomBuilder.General.Map.Map.GetSelectedVertices(true);
             if ((selected.Count == 0) && (highlighted != null) && !highlighted.IsDisposed) selected.Add(highlighted);
             if (selected.Count == 0) return;
 
             // Make undo
             if (selected.Count > 1)
             {
-                General.Map.UndoRedo.CreateUndo("Delete " + selected.Count + " vertices");
-                General.Interface.DisplayStatus(StatusType.Action, "Deleted " + selected.Count + " vertices.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Delete " + selected.Count + " vertices");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Deleted " + selected.Count + " vertices.");
             }
             else
             {
-                General.Map.UndoRedo.CreateUndo("Delete vertex");
-                General.Interface.DisplayStatus(StatusType.Action, "Deleted a vertex.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Delete vertex");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Deleted a vertex.");
             }
 
             // Go for all vertices that need to be removed
@@ -1025,8 +1026,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     // If the vertex only has 2 linedefs attached, then merge the linedefs
                     if (v.Linedefs.Count == 2)
                     {
-                        Linedef ld1 = General.GetByIndex(v.Linedefs, 0);
-                        Linedef ld2 = General.GetByIndex(v.Linedefs, 1);
+                        Linedef ld1 = DoomBuilder.General.GetByIndex(v.Linedefs, 0);
+                        Linedef ld2 = DoomBuilder.General.GetByIndex(v.Linedefs, 1);
                         Vertex v2 = (ld2.Start == v) ? ld2.End : ld2.Start;
                         if (ld1.Start == v) ld1.SetStartVertex(v2); else ld1.SetEndVertex(v2);
                         ld2.Dispose();
@@ -1038,8 +1039,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Update cache values
-            General.Map.IsChanged = true;
-            General.Map.Map.Update();
+            DoomBuilder.General.Map.IsChanged = true;
+            DoomBuilder.General.Map.Map.Update();
 
             // Create the blockmap
             CreateBlockmap();
@@ -1050,15 +1051,15 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             // Redraw screen
             UpdateSelectionInfo(); //mxd
-            General.Map.Renderer2D.UpdateExtraFloorFlag(); //mxd
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.Renderer2D.UpdateExtraFloorFlag(); //mxd
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         [BeginAction("dissolveitem", BaseAction = true)] //mxd
         public void DissolveItem()
         {
             // Make list of selected vertices
-            ICollection<Vertex> selected = General.Map.Map.GetSelectedVertices(true);
+            ICollection<Vertex> selected = DoomBuilder.General.Map.Map.GetSelectedVertices(true);
             if (selected.Count == 0)
             {
                 if (highlighted == null || highlighted.IsDisposed) return;
@@ -1068,13 +1069,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Make undo
             if (selected.Count > 1)
             {
-                General.Map.UndoRedo.CreateUndo("Dissolve " + selected.Count + " vertices");
-                General.Interface.DisplayStatus(StatusType.Action, "Dissolved " + selected.Count + " vertices.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Dissolve " + selected.Count + " vertices");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Dissolved " + selected.Count + " vertices.");
             }
             else
             {
-                General.Map.UndoRedo.CreateUndo("Dissolve vertex");
-                General.Interface.DisplayStatus(StatusType.Action, "Dissolved a vertex.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Dissolve vertex");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Dissolved a vertex.");
             }
 
             //collect linedefs count per vertex
@@ -1093,8 +1094,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     // If the vertex only had 2 linedefs attached, then merge the linedefs
                     if (linesPerVertex[v] == 2)
                     {
-                        Linedef ld1 = General.GetByIndex(v.Linedefs, 0);
-                        Linedef ld2 = General.GetByIndex(v.Linedefs, 1);
+                        Linedef ld1 = DoomBuilder.General.GetByIndex(v.Linedefs, 0);
+                        Linedef ld2 = DoomBuilder.General.GetByIndex(v.Linedefs, 1);
                         Vertex v1 = (ld1.Start == v) ? ld1.End : ld1.Start;
                         Vertex v2 = (ld2.Start == v) ? ld2.End : ld2.Start;
 
@@ -1120,8 +1121,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Update cache values
-            General.Map.Map.Update();
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Map.IsChanged = true;
 
             // Create the blockmap
             CreateBlockmap();
@@ -1132,15 +1133,15 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             // Redraw screen
             UpdateSelectionInfo(); //mxd
-            General.Map.Renderer2D.UpdateExtraFloorFlag(); //mxd
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.Renderer2D.UpdateExtraFloorFlag(); //mxd
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         [BeginAction("placethings")] //mxd
         public void PlaceThings()
         {
             // Make list of selected vertices
-            ICollection<Vertex> selected = General.Map.Map.GetSelectedVertices(true);
+            ICollection<Vertex> selected = DoomBuilder.General.Map.Map.GetSelectedVertices(true);
             if (selected.Count == 0)
             {
                 if (highlighted != null && !highlighted.IsDisposed)
@@ -1149,7 +1150,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
                 else
                 {
-                    General.Interface.DisplayStatus(StatusType.Warning, "This action requires selection of some description!");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires selection of some description!");
                     return;
                 }
             }
@@ -1164,47 +1165,47 @@ namespace CodeImp.DoomBuilder.BuilderModes
         [BeginAction("selectsimilar")]
         public void SelectSimilar()
         {
-            ICollection<Vertex> selection = General.Map.Map.GetSelectedVertices(true);
+            ICollection<Vertex> selection = DoomBuilder.General.Map.Map.GetSelectedVertices(true);
 
             if (selection.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
                 return;
             }
 
             var form = new SelectSimilarElementOptionsPanel();
-            if (form.Setup(this)) form.ShowDialog(General.Interface);
+            if (form.Setup(this)) form.ShowDialog(DoomBuilder.General.Interface);
         }
 
         [BeginAction("smartgridtransform", BaseAction = true)]
         protected void SmartGridTransform()
         {
-            if (General.Map.Map.SelectedVerticessCount > 1)
+            if (DoomBuilder.General.Map.Map.SelectedVerticessCount > 1)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Either nothing or exactly one vertex must be selected");
-                General.Interface.MessageBeep(MessageBeepType.Warning);
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Either nothing or exactly one vertex must be selected");
+                DoomBuilder.General.Interface.MessageBeep(MessageBeepType.Warning);
                 return;
             }
 
             Vertex vertex = null;
 
-            if (General.Map.Map.SelectedVerticessCount == 1)
-                vertex = General.Map.Map.GetSelectedVertices(true).First();
+            if (DoomBuilder.General.Map.Map.SelectedVerticessCount == 1)
+                vertex = DoomBuilder.General.Map.Map.GetSelectedVertices(true).First();
             else if (highlighted != null)
                 vertex = highlighted;
 
             if (vertex != null)
             {
-                General.Map.Grid.SetGridOrigin(vertex.Position.x, vertex.Position.y);
-                General.Map.GridVisibilityChanged();
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Map.Grid.SetGridOrigin(vertex.Position.x, vertex.Position.y);
+                DoomBuilder.General.Map.GridVisibilityChanged();
+                DoomBuilder.General.Interface.RedrawDisplay();
             }
             else
             {
-                General.Map.Grid.SetGridRotation(0.0);
-                General.Map.Grid.SetGridOrigin(0, 0);
-                General.Map.GridVisibilityChanged();
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Map.Grid.SetGridRotation(0.0);
+                DoomBuilder.General.Map.Grid.SetGridOrigin(0, 0);
+                DoomBuilder.General.Map.GridVisibilityChanged();
+                DoomBuilder.General.Interface.RedrawDisplay();
             }
         }
 
@@ -1212,24 +1213,24 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private void ChangeMapElementIndex()
         {
             // Make list of selected linedefs
-            List<Vertex> selected = General.Map.Map.GetSelectedVertices(true).ToList();
+            List<Vertex> selected = DoomBuilder.General.Map.Map.GetSelectedVertices(true).ToList();
             if ((selected.Count == 0) && (highlighted != null) && !highlighted.IsDisposed) selected.Add(highlighted);
             if (selected.Count != 1)
             {
-                General.ToastManager.ShowToast(ToastMessages.CHANGEMAPELEMENTINDEX, ToastType.WARNING, "Changing vertex index failed", "You need to select or highlight exactly 1 vertex.");
+                DoomBuilder.General.ToastManager.ShowToast(ToastMessages.CHANGEMAPELEMENTINDEX, ToastType.WARNING, "Changing vertex index failed", "You need to select or highlight exactly 1 vertex.");
                 return;
             }
 
-            ChangeMapElementIndexForm f = new ChangeMapElementIndexForm("vertex", selected[0].Index, General.Map.Map.Vertices.Count - 1);
+            ChangeMapElementIndexForm f = new ChangeMapElementIndexForm("vertex", selected[0].Index, DoomBuilder.General.Map.Map.Vertices.Count - 1);
             if (f.ShowDialog() == DialogResult.OK)
             {
                 int newindex = f.GetNewIndex();
                 int oldindex = selected[0].Index;
-                General.Map.UndoRedo.CreateUndo("Change vertex index");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Change vertex index");
 
                 selected[0].ChangeIndex(newindex);
 
-                General.ToastManager.ShowToast(ToastMessages.CHANGEMAPELEMENTINDEX, ToastType.INFO, "Successfully change vertex index", $"Changed index of vertex {oldindex} to {newindex}.");
+                DoomBuilder.General.ToastManager.ShowToast(ToastMessages.CHANGEMAPELEMENTINDEX, ToastType.INFO, "Successfully change vertex index", $"Changed index of vertex {oldindex} to {newindex}.");
             }
         }
 
@@ -1293,8 +1294,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             Tools.DrawLines(new List<DrawnVertex> { dv1, dv2 }, false, false);
 
             // Update cache values
-            General.Map.Map.Update();
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Map.IsChanged = true;
         }
 
         //mxd. If there are different sectors on both sides of given linedef, join them

@@ -19,7 +19,7 @@ using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
 {
     // No action or button for this mode, it is automatic.
     // The EditMode attribute does not have to be specified unless the
@@ -41,7 +41,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public DragSectorsMode(Vector2D dragstartmappos, ICollection<Sector> sectors, ICollection<Thing> things)
         {
             // Mark what we are dragging
-            General.Map.Map.ClearAllMarks(false);
+            DoomBuilder.General.Map.Map.ClearAllMarks(false);
 
             // Get geometry to drag
             dragsectors = new List<Sector>(sectors);
@@ -100,7 +100,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 if (renderer.StartThings(true))
                 {
-                    renderer.RenderThingSet(General.Map.Map.Things, General.Settings.ActiveThingsAlpha);
+                    renderer.RenderThingSet(DoomBuilder.General.Map.Map.Things, DoomBuilder.General.Settings.ActiveThingsAlpha);
                     renderer.Finish();
                 }
             }
@@ -118,7 +118,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 renderer.PlotLinedefSet(snaptolines);
                 renderer.PlotLinedefSet(unstablelines);
                 renderer.PlotLinedefSet(draglines);
-                renderer.PlotVerticesSet(General.Map.Map.Vertices);
+                renderer.PlotVerticesSet(DoomBuilder.General.Map.Map.Vertices);
 
                 // Draw the dragged item highlighted
                 // This is important to know, because this item is used
@@ -132,9 +132,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
             //mxd. Render things
             if (renderer.StartThings(true))
             {
-                renderer.RenderThingSet(General.Map.ThingsFilter.HiddenThings, General.Settings.HiddenThingsAlpha);
-                renderer.RenderThingSet(unselectedthings, General.Settings.ActiveThingsAlpha);
-                renderer.RenderThingSet(selectedthings, General.Settings.ActiveThingsAlpha);
+                renderer.RenderThingSet(DoomBuilder.General.Map.ThingsFilter.HiddenThings, DoomBuilder.General.Settings.HiddenThingsAlpha);
+                renderer.RenderThingSet(unselectedthings, DoomBuilder.General.Settings.ActiveThingsAlpha);
+                renderer.RenderThingSet(selectedthings, DoomBuilder.General.Settings.ActiveThingsAlpha);
                 renderer.Finish();
             }
 

@@ -18,6 +18,7 @@
  * along with this program.If not, see<http://www.gnu.org/licenses/>.
  */
 
+using CodeImp.DoomBuilder.BuilderModes.VisualModes;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Windows;
 using System;
@@ -151,7 +152,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                 newtheta = 180.0;
                 theta.Text = "180";
 
-                General.Interface.DisplayStatus(StatusType.Warning, "The angle can not be greater than 180.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "The angle can not be greater than 180.");
             }
             else if (newtheta <= 0.0)
             {
@@ -181,7 +182,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                 theta.Text = oldtheta.ToString();
                 offset.Text = oldoffset.ToString();
 
-                General.Interface.DisplayStatus(StatusType.Warning, "The sum of the angle and offset angle can not be greater than 180.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "The sum of the angle and offset angle can not be greater than 180.");
             }
 
             // Remember the old values

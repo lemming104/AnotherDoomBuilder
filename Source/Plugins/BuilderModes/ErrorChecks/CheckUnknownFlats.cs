@@ -15,7 +15,7 @@
 using CodeImp.DoomBuilder.Map;
 using System.Threading;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     [ErrorChecker("Check unknown flats", true, 40)]
     public class CheckUnknownFlats : ErrorChecker
@@ -27,7 +27,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public CheckUnknownFlats()
         {
             // Total progress is done when all sectors are checked
-            SetTotalProgress(General.Map.Map.Sectors.Count / PROGRESS_STEP);
+            SetTotalProgress(DoomBuilder.General.Map.Map.Sectors.Count / PROGRESS_STEP);
         }
 
         // This runs the check
@@ -37,14 +37,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
             int stepprogress = 0;
 
             // Go for all the sectors
-            foreach (Sector s in General.Map.Map.Sectors)
+            foreach (Sector s in DoomBuilder.General.Map.Map.Sectors)
             {
                 // Check floor texture
-                if (s.LongFloorTexture != MapSet.EmptyLongName && !General.Map.Data.GetFlatExists(s.FloorTexture))
+                if (s.LongFloorTexture != MapSet.EmptyLongName && !DoomBuilder.General.Map.Data.GetFlatExists(s.FloorTexture))
                     SubmitResult(new ResultUnknownFlat(s, false));
 
                 // Check ceiling texture
-                if (s.LongCeilTexture != MapSet.EmptyLongName && !General.Map.Data.GetFlatExists(s.CeilTexture))
+                if (s.LongCeilTexture != MapSet.EmptyLongName && !DoomBuilder.General.Map.Data.GetFlatExists(s.CeilTexture))
                     SubmitResult(new ResultUnknownFlat(s, true));
 
                 // Handle thread interruption

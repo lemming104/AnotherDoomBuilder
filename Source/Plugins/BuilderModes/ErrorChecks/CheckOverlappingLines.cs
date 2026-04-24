@@ -12,6 +12,7 @@
  */
 
 
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using System;
@@ -19,7 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     [ErrorChecker("Check overlapping lines", true, 500)]
     public class CheckOverlappingLines : ErrorChecker
@@ -31,7 +32,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public CheckOverlappingLines()
         {
             // Total progress is done when all lines are checked
-            SetTotalProgress(General.Map.Map.Linedefs.Count / PROGRESS_STEP);
+            SetTotalProgress(DoomBuilder.General.Map.Map.Linedefs.Count / PROGRESS_STEP);
         }
 
         // This runs the check
@@ -43,7 +44,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             int stepprogress = 0;
 
             // Go for all the liendefs
-            foreach (Linedef l in General.Map.Map.Linedefs)
+            foreach (Linedef l in DoomBuilder.General.Map.Map.Linedefs)
             {
                 // Check if not already done
                 if (!donelines.ContainsKey(l))
@@ -67,7 +68,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                                 // If vertices are off-grid and far from the map's origin the calculation of the intersection can go wrong because of rounding errors.
                                 // So if any vertex is off-grid we'll to the calculations with lines that are closer to the origin. This is pretty ugly :(
                                 // See https://github.com/jewalky/UltimateDoomBuilder/issues/713
-                                if (General.Map.FormatInterface.VertexDecimals > 0 &&
+                                if (DoomBuilder.General.Map.FormatInterface.VertexDecimals > 0 &&
                                     l.Line.v1.x % 1 != 0.0 && l.Line.v1.y % 1 != 0.0 && l.Line.v2.x % 1 != 0.0 && l.Line.v2.y % 1 != 0.0 &&
                                     d.Line.v1.x % 1 != 0.0 && d.Line.v1.y % 1 != 0.0 && d.Line.v2.x % 1 != 0.0 && d.Line.v2.y % 1 != 0.0)
                                 {
@@ -81,13 +82,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                                     // Create the two lines to check. this takes the original values, applies the offset, then rounds them to the map format's precision
                                     tl = new Line2D(
-                                        new Vector2D(Math.Round(l.Line.v1.x - offset.x, General.Map.FormatInterface.VertexDecimals), Math.Round(l.Line.v1.y - offset.y, General.Map.FormatInterface.VertexDecimals)),
-                                        new Vector2D(Math.Round(l.Line.v2.x - offset.x, General.Map.FormatInterface.VertexDecimals), Math.Round(l.Line.v2.y - offset.y, General.Map.FormatInterface.VertexDecimals))
+                                        new Vector2D(Math.Round(l.Line.v1.x - offset.x, DoomBuilder.General.Map.FormatInterface.VertexDecimals), Math.Round(l.Line.v1.y - offset.y, DoomBuilder.General.Map.FormatInterface.VertexDecimals)),
+                                        new Vector2D(Math.Round(l.Line.v2.x - offset.x, DoomBuilder.General.Map.FormatInterface.VertexDecimals), Math.Round(l.Line.v2.y - offset.y, DoomBuilder.General.Map.FormatInterface.VertexDecimals))
                                     );
 
                                     td = new Line2D(
-                                        new Vector2D(Math.Round(d.Line.v1.x - offset.x, General.Map.FormatInterface.VertexDecimals), Math.Round(d.Line.v1.y - offset.y, General.Map.FormatInterface.VertexDecimals)),
-                                        new Vector2D(Math.Round(d.Line.v2.x - offset.x, General.Map.FormatInterface.VertexDecimals), Math.Round(d.Line.v2.y - offset.y, General.Map.FormatInterface.VertexDecimals))
+                                        new Vector2D(Math.Round(d.Line.v1.x - offset.x, DoomBuilder.General.Map.FormatInterface.VertexDecimals), Math.Round(d.Line.v1.y - offset.y, DoomBuilder.General.Map.FormatInterface.VertexDecimals)),
+                                        new Vector2D(Math.Round(d.Line.v2.x - offset.x, DoomBuilder.General.Map.FormatInterface.VertexDecimals), Math.Round(d.Line.v2.y - offset.y, DoomBuilder.General.Map.FormatInterface.VertexDecimals))
                                     );
                                 }
 
@@ -102,10 +103,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
                                 {
                                     // Check if the lines touch. Note that I don't include 0.0 and 1.0 here because
                                     // the lines may be touching at the ends when sharing the same vertex.
-                                    if (General.Map.FormatInterface.VertexDecimals > 0) //mxd
+                                    if (DoomBuilder.General.Map.FormatInterface.VertexDecimals > 0) //mxd
                                     {
-                                        lu = Math.Round(lu, General.Map.FormatInterface.VertexDecimals);
-                                        du = Math.Round(du, General.Map.FormatInterface.VertexDecimals);
+                                        lu = Math.Round(lu, DoomBuilder.General.Map.FormatInterface.VertexDecimals);
+                                        du = Math.Round(du, DoomBuilder.General.Map.FormatInterface.VertexDecimals);
                                     }
 
                                     if ((lu > 0.0) && (lu < 1.0) && (du > 0.0) && (du < 1.0))

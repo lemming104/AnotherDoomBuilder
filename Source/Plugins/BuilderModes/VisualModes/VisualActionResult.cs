@@ -1,6 +1,4 @@
-﻿
-
-/*
+﻿/*
  * Copyright (c) 2007 Pascal vd Heiden, www.codeimp.com
  * This program is released under GNU General Public License
  * 
@@ -11,7 +9,7 @@
  * 
  */
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     public struct VisualActionResult
     {

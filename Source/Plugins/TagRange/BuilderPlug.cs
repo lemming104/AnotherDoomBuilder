@@ -13,7 +13,7 @@
 
 
 using CodeImp.DoomBuilder.Actions;
-using CodeImp.DoomBuilder.BuilderModes;
+using CodeImp.DoomBuilder.BuilderModes.ClassicModes;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Plugins;
 using CodeImp.DoomBuilder.Windows;
@@ -82,7 +82,7 @@ namespace CodeImp.DoomBuilder.TagRange
                         // Bit of a hack to make sectors mode update the sector labels, otherwise the new tags will not be
                         // displayed when selection numbering is disabled.
                         // See https://github.com/jewalky/UltimateDoomBuilder/issues/795
-                        mode.OnViewSelectionNumbersChanged(BuilderModes.BuilderPlug.Me.ViewSelectionNumbers);
+                        mode.OnViewSelectionNumbersChanged(BuilderModes.General.BuilderPlug.Me.ViewSelectionNumbers);
 
                         // Redraw to make the updated labels to show up
                         General.Interface.RedrawDisplay();

@@ -12,6 +12,7 @@
  */
 
 
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -24,7 +25,7 @@ using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal abstract class BaseVisualGeometrySidedef : VisualGeometry, IVisualEventReceiver
     {
@@ -75,8 +76,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (!performautoselection) return;
             if (Triangles > 0)
             {
-                dragstartanglexy = General.Map.VisualCamera.AngleXY;
-                dragstartanglez = General.Map.VisualCamera.AngleZ;
+                dragstartanglexy = DoomBuilder.General.Map.VisualCamera.AngleXY;
+                dragstartanglez = DoomBuilder.General.Map.VisualCamera.AngleZ;
                 dragorigin = pickintersect;
 
                 Point texoffset = GetTextureOffset();
@@ -101,7 +102,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // From TranslucentLine action
             if (Sidedef.Line.Action == 208)
             {
-                alpha = (byte)General.Clamp(Sidedef.Line.Args[1], 0, 255);
+                alpha = (byte)DoomBuilder.General.Clamp(Sidedef.Line.Args[1], 0, 255);
 
                 if (canhavealpha && Sidedef.Line.Args[2] == 1)
                     this.RenderPass = RenderPass.Additive;
@@ -500,7 +501,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             string partstr = string.Empty, partstrabs = string.Empty;
 
-            if (General.Map.Config.DistinctSidedefPartBrightness)
+            if (DoomBuilder.General.Map.Config.DistinctSidedefPartBrightness)
             {
                 switch (geometrytype)
                 {
@@ -521,9 +522,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             bool lightglobalabsolute = Sidedef.Fields.GetValue("lightabsolute", false);
-            bool lightpartabsolute = General.Map.Config.DistinctSidedefPartBrightness ? Sidedef.Fields.GetValue(partstrabs, false) : false;
+            bool lightpartabsolute = DoomBuilder.General.Map.Config.DistinctSidedefPartBrightness ? Sidedef.Fields.GetValue(partstrabs, false) : false;
             lightabsolute = lightglobalabsolute || lightpartabsolute;
-            bool affectedbyfog = General.Map.Data.MapInfo.HasFadeColor || (Sector.Sector.HasSkyCeiling && General.Map.Data.MapInfo.HasOutsideFogColor) || Sector.Sector.Fields.ContainsKey("fadecolor");
+            bool affectedbyfog = DoomBuilder.General.Map.Data.MapInfo.HasFadeColor || (Sector.Sector.HasSkyCeiling && DoomBuilder.General.Map.Data.MapInfo.HasOutsideFogColor) || Sector.Sector.Fields.ContainsKey("fadecolor");
             bool ignorelight = affectedbyfog && !Sidedef.IsFlagSet("lightfog") && !lightabsolute;
             lightvalue = ignorelight ? 0 : Sidedef.Fields.GetValue("light", 0); //mxd
 
@@ -537,7 +538,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 if (lightpartabsolute)
                     lightvalue = Sidedef.Fields.GetValue(partstr, 0);
                 else
-                    lightvalue = Sidedef.Fields.GetValue("light", 0) + (General.Map.Config.DistinctSidedefPartBrightness ? Sidedef.Fields.GetValue(partstr, 0) : 0);
+                    lightvalue = Sidedef.Fields.GetValue("light", 0) + (DoomBuilder.General.Map.Config.DistinctSidedefPartBrightness ? Sidedef.Fields.GetValue(partstr, 0) : 0);
             }
 
             if (ignorelight) lightabsolute = false;
@@ -587,8 +588,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // [ZZ] use the marking system.
             if (clearlinedefs)
             {
-                General.Map.Map.ClearMarkedLinedefs(false);
-                General.Map.Map.ClearMarkedSidedefs(false);
+                DoomBuilder.General.Map.Map.ClearMarkedLinedefs(false);
+                DoomBuilder.General.Map.Map.ClearMarkedSidedefs(false);
             }
 
             Sidedef.Line.Marked = true;
@@ -721,7 +722,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     }
 
                     scalex = Texture.ScaledWidth / (linelength * (options.GlobalBounds.Width / linelength)) * horizontalrepeat;
-                    offsetx = Math.Round((options.Bounds.X * scalex) - Sidedef.OffsetX - options.ControlSideOffsetX, General.Map.FormatInterface.VertexDecimals);
+                    offsetx = Math.Round((options.Bounds.X * scalex) - Sidedef.OffsetX - options.ControlSideOffsetX, DoomBuilder.General.Map.FormatInterface.VertexDecimals);
                     if (Texture.IsImageLoaded) offsetx %= Texture.Width;
                 }
                 else
@@ -742,7 +743,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     offsetx = -Sidedef.OffsetX - options.ControlSideOffsetX;
                 }
 
-                UniFields.SetFloat(controlside.Fields, "scalex_" + partname, Math.Round(scalex, General.Map.FormatInterface.VertexDecimals), 1.0);
+                UniFields.SetFloat(controlside.Fields, "scalex_" + partname, Math.Round(scalex, DoomBuilder.General.Map.FormatInterface.VertexDecimals), 1.0);
                 UniFields.SetFloat(Sidedef.Fields, "offsetx_" + partname, offsetx, 0.0);
             }
             else
@@ -782,7 +783,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         }
                         else if (this is VisualMiddleDouble)
                         {
-                            if (Sidedef.Line.IsFlagSet(General.Map.Config.LowerUnpeggedFlag))
+                            if (Sidedef.Line.IsFlagSet(DoomBuilder.General.Map.Config.LowerUnpeggedFlag))
                                 offsety = ((options.Bounds.Y - Sidedef.GetHighHeight() - Sidedef.GetLowHeight()) * scaley) - Sidedef.OffsetY;
                             else
                                 offsety = (options.Bounds.Y * scaley) - Sidedef.OffsetY;
@@ -820,8 +821,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         }
                     }
 
-                    UniFields.SetFloat(controlside.Fields, "scaley_" + partname, (float)Math.Round(scaley, General.Map.FormatInterface.VertexDecimals), 1.0);
-                    UniFields.SetFloat(Sidedef.Fields, "offsety_" + partname, (float)Math.Round(offsety, General.Map.FormatInterface.VertexDecimals), 0.0);
+                    UniFields.SetFloat(controlside.Fields, "scaley_" + partname, (float)Math.Round(scaley, DoomBuilder.General.Map.FormatInterface.VertexDecimals), 1.0);
+                    UniFields.SetFloat(Sidedef.Fields, "offsety_" + partname, (float)Math.Round(offsety, DoomBuilder.General.Map.FormatInterface.VertexDecimals), 0.0);
                 }
             }
             else
@@ -836,7 +837,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private double GetLowerOffsetY(double scaley)
         {
             double offsety;
-            if (Sidedef.Line.IsFlagSet(General.Map.Config.LowerUnpeggedFlag))
+            if (Sidedef.Line.IsFlagSet(DoomBuilder.General.Map.Config.LowerUnpeggedFlag))
                 offsety = (-Sidedef.OffsetY - Sidedef.GetMiddleHeight() - Sidedef.GetHighHeight()) * scaley;
             else
                 offsety = -Sidedef.OffsetY * scaley;
@@ -866,8 +867,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // Make it now
                 mode.CreateUndo("Create middle texture");
                 mode.SetActionResult("Created middle texture.");
-                General.Settings.FindDefaultDrawSettings();
-                Sidedef.SetTextureMid(General.Map.Options.DefaultWallTexture);
+                DoomBuilder.General.Settings.FindDefaultDrawSettings();
+                Sidedef.SetTextureMid(DoomBuilder.General.Map.Options.DefaultWallTexture);
 
                 // Update
                 Sector.Changed = true;
@@ -875,7 +876,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // Other side as well
                 if (string.IsNullOrEmpty(Sidedef.Other.MiddleTexture) || (Sidedef.Other.MiddleTexture == "-"))
                 {
-                    Sidedef.Other.SetTextureMid(General.Map.Options.DefaultWallTexture);
+                    Sidedef.Other.SetTextureMid(DoomBuilder.General.Map.Options.DefaultWallTexture);
 
                     // Update
                     VisualSector othersector = mode.GetVisualSector(Sidedef.Other.Sector);
@@ -905,7 +906,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 if (setuponloadedtexture != 0)
                 {
-                    ImageData t = General.Map.Data.GetTextureImage(setuponloadedtexture);
+                    ImageData t = DoomBuilder.General.Map.Data.GetTextureImage(setuponloadedtexture);
                     if (t != null && t.IsImageLoaded)
                     {
                         lastsetuponloadedtexture = setuponloadedtexture;
@@ -960,7 +961,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd
         public virtual void OnResetLocalTextureOffset()
         {
-            if (!General.Map.UDMF)
+            if (!DoomBuilder.General.Map.UDMF)
             {
                 OnResetTextureOffset();
                 return;
@@ -1005,7 +1006,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Toggle upper-unpegged
         public virtual void OnToggleUpperUnpegged()
         {
-            if (this.Sidedef.Line.IsFlagSet(General.Map.Config.UpperUnpeggedFlag))
+            if (this.Sidedef.Line.IsFlagSet(DoomBuilder.General.Map.Config.UpperUnpeggedFlag))
             {
                 // Remove flag
                 mode.ApplyUpperUnpegged(false);
@@ -1020,7 +1021,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Toggle lower-unpegged
         public virtual void OnToggleLowerUnpegged()
         {
-            if (this.Sidedef.Line.IsFlagSet(General.Map.Config.LowerUnpeggedFlag))
+            if (this.Sidedef.Line.IsFlagSet(DoomBuilder.General.Map.Config.LowerUnpeggedFlag))
             {
                 // Remove flag
                 mode.ApplyLowerUnpegged(false);
@@ -1041,14 +1042,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // Remove flag
                 mode.CreateUndo("Remove upper-unpegged setting");
                 mode.SetActionResult("Removed upper-unpegged setting.");
-                this.Sidedef.Line.SetFlag(General.Map.Config.UpperUnpeggedFlag, false);
+                this.Sidedef.Line.SetFlag(DoomBuilder.General.Map.Config.UpperUnpeggedFlag, false);
             }
             else
             {
                 // Add flag
                 mode.CreateUndo("Set upper-unpegged setting");
                 mode.SetActionResult("Set upper-unpegged setting.");
-                this.Sidedef.Line.SetFlag(General.Map.Config.UpperUnpeggedFlag, true);
+                this.Sidedef.Line.SetFlag(DoomBuilder.General.Map.Config.UpperUnpeggedFlag, true);
             }
 
             // Update sidedef geometry
@@ -1073,14 +1074,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // Remove flag
                 mode.CreateUndo("Remove lower-unpegged setting");
                 mode.SetActionResult("Removed lower-unpegged setting.");
-                this.Sidedef.Line.SetFlag(General.Map.Config.LowerUnpeggedFlag, false);
+                this.Sidedef.Line.SetFlag(DoomBuilder.General.Map.Config.LowerUnpeggedFlag, false);
             }
             else
             {
                 // Add flag
                 mode.CreateUndo("Set lower-unpegged setting");
                 mode.SetActionResult("Set lower-unpegged setting.");
-                this.Sidedef.Line.SetFlag(General.Map.Config.LowerUnpeggedFlag, true);
+                this.Sidedef.Line.SetFlag(DoomBuilder.General.Map.Config.LowerUnpeggedFlag, true);
             }
 
             // Update sidedef geometry
@@ -1110,21 +1111,21 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     mode.SetActionResult("Flood-filled textures with " + newtexture + ".");
 
                     mode.Renderer.SetCrosshairBusy(true);
-                    General.Interface.RedrawDisplay();
+                    DoomBuilder.General.Interface.RedrawDisplay();
 
                     // Get the texture
-                    ImageData newtextureimage = General.Map.Data.GetTextureImage(newtexture);
+                    ImageData newtextureimage = DoomBuilder.General.Map.Data.GetTextureImage(newtexture);
                     if (newtextureimage != null)
                     {
                         if (mode.IsSingleSelection)
                         {
                             // Clear all marks, this will align everything it can
-                            General.Map.Map.ClearMarkedSidedefs(false);
+                            DoomBuilder.General.Map.Map.ClearMarkedSidedefs(false);
                         }
                         else
                         {
                             // Limit the alignment to selection only
-                            General.Map.Map.ClearMarkedSidedefs(true);
+                            DoomBuilder.General.Map.Map.ClearMarkedSidedefs(true);
                             List<Sidedef> sides = mode.GetSelectedSidedefs();
                             foreach (Sidedef sd in sides)
                             {
@@ -1156,7 +1157,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         BuilderModesTools.FloodfillTextures(mode, Sidedef, texturehashes, newtexture, false);
 
                         // Get the changed sidedefs
-                        List<Sidedef> changes = General.Map.Map.GetMarkedSidedefs(true);
+                        List<Sidedef> changes = DoomBuilder.General.Map.Map.GetMarkedSidedefs(true);
                         foreach (Sidedef sd in changes)
                         {
                             // Update the parts for this sidedef!
@@ -1168,7 +1169,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                             }
                         }
 
-                        General.Map.Data.UpdateUsedTextures();
+                        DoomBuilder.General.Map.Data.UpdateUsedTextures();
                         mode.Renderer.SetCrosshairBusy(false);
                         mode.ShowTargetInfo();
                     }
@@ -1194,12 +1195,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (mode.IsSingleSelection)
             {
                 // Clear all marks, this will align everything it can
-                General.Map.Map.ClearMarkedSidedefs(false);
+                DoomBuilder.General.Map.Map.ClearMarkedSidedefs(false);
             }
             else
             {
                 // Limit the alignment to selection only
-                General.Map.Map.ClearMarkedSidedefs(true);
+                DoomBuilder.General.Map.Map.ClearMarkedSidedefs(true);
                 List<Sidedef> sides = mode.GetSelectedSidedefs();
                 foreach (Sidedef sd in sides)
                 {
@@ -1213,7 +1214,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             mode.AutoAlignTextures(this, base.Texture, alignx, aligny, false, true);
 
             // Get the changed sidedefs
-            List<Sidedef> changes = General.Map.Map.GetMarkedSidedefs(true);
+            List<Sidedef> changes = DoomBuilder.General.Map.Map.GetMarkedSidedefs(true);
             foreach (Sidedef sd in changes)
             {
                 // Update the parts for this sidedef!
@@ -1229,10 +1230,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Select texture
         public virtual void OnSelectTexture()
         {
-            if (General.Interface.IsActiveWindow)
+            if (DoomBuilder.General.Interface.IsActiveWindow)
             {
                 string oldtexture = GetTextureName();
-                string newtexture = General.Interface.BrowseTexture(General.Interface, oldtexture);
+                string newtexture = DoomBuilder.General.Interface.BrowseTexture(DoomBuilder.General.Interface, oldtexture);
                 if (newtexture != oldtexture)
                 {
                     mode.ApplySelectTexture(newtexture, false);
@@ -1270,7 +1271,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public virtual void OnPasteTextureOffsets()
         {
             mode.CreateUndo("Paste texture offsets");
-            if (General.Map.UDMF && General.Map.Config.UseLocalSidedefTextureOffsets)
+            if (DoomBuilder.General.Map.UDMF && DoomBuilder.General.Map.Config.UseLocalSidedefTextureOffsets)
             {
                 SetTextureOffsetX(BuilderPlug.Me.CopiedOffsets.X);
                 SetTextureOffsetY(BuilderPlug.Me.CopiedOffsets.Y);
@@ -1300,12 +1301,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             //mxd. When UseLongTextureNames is enabled and the image filename is longer than 8 chars, use full name, 
             // otherwise use texture name as stored in Sidedef
-            string texturename = (General.Map.Options.UseLongTextureNames && Texture != null && Texture.UsedInMap
+            string texturename = (DoomBuilder.General.Map.Options.UseLongTextureNames && Texture != null && Texture.UsedInMap
                 && Path.GetFileNameWithoutExtension(Texture.Name).Length > DataManager.CLASIC_IMAGE_NAME_LENGTH)
                 ? Texture.Name : GetTextureName();
 
             BuilderPlug.Me.CopiedTexture = texturename;
-            if (General.Map.Config.MixTexturesFlats) BuilderPlug.Me.CopiedFlat = texturename;
+            if (DoomBuilder.General.Map.Config.MixTexturesFlats) BuilderPlug.Me.CopiedFlat = texturename;
             mode.SetActionResult("Copied texture \"" + texturename + "\".");
         }
 
@@ -1313,7 +1314,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public virtual void OnCopyTextureOffsets()
         {
             //mxd
-            BuilderPlug.Me.CopiedOffsets = (General.Map.UDMF && General.Map.Config.UseLocalSidedefTextureOffsets) ? GetTextureOffset() : new Point(Sidedef.OffsetX, Sidedef.OffsetY);
+            BuilderPlug.Me.CopiedOffsets = (DoomBuilder.General.Map.UDMF && DoomBuilder.General.Map.Config.UseLocalSidedefTextureOffsets) ? GetTextureOffset() : new Point(Sidedef.OffsetX, Sidedef.OffsetY);
             mode.SetActionResult("Copied texture offsets " + BuilderPlug.Me.CopiedOffsets.X + ", " + BuilderPlug.Me.CopiedOffsets.Y + ".");
         }
 
@@ -1356,8 +1357,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public virtual void OnSelectBegin()
         {
             mode.LockTarget();
-            dragstartanglexy = General.Map.VisualCamera.AngleXY;
-            dragstartanglez = General.Map.VisualCamera.AngleZ;
+            dragstartanglexy = DoomBuilder.General.Map.VisualCamera.AngleXY;
+            dragstartanglez = DoomBuilder.General.Map.VisualCamera.AngleZ;
             dragorigin = pickintersect;
 
             Point texoffset = GetTextureOffset(); //mxd
@@ -1397,7 +1398,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Edit button released
         public virtual void OnEditEnd()
         {
-            if (General.Interface.IsActiveWindow)
+            if (DoomBuilder.General.Interface.IsActiveWindow)
             {
                 List<Linedef> linedefs = mode.GetSelectedLinedefs();
                 updatelist = new List<BaseVisualSector>(); //mxd
@@ -1413,11 +1414,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 Linedef sourceline = GetControlLinedef();
                 Sidedef target = sourceline != Sidedef.Line && sourceline.Front != null ? sourceline.Front : Sidedef;
 
-                General.Interface.OnEditFormValuesChanged += Interface_OnEditFormValuesChanged;
+                DoomBuilder.General.Interface.OnEditFormValuesChanged += Interface_OnEditFormValuesChanged;
                 mode.StartRealtimeInterfaceUpdate(SelectionType.Linedefs);
-                DialogResult result = General.Interface.ShowEditLinedefs(linedefs, target.IsFront, !target.IsFront);
+                DialogResult result = DoomBuilder.General.Interface.ShowEditLinedefs(linedefs, target.IsFront, !target.IsFront);
                 mode.StopRealtimeInterfaceUpdate(SelectionType.Linedefs);
-                General.Interface.OnEditFormValuesChanged -= Interface_OnEditFormValuesChanged;
+                DoomBuilder.General.Interface.OnEditFormValuesChanged -= Interface_OnEditFormValuesChanged;
 
                 updatelist.Clear();
                 updatelist = null;
@@ -1446,7 +1447,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 if (mode.PaintSelectType == this.GetType().BaseType && mode.Highlighted != this) // using BaseType so that middle, upper, lower, etc can be selecting in one go
                 {
                     // toggle selected state
-                    if (General.Interface.ShiftState ^ BuilderPlug.Me.AdditivePaintSelect)
+                    if (DoomBuilder.General.Interface.ShiftState ^ BuilderPlug.Me.AdditivePaintSelect)
                     {
                         if (!selected)
                         {
@@ -1454,7 +1455,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                             mode.AddSelectedObject(this);
                         }
                     }
-                    else if (General.Interface.CtrlState)
+                    else if (DoomBuilder.General.Interface.CtrlState)
                     {
                         if (selected)
                         {
@@ -1478,11 +1479,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
             else
             {
                 // Select button pressed?
-                if (General.Actions.CheckActionActive(General.ThisAssembly, "visualselect"))
+                if (DoomBuilder.General.Actions.CheckActionActive(DoomBuilder.General.ThisAssembly, "visualselect"))
                 {
                     // Check if tolerance is exceeded to start UV dragging
-                    double deltaxy = General.Map.VisualCamera.AngleXY - dragstartanglexy;
-                    double deltaz = General.Map.VisualCamera.AngleZ - dragstartanglez;
+                    double deltaxy = DoomBuilder.General.Map.VisualCamera.AngleXY - dragstartanglexy;
+                    double deltaz = DoomBuilder.General.Map.VisualCamera.AngleZ - dragstartanglez;
                     if ((Math.Abs(deltaxy) + Math.Abs(deltaz)) > DRAG_ANGLE_TOLERANCE)
                     {
                         mode.PreAction(UndoGroup.TextureOffsetChange);
@@ -1504,9 +1505,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
             double u_ray;
 
             // Calculate intersection position
-            Line2D ray = new Line2D(General.Map.VisualCamera.Position, General.Map.VisualCamera.Target);
+            Line2D ray = new Line2D(DoomBuilder.General.Map.VisualCamera.Position, DoomBuilder.General.Map.VisualCamera.Target);
             Sidedef.Line.Line.GetIntersection(ray, out u_ray);
-            Vector3D intersect = General.Map.VisualCamera.Position + ((General.Map.VisualCamera.Target - General.Map.VisualCamera.Position) * u_ray);
+            Vector3D intersect = DoomBuilder.General.Map.VisualCamera.Position + ((DoomBuilder.General.Map.VisualCamera.Target - DoomBuilder.General.Map.VisualCamera.Position) * u_ray);
 
             // Calculate offsets
             Vector3D dragdelta = intersect - dragorigin;
@@ -1518,7 +1519,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if ((Math.Sign(dragdeltaz.x) < 0) || (Math.Sign(dragdeltaz.y) < 0) || (Math.Sign(dragdeltaz.z) < 0)) offsety = -offsety;
 
             // Apply offsets
-            if (General.Interface.CtrlState && General.Interface.ShiftState)
+            if (DoomBuilder.General.Interface.CtrlState && DoomBuilder.General.Interface.ShiftState)
             {
                 //mxd. Clamp to grid size?
                 int newoffsetx = startoffsetx - (int)Math.Round(offsetx);
@@ -1526,9 +1527,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 int dx = prevoffsetx - newoffsetx;
                 int dy = prevoffsety - newoffsety;
 
-                if (Math.Abs(dx) >= General.Map.Grid.GridSize)
+                if (Math.Abs(dx) >= DoomBuilder.General.Map.Grid.GridSize)
                 {
-                    dx = General.Map.Grid.GridSize * Math.Sign(dx);
+                    dx = DoomBuilder.General.Map.Grid.GridSize * Math.Sign(dx);
                     prevoffsetx = newoffsetx;
                 }
                 else
@@ -1536,9 +1537,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     dx = 0;
                 }
 
-                if (Math.Abs(dy) >= General.Map.Grid.GridSize)
+                if (Math.Abs(dy) >= DoomBuilder.General.Map.Grid.GridSize)
                 {
-                    dy = General.Map.Grid.GridSize * Math.Sign(dy);
+                    dy = DoomBuilder.General.Map.Grid.GridSize * Math.Sign(dy);
                     prevoffsety = newoffsety;
                 }
                 else
@@ -1551,8 +1552,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             else
             {
                 //mxd. Constraint to axis?
-                int newoffsetx = General.Interface.CtrlState ? startoffsetx : startoffsetx - (int)Math.Round(offsetx); //mxd
-                int newoffsety = General.Interface.ShiftState ? startoffsety : startoffsety + (int)Math.Round(offsety); //mxd
+                int newoffsetx = DoomBuilder.General.Interface.CtrlState ? startoffsetx : startoffsetx - (int)Math.Round(offsetx); //mxd
+                int newoffsety = DoomBuilder.General.Interface.ShiftState ? startoffsety : startoffsety + (int)Math.Round(offsety); //mxd
                 mode.ApplyTextureOffsetChange(prevoffsetx - newoffsetx, prevoffsety - newoffsety);
                 prevoffsetx = newoffsetx;
                 prevoffsety = newoffsety;
@@ -1565,12 +1566,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public virtual void OnChangeTargetBrightness(bool up)
         {
             //mxd. Change UDMF wall light?
-            if (General.Map.UDMF && (General.Map.Config.DistinctWallBrightness || General.Map.Config.DistinctSidedefPartBrightness))
+            if (DoomBuilder.General.Map.UDMF && (DoomBuilder.General.Map.Config.DistinctWallBrightness || DoomBuilder.General.Map.Config.DistinctSidedefPartBrightness))
             {
                 string fieldname = "light";
                 string fieldabsolutename = "lightabsolute";
 
-                if (General.Map.Config.DistinctSidedefPartBrightness)
+                if (DoomBuilder.General.Map.Config.DistinctSidedefPartBrightness)
                 {
                     fieldname += "_" + partname;
                     fieldabsolutename += "_" + partname;
@@ -1581,9 +1582,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 int newlight;
 
                 if (up)
-                    newlight = General.Map.Config.BrightnessLevels.GetNextHigher(light, absolute);
+                    newlight = DoomBuilder.General.Map.Config.BrightnessLevels.GetNextHigher(light, absolute);
                 else
-                    newlight = General.Map.Config.BrightnessLevels.GetNextLower(light, absolute);
+                    newlight = DoomBuilder.General.Map.Config.BrightnessLevels.GetNextLower(light, absolute);
 
                 if (newlight == light) return;
 
@@ -1609,9 +1610,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 mode.CreateUndo("Change sector brightness", UndoGroup.SectorBrightnessChange, Sector.Sector.FixedIndex);
 
                 if (up)
-                    Sector.Sector.Brightness = General.Map.Config.BrightnessLevels.GetNextHigher(Sector.Sector.Brightness);
+                    Sector.Sector.Brightness = DoomBuilder.General.Map.Config.BrightnessLevels.GetNextHigher(Sector.Sector.Brightness);
                 else
-                    Sector.Sector.Brightness = General.Map.Config.BrightnessLevels.GetNextLower(Sector.Sector.Brightness);
+                    Sector.Sector.Brightness = DoomBuilder.General.Map.Config.BrightnessLevels.GetNextLower(Sector.Sector.Brightness);
 
                 mode.SetActionResult("Changed sector brightness to " + Sector.Sector.Brightness + ".");
 
@@ -1621,7 +1622,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 Sector.UpdateSectorGeometry(false);
 
                 // Go for all things in this sector
-                foreach (Thing t in General.Map.Map.Things)
+                foreach (Thing t in DoomBuilder.General.Map.Map.Things)
                 {
                     if (t.Sector == Sector.Sector)
                     {
@@ -1639,11 +1640,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Texture offset change
         public virtual bool OnChangeTextureOffset(int horizontal, int vertical, bool doSurfaceAngleCorrection)
         {
-            if ((General.Map.UndoRedo.NextUndo == null) || (General.Map.UndoRedo.NextUndo.TicketID != undoticket))
+            if ((DoomBuilder.General.Map.UndoRedo.NextUndo == null) || (DoomBuilder.General.Map.UndoRedo.NextUndo.TicketID != undoticket))
                 undoticket = mode.CreateUndo("Change texture offsets");
 
             //mxd
-            if (General.Map.UDMF && General.Map.Config.UseLocalSidedefTextureOffsets)
+            if (DoomBuilder.General.Map.UDMF && DoomBuilder.General.Map.Config.UseLocalSidedefTextureOffsets)
             {
                 // Apply per-texture offsets
                 MoveTextureOffset(-horizontal, -vertical);
@@ -1679,9 +1680,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd
         public virtual void OnChangeScale(int incrementX, int incrementY)
         {
-            if (!General.Map.UDMF || Texture == null || !Texture.IsImageLoaded) return;
+            if (!DoomBuilder.General.Map.UDMF || Texture == null || !Texture.IsImageLoaded) return;
 
-            if ((General.Map.UndoRedo.NextUndo == null) || (General.Map.UndoRedo.NextUndo.TicketID != undoticket))
+            if ((DoomBuilder.General.Map.UndoRedo.NextUndo == null) || (DoomBuilder.General.Map.UndoRedo.NextUndo.TicketID != undoticket))
                 undoticket = mode.CreateUndo("Change wall scale");
 
             string keyX;
@@ -1745,7 +1746,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             mode.PaintSelectType = this.GetType().BaseType; // using BaseType so that middle, upper, lower, etc can be selecting in one go
 
             // toggle selected state
-            if (General.Interface.ShiftState ^ BuilderPlug.Me.AdditivePaintSelect)
+            if (DoomBuilder.General.Interface.ShiftState ^ BuilderPlug.Me.AdditivePaintSelect)
             {
                 if (!selected)
                 {
@@ -1753,7 +1754,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     mode.AddSelectedObject(this);
                 }
             }
-            else if (General.Interface.CtrlState)
+            else if (DoomBuilder.General.Interface.CtrlState)
             {
                 if (selected)
                 {

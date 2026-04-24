@@ -82,8 +82,8 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
         private void ExportGeometry(idStudioMapWriter geoWriter)
         {
             // STEP 1: BUILD FLOOR/CEILING BRUSHES
-            //General.ErrorLogger.Add(ErrorType.Warning, "We have " + General.Map.Map.Sectors.Count + " sectors");
-            foreach (Sector s in General.Map.Map.Sectors)
+            //DoomBuilder.General.ErrorLogger.Add(ErrorType.Warning, "We have " + DoomBuilder.General.Map.Map.Sectors.Count + " sectors");
+            foreach (Sector s in DoomBuilder.General.Map.Map.Sectors)
             {
                 if (s.Triangles.Vertices.Count == 0)
                     continue;
@@ -102,7 +102,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
 
                 // Given in clockwise winding order
                 // Do the floors and ceilings separately to ensure their brushes are grouped to different statics
-                //General.ErrorLogger.Add(ErrorType.Warning, "HAs " + verts.Count + " verts");
+                //DoomBuilder.General.ErrorLogger.Add(ErrorType.Warning, "HAs " + verts.Count + " verts");
                 if (!s.HasSkyFloor)
                 {
                     geoWriter.BeginFuncStatic("floor", s.Index);
@@ -146,7 +146,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
 			* No need for any crazy vector projection when calculating drawheight, so we can simply add in the
 			* vertical offset right now
 			*/
-            foreach (Linedef line in General.Map.Map.Linedefs)
+            foreach (Linedef line in DoomBuilder.General.Map.Map.Linedefs)
             {
                 if (line.Front == null)
                     continue;
@@ -237,7 +237,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
                     if (drawMid)
                     {
                         // Since middle textures do not repeat vertically, we have to account for the texture height
-                        float midTextureHeight = General.Map.Data.GetTextureImage(front.MiddleTexture).Height / cfg.downscale;
+                        float midTextureHeight = DoomBuilder.General.Map.Data.GetTextureImage(front.MiddleTexture).Height / cfg.downscale;
 
                         float midMinHeight = lowerUnpegged ? (backFloor + frontOffsetY) : (backCeil - midTextureHeight + frontOffsetY);
                         float midMaxHeight = lowerUnpegged ? (backFloor + midTextureHeight + frontOffsetY) : (backCeil + frontOffsetY);
@@ -279,7 +279,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
                     }
                     if (drawMid)
                     {
-                        float midTextureHeight = General.Map.Data.GetTextureImage(back.MiddleTexture).Height / cfg.downscale;
+                        float midTextureHeight = DoomBuilder.General.Map.Data.GetTextureImage(back.MiddleTexture).Height / cfg.downscale;
 
                         float midMinHeight = lowerUnpegged ? (frontFloor + backOffsetY) : (frontCeil - midTextureHeight + backOffsetY);
                         float midMaxHeight = lowerUnpegged ? (frontFloor + midTextureHeight + backOffsetY) : (frontCeil + backOffsetY);
@@ -677,7 +677,7 @@ entity {{
             // Write Textured surface
             // POSSIBLE TODO: TEST IF TEXTURE DOES NOT EXIST, draw as regular plane if it doesn't
 
-            ImageData dimensions = General.Map.Data.GetTextureImage(texture);
+            ImageData dimensions = DoomBuilder.General.Map.Data.GetTextureImage(texture);
             float xScale = 1.0f / dimensions.Width * cfg.downscale;
             float yScale = 1.0f / dimensions.Height * cfg.downscale;
 
@@ -740,7 +740,7 @@ entity {{
             for (int i = 0; i < bounds.Length; i++)
                 ents.WriteCasterPlane(bounds[i]);
 
-            ImageData dimensions = General.Map.Data.GetFlatImage(texture);
+            ImageData dimensions = DoomBuilder.General.Map.Data.GetFlatImage(texture);
             float xRatio = 1.0f / dimensions.Width;
             float yRatio = 1.0f / dimensions.Height;
             float xScale = xRatio * cfg.downscale;
@@ -885,25 +885,25 @@ entity {{
 
             if (form.ExportAllTextures)
             {
-                //General.ErrorLogger.Add(ErrorType.Warning, "All Textures");
-                foreach (ImageData img in General.Map.Data.Textures)
+                //DoomBuilder.General.ErrorLogger.Add(ErrorType.Warning, "All Textures");
+                foreach (ImageData img in DoomBuilder.General.Map.Data.Textures)
                     WriteArtAsset(artDir, matDir, "walls/", img);
 
-                foreach (ImageData img in General.Map.Data.Flats)
+                foreach (ImageData img in DoomBuilder.General.Map.Data.Flats)
                     WriteArtAsset(artDir, matDir, "flats/", img);
             }
             else
             {
-                //General.ErrorLogger.Add(ErrorType.Warning, "Map Textures");
+                //DoomBuilder.General.ErrorLogger.Add(ErrorType.Warning, "Map Textures");
                 foreach (string name in form.MapTextures)
                 {
-                    ImageData img = General.Map.Data.GetTextureImage(name);
+                    ImageData img = DoomBuilder.General.Map.Data.GetTextureImage(name);
                     WriteArtAsset(artDir, matDir, "walls/", img);
                 }
 
                 foreach (string name in form.MapFlats)
                 {
-                    ImageData img = General.Map.Data.GetFlatImage(name);
+                    ImageData img = DoomBuilder.General.Map.Data.GetFlatImage(name);
                     WriteArtAsset(artDir, matDir, "flats/", img);
                 }
             }

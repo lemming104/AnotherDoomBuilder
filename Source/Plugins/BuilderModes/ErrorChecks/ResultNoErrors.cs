@@ -1,4 +1,3 @@
-
 #region ================== Copyright (c) 2007 Pascal vd Heiden
 
 /*
@@ -18,7 +17,7 @@
 
 #endregion
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultNoErrors : ErrorResult
     {

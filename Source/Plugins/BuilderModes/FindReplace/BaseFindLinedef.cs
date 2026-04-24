@@ -1,9 +1,8 @@
-﻿
-using CodeImp.DoomBuilder.Map;
+﻿using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     //mxd. Encapsulates boring stuff
     internal class BaseFindLinedef : FindReplaceType
@@ -15,14 +14,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (selection.Length == 1)
             {
                 ZoomToSelection(selection);
-                General.Interface.ShowLinedefInfo(selection[0].Linedef);
+                DoomBuilder.General.Interface.ShowLinedefInfo(selection[0].Linedef);
             }
             else
             {
-                General.Interface.HideInfo();
+                DoomBuilder.General.Interface.HideInfo();
             }
 
-            General.Map.Map.ClearAllSelected();
+            DoomBuilder.General.Map.Map.ClearAllSelected();
             foreach (FindReplaceObject obj in selection) obj.Linedef.Selected = true;
         }
 
@@ -30,7 +29,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public override void PlotSelection(IRenderer2D renderer, FindReplaceObject[] selection)
         {
             foreach (FindReplaceObject o in selection)
-                renderer.PlotLinedef(o.Linedef, General.Colors.Selection);
+                renderer.PlotLinedef(o.Linedef, DoomBuilder.General.Colors.Selection);
         }
 
         // Edit objects
@@ -39,7 +38,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             HashSet<Linedef> linedefs = new HashSet<Linedef>();
             foreach (FindReplaceObject o in selection)
                 if (!linedefs.Contains(o.Linedef)) linedefs.Add(o.Linedef);
-            General.Interface.ShowEditLinedefs(linedefs);
+            DoomBuilder.General.Interface.ShowEditLinedefs(linedefs);
         }
     }
 }

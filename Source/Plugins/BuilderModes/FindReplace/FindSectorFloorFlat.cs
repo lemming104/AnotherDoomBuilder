@@ -1,11 +1,10 @@
-﻿
-using CodeImp.DoomBuilder.Config;
+﻿using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     [FindReplace("Sector Flat (Floor)", BrowseButton = true)]
     internal class FindSectorFloorFlat : FindSectorFlat
@@ -19,7 +18,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             List<FindReplaceObject> objs = new List<FindReplaceObject>();
 
             // Interpret the replacement
-            if (replace && (string.IsNullOrEmpty(replacewith) || replacewith.Length > General.Map.Config.MaxTextureNameLength))
+            if (replace && (string.IsNullOrEmpty(replacewith) || replacewith.Length > DoomBuilder.General.Map.Config.MaxTextureNameLength))
             {
                 MessageBox.Show("Invalid replace value for this search type!", "Find and Replace", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return objs.ToArray();
@@ -30,7 +29,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             MatchingTextureSet set = new MatchingTextureSet(new Collection<string> { value.Trim() }); //mxd
 
             // Where to search?
-            ICollection<Sector> list = withinselection ? General.Map.Map.GetSelectedSectors(true) : General.Map.Map.Sectors;
+            ICollection<Sector> list = withinselection ? DoomBuilder.General.Map.Map.GetSelectedSectors(true) : DoomBuilder.General.Map.Map.Sectors;
 
             // Go for all sectors
             foreach (Sector s in list)
@@ -47,9 +46,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // When replacing, make sure we keep track of used textures
             if (replace)
             {
-                General.Map.Data.UpdateUsedTextures();
-                General.Map.Map.Update(); //mxd. And don't forget to update the view itself
-                General.Map.IsChanged = true;
+                DoomBuilder.General.Map.Data.UpdateUsedTextures();
+                DoomBuilder.General.Map.Map.Update(); //mxd. And don't forget to update the view itself
+                DoomBuilder.General.Map.IsChanged = true;
             }
 
             return objs.ToArray();

@@ -12,6 +12,7 @@
  */
 
 
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.IO;
@@ -25,7 +26,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal abstract class BaseVisualGeometrySector : VisualGeometry, IVisualEventReceiver
     {
@@ -109,20 +110,20 @@ namespace CodeImp.DoomBuilder.BuilderModes
             double u_ray = 1.0f;
 
             // Calculate intersection position
-            this.Level.plane.GetIntersection(General.Map.VisualCamera.Position, General.Map.VisualCamera.Target, ref u_ray);
-            Vector3D intersect = General.Map.VisualCamera.Position + ((General.Map.VisualCamera.Target - General.Map.VisualCamera.Position) * u_ray);
+            this.Level.plane.GetIntersection(DoomBuilder.General.Map.VisualCamera.Position, DoomBuilder.General.Map.VisualCamera.Target, ref u_ray);
+            Vector3D intersect = DoomBuilder.General.Map.VisualCamera.Position + ((DoomBuilder.General.Map.VisualCamera.Target - DoomBuilder.General.Map.VisualCamera.Position) * u_ray);
 
             // Calculate offsets
             Vector3D dragdelta = intersect - dragorigin;
             double offsetx = dragdelta.x;
             double offsety = dragdelta.y;
 
-            bool lockX = General.Interface.CtrlState && !General.Interface.ShiftState;
-            bool lockY = !General.Interface.CtrlState && General.Interface.ShiftState;
+            bool lockX = DoomBuilder.General.Interface.CtrlState && !DoomBuilder.General.Interface.ShiftState;
+            bool lockY = !DoomBuilder.General.Interface.CtrlState && DoomBuilder.General.Interface.ShiftState;
 
             if (lockX || lockY)
             {
-                double camAngle = Angle2D.RadToDeg(General.Map.VisualCamera.AngleXY);
+                double camAngle = Angle2D.RadToDeg(DoomBuilder.General.Map.VisualCamera.AngleXY);
 
                 if (camAngle > 315 || camAngle < 46)
                 {
@@ -161,7 +162,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             // Calculate deltas
             int deltax, deltay;
-            if (General.Interface.CtrlState && General.Interface.ShiftState)
+            if (DoomBuilder.General.Interface.CtrlState && DoomBuilder.General.Interface.ShiftState)
             {
                 //mxd. Clamp to grid size?
                 int newoffsetx = startoffsetx - (int)Math.Round(offsetx);
@@ -169,9 +170,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 deltax = prevoffsetx - newoffsetx;
                 deltay = prevoffsety - newoffsety;
 
-                if (Math.Abs(deltax) >= General.Map.Grid.GridSize)
+                if (Math.Abs(deltax) >= DoomBuilder.General.Map.Grid.GridSize)
                 {
-                    deltax = General.Map.Grid.GridSize * Math.Sign(deltax);
+                    deltax = DoomBuilder.General.Map.Grid.GridSize * Math.Sign(deltax);
                     prevoffsetx = newoffsetx;
                 }
                 else
@@ -179,9 +180,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     deltax = 0;
                 }
 
-                if (Math.Abs(deltay) >= General.Map.Grid.GridSize)
+                if (Math.Abs(deltay) >= DoomBuilder.General.Map.Grid.GridSize)
                 {
-                    deltay = General.Map.Grid.GridSize * Math.Sign(deltay);
+                    deltay = DoomBuilder.General.Map.Grid.GridSize * Math.Sign(deltay);
                     prevoffsety = newoffsety;
                 }
                 else
@@ -269,8 +270,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             Sector.Sector.Fields.BeforeFieldsChange();
 
             //find an angle to rotate texture
-            double sourceAngle = Math.Round(General.ClampAngle(isFront ? -Angle2D.RadToDeg(targetLine.Angle) + 90 : -Angle2D.RadToDeg(targetLine.Angle) - 90), 1);
-            if (!isFront) sourceAngle = General.ClampAngle(sourceAngle + 180);
+            double sourceAngle = Math.Round(DoomBuilder.General.ClampAngle(isFront ? -Angle2D.RadToDeg(targetLine.Angle) + 90 : -Angle2D.RadToDeg(targetLine.Angle) - 90), 1);
+            if (!isFront) sourceAngle = DoomBuilder.General.ClampAngle(sourceAngle + 180);
 
             //update angle
             UniFields.SetFloat(Sector.Sector.Fields, isFloor ? "rotationfloor" : "rotationceiling", sourceAngle, 0.0);
@@ -329,7 +330,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd
         protected void ClearFields(IEnumerable<string> keys, string undodescription, string resultdescription)
         {
-            if (!General.Map.UDMF) return;
+            if (!DoomBuilder.General.Map.UDMF) return;
 
             mode.CreateUndo(undodescription);
             mode.SetActionResult(resultdescription);
@@ -388,8 +389,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public virtual void OnSelectBegin()
         {
             mode.LockTarget();
-            dragstartanglexy = General.Map.VisualCamera.AngleXY;
-            dragstartanglez = General.Map.VisualCamera.AngleZ;
+            dragstartanglexy = DoomBuilder.General.Map.VisualCamera.AngleXY;
+            dragstartanglez = DoomBuilder.General.Map.VisualCamera.AngleZ;
             dragorigin = pickintersect;
             startoffsetx = GetTextureOffset().X;
             startoffsety = GetTextureOffset().Y;
@@ -432,7 +433,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // toggle selected state
                 if (mode.PaintSelectType == this.GetType().BaseType && mode.Highlighted != this) // using BaseType so that both floor and ceiling can be selected in one go
                 {
-                    if (General.Interface.ShiftState ^ BuilderPlug.Me.AdditivePaintSelect)
+                    if (DoomBuilder.General.Interface.ShiftState ^ BuilderPlug.Me.AdditivePaintSelect)
                     {
                         if (!selected)
                         {
@@ -440,7 +441,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                             mode.AddSelectedObject(this);
                         }
                     }
-                    else if (General.Interface.CtrlState)
+                    else if (DoomBuilder.General.Interface.CtrlState)
                     {
                         if (selected)
                         {
@@ -462,7 +463,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 return;
             }
 
-            if (!General.Map.UDMF) return; //mxd. Cannot change texture offsets in other map formats...
+            if (!DoomBuilder.General.Map.UDMF) return; //mxd. Cannot change texture offsets in other map formats...
 
             // Dragging UV?
             if (uvdragging)
@@ -472,11 +473,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
             else
             {
                 // Select button pressed?
-                if (General.Actions.CheckActionActive(General.ThisAssembly, "visualselect"))
+                if (DoomBuilder.General.Actions.CheckActionActive(DoomBuilder.General.ThisAssembly, "visualselect"))
                 {
                     // Check if tolerance is exceeded to start UV dragging
-                    double deltaxy = General.Map.VisualCamera.AngleXY - dragstartanglexy;
-                    double deltaz = General.Map.VisualCamera.AngleZ - dragstartanglez;
+                    double deltaxy = DoomBuilder.General.Map.VisualCamera.AngleXY - dragstartanglexy;
+                    double deltaz = DoomBuilder.General.Map.VisualCamera.AngleZ - dragstartanglez;
                     if ((Math.Abs(deltaxy) + Math.Abs(deltaz)) > DRAG_ANGLE_TOLERANCE)
                     {
                         mode.PreAction(UndoGroup.TextureOffsetChange);
@@ -516,7 +517,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 if (setuponloadedtexture != 0)
                 {
-                    ImageData t = General.Map.Data.GetFlatImage(setuponloadedtexture);
+                    ImageData t = DoomBuilder.General.Map.Data.GetFlatImage(setuponloadedtexture);
                     if (t != null && t.IsImageLoaded)
                     {
                         lastsetuponloadedtexture = setuponloadedtexture;
@@ -540,7 +541,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 if (newtexture != oldtexture)
                 {
                     // Get the texture
-                    ImageData newtextureimage = General.Map.Data.GetFlatImage(newtexture);
+                    ImageData newtextureimage = DoomBuilder.General.Map.Data.GetFlatImage(newtexture);
                     if (newtextureimage != null)
                     {
                         bool fillceilings = this is VisualCeiling;
@@ -557,17 +558,17 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         }
 
                         mode.Renderer.SetCrosshairBusy(true);
-                        General.Interface.RedrawDisplay();
+                        DoomBuilder.General.Interface.RedrawDisplay();
 
                         if (mode.IsSingleSelection)
                         {
                             // Clear all marks, this will align everything it can
-                            General.Map.Map.ClearMarkedSectors(false);
+                            DoomBuilder.General.Map.Map.ClearMarkedSectors(false);
                         }
                         else
                         {
                             // Limit the alignment to selection only
-                            General.Map.Map.ClearMarkedSectors(true);
+                            DoomBuilder.General.Map.Map.ClearMarkedSectors(true);
                             List<Sector> sectors = mode.GetSelectedSectors();
                             foreach (Sector s in sectors) s.Marked = false;
                         }
@@ -579,7 +580,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         Tools.FloodfillFlats(this.Sector.Sector, fillceilings, oldtexturehashes, newtexture, false);
 
                         // Get the changed sectors
-                        List<Sector> changes = General.Map.Map.GetMarkedSectors(true);
+                        List<Sector> changes = DoomBuilder.General.Map.Map.GetMarkedSectors(true);
                         foreach (Sector s in changes)
                         {
                             // Update the visual sector
@@ -591,7 +592,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                             }
                         }
 
-                        General.Map.Data.UpdateUsedTextures();
+                        DoomBuilder.General.Map.Data.UpdateUsedTextures();
                         mode.Renderer.SetCrosshairBusy(false);
                         mode.ShowTargetInfo();
                     }
@@ -602,7 +603,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd. Auto-align texture offsets
         public virtual void OnTextureAlign(bool alignx, bool aligny)
         {
-            if (!General.Map.UDMF) return;
+            if (!DoomBuilder.General.Map.UDMF) return;
 
             //create undo
             string rest;
@@ -658,9 +659,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Map is changed
-            General.Map.Map.Update();
-            General.Map.IsChanged = true;
-            General.Interface.RefreshInfo();
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Map.IsChanged = true;
+            DoomBuilder.General.Interface.RefreshInfo();
         }
 
         // Copy properties
@@ -694,10 +695,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Select texture
         public virtual void OnSelectTexture()
         {
-            if (General.Interface.IsActiveWindow)
+            if (DoomBuilder.General.Interface.IsActiveWindow)
             {
                 string oldtexture = GetTextureName();
-                string newtexture = General.Interface.BrowseFlat(General.Interface, oldtexture);
+                string newtexture = DoomBuilder.General.Interface.BrowseFlat(DoomBuilder.General.Interface, oldtexture);
                 if (newtexture != oldtexture)
                 {
                     mode.ApplySelectTexture(newtexture, true);
@@ -724,12 +725,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             //mxd. When UseLongTextureNames is enabled and the image filename is longer than 8 chars, use full name, 
             // otherwise use texture name as stored in Sector
-            string texturename = (General.Map.Options.UseLongTextureNames && Texture != null && Texture.UsedInMap
+            string texturename = (DoomBuilder.General.Map.Options.UseLongTextureNames && Texture != null && Texture.UsedInMap
                 && Path.GetFileNameWithoutExtension(Texture.Name).Length > DataManager.CLASIC_IMAGE_NAME_LENGTH)
                 ? Texture.Name : GetTextureName();
 
             BuilderPlug.Me.CopiedFlat = texturename;
-            if (General.Map.Config.MixTexturesFlats) BuilderPlug.Me.CopiedTexture = texturename;
+            if (DoomBuilder.General.Map.Config.MixTexturesFlats) BuilderPlug.Me.CopiedTexture = texturename;
             mode.SetActionResult("Copied flat \"" + texturename + "\".");
         }
 
@@ -741,7 +742,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Edit button released
         public virtual void OnEditEnd()
         {
-            if (General.Interface.IsActiveWindow)
+            if (DoomBuilder.General.Interface.IsActiveWindow)
             {
                 //mxd
                 List<Sector> sectors = mode.GetSelectedSectors();
@@ -753,11 +754,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         updatelist.Add((BaseVisualSector)mode.GetVisualSector(s));
                 }
 
-                General.Interface.OnEditFormValuesChanged += Interface_OnEditFormValuesChanged; //mxd
+                DoomBuilder.General.Interface.OnEditFormValuesChanged += Interface_OnEditFormValuesChanged; //mxd
                 mode.StartRealtimeInterfaceUpdate(SelectionType.Sectors); //mxd
-                DialogResult result = General.Interface.ShowEditSectors(sectors);
+                DialogResult result = DoomBuilder.General.Interface.ShowEditSectors(sectors);
                 mode.StopRealtimeInterfaceUpdate(SelectionType.Sectors); //mxd
-                General.Interface.OnEditFormValuesChanged -= Interface_OnEditFormValuesChanged; //mxd
+                DoomBuilder.General.Interface.OnEditFormValuesChanged -= Interface_OnEditFormValuesChanged; //mxd
 
                 updatelist.Clear(); //mxd
                 updatelist = null; //mxd
@@ -794,7 +795,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (vs != null) vs.UpdateSectorGeometry(true);
 
             // Visual slope handles need to be updated, too
-            if (General.Map.UDMF)
+            if (DoomBuilder.General.Map.UDMF)
             {
                 if (mode.AllSlopeHandles.ContainsKey(level.sector))
                     foreach (VisualSlope handle in mode.AllSlopeHandles[level.sector])
@@ -808,9 +809,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
             mode.CreateUndo("Change sector brightness", UndoGroup.SectorBrightnessChange, Sector.Sector.FixedIndex);
 
             if (up)
-                Sector.Sector.Brightness = General.Map.Config.BrightnessLevels.GetNextHigher(Sector.Sector.Brightness);
+                Sector.Sector.Brightness = DoomBuilder.General.Map.Config.BrightnessLevels.GetNextHigher(Sector.Sector.Brightness);
             else
-                Sector.Sector.Brightness = General.Map.Config.BrightnessLevels.GetNextLower(Sector.Sector.Brightness);
+                Sector.Sector.Brightness = DoomBuilder.General.Map.Config.BrightnessLevels.GetNextLower(Sector.Sector.Brightness);
 
             mode.SetActionResult("Changed sector brightness to " + Sector.Sector.Brightness + ".");
 
@@ -826,13 +827,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (horizontal == 0 && vertical == 0) return false; //mxd
 
             //mxd
-            if (!General.Map.UDMF)
+            if (!DoomBuilder.General.Map.UDMF)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Floor/ceiling texture offsets cannot be changed in this map format!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Floor/ceiling texture offsets cannot be changed in this map format!");
                 return false;
             }
 
-            if ((General.Map.UndoRedo.NextUndo == null) || (General.Map.UndoRedo.NextUndo.TicketID != undoticket))
+            if ((DoomBuilder.General.Map.UndoRedo.NextUndo == null) || (DoomBuilder.General.Map.UndoRedo.NextUndo.TicketID != undoticket))
                 undoticket = mode.CreateUndo("Change texture offsets");
 
             //mxd
@@ -842,13 +843,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (doSurfaceAngleCorrection)
             {
                 Point p = new Point(horizontal, vertical);
-                double angle = Angle2D.RadToDeg(General.Map.VisualCamera.AngleXY);
+                double angle = Angle2D.RadToDeg(DoomBuilder.General.Map.VisualCamera.AngleXY);
                 if (GeometryType == VisualGeometryType.CEILING)
                     angle += level.sector.Fields.GetValue("rotationceiling", 0.0);
                 else
                     angle += level.sector.Fields.GetValue("rotationfloor", 0.0);
 
-                angle = General.ClampAngle(angle);
+                angle = DoomBuilder.General.ClampAngle(angle);
 
                 if (angle > 315 || angle < 46)
                 {
@@ -894,9 +895,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd
         public virtual void OnChangeTextureRotation(double angle)
         {
-            if (!General.Map.UDMF) return;
+            if (!DoomBuilder.General.Map.UDMF) return;
 
-            if ((General.Map.UndoRedo.NextUndo == null) || (General.Map.UndoRedo.NextUndo.TicketID != undoticket))
+            if ((DoomBuilder.General.Map.UndoRedo.NextUndo == null) || (DoomBuilder.General.Map.UndoRedo.NextUndo.TicketID != undoticket))
                 undoticket = mode.CreateUndo("Change texture rotation");
 
             string key = GeometryType == VisualGeometryType.FLOOR ? "rotationfloor" : "rotationceiling";
@@ -928,18 +929,18 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd
         public virtual void OnChangeScale(int incrementX, int incrementY)
         {
-            if (!General.Map.UDMF || !Texture.IsImageLoaded) return;
+            if (!DoomBuilder.General.Map.UDMF || !Texture.IsImageLoaded) return;
 
             changed = true;
 
-            if ((General.Map.UndoRedo.NextUndo == null) || (General.Map.UndoRedo.NextUndo.TicketID != undoticket))
+            if ((DoomBuilder.General.Map.UndoRedo.NextUndo == null) || (DoomBuilder.General.Map.UndoRedo.NextUndo.TicketID != undoticket))
                 undoticket = mode.CreateUndo("Change texture scale");
 
             // Adjust to camera view
-            double angle = Angle2D.RadToDeg(General.Map.VisualCamera.AngleXY);
+            double angle = Angle2D.RadToDeg(DoomBuilder.General.Map.VisualCamera.AngleXY);
             if (GeometryType == VisualGeometryType.CEILING) angle += level.sector.Fields.GetValue("rotationceiling", 0.0);
             else angle += level.sector.Fields.GetValue("rotationfloor", 0.0);
-            angle = General.ClampAngle(angle);
+            angle = DoomBuilder.General.ClampAngle(angle);
 
             if (angle > 315 || angle < 46)
             {
@@ -979,7 +980,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             mode.PaintSelectType = this.GetType().BaseType; // using BaseType so that both floor and ceiling can be selected in one go
 
             // toggle selected state
-            if (General.Interface.ShiftState ^ BuilderPlug.Me.AdditivePaintSelect)
+            if (DoomBuilder.General.Interface.ShiftState ^ BuilderPlug.Me.AdditivePaintSelect)
             {
                 if (!selected)
                 {
@@ -987,7 +988,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     mode.AddSelectedObject(this);
                 }
             }
-            else if (General.Interface.CtrlState)
+            else if (DoomBuilder.General.Interface.CtrlState)
             {
                 if (selected)
                 {

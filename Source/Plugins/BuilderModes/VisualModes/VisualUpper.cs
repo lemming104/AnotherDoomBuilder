@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal sealed class VisualUpper : BaseVisualGeometrySidedef
     {
@@ -90,10 +90,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (Sidedef.LongHighTexture != MapSet.EmptyLongName)
             {
                 // Load texture
-                base.Texture = General.Map.Data.GetTextureImage(Sidedef.LongHighTexture);
+                base.Texture = DoomBuilder.General.Map.Data.GetTextureImage(Sidedef.LongHighTexture);
                 if (base.Texture == null || base.Texture is UnknownImage)
                 {
-                    base.Texture = General.Map.Data.UnknownTexture3D;
+                    base.Texture = DoomBuilder.General.Map.Data.UnknownTexture3D;
                     setuponloadedtexture = Sidedef.LongHighTexture;
                 }
                 else if (!base.Texture.IsImageLoaded)
@@ -104,7 +104,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             else
             {
                 // Use missing texture
-                base.Texture = General.Map.Data.MissingTexture3D;
+                base.Texture = DoomBuilder.General.Map.Data.MissingTexture3D;
                 setuponloadedtexture = 0;
             }
 
@@ -117,7 +117,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             tof = tof + toffset;
 
             // biwa. Also take the ForceWorldPanning MAPINFO entry into account
-            if (General.Map.Config.ScaledTextureOffsets && !base.Texture.WorldPanning && !General.Map.Data.MapInfo.ForceWorldPanning)
+            if (DoomBuilder.General.Map.Config.ScaledTextureOffsets && !base.Texture.WorldPanning && !DoomBuilder.General.Map.Data.MapInfo.ForceWorldPanning)
             {
                 tof = tof / tscaleAbs;
                 tof = tof * base.Texture.Scale;
@@ -135,7 +135,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // height is 0 then the TexturePlane doesn't work!
             TexturePlane tp = new TexturePlane();
             double ceilbias = (Sidedef.Other.Sector.CeilHeight == Sidedef.Sector.CeilHeight) ? 1.0 : 0.0;
-            if (!Sidedef.Line.IsFlagSet(General.Map.Config.UpperUnpeggedFlag))
+            if (!Sidedef.Line.IsFlagSet(DoomBuilder.General.Map.Config.UpperUnpeggedFlag))
             {
                 // When lower unpegged is set, the lower texture is bound to the bottom
                 tp.tlt.y = tsz.y - (Sidedef.Sector.CeilHeight - Sidedef.Other.Sector.CeilHeight);
@@ -225,7 +225,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         protected override void SetTexture(string texturename)
         {
             this.Sidedef.SetTextureHigh(texturename);
-            General.Map.Data.UpdateUsedTextures();
+            DoomBuilder.General.Map.Data.UpdateUsedTextures();
             this.Setup();
 
             //mxd. Other sector also may require updating
@@ -249,7 +249,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         protected override void MoveTextureOffset(int offsetx, int offsety)
         {
             Sidedef.Fields.BeforeFieldsChange();
-            bool worldpanning = this.Texture.WorldPanning || General.Map.Data.MapInfo.ForceWorldPanning;
+            bool worldpanning = this.Texture.WorldPanning || DoomBuilder.General.Map.Data.MapInfo.ForceWorldPanning;
             double oldx = Sidedef.Fields.GetValue("offsetx_top", 0.0);
             double oldy = Sidedef.Fields.GetValue("offsety_top", 0.0);
             double scalex = Sidedef.Fields.GetValue("scalex_top", 1.0);
@@ -280,7 +280,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd
         public override void OnTextureFit(FitTextureOptions options)
         {
-            if (!General.Map.UDMF) return;
+            if (!DoomBuilder.General.Map.UDMF) return;
             if (!Sidedef.HighRequired() || string.IsNullOrEmpty(Sidedef.HighTexture) || Sidedef.HighTexture == "-" || !Texture.IsImageLoaded) return;
             FitTexture(options);
             Setup();
@@ -294,10 +294,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Reset
             skew = new Vector2f(0.0f);
 
-            if (!General.Map.Config.SidedefTextureSkewing)
+            if (!DoomBuilder.General.Map.Config.SidedefTextureSkewing)
                 return;
 
-            if (General.Map.Config.SkewStyle == Config.SkewStyle.GZDoom)
+            if (DoomBuilder.General.Map.Config.SkewStyle == Config.SkewStyle.GZDoom)
             {
                 int skewtype = Sidedef.Fields.GetValue("skew_top", 0);
 
@@ -325,7 +325,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         );
                 }
             }
-            else if (General.Map.Config.SkewStyle == Config.SkewStyle.EternityEngine)
+            else if (DoomBuilder.General.Map.Config.SkewStyle == Config.SkewStyle.EternityEngine)
             {
                 string skewtype = Sidedef.Fields.GetValue("skew_top_type", "none");
 

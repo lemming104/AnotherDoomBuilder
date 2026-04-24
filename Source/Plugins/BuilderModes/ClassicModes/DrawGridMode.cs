@@ -1,5 +1,5 @@
-﻿
-using CodeImp.DoomBuilder.Actions;
+﻿using CodeImp.DoomBuilder.Actions;
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
 using CodeImp.DoomBuilder.Controls;
 using CodeImp.DoomBuilder.Editing;
@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
 {
     [EditMode(DisplayName = "Draw Grid Mode",
               SwitchAction = "drawgridmode",
@@ -69,13 +69,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
         override public void OnAccept()
         {
             Cursor.Current = Cursors.AppStarting;
-            General.Settings.FindDefaultDrawSettings();
+            DoomBuilder.General.Settings.FindDefaultDrawSettings();
 
             // When we have a shape...
             if (gridpoints.Count > 0)
             {
                 // Make undo for the draw
-                General.Map.UndoRedo.CreateUndo("Grid draw");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Grid draw");
 
                 // Make an analysis and show info
                 string[] adjectives = new[]
@@ -86,7 +86,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 string word = adjectives[new Random().Next(adjectives.Length - 1)];
                 string a = ((word[0] == 'a') || (word[0] == 'e') || (word[0] == 'o') || (word[0] == 'u')) ? "an " : "a ";
 
-                General.Interface.DisplayStatus(StatusType.Action, "Created " + a + word + " grid.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Created " + a + word + " grid.");
 
                 List<Sector> newsectors = new List<Sector>();
                 foreach (DrawnVertex[] shape in gridpoints)
@@ -94,38 +94,38 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     if (Tools.DrawLines(shape, true, BuilderPlug.Me.AutoAlignTextureOffsetsOnCreate))
                     {
                         // Update cached values after each step...
-                        General.Map.Map.Update();
+                        DoomBuilder.General.Map.Map.Update();
 
-                        newsectors.AddRange(General.Map.Map.GetMarkedSectors(true));
+                        newsectors.AddRange(DoomBuilder.General.Map.Map.GetMarkedSectors(true));
 
                         // Snap to map format accuracy
-                        General.Map.Map.SnapAllToAccuracy();
+                        DoomBuilder.General.Map.Map.SnapAllToAccuracy();
 
                         // Clear selection
-                        General.Map.Map.ClearAllSelected();
+                        DoomBuilder.General.Map.Map.ClearAllSelected();
 
                         //mxd. Outer sectors may require some splittin...
-                        if (General.Settings.SplitJoinedSectors) Tools.SplitOuterSectors(General.Map.Map.GetMarkedLinedefs(true));
+                        if (DoomBuilder.General.Settings.SplitJoinedSectors) Tools.SplitOuterSectors(DoomBuilder.General.Map.Map.GetMarkedLinedefs(true));
 
                         // Edit new sectors?
                         if (BuilderPlug.Me.EditNewSector && (newsectors.Count > 0))
-                            General.Interface.ShowEditSectors(newsectors);
+                            DoomBuilder.General.Interface.ShowEditSectors(newsectors);
 
                         // Update the used textures
-                        General.Map.Data.UpdateUsedTextures();
+                        DoomBuilder.General.Map.Data.UpdateUsedTextures();
 
                         //mxd
-                        General.Map.Renderer2D.UpdateExtraFloorFlag();
+                        DoomBuilder.General.Map.Renderer2D.UpdateExtraFloorFlag();
 
                         // Map is changed
-                        General.Map.IsChanged = true;
+                        DoomBuilder.General.Map.IsChanged = true;
                     }
                     else
                     {
                         // Drawing failed
                         // NOTE: I have to call this twice, because the first time only cancels this volatile mode
-                        General.Map.UndoRedo.WithdrawUndo();
-                        General.Map.UndoRedo.WithdrawUndo();
+                        DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
+                        DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
                     }
                 }
             }
@@ -142,12 +142,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 drawingautoclosed = false;
 
                 // Redraw display
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Interface.RedrawDisplay();
             }
             else
             {
                 // Return to original mode
-                General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
+                DoomBuilder.General.Editing.ChangeMode(DoomBuilder.General.Editing.PreviousStableMode.Name);
             }
         }
 
@@ -170,31 +170,31 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private void OptionsPanelOnGridLockChanged(object sender, EventArgs eventArgs)
         {
             gridlockmode = panel.GridLockMode;
-            General.Hints.ShowHints(this.GetType(), (gridlockmode != GridLockMode.NONE) ? "gridlockhelp" : "general");
+            DoomBuilder.General.Hints.ShowHints(this.GetType(), (gridlockmode != GridLockMode.NONE) ? "gridlockhelp" : "general");
             Update();
         }
 
         public override void OnHelp()
         {
-            General.ShowHelp("/gzdb/features/classic_modes/mode_drawgrid.html");
+            DoomBuilder.General.ShowHelp("/gzdb/features/classic_modes/mode_drawgrid.html");
         }
 
         override protected void Update()
         {
-            PixelColor stitchcolor = General.Colors.Highlight;
-            PixelColor losecolor = General.Colors.Selection;
+            PixelColor stitchcolor = DoomBuilder.General.Colors.Highlight;
+            PixelColor losecolor = DoomBuilder.General.Colors.Selection;
 
             // We WANT snaptogrid and DON'T WANT snaptonearest when lock to grid is enabled
-            snaptocardinaldirection = General.Interface.ShiftState && General.Interface.AltState; //mxd
-            snaptogrid = snaptocardinaldirection || gridlockmode != GridLockMode.NONE || (General.Interface.ShiftState ^ General.Interface.SnapToGrid);
-            snaptonearest = gridlockmode == GridLockMode.NONE && (General.Interface.CtrlState ^ General.Interface.AutoMerge);
+            snaptocardinaldirection = DoomBuilder.General.Interface.ShiftState && DoomBuilder.General.Interface.AltState; //mxd
+            snaptogrid = snaptocardinaldirection || gridlockmode != GridLockMode.NONE || (DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid);
+            snaptonearest = gridlockmode == GridLockMode.NONE && (DoomBuilder.General.Interface.CtrlState ^ DoomBuilder.General.Interface.AutoMerge);
 
             DrawnVertex curp = GetCurrentPosition();
 
             Vector2D curvertexpos = curp.pos;
             float vsize = (renderer.VertexSize + 1.0f) / renderer.Scale;
 
-            curp.pos = curp.pos.GetRotated(-General.Map.Grid.GridRotate);
+            curp.pos = curp.pos.GetRotated(-DoomBuilder.General.Map.Grid.GridRotate);
 
             // Render drawing lines
             if (renderer.StartOverlay(true))
@@ -206,19 +206,19 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     UpdateReferencePoints(points[0], curp);
                     List<Vector2D[]> shapes = GetShapes(start, end);
 
-                    Vector2D startrotated = start.GetRotated(General.Map.Grid.GridRotate);
-                    Vector2D endrotated = end.GetRotated(General.Map.Grid.GridRotate);
+                    Vector2D startrotated = start.GetRotated(DoomBuilder.General.Map.Grid.GridRotate);
+                    Vector2D endrotated = end.GetRotated(DoomBuilder.General.Map.Grid.GridRotate);
 
                     // Rotate the shape to fit the grid rotation
                     foreach (Vector2D[] shape in shapes)
                     {
                         for (int i = 0; i < shape.Length; i++)
-                            shape[i] = shape[i].GetRotated(General.Map.Grid.GridRotate);
+                            shape[i] = shape[i].GetRotated(DoomBuilder.General.Map.Grid.GridRotate);
                     }
 
                     // Render guidelines
                     if (showguidelines)
-                        RenderGuidelines(startrotated, endrotated, General.Colors.Guideline.WithAlpha(80), -General.Map.Grid.GridRotate);
+                        RenderGuidelines(startrotated, endrotated, DoomBuilder.General.Colors.Guideline.WithAlpha(80), -DoomBuilder.General.Map.Grid.GridRotate);
 
                     //render shape
                     foreach (Vector2D[] shape in shapes)
@@ -244,7 +244,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     else
                     {
                         // Render labels for grid
-                        Vector2D[] labelCoords = { startrotated, new Vector2D(end.x, start.y).GetRotated(General.Map.Grid.GridRotate), endrotated, new Vector2D(start.x, end.y).GetRotated(General.Map.Grid.GridRotate), startrotated };
+                        Vector2D[] labelCoords = { startrotated, new Vector2D(end.x, start.y).GetRotated(DoomBuilder.General.Map.Grid.GridRotate), endrotated, new Vector2D(start.x, end.y).GetRotated(DoomBuilder.General.Map.Grid.GridRotate), startrotated };
 
                         for (int i = 1; i < 5; i++)
                         {
@@ -282,12 +282,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This draws a point at a specific location
         override public bool DrawPointAt(Vector2D pos, bool stitch, bool stitchline)
         {
-            if (pos.x < General.Map.Config.LeftBoundary || pos.x > General.Map.Config.RightBoundary ||
-                pos.y > General.Map.Config.TopBoundary || pos.y < General.Map.Config.BottomBoundary)
+            if (pos.x < DoomBuilder.General.Map.Config.LeftBoundary || pos.x > DoomBuilder.General.Map.Config.RightBoundary ||
+                pos.y > DoomBuilder.General.Map.Config.TopBoundary || pos.y < DoomBuilder.General.Map.Config.BottomBoundary)
                 return false;
 
             DrawnVertex newpoint = new DrawnVertex();
-            newpoint.pos = pos.GetRotated(-General.Map.Grid.GridRotate);
+            newpoint.pos = pos.GetRotated(-DoomBuilder.General.Map.Grid.GridRotate);
             newpoint.stitch = true; //stitch
             newpoint.stitchline = stitchline;
             points.Add(newpoint);
@@ -296,7 +296,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 // Add labels
                 labels.AddRange(new[] { new LineLengthLabel(false, true), new LineLengthLabel(false, true), new LineLengthLabel(false, true), new LineLengthLabel(false, true) });
-                hintlabel = new HintLabel(General.Colors.InfoLine);
+                hintlabel = new HintLabel(DoomBuilder.General.Colors.InfoLine);
                 Update();
             }
             else if (points[0].pos == points[1].pos)
@@ -317,7 +317,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     {
                         newpoint = new DrawnVertex
                         {
-                            pos = shape[i].GetRotated(General.Map.Grid.GridRotate), // Take grid rotation into account
+                            pos = shape[i].GetRotated(DoomBuilder.General.Map.Grid.GridRotate), // Take grid rotation into account
                             stitch = true,
                             stitchline = stitchline
                         };
@@ -346,18 +346,18 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     break;
 
                 case GridLockMode.HORIZONTAL:
-                    slicesH = Convert.ToInt32(Math.Ceiling(Math.Abs(width) / (double)General.Map.Grid.GridSize));
+                    slicesH = Convert.ToInt32(Math.Ceiling(Math.Abs(width) / (double)DoomBuilder.General.Map.Grid.GridSize));
                     slicesV = verticalslices;
                     break;
 
                 case GridLockMode.VERTICAL:
                     slicesH = horizontalslices;
-                    slicesV = Convert.ToInt32(Math.Ceiling(Math.Abs(height) / (double)General.Map.Grid.GridSize));
+                    slicesV = Convert.ToInt32(Math.Ceiling(Math.Abs(height) / (double)DoomBuilder.General.Map.Grid.GridSize));
                     break;
 
                 case GridLockMode.BOTH:
-                    slicesH = Convert.ToInt32(Math.Ceiling(Math.Abs(width) / (double)General.Map.Grid.GridSize));
-                    slicesV = Convert.ToInt32(Math.Ceiling(Math.Abs(height) / (double)General.Map.Grid.GridSize));
+                    slicesH = Convert.ToInt32(Math.Ceiling(Math.Abs(width) / (double)DoomBuilder.General.Map.Grid.GridSize));
+                    slicesV = Convert.ToInt32(Math.Ceiling(Math.Abs(height) / (double)DoomBuilder.General.Map.Grid.GridSize));
                     break;
             }
 
@@ -437,7 +437,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Triangulate?
             if (triangulate)
             {
-                bool startflip = (int)Math.Round((s.x + e.y) / General.Map.Grid.GridSizeF % 2) == 0;
+                bool startflip = (int)Math.Round((s.x + e.y) / DoomBuilder.General.Map.Grid.GridSizeF % 2) == 0;
                 bool flip = startflip;
 
                 for (int w = 0; w < slicesH; w++)
@@ -507,18 +507,18 @@ namespace CodeImp.DoomBuilder.BuilderModes
         protected override void SetupInterface()
         {
             // Load stored settings
-            triangulate = General.Settings.ReadPluginSetting("drawgridmode.triangulate", false);
-            gridlockmode = (GridLockMode)General.Settings.ReadPluginSetting("drawgridmode.gridlockmode", 0);
-            horizontalslices = Math.Max(General.Settings.ReadPluginSetting("drawgridmode.horizontalslices", 3), 1);
-            verticalslices = Math.Max(General.Settings.ReadPluginSetting("drawgridmode.verticalslices", 3), 1);
-            relativeinterpolation = General.Settings.ReadPluginSetting("drawgridmode.relativeinterpolation", true);
-            horizontalinterpolation = (InterpolationTools.Mode)General.Settings.ReadPluginSetting("drawgridmode.horizontalinterpolation", 0);
-            verticalinterpolation = (InterpolationTools.Mode)General.Settings.ReadPluginSetting("drawgridmode.verticalinterpolation", 0);
+            triangulate = DoomBuilder.General.Settings.ReadPluginSetting("drawgridmode.triangulate", false);
+            gridlockmode = (GridLockMode)DoomBuilder.General.Settings.ReadPluginSetting("drawgridmode.gridlockmode", 0);
+            horizontalslices = Math.Max(DoomBuilder.General.Settings.ReadPluginSetting("drawgridmode.horizontalslices", 3), 1);
+            verticalslices = Math.Max(DoomBuilder.General.Settings.ReadPluginSetting("drawgridmode.verticalslices", 3), 1);
+            relativeinterpolation = DoomBuilder.General.Settings.ReadPluginSetting("drawgridmode.relativeinterpolation", true);
+            horizontalinterpolation = (InterpolationTools.Mode)DoomBuilder.General.Settings.ReadPluginSetting("drawgridmode.horizontalinterpolation", 0);
+            verticalinterpolation = (InterpolationTools.Mode)DoomBuilder.General.Settings.ReadPluginSetting("drawgridmode.verticalinterpolation", 0);
 
             // Create and setup settings panel
             panel = new DrawGridOptionsPanel();
-            panel.MaxHorizontalSlices = (int)General.Map.FormatInterface.MaxCoordinate;
-            panel.MaxVerticalSlices = (int)General.Map.FormatInterface.MaxCoordinate;
+            panel.MaxHorizontalSlices = (int)DoomBuilder.General.Map.FormatInterface.MaxCoordinate;
+            panel.MaxVerticalSlices = (int)DoomBuilder.General.Map.FormatInterface.MaxCoordinate;
             panel.Triangulate = triangulate;
             panel.GridLockMode = gridlockmode;
             panel.HorizontalSlices = horizontalslices - 1;
@@ -533,8 +533,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             panel.OnRelativeInterpolationChanged += OnRelativeInterpolationChanged;
 
             // Needs to be set after adding the OnContinuousDrawingChanged event...
-            panel.ContinuousDrawing = General.Settings.ReadPluginSetting("drawgridmode.continuousdrawing", false);
-            panel.ShowGuidelines = General.Settings.ReadPluginSetting("drawgridmode.showguidelines", false);
+            panel.ContinuousDrawing = DoomBuilder.General.Settings.ReadPluginSetting("drawgridmode.continuousdrawing", false);
+            panel.ShowGuidelines = DoomBuilder.General.Settings.ReadPluginSetting("drawgridmode.showguidelines", false);
             panel.RelativeInterpolation = relativeinterpolation;
         }
 
@@ -542,25 +542,25 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             // Add docker
             docker = new Docker("drawgrid", "Draw Grid", panel);
-            General.Interface.AddDocker(docker, true);
-            General.Interface.SelectDocker(docker);
+            DoomBuilder.General.Interface.AddDocker(docker, true);
+            DoomBuilder.General.Interface.SelectDocker(docker);
         }
 
         protected override void RemoveInterface()
         {
             // Store settings
-            General.Settings.WritePluginSetting("drawgridmode.triangulate", triangulate);
-            General.Settings.WritePluginSetting("drawgridmode.gridlockmode", (int)gridlockmode);
-            General.Settings.WritePluginSetting("drawgridmode.horizontalslices", horizontalslices);
-            General.Settings.WritePluginSetting("drawgridmode.verticalslices", verticalslices);
-            General.Settings.WritePluginSetting("drawgridmode.relativeinterpolation", relativeinterpolation);
-            General.Settings.WritePluginSetting("drawgridmode.horizontalinterpolation", (int)horizontalinterpolation);
-            General.Settings.WritePluginSetting("drawgridmode.verticalinterpolation", (int)verticalinterpolation);
-            General.Settings.WritePluginSetting("drawgridmode.continuousdrawing", panel.ContinuousDrawing);
-            General.Settings.WritePluginSetting("drawgridmode.showguidelines", panel.ShowGuidelines);
+            DoomBuilder.General.Settings.WritePluginSetting("drawgridmode.triangulate", triangulate);
+            DoomBuilder.General.Settings.WritePluginSetting("drawgridmode.gridlockmode", (int)gridlockmode);
+            DoomBuilder.General.Settings.WritePluginSetting("drawgridmode.horizontalslices", horizontalslices);
+            DoomBuilder.General.Settings.WritePluginSetting("drawgridmode.verticalslices", verticalslices);
+            DoomBuilder.General.Settings.WritePluginSetting("drawgridmode.relativeinterpolation", relativeinterpolation);
+            DoomBuilder.General.Settings.WritePluginSetting("drawgridmode.horizontalinterpolation", (int)horizontalinterpolation);
+            DoomBuilder.General.Settings.WritePluginSetting("drawgridmode.verticalinterpolation", (int)verticalinterpolation);
+            DoomBuilder.General.Settings.WritePluginSetting("drawgridmode.continuousdrawing", panel.ContinuousDrawing);
+            DoomBuilder.General.Settings.WritePluginSetting("drawgridmode.showguidelines", panel.ShowGuidelines);
 
             // Remove docker
-            General.Interface.RemoveDocker(docker);
+            DoomBuilder.General.Interface.RemoveDocker(docker);
             panel.Dispose();
             panel = null;
         }

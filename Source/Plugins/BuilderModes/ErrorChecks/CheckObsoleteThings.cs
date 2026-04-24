@@ -1,9 +1,8 @@
-﻿
-using CodeImp.DoomBuilder.Config;
+﻿using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using System.Threading;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     [ErrorChecker("Check obsolete things", true, 50)]
     public class CheckObsoleteThings : ErrorChecker
@@ -12,12 +11,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private const int PROGRESS_STEP = 10;
 
         // Only possible when the game configuration supports the use of decorate
-        public override bool SkipCheck { get { return string.IsNullOrEmpty(General.Map.Config.DecorateGames); } }
+        public override bool SkipCheck { get { return string.IsNullOrEmpty(DoomBuilder.General.Map.Config.DecorateGames); } }
 
         public CheckObsoleteThings()
         {
             // Total progress is done when all things are checked
-            SetTotalProgress(General.Map.Map.Things.Count / PROGRESS_STEP);
+            SetTotalProgress(DoomBuilder.General.Map.Map.Things.Count / PROGRESS_STEP);
         }
 
         // This runs the check
@@ -27,9 +26,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
             int stepprogress = 0;
 
             // Go for all things
-            foreach (Thing t in General.Map.Map.Things)
+            foreach (Thing t in DoomBuilder.General.Map.Map.Things)
             {
-                ThingTypeInfo info = General.Map.Data.GetThingInfoEx(t.Type);
+                ThingTypeInfo info = DoomBuilder.General.Map.Data.GetThingInfoEx(t.Type);
                 if (info != null && info.IsObsolete)
                 {
                     SubmitResult(new ResultObsoleteThing(t, info.ObsoleteMessage));

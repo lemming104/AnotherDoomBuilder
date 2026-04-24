@@ -14,7 +14,7 @@
 
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal interface IVisualEventReceiver
     {

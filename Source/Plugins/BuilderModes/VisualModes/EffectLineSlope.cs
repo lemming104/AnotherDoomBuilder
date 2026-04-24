@@ -1,9 +1,8 @@
-﻿
-using CodeImp.DoomBuilder.Geometry;
+﻿using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal class EffectLineSlope : SectorEffect
     {
@@ -141,7 +140,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 // Update all things in the sector
-                foreach (Thing t in General.Map.Map.Things)
+                foreach (Thing t in DoomBuilder.General.Map.Map.Things)
                 {
                     if (t.Sector == data.Sector)
                     {

@@ -1,4 +1,6 @@
-﻿using CodeImp.DoomBuilder.Controls;
+﻿using CodeImp.DoomBuilder.BuilderModes.ClassicModes;
+using CodeImp.DoomBuilder.BuilderModes.General;
+using CodeImp.DoomBuilder.Controls;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Windows;
 using System;
@@ -52,24 +54,24 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 
             //which tabs should we display?
             TabPage[] activetabs = null;
-            if (General.Editing.Mode is ThingsMode)
+            if (DoomBuilder.General.Editing.Mode is ThingsMode)
             {
-                if (General.Map.Map.GetSelectedThings(true).Count == 0) return SetupFailed("This action requires selection...");
+                if (DoomBuilder.General.Map.Map.GetSelectedThings(true).Count == 0) return SetupFailed("This action requires selection...");
                 activetabs = new[] { things };
             }
-            else if (General.Editing.Mode is VerticesMode && General.Map.UDMF)
+            else if (DoomBuilder.General.Editing.Mode is VerticesMode && DoomBuilder.General.Map.UDMF)
             {
-                if (General.Map.Map.GetSelectedVertices(true).Count == 0) return SetupFailed("This action requires selection...");
+                if (DoomBuilder.General.Map.Map.GetSelectedVertices(true).Count == 0) return SetupFailed("This action requires selection...");
                 activetabs = new[] { vertices };
             }
-            else if (General.Editing.Mode is LinedefsMode)
+            else if (DoomBuilder.General.Editing.Mode is LinedefsMode)
             {
-                if (General.Map.Map.GetSelectedLinedefs(true).Count == 0) return SetupFailed("This action requires selection...");
+                if (DoomBuilder.General.Map.Map.GetSelectedLinedefs(true).Count == 0) return SetupFailed("This action requires selection...");
                 activetabs = new[] { linedefs, sidedefs };
             }
             else if (mode is SectorsMode)
             {
-                if (General.Map.Map.GetSelectedSectors(true).Count == 0) return SetupFailed("This action requires selection...");
+                if (DoomBuilder.General.Map.Map.GetSelectedSectors(true).Count == 0) return SetupFailed("This action requires selection...");
                 activetabs = new[] { sectors };
             }
 
@@ -126,7 +128,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 
         private static bool SetupFailed(string message)
         {
-            General.Interface.DisplayStatus(StatusType.Warning, message);
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, message);
             return false;
         }
 
@@ -165,8 +167,8 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             //perform selection
             if (mode is ThingsMode)
             {
-                ICollection<Thing> selected = General.Map.Map.GetSelectedThings(true);
-                ICollection<Thing> unselected = General.Map.Map.GetSelectedThings(false);
+                ICollection<Thing> selected = DoomBuilder.General.Map.Map.GetSelectedThings(true);
+                ICollection<Thing> unselected = DoomBuilder.General.Map.Map.GetSelectedThings(false);
 
                 foreach (Thing target in unselected)
                 {
@@ -179,8 +181,8 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             }
             else if (mode is LinedefsMode)
             {
-                ICollection<Linedef> selected = General.Map.Map.GetSelectedLinedefs(true);
-                ICollection<Linedef> unselected = General.Map.Map.GetSelectedLinedefs(false);
+                ICollection<Linedef> selected = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
+                ICollection<Linedef> unselected = DoomBuilder.General.Map.Map.GetSelectedLinedefs(false);
 
                 foreach (Linedef target in unselected)
                 {
@@ -193,8 +195,8 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             }
             else if (mode is SectorsMode)
             {
-                ICollection<Sector> selected = General.Map.Map.GetSelectedSectors(true);
-                ICollection<Sector> unselected = General.Map.Map.GetSelectedSectors(false);
+                ICollection<Sector> selected = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
+                ICollection<Sector> unselected = DoomBuilder.General.Map.Map.GetSelectedSectors(false);
 
                 foreach (Sector target in unselected)
                 {
@@ -207,8 +209,8 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             }
             else if (mode is VerticesMode)
             {
-                ICollection<Vertex> selected = General.Map.Map.GetSelectedVertices(true);
-                ICollection<Vertex> unselected = General.Map.Map.GetSelectedVertices(false);
+                ICollection<Vertex> selected = DoomBuilder.General.Map.Map.GetSelectedVertices(true);
+                ICollection<Vertex> unselected = DoomBuilder.General.Map.Map.GetSelectedVertices(false);
 
                 foreach (Vertex target in unselected)
                 {
@@ -222,7 +224,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             }
 
             mode.UpdateSelectionInfo();
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
             this.Close();
         }
     }

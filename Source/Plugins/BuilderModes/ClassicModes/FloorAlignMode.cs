@@ -16,7 +16,7 @@ using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Map;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
 {
     [EditMode(DisplayName = "Floor Align Mode",
               SwitchAction = "flooralignmode",
@@ -40,14 +40,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Get the texture data to align
         protected override ImageData GetTexture(Sector editsector)
         {
-            return General.Map.Data.GetFlatImage(editsector.LongFloorTexture);
+            return DoomBuilder.General.Map.Data.GetFlatImage(editsector.LongFloorTexture);
         }
 
         // Mode engages
         public override void OnEngage()
         {
             base.OnEngage();
-            General.Actions.InvokeAction("builder_viewmodefloors");
+            DoomBuilder.General.Actions.InvokeAction("builder_viewmodefloors");
         }
     }
 }

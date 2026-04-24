@@ -13,7 +13,7 @@
  */
 
 using CodeImp.DoomBuilder.Actions;
-using CodeImp.DoomBuilder.BuilderModes;
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
@@ -671,7 +671,7 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
                 foreach (SlopeVertex sv in svg.Vertices)
                 {
                     d = Vector2D.Distance(sv.Pos, mousemappos);
-                    if (d <= BuilderModes.BuilderPlug.Me.HighlightRange / renderer.Scale)
+                    if (d <= BuilderModes.General.BuilderPlug.Me.HighlightRange / renderer.Scale)
                     {
                         if (d > last)
                             continue; //discard

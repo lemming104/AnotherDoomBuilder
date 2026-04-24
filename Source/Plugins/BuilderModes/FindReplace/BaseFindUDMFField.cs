@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     class BaseFindUDMFField : BaseFindMapElement
     {
@@ -39,7 +39,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
         public override bool DetermineVisiblity()
         {
-            return General.Map.UDMF;
+            return DoomBuilder.General.Map.UDMF;
         }
 
         /// <summary>

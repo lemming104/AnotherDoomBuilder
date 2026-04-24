@@ -9,13 +9,13 @@ namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
     {
         private const int PROGRESS_STEP = 1000;
 
-        public override bool SkipCheck { get { return General.Map.Config.SafeBoundary <= 0; } }
+        public override bool SkipCheck { get { return DoomBuilder.General.Map.Config.SafeBoundary <= 0; } }
 
         // Constructor
         public CheckMapSize()
         {
             // Total progress is done when all vertices are checked
-            SetTotalProgress(General.Map.Map.Vertices.Count / PROGRESS_STEP);
+            SetTotalProgress(DoomBuilder.General.Map.Map.Vertices.Count / PROGRESS_STEP);
         }
 
         // This runs the check
@@ -30,7 +30,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
             double maxy = int.MinValue;
 
             // Go for all vertices
-            foreach (Vertex v in General.Map.Map.Vertices)
+            foreach (Vertex v in DoomBuilder.General.Map.Map.Vertices)
             {
                 if (v.Position.x < minx) minx = v.Position.x;
                 if (v.Position.x > maxx) maxx = v.Position.x;
@@ -49,7 +49,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
             }
 
             // Map elements should not be more than 32767 mu apart
-            if (maxx - minx > General.Map.Config.SafeBoundary || maxy - miny > General.Map.Config.SafeBoundary)
+            if (maxx - minx > DoomBuilder.General.Map.Config.SafeBoundary || maxy - miny > DoomBuilder.General.Map.Config.SafeBoundary)
             {
                 SubmitResult(new ResultMapTooBig(new Vector2D(minx, miny), new Vector2D(maxx, maxy)));
             }

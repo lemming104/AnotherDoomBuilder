@@ -1,11 +1,9 @@
-﻿
-
-using CodeImp.DoomBuilder.Config;
+﻿using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Types;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public abstract class BaseActionTextures
     {
@@ -34,11 +32,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
             List<int> tags = new List<int>();
             int tag;
 
-            foreach (Linedef ld in General.Map.Map.Linedefs)
+            foreach (Linedef ld in DoomBuilder.General.Map.Map.Linedefs)
             {
                 if (ld.Action > 0 && actions.Contains(ld.Action))
                 {
-                    if (General.Map.HEXEN || General.Map.UDMF)
+                    if (DoomBuilder.General.Map.HEXEN || DoomBuilder.General.Map.UDMF)
                         tag = FindArgumentsSectorTag(ld.Action, ld.Args);
                     else
                         tag = ld.Tag;
@@ -48,9 +46,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
             }
 
-            if (General.Map.HEXEN || General.Map.UDMF)
+            if (DoomBuilder.General.Map.HEXEN || DoomBuilder.General.Map.UDMF)
             {
-                foreach (Thing t in General.Map.Map.Things)
+                foreach (Thing t in DoomBuilder.General.Map.Map.Things)
                 {
                     if (t.Action > 0 && actions.Contains(t.Action))
                     {
@@ -68,7 +66,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Get the sector tag from linedef/things action arguments.
         private int FindArgumentsSectorTag(int action, int[] args)
         {
-            if (General.Map.Config.GetLinedefActionInfo(action).Args[0].Type == (int)UniversalType.SectorTag)
+            if (DoomBuilder.General.Map.Config.GetLinedefActionInfo(action).Args[0].Type == (int)UniversalType.SectorTag)
                 return args[0];
 
             return 0;
@@ -79,7 +77,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             List<int> actions = new List<int>();
 
-            foreach (LinedefActionInfo info in General.Map.Config.LinedefActions.Values)
+            foreach (LinedefActionInfo info in DoomBuilder.General.Map.Config.LinedefActions.Values)
                 if (InspectsAction(info))
                     actions.Add(info.Index);
 

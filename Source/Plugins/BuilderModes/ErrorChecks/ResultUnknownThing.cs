@@ -1,11 +1,10 @@
-﻿
-using CodeImp.DoomBuilder.Map;
+﻿using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultUnknownThing : ErrorResult
     {
@@ -43,18 +42,18 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Rendering
         public override void RenderOverlaySelection(IRenderer2D renderer)
         {
-            renderer.RenderThing(thing, General.Colors.Selection, General.Settings.ActiveThingsAlpha);
+            renderer.RenderThing(thing, DoomBuilder.General.Colors.Selection, DoomBuilder.General.Settings.ActiveThingsAlpha);
         }
 
         // This edits the thing
         public override bool Button1Click(bool batchMode)
         {
-            if (!batchMode) General.Map.UndoRedo.CreateUndo("Edit unknown thing");
+            if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Edit unknown thing");
 
-            if (General.Interface.ShowEditThings(new List<Thing> { thing }) == DialogResult.OK)
+            if (DoomBuilder.General.Interface.ShowEditThings(new List<Thing> { thing }) == DialogResult.OK)
             {
-                General.Map.IsChanged = true;
-                General.Map.ThingsFilter.Update();
+                DoomBuilder.General.Map.IsChanged = true;
+                DoomBuilder.General.Map.ThingsFilter.Update();
                 return true;
             }
 
@@ -64,10 +63,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This removes the thing
         public override bool Button2Click(bool batchMode)
         {
-            if (!batchMode) General.Map.UndoRedo.CreateUndo("Delete unknown thing");
+            if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Delete unknown thing");
             thing.Dispose();
-            General.Map.IsChanged = true;
-            General.Map.ThingsFilter.Update();
+            DoomBuilder.General.Map.IsChanged = true;
+            DoomBuilder.General.Map.ThingsFilter.Update();
             return true;
         }
     }

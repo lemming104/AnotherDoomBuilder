@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     [FindReplace("Thing Angle", BrowseButton = true)]
     internal class FindThingAngle : BaseFindThing
@@ -64,7 +64,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (int.TryParse(value, out angle))
             {
                 // Where to search?
-                ICollection<Thing> list = withinselection ? General.Map.Map.GetSelectedThings(true) : General.Map.Map.Things;
+                ICollection<Thing> list = withinselection ? DoomBuilder.General.Map.Map.GetSelectedThings(true) : DoomBuilder.General.Map.Map.Things;
 
                 // Go for all things
                 foreach (Thing t in list)
@@ -76,7 +76,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         if (replace) t.Rotate(Angle2D.DoomToReal(replaceangle));
 
                         // Add to list
-                        ThingTypeInfo ti = General.Map.Data.GetThingInfo(t.Type);
+                        ThingTypeInfo ti = DoomBuilder.General.Map.Data.GetThingInfo(t.Type);
                         objs.Add(new FindReplaceObject(t, "Thing " + t.Index + " (" + ti.Title + ")"));
                     }
                 }

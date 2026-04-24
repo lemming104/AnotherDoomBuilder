@@ -13,6 +13,7 @@
 
 
 using CodeImp.DoomBuilder.Actions;
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
@@ -23,7 +24,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
 {
     [EditMode(DisplayName = "Curve Linedefs",
               AllowCopyPaste = false,
@@ -49,19 +50,19 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private int prevoffset;
 
         // Just keep the base mode button checked
-        public override string EditModeButtonName { get { return General.Editing.PreviousStableMode.Name; } }
+        public override string EditModeButtonName { get { return DoomBuilder.General.Editing.PreviousStableMode.Name; } }
 
         // Constructor
         public CurveLinedefsMode()
         {
             // Make collections by selection
-            selectedlines = General.Map.Map.GetSelectedLinedefs(true);
-            unselectedlines = General.Map.Map.GetSelectedLinedefs(false);
+            selectedlines = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
+            unselectedlines = DoomBuilder.General.Map.Map.GetSelectedLinedefs(false);
             curves = new Dictionary<Linedef, List<Vector2D>>(selectedlines.Count); //mxd
 
             //mxd. UI
             panel = new CurveLinedefsOptionsPanel();
-            hintlabel = new HintLabel(General.Colors.InfoLine);
+            hintlabel = new HintLabel(DoomBuilder.General.Colors.InfoLine);
         }
 
         public override void Dispose() //mxd
@@ -163,11 +164,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private void AddInterface()
         {
             panel = new CurveLinedefsOptionsPanel();
-            int vertices = General.Settings.ReadPluginSetting("curvelinedefsmode.vertices", DEFAULT_VERTICES_COUNT);
-            int distance = General.Settings.ReadPluginSetting("curvelinedefsmode.distance", DEFAULT_DISTANCE);
-            int angle = General.Settings.ReadPluginSetting("curvelinedefsmode.angle", DEFAULT_ANGLE);
-            bool fixedcurve = General.Settings.ReadPluginSetting("curvelinedefsmode.fixedcurve", false);
-            bool fixeddirection = General.Settings.ReadPluginSetting("curvelinedefsmode.fixedcurveoutwards", true);
+            int vertices = DoomBuilder.General.Settings.ReadPluginSetting("curvelinedefsmode.vertices", DEFAULT_VERTICES_COUNT);
+            int distance = DoomBuilder.General.Settings.ReadPluginSetting("curvelinedefsmode.distance", DEFAULT_DISTANCE);
+            int angle = DoomBuilder.General.Settings.ReadPluginSetting("curvelinedefsmode.angle", DEFAULT_ANGLE);
+            bool fixedcurve = DoomBuilder.General.Settings.ReadPluginSetting("curvelinedefsmode.fixedcurve", false);
+            bool fixeddirection = DoomBuilder.General.Settings.ReadPluginSetting("curvelinedefsmode.fixedcurveoutwards", true);
 
             panel.SetValues(vertices, distance, angle, fixedcurve, fixeddirection);
             panel.Register();
@@ -177,11 +178,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private void RemoveInterface()
         {
             panel.OnValueChanged -= OnValuesChanged;
-            General.Settings.WritePluginSetting("curvelinedefsmode.vertices", panel.Vertices);
-            General.Settings.WritePluginSetting("curvelinedefsmode.distance", panel.Distance);
-            General.Settings.WritePluginSetting("curvelinedefsmode.angle", panel.Angle);
-            General.Settings.WritePluginSetting("curvelinedefsmode.fixedcurve", panel.FixedCurve);
-            General.Settings.WritePluginSetting("curvelinedefsmode.fixedcurveoutwards", panel.FixedCurveOutwards);
+            DoomBuilder.General.Settings.WritePluginSetting("curvelinedefsmode.vertices", panel.Vertices);
+            DoomBuilder.General.Settings.WritePluginSetting("curvelinedefsmode.distance", panel.Distance);
+            DoomBuilder.General.Settings.WritePluginSetting("curvelinedefsmode.angle", panel.Angle);
+            DoomBuilder.General.Settings.WritePluginSetting("curvelinedefsmode.fixedcurve", panel.FixedCurve);
+            DoomBuilder.General.Settings.WritePluginSetting("curvelinedefsmode.fixedcurveoutwards", panel.FixedCurveOutwards);
             panel.Unregister();
         }
 
@@ -191,12 +192,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
             GenerateCurves();
 
             // Redraw display
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         public override void OnHelp()
         {
-            General.ShowHelp("e_curvelinedefs.html");
+            DoomBuilder.General.ShowHelp("e_curvelinedefs.html");
         }
 
         // Cancelled
@@ -206,7 +207,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnCancel();
 
             // Return to base mode
-            General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
+            DoomBuilder.General.Editing.ChangeMode(DoomBuilder.General.Editing.PreviousStableMode.Name);
         }
 
         // Mode engages
@@ -234,10 +235,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             // Create undo
             string rest = selectedlines.Count == 1 ? "a linedef" : selectedlines.Count + " linedefs"; //mxd
-            General.Map.UndoRedo.CreateUndo("Curve " + rest);
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Curve " + rest);
 
             //mxd
-            General.Map.Map.ClearAllMarks(false);
+            DoomBuilder.General.Map.Map.ClearAllMarks(false);
 
             // Go for all selected lines
             foreach (Linedef ld in selectedlines)
@@ -256,10 +257,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 foreach (Vector2D p in curves[ld])
                 {
                     // Make vertex
-                    Vertex v = General.Map.Map.CreateVertex(p);
+                    Vertex v = DoomBuilder.General.Map.Map.CreateVertex(p);
                     if (v == null)
                     {
-                        General.Map.UndoRedo.WithdrawUndo();
+                        DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
                         return;
                     }
 
@@ -267,7 +268,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     splitline = splitline.Split(v);
                     if (splitline == null)
                     {
-                        General.Map.UndoRedo.WithdrawUndo();
+                        DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
                         return;
                     }
 
@@ -279,20 +280,20 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             //mxd
-            General.Map.Map.Update();
+            DoomBuilder.General.Map.Map.Update();
 
             //mxd. Stitch geometry
-            General.Map.Map.StitchGeometry(General.Settings.MergeGeometryMode);
+            DoomBuilder.General.Map.Map.StitchGeometry(DoomBuilder.General.Settings.MergeGeometryMode);
 
             // Snap to map format accuracy
-            General.Map.Map.SnapAllToAccuracy();
+            DoomBuilder.General.Map.Map.SnapAllToAccuracy();
 
             // Update caches
-            General.Map.Map.Update();
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Map.IsChanged = true;
 
             // Return to base mode
-            General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
+            DoomBuilder.General.Editing.ChangeMode(DoomBuilder.General.Editing.PreviousStableMode.Name);
         }
 
         // Redrawing display
@@ -304,14 +305,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (renderer.StartPlotter(true))
             {
                 renderer.PlotLinedefSet(unselectedlines);
-                renderer.PlotVerticesSet(General.Map.Map.Vertices);
+                renderer.PlotVerticesSet(DoomBuilder.General.Map.Map.Vertices);
                 renderer.Finish();
             }
 
             // Render things
             if (renderer.StartThings(true))
             {
-                renderer.RenderThingSet(General.Map.Map.Things, General.Settings.ActiveThingsAlpha);
+                renderer.RenderThingSet(DoomBuilder.General.Map.Map.Things, DoomBuilder.General.Settings.ActiveThingsAlpha);
                 renderer.Finish();
             }
 
@@ -331,7 +332,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         for (int i = 1; i <= points.Count; i++)
                         {
                             // Draw the line
-                            renderer.RenderLine(p1, p2, LINE_THICKNESS, General.Colors.Highlight, true);
+                            renderer.RenderLine(p1, p2, LINE_THICKNESS, DoomBuilder.General.Colors.Highlight, true);
 
                             // Next points
                             p1 = p2;
@@ -339,11 +340,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         }
 
                         // Draw last line
-                        renderer.RenderLine(p2, ld.End.Position, LINE_THICKNESS, General.Colors.Highlight, true);
+                        renderer.RenderLine(p2, ld.End.Position, LINE_THICKNESS, DoomBuilder.General.Colors.Highlight, true);
 
                         //mxd. Draw verts
                         foreach (Vector2D p in points)
-                            renderer.RenderRectangleFilled(new RectangleF((float)(p.x - vsize), (float)(p.y - vsize), vsize * 2.0f, vsize * 2.0f), General.Colors.Selection, true);
+                            renderer.RenderRectangleFilled(new RectangleF((float)(p.x - vsize), (float)(p.y - vsize), vsize * 2.0f, vsize * 2.0f), DoomBuilder.General.Colors.Selection, true);
                     }
                 }
 
@@ -422,7 +423,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             bool updaterequired = false;
 
             // Clamp values?
-            bool clampvalue = !General.Interface.ShiftState;
+            bool clampvalue = !DoomBuilder.General.Interface.ShiftState;
 
             // Change verts amount
             if (selectpressed && editpressed)
@@ -483,7 +484,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     //TODO: there surely is a way to get new angle without iteration...
                     double targetoffset = radius.GetLength() * u;
                     double prevdiff = double.MaxValue;
-                    bool clampToKeyEllipseSegments = General.Interface.CtrlState && General.Interface.AltState;
+                    bool clampToKeyEllipseSegments = DoomBuilder.General.Interface.CtrlState && DoomBuilder.General.Interface.AltState;
 
                     int increment = clampToKeyEllipseSegments ? 15 : clampvalue ? panel.AngleIncrement : 1;
                     for (int i = 1; i < panel.MaximumAngle; i += increment)

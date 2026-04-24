@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     [FindReplace("Sector Tag", BrowseButton = false)]
     internal class FindSectorTags : BaseFindSector
@@ -37,8 +37,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 // If it cannot be interpreted, set replacewith to null (not replacing at all)
                 if (!int.TryParse(replacewith, out replacetag)) replacewith = null;
-                if (replacetag < General.Map.FormatInterface.MinTag) replacewith = null;
-                if (replacetag > General.Map.FormatInterface.MaxTag) replacewith = null;
+                if (replacetag < DoomBuilder.General.Map.FormatInterface.MinTag) replacewith = null;
+                if (replacetag > DoomBuilder.General.Map.FormatInterface.MaxTag) replacewith = null;
                 if (replacewith == null)
                 {
                     MessageBox.Show("Invalid replace value for this search type!", "Find and Replace", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -51,7 +51,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (int.TryParse(value, out tag))
             {
                 // Where to search?
-                ICollection<Sector> list = withinselection ? General.Map.Map.GetSelectedSectors(true) : General.Map.Map.Sectors;
+                ICollection<Sector> list = withinselection ? DoomBuilder.General.Map.Map.GetSelectedSectors(true) : DoomBuilder.General.Map.Map.Sectors;
 
                 // Go for all sectors
                 foreach (Sector s in list)
@@ -70,7 +70,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         }
 
                         // Add to list
-                        SectorEffectInfo info = General.Map.Config.GetSectorEffectInfo(s.Effect);
+                        SectorEffectInfo info = DoomBuilder.General.Map.Config.GetSectorEffectInfo(s.Effect);
                         if (!info.IsNull)
                             objs.Add(new FindReplaceObject(s, "Sector " + s.Index + " (" + info.Title + ")"));
                         else

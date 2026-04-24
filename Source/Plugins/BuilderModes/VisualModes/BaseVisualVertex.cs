@@ -1,4 +1,4 @@
-﻿
+﻿using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
@@ -6,7 +6,7 @@ using CodeImp.DoomBuilder.VisualModes;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal class BaseVisualVertex : VisualVertex, IVisualEventReceiver
     {
@@ -28,14 +28,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
 
             this.mode = mode;
-            cageradius2 = DEFAULT_SIZE * General.Settings.GZVertexScale3D * Angle2D.SQRT2;
+            cageradius2 = DEFAULT_SIZE * DoomBuilder.General.Settings.GZVertexScale3D * Angle2D.SQRT2;
             cageradius2 = cageradius2 * cageradius2;
 
             // Synchronize selection?
             if (mode.UseSelectionFromClassicMode && v.Selected
-                && (General.Map.ViewMode == ViewMode.Normal ||
-                 (!ceilingVertex && General.Map.ViewMode == ViewMode.FloorTextures)
-                 || (ceilingVertex && General.Map.ViewMode == ViewMode.CeilingTextures)))
+                && (DoomBuilder.General.Map.ViewMode == ViewMode.Normal ||
+                 (!ceilingVertex && DoomBuilder.General.Map.ViewMode == ViewMode.FloorTextures)
+                 || (ceilingVertex && DoomBuilder.General.Map.ViewMode == ViewMode.CeilingTextures)))
             {
                 this.selected = true;
                 mode.AddSelectedObject(this);
@@ -64,7 +64,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             Vector3D pos = new Vector3D(vertex.Position.x, vertex.Position.y, z);
             SetPosition(pos);
 
-            double radius = DEFAULT_SIZE * General.Settings.GZVertexScale3D;
+            double radius = DEFAULT_SIZE * DoomBuilder.General.Settings.GZVertexScale3D;
             boxp1 = new Vector3D(pos.x - radius, pos.y - radius, ceilingVertex ? pos.z - radius : pos.z);
             boxp2 = new Vector3D(pos.x + radius, pos.y + radius, ceilingVertex ? pos.z : pos.z + radius);
 
@@ -153,7 +153,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 double t1 = (boxp1.x - from.x) * tmp;
                 double t2 = (boxp2.x - from.x) * tmp;
                 if (t1 > t2)
-                    General.Swap(ref t1, ref t2);
+                    DoomBuilder.General.Swap(ref t1, ref t2);
                 if (t1 > tnear)
                     tnear = t1;
                 if (t2 < tfar)
@@ -180,7 +180,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 double t1 = (boxp1.y - from.y) * tmp;
                 double t2 = (boxp2.y - from.y) * tmp;
                 if (t1 > t2)
-                    General.Swap(ref t1, ref t2);
+                    DoomBuilder.General.Swap(ref t1, ref t2);
                 if (t1 > tnear)
                     tnear = t1;
                 if (t2 < tfar)
@@ -207,7 +207,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 double t1 = (boxp1.z - from.z) * tmp;
                 double t2 = (boxp2.z - from.z) * tmp;
                 if (t1 > t2)
-                    General.Swap(ref t1, ref t2);
+                    DoomBuilder.General.Swap(ref t1, ref t2);
                 if (t1 > tnear)
                     tnear = t1;
                 if (t2 < tfar)
@@ -322,7 +322,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Edit button released
         public void OnEditEnd()
         {
-            if (General.Interface.IsActiveWindow)
+            if (DoomBuilder.General.Interface.IsActiveWindow)
             {
                 List<Vertex> verts = mode.GetSelectedVertices();
                 updateList = new Dictionary<BaseVisualSector, bool>();
@@ -340,11 +340,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     }
                 }
 
-                General.Interface.OnEditFormValuesChanged += Interface_OnEditFormValuesChanged;
+                DoomBuilder.General.Interface.OnEditFormValuesChanged += Interface_OnEditFormValuesChanged;
                 mode.StartRealtimeInterfaceUpdate(SelectionType.Vertices);
-                General.Interface.ShowEditVertices(verts, false);
+                DoomBuilder.General.Interface.ShowEditVertices(verts, false);
                 mode.StopRealtimeInterfaceUpdate(SelectionType.Vertices);
-                General.Interface.OnEditFormValuesChanged -= Interface_OnEditFormValuesChanged;
+                DoomBuilder.General.Interface.OnEditFormValuesChanged -= Interface_OnEditFormValuesChanged;
 
                 updateList.Clear();
                 updateList = null;
@@ -364,7 +364,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Raise/lower thing
         public void OnChangeTargetHeight(int amount)
         {
-            if ((General.Map.UndoRedo.NextUndo == null) || (General.Map.UndoRedo.NextUndo.TicketID != undoticket))
+            if ((DoomBuilder.General.Map.UndoRedo.NextUndo == null) || (DoomBuilder.General.Map.UndoRedo.NextUndo.TicketID != undoticket))
                 undoticket = mode.CreateUndo("Change vertex height");
 
             if (ceilingVertex)

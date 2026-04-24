@@ -1,10 +1,9 @@
-﻿
-using CodeImp.DoomBuilder.Map;
+﻿using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultInvalidPolyobjectLines : ErrorResult
     {
@@ -67,7 +66,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             foreach (Linedef l in lines)
             {
-                renderer.PlotLinedef(l, General.Colors.Selection);
+                renderer.PlotLinedef(l, DoomBuilder.General.Colors.Selection);
                 renderer.PlotVertex(l.Start, ColorCollection.VERTICES);
                 renderer.PlotVertex(l.End, ColorCollection.VERTICES);
             }

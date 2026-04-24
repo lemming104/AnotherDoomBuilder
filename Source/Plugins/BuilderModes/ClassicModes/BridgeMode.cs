@@ -1,5 +1,6 @@
 ﻿
 using CodeImp.DoomBuilder.Actions;
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
@@ -68,7 +69,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
             renderer.SetPresentation(Presentation.Standard);
 
             //check selection
-            ICollection<Linedef> selection = General.Map.Map.GetSelectedLinedefs(true);
+            ICollection<Linedef> selection = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
 
             List<Line> lines = new List<Line>();
             foreach (Linedef ld in selection)
@@ -90,10 +91,10 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
             form.OnOkClick += form_OnOkClick;
             form.OnFlipClick += form_OnFlipClick;
             form.OnSubdivisionChanged += form_OnSubdivisionChanged;
-            form.Show(General.Interface);
-            General.Interface.FocusDisplay();
+            form.Show(DoomBuilder.General.Interface);
+            DoomBuilder.General.Interface.FocusDisplay();
 
-            handleColor = General.Colors.BrightColors[new Random().Next(General.Colors.BrightColors.Length - 1)];
+            handleColor = DoomBuilder.General.Colors.BrightColors[new Random().Next(DoomBuilder.General.Colors.BrightColors.Length - 1)];
             Update();
         }
 
@@ -111,7 +112,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
                     && mousemappos.y >= controlHandles[i].Position.y - GRIP_SIZE)
                 {
                     curControlHandle = i;
-                    General.Interface.SetCursor(Cursors.Cross);
+                    DoomBuilder.General.Interface.SetCursor(Cursors.Cross);
                     return;
                 }
             }
@@ -122,7 +123,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
         protected override void OnSelectEnd()
         {
             base.OnSelectEnd();
-            General.Interface.SetCursor(Cursors.Default);
+            DoomBuilder.General.Interface.SetCursor(Cursors.Default);
             curControlHandle = -1;
         }
 
@@ -136,7 +137,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
             {
                 ControlHandle handle = controlHandles[curControlHandle];
 
-                handle.Position = snaptogrid ? General.Map.Grid.SnappedToGrid(mousemappos) : mousemappos;
+                handle.Position = snaptogrid ? DoomBuilder.General.Map.Grid.SnappedToGrid(mousemappos) : mousemappos;
 
                 if (form.MirrorMode)
                 {
@@ -162,7 +163,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
         public override void OnAccept()
         {
             Cursor.Current = Cursors.AppStarting;
-            General.Settings.FindDefaultDrawSettings();
+            DoomBuilder.General.Settings.FindDefaultDrawSettings();
 
             //get vertices
             List<List<Vector2D[]>> shapes = GetShapes();
@@ -192,7 +193,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
             if (drawShapes.Count > 0)
             {
                 // Make undo for the draw
-                General.Map.UndoRedo.CreateUndo("Bridge (" + form.Subdivisions + " subdivisions)");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Bridge (" + form.Subdivisions + " subdivisions)");
 
                 List<List<SectorProperties>> sectorProps = new List<List<SectorProperties>>();
                 List<List<HashSet<Sector>>> newSectors = new List<List<HashSet<Sector>>>();
@@ -221,13 +222,13 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
                         {
                             // Drawing failed
                             // NOTE: I have to call this twice, because the first time only cancels this volatile mode
-                            General.Interface.DisplayStatus(StatusType.Warning, "Failed to create a Bezier Path...");
-                            General.Map.UndoRedo.WithdrawUndo();
-                            General.Map.UndoRedo.WithdrawUndo();
+                            DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Failed to create a Bezier Path...");
+                            DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
+                            DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
                             return;
                         }
 
-                        HashSet<Sector> newsectors = General.Map.Map.GetUnselectedSectorsFromLinedefs(General.Map.Map.GetMarkedLinedefs(true));
+                        HashSet<Sector> newsectors = DoomBuilder.General.Map.Map.GetUnselectedSectorsFromLinedefs(DoomBuilder.General.Map.Map.GetMarkedLinedefs(true));
                         newSectors[i].Add(newsectors);
 
                         //set floor/ceiling heights and brightness
@@ -284,22 +285,22 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
                     }
                 }
 
-                General.Interface.DisplayStatus(StatusType.Action, "Created a Bridge with " + form.Subdivisions + " subdivisions.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Created a Bridge with " + form.Subdivisions + " subdivisions.");
 
                 // Snap to map format accuracy
-                General.Map.Map.SnapAllToAccuracy();
+                DoomBuilder.General.Map.Map.SnapAllToAccuracy();
 
                 // Clear selection
-                General.Map.Map.ClearAllSelected();
+                DoomBuilder.General.Map.Map.ClearAllSelected();
 
                 // Update cached values
-                General.Map.Map.Update();
+                DoomBuilder.General.Map.Map.Update();
 
                 // Update the used textures
-                General.Map.Data.UpdateUsedTextures();
+                DoomBuilder.General.Map.Data.UpdateUsedTextures();
 
                 // Map is changed
-                General.Map.IsChanged = true;
+                DoomBuilder.General.Map.IsChanged = true;
             }
 
             //close form
@@ -309,7 +310,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
             Cursor.Current = Cursors.Default;
 
             // Return to original mode
-            General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
+            DoomBuilder.General.Editing.ChangeMode(DoomBuilder.General.Editing.PreviousStableMode.Name);
         }
 
         // Cancelled
@@ -322,21 +323,21 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
             if (form != null) form.Dispose();
 
             // Return to original mode
-            General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
+            DoomBuilder.General.Editing.ChangeMode(DoomBuilder.General.Editing.PreviousStableMode.Name);
         }
 
         // When a key is released
         public override void OnKeyUp(KeyEventArgs e)
         {
             base.OnKeyUp(e);
-            if (snaptogrid != (General.Interface.ShiftState ^ General.Interface.SnapToGrid)) Update();
+            if (snaptogrid != (DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid)) Update();
         }
 
         // When a key is pressed
         public override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
-            if (snaptogrid != (General.Interface.ShiftState ^ General.Interface.SnapToGrid)) Update();
+            if (snaptogrid != (DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid)) Update();
         }
 
         // This redraws the display
@@ -347,15 +348,15 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
             // Render lines
             if (renderer.StartPlotter(true))
             {
-                renderer.PlotLinedefSet(General.Map.Map.Linedefs);
-                renderer.PlotVerticesSet(General.Map.Map.Vertices);
+                renderer.PlotLinedefSet(DoomBuilder.General.Map.Map.Linedefs);
+                renderer.PlotVerticesSet(DoomBuilder.General.Map.Map.Vertices);
                 renderer.Finish();
             }
 
             // Render things
             if (renderer.StartThings(true))
             {
-                renderer.RenderThingSet(General.Map.Map.Things, General.Settings.ActiveThingsAlpha);
+                renderer.RenderThingSet(DoomBuilder.General.Map.Map.Things, DoomBuilder.General.Settings.ActiveThingsAlpha);
                 renderer.Finish();
             }
 
@@ -365,7 +366,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
 
         public override void OnHelp()
         {
-            General.ShowHelp("/gzdb/features/classic_modes/mode_drawbridge.html");
+            DoomBuilder.General.ShowHelp("/gzdb/features/classic_modes/mode_drawbridge.html");
         }
 
         //this checks if initial data is valid
@@ -403,9 +404,9 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
         {
             if (renderer.StartOverlay(true))
             {
-                snaptogrid = General.Interface.ShiftState ^ General.Interface.SnapToGrid;
+                snaptogrid = DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid;
 
-                PixelColor linesColor = snaptogrid ? General.Colors.Selection : General.Colors.Highlight;
+                PixelColor linesColor = snaptogrid ? DoomBuilder.General.Colors.Selection : DoomBuilder.General.Colors.Highlight;
 
                 //draw curves
                 curves = new List<Vector2D[]>();
@@ -455,8 +456,8 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
                 for (int i = 0; i < 4; i++)
                 {
                     RectangleF handleRect = new RectangleF((float)(controlHandles[i].Position.x - (gripsize * 0.5f)), (float)(controlHandles[i].Position.y - (gripsize * 0.5f)), gripsize, gripsize);
-                    renderer.RenderRectangleFilled(handleRect, General.Colors.Background, true);
-                    renderer.RenderRectangle(handleRect, 2, General.Colors.Highlight, true);
+                    renderer.RenderRectangleFilled(handleRect, DoomBuilder.General.Colors.Background, true);
+                    renderer.RenderRectangle(handleRect, 2, DoomBuilder.General.Colors.Highlight, true);
                 }
                 renderer.Finish();
             }
@@ -620,13 +621,13 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
 
             if (pointGroups.Count != 2)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Incorrect number of linedef groups! Expected 2, but got " + pointGroups.Count);
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Incorrect number of linedef groups! Expected 2, but got " + pointGroups.Count);
                 return false;
             }
 
             if (pointGroups[0].Count != pointGroups[1].Count)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Linedefs groups must have equal length! Got " + pointGroups[0].Count + " in first group and " + pointGroups[1].Count + " in second.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Linedefs groups must have equal length! Got " + pointGroups[0].Count + " in first group and " + pointGroups[1].Count + " in second.");
                 return false;
             }
 
@@ -637,7 +638,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
                 {
                     if (LinesIntersect(l1, l2))
                     {
-                        General.Interface.DisplayStatus(StatusType.Warning, "One or more lines from first group intersect with one or more lines from second group!");
+                        DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "One or more lines from first group intersect with one or more lines from second group!");
                         return false;
                     }
                 }
@@ -740,7 +741,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
         private void FinishDraw()
         {
             // Accept the changes
-            General.Editing.AcceptMode();
+            DoomBuilder.General.Editing.AcceptMode();
         }
 
         [BeginAction("increasesubdivlevel")]

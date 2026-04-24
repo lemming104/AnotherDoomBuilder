@@ -1,9 +1,8 @@
-﻿
-using CodeImp.DoomBuilder.Map;
+﻿using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultVertexOverlappingVertex : ErrorResult
     {
@@ -58,9 +57,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Fix by splitting the line
         public override bool Button1Click(bool batchMode)
         {
-            if (!batchMode) General.Map.UndoRedo.CreateUndo("Merge vertices");
+            if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Merge vertices");
             vertex2.Join(vertex1);
-            General.Map.Map.Update();
+            DoomBuilder.General.Map.Map.Update();
             return true;
         }
     }

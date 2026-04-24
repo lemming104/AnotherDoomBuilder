@@ -12,8 +12,8 @@ namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
         // Constructor
         public CheckUnknownActions()
         {
-            int count = General.Map.Map.Sectors.Count + General.Map.Map.Linedefs.Count;
-            if (General.Map.FormatInterface.HasThingAction) count += General.Map.Map.Things.Count;
+            int count = DoomBuilder.General.Map.Map.Sectors.Count + DoomBuilder.General.Map.Map.Linedefs.Count;
+            if (DoomBuilder.General.Map.FormatInterface.HasThingAction) count += DoomBuilder.General.Map.Map.Things.Count;
 
             // Total progress is done when all relevant map elements are checked
             SetTotalProgress(count / PROGRESS_STEP);
@@ -26,10 +26,10 @@ namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
             int stepprogress = 0;
 
             // Go for all Linedefs
-            foreach (Linedef l in General.Map.Map.Linedefs)
+            foreach (Linedef l in DoomBuilder.General.Map.Map.Linedefs)
             {
                 // Check action...
-                if (l.Action != 0 && !General.Map.Config.LinedefActions.ContainsKey(l.Action)
+                if (l.Action != 0 && !DoomBuilder.General.Map.Config.LinedefActions.ContainsKey(l.Action)
                    && !GameConfiguration.IsGeneralized(l.Action))
                 {
                     SubmitResult(new ResultUnknownLinedefAction(l));
@@ -47,10 +47,10 @@ namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
             }
 
             // Go for all Sectors
-            foreach (Sector s in General.Map.Map.Sectors)
+            foreach (Sector s in DoomBuilder.General.Map.Map.Sectors)
             {
                 // Check action...
-                if (s.Effect != 0 && !General.Map.Config.SectorEffects.ContainsKey(s.Effect)
+                if (s.Effect != 0 && !DoomBuilder.General.Map.Config.SectorEffects.ContainsKey(s.Effect)
                    && !GameConfiguration.IsGeneralizedSectorEffect(s.Effect))
                 {
                     SubmitResult(new ResultUnknownSectorEffect(s));
@@ -68,11 +68,11 @@ namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
             }
 
             // Go for all things?
-            if (!General.Map.FormatInterface.HasThingAction) return;
-            foreach (Thing t in General.Map.Map.Things)
+            if (!DoomBuilder.General.Map.FormatInterface.HasThingAction) return;
+            foreach (Thing t in DoomBuilder.General.Map.Map.Things)
             {
                 // Check action...
-                if (t.Action != 0 && !General.Map.Config.LinedefActions.ContainsKey(t.Action)
+                if (t.Action != 0 && !DoomBuilder.General.Map.Config.LinedefActions.ContainsKey(t.Action)
                    && !GameConfiguration.IsGeneralized(t.Action))
                 {
                     SubmitResult(new ResultUnknownThingAction(t));

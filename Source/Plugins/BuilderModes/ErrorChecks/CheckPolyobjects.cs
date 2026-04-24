@@ -1,11 +1,10 @@
-﻿
-using CodeImp.DoomBuilder.Config;
+﻿using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     [ErrorChecker("Check polyobjects", true, 100)]
     public class CheckPolyobjects : ErrorChecker
@@ -14,12 +13,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private const int PROGRESS_STEP = 1000;
 
         // Only possible in Hexen/UDMF map formats
-        public override bool SkipCheck { get { return !General.Map.UDMF && !General.Map.HEXEN; } }
+        public override bool SkipCheck { get { return !DoomBuilder.General.Map.UDMF && !DoomBuilder.General.Map.HEXEN; } }
 
         public CheckPolyobjects()
         {
             // Total progress is somewhat done when all linedefs and things are checked
-            SetTotalProgress((General.Map.Map.Linedefs.Count + General.Map.Map.Things.Count) / PROGRESS_STEP);
+            SetTotalProgress((DoomBuilder.General.Map.Map.Linedefs.Count + DoomBuilder.General.Map.Map.Things.Count) / PROGRESS_STEP);
         }
 
         // This runs the check
@@ -51,11 +50,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
             Dictionary<int, List<Thing>> startspots = new Dictionary<int, List<Thing>>();
 
             // Collect Linedefs...
-            foreach (Linedef l in General.Map.Map.Linedefs)
+            foreach (Linedef l in DoomBuilder.General.Map.Map.Linedefs)
             {
-                if (l.Action > 0 && General.Map.Config.LinedefActions.ContainsKey(l.Action) && allactions.Contains(General.Map.Config.LinedefActions[l.Action].Id))
+                if (l.Action > 0 && DoomBuilder.General.Map.Config.LinedefActions.ContainsKey(l.Action) && allactions.Contains(DoomBuilder.General.Map.Config.LinedefActions[l.Action].Id))
                 {
-                    string id = General.Map.Config.LinedefActions[l.Action].Id;
+                    string id = DoomBuilder.General.Map.Config.LinedefActions[l.Action].Id;
 
                     if (!polyobjlines.ContainsKey(id))
                         polyobjlines.Add(id, new Dictionary<int, List<Linedef>>());
@@ -71,9 +70,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Collect Things...
-            foreach (Thing t in General.Map.Map.Things)
+            foreach (Thing t in DoomBuilder.General.Map.Map.Things)
             {
-                ThingTypeInfo info = General.Map.Data.GetThingInfoEx(t.Type);
+                ThingTypeInfo info = DoomBuilder.General.Map.Data.GetThingInfoEx(t.Type);
                 if (info == null) continue;
                 switch (info.ClassName.ToLowerInvariant())
                 {

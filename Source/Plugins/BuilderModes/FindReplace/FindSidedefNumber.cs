@@ -15,7 +15,7 @@
 using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     [FindReplace("Sidedef Index", BrowseButton = false)]
     internal class FindSidedefNumber : BaseFindSidedef
@@ -38,7 +38,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             int index;
             if (int.TryParse(value, out index))
             {
-                Sidedef sd = General.Map.Map.GetSidedefByIndex(index);
+                Sidedef sd = DoomBuilder.General.Map.Map.GetSidedefByIndex(index);
                 if (sd != null) objs.Add(new FindReplaceObject(sd, "Sidedef " + index));
             }
 

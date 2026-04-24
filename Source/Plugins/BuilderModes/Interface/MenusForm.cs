@@ -12,6 +12,8 @@
  */
 
 
+using CodeImp.DoomBuilder.BuilderModes.ClassicModes;
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Controls;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Windows;
@@ -135,19 +137,19 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         {
             // Add the menus to the core
             foreach (ToolStripItem i in menus)
-                General.Interface.AddMenu(i);
+                DoomBuilder.General.Interface.AddMenu(i);
 
             // Add the buttons to the core
             foreach (ToolStripItem b in buttons)
-                General.Interface.AddButton(b);
+                DoomBuilder.General.Interface.AddButton(b);
 
             //mxd. Export menu
             foreach (ToolStripItem i in exportmenuitems)
-                General.Interface.AddMenu(i, MenuSection.FileExport);
+                DoomBuilder.General.Interface.AddMenu(i, MenuSection.FileExport);
 
             //mxd. Copy-paste propserties items
             foreach (ToolStripItem i in propsmenuitems)
-                General.Interface.AddMenu(i, MenuSection.EditCopyPaste);
+                DoomBuilder.General.Interface.AddMenu(i, MenuSection.EditCopyPaste);
         }
 
         // This unregisters from the core
@@ -155,21 +157,21 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         {
             // Remove the menus from the core
             foreach (ToolStripItem i in menus)
-                General.Interface.RemoveMenu(i);
+                DoomBuilder.General.Interface.RemoveMenu(i);
 
             // Remove the buttons from the core
-            General.Interface.BeginToolbarUpdate(); //mxd
+            DoomBuilder.General.Interface.BeginToolbarUpdate(); //mxd
             foreach (ToolStripItem b in buttons)
-                General.Interface.RemoveButton(b);
-            General.Interface.EndToolbarUpdate(); //mxd
+                DoomBuilder.General.Interface.RemoveButton(b);
+            DoomBuilder.General.Interface.EndToolbarUpdate(); //mxd
 
             //mxd. Export menu
             foreach (ToolStripItem i in exportmenuitems)
-                General.Interface.RemoveMenu(i);
+                DoomBuilder.General.Interface.RemoveMenu(i);
 
             //mxd. Copy-paste propserties items
             foreach (ToolStripItem i in propsmenuitems)
-                General.Interface.RemoveMenu(i);
+                DoomBuilder.General.Interface.RemoveMenu(i);
         }
 
         // This hides all menus
@@ -194,7 +196,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                 sourcemode = mode.GetType();
 
                 // When in a volatile mode, check against the last stable mode
-                if (mode.Attributes.Volatile) sourcemode = General.Editing.PreviousStableMode;
+                if (mode.Attributes.Volatile) sourcemode = DoomBuilder.General.Editing.PreviousStableMode;
             }
 
             // Final decision
@@ -217,7 +219,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         // This invokes an action from control event
         private void InvokeTaggedAction(object sender, EventArgs e)
         {
-            General.Interface.InvokeTaggedAction(sender, e);
+            DoomBuilder.General.Interface.InvokeTaggedAction(sender, e);
         }
 
         // View selection numbers clicked
@@ -226,11 +228,11 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             BuilderPlug.Me.ViewSelectionNumbers = buttonselectionnumbers.Checked;
 
             //mxd. Notify current mode
-            BaseClassicMode mode = General.Editing.Mode as BaseClassicMode;
+            BaseClassicMode mode = DoomBuilder.General.Editing.Mode as BaseClassicMode;
             if (mode != null) mode.OnViewSelectionNumbersChanged(BuilderPlug.Me.ViewSelectionNumbers);
 
-            General.Interface.RedrawDisplay();
-            General.Interface.DisplayStatus(StatusType.Info, buttonselectionnumbers.Checked ?
+            DoomBuilder.General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Info, buttonselectionnumbers.Checked ?
                 "Show selection numbers" :
                 "Don't show selection numbers");
         }
@@ -241,11 +243,11 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             BuilderPlug.Me.ViewSelectionEffects = buttonselectioneffects.Checked;
 
             // Notify current mode
-            BaseClassicMode mode = General.Editing.Mode as BaseClassicMode;
+            BaseClassicMode mode = DoomBuilder.General.Editing.Mode as BaseClassicMode;
             if (mode != null) mode.OnViewSelectionEffectsChanged(BuilderPlug.Me.ViewSelectionEffects);
 
-            General.Interface.RedrawDisplay();
-            General.Interface.DisplayStatus(StatusType.Info, buttonselectioneffects.Checked ?
+            DoomBuilder.General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Info, buttonselectioneffects.Checked ?
                 "Show sector tags and effects" :
                 "Don't show sector tags and effects");
         }
@@ -254,7 +256,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         private void buttonMarqueSelectTouching_Click(object sender, EventArgs e)
         {
             BuilderPlug.Me.MarqueSelectTouching = buttonMarqueSelectTouching.Checked;
-            General.Interface.DisplayStatus(StatusType.Info, buttonMarqueSelectTouching.Checked ?
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Info, buttonMarqueSelectTouching.Checked ?
                 "Select map elements touching selection rectangle" :
                 "Select map elements inside of selection rectangle");
         }
@@ -263,7 +265,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         private void buttonTextureOffsetLock_Click(object sender, EventArgs e)
         {
             BuilderPlug.Me.LockSectorTextureOffsetsWhileDragging = buttonTextureOffsetLock.Checked;
-            General.Interface.DisplayStatus(StatusType.Info, buttonTextureOffsetLock.Checked ?
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Info, buttonTextureOffsetLock.Checked ?
                 "Lock texture offsets when dragging sectors" :
                 "Don't lock texture offsets when dragging sectors");
         }
@@ -271,7 +273,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         private void buttonTextureOffset3DFloorLock_Click(object sender, EventArgs e)
         {
             BuilderPlug.Me.Lock3DFloorSectorTextureOffsetsWhileDragging = buttonTextureOffset3DFloorLock.Checked;
-            General.Interface.DisplayStatus(StatusType.Info, buttonTextureOffset3DFloorLock.Checked ?
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Info, buttonTextureOffset3DFloorLock.Checked ?
                 "Lock texture offsets of 3D floors when dragging tagged sectors" :
                 "Don't lock texture offsets of 3D floors when dragging tagged sectors");
         }
@@ -279,14 +281,14 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         //mxd
         private void linedefsmenu_DropDownOpening(object sender, EventArgs e)
         {
-            aligntexturesitem.Enabled = General.Map.UDMF;
-            updatelightfogitem.Enabled = General.Map.UDMF;
+            aligntexturesitem.Enabled = DoomBuilder.General.Map.UDMF;
+            updatelightfogitem.Enabled = DoomBuilder.General.Map.UDMF;
         }
 
         //mxd
         private void gradientMode_DropDownClosed(object sender, EventArgs e)
         {
-            General.Interface.FocusDisplay();
+            DoomBuilder.General.Interface.FocusDisplay();
         }
 
         //mxd
@@ -296,8 +298,8 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             buttonlightradii.Checked = BuilderPlug.Me.ShowLightRadii;
             itemlightradii.Checked = BuilderPlug.Me.ShowLightRadii;
 
-            General.Interface.DisplayStatus(StatusType.Info, "Light radii are " + (BuilderPlug.Me.ShowLightRadii ? "SHOWN" : "HIDDEN"));
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Info, "Light radii are " + (BuilderPlug.Me.ShowLightRadii ? "SHOWN" : "HIDDEN"));
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         //mxd
@@ -307,8 +309,8 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             buttonsoundradii.Checked = BuilderPlug.Me.ShowSoundRadii;
             itemsoundradii.Checked = BuilderPlug.Me.ShowSoundRadii;
 
-            General.Interface.DisplayStatus(StatusType.Info, "Sound radii are " + (BuilderPlug.Me.ShowSoundRadii ? "SHOWN" : "HIDDEN"));
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Info, "Sound radii are " + (BuilderPlug.Me.ShowSoundRadii ? "SHOWN" : "HIDDEN"));
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
     }
 }

@@ -16,7 +16,7 @@ using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     [FindReplace("Sector Index", BrowseButton = false)]
     internal class FindSectorNumber : BaseFindSector
@@ -39,10 +39,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
             int index;
             if (int.TryParse(value, out index))
             {
-                Sector s = General.Map.Map.GetSectorByIndex(index);
+                Sector s = DoomBuilder.General.Map.Map.GetSectorByIndex(index);
                 if (s != null)
                 {
-                    SectorEffectInfo info = General.Map.Config.GetSectorEffectInfo(s.Effect);
+                    SectorEffectInfo info = DoomBuilder.General.Map.Config.GetSectorEffectInfo(s.Effect);
                     if (!info.IsNull)
                         objs.Add(new FindReplaceObject(s, "Sector " + index + " (" + info.Title + ")"));
                     else

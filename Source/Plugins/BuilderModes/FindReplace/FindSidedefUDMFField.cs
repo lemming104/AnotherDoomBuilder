@@ -14,7 +14,7 @@
 using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     [FindReplace("Sidedef UDMF Field", BrowseButton = false)]
     internal class FindSidedefUDMFField : BaseFindUDMFField
@@ -27,7 +27,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
         public override bool DetermineVisiblity()
         {
-            return General.Map.UDMF;
+            return DoomBuilder.General.Map.UDMF;
         }
 
         public override FindReplaceObject[] Find(string value, bool withinselection, bool replace, string replacewith, bool keepselection)
@@ -42,7 +42,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // Get all sidedefs of the selected linedefs
                 list = new List<MapElement>();
 
-                foreach (Linedef ld in General.Map.Map.GetSelectedLinedefs(true))
+                foreach (Linedef ld in DoomBuilder.General.Map.Map.GetSelectedLinedefs(true))
                 {
                     if (ld.Front != null && !ld.Front.IsDisposed)
                         list.Add(ld.Front);
@@ -53,7 +53,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
             else
             {
-                list = (ICollection<MapElement>)General.Map.Map.Sidedefs;
+                list = (ICollection<MapElement>)DoomBuilder.General.Map.Map.Sidedefs;
             }
 
             return GetObjects(value, list);

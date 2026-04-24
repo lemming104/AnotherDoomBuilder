@@ -19,7 +19,7 @@ using CodeImp.DoomBuilder.VisualModes;
 using System;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal class BaseVisualSector : VisualSector
     {
@@ -112,7 +112,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Go for all things in this sector
-            foreach (Thing t in General.Map.Map.Things)
+            foreach (Thing t in DoomBuilder.General.Map.Map.Things)
             {
                 if (t.Sector == this.Sector)
                 {
@@ -165,7 +165,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             Rebuild();
 
             //update things in this sector
-            foreach (Thing t in General.Map.Map.Things)
+            foreach (Thing t in DoomBuilder.General.Map.Map.Things)
             {
                 if (t.Sector == this.Sector)
                 {
@@ -291,7 +291,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 VisualSidedefParts parts = oldsides.ContainsKey(sd) ? oldsides[sd] : new VisualSidedefParts();
 
                 // Doublesided or singlesided?
-                if (sd.Other != null && sd.Line.IsFlagSet(General.Map.Config.DoubleSidedFlag))
+                if (sd.Other != null && sd.Line.IsFlagSet(DoomBuilder.General.Map.Config.DoubleSidedFlag))
                 {
                     // Create upper part
                     VisualUpper vu = parts.upper ?? new VisualUpper(mode, this, sd);

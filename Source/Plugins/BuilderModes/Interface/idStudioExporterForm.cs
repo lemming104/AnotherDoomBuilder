@@ -58,14 +58,14 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         {
             InitializeComponent();
 
-            gui_ModPath.Text = Path.GetDirectoryName(General.Map.FilePathName);
-            gui_MapName.Text = General.Map.Options.LevelName.ToLower();
+            gui_ModPath.Text = Path.GetDirectoryName(DoomBuilder.General.Map.FilePathName);
+            gui_MapName.Text = DoomBuilder.General.Map.Options.LevelName.ToLower();
             gui_Downscale.Value = 20;
             gui_xShift.Value = 0;
             gui_yShift.Value = 0;
             gui_zShift.Value = 0;
 
-            foreach (Linedef line in General.Map.Map.Linedefs)
+            foreach (Linedef line in DoomBuilder.General.Map.Map.Linedefs)
             {
                 if (line.Front == null)
                     continue;
@@ -82,7 +82,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                 MapTextures.Add(line.Back.HighTexture);
             }
 
-            foreach (Sector sector in General.Map.Map.Sectors)
+            foreach (Sector sector in DoomBuilder.General.Map.Map.Sectors)
             {
                 MapFlats.Add(sector.FloorTexture);
                 MapFlats.Add(sector.CeilTexture);
@@ -96,7 +96,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             gui_TextCountMap.Text = String.Format("{0} TGA images and {0} material2 decls will be created.",
                 MapTextures.Count + MapFlats.Count);
 
-            int imageCount = General.Map.Data.Textures.Count + General.Map.Data.Flats.Count;
+            int imageCount = DoomBuilder.General.Map.Data.Textures.Count + DoomBuilder.General.Map.Data.Flats.Count;
             gui_TextCountAll.Text = String.Format("{0} TGA images and {0} material2 decls will be created.",
                 imageCount);
 

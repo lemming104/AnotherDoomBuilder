@@ -1,10 +1,9 @@
-
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Drawing;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultOffGridVertex : ErrorResult
     {
@@ -41,16 +40,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Rendering
         public override void RenderOverlaySelection(IRenderer2D renderer)
         {
-            renderer.RenderRectangleFilled(new RectangleF((float)(vertex.Position.x - 3), (float)(vertex.Position.y - 3), 6f, 6f), General.Colors.Selection, true);
+            renderer.RenderRectangleFilled(new RectangleF((float)(vertex.Position.x - 3), (float)(vertex.Position.y - 3), 6f, 6f), DoomBuilder.General.Colors.Selection, true);
         }
 
         // This removes the vertex
         public override bool Button1Click(bool batchMode)
         {
-            if (!batchMode) General.Map.UndoRedo.CreateUndo("Align vertex");
+            if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Align vertex");
             vertex.Move(new Geometry.Vector2D((int)Math.Round(vertex.Position.x), (int)Math.Round(vertex.Position.y)));
-            General.Map.IsChanged = true;
-            General.Map.ThingsFilter.Update();
+            DoomBuilder.General.Map.IsChanged = true;
+            DoomBuilder.General.Map.ThingsFilter.Update();
             return true;
         }
     }

@@ -30,7 +30,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.General
 {
     internal class ToastMessages
     {
@@ -218,18 +218,18 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Load Undo\Redo docker
             undoredopanel = new UndoRedoPanel();
             undoredodocker = new Docker("undoredo", "Undo / Redo", undoredopanel);
-            General.Interface.AddDocker(undoredodocker);
+            DoomBuilder.General.Interface.AddDocker(undoredodocker);
 
             //mxd. Create Overrides docker
             drawingOverridesPanel = new SectorDrawingOptionsPanel();
             drawingOverridesDocker = new Docker("drawingoverrides", "Draw Settings", drawingOverridesPanel);
 
             //mxd
-            General.Actions.BindMethods(this);
+            DoomBuilder.General.Actions.BindMethods(this);
 
             // Register toasts
-            General.ToastManager.RegisterToast(ToastMessages.VISUALSLOPING, "Visual sloping", "Toasts related to visual sloping");
-            General.ToastManager.RegisterToast(ToastMessages.CHANGEMAPELEMENTINDEX, "Change map element index", "Toasts related to changing the index of map elements");
+            DoomBuilder.General.ToastManager.RegisterToast(ToastMessages.VISUALSLOPING, "Visual sloping", "Toasts related to visual sloping");
+            DoomBuilder.General.ToastManager.RegisterToast(ToastMessages.CHANGEMAPELEMENTINDEX, "Change map element index", "Toasts related to changing the index of map elements");
         }
 
         // Disposer
@@ -239,7 +239,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (!IsDisposed)
             {
                 // Clean up
-                General.Interface.RemoveDocker(undoredodocker);
+                DoomBuilder.General.Interface.RemoveDocker(undoredodocker);
 
                 undoredopanel.Dispose();
                 drawingOverridesPanel.Dispose(); //mxd
@@ -268,56 +268,56 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This loads the plugin settings
         private void LoadSettings()
         {
-            changeheightbysidedef = General.Settings.ReadPluginSetting("changeheightbysidedef", 0);
-            editnewthing = General.Settings.ReadPluginSetting("editnewthing", true);
-            editnewsector = General.Settings.ReadPluginSetting("editnewsector", false);
-            additiveselect = General.Settings.ReadPluginSetting("additiveselect", false);
-            additivepaintselect = General.Settings.ReadPluginSetting("additivepaintselect", additiveselect); // use the same value as additiveselect by default
-            autoclearselection = General.Settings.ReadPluginSetting("autoclearselection", false);
-            visualmodeclearselection = General.Settings.ReadPluginSetting("visualmodeclearselection", false);
-            stitchrange = General.Settings.ReadPluginSetting("stitchrange", 20);
-            highlightrange = General.Settings.ReadPluginSetting("highlightrange", 20);
-            highlightthingsrange = General.Settings.ReadPluginSetting("highlightthingsrange", 10);
-            splitlinedefsrange = General.Settings.ReadPluginSetting("splitlinedefsrange", 10);
-            mouseselectionthreshold = General.Settings.ReadPluginSetting("mouseselectionthreshold", 2);
-            autodragonpaste = General.Settings.ReadPluginSetting("autodragonpaste", false);
-            autoDrawOnEdit = General.Settings.ReadPluginSetting("autodrawonedit", true); //mxd
-            autoAlignTextureOffsetsOnCreate = General.Settings.ReadPluginSetting("autoaligntextureoffsetsoncreate", false); //mxd
-            dontMoveGeometryOutsideMapBoundary = General.Settings.ReadPluginSetting("dontmovegeometryoutsidemapboundary", false); //mxd
-            syncSelection = General.Settings.ReadPluginSetting("syncselection", false); //mxd
-            scaletexturesonslopes = General.Settings.ReadPluginSetting("scaletexturesonslopes", 0);
-            eventlinelabelvisibility = General.Settings.ReadPluginSetting("eventlinelabelvisibility", 3);
-            eventlinelabelstyle = General.Settings.ReadPluginSetting("eventlinelabelstyle", 2);
-            eventlinedistinctcolors = General.Settings.ReadPluginSetting("eventlinedistinctcolors", true);
-            useoppositesmartpivothandle = General.Settings.ReadPluginSetting("useoppositesmartpivothandle", true);
-            selectchangedafterundoredo = General.Settings.ReadPluginSetting("selectchangedafterundoredo", false);
-            usebuggyfloodselect = General.Settings.ReadPluginSetting("usebuggyfloodselect", false);
+            changeheightbysidedef = DoomBuilder.General.Settings.ReadPluginSetting("changeheightbysidedef", 0);
+            editnewthing = DoomBuilder.General.Settings.ReadPluginSetting("editnewthing", true);
+            editnewsector = DoomBuilder.General.Settings.ReadPluginSetting("editnewsector", false);
+            additiveselect = DoomBuilder.General.Settings.ReadPluginSetting("additiveselect", false);
+            additivepaintselect = DoomBuilder.General.Settings.ReadPluginSetting("additivepaintselect", additiveselect); // use the same value as additiveselect by default
+            autoclearselection = DoomBuilder.General.Settings.ReadPluginSetting("autoclearselection", false);
+            visualmodeclearselection = DoomBuilder.General.Settings.ReadPluginSetting("visualmodeclearselection", false);
+            stitchrange = DoomBuilder.General.Settings.ReadPluginSetting("stitchrange", 20);
+            highlightrange = DoomBuilder.General.Settings.ReadPluginSetting("highlightrange", 20);
+            highlightthingsrange = DoomBuilder.General.Settings.ReadPluginSetting("highlightthingsrange", 10);
+            splitlinedefsrange = DoomBuilder.General.Settings.ReadPluginSetting("splitlinedefsrange", 10);
+            mouseselectionthreshold = DoomBuilder.General.Settings.ReadPluginSetting("mouseselectionthreshold", 2);
+            autodragonpaste = DoomBuilder.General.Settings.ReadPluginSetting("autodragonpaste", false);
+            autoDrawOnEdit = DoomBuilder.General.Settings.ReadPluginSetting("autodrawonedit", true); //mxd
+            autoAlignTextureOffsetsOnCreate = DoomBuilder.General.Settings.ReadPluginSetting("autoaligntextureoffsetsoncreate", false); //mxd
+            dontMoveGeometryOutsideMapBoundary = DoomBuilder.General.Settings.ReadPluginSetting("dontmovegeometryoutsidemapboundary", false); //mxd
+            syncSelection = DoomBuilder.General.Settings.ReadPluginSetting("syncselection", false); //mxd
+            scaletexturesonslopes = DoomBuilder.General.Settings.ReadPluginSetting("scaletexturesonslopes", 0);
+            eventlinelabelvisibility = DoomBuilder.General.Settings.ReadPluginSetting("eventlinelabelvisibility", 3);
+            eventlinelabelstyle = DoomBuilder.General.Settings.ReadPluginSetting("eventlinelabelstyle", 2);
+            eventlinedistinctcolors = DoomBuilder.General.Settings.ReadPluginSetting("eventlinedistinctcolors", true);
+            useoppositesmartpivothandle = DoomBuilder.General.Settings.ReadPluginSetting("useoppositesmartpivothandle", true);
+            selectchangedafterundoredo = DoomBuilder.General.Settings.ReadPluginSetting("selectchangedafterundoredo", false);
+            usebuggyfloodselect = DoomBuilder.General.Settings.ReadPluginSetting("usebuggyfloodselect", false);
         }
 
         //mxd. Load settings, which can be changed via UI
         private void LoadUISettings()
         {
-            lockSectorTextureOffsetsWhileDragging = General.Settings.ReadPluginSetting("locktextureoffsets", false);
-            lock3DFloorSectorTextureOffsetsWhileDragging = General.Settings.ReadPluginSetting("lock3dfloortextureoffsets", false);
-            viewselectionnumbers = General.Settings.ReadPluginSetting("viewselectionnumbers", true);
-            viewselectioneffects = General.Settings.ReadPluginSetting("viewselectioneffects", true);
-            syncthingedit = General.Settings.ReadPluginSetting("syncthingedit", true);
-            alphabasedtexturehighlighting = General.Settings.ReadPluginSetting("alphabasedtexturehighlighting", true);
-            showlightradii = General.Settings.ReadPluginSetting("showlightradii", true);
-            showsoundradii = General.Settings.ReadPluginSetting("showsoundradii", true);
+            lockSectorTextureOffsetsWhileDragging = DoomBuilder.General.Settings.ReadPluginSetting("locktextureoffsets", false);
+            lock3DFloorSectorTextureOffsetsWhileDragging = DoomBuilder.General.Settings.ReadPluginSetting("lock3dfloortextureoffsets", false);
+            viewselectionnumbers = DoomBuilder.General.Settings.ReadPluginSetting("viewselectionnumbers", true);
+            viewselectioneffects = DoomBuilder.General.Settings.ReadPluginSetting("viewselectioneffects", true);
+            syncthingedit = DoomBuilder.General.Settings.ReadPluginSetting("syncthingedit", true);
+            alphabasedtexturehighlighting = DoomBuilder.General.Settings.ReadPluginSetting("alphabasedtexturehighlighting", true);
+            showlightradii = DoomBuilder.General.Settings.ReadPluginSetting("showlightradii", true);
+            showsoundradii = DoomBuilder.General.Settings.ReadPluginSetting("showsoundradii", true);
         }
 
         //mxd. Save settings, which can be changed via UI
         private void SaveUISettings()
         {
-            General.Settings.WritePluginSetting("locktextureoffsets", lockSectorTextureOffsetsWhileDragging);
-            General.Settings.WritePluginSetting("lock3dfloortextureoffsets", lock3DFloorSectorTextureOffsetsWhileDragging);
-            General.Settings.WritePluginSetting("viewselectionnumbers", viewselectionnumbers);
-            General.Settings.WritePluginSetting("viewselectioneffects", viewselectioneffects);
-            General.Settings.WritePluginSetting("syncthingedit", syncthingedit);
-            General.Settings.WritePluginSetting("alphabasedtexturehighlighting", alphabasedtexturehighlighting);
-            General.Settings.WritePluginSetting("showlightradii", showlightradii);
-            General.Settings.WritePluginSetting("showsoundradii", showsoundradii);
+            DoomBuilder.General.Settings.WritePluginSetting("locktextureoffsets", lockSectorTextureOffsetsWhileDragging);
+            DoomBuilder.General.Settings.WritePluginSetting("lock3dfloortextureoffsets", lock3DFloorSectorTextureOffsetsWhileDragging);
+            DoomBuilder.General.Settings.WritePluginSetting("viewselectionnumbers", viewselectionnumbers);
+            DoomBuilder.General.Settings.WritePluginSetting("viewselectioneffects", viewselectioneffects);
+            DoomBuilder.General.Settings.WritePluginSetting("syncthingedit", syncthingedit);
+            DoomBuilder.General.Settings.WritePluginSetting("alphabasedtexturehighlighting", alphabasedtexturehighlighting);
+            DoomBuilder.General.Settings.WritePluginSetting("showlightradii", showlightradii);
+            DoomBuilder.General.Settings.WritePluginSetting("showsoundradii", showsoundradii);
         }
 
         //mxd. These should be reset when changing maps
@@ -333,11 +333,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // When floor surface geometry is created for classic modes
         public override void OnSectorFloorSurfaceUpdate(Sector s, ref FlatVertex[] vertices)
         {
-            ImageData img = General.Map.Data.GetFlatImage(s.LongFloorTexture);
+            ImageData img = DoomBuilder.General.Map.Data.GetFlatImage(s.LongFloorTexture);
             if ((img != null) && img.IsImageLoaded)
             {
                 //mxd. Merged from GZDoomEditing plugin
-                if (General.Map.UDMF)
+                if (DoomBuilder.General.Map.UDMF)
                 {
                     // Fetch ZDoom fields
                     Vector2D offset = new Vector2D(s.Fields.GetValue("xpanningfloor", 0.0),
@@ -349,8 +349,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     bool absolute;
 
                     //mxd. Apply GLDEFS override?
-                    if (General.Map.Data.GlowingFlats.ContainsKey(s.LongFloorTexture)
-                        && General.Map.Data.GlowingFlats[s.LongFloorTexture].Fullbright)
+                    if (DoomBuilder.General.Map.Data.GlowingFlats.ContainsKey(s.LongFloorTexture)
+                        && DoomBuilder.General.Map.Data.GlowingFlats[s.LongFloorTexture].Fullbright)
                     {
                         color = -1;
                         light = 255;
@@ -393,11 +393,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // When ceiling surface geometry is created for classic modes
         public override void OnSectorCeilingSurfaceUpdate(Sector s, ref FlatVertex[] vertices)
         {
-            ImageData img = General.Map.Data.GetFlatImage(s.LongCeilTexture);
+            ImageData img = DoomBuilder.General.Map.Data.GetFlatImage(s.LongCeilTexture);
             if ((img != null) && img.IsImageLoaded)
             {
                 //mxd. Merged from GZDoomEditing plugin
-                if (General.Map.UDMF)
+                if (DoomBuilder.General.Map.UDMF)
                 {
                     // Fetch ZDoom fields
                     Vector2D offset = new Vector2D(s.Fields.GetValue("xpanningceiling", 0.0),
@@ -409,8 +409,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     bool absolute;
 
                     //mxd. Apply GLDEFS override?
-                    if (General.Map.Data.GlowingFlats.ContainsKey(s.LongCeilTexture)
-                        && General.Map.Data.GlowingFlats[s.LongCeilTexture].Fullbright)
+                    if (DoomBuilder.General.Map.Data.GlowingFlats.ContainsKey(s.LongCeilTexture)
+                        && DoomBuilder.General.Map.Data.GlowingFlats[s.LongCeilTexture].Fullbright)
                     {
                         color = -1;
                         light = 255;
@@ -490,9 +490,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
             undoredopanel.UpdateList();
 
             //mxd
-            General.Interface.AddDocker(drawingOverridesDocker);
+            DoomBuilder.General.Interface.AddDocker(drawingOverridesDocker);
             drawingOverridesPanel.Setup();
-            MakeDoor = new MakeDoorSettings(General.Map.Config.MakeDoorDoor, General.Map.Config.MakeDoorTrack, General.Map.Config.MakeDoorCeiling, MakeDoor.ResetOffsets, MakeDoor.ApplyActionSpecials, MakeDoor.ApplyTag);
+            MakeDoor = new MakeDoorSettings(DoomBuilder.General.Map.Config.MakeDoorDoor, DoomBuilder.General.Map.Config.MakeDoorTrack, DoomBuilder.General.Map.Config.MakeDoorCeiling, MakeDoor.ResetOffsets, MakeDoor.ApplyActionSpecials, MakeDoor.ApplyTag);
             ResetCopyProperties();
         }
 
@@ -504,10 +504,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
             undoredopanel.UpdateList();
 
             //mxd
-            General.Interface.AddDocker(drawingOverridesDocker);
+            DoomBuilder.General.Interface.AddDocker(drawingOverridesDocker);
             drawingOverridesPanel.Setup();
-            General.Map.Renderer2D.UpdateExtraFloorFlag();
-            MakeDoor = new MakeDoorSettings(General.Map.Config.MakeDoorDoor, General.Map.Config.MakeDoorTrack, General.Map.Config.MakeDoorCeiling, MakeDoor.ResetOffsets, MakeDoor.ApplyActionSpecials, MakeDoor.ApplyTag);
+            DoomBuilder.General.Map.Renderer2D.UpdateExtraFloorFlag();
+            MakeDoor = new MakeDoorSettings(DoomBuilder.General.Map.Config.MakeDoorDoor, DoomBuilder.General.Map.Config.MakeDoorTrack, DoomBuilder.General.Map.Config.MakeDoorCeiling, MakeDoor.ResetOffsets, MakeDoor.ApplyActionSpecials, MakeDoor.ApplyTag);
             ResetCopyProperties();
         }
 
@@ -515,7 +515,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public override void OnMapCloseBegin()
         {
             drawingOverridesPanel.Terminate();
-            General.Interface.RemoveDocker(drawingOverridesDocker);
+            DoomBuilder.General.Interface.RemoveDocker(drawingOverridesDocker);
         }
 
         // Map closed
@@ -573,7 +573,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             Vector2D texscale = new Vector2D(1.0f / img.ScaledWidth, 1.0f / img.ScaledHeight);
             if (!absolute) light = s.Brightness + light;
             PixelColor lightcolor = PixelColor.FromInt(color);
-            PixelColor brightness = PixelColor.FromInt(General.Map.Renderer2D.CalculateBrightness(light));
+            PixelColor brightness = PixelColor.FromInt(DoomBuilder.General.Map.Renderer2D.CalculateBrightness(light));
             PixelColor finalcolor = PixelColor.Modulate(lightcolor, brightness);
             color = finalcolor.WithAlpha(255).ToInt();
 
@@ -624,18 +624,18 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private void ExportToObj()
         {
             // Convert geometry selection to sectors
-            General.Map.Map.ConvertSelection(SelectionType.Sectors);
+            DoomBuilder.General.Map.Map.ConvertSelection(SelectionType.Sectors);
 
             //get sectors
-            ICollection<Sector> sectors = General.Map.Map.SelectedSectorsCount == 0 ? General.Map.Map.Sectors : General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> sectors = DoomBuilder.General.Map.Map.SelectedSectorsCount == 0 ? DoomBuilder.General.Map.Map.Sectors : DoomBuilder.General.Map.Map.GetSelectedSectors(true);
             if (sectors.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "OBJ export failed. Map has no sectors!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "OBJ export failed. Map has no sectors!");
                 return;
             }
 
             //show settings form
-            WavefrontSettingsForm form = new WavefrontSettingsForm(General.Map.Map.SelectedSectorsCount == 0 ? -1 : sectors.Count);
+            WavefrontSettingsForm form = new WavefrontSettingsForm(DoomBuilder.General.Map.Map.SelectedSectorsCount == 0 ? -1 : sectors.Count);
             if (form.ShowDialog() == DialogResult.OK)
             {
                 WavefrontExportSettings data = new WavefrontExportSettings(form);
@@ -648,10 +648,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private void ExportToImage()
         {
             // Get sectors
-            ICollection<Sector> sectors = General.Map.Map.SelectedSectorsCount == 0 ? General.Map.Map.Sectors : General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> sectors = DoomBuilder.General.Map.Map.SelectedSectorsCount == 0 ? DoomBuilder.General.Map.Map.Sectors : DoomBuilder.General.Map.Map.GetSelectedSectors(true);
             if (sectors.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Image export failed. Map has no sectors!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Image export failed. Map has no sectors!");
                 return;
             }
 

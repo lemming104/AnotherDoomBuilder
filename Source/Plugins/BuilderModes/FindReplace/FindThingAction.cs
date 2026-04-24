@@ -12,6 +12,7 @@
  */
 
 
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
@@ -21,7 +22,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     [FindReplace("Thing Action and Arguments", BrowseButton = true)]
     internal class FindThingAction : BaseFindThing
@@ -42,7 +43,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This is called to test if the item should be displayed
         public override bool DetermineVisiblity()
         {
-            return General.Map.FormatInterface.HasThingAction;
+            return DoomBuilder.General.Map.FormatInterface.HasThingAction;
         }
 
         // This is called when the browse button is pressed
@@ -50,7 +51,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             int action;
             int.TryParse(initialvalue, out action);
-            return General.Interface.BrowseLinedefActions(BuilderPlug.Me.FindReplaceForm, action, true).ToString();
+            return DoomBuilder.General.Interface.BrowseLinedefActions(BuilderPlug.Me.FindReplaceForm, action, true).ToString();
         }
 
         // This is called when the browse replace button is pressed
@@ -58,7 +59,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             int action;
             int.TryParse(initialvalue, out action);
-            return General.Interface.BrowseLinedefActions(BuilderPlug.Me.FindReplaceForm, action).ToString();
+            return DoomBuilder.General.Interface.BrowseLinedefActions(BuilderPlug.Me.FindReplaceForm, action).ToString();
         }
 
         // This is called to perform a search (and replace)
@@ -94,7 +95,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     int i = 1;
 
                     //mxd. Named script search support...
-                    if (General.Map.UDMF)
+                    if (DoomBuilder.General.Map.UDMF)
                     {
                         string possiblescriptname = replaceparts[1].Trim();
                         int tmp;
@@ -137,7 +138,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     int i = 1;
 
                     //mxd. Named script search support...
-                    if (General.Map.UDMF)
+                    if (DoomBuilder.General.Map.UDMF)
                     {
                         // [ZZ] edit: we can enclose number with "" to signify a named script called "1".
                         //      this is achieved by trying to parse the number before removing "'s.
@@ -159,7 +160,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 // Where to search?
-                ICollection<Thing> list = withinselection ? General.Map.Map.GetSelectedThings(true) : General.Map.Map.Things;
+                ICollection<Thing> list = withinselection ? DoomBuilder.General.Map.Map.GetSelectedThings(true) : DoomBuilder.General.Map.Map.Things;
 
                 // Go for all things
                 foreach (Thing t in list)
@@ -202,7 +203,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     else
                     {
                         List<string> argslist = new List<string>();
-                        LinedefActionInfo info = General.Map.Config.GetLinedefActionInfo(t.Action);
+                        LinedefActionInfo info = DoomBuilder.General.Map.Config.GetLinedefActionInfo(t.Action);
 
                         // Process args
                         for (int i = t.Args.Length - 1; i >= 0; i--)
@@ -214,7 +215,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         }
 
                         // Process arg0str...
-                        //if(Array.IndexOf(GZGeneral.ACS_SPECIALS, t.Action) != -1)
+                        //if(Array.IndexOf(GZDoomBuilder.General.ACS_SPECIALS, t.Action) != -1)
                         {
                             string s = t.Fields.GetValue("arg0str", string.Empty);
                             if (!string.IsNullOrEmpty(s))
@@ -236,12 +237,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     if (match)
                     {
                         // Replace
-                        ThingTypeInfo ti = General.Map.Data.GetThingInfo(t.Type);
+                        ThingTypeInfo ti = DoomBuilder.General.Map.Data.GetThingInfo(t.Type);
 
                         if (replace)
                         {
                             t.Action = replaceaction;
-                            LinedefActionInfo info = (t.Action > 0) ? General.Map.Config.GetLinedefActionInfo(t.Action) : null;
+                            LinedefActionInfo info = (t.Action > 0) ? DoomBuilder.General.Map.Config.GetLinedefActionInfo(t.Action) : null;
                             ArgumentInfo[] arginfo = (info != null) ? info.Args : ti.Args;
 
                             //mxd. Replace args as well?

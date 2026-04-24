@@ -1,9 +1,8 @@
-﻿
-using CodeImp.DoomBuilder.Map;
+﻿using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     //mxd. Encapsulates boring stuff
     internal class BaseFindThing : FindReplaceType
@@ -15,14 +14,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (selection.Length == 1)
             {
                 ZoomToSelection(selection);
-                General.Interface.ShowThingInfo(selection[0].Thing);
+                DoomBuilder.General.Interface.ShowThingInfo(selection[0].Thing);
             }
             else
             {
-                General.Interface.HideInfo();
+                DoomBuilder.General.Interface.HideInfo();
             }
 
-            General.Map.Map.ClearAllSelected();
+            DoomBuilder.General.Map.Map.ClearAllSelected();
             foreach (FindReplaceObject obj in selection) obj.Thing.Selected = true;
         }
 
@@ -30,7 +29,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public override void RenderThingsSelection(IRenderer2D renderer, FindReplaceObject[] selection)
         {
             foreach (FindReplaceObject o in selection)
-                renderer.RenderThing(o.Thing, General.Colors.Selection, General.Settings.ActiveThingsAlpha);
+                renderer.RenderThing(o.Thing, DoomBuilder.General.Colors.Selection, DoomBuilder.General.Settings.ActiveThingsAlpha);
         }
 
         // Edit objects
@@ -39,7 +38,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             HashSet<Thing> things = new HashSet<Thing>();
             foreach (FindReplaceObject o in selection)
                 if (!things.Contains(o.Thing)) things.Add(o.Thing);
-            General.Interface.ShowEditThings(things);
+            DoomBuilder.General.Interface.ShowEditThings(things);
         }
     }
 }

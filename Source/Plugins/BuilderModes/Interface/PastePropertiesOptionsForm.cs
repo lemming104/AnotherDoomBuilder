@@ -1,4 +1,5 @@
 ﻿
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Controls;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Windows;
@@ -85,7 +86,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             // Got anything to show?
             if (typecontrols.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "No copied properties to apply!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "No copied properties to apply!");
                 return false;
             }
 
@@ -95,7 +96,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             // Select proper tab
             if (!ShowTabs(tabcontrols))
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Current map format doesn't support any properties for selected map elements!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Current map format doesn't support any properties for selected map elements!");
                 return false;
             }
 

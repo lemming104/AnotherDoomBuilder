@@ -17,7 +17,7 @@ using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultSectorUnclosed : ErrorResult
     {
@@ -57,7 +57,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Rendering
         public override void PlotSelection(IRenderer2D renderer)
         {
-            renderer.PlotSector(sector, General.Colors.Selection);
+            renderer.PlotSector(sector, DoomBuilder.General.Colors.Selection);
             foreach (Vertex v in vertices)
                 renderer.PlotVertex(v, ColorCollection.SELECTION);
         }

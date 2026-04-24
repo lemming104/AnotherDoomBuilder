@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using GridLockMode = CodeImp.DoomBuilder.BuilderModes.DrawGridMode.GridLockMode;
+using GridLockMode = CodeImp.DoomBuilder.BuilderModes.ClassicModes.DrawGridMode.GridLockMode;
 using InterpolationMode = CodeImp.DoomBuilder.Geometry.InterpolationTools.Mode;
 
 namespace CodeImp.DoomBuilder.BuilderModes.Interface
@@ -76,7 +76,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 
         private void interpmode_DropDownClosed(object sender, EventArgs e)
         {
-            General.Interface.FocusDisplay();
+            DoomBuilder.General.Interface.FocusDisplay();
         }
 
         private void reset_Click(object sender, EventArgs e)

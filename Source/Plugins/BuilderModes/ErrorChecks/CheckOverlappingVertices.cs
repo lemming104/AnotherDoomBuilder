@@ -1,10 +1,10 @@
-﻿
+﻿using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Map;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     [ErrorChecker("Check overlapping vertices", true, 500)]
     public class CheckOverlappingVertices : ErrorChecker
@@ -16,7 +16,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public CheckOverlappingVertices()
         {
             // Total progress is done when all lines are checked
-            SetTotalProgress(General.Map.Map.Vertices.Count / PROGRESS_STEP);
+            SetTotalProgress(DoomBuilder.General.Map.Map.Vertices.Count / PROGRESS_STEP);
         }
 
         // This runs the check
@@ -28,7 +28,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             int stepprogress = 0;
 
             // Go for all the verts
-            foreach (Vertex v in General.Map.Map.Vertices)
+            foreach (Vertex v in DoomBuilder.General.Map.Map.Vertices)
             {
                 BlockEntry block = blockmap.GetBlockAt(v.Position);
 

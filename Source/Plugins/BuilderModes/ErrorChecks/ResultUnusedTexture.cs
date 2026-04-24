@@ -1,9 +1,8 @@
-﻿
-using CodeImp.DoomBuilder.Map;
+﻿using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultUnusedTexture : ErrorResult
     {
@@ -56,7 +55,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Rendering
         public override void PlotSelection(IRenderer2D renderer)
         {
-            renderer.PlotLinedef(side.Line, General.Colors.Selection);
+            renderer.PlotLinedef(side.Line, DoomBuilder.General.Colors.Selection);
             renderer.PlotVertex(side.Line.Start, ColorCollection.VERTICES);
             renderer.PlotVertex(side.Line.End, ColorCollection.VERTICES);
         }
@@ -64,23 +63,23 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Fix by removing texture
         public override bool Button1Click(bool batchMode)
         {
-            if (!batchMode) General.Map.UndoRedo.CreateUndo("Remove unused texture");
-            if (General.Map.UDMF) side.Fields.BeforeFieldsChange();
+            if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Remove unused texture");
+            if (DoomBuilder.General.Map.UDMF) side.Fields.BeforeFieldsChange();
 
             switch (part)
             {
                 case SidedefPart.Upper:
                     side.SetTextureHigh("-");
-                    if (General.Map.UDMF) UniFields.RemoveFields(side.Fields, new[] { "scalex_top", "scaley_top", "offsetx_top", "offsety_top" });
+                    if (DoomBuilder.General.Map.UDMF) UniFields.RemoveFields(side.Fields, new[] { "scalex_top", "scaley_top", "offsetx_top", "offsety_top" });
                     break;
 
                 case SidedefPart.Lower:
                     side.SetTextureLow("-");
-                    if (General.Map.UDMF) UniFields.RemoveFields(side.Fields, new[] { "scalex_bottom", "scaley_bottom", "offsetx_bottom", "offsety_bottom" });
+                    if (DoomBuilder.General.Map.UDMF) UniFields.RemoveFields(side.Fields, new[] { "scalex_bottom", "scaley_bottom", "offsetx_bottom", "offsety_bottom" });
                     break;
             }
 
-            General.Map.Map.Update();
+            DoomBuilder.General.Map.Map.Update();
             return true;
         }
     }

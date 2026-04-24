@@ -1,9 +1,8 @@
-﻿
-using CodeImp.DoomBuilder.Map;
+﻿using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultUnusedThing : ErrorResult
     {
@@ -37,32 +36,32 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This must return the string that is displayed in the listbox
         public override string ToString()
         {
-            return "Thing " + thing.Index + " (" + General.Map.Data.GetThingInfo(thing.Type).Title + ") is unused. " + details;
+            return "Thing " + thing.Index + " (" + DoomBuilder.General.Map.Data.GetThingInfo(thing.Type).Title + ") is unused. " + details;
         }
 
         // Rendering
         public override void RenderOverlaySelection(IRenderer2D renderer)
         {
-            renderer.RenderThing(thing, General.Colors.Selection, General.Settings.ActiveThingsAlpha);
+            renderer.RenderThing(thing, DoomBuilder.General.Colors.Selection, DoomBuilder.General.Settings.ActiveThingsAlpha);
         }
 
         // This removes the thing
         public override bool Button1Click(bool batchMode)
         {
-            if (!batchMode) General.Map.UndoRedo.CreateUndo("Delete thing");
+            if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Delete thing");
             thing.Dispose();
-            General.Map.IsChanged = true;
-            General.Map.ThingsFilter.Update();
+            DoomBuilder.General.Map.IsChanged = true;
+            DoomBuilder.General.Map.ThingsFilter.Update();
             return true;
         }
 
         // This sets default flags
         public override bool Button2Click(bool batchMode)
         {
-            if (!batchMode) General.Map.UndoRedo.CreateUndo("Set default thing flags");
-            foreach (string f in General.Map.Config.DefaultThingFlags) thing.SetFlag(f, true);
-            General.Map.IsChanged = true;
-            General.Map.ThingsFilter.Update();
+            if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Set default thing flags");
+            foreach (string f in DoomBuilder.General.Map.Config.DefaultThingFlags) thing.SetFlag(f, true);
+            DoomBuilder.General.Map.IsChanged = true;
+            DoomBuilder.General.Map.ThingsFilter.Update();
             return true;
         }
     }

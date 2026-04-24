@@ -14,7 +14,8 @@
 
 
 using CodeImp.DoomBuilder.Actions;
-using CodeImp.DoomBuilder.BuilderModes;
+using CodeImp.DoomBuilder.BuilderModes.ClassicModes;
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Controls;
 using CodeImp.DoomBuilder.Editing;
@@ -193,7 +194,7 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
                     }
                 }
 
-                if (BuilderModes.BuilderPlug.Me.ViewSelectionNumbers)
+                if (BuilderModes.General.BuilderPlug.Me.ViewSelectionNumbers)
                 {
                     // Go for all selected sectors
                     ICollection<Sector> orderedselection = General.Map.Map.GetSelectedSectors(true);
@@ -214,7 +215,7 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
 
                 Render3DFloorLabels(unselected3Dfloorlabels);
 
-                if (!BuilderModes.BuilderPlug.Me.ViewSelectionNumbers)
+                if (!BuilderModes.General.BuilderPlug.Me.ViewSelectionNumbers)
                     Render3DFloorLabels(selected3Dfloorlabels);
 
                 BuilderPlug.Me.ControlSectorArea.Draw(renderer, csahighlight);
@@ -539,7 +540,7 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
                     }
 
                     // Also (de)select things?
-                    if (General.Interface.AltState ^ BuilderModes.BuilderPlug.Me.SyncronizeThingEdit)
+                    if (General.Interface.AltState ^ BuilderModes.General.BuilderPlug.Me.SyncronizeThingEdit)
                     {
                         List<BlockEntry> belist = blockmap.GetSquareRange(s.BBox);
 
@@ -571,7 +572,7 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
         {
             Update3DFloorLabels();
 
-            if (BuilderModes.BuilderPlug.Me.ViewSelectionNumbers)
+            if (BuilderModes.General.BuilderPlug.Me.ViewSelectionNumbers)
                 UpdateSelectedLabels();
         }
 
@@ -692,11 +693,11 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
 
             // Add the view selection number button from BuilderModes. Also add a click event handler
             // so we can update the labels when the button is pressed
-            General.Interface.AddButton(BuilderModes.BuilderPlug.Me.MenusForm.ViewSelectionNumbers);
-            BuilderModes.BuilderPlug.Me.MenusForm.ViewSelectionNumbers.Click += ViewSelectionNumbers_Click;
+            General.Interface.AddButton(BuilderModes.General.BuilderPlug.Me.MenusForm.ViewSelectionNumbers);
+            BuilderModes.General.BuilderPlug.Me.MenusForm.ViewSelectionNumbers.Click += ViewSelectionNumbers_Click;
 
             // Synchronize thing editing from BuilderModes
-            General.Interface.AddButton(BuilderModes.BuilderPlug.Me.MenusForm.SyncronizeThingEditButton);
+            General.Interface.AddButton(BuilderModes.General.BuilderPlug.Me.MenusForm.SyncronizeThingEditButton);
 
             General.Interface.AddButton(BuilderPlug.Me.MenusForm.RelocateControlSectors);
 
@@ -707,7 +708,7 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
             CreateBlockmap();
 
             // Select things in the selected sectors if synchronized thing editing is enabled
-            if (BuilderModes.BuilderPlug.Me.SyncronizeThingEdit)
+            if (BuilderModes.General.BuilderPlug.Me.SyncronizeThingEdit)
             {
                 ICollection<Sector> sectors = General.Map.Map.GetSelectedSectors(true);
 
@@ -757,10 +758,10 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
             General.Interface.RemoveDocker(docker);
 
             // Remove the button and event handler for view selection numbers
-            General.Interface.RemoveButton(BuilderModes.BuilderPlug.Me.MenusForm.ViewSelectionNumbers);
-            BuilderModes.BuilderPlug.Me.MenusForm.ViewSelectionNumbers.Click -= ViewSelectionNumbers_Click;
+            General.Interface.RemoveButton(BuilderModes.General.BuilderPlug.Me.MenusForm.ViewSelectionNumbers);
+            BuilderModes.General.BuilderPlug.Me.MenusForm.ViewSelectionNumbers.Click -= ViewSelectionNumbers_Click;
 
-            General.Interface.RemoveButton(BuilderModes.BuilderPlug.Me.MenusForm.SyncronizeThingEditButton);
+            General.Interface.RemoveButton(BuilderModes.General.BuilderPlug.Me.MenusForm.SyncronizeThingEditButton);
 
             General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.RelocateControlSectors);
 
@@ -880,7 +881,7 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
                     renderer.Present();
 
                     // Thing selection state may've changed
-                    if (General.Interface.AltState ^ BuilderModes.BuilderPlug.Me.SyncronizeThingEdit) General.Interface.RedrawDisplay();
+                    if (General.Interface.AltState ^ BuilderModes.General.BuilderPlug.Me.SyncronizeThingEdit) General.Interface.RedrawDisplay();
                 }
             }
 

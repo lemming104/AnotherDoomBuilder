@@ -19,7 +19,7 @@ using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
 {
     // No action or button for this mode, it is automatic.
     // The EditMode attribute does not have to be specified unless the
@@ -43,7 +43,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public DragVerticesMode(Vector2D dragstartmappos, ICollection<Vertex> vertices)
         {
             // Mark what we are dragging
-            General.Map.Map.ClearAllMarks(false);
+            DoomBuilder.General.Map.Map.ClearAllMarks(false);
             foreach (Vertex v in vertices)
                 v.Marked = true;
 
@@ -82,7 +82,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 if (renderer.StartThings(true))
                 {
-                    renderer.RenderThingSet(General.Map.Map.Things, General.Settings.ActiveThingsAlpha);
+                    renderer.RenderThingSet(DoomBuilder.General.Map.Map.Things, DoomBuilder.General.Settings.ActiveThingsAlpha);
                     renderer.Finish();
                 }
             }
@@ -97,7 +97,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (renderer.StartPlotter(true))
             {
                 // Render lines and vertices
-                renderer.PlotLinedefSet(General.Map.Map.Linedefs);
+                renderer.PlotLinedefSet(DoomBuilder.General.Map.Map.Linedefs);
                 renderer.PlotVerticesSet(unselectedverts);
                 renderer.PlotVerticesSet(selectedverts);
 
@@ -113,9 +113,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
             //mxd. Render things
             if (renderer.StartThings(true))
             {
-                renderer.RenderThingSet(General.Map.ThingsFilter.HiddenThings, General.Settings.HiddenThingsAlpha);
-                renderer.RenderThingSet(unselectedthings, General.Settings.ActiveThingsAlpha);
-                renderer.RenderThingSet(selectedthings, General.Settings.ActiveThingsAlpha);
+                renderer.RenderThingSet(DoomBuilder.General.Map.ThingsFilter.HiddenThings, DoomBuilder.General.Settings.HiddenThingsAlpha);
+                renderer.RenderThingSet(unselectedthings, DoomBuilder.General.Settings.ActiveThingsAlpha);
+                renderer.RenderThingSet(selectedthings, DoomBuilder.General.Settings.ActiveThingsAlpha);
                 renderer.Finish();
             }
 

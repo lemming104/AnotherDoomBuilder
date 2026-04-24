@@ -1,9 +1,9 @@
-﻿
+﻿using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultUnknownSectorEffect : ErrorResult
     {
@@ -42,24 +42,24 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Rendering
         public override void PlotSelection(IRenderer2D renderer)
         {
-            renderer.PlotSector(sector, General.Colors.Selection);
+            renderer.PlotSector(sector, DoomBuilder.General.Colors.Selection);
         }
 
         // Fix by removing effect
         public override bool Button1Click(bool batchmode)
         {
-            if (!batchmode) General.Map.UndoRedo.CreateUndo("Unknown sector effect removal");
+            if (!batchmode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Unknown sector effect removal");
             sector.Effect = 0;
-            General.Map.Map.Update();
+            DoomBuilder.General.Map.Map.Update();
             return true;
         }
 
         // Fix by picking effect
         public override bool Button2Click(bool batchmode)
         {
-            if (!batchmode) General.Map.UndoRedo.CreateUndo("Unknown sector effect correction");
-            sector.Effect = General.Interface.BrowseSectorEffect(BuilderPlug.Me.ErrorCheckForm, sector.Effect);
-            General.Map.Map.Update();
+            if (!batchmode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Unknown sector effect correction");
+            sector.Effect = DoomBuilder.General.Interface.BrowseSectorEffect(BuilderPlug.Me.ErrorCheckForm, sector.Effect);
+            DoomBuilder.General.Map.Map.Update();
             return true;
         }
     }

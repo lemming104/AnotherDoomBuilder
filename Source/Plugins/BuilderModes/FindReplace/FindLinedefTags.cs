@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     [FindReplace("Linedef Tag", BrowseButton = false)]
     internal class FindLinedefTags : BaseFindLinedef
@@ -27,7 +27,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This is called to test if the item should be displayed
         public override bool DetermineVisiblity()
         {
-            return General.Map.FormatInterface.HasLinedefTag;
+            return DoomBuilder.General.Map.FormatInterface.HasLinedefTag;
         }
 
         // This is called to perform a search (and replace)
@@ -43,8 +43,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 // If it cannot be interpreted, set replacewith to null (not replacing at all)
                 if (!int.TryParse(replacewith, out replacetag)) replacewith = null;
-                if (replacetag < General.Map.FormatInterface.MinTag) replacewith = null;
-                if (replacetag > General.Map.FormatInterface.MaxTag) replacewith = null;
+                if (replacetag < DoomBuilder.General.Map.FormatInterface.MinTag) replacewith = null;
+                if (replacetag > DoomBuilder.General.Map.FormatInterface.MaxTag) replacewith = null;
                 if (replacewith == null)
                 {
                     MessageBox.Show("Invalid replace value for this search type!", "Find and Replace", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -57,7 +57,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (int.TryParse(value, out tag))
             {
                 // Where to search?
-                ICollection<Linedef> list = withinselection ? General.Map.Map.GetSelectedLinedefs(true) : General.Map.Map.Linedefs;
+                ICollection<Linedef> list = withinselection ? DoomBuilder.General.Map.Map.GetSelectedLinedefs(true) : DoomBuilder.General.Map.Map.Linedefs;
 
                 // Go for all linedefs
                 foreach (Linedef l in list)
@@ -76,7 +76,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         }
 
                         // Add to list
-                        LinedefActionInfo info = General.Map.Config.GetLinedefActionInfo(l.Action);
+                        LinedefActionInfo info = DoomBuilder.General.Map.Config.GetLinedefActionInfo(l.Action);
                         if (!info.IsNull)
                             objs.Add(new FindReplaceObject(l, "Linedef " + l.Index + " (" + info.Title + ")"));
                         else

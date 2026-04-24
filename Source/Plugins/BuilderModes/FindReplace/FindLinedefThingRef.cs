@@ -18,7 +18,7 @@ using CodeImp.DoomBuilder.Types;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     [FindReplace("Linedef Thing Reference", BrowseButton = false)]
     internal class FindLinedefThingRef : BaseFindLinedef
@@ -27,7 +27,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This is called to test if the item should be displayed
         public override bool DetermineVisiblity()
         {
-            return General.Map.FormatInterface.HasActionArgs;
+            return DoomBuilder.General.Map.FormatInterface.HasActionArgs;
         }
 
         // This is called to perform a search (and replace)
@@ -57,14 +57,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (int.TryParse(value, out tag))
             {
                 // Where to search?
-                ICollection<Linedef> list = withinselection ? General.Map.Map.GetSelectedLinedefs(true) : General.Map.Map.Linedefs;
+                ICollection<Linedef> list = withinselection ? DoomBuilder.General.Map.Map.GetSelectedLinedefs(true) : DoomBuilder.General.Map.Map.Linedefs;
 
                 // Go for all linedefs
                 foreach (Linedef l in list)
                 {
                     bool addline = false;
 
-                    LinedefActionInfo info = General.Map.Config.GetLinedefActionInfo(l.Action);
+                    LinedefActionInfo info = DoomBuilder.General.Map.Config.GetLinedefActionInfo(l.Action);
                     if (info.IsKnown && !info.IsNull)
                     {
                         // Go for all args

@@ -17,7 +17,7 @@ using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Drawing;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.General
 {
     public class LineLengthLabel : CustomTextLabel, IDisposable
     {
@@ -84,8 +84,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 AlignX = TextAlignmentX.Center,
                 AlignY = TextAlignmentY.Middle,
-                Color = General.Colors.Highlight,
-                BackColor = General.Colors.Background.WithAlpha(128),
+                Color = DoomBuilder.General.Colors.Highlight,
+                BackColor = DoomBuilder.General.Colors.Background.WithAlpha(128),
                 TransformCoords = true,
             };
         }
@@ -125,8 +125,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             UpdateText();
 
             // Check if start/end point is on screen...
-            Vector2D lt = General.Map.Renderer2D.DisplayToMap(new Vector2D(0.0f, General.Interface.Display.Size.Height));
-            Vector2D rb = General.Map.Renderer2D.DisplayToMap(new Vector2D(General.Interface.Display.Size.Width, 0.0f));
+            Vector2D lt = DoomBuilder.General.Map.Renderer2D.DisplayToMap(new Vector2D(0.0f, DoomBuilder.General.Interface.Display.Size.Height));
+            Vector2D rb = DoomBuilder.General.Map.Renderer2D.DisplayToMap(new Vector2D(DoomBuilder.General.Interface.Display.Size.Width, 0.0f));
             RectangleF viewport = new RectangleF((float)lt.x, (float)lt.y, (float)(rb.x - lt.x), (float)(rb.y - lt.y));
             bool startvisible = viewport.Contains((float)start.x, (float)start.y);
             bool endvisible = viewport.Contains((float)end.x, (float)end.y);
@@ -166,9 +166,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 Vector2D perpendicular = (end - start).GetPerpendicular();
                 double angle = perpendicular.GetAngle();
-                SizeF textsize = General.Interface.MeasureString(label.Text, label.Font);
+                SizeF textsize = DoomBuilder.General.Interface.MeasureString(label.Text, label.Font);
                 double offset = (textsize.Width * Math.Abs(Math.Sin(angle))) + (textsize.Height * Math.Abs(Math.Cos(angle)));
-                perpendicular = perpendicular.GetNormal().GetScaled(offset / 2.0f / General.Map.Renderer2D.Scale);
+                perpendicular = perpendicular.GetNormal().GetScaled(offset / 2.0f / DoomBuilder.General.Map.Renderer2D.Scale);
                 start += perpendicular;
                 end += perpendicular;
             }

@@ -76,7 +76,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 
         private void BezierPathForm_MouseLeave(object sender, EventArgs e)
         {
-            General.Interface.FocusDisplay();
+            DoomBuilder.General.Interface.FocusDisplay();
         }
 
         private void buttonFlip_Click(object sender, EventArgs e)

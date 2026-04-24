@@ -1,8 +1,7 @@
-﻿
-using CodeImp.DoomBuilder.Map;
+﻿using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal class EffectTransferFloorBrightness : SectorEffect
     {
@@ -31,7 +30,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             // Transfer floor brightness, keep sector color
             PixelColor lightcolor = PixelColor.FromInt(data.Sector.Fields.GetValue("lightcolor", -1));
-            PixelColor brightness = PixelColor.FromInt(General.Map.Renderer3D.CalculateBrightness(sd.Sector.Brightness));
+            PixelColor brightness = PixelColor.FromInt(DoomBuilder.General.Map.Renderer3D.CalculateBrightness(sd.Sector.Brightness));
             data.Floor.color = PixelColor.Modulate(lightcolor, brightness).WithAlpha(255).ToInt();
             data.Floor.brightnessbelow = sd.Floor.brightnessbelow;
         }

@@ -12,6 +12,7 @@
  */
 
 
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -23,7 +24,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal sealed class VisualMiddleDouble : BaseVisualGeometrySidedef
     {
@@ -89,10 +90,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Load texture
             if (Sidedef.LongMiddleTexture != MapSet.EmptyLongName)
             {
-                base.Texture = General.Map.Data.GetTextureImage(Sidedef.LongMiddleTexture);
+                base.Texture = DoomBuilder.General.Map.Data.GetTextureImage(Sidedef.LongMiddleTexture);
                 if (base.Texture == null || base.Texture is UnknownImage)
                 {
-                    base.Texture = General.Map.Data.UnknownTexture3D;
+                    base.Texture = DoomBuilder.General.Map.Data.UnknownTexture3D;
                     setuponloadedtexture = Sidedef.LongMiddleTexture;
                 }
                 else if (!base.Texture.IsImageLoaded)
@@ -103,7 +104,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             else
             {
                 // Use missing texture
-                base.Texture = General.Map.Data.MissingTexture3D;
+                base.Texture = DoomBuilder.General.Map.Data.MissingTexture3D;
                 setuponloadedtexture = 0;
             }
 
@@ -116,7 +117,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             tof = tof + toffset;
 
             // biwa. Also take the ForceWorldPanning MAPINFO entry into account
-            if (General.Map.Config.ScaledTextureOffsets && !base.Texture.WorldPanning && !General.Map.Data.MapInfo.ForceWorldPanning)
+            if (DoomBuilder.General.Map.Config.ScaledTextureOffsets && !base.Texture.WorldPanning && !DoomBuilder.General.Map.Data.MapInfo.ForceWorldPanning)
             {
                 tof = tof / tscaleAbs;
                 tof = tof * base.Texture.Scale;
@@ -139,7 +140,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             double zoffset = Sidedef.Sector.CeilHeight - Sidedef.Other.Sector.CeilHeight; //mxd
 
             // When lower unpegged is set, the middle texture is bound to the bottom
-            if (Sidedef.Line.IsFlagSet(General.Map.Config.LowerUnpeggedFlag))
+            if (Sidedef.Line.IsFlagSet(DoomBuilder.General.Map.Config.LowerUnpeggedFlag))
                 tp.tlt.y = tsz.y - (geotop - geobottom);
 
             if (zoffset > 0) tp.tlt.y -= zoffset; //mxd
@@ -188,9 +189,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             // Determine if we should repeat the middle texture. In UDMF this is done with a flag, in Hexen with
             // a argument to the 121:Line_SetIdentification. See https://www.zdoom.org/w/index.php?title=Line_SetIdentification
-            if (General.Map.UDMF)
+            if (DoomBuilder.General.Map.UDMF)
                 repeatmidtex = Sidedef.IsFlagSet("wrapmidtex") || Sidedef.Line.IsFlagSet("wrapmidtex"); //mxd
-            else if (General.Map.HEXEN)
+            else if (DoomBuilder.General.Map.HEXEN)
                 repeatmidtex = Sidedef.Line.Action == 121 && (Sidedef.Line.Args[1] & 16) == 16;
             else
                 repeatmidtex = false;
@@ -201,7 +202,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 double textop;
 
                 // Determine top portion height
-                if (Sidedef.Line.IsFlagSet(General.Map.Config.LowerUnpeggedFlag))
+                if (Sidedef.Line.IsFlagSet(DoomBuilder.General.Map.Config.LowerUnpeggedFlag))
                     textop = geobottom + tof.y + Math.Abs(tsz.y);
                 else
                     textop = geotop + tof.y;
@@ -210,7 +211,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 double texbottom = textop - Math.Abs(tsz.y);
 
                 // Create crop planes (we also need these for intersection testing)
-                if (General.Map.Config.SidedefTextureSkewing)
+                if (DoomBuilder.General.Map.Config.SidedefTextureSkewing)
                 {
                     (topclipplane, bottomclipplane) = CreateSkewClipPlanes(textop, texbottom, sd, osd);
                 }
@@ -304,7 +305,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             int oy;
             if (repeatmidtex)
             {
-                bool pegbottom = Sidedef.Line.IsFlagSet(General.Map.Config.LowerUnpeggedFlag);
+                bool pegbottom = Sidedef.Line.IsFlagSet(DoomBuilder.General.Map.Config.LowerUnpeggedFlag);
                 double zoffset = pegbottom ? Sidedef.Sector.FloorHeight : Sidedef.Sector.CeilHeight;
                 oy = (int)Math.Floor((((pickintersect.z - zoffset) * UniFields.GetFloat(Sidedef.Fields, "scaley_mid", 1.0f) / texscale.y)
                     - ((Sidedef.OffsetY - UniFields.GetFloat(Sidedef.Fields, "offsety_mid")) / imgscale.y))
@@ -321,7 +322,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (oy < 0) oy += imageHeight;
 
             // Check pixel alpha
-            Point pixelpos = new Point(General.Clamp(ox, 0, imageWidth - 1), General.Clamp(imageHeight - oy, 0, imageHeight - 1));
+            Point pixelpos = new Point(DoomBuilder.General.Clamp(ox, 0, imageWidth - 1), DoomBuilder.General.Clamp(imageHeight - oy, 0, imageHeight - 1));
             return Texture.AlphaTestPixel(pixelpos.X, pixelpos.Y) && base.PickAccurate(from, to, dir, ref u_ray);
         }
 
@@ -335,7 +336,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         protected override void SetTexture(string texturename)
         {
             this.Sidedef.SetTextureMid(texturename);
-            General.Map.Data.UpdateUsedTextures();
+            DoomBuilder.General.Map.Data.UpdateUsedTextures();
             this.Setup();
         }
 
@@ -354,7 +355,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         protected override void MoveTextureOffset(int offsetx, int offsety)
         {
             Sidedef.Fields.BeforeFieldsChange();
-            bool worldpanning = this.Texture.WorldPanning || General.Map.Data.MapInfo.ForceWorldPanning;
+            bool worldpanning = this.Texture.WorldPanning || DoomBuilder.General.Map.Data.MapInfo.ForceWorldPanning;
             double oldx = Sidedef.Fields.GetValue("offsetx_mid", 0.0);
             double oldy = Sidedef.Fields.GetValue("offsety_mid", 0.0);
             double scalex = Sidedef.Fields.GetValue("scalex_mid", 1.0);
@@ -388,7 +389,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd
         public override void OnTextureFit(FitTextureOptions options)
         {
-            if (!General.Map.UDMF) return;
+            if (!DoomBuilder.General.Map.UDMF) return;
             if (string.IsNullOrEmpty(Sidedef.MiddleTexture) || Sidedef.MiddleTexture == "-" || !Texture.IsImageLoaded) return;
             FitTexture(options);
             Setup();
@@ -402,10 +403,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Reset
             skew = new Vector2f(0.0f);
 
-            if (!General.Map.Config.SidedefTextureSkewing)
+            if (!DoomBuilder.General.Map.Config.SidedefTextureSkewing)
                 return;
 
-            if (General.Map.Config.SkewStyle == Config.SkewStyle.GZDoom)
+            if (DoomBuilder.General.Map.Config.SkewStyle == Config.SkewStyle.GZDoom)
             {
                 int skewtype = Sidedef.Fields.GetValue("skew_middle", 0);
 
@@ -433,7 +434,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         );
                 }
             }
-            else if (General.Map.Config.SkewStyle == Config.SkewStyle.EternityEngine)
+            else if (DoomBuilder.General.Map.Config.SkewStyle == Config.SkewStyle.EternityEngine)
             {
                 string skewtype = Sidedef.Fields.GetValue("skew_middle_type", "none");
 
@@ -520,7 +521,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         /// <returns>The top and bottom clipping planes</returns>
         private (Plane, Plane) CreateSkewClipPlanes(double textop, double texbottom, SectorData sd, SectorData osd)
         {
-            if (General.Map.Config.SkewStyle == Config.SkewStyle.GZDoom)
+            if (DoomBuilder.General.Map.Config.SkewStyle == Config.SkewStyle.GZDoom)
             {
                 int skewtype = Sidedef.Fields.GetValue("skew_middle", 0);
 
@@ -562,7 +563,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     );
                 }
             }
-            else if (General.Map.Config.SkewStyle == Config.SkewStyle.EternityEngine)
+            else if (DoomBuilder.General.Map.Config.SkewStyle == Config.SkewStyle.EternityEngine)
             {
                 string skewtype = Sidedef.Fields.GetValue("skew_middle_type", "none");
                 if ((skewtype == "front_floor" || skewtype == "front_ceiling" || skewtype == "back_floor" || skewtype == "back_ceiling") && Texture != null)

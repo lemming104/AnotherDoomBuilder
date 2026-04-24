@@ -17,7 +17,7 @@ using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     [FindReplace("Thing Index", BrowseButton = false)]
     internal class FindThingNumber : BaseFindThing
@@ -42,10 +42,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
             int index;
             if (int.TryParse(value, out index))
             {
-                Thing t = General.Map.Map.GetThingByIndex(index);
+                Thing t = DoomBuilder.General.Map.Map.GetThingByIndex(index);
                 if (t != null)
                 {
-                    ThingTypeInfo ti = General.Map.Data.GetThingInfo(t.Type);
+                    ThingTypeInfo ti = DoomBuilder.General.Map.Data.GetThingInfo(t.Type);
                     objs.Add(new FindReplaceObject(t, "Thing " + index + " (" + ti.Title + ")"));
                 }
             }

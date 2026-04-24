@@ -16,7 +16,7 @@ using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultStuckThingInLine : ErrorResult
     {
@@ -50,19 +50,19 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This must return the string that is displayed in the listbox
         public override string ToString()
         {
-            return "Thing " + thing.Index + " (" + General.Map.Data.GetThingInfo(thing.Type).Title + ") is stuck in linedef " + line.Index + " at " + thing.Position.x + ", " + thing.Position.y;
+            return "Thing " + thing.Index + " (" + DoomBuilder.General.Map.Data.GetThingInfo(thing.Type).Title + ") is stuck in linedef " + line.Index + " at " + thing.Position.x + ", " + thing.Position.y;
         }
 
         // Rendering
         public override void RenderOverlaySelection(IRenderer2D renderer)
         {
-            renderer.RenderThing(thing, General.Colors.Selection, General.Settings.ActiveThingsAlpha);
+            renderer.RenderThing(thing, DoomBuilder.General.Colors.Selection, DoomBuilder.General.Settings.ActiveThingsAlpha);
         }
 
         // mxd. More rencering
         public override void PlotSelection(IRenderer2D renderer)
         {
-            renderer.PlotLinedef(line, General.Colors.Selection);
+            renderer.PlotLinedef(line, DoomBuilder.General.Colors.Selection);
             renderer.PlotVertex(line.Start, ColorCollection.VERTICES);
             renderer.PlotVertex(line.End, ColorCollection.VERTICES);
         }
@@ -70,10 +70,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This removes the thing
         public override bool Button1Click(bool batchMode)
         {
-            if (!batchMode) General.Map.UndoRedo.CreateUndo("Delete thing");
+            if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Delete thing");
             thing.Dispose();
-            General.Map.IsChanged = true;
-            General.Map.ThingsFilter.Update();
+            DoomBuilder.General.Map.IsChanged = true;
+            DoomBuilder.General.Map.ThingsFilter.Update();
             return true;
         }
     }

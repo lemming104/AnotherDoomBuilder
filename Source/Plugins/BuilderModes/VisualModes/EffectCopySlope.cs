@@ -1,7 +1,6 @@
-﻿
-using CodeImp.DoomBuilder.Map;
+﻿using CodeImp.DoomBuilder.Map;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal class EffectCopySlope : SectorEffect
     {
@@ -28,7 +27,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             // Find tagged sector
             Sector sourcesector = null;
-            foreach (Sector s in General.Map.Map.Sectors)
+            foreach (Sector s in DoomBuilder.General.Map.Map.Sectors)
             {
                 if (s.Tags.Contains(thing.Args[0]))
                 {

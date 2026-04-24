@@ -3,7 +3,7 @@ using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     [ErrorChecker("Check missing activations", true, 50)]
     public class CheckMissingActivations : ErrorChecker
@@ -14,10 +14,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public CheckMissingActivations()
         {
             // Total progress is done when all linedefs are checked
-            SetTotalProgress(General.Map.Map.Linedefs.Count / PROGRESS_STEP);
+            SetTotalProgress(DoomBuilder.General.Map.Map.Linedefs.Count / PROGRESS_STEP);
         }
 
-        public override bool SkipCheck { get { return !General.Map.UDMF; } }
+        public override bool SkipCheck { get { return !DoomBuilder.General.Map.UDMF; } }
 
         // This runs the check
         public override void Run()
@@ -26,22 +26,22 @@ namespace CodeImp.DoomBuilder.BuilderModes
             int stepprogress = 0;
 
             //If this map isn't a UDMF then we can't reach a situation where activations are missing
-            if (!General.Map.UDMF)
+            if (!DoomBuilder.General.Map.UDMF)
             {
                 return;
             }
 
             // Go for all linedefs
-            foreach (Linedef l in General.Map.Map.Linedefs)
+            foreach (Linedef l in DoomBuilder.General.Map.Map.Linedefs)
             {
                 int action = l.Action;
                 Dictionary<string, bool> flags = l.GetFlags();
                 bool hasActivation = false;
                 if (action != 0
-                    && General.Map.Config.LinedefActions.ContainsKey(action)
-                    && General.Map.Config.LinedefActions[action].RequiresActivation)
+                    && DoomBuilder.General.Map.Config.LinedefActions.ContainsKey(action)
+                    && DoomBuilder.General.Map.Config.LinedefActions[action].RequiresActivation)
                 {
-                    foreach (LinedefActivateInfo ai in General.Map.Config.LinedefActivates)
+                    foreach (LinedefActivateInfo ai in DoomBuilder.General.Map.Config.LinedefActivates)
                     {
                         if (flags.ContainsKey(ai.Key) && flags[ai.Key] == true && ai.IsTrigger)
                         {

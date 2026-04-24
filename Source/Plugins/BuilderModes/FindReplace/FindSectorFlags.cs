@@ -1,5 +1,4 @@
-﻿
-using CodeImp.DoomBuilder.Config;
+﻿using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Windows;
 using System;
@@ -7,7 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     [FindReplace("Sector Flags", BrowseButton = true)]
     internal class FindSectorFlags : BaseFindSector
@@ -18,9 +17,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This is called to test if the item should be displayed
         public override bool DetermineVisiblity()
         {
-            return General.Map.Config.SectorFlags.Count > 0
-                || General.Map.Config.CeilingPortalFlags.Count > 0
-                || General.Map.Config.FloorPortalFlags.Count > 0;
+            return DoomBuilder.General.Map.Config.SectorFlags.Count > 0
+                || DoomBuilder.General.Map.Config.CeilingPortalFlags.Count > 0
+                || DoomBuilder.General.Map.Config.FloorPortalFlags.Count > 0;
         }
 
         // This is called when the browse button is pressed
@@ -37,7 +36,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             List<FindReplaceObject> objs = new List<FindReplaceObject>();
 
             // Where to search?
-            ICollection<Sector> list = withinselection ? General.Map.Map.GetSelectedSectors(true) : General.Map.Map.Sectors;
+            ICollection<Sector> list = withinselection ? DoomBuilder.General.Map.Map.GetSelectedSectors(true) : DoomBuilder.General.Map.Map.Sectors;
 
             // Combine all sector flags...
             Dictionary<string, string> allflags = GetAllFlags();
@@ -113,7 +112,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     }
 
                     // Add to list
-                    SectorEffectInfo info = General.Map.Config.GetSectorEffectInfo(s.Effect);
+                    SectorEffectInfo info = DoomBuilder.General.Map.Config.GetSectorEffectInfo(s.Effect);
                     if (!info.IsNull)
                         objs.Add(new FindReplaceObject(s, "Sector " + s.Index + " (" + info.Title + ")"));
                     else
@@ -127,12 +126,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private static Dictionary<string, string> GetAllFlags()
         {
             // Combine all sector flags...
-            Dictionary<string, string> allflags = new Dictionary<string, string>(General.Map.Config.SectorFlags);
+            Dictionary<string, string> allflags = new Dictionary<string, string>(DoomBuilder.General.Map.Config.SectorFlags);
 
-            foreach (var group in General.Map.Config.CeilingPortalFlags)
+            foreach (var group in DoomBuilder.General.Map.Config.CeilingPortalFlags)
                 allflags[group.Key] = group.Value + " (ceil. portal)";
 
-            foreach (var group in General.Map.Config.FloorPortalFlags)
+            foreach (var group in DoomBuilder.General.Map.Config.FloorPortalFlags)
                 allflags[group.Key] = group.Value + " (floor portal)";
 
             return allflags;

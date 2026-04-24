@@ -1,5 +1,5 @@
-﻿
-using CodeImp.DoomBuilder.Actions;
+﻿using CodeImp.DoomBuilder.Actions;
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
 {
     [EditMode(DisplayName = "Draw Rectangle Mode",
               SwitchAction = "drawrectanglemode",
@@ -76,16 +76,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
             minpointscount = 4;
 
             // Load stored settings
-            subdivisions = General.Clamp(General.Settings.ReadPluginSetting("drawrectanglemode.subdivisions", 0), minsubdivisions, maxsubdivisions);
-            bevelwidth = General.Settings.ReadPluginSetting("drawrectanglemode.bevelwidth", 0);
+            subdivisions = DoomBuilder.General.Clamp(DoomBuilder.General.Settings.ReadPluginSetting("drawrectanglemode.subdivisions", 0), minsubdivisions, maxsubdivisions);
+            bevelwidth = DoomBuilder.General.Settings.ReadPluginSetting("drawrectanglemode.bevelwidth", 0);
             currentbevelwidth = bevelwidth;
 
             //Add options docker
             panel = new DrawRectangleOptionsPanel();
             panel.MaxSubdivisions = maxsubdivisions;
             panel.MinSubdivisions = minsubdivisions;
-            panel.MaxBevelWidth = (int)General.Map.FormatInterface.MaxCoordinate;
-            panel.MinBevelWidth = (int)General.Map.FormatInterface.MinCoordinate;
+            panel.MaxBevelWidth = (int)DoomBuilder.General.Map.FormatInterface.MaxCoordinate;
+            panel.MinBevelWidth = (int)DoomBuilder.General.Map.FormatInterface.MinCoordinate;
             panel.BevelWidth = bevelwidth;
             panel.Subdivisions = subdivisions;
             panel.OnValueChanged += OptionsPanelOnValueChanged;
@@ -95,10 +95,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
             panel.OnPlaceThingsAtVerticesChanged += OnPlaceThingsAtVerticesChanged;
 
             // Needs to be set after adding the OnContinuousDrawingChanged event...
-            panel.ContinuousDrawing = General.Settings.ReadPluginSetting("drawrectanglemode.continuousdrawing", false);
-            panel.ShowGuidelines = General.Settings.ReadPluginSetting("drawrectanglemode.showguidelines", false);
-            panel.RadialDrawing = General.Settings.ReadPluginSetting("drawrectanglemode.radialdrawing", false);
-            panel.PlaceThingsAtVertices = General.Settings.ReadPluginSetting("drawrectanglemode.placethingsatvertices", false);
+            panel.ContinuousDrawing = DoomBuilder.General.Settings.ReadPluginSetting("drawrectanglemode.continuousdrawing", false);
+            panel.ShowGuidelines = DoomBuilder.General.Settings.ReadPluginSetting("drawrectanglemode.showguidelines", false);
+            panel.RadialDrawing = DoomBuilder.General.Settings.ReadPluginSetting("drawrectanglemode.radialdrawing", false);
+            panel.PlaceThingsAtVertices = DoomBuilder.General.Settings.ReadPluginSetting("drawrectanglemode.placethingsatvertices", false);
         }
 
         protected override void AddInterface()
@@ -109,12 +109,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
         protected override void RemoveInterface()
         {
             // Store settings
-            General.Settings.WritePluginSetting("drawrectanglemode.subdivisions", subdivisions);
-            General.Settings.WritePluginSetting("drawrectanglemode.bevelwidth", bevelwidth);
-            General.Settings.WritePluginSetting("drawrectanglemode.continuousdrawing", panel.ContinuousDrawing);
-            General.Settings.WritePluginSetting("drawrectanglemode.showguidelines", panel.ShowGuidelines);
-            General.Settings.WritePluginSetting("drawrectanglemode.radialdrawing", panel.RadialDrawing);
-            General.Settings.WritePluginSetting("drawrectanglemode.placethingsatvertices", panel.PlaceThingsAtVertices);
+            DoomBuilder.General.Settings.WritePluginSetting("drawrectanglemode.subdivisions", subdivisions);
+            DoomBuilder.General.Settings.WritePluginSetting("drawrectanglemode.bevelwidth", bevelwidth);
+            DoomBuilder.General.Settings.WritePluginSetting("drawrectanglemode.continuousdrawing", panel.ContinuousDrawing);
+            DoomBuilder.General.Settings.WritePluginSetting("drawrectanglemode.showguidelines", panel.ShowGuidelines);
+            DoomBuilder.General.Settings.WritePluginSetting("drawrectanglemode.radialdrawing", panel.RadialDrawing);
+            DoomBuilder.General.Settings.WritePluginSetting("drawrectanglemode.placethingsatvertices", panel.PlaceThingsAtVertices);
 
             // Remove the buttons
             panel.Unregister();
@@ -124,18 +124,18 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             if (blockupdate) return;
 
-            PixelColor stitchcolor = General.Colors.Highlight;
-            PixelColor losecolor = General.Colors.Selection;
+            PixelColor stitchcolor = DoomBuilder.General.Colors.Highlight;
+            PixelColor losecolor = DoomBuilder.General.Colors.Selection;
 
-            snaptocardinaldirection = General.Interface.ShiftState && General.Interface.AltState; //mxd
-            snaptogrid = snaptocardinaldirection || General.Interface.ShiftState ^ General.Interface.SnapToGrid;
-            snaptonearest = General.Interface.CtrlState ^ General.Interface.AutoMerge;
+            snaptocardinaldirection = DoomBuilder.General.Interface.ShiftState && DoomBuilder.General.Interface.AltState; //mxd
+            snaptogrid = snaptocardinaldirection || DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid;
+            snaptonearest = DoomBuilder.General.Interface.CtrlState ^ DoomBuilder.General.Interface.AutoMerge;
 
             DrawnVertex curp = GetCurrentPosition();
             Vector2D curvertexpos = curp.pos;
             float vsize = (renderer.VertexSize + 1.0f) / renderer.Scale;
 
-            curp.pos = curp.pos.GetRotated(-General.Map.Grid.GridRotate);
+            curp.pos = curp.pos.GetRotated(-DoomBuilder.General.Map.Grid.GridRotate);
 
             // Render drawing lines
             if (renderer.StartOverlay(true))
@@ -148,16 +148,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                     Vector2D[] shape = GetShape(start, end);
 
-                    Vector2D startrotated = start.GetRotated(General.Map.Grid.GridRotate);
-                    Vector2D endrotated = end.GetRotated(General.Map.Grid.GridRotate);
+                    Vector2D startrotated = start.GetRotated(DoomBuilder.General.Map.Grid.GridRotate);
+                    Vector2D endrotated = end.GetRotated(DoomBuilder.General.Map.Grid.GridRotate);
 
                     // Rotate the shape to fit the grid rotation
                     for (int i = 0; i < shape.Length; i++)
-                        shape[i] = shape[i].GetRotated(General.Map.Grid.GridRotate);
+                        shape[i] = shape[i].GetRotated(DoomBuilder.General.Map.Grid.GridRotate);
 
                     // Render guidelines
                     if (showguidelines)
-                        RenderGuidelines(startrotated, endrotated, General.Colors.Guideline.WithAlpha(80), -General.Map.Grid.GridRotate);
+                        RenderGuidelines(startrotated, endrotated, DoomBuilder.General.Colors.Guideline.WithAlpha(80), -DoomBuilder.General.Map.Grid.GridRotate);
 
                     //render shape
                     if (!placethingsatvertices)
@@ -180,7 +180,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     else if (shape.Length > 3)
                     {
                         // Render labels for rectangle
-                        Vector2D[] labelCoords = { startrotated, new Vector2D(end.x, start.y).GetRotated(General.Map.Grid.GridRotate), endrotated, new Vector2D(start.x, end.y).GetRotated(General.Map.Grid.GridRotate), startrotated };
+                        Vector2D[] labelCoords = { startrotated, new Vector2D(end.x, start.y).GetRotated(DoomBuilder.General.Map.Grid.GridRotate), endrotated, new Vector2D(start.x, end.y).GetRotated(DoomBuilder.General.Map.Grid.GridRotate), startrotated };
 
                         for (int i = 1; i < 5; i++)
                         {
@@ -201,13 +201,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                             //and shape corners
                             for (int i = 0; i < 4; i++)
-                                renderer.RenderRectangleFilled(new RectangleF((float)(labelCoords[i].x - vsize), (float)(labelCoords[i].y - vsize), vsize * 2.0f, vsize * 2.0f), General.Colors.InfoLine, true);
+                                renderer.RenderRectangleFilled(new RectangleF((float)(labelCoords[i].x - vsize), (float)(labelCoords[i].y - vsize), vsize * 2.0f, vsize * 2.0f), DoomBuilder.General.Colors.InfoLine, true);
                         }
                     }
                     else
                     {
                         // Render vertex at points[0]
-                        renderer.RenderRectangleFilled(new RectangleF((float)(start.x - vsize), (float)(start.y - vsize), vsize * 2.0f, vsize * 2.0f), General.Colors.InfoLine, true);
+                        renderer.RenderRectangleFilled(new RectangleF((float)(start.x - vsize), (float)(start.y - vsize), vsize * 2.0f, vsize * 2.0f), DoomBuilder.General.Colors.InfoLine, true);
                     }
                 }
                 else
@@ -348,12 +348,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This draws a point at a specific location
         override public bool DrawPointAt(Vector2D pos, bool stitch, bool stitchline)
         {
-            if (pos.x < General.Map.Config.LeftBoundary || pos.x > General.Map.Config.RightBoundary ||
-                pos.y > General.Map.Config.TopBoundary || pos.y < General.Map.Config.BottomBoundary)
+            if (pos.x < DoomBuilder.General.Map.Config.LeftBoundary || pos.x > DoomBuilder.General.Map.Config.RightBoundary ||
+                pos.y > DoomBuilder.General.Map.Config.TopBoundary || pos.y < DoomBuilder.General.Map.Config.BottomBoundary)
                 return false;
 
             DrawnVertex newpoint = new DrawnVertex();
-            newpoint.pos = pos.GetRotated(-General.Map.Grid.GridRotate);
+            newpoint.pos = pos.GetRotated(-DoomBuilder.General.Map.Grid.GridRotate);
             newpoint.stitch = true; //stitch
             newpoint.stitchline = stitchline;
             points.Add(newpoint);
@@ -361,7 +361,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (points.Count == 1) //add point and labels
             {
                 labels.AddRange(new[] { new LineLengthLabel(false, true), new LineLengthLabel(false, true), new LineLengthLabel(false, true), new LineLengthLabel(false, true) });
-                hintlabel = new HintLabel(General.Colors.InfoLine);
+                hintlabel = new HintLabel(DoomBuilder.General.Colors.InfoLine);
                 Update();
             }
             else if (points[0].pos == points[1].pos) //nothing is drawn
@@ -378,7 +378,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                 // Rotate the shape to fit the grid rotation
                 for (int i = 0; i < shape.Length; i++)
-                    shape[i] = shape[i].GetRotated(General.Map.Grid.GridRotate);
+                    shape[i] = shape[i].GetRotated(DoomBuilder.General.Map.Grid.GridRotate);
 
                 // We don't want base.DrawPointAt to call Update() here, because it will mess labels[] 
                 // and trigger shape.Count number of display redraws...
@@ -406,13 +406,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
         override public void OnAccept()
         {
             Cursor.Current = Cursors.AppStarting;
-            General.Settings.FindDefaultDrawSettings();
+            DoomBuilder.General.Settings.FindDefaultDrawSettings();
 
             // When we have a rectangle or a line
             if (points.Count > minpointscount || points.Count == 2)
             {
                 // Make undo for the draw
-                General.Map.UndoRedo.CreateUndo(undoname);
+                DoomBuilder.General.Map.UndoRedo.CreateUndo(undoname);
 
                 // Make an analysis and show info
                 string[] adjectives = new[]
@@ -423,7 +423,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 string word = adjectives[new Random().Next(adjectives.Length - 1)];
                 string a = ((word[0] == 'a') || (word[0] == 'e') || (word[0] == 'o') || (word[0] == 'u')) ? "an " : "a ";
 
-                General.Interface.DisplayStatus(StatusType.Action, "Created " + a + word + " " + shapename + ".");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Created " + a + word + " " + shapename + ".");
 
                 // Make the drawing
                 if (placethingsatvertices)
@@ -435,51 +435,51 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     PlaceThingsAtPositions(verts);
 
                     // Snap to map format accuracy
-                    General.Map.Map.SnapAllToAccuracy();
+                    DoomBuilder.General.Map.Map.SnapAllToAccuracy();
 
                     // Clear selection
-                    General.Map.Map.ClearAllSelected();
+                    DoomBuilder.General.Map.Map.ClearAllSelected();
 
                     // Update cached values
-                    General.Map.Map.Update();
+                    DoomBuilder.General.Map.Map.Update();
 
                     // Map is changed
-                    General.Map.IsChanged = true;
+                    DoomBuilder.General.Map.IsChanged = true;
                 }
                 else if (Tools.DrawLines(points, true, BuilderPlug.Me.AutoAlignTextureOffsetsOnCreate))
                 {
                     // Snap to map format accuracy
-                    General.Map.Map.SnapAllToAccuracy();
+                    DoomBuilder.General.Map.Map.SnapAllToAccuracy();
 
                     // Clear selection
-                    General.Map.Map.ClearAllSelected();
+                    DoomBuilder.General.Map.Map.ClearAllSelected();
 
                     // Update cached values
-                    General.Map.Map.Update();
+                    DoomBuilder.General.Map.Map.Update();
 
                     //mxd. Outer sectors may require some splittin...
-                    if (General.Settings.SplitJoinedSectors) Tools.SplitOuterSectors(General.Map.Map.GetMarkedLinedefs(true));
+                    if (DoomBuilder.General.Settings.SplitJoinedSectors) Tools.SplitOuterSectors(DoomBuilder.General.Map.Map.GetMarkedLinedefs(true));
 
                     // Edit new sectors?
-                    List<Sector> newsectors = General.Map.Map.GetMarkedSectors(true);
+                    List<Sector> newsectors = DoomBuilder.General.Map.Map.GetMarkedSectors(true);
                     if (BuilderPlug.Me.EditNewSector && (newsectors.Count > 0))
-                        General.Interface.ShowEditSectors(newsectors);
+                        DoomBuilder.General.Interface.ShowEditSectors(newsectors);
 
                     // Update the used textures
-                    General.Map.Data.UpdateUsedTextures();
+                    DoomBuilder.General.Map.Data.UpdateUsedTextures();
 
                     //mxd
-                    General.Map.Renderer2D.UpdateExtraFloorFlag();
+                    DoomBuilder.General.Map.Renderer2D.UpdateExtraFloorFlag();
 
                     // Map is changed
-                    General.Map.IsChanged = true;
+                    DoomBuilder.General.Map.IsChanged = true;
                 }
                 else
                 {
                     // Drawing failed
                     // NOTE: I have to call this twice, because the first time only cancels this volatile mode
-                    General.Map.UndoRedo.WithdrawUndo();
-                    General.Map.UndoRedo.WithdrawUndo();
+                    DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
+                    DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
                 }
             }
 
@@ -494,12 +494,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 drawingautoclosed = false;
 
                 // Redraw display
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Interface.RedrawDisplay();
             }
             else
             {
                 // Return to original mode
-                General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
+                DoomBuilder.General.Editing.ChangeMode(DoomBuilder.General.Editing.PreviousStableMode.Name);
             }
         }
 
@@ -511,7 +511,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
         public override void OnHelp()
         {
-            General.ShowHelp("/gzdb/features/classic_modes/mode_drawrect.html");
+            DoomBuilder.General.ShowHelp("/gzdb/features/classic_modes/mode_drawrect.html");
         }
 
         private void OptionsPanelOnValueChanged(object sender, EventArgs eventArgs)
@@ -553,7 +553,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             if (points.Count < 2 || currentbevelwidth == bevelwidth || bevelwidth < 0)
             {
-                bevelwidth = Math.Min(bevelwidth + General.Map.Grid.GridSize, panel.MaxBevelWidth);
+                bevelwidth = Math.Min(bevelwidth + DoomBuilder.General.Map.Grid.GridSize, panel.MaxBevelWidth);
                 panel.BevelWidth = bevelwidth;
                 Update();
             }
@@ -564,7 +564,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             if (currentbevelwidth == bevelwidth || bevelwidth > 0)
             {
-                bevelwidth = Math.Max(bevelwidth - General.Map.Grid.GridSize, panel.MinBevelWidth);
+                bevelwidth = Math.Max(bevelwidth - DoomBuilder.General.Map.Grid.GridSize, panel.MinBevelWidth);
                 panel.BevelWidth = bevelwidth;
                 Update();
             }

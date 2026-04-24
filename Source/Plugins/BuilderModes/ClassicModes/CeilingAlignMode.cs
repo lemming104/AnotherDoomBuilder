@@ -16,7 +16,7 @@ using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Map;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
 {
     [EditMode(DisplayName = "Ceiling Align Mode",
               SwitchAction = "ceilingalignmode",
@@ -40,14 +40,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Get the texture data to align
         protected override ImageData GetTexture(Sector editsector)
         {
-            return General.Map.Data.GetFlatImage(editsector.LongCeilTexture);
+            return DoomBuilder.General.Map.Data.GetFlatImage(editsector.LongCeilTexture);
         }
 
         // Mode engages
         public override void OnEngage()
         {
             base.OnEngage();
-            General.Actions.InvokeAction("builder_viewmodeceilings");
+            DoomBuilder.General.Actions.InvokeAction("builder_viewmodeceilings");
         }
     }
 }

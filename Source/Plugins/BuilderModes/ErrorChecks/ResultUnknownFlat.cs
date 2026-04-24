@@ -16,7 +16,7 @@ using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultUnknownFlat : ErrorResult
     {
@@ -64,44 +64,44 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Rendering
         public override void PlotSelection(IRenderer2D renderer)
         {
-            renderer.PlotSector(sector, General.Colors.Selection);
+            renderer.PlotSector(sector, DoomBuilder.General.Colors.Selection);
         }
 
         //mxd. More rendering
         public override void RenderOverlaySelection(IRenderer2D renderer)
         {
-            if (!General.Settings.UseHighlight) return;
-            renderer.RenderHighlight(sector.FlatVertices, General.Colors.Selection.WithAlpha(64).ToInt());
+            if (!DoomBuilder.General.Settings.UseHighlight) return;
+            renderer.RenderHighlight(sector.FlatVertices, DoomBuilder.General.Colors.Selection.WithAlpha(64).ToInt());
         }
 
         // Fix by setting default flat
         public override bool Button1Click(bool batchMode)
         {
-            if (!batchMode) General.Map.UndoRedo.CreateUndo("Unknown flat correction");
-            General.Settings.FindDefaultDrawSettings();
+            if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Unknown flat correction");
+            DoomBuilder.General.Settings.FindDefaultDrawSettings();
 
             if (ceiling)
-                sector.SetCeilTexture(General.Map.Options.DefaultCeilingTexture);
+                sector.SetCeilTexture(DoomBuilder.General.Map.Options.DefaultCeilingTexture);
             else
-                sector.SetFloorTexture(General.Map.Options.DefaultFloorTexture);
+                sector.SetFloorTexture(DoomBuilder.General.Map.Options.DefaultFloorTexture);
 
-            General.Map.Map.Update();
-            General.Map.Data.UpdateUsedTextures();
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Map.Data.UpdateUsedTextures();
             return true;
         }
 
         //mxd. Fix by picking a flat
         public override bool Button2Click(bool batchMode)
         {
-            if (!batchMode) General.Map.UndoRedo.CreateUndo("Unknown flat correction");
-            if (imagename == "-") imagename = General.Interface.BrowseFlat(General.Interface, imagename);
+            if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Unknown flat correction");
+            if (imagename == "-") imagename = DoomBuilder.General.Interface.BrowseFlat(DoomBuilder.General.Interface, imagename);
             if (imagename == "-") return false;
 
             if (ceiling) sector.SetCeilTexture(imagename);
             else sector.SetFloorTexture(imagename);
 
-            General.Map.Map.Update();
-            General.Map.Data.UpdateUsedTextures();
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Map.Data.UpdateUsedTextures();
             return true;
         }
     }

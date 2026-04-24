@@ -1,9 +1,9 @@
-﻿
+﻿using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultUnknownThingAction : ErrorResult
     {
@@ -42,24 +42,24 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Rendering
         public override void RenderOverlaySelection(IRenderer2D renderer)
         {
-            renderer.RenderThing(thing, General.Colors.Selection, General.Settings.ActiveThingsAlpha);
+            renderer.RenderThing(thing, DoomBuilder.General.Colors.Selection, DoomBuilder.General.Settings.ActiveThingsAlpha);
         }
 
         // Fix by removing action
         public override bool Button1Click(bool batchmode)
         {
-            if (!batchmode) General.Map.UndoRedo.CreateUndo("Unknown thing action removal");
+            if (!batchmode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Unknown thing action removal");
             thing.Action = 0;
-            General.Map.Map.Update();
+            DoomBuilder.General.Map.Map.Update();
             return true;
         }
 
         // Fix by picking action
         public override bool Button2Click(bool batchmode)
         {
-            if (!batchmode) General.Map.UndoRedo.CreateUndo("Unknown thing action correction");
-            thing.Action = General.Interface.BrowseLinedefActions(BuilderPlug.Me.ErrorCheckForm, thing.Action);
-            General.Map.Map.Update();
+            if (!batchmode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Unknown thing action correction");
+            thing.Action = DoomBuilder.General.Interface.BrowseLinedefActions(BuilderPlug.Me.ErrorCheckForm, thing.Action);
+            DoomBuilder.General.Map.Map.Update();
             return true;
         }
     }

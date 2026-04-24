@@ -1,12 +1,13 @@
-﻿using CodeImp.DoomBuilder.BuilderModes;
+﻿using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
+using CodeImp.DoomBuilder.VisualModes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace CodeImp.DoomBuilder.VisualModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal class VisualSidedefSlope : BaseVisualSlope // VisualSlope, IVisualEventReceiver
     {
@@ -328,7 +329,7 @@ namespace CodeImp.DoomBuilder.VisualModes
             // Can't pivot around itself
             if (pivothandle == this)
             {
-                General.Interface.DisplayStatus(Windows.StatusType.Warning, "Slope handle to modify can't be the same as the pivot handle");
+                DoomBuilder.General.Interface.DisplayStatus(Windows.StatusType.Warning, "Slope handle to modify can't be the same as the pivot handle");
                 return;
             }
 
@@ -350,7 +351,7 @@ namespace CodeImp.DoomBuilder.VisualModes
             // Completely vertical planes are not possible. This can for example happen when trying to pivot around the slope handle on the opposite side of a line
             if (Math.Abs(plane.a) == 1.0 || Math.Abs(plane.b) == 1.0)
             {
-                General.Interface.DisplayStatus(Windows.StatusType.Warning, "Resulting plane is completely vertical, which is impossible. Aborting");
+                DoomBuilder.General.Interface.DisplayStatus(Windows.StatusType.Warning, "Resulting plane is completely vertical, which is impossible. Aborting");
                 return;
             }
 

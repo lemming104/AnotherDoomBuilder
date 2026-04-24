@@ -19,7 +19,7 @@ using CodeImp.DoomBuilder.Rendering;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     internal class FindReplaceType
     {
@@ -138,7 +138,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             area.Inflate(100f, 100f);
 
             // Zoom to area
-            ClassicMode editmode = General.Editing.Mode as ClassicMode;
+            ClassicMode editmode = DoomBuilder.General.Editing.Mode as ClassicMode;
             editmode.CenterOnArea(area, 0.6f);
         }
     }

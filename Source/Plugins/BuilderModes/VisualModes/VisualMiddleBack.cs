@@ -1,5 +1,4 @@
-﻿
-using CodeImp.DoomBuilder.Data;
+﻿using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
@@ -7,7 +6,7 @@ using CodeImp.DoomBuilder.VisualModes;
 using System;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     //mxd. Used to render translucent 3D floor's inner sides
     internal sealed class VisualMiddleBack : VisualMiddle3D
@@ -77,10 +76,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (texturelong != 0)
             {
                 // Load texture
-                base.Texture = General.Map.Data.GetTextureImage(texturelong);
+                base.Texture = DoomBuilder.General.Map.Data.GetTextureImage(texturelong);
                 if (base.Texture == null || base.Texture is UnknownImage)
                 {
-                    base.Texture = General.Map.Data.UnknownTexture3D;
+                    base.Texture = DoomBuilder.General.Map.Data.UnknownTexture3D;
                     setuponloadedtexture = texturelong;
                 }
                 else if (!base.Texture.IsImageLoaded)
@@ -91,7 +90,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             else
             {
                 // Use missing texture
-                base.Texture = General.Map.Data.MissingTexture3D;
+                base.Texture = DoomBuilder.General.Map.Data.MissingTexture3D;
                 setuponloadedtexture = 0;
             }
 
@@ -102,7 +101,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             Vector2D tof = new Vector2D(Sidedef.OffsetX, Sidedef.OffsetY) + new Vector2D(sourceside.OffsetX, sourceside.OffsetY);
             tof = tof + toffset1 + toffset2;
             tof = tof / tscaleAbs;
-            if (General.Map.Config.ScaledTextureOffsets && !base.Texture.WorldPanning)
+            if (DoomBuilder.General.Map.Config.ScaledTextureOffsets && !base.Texture.WorldPanning)
                 tof = tof * base.Texture.Scale;
 
             // For Vavoom type 3D floors the ceiling is lower than floor and they are reversed.

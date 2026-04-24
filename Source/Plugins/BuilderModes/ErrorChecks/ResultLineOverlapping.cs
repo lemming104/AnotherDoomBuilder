@@ -16,7 +16,7 @@ using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultLineOverlapping : ErrorResult
     {
@@ -64,8 +64,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Rendering
         public override void PlotSelection(IRenderer2D renderer)
         {
-            renderer.PlotLinedef(line1, General.Colors.Selection);
-            renderer.PlotLinedef(line2, General.Colors.Selection);
+            renderer.PlotLinedef(line1, DoomBuilder.General.Colors.Selection);
+            renderer.PlotLinedef(line2, DoomBuilder.General.Colors.Selection);
             renderer.PlotVertex(line1.Start, ColorCollection.VERTICES);
             renderer.PlotVertex(line1.End, ColorCollection.VERTICES);
             renderer.PlotVertex(line2.Start, ColorCollection.VERTICES);

@@ -1,4 +1,4 @@
-﻿
+﻿using CodeImp.DoomBuilder.BuilderModes.VisualModes;
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.General
 {
 
     // A struct, which contains information about visual sides connected to start and end of given visual side
@@ -349,7 +349,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             if (absolute && hangs)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Sorry, can't have both 'absolute' and 'hangs' flags...");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Sorry, can't have both 'absolute' and 'hangs' flags...");
                 return pos.z;
             }
 
@@ -445,7 +445,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             if (absolute && hangs)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Sorry, can't have both 'absolute' and 'hangs' flags...");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Sorry, can't have both 'absolute' and 'hangs' flags...");
                 return pos.z;
             }
 
@@ -563,7 +563,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
         private static double GetAlignedThingZ(BaseVisualMode mode, Thing t, double targtthingheight)
         {
-            ThingTypeInfo info = General.Map.Data.GetThingInfoEx(t.Type);
+            ThingTypeInfo info = DoomBuilder.General.Map.Data.GetThingInfoEx(t.Type);
             if (info != null)
             {
                 if (info.AbsoluteZ && info.Hangs) return t.Position.z; // Not sure what to do here...
@@ -682,7 +682,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             Stack<Tools.SidedefFillJob> todo = new Stack<Tools.SidedefFillJob>(50);
 
             // Mark all sidedefs false (they will be marked true when the texture is aligned)
-            if (resetsidemarks) General.Map.Map.ClearMarkedSidedefs(false);
+            if (resetsidemarks) DoomBuilder.General.Map.Map.ClearMarkedSidedefs(false);
 
             // Begin with first sidedef
             if (SidedefTextureMatch(mode, start, originaltextures, true))

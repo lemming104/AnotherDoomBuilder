@@ -11,7 +11,8 @@
  * 
  */
 
-
+using CodeImp.DoomBuilder.BuilderModes.ErrorChecks;
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Windows;
@@ -82,15 +83,15 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                     catch (TargetInvocationException ex)
                     {
                         // Error!
-                        General.ErrorLogger.Add(ErrorType.Error, "Failed to create class instance \"" + t.Name + "\"");
-                        General.WriteLogLine(ex.InnerException.GetType().Name + ": " + ex.InnerException.Message);
+                        DoomBuilder.General.ErrorLogger.Add(ErrorType.Error, "Failed to create class instance \"" + t.Name + "\"");
+                        DoomBuilder.General.WriteLogLine(ex.InnerException.GetType().Name + ": " + ex.InnerException.Message);
                         throw;
                     }
                     catch (Exception ex)
                     {
                         // Error!
-                        General.ErrorLogger.Add(ErrorType.Error, "Failed to create class instance \"" + t.Name + "\"");
-                        General.WriteLogLine(ex.GetType().Name + ": " + ex.Message);
+                        DoomBuilder.General.ErrorLogger.Add(ErrorType.Error, "Failed to create class instance \"" + t.Name + "\"");
+                        DoomBuilder.General.WriteLogLine(ex.GetType().Name + ": " + ex.Message);
                         throw;
                     }
 
@@ -101,7 +102,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                     // Add the type to the checkbox list
                     string checkclassname = t.Name.ToLowerInvariant();
                     CheckBox c = checks.Add(checkerattr.DisplayName, t);
-                    c.Checked = General.Settings.ReadPluginSetting("errorchecks." + checkclassname, checkerattr.DefaultChecked);
+                    c.Checked = DoomBuilder.General.Settings.ReadPluginSetting("errorchecks." + checkclassname, checkerattr.DefaultChecked);
                 }
             }
             checks.Sort(); //mxd
@@ -231,13 +232,13 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             Cursor.Current = Cursors.WaitCursor;
 
             // Make blockmap
-            RectangleF area = MapSet.CreateArea(General.Map.Map.Vertices);
-            area = MapSet.IncreaseArea(area, General.Map.Map.Things);
+            RectangleF area = MapSet.CreateArea(DoomBuilder.General.Map.Map.Vertices);
+            area = MapSet.IncreaseArea(area, DoomBuilder.General.Map.Map.Things);
             blockmap = new BlockMap<BlockEntry>(area);
-            blockmap.AddLinedefsSet(General.Map.Map.Linedefs);
-            blockmap.AddSectorsSet(General.Map.Map.Sectors);
-            blockmap.AddThingsSet(General.Map.Map.Things);
-            blockmap.AddVerticesSet(General.Map.Map.Vertices); //mxd
+            blockmap.AddLinedefsSet(DoomBuilder.General.Map.Map.Linedefs);
+            blockmap.AddSectorsSet(DoomBuilder.General.Map.Map.Sectors);
+            blockmap.AddThingsSet(DoomBuilder.General.Map.Map.Things);
+            blockmap.AddVerticesSet(DoomBuilder.General.Map.Map.Vertices); //mxd
 
             //mxd. Open the results panel
             if (!resultspanel.Visible)
@@ -254,7 +255,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             resultslist = new List<ErrorResult>(); //mxd
             ClearSelectedResult();
             buttoncheck.Text = "Abort Analysis";
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
 
             // Start checking
             running = true;
@@ -288,7 +289,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                 Type t = c.Tag as Type;
 
                 if (t != null)
-                    General.Settings.WritePluginSetting("errorchecks." + t.Name.ToLowerInvariant(), c.Checked);
+                    DoomBuilder.General.Settings.WritePluginSetting("errorchecks." + t.Name.ToLowerInvariant(), c.Checked);
             }
 
             this.Hide();
@@ -336,15 +337,15 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                     catch (TargetInvocationException ex)
                     {
                         // Error!
-                        General.ErrorLogger.Add(ErrorType.Error, "Failed to create class instance \"" + t.Name + "\"");
-                        General.WriteLogLine(ex.InnerException.GetType().Name + ": " + ex.InnerException.Message);
+                        DoomBuilder.General.ErrorLogger.Add(ErrorType.Error, "Failed to create class instance \"" + t.Name + "\"");
+                        DoomBuilder.General.WriteLogLine(ex.InnerException.GetType().Name + ": " + ex.InnerException.Message);
                         throw;
                     }
                     catch (Exception ex)
                     {
                         // Error!
-                        General.ErrorLogger.Add(ErrorType.Error, "Failed to create class instance \"" + t.Name + "\"");
-                        General.WriteLogLine(ex.GetType().Name + ": " + ex.Message);
+                        DoomBuilder.General.ErrorLogger.Add(ErrorType.Error, "Failed to create class instance \"" + t.Name + "\"");
+                        DoomBuilder.General.WriteLogLine(ex.GetType().Name + ": " + ex.Message);
                         throw;
                     }
 
@@ -435,8 +436,8 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             if (e.CloseReason == CloseReason.UserClosing)
             {
                 e.Cancel = true;
-                General.Interface.Focus();
-                General.Editing.CancelMode();
+                DoomBuilder.General.Interface.Focus();
+                DoomBuilder.General.Editing.CancelMode();
             }
         }
 
@@ -458,8 +459,8 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         // Close
         private void closebutton_Click(object sender, EventArgs e)
         {
-            General.Interface.Focus();
-            General.Editing.CancelMode();
+            DoomBuilder.General.Interface.Focus();
+            DoomBuilder.General.Editing.CancelMode();
         }
 
         // Results selection changed
@@ -525,7 +526,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                             zoomarea = RectangleF.Union(zoomarea, result.GetZoomArea());
                         }
 
-                        ClassicMode editmode = General.Editing.Mode as ClassicMode;
+                        ClassicMode editmode = DoomBuilder.General.Editing.Mode as ClassicMode;
                         editmode.CenterOnArea(zoomarea, 0.6f);
                     }
                 }
@@ -537,7 +538,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                 ClearSelectedResult();
             }
 
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         // First button
@@ -548,7 +549,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             {
                 if (running)
                 {
-                    General.ShowWarningMessage("You must stop the analysis before you can make changes to your map!", MessageBoxButtons.OK);
+                    DoomBuilder.General.ShowWarningMessage("You must stop the analysis before you can make changes to your map!", MessageBoxButtons.OK);
                 }
                 else
                 {
@@ -560,7 +561,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                     }
                     else
                     {
-                        General.Interface.RedrawDisplay();
+                        DoomBuilder.General.Interface.RedrawDisplay();
                     }
                 }
             }
@@ -574,7 +575,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             {
                 if (running)
                 {
-                    General.ShowWarningMessage("You must stop the analysis before you can make changes to your map!", MessageBoxButtons.OK);
+                    DoomBuilder.General.ShowWarningMessage("You must stop the analysis before you can make changes to your map!", MessageBoxButtons.OK);
                 }
                 else
                 {
@@ -586,7 +587,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                     }
                     else
                     {
-                        General.Interface.RedrawDisplay();
+                        DoomBuilder.General.Interface.RedrawDisplay();
                     }
                 }
             }
@@ -600,7 +601,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             {
                 if (running)
                 {
-                    General.ShowWarningMessage("You must stop the analysis before you can make changes to your map!", MessageBoxButtons.OK);
+                    DoomBuilder.General.ShowWarningMessage("You must stop the analysis before you can make changes to your map!", MessageBoxButtons.OK);
                 }
                 else
                 {
@@ -612,7 +613,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                     }
                     else
                     {
-                        General.Interface.RedrawDisplay();
+                        DoomBuilder.General.Interface.RedrawDisplay();
                     }
                 }
             }
@@ -642,7 +643,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 
         private void ErrorCheckForm_HelpRequested(object sender, HelpEventArgs hlpevent)
         {
-            General.ShowHelp("e_mapanalysis.html");
+            DoomBuilder.General.ShowHelp("e_mapanalysis.html");
         }
 
         private void resultcontextmenustrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
@@ -752,12 +753,12 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                 Clipboard.SetDataObject(sb.ToString(), true, 5, 200);
 
                 // Inform the user
-                General.Interface.DisplayStatus(StatusType.Info, "Analysis results copied to clipboard.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Info, "Analysis results copied to clipboard.");
             }
             catch (ExternalException)
             {
                 // Inform the user
-                General.Interface.DisplayStatus(StatusType.Warning, "Failed to perform a Clipboard operation...");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Failed to perform a Clipboard operation...");
             }
         }
 

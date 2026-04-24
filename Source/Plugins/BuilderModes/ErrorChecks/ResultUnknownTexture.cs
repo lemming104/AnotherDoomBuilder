@@ -16,7 +16,7 @@ using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultUnknownTexture : ErrorResult
     {
@@ -73,7 +73,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Rendering
         public override void PlotSelection(IRenderer2D renderer)
         {
-            renderer.PlotLinedef(side.Line, General.Colors.Selection);
+            renderer.PlotLinedef(side.Line, DoomBuilder.General.Colors.Selection);
             renderer.PlotVertex(side.Line.Start, ColorCollection.VERTICES);
             renderer.PlotVertex(side.Line.End, ColorCollection.VERTICES);
         }
@@ -81,7 +81,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Fix by removing texture
         public override bool Button1Click(bool batchMode)
         {
-            if (!batchMode) General.Map.UndoRedo.CreateUndo("Remove unknown texture");
+            if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Remove unknown texture");
             switch (part)
             {
                 case SidedefPart.Upper: side.SetTextureHigh("-"); break;
@@ -89,31 +89,31 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 case SidedefPart.Lower: side.SetTextureLow("-"); break;
             }
 
-            General.Map.Map.Update();
+            DoomBuilder.General.Map.Map.Update();
             return true;
         }
 
         // Fix by setting default texture
         public override bool Button2Click(bool batchMode)
         {
-            if (!batchMode) General.Map.UndoRedo.CreateUndo("Unknown texture correction");
-            General.Settings.FindDefaultDrawSettings();
+            if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Unknown texture correction");
+            DoomBuilder.General.Settings.FindDefaultDrawSettings();
             switch (part)
             {
-                case SidedefPart.Upper: side.SetTextureHigh(General.Map.Options.DefaultTopTexture); break;
-                case SidedefPart.Middle: side.SetTextureMid(General.Map.Options.DefaultWallTexture); break;
-                case SidedefPart.Lower: side.SetTextureLow(General.Map.Options.DefaultBottomTexture); break;
+                case SidedefPart.Upper: side.SetTextureHigh(DoomBuilder.General.Map.Options.DefaultTopTexture); break;
+                case SidedefPart.Middle: side.SetTextureMid(DoomBuilder.General.Map.Options.DefaultWallTexture); break;
+                case SidedefPart.Lower: side.SetTextureLow(DoomBuilder.General.Map.Options.DefaultBottomTexture); break;
             }
 
-            General.Map.Map.Update();
+            DoomBuilder.General.Map.Map.Update();
             return true;
         }
 
         //mxd. Fix by picking a texture
         public override bool Button3Click(bool batchMode)
         {
-            if (!batchMode) General.Map.UndoRedo.CreateUndo("Unknown texture correction");
-            if (imagename == "-") imagename = General.Interface.BrowseTexture(General.Interface, imagename);
+            if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Unknown texture correction");
+            if (imagename == "-") imagename = DoomBuilder.General.Interface.BrowseTexture(DoomBuilder.General.Interface, imagename);
             if (imagename == "-") return false;
 
             switch (part)
@@ -123,7 +123,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 case SidedefPart.Lower: side.SetTextureLow(imagename); break;
             }
 
-            General.Map.Map.Update();
+            DoomBuilder.General.Map.Map.Update();
             return true;
         }
     }

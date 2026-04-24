@@ -13,6 +13,7 @@
 
 
 using CodeImp.DoomBuilder.Actions;
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Editing;
@@ -29,7 +30,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
 {
     [EditMode(DisplayName = "Sectors Mode",
               SwitchAction = "sectorsmode",     // Action name used to switch to this mode
@@ -89,7 +90,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             //mxd
             effects = new Dictionary<int, string[]>();
-            foreach (SectorEffectInfo info in General.Map.Config.SortedSectorEffects)
+            foreach (SectorEffectInfo info in DoomBuilder.General.Map.Config.SortedSectorEffects)
             {
                 string name = info.Index + ": " + info.Title;
                 effects.Add(info.Index, new[] { name, "E" + info.Index });
@@ -115,7 +116,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         /*public int CreateSelectionCRC()
 		{
 			CRC crc = new CRC();
-			ICollection<Sector> orderedselection = General.Map.Map.GetSelectedSectors(true);
+			ICollection<Sector> orderedselection = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
 			crc.Add(orderedselection.Count);
 			foreach(Sector s in orderedselection)
 			{
@@ -144,9 +145,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Make text labels for sectors
-            PixelColor c = General.Settings.UseHighlight ? General.Colors.Highlight : General.Colors.Selection; //mxd
-            labels = new Dictionary<Sector, TextLabel[]>(General.Map.Map.Sectors.Count);
-            foreach (Sector s in General.Map.Map.Sectors)
+            PixelColor c = DoomBuilder.General.Settings.UseHighlight ? DoomBuilder.General.Colors.Highlight : DoomBuilder.General.Colors.Selection; //mxd
+            labels = new Dictionary<Sector, TextLabel[]>(DoomBuilder.General.Map.Map.Sectors.Count);
+            foreach (Sector s in DoomBuilder.General.Map.Map.Sectors)
             {
                 // Setup labels
                 TextLabel[] labelarray = new TextLabel[s.Labels.Count];
@@ -158,7 +159,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     labelarray[i].AlignX = TextAlignmentX.Center;
                     labelarray[i].AlignY = TextAlignmentY.Middle;
                     labelarray[i].Color = c;
-                    labelarray[i].BackColor = General.Colors.Background.WithAlpha(128);
+                    labelarray[i].BackColor = DoomBuilder.General.Colors.Background.WithAlpha(128);
                 }
                 labels.Add(s, labelarray);
             }
@@ -167,27 +168,27 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This updates the overlay
         private void UpdateOverlay()
         {
-            if (General.Map.Map.IsSafeToAccess && renderer.StartOverlay(true))
+            if (DoomBuilder.General.Map.Map.IsSafeToAccess && renderer.StartOverlay(true))
             {
                 // Go for all selected sectors
-                ICollection<Sector> orderedselection = General.Map.Map.GetSelectedSectors(true);
+                ICollection<Sector> orderedselection = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
 
                 //mxd. Render selected sectors
-                if (General.Settings.UseHighlight)
+                if (DoomBuilder.General.Settings.UseHighlight)
                 {
-                    renderer.RenderHighlight(overlayGeometry, General.Colors.Selection.WithAlpha(64).ToInt());
+                    renderer.RenderHighlight(overlayGeometry, DoomBuilder.General.Colors.Selection.WithAlpha(64).ToInt());
                 }
 
                 //mxd. Render highlighted sector
-                if (General.Settings.UseHighlight && highlighted != null)
+                if (DoomBuilder.General.Settings.UseHighlight && highlighted != null)
                 {
-                    renderer.RenderHighlight(highlighted.FlatVertices, General.Colors.Highlight.WithAlpha(64).ToInt());
+                    renderer.RenderHighlight(highlighted.FlatVertices, DoomBuilder.General.Colors.Highlight.WithAlpha(64).ToInt());
                 }
 
                 //mxd. Render comments
-                if (General.Map.UDMF && General.Settings.RenderComments)
+                if (DoomBuilder.General.Map.UDMF && DoomBuilder.General.Settings.RenderComments)
                 {
-                    foreach (Sector s in General.Map.Map.Sectors) RenderComment(s);
+                    foreach (Sector s in DoomBuilder.General.Map.Map.Sectors) RenderComment(s);
                 }
 
                 // TODO: put this in UpdateToRenderLabels, too?
@@ -233,7 +234,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 if (effects.ContainsKey(s.Effect))
                     effectstr = effects[s.Effect][0];
                 else
-                    effectstr = s.Effect + " - " + General.Map.Config.GetGeneralizedSectorEffectName(s.Effect);
+                    effectstr = s.Effect + " - " + DoomBuilder.General.Map.Config.GetGeneralizedSectorEffectName(s.Effect);
                 effectstrshort = "E" + s.Effect;
             }
 
@@ -278,7 +279,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd
         private void UpdateOverlaySurfaces()
         {
-            ICollection<Sector> orderedselection = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> orderedselection = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
             List<FlatVertex> vertsList = new List<FlatVertex>();
 
             // Go for all selected sectors
@@ -293,7 +294,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             unselectedEffectLabels = new Dictionary<Sector, string[]>();
 
             //update effect labels for selected sectors
-            ICollection<Sector> orderedselection = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> orderedselection = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
             foreach (Sector s in orderedselection)
             {
                 string[] labelText = GetEffectText(s);
@@ -302,7 +303,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             //update effect labels for unselected sectors
-            orderedselection = General.Map.Map.GetSelectedSectors(false);
+            orderedselection = DoomBuilder.General.Map.Map.GetSelectedSectors(false);
             foreach (Sector s in orderedselection)
             {
                 string[] labelText = GetEffectText(s);
@@ -337,18 +338,18 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     for (int i = 0; i < group.Key.Labels.Count; i++)
                     {
                         TextLabel l = labelarray[i];
-                        l.Color = General.Colors.InfoLine;
+                        l.Color = DoomBuilder.General.Colors.InfoLine;
 
                         // Render only when enough space for the label to see
                         if (!textlabelsizecache.ContainsKey(group.Value[0]))
-                            textlabelsizecache[group.Value[0]] = General.Interface.MeasureString(group.Value[0], l.Font).Width;
+                            textlabelsizecache[group.Value[0]] = DoomBuilder.General.Interface.MeasureString(group.Value[0], l.Font).Width;
 
                         float requiredsize = textlabelsizecache[group.Value[0]] / 2 / scale;
 
                         if (requiredsize > group.Key.Labels[i].radius)
                         {
                             if (!textlabelsizecache.ContainsKey(group.Value[1]))
-                                textlabelsizecache[group.Value[1]] = General.Interface.MeasureString(group.Value[1], l.Font).Width;
+                                textlabelsizecache[group.Value[1]] = DoomBuilder.General.Interface.MeasureString(group.Value[1], l.Font).Width;
 
                             requiredsize = textlabelsizecache[group.Value[1]] / 2 / scale;
 
@@ -381,7 +382,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (removelines)
             {
                 // Go for all selected linedefs
-                List<Linedef> selectedlines = new List<Linedef>(General.Map.Map.GetSelectedLinedefs(true));
+                List<Linedef> selectedlines = new List<Linedef>(DoomBuilder.General.Map.Map.GetSelectedLinedefs(true));
                 foreach (Linedef ld in selectedlines)
                 {
                     // Front and back side?
@@ -399,7 +400,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Find the first sector that is not disposed
-            List<Sector> orderedselection = new List<Sector>(General.Map.Map.GetSelectedSectors(true));
+            List<Sector> orderedselection = new List<Sector>(DoomBuilder.General.Map.Map.GetSelectedSectors(true));
             Sector first = null;
             foreach (Sector s in orderedselection)
                 if (!s.IsDisposed) { first = s; break; }
@@ -410,10 +411,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     orderedselection[i].Join(first);
 
             // Clear selection
-            General.Map.Map.ClearAllSelected();
+            DoomBuilder.General.Map.Map.ClearAllSelected();
 
             // Update
-            General.Map.Map.Update();
+            DoomBuilder.General.Map.Map.Update();
 
             // Make text labels for sectors
             SetupLabels();
@@ -447,7 +448,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if ((highlighted != null) && !highlighted.IsDisposed)
             {
                 TextLabel[] labelarray = labels[highlighted];
-                PixelColor c = General.Settings.UseHighlight ? General.Colors.Highlight : General.Colors.Selection;
+                PixelColor c = DoomBuilder.General.Settings.UseHighlight ? DoomBuilder.General.Colors.Highlight : DoomBuilder.General.Colors.Selection;
                 foreach (TextLabel l in labelarray) l.Color = c;
             }
 
@@ -455,7 +456,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if ((s != null) && !s.IsDisposed)
             {
                 TextLabel[] labelarray = labels[s];
-                PixelColor c = General.Settings.UseHighlight ? General.Colors.Selection : General.Colors.Highlight;
+                PixelColor c = DoomBuilder.General.Settings.UseHighlight ? DoomBuilder.General.Colors.Selection : DoomBuilder.General.Colors.Highlight;
                 foreach (TextLabel l in labelarray) l.Color = c;
             }
 
@@ -467,7 +468,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 // Set new highlight and redraw completely
                 highlighted = s;
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Interface.RedrawDisplay();
             }
             else
             {
@@ -483,7 +484,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                     // Render highlighted item
                     if ((highlighted != null) && !highlighted.IsDisposed)
-                        renderer.PlotSector(highlighted, General.Colors.Highlight);
+                        renderer.PlotSector(highlighted, DoomBuilder.General.Colors.Highlight);
 
                     // Done
                     renderer.Finish();
@@ -496,12 +497,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Show highlight info
             if ((highlighted != null) && !highlighted.IsDisposed)
             {
-                General.Interface.ShowSectorInfo(highlighted);
+                DoomBuilder.General.Interface.ShowSectorInfo(highlighted);
             }
             else
             {
-                General.Interface.Display.HideToolTip(); //mxd
-                General.Interface.HideInfo();
+                DoomBuilder.General.Interface.Display.HideToolTip(); //mxd
+                DoomBuilder.General.Interface.HideInfo();
             }
         }
 
@@ -522,8 +523,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     if (update)
                     {
                         //mxd
-                        string selectedCount = General.Map.Map.SelectedSectorsCount.ToString();
-                        PixelColor c = General.Settings.UseHighlight ? General.Colors.Highlight : General.Colors.Selection;
+                        string selectedCount = DoomBuilder.General.Map.Map.SelectedSectorsCount.ToString();
+                        PixelColor c = DoomBuilder.General.Settings.UseHighlight ? DoomBuilder.General.Colors.Highlight : DoomBuilder.General.Colors.Selection;
                         TextLabel[] labelarray = labels[s];
                         foreach (TextLabel l in labelarray)
                         {
@@ -548,7 +549,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         foreach (TextLabel l in labelarray)
                         {
                             l.Text = "";
-                            l.Color = General.Colors.InfoLine;
+                            l.Color = DoomBuilder.General.Colors.InfoLine;
                         }
 
                         // Update all other labels
@@ -569,7 +570,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     }
 
                     //mxd. Also (de)select things?
-                    if (General.Interface.AltState ^ BuilderPlug.Me.SyncronizeThingEdit)
+                    if (DoomBuilder.General.Interface.AltState ^ BuilderPlug.Me.SyncronizeThingEdit)
                     {
                         List<BlockEntry> belist = blockmap.GetSquareRange(s.BBox);
                         HashSet<Thing> detthings = new HashSet<Thing>(); // Things that still need their sector to be determined
@@ -615,8 +616,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private void UpdateSelectedLabels()
         {
             // Go for all labels in all selected sectors
-            ICollection<Sector> orderedselection = General.Map.Map.GetSelectedSectors(true);
-            PixelColor c = General.Settings.UseHighlight ? General.Colors.Highlight : General.Colors.Selection; //mxd
+            ICollection<Sector> orderedselection = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
+            PixelColor c = DoomBuilder.General.Settings.UseHighlight ? DoomBuilder.General.Colors.Highlight : DoomBuilder.General.Colors.Selection; //mxd
             int index = 0;
             foreach (Sector s in orderedselection)
             {
@@ -668,7 +669,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             // Gather affected sectors
             List<Sector> result = new List<Sector>();
-            foreach (Sector s in General.Map.Map.Sectors)
+            foreach (Sector s in DoomBuilder.General.Map.Map.Sectors)
             {
                 if (IsInSelectionRect(s, selectionoutline)) result.Add(s);
             }
@@ -729,7 +730,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         /// </summary>
         public override void ZoomIn()
         {
-            float z = renderer.Scale * (1.0f + (General.Settings.ZoomFactor * 0.1f));
+            float z = renderer.Scale * (1.0f + (DoomBuilder.General.Settings.ZoomFactor * 0.1f));
 
             UpdateToRenderLabels(z);
 
@@ -742,7 +743,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         /// </summary>
         public override void ZoomOut()
         {
-            float z = renderer.Scale * (1.0f / (1.0f + (General.Settings.ZoomFactor * 0.1f)));
+            float z = renderer.Scale * (1.0f / (1.0f + (DoomBuilder.General.Settings.ZoomFactor * 0.1f)));
 
             UpdateToRenderLabels(z);
 
@@ -755,11 +756,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
         /// </summary>
         private void CreateBlockmap()
         {
-            RectangleF area = MapSet.CreateArea(General.Map.Map.Vertices);
-            area = MapSet.IncreaseArea(area, General.Map.Map.Things);
+            RectangleF area = MapSet.CreateArea(DoomBuilder.General.Map.Map.Vertices);
+            area = MapSet.IncreaseArea(area, DoomBuilder.General.Map.Map.Things);
             blockmap = new BlockMap<BlockEntry>(area);
-            blockmap.AddSectorsSet(General.Map.Map.Sectors);
-            blockmap.AddThingsSet(General.Map.Map.Things);
+            blockmap.AddSectorsSet(DoomBuilder.General.Map.Map.Sectors);
+            blockmap.AddThingsSet(DoomBuilder.General.Map.Map.Things);
 
             // Don't add linedefs here. They are only needed for paint select, so let's save some
             // time (and add them when paint select is used t he first time)
@@ -768,7 +769,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
         public override void OnHelp()
         {
-            General.ShowHelp("e_sectors.html");
+            DoomBuilder.General.ShowHelp("e_sectors.html");
         }
 
         // Cancel mode
@@ -777,7 +778,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnCancel();
 
             // Return to this mode
-            General.Editing.ChangeMode(new SectorsMode());
+            DoomBuilder.General.Editing.ChangeMode(new SectorsMode());
         }
 
         // Mode engages
@@ -787,34 +788,34 @@ namespace CodeImp.DoomBuilder.BuilderModes
             renderer.SetPresentation(Presentation.Standard);
 
             // Add toolbar buttons
-            General.Interface.BeginToolbarUpdate(); //mxd
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.CopyProperties);
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.PasteProperties);
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.PastePropertiesOptions); //mxd
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.SeparatorCopyPaste);
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.ViewSelectionNumbers);
+            DoomBuilder.General.Interface.BeginToolbarUpdate(); //mxd
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.CopyProperties);
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.PasteProperties);
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.PastePropertiesOptions); //mxd
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.SeparatorCopyPaste);
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.ViewSelectionNumbers);
             BuilderPlug.Me.MenusForm.ViewSelectionEffects.Text = "View Tags and Effects"; //mxd
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.ViewSelectionEffects);
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.SeparatorSectors1);
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.MakeDoor); //mxd
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.SeparatorSectors2); //mxd
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.MakeGradientBrightness);
-            if (General.Map.UDMF) General.Interface.AddButton(BuilderPlug.Me.MenusForm.GradientModeMenu); //mxd
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.GradientInterpolationMenu); //mxd
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.MakeGradientFloors);
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.MakeGradientCeilings);
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.SeparatorSectors3); //mxd
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.MarqueSelectTouching); //mxd
-            General.Interface.AddButton(BuilderPlug.Me.MenusForm.SyncronizeThingEditButton); //mxd
-            if (General.Map.UDMF)
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.ViewSelectionEffects);
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.SeparatorSectors1);
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.MakeDoor); //mxd
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.SeparatorSectors2); //mxd
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.MakeGradientBrightness);
+            if (DoomBuilder.General.Map.UDMF) DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.GradientModeMenu); //mxd
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.GradientInterpolationMenu); //mxd
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.MakeGradientFloors);
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.MakeGradientCeilings);
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.SeparatorSectors3); //mxd
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.MarqueSelectTouching); //mxd
+            DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.SyncronizeThingEditButton); //mxd
+            if (DoomBuilder.General.Map.UDMF)
             {
-                General.Interface.AddButton(BuilderPlug.Me.MenusForm.TextureOffsetLock, ToolbarSection.Geometry); //mxd
-                General.Interface.AddButton(BuilderPlug.Me.MenusForm.TextureOffset3DFloorLock, ToolbarSection.Geometry);
+                DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.TextureOffsetLock, ToolbarSection.Geometry); //mxd
+                DoomBuilder.General.Interface.AddButton(BuilderPlug.Me.MenusForm.TextureOffset3DFloorLock, ToolbarSection.Geometry);
             }
-            General.Interface.EndToolbarUpdate(); //mxd
+            DoomBuilder.General.Interface.EndToolbarUpdate(); //mxd
 
             // Convert geometry selection to sectors only
-            General.Map.Map.ConvertSelection(SelectionType.Sectors);
+            DoomBuilder.General.Map.Map.ConvertSelection(SelectionType.Sectors);
 
             //mxd. Update the tooltip
             BuilderPlug.Me.MenusForm.SyncronizeThingEditButton.ToolTipText = "Synchronized Things Editing" + Environment.NewLine + BuilderPlug.Me.MenusForm.SyncronizeThingEditSectorsItem.ToolTipText;
@@ -825,7 +826,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Select things in the selected sectors if synchronized thing editing is enabled
             if (BuilderPlug.Me.SyncronizeThingEdit)
             {
-                ICollection<Sector> sectors = General.Map.Map.GetSelectedSectors(true);
+                ICollection<Sector> sectors = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
 
                 foreach (Sector s in sectors)
                 {
@@ -864,40 +865,40 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnDisengage();
 
             // Remove toolbar buttons
-            General.Interface.BeginToolbarUpdate(); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.CopyProperties);
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.PasteProperties);
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.PastePropertiesOptions); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.SeparatorCopyPaste);
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.ViewSelectionNumbers);
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.ViewSelectionEffects);
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.SeparatorSectors1);
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.MakeDoor); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.SeparatorSectors2); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.MakeGradientBrightness);
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.GradientModeMenu); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.GradientInterpolationMenu); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.MakeGradientFloors);
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.MakeGradientCeilings);
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.SeparatorSectors3); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.MarqueSelectTouching); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.SyncronizeThingEditButton); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.TextureOffsetLock); //mxd
-            General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.TextureOffset3DFloorLock);
-            General.Interface.EndToolbarUpdate(); //mxd
+            DoomBuilder.General.Interface.BeginToolbarUpdate(); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.CopyProperties);
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.PasteProperties);
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.PastePropertiesOptions); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.SeparatorCopyPaste);
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.ViewSelectionNumbers);
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.ViewSelectionEffects);
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.SeparatorSectors1);
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.MakeDoor); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.SeparatorSectors2); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.MakeGradientBrightness);
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.GradientModeMenu); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.GradientInterpolationMenu); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.MakeGradientFloors);
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.MakeGradientCeilings);
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.SeparatorSectors3); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.MarqueSelectTouching); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.SyncronizeThingEditButton); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.TextureOffsetLock); //mxd
+            DoomBuilder.General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.TextureOffset3DFloorLock);
+            DoomBuilder.General.Interface.EndToolbarUpdate(); //mxd
 
             // Keep only sectors selected
-            General.Map.Map.ClearSelectedLinedefs();
+            DoomBuilder.General.Map.Map.ClearSelectedLinedefs();
 
             // Going to EditSelectionMode?
-            EditSelectionMode mode = General.Editing.NewMode as EditSelectionMode;
+            EditSelectionMode mode = DoomBuilder.General.Editing.NewMode as EditSelectionMode;
             if (mode != null)
             {
                 // Not pasting anything?
                 if (!mode.Pasting)
                 {
                     // No selection made? But we have a highlight!
-                    if ((General.Map.Map.GetSelectedSectors(true).Count == 0) && (highlighted != null))
+                    if ((DoomBuilder.General.Map.Map.GetSelectedSectors(true).Count == 0) && (highlighted != null))
                     {
                         // Make the highlight the selection
                         SelectSector(highlighted, true, false);
@@ -907,8 +908,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Hide highlight info and tooltip
-            General.Interface.HideInfo();
-            General.Interface.Display.HideToolTip(); //mxd
+            DoomBuilder.General.Interface.HideInfo();
+            DoomBuilder.General.Interface.Display.HideToolTip(); //mxd
         }
 
         // This redraws the display
@@ -920,11 +921,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Render lines and vertices
             if (renderer.StartPlotter(true))
             {
-                renderer.PlotLinedefSet(General.Map.Map.Linedefs);
-                renderer.PlotVerticesSet(General.Map.Map.Vertices);
+                renderer.PlotLinedefSet(DoomBuilder.General.Map.Map.Linedefs);
+                renderer.PlotVerticesSet(DoomBuilder.General.Map.Map.Vertices);
                 if ((highlighted != null) && !highlighted.IsDisposed)
                 {
-                    renderer.PlotSector(highlighted, General.Colors.Highlight);
+                    renderer.PlotSector(highlighted, DoomBuilder.General.Colors.Highlight);
                     highlightasso.Plot();
                 }
                 renderer.Finish();
@@ -933,8 +934,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Render things
             if (renderer.StartThings(true))
             {
-                renderer.RenderThingSet(General.Map.ThingsFilter.HiddenThings, General.Settings.HiddenThingsAlpha);
-                renderer.RenderThingSet(General.Map.ThingsFilter.VisibleThings, General.Settings.ActiveThingsAlpha);
+                renderer.RenderThingSet(DoomBuilder.General.Map.ThingsFilter.HiddenThings, DoomBuilder.General.Settings.HiddenThingsAlpha);
+                renderer.RenderThingSet(DoomBuilder.General.Map.ThingsFilter.VisibleThings, DoomBuilder.General.Settings.ActiveThingsAlpha);
                 renderer.Finish();
             }
 
@@ -988,7 +989,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     if (renderer.StartPlotter(false))
                     {
                         // Render highlighted item
-                        renderer.PlotSector(highlighted, General.Colors.Highlight);
+                        renderer.PlotSector(highlighted, DoomBuilder.General.Colors.Highlight);
                         renderer.Finish();
                         renderer.Present();
                     }
@@ -998,9 +999,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     PixelColor c;
 
                     if (highlighted.Selected)
-                        c = General.Settings.UseHighlight ? General.Colors.Selection : General.Colors.Highlight;
+                        c = DoomBuilder.General.Settings.UseHighlight ? DoomBuilder.General.Colors.Selection : DoomBuilder.General.Colors.Highlight;
                     else
-                        c = General.Colors.InfoLine;
+                        c = DoomBuilder.General.Colors.InfoLine;
 
                     foreach (TextLabel l in labelarray) l.Color = c;
                     UpdateOverlaySurfaces(); //mxd
@@ -1008,24 +1009,24 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     renderer.Present();
 
                     //mxd. Thing selection state may've changed
-                    if (General.Interface.AltState ^ BuilderPlug.Me.SyncronizeThingEdit) General.Interface.RedrawDisplay();
+                    if (DoomBuilder.General.Interface.AltState ^ BuilderPlug.Me.SyncronizeThingEdit) DoomBuilder.General.Interface.RedrawDisplay();
                 }
                 else if (BuilderPlug.Me.AutoClearSelection) //mxd
                 {
-                    if (General.Map.Map.SelectedSectorsCount > 0)
+                    if (DoomBuilder.General.Map.Map.SelectedSectorsCount > 0)
                     {
-                        General.Map.Map.ClearSelectedLinedefs();
-                        General.Map.Map.ClearSelectedSectors();
+                        DoomBuilder.General.Map.Map.ClearSelectedLinedefs();
+                        DoomBuilder.General.Map.Map.ClearSelectedSectors();
                         UpdateOverlaySurfaces(); //mxd
                     }
 
                     //mxd
-                    if (BuilderPlug.Me.SyncronizeThingEdit && General.Map.Map.SelectedThingsCount > 0)
+                    if (BuilderPlug.Me.SyncronizeThingEdit && DoomBuilder.General.Map.Map.SelectedThingsCount > 0)
                     {
-                        General.Map.Map.ClearSelectedThings();
+                        DoomBuilder.General.Map.Map.ClearSelectedThings();
                     }
 
-                    General.Interface.RedrawDisplay();
+                    DoomBuilder.General.Interface.RedrawDisplay();
                 }
 
                 UpdateSelectionInfo(); //mxd
@@ -1047,26 +1048,26 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 if (!highlighted.Selected)
                 {
                     // Make this the only selection
-                    General.Map.Map.ClearSelectedSectors();
-                    General.Map.Map.ClearSelectedLinedefs();
+                    DoomBuilder.General.Map.Map.ClearSelectedSectors();
+                    DoomBuilder.General.Map.Map.ClearSelectedLinedefs();
 
                     editsectors = new List<Sector> { highlighted };
 
                     UpdateSelectedLabels(); //mxd
                     UpdateOverlaySurfaces(); //mxd
                     UpdateSelectionInfo(); //mxd
-                    General.Interface.RedrawDisplay();
+                    DoomBuilder.General.Interface.RedrawDisplay();
                 }
                 else // Highlight is selected, so take all selected sectors
                 {
-                    editsectors = General.Map.Map.GetSelectedSectors(true);
+                    editsectors = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
                 }
 
                 // Update display
                 if (renderer.StartPlotter(false))
                 {
                     // Redraw highlight to show selection
-                    renderer.PlotSector(highlighted, General.Colors.Highlight);
+                    renderer.PlotSector(highlighted, DoomBuilder.General.Colors.Highlight);
                     renderer.Finish();
                     renderer.Present();
                 }
@@ -1075,14 +1076,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 // Start drawing mode
                 DrawGeometryMode drawmode = new DrawGeometryMode();
-                bool snaptogrid = General.Interface.ShiftState ^ General.Interface.SnapToGrid;
-                bool snaptonearest = General.Interface.CtrlState ^ General.Interface.AutoMerge;
+                bool snaptogrid = DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid;
+                bool snaptonearest = DoomBuilder.General.Interface.CtrlState ^ DoomBuilder.General.Interface.AutoMerge;
                 DrawnVertex v = DrawGeometryMode.GetCurrentPosition(mousemappos, snaptonearest, snaptogrid, false, false, renderer, new List<DrawnVertex>());
 
                 if (drawmode.DrawPointAt(v))
-                    General.Editing.ChangeMode(drawmode);
+                    DoomBuilder.General.Editing.ChangeMode(drawmode);
                 else
-                    General.Interface.DisplayStatus(StatusType.Warning, "Failed to draw point: outside of map boundaries.");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Failed to draw point: outside of map boundaries.");
             }
 
             base.OnEditBegin();
@@ -1096,24 +1097,24 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 if (editsectors?.Count > 0)
                 {
-                    if (General.Interface.IsActiveWindow)
+                    if (DoomBuilder.General.Interface.IsActiveWindow)
                     {
                         // Prevent autosave while the editing dialog is shown
                         allowautosave = false;
 
                         //mxd. Show realtime vertex edit dialog
-                        General.Interface.OnEditFormValuesChanged += sectorEditForm_OnValuesChanged;
-                        DialogResult result = General.Interface.ShowEditSectors(editsectors);
-                        General.Interface.OnEditFormValuesChanged -= sectorEditForm_OnValuesChanged;
+                        DoomBuilder.General.Interface.OnEditFormValuesChanged += sectorEditForm_OnValuesChanged;
+                        DialogResult result = DoomBuilder.General.Interface.ShowEditSectors(editsectors);
+                        DoomBuilder.General.Interface.OnEditFormValuesChanged -= sectorEditForm_OnValuesChanged;
 
                         allowautosave = true;
 
-                        General.Map.Renderer2D.UpdateExtraFloorFlag(); //mxd
+                        DoomBuilder.General.Map.Renderer2D.UpdateExtraFloorFlag(); //mxd
 
                         UpdateEffectLabels();
 
                         UpdateOverlaySurfaces(); //mxd
-                        General.Interface.RedrawDisplay();
+                        DoomBuilder.General.Interface.RedrawDisplay();
                     }
                 }
 
@@ -1128,8 +1129,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private void sectorEditForm_OnValuesChanged(object sender, EventArgs e)
         {
             // Update entire display
-            General.Map.Map.Update();
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         // Mouse moves
@@ -1155,7 +1156,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // If linedefs were not added to the blockmap yet add them here
                 if (!addedlinedefstoblockmap)
                 {
-                    blockmap.AddLinedefsSet(General.Map.Map.Linedefs);
+                    blockmap.AddLinedefsSet(DoomBuilder.General.Map.Map.Linedefs);
                     addedlinedefstoblockmap = true;
                 }
 
@@ -1184,16 +1185,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         {
                             //toggle selected state
                             highlighted = s;
-                            if (General.Interface.ShiftState ^ BuilderPlug.Me.AdditivePaintSelect)
+                            if (DoomBuilder.General.Interface.ShiftState ^ BuilderPlug.Me.AdditivePaintSelect)
                                 SelectSector(highlighted, true, true);
-                            else if (General.Interface.CtrlState)
+                            else if (DoomBuilder.General.Interface.CtrlState)
                                 SelectSector(highlighted, false, true);
                             else
                                 SelectSector(highlighted, !highlighted.Selected, true);
 
                             // Update entire display
                             UpdateOverlaySurfaces();//mxd
-                            General.Interface.RedrawDisplay();
+                            DoomBuilder.General.Interface.RedrawDisplay();
                         }
                     }
                     else if (highlighted != null)
@@ -1201,7 +1202,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         Highlight(null);
 
                         // Update entire display
-                        General.Interface.RedrawDisplay();
+                        DoomBuilder.General.Interface.RedrawDisplay();
                     }
 
                     UpdateSelectionInfo(); //mxd
@@ -1210,7 +1211,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             else if (e.Button == MouseButtons.None) // Not holding any buttons?
             {
                 // Find the nearest linedef within highlight range
-                Linedef l = General.Map.Map.NearestLinedef(mousemappos);
+                Linedef l = DoomBuilder.General.Map.Map.NearestLinedef(mousemappos);
                 if (l != null)
                 {
                     // Check on which side of the linedef the mouse is
@@ -1251,7 +1252,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 //mxd. Show tooltip?
-                if (General.Map.UDMF && General.Settings.RenderComments && mouselastpos != mousepos && highlighted != null && !highlighted.IsDisposed && highlighted.Fields.ContainsKey("comment"))
+                if (DoomBuilder.General.Map.UDMF && DoomBuilder.General.Settings.RenderComments && mouselastpos != mousepos && highlighted != null && !highlighted.IsDisposed && highlighted.Fields.ContainsKey("comment"))
                 {
                     string comment = highlighted.Fields.GetValue("comment", string.Empty);
                     if (comment.Length > 2)
@@ -1260,7 +1261,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         int index = Array.IndexOf(CommentType.Types, type);
                         if (index > 0) comment = comment.TrimStart(type.ToCharArray());
                     }
-                    General.Interface.Display.ShowToolTip("Comment:", comment, (int)(mousepos.x + (32 * MainForm.DPIScaler.Width)), (int)(mousepos.y + (8 * MainForm.DPIScaler.Height)));
+                    DoomBuilder.General.Interface.Display.ShowToolTip("Comment:", comment, (int)(mousepos.x + (32 * MainForm.DPIScaler.Width)), (int)(mousepos.y + (8 * MainForm.DPIScaler.Height)));
                 }
             }
         }
@@ -1279,16 +1280,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             if (highlighted != null)
             {
-                if (General.Interface.ShiftState ^ BuilderPlug.Me.AdditivePaintSelect)
+                if (DoomBuilder.General.Interface.ShiftState ^ BuilderPlug.Me.AdditivePaintSelect)
                     SelectSector(highlighted, true, true);
-                else if (General.Interface.CtrlState)
+                else if (DoomBuilder.General.Interface.CtrlState)
                     SelectSector(highlighted, false, true);
                 else
                     SelectSector(highlighted, !highlighted.Selected, true);
 
                 // Update entire display
                 UpdateOverlaySurfaces();//mxd
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Interface.RedrawDisplay();
             }
 
             base.OnPaintSelectBegin();
@@ -1300,7 +1301,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnDragStart(e);
 
             // Edit button used?
-            if (General.Actions.CheckActionActive(null, "classicedit"))
+            if (DoomBuilder.General.Actions.CheckActionActive(null, "classicedit"))
             {
                 // Anything highlighted?
                 if ((highlighted != null) && !highlighted.IsDisposed)
@@ -1312,23 +1313,23 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     if (!highlighted.Selected)
                     {
                         // Select only this sector for dragging
-                        General.Map.Map.ClearSelectedSectors();
+                        DoomBuilder.General.Map.Map.ClearSelectedSectors();
                         dragsectors = new List<Sector> { highlighted };
 
 
                         if (BuilderPlug.Me.SyncronizeThingEdit)
-                            dragthings = General.Map.Map.Things.Where(t => t.Sector == highlighted).ToList();
+                            dragthings = DoomBuilder.General.Map.Map.Things.Where(t => t.Sector == highlighted).ToList();
 
                         UpdateOverlaySurfaces(); //mxd
                     }
                     else
                     {
-                        dragsectors = General.Map.Map.GetSelectedSectors(true);
+                        dragsectors = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
                     }
 
                     // Start dragging the selection
                     if (!BuilderPlug.Me.DontMoveGeometryOutsideMapBoundary || CanDrag(dragsectors)) //mxd
-                        General.Editing.ChangeMode(new DragSectorsMode(mousedownmappos, dragsectors, dragthings));
+                        DoomBuilder.General.Editing.ChangeMode(new DragSectorsMode(mousedownmappos, dragsectors, dragthings));
                 }
             }
         }
@@ -1343,10 +1344,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // Make sure the sector is inside the map boundary
                 foreach (Sidedef sd in s.Sidedefs)
                 {
-                    if (sd.Line.Start.Position.x < General.Map.Config.LeftBoundary || sd.Line.Start.Position.x > General.Map.Config.RightBoundary
-                        || sd.Line.Start.Position.y > General.Map.Config.TopBoundary || sd.Line.Start.Position.y < General.Map.Config.BottomBoundary
-                        || sd.Line.End.Position.x < General.Map.Config.LeftBoundary || sd.Line.End.Position.x > General.Map.Config.RightBoundary
-                        || sd.Line.End.Position.y > General.Map.Config.TopBoundary || sd.Line.End.Position.y < General.Map.Config.BottomBoundary)
+                    if (sd.Line.Start.Position.x < DoomBuilder.General.Map.Config.LeftBoundary || sd.Line.Start.Position.x > DoomBuilder.General.Map.Config.RightBoundary
+                        || sd.Line.Start.Position.y > DoomBuilder.General.Map.Config.TopBoundary || sd.Line.Start.Position.y < DoomBuilder.General.Map.Config.BottomBoundary
+                        || sd.Line.End.Position.x < DoomBuilder.General.Map.Config.LeftBoundary || sd.Line.End.Position.x > DoomBuilder.General.Map.Config.RightBoundary
+                        || sd.Line.End.Position.y > DoomBuilder.General.Map.Config.TopBoundary || sd.Line.End.Position.y < DoomBuilder.General.Map.Config.BottomBoundary)
                     {
                         unaffectedCount++;
                         break;
@@ -1356,14 +1357,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             if (unaffectedCount == dragsectors.Count)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Unable to drag selection: " + (dragsectors.Count == 1 ? "selected sector is" : "all of selected sectors are") + " outside of map boundary!");
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Unable to drag selection: " + (dragsectors.Count == 1 ? "selected sector is" : "all of selected sectors are") + " outside of map boundary!");
+                DoomBuilder.General.Interface.RedrawDisplay();
                 return false;
             }
 
             if (unaffectedCount > 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, unaffectedCount + " of selected sectors " + (unaffectedCount == 1 ? "is" : "are") + " outside of map boundary!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, unaffectedCount + " of selected sectors " + (unaffectedCount == 1 ? "is" : "are") + " outside of map boundary!");
                 return false;
             }
 
@@ -1393,7 +1394,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         List<Sector> selectresult = GetOrderedSelection(base.selectstart, selectionoutline);
 
                         // First deselect everything...
-                        foreach (Sector s in General.Map.Map.Sectors) SelectSector(s, false, false);
+                        foreach (Sector s in DoomBuilder.General.Map.Map.Sectors) SelectSector(s, false, false);
 
                         // Then select sectors in correct order
                         foreach (Sector s in selectresult) SelectSector(s, true, false);
@@ -1412,7 +1413,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                     case MarqueSelectionMode.SUBTRACT:
                         // Selection order doesn't matter here
-                        foreach (Sector s in General.Map.Map.Sectors)
+                        foreach (Sector s in DoomBuilder.General.Map.Map.Sectors)
                         {
                             if (!s.Selected) continue;
                             if (IsInSelectionRect(s, selectionoutline))
@@ -1423,7 +1424,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     // Should be Intersect selection mode
                     default:
                         // Selection order doesn't matter here
-                        foreach (Sector s in General.Map.Map.Sectors)
+                        foreach (Sector s in DoomBuilder.General.Map.Map.Sectors)
                         {
                             if (!s.Selected) continue;
                             if (!IsInSelectionRect(s, selectionoutline))
@@ -1433,13 +1434,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 // Make sure all linedefs reflect selected sectors
-                foreach (Sidedef sd in General.Map.Map.Sidedefs)
+                foreach (Sidedef sd in DoomBuilder.General.Map.Map.Sidedefs)
                     sd.Line.Selected = sd.Sector.Selected || (sd.Other != null && sd.Other.Sector.Selected);
 
                 //mxd. Clear labels for unselected sectors
                 if (marqueSelectionMode != MarqueSelectionMode.ADD)
                 {
-                    ICollection<Sector> orderedselection = General.Map.Map.GetSelectedSectors(false);
+                    ICollection<Sector> orderedselection = DoomBuilder.General.Map.Map.GetSelectedSectors(false);
                     foreach (Sector s in orderedselection)
                     {
                         TextLabel[] labelarray = labels[s];
@@ -1454,7 +1455,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             base.OnEndMultiSelection();
             if (renderer.StartOverlay(true)) renderer.Finish();
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         // This is called when the selection is updated
@@ -1475,7 +1476,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public override bool OnCopyBegin()
         {
             // No selection made? But we have a highlight!
-            if ((General.Map.Map.GetSelectedSectors(true).Count == 0) && (highlighted != null))
+            if ((DoomBuilder.General.Map.Map.GetSelectedSectors(true).Count == 0) && (highlighted != null))
             {
                 // Make the highlight the selection
                 SelectSector(highlighted, true, false);
@@ -1493,7 +1494,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public override bool OnUndoBegin()
         {
             // Clear ordered selection
-            General.Map.Map.ClearAllSelected();
+            DoomBuilder.General.Map.Map.ClearAllSelected();
 
             return base.OnUndoBegin();
         }
@@ -1507,8 +1508,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Select changed map elements
             if (BuilderPlug.Me.SelectChangedafterUndoRedo)
             {
-                General.Map.Map.SelectMarkedGeometry(true, true);
-                General.Map.Map.ConvertSelection(SelectionType.Sectors);
+                DoomBuilder.General.Map.Map.SelectMarkedGeometry(true, true);
+                DoomBuilder.General.Map.Map.ConvertSelection(SelectionType.Sectors);
             }
 
             // Clear the cache of things that already got their sector determined
@@ -1529,7 +1530,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public override bool OnRedoBegin()
         {
             // Clear ordered selection
-            General.Map.Map.ClearAllSelected();
+            DoomBuilder.General.Map.Map.ClearAllSelected();
 
             return base.OnRedoBegin();
         }
@@ -1543,8 +1544,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Select changed map elements
             if (BuilderPlug.Me.SelectChangedafterUndoRedo)
             {
-                General.Map.Map.SelectMarkedGeometry(true, true);
-                General.Map.Map.ConvertSelection(SelectionType.Sectors);
+                DoomBuilder.General.Map.Map.SelectMarkedGeometry(true, true);
+                DoomBuilder.General.Map.Map.ConvertSelection(SelectionType.Sectors);
             }
 
             // Clear the cache of things that already got their sector determined
@@ -1575,7 +1576,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             UpdateOverlay();
             UpdateOverlaySurfaces();
 
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         /// <summary>
@@ -1598,7 +1599,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         protected override void ToggleHighlight()
         {
             // Update label colors
-            PixelColor c = General.Settings.UseHighlight ? General.Colors.Selection : General.Colors.Highlight;
+            PixelColor c = DoomBuilder.General.Settings.UseHighlight ? DoomBuilder.General.Colors.Selection : DoomBuilder.General.Colors.Highlight;
             foreach (TextLabel[] labelarray in labels.Values)
                 foreach (TextLabel l in labelarray) l.Color = c;
 
@@ -1606,7 +1607,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if ((highlighted != null) && !highlighted.IsDisposed)
             {
                 TextLabel[] labelarray = labels[highlighted];
-                c = General.Settings.UseHighlight ? General.Colors.Highlight : General.Colors.Selection;
+                c = DoomBuilder.General.Settings.UseHighlight ? DoomBuilder.General.Colors.Highlight : DoomBuilder.General.Colors.Selection;
                 foreach (TextLabel l in labelarray) l.Color = c;
             }
 
@@ -1643,8 +1644,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private void RenderComment(Sector s, Vector2D center, int iconindex)
         {
             RectangleF rect = new RectangleF((float)(center.x - (8 / renderer.Scale)), (float)(center.y + (8 / renderer.Scale)), 16 / renderer.Scale, -16 / renderer.Scale);
-            PixelColor c = s == highlighted ? General.Colors.Highlight : PixelColor.FromColor(Color.White);
-            renderer.RenderRectangleFilled(rect, c, true, General.Map.Data.CommentTextures[iconindex]);
+            PixelColor c = s == highlighted ? DoomBuilder.General.Colors.Highlight : PixelColor.FromColor(Color.White);
+            renderer.RenderRectangleFilled(rect, c, true, DoomBuilder.General.Map.Data.CommentTextures[iconindex]);
         }
 
         // This copies the properties
@@ -1653,19 +1654,19 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             // Determine source sectors
             ICollection<Sector> sel = null;
-            if (General.Map.Map.SelectedSectorsCount > 0) sel = General.Map.Map.GetSelectedSectors(true);
+            if (DoomBuilder.General.Map.Map.SelectedSectorsCount > 0) sel = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
             else if (highlighted != null) sel = new List<Sector> { highlighted };
 
             if (sel != null)
             {
                 // Copy properties from the first source sector
-                BuilderPlug.Me.CopiedSectorProps = new SectorProperties(General.GetByIndex(sel, 0));
-                General.Interface.DisplayStatus(StatusType.Action, "Copied sector properties.");
+                BuilderPlug.Me.CopiedSectorProps = new General.SectorProperties(DoomBuilder.General.GetByIndex(sel, 0));
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Copied sector properties.");
             }
             else
             {
                 //mxd
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
             }
         }
 
@@ -1677,39 +1678,39 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 // Determine target sectors
                 ICollection<Sector> sel = null;
-                if (General.Map.Map.SelectedSectorsCount > 0) sel = General.Map.Map.GetSelectedSectors(true);
+                if (DoomBuilder.General.Map.Map.SelectedSectorsCount > 0) sel = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
                 else if (highlighted != null) sel = new List<Sector> { highlighted };
 
                 if (sel != null)
                 {
                     // Apply properties to selection
                     string rest = sel.Count == 1 ? "a single sector" : sel.Count + " sectors"; //mxd
-                    General.Map.UndoRedo.CreateUndo("Paste properties to " + rest);
+                    DoomBuilder.General.Map.UndoRedo.CreateUndo("Paste properties to " + rest);
                     BuilderPlug.Me.CopiedSectorProps.Apply(sel, false);
                     foreach (Sector s in sel)
                     {
                         s.UpdateCeilingSurface();
                         s.UpdateFloorSurface();
                     }
-                    General.Interface.DisplayStatus(StatusType.Action, "Pasted properties to " + rest + ".");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Pasted properties to " + rest + ".");
 
                     // Update and redraw
-                    General.Map.IsChanged = true;
-                    General.Interface.RefreshInfo();
-                    General.Map.Renderer2D.UpdateExtraFloorFlag(); //mxd
+                    DoomBuilder.General.Map.IsChanged = true;
+                    DoomBuilder.General.Interface.RefreshInfo();
+                    DoomBuilder.General.Map.Renderer2D.UpdateExtraFloorFlag(); //mxd
                     UpdateEffectLabels(); //mxd
-                    General.Interface.RedrawDisplay();
+                    DoomBuilder.General.Interface.RedrawDisplay();
                 }
                 else
                 {
                     //mxd
-                    General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
                 }
             }
             else
             {
                 //mxd
-                General.Interface.DisplayStatus(StatusType.Warning, "Copy sector properties first!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Copy sector properties first!");
             }
         }
 
@@ -1721,41 +1722,41 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 // Determine target sectors
                 ICollection<Sector> sel = null;
-                if (General.Map.Map.SelectedSectorsCount > 0) sel = General.Map.Map.GetSelectedSectors(true);
+                if (DoomBuilder.General.Map.Map.SelectedSectorsCount > 0) sel = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
                 else if (highlighted != null) sel = new List<Sector> { highlighted };
 
                 if (sel != null)
                 {
                     PastePropertiesOptionsForm form = new PastePropertiesOptionsForm();
-                    if (form.Setup(MapElementType.SECTOR) && form.ShowDialog(General.Interface) == DialogResult.OK)
+                    if (form.Setup(MapElementType.SECTOR) && form.ShowDialog(DoomBuilder.General.Interface) == DialogResult.OK)
                     {
                         // Apply properties to selection
                         string rest = sel.Count == 1 ? "a single sector" : sel.Count + " sectors";
-                        General.Map.UndoRedo.CreateUndo("Paste properties with options to " + rest);
+                        DoomBuilder.General.Map.UndoRedo.CreateUndo("Paste properties with options to " + rest);
                         BuilderPlug.Me.CopiedSectorProps.Apply(sel, true);
                         foreach (Sector s in sel)
                         {
                             s.UpdateCeilingSurface();
                             s.UpdateFloorSurface();
                         }
-                        General.Interface.DisplayStatus(StatusType.Action, "Pasted properties with options to " + rest + ".");
+                        DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Pasted properties with options to " + rest + ".");
 
                         // Update and redraw
-                        General.Map.IsChanged = true;
-                        General.Interface.RefreshInfo();
-                        General.Map.Renderer2D.UpdateExtraFloorFlag(); //mxd
+                        DoomBuilder.General.Map.IsChanged = true;
+                        DoomBuilder.General.Interface.RefreshInfo();
+                        DoomBuilder.General.Map.Renderer2D.UpdateExtraFloorFlag(); //mxd
                         UpdateEffectLabels(); //mxd
-                        General.Interface.RedrawDisplay();
+                        DoomBuilder.General.Interface.RedrawDisplay();
                     }
                 }
                 else
                 {
-                    General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
                 }
             }
             else
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Copy sector properties first!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Copy sector properties first!");
             }
         }
 
@@ -1767,19 +1768,19 @@ namespace CodeImp.DoomBuilder.BuilderModes
             DrawGeometryMode drawmode = new DrawGeometryMode();
             if (mouseinside)
             {
-                bool snaptogrid = General.Interface.ShiftState ^ General.Interface.SnapToGrid;
-                bool snaptonearest = General.Interface.CtrlState ^ General.Interface.AutoMerge;
+                bool snaptogrid = DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid;
+                bool snaptonearest = DoomBuilder.General.Interface.CtrlState ^ DoomBuilder.General.Interface.AutoMerge;
                 DrawnVertex v = DrawGeometryMode.GetCurrentPosition(mousemappos, snaptonearest, snaptogrid, false, false, renderer, new List<DrawnVertex>());
                 drawmode.DrawPointAt(v);
             }
-            General.Editing.ChangeMode(drawmode);
+            DoomBuilder.General.Editing.ChangeMode(drawmode);
         }
 
         [BeginAction("makedoor")]
         public void MakeDoor()
         {
             // Anything selected?
-            ICollection<Sector> orderedselection = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> orderedselection = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
 
             //mxd. Should we use highlighted item?
             if (orderedselection.Count == 0 && highlighted != null)
@@ -1805,7 +1806,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                 // Show the dialog
                 MakeDoorForm form = new MakeDoorForm();
-                if (form.Show(General.Interface, doortex, tracktex, ceiltex, floortex, resetoffsets, applyactionspecials, applytag) == DialogResult.OK)
+                if (form.Show(DoomBuilder.General.Interface, doortex, tracktex, ceiltex, floortex, resetoffsets, applyactionspecials, applytag) == DialogResult.OK)
                 {
                     doortex = form.DoorTexture;
                     tracktex = form.TrackTexture;
@@ -1819,8 +1820,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     BuilderPlug.Me.MakeDoor = new BuilderPlug.MakeDoorSettings(doortex, tracktex, ceiltex, resetoffsets, applyactionspecials, applytag);
 
                     // Create undo
-                    General.Map.UndoRedo.CreateUndo("Make door (" + doortex + ")");
-                    General.Interface.DisplayStatus(StatusType.Action, "Created a " + doortex + " door.");
+                    DoomBuilder.General.Map.UndoRedo.CreateUndo("Make door (" + doortex + ")");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Created a " + doortex + " door.");
 
                     // Go for all selected sectors
                     foreach (Sector s in orderedselection)
@@ -1829,7 +1830,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         s.CeilHeight = s.FloorHeight;
 
                         // Make a unique tag (not sure if we need it yet, depends on the args)
-                        int tag = General.Map.Map.GetNewTag();
+                        int tag = DoomBuilder.General.Map.Map.GetNewTag();
 
                         // Go for all its sidedefs
                         foreach (Sidedef sd in s.Sidedefs)
@@ -1843,8 +1844,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                                 sd.SetTextureLow("-");
 
                                 // Set upper/lower unpegged flags
-                                sd.Line.SetFlag(General.Map.Config.UpperUnpeggedFlag, false);
-                                sd.Line.SetFlag(General.Map.Config.LowerUnpeggedFlag, true);
+                                sd.Line.SetFlag(DoomBuilder.General.Map.Config.UpperUnpeggedFlag, false);
+                                sd.Line.SetFlag(DoomBuilder.General.Map.Config.LowerUnpeggedFlag, true);
                             }
                             else
                             {
@@ -1854,19 +1855,19 @@ namespace CodeImp.DoomBuilder.BuilderModes
                                 if (!string.IsNullOrEmpty(doortex)) sd.Other.SetTextureHigh(doortex);
 
                                 // Set upper/lower unpegged flags
-                                sd.Line.SetFlag(General.Map.Config.UpperUnpeggedFlag, false);
-                                sd.Line.SetFlag(General.Map.Config.LowerUnpeggedFlag, false);
+                                sd.Line.SetFlag(DoomBuilder.General.Map.Config.UpperUnpeggedFlag, false);
+                                sd.Line.SetFlag(DoomBuilder.General.Map.Config.LowerUnpeggedFlag, false);
 
                                 if (applyactionspecials)
                                 {
                                     // Get door linedef type from config
-                                    sd.Line.Action = General.Map.Config.MakeDoorAction;
+                                    sd.Line.Action = DoomBuilder.General.Map.Config.MakeDoorAction;
 
                                     // Set activation type
-                                    sd.Line.Activate = General.Map.Config.MakeDoorActivate;
+                                    sd.Line.Activate = DoomBuilder.General.Map.Config.MakeDoorActivate;
 
                                     // Set the flags for player repeatable activation
-                                    foreach (var flagpair in General.Map.Config.MakeDoorFlags)
+                                    foreach (var flagpair in DoomBuilder.General.Map.Config.MakeDoorFlags)
                                         sd.Line.SetFlag(flagpair.Key, flagpair.Value);
                                 }
 
@@ -1882,14 +1883,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
                                     // A -1 arg indicates that the arg must be set to the new sector tag
                                     // and only in this case we set the tag on the sector, because only
                                     // then we know for sure that we need a tag.
-                                    if (General.Map.Config.MakeDoorArgs[i] == -1)
+                                    if (DoomBuilder.General.Map.Config.MakeDoorArgs[i] == -1)
                                     {
                                         sd.Line.Args[i] = tag;
                                         s.Tag = tag;
                                     }
                                     else
                                     {
-                                        sd.Line.Args[i] = General.Map.Config.MakeDoorArgs[i];
+                                        sd.Line.Args[i] = DoomBuilder.General.Map.Config.MakeDoorArgs[i];
                                     }
                                 }
 
@@ -1919,16 +1920,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     // When a single sector was selected, deselect it now
                     if (orderedselection.Count == 1) ClearSelection(); //mxd
 
-                    General.Map.Data.UpdateUsedTextures(); //mxd
+                    DoomBuilder.General.Map.Data.UpdateUsedTextures(); //mxd
                 }
 
                 // Done
                 form.Dispose();
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Interface.RedrawDisplay();
             }
             else //mxd
             {
-                General.ToastManager.ShowToast("makedoor", ToastType.WARNING, "Couldn't create door", "You need to highlight or select at least one sector to create a door.");
+                DoomBuilder.General.ToastManager.ShowToast("makedoor", ToastType.WARNING, "Couldn't create door", "You need to highlight or select at least one sector to create a door.");
             }
         }
 
@@ -1936,10 +1937,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void DeleteItem()
         {
             //mxd. Make list of selected things
-            List<Thing> selectedthings = BuilderPlug.Me.SyncronizeThingEdit ? new List<Thing>(General.Map.Map.GetSelectedThings(true)) : new List<Thing>();
+            List<Thing> selectedthings = BuilderPlug.Me.SyncronizeThingEdit ? new List<Thing>(DoomBuilder.General.Map.Map.GetSelectedThings(true)) : new List<Thing>();
 
             // Make list of selected sectors
-            List<Sector> selectedsectors = new List<Sector>(General.Map.Map.GetSelectedSectors(true));
+            List<Sector> selectedsectors = new List<Sector>(DoomBuilder.General.Map.Map.GetSelectedSectors(true));
             if ((selectedsectors.Count == 0) && (highlighted != null) && !highlighted.IsDisposed)
             {
                 selectedsectors.Add(highlighted);
@@ -1947,7 +1948,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 //mxd. Add things?
                 if (BuilderPlug.Me.SyncronizeThingEdit)
                 {
-                    foreach (Thing t in General.Map.Map.Things)
+                    foreach (Thing t in DoomBuilder.General.Map.Map.Things)
                     {
                         if (t.Sector == null) t.DetermineSector();
                         if (t.Sector == highlighted) selectedthings.Add(t);
@@ -1973,20 +1974,20 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             //mxd. Make undo
             string rest = string.Join(" and ", info.ToArray());
-            General.Map.UndoRedo.CreateUndo("Delete " + rest);
-            General.Interface.DisplayStatus(StatusType.Action, "Deleted " + rest + ".");
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Delete " + rest);
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Deleted " + rest + ".");
 
             //mxd. Delete things
             if (selectedthings.Count > 0)
             {
                 DeleteThings(selectedthings);
-                General.Map.ThingsFilter.Update();
+                DoomBuilder.General.Map.ThingsFilter.Update();
             }
 
             // Anything to do?
             if (selectedsectors.Count > 0)
             {
-                General.Map.Map.BeginAddRemove(); //mxd
+                DoomBuilder.General.Map.Map.BeginAddRemove(); //mxd
 
                 // Dispose selected sectors
                 foreach (Sector s in selectedsectors)
@@ -2038,7 +2039,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     }
                 }
 
-                General.Map.Map.EndAddRemove(); //mxd
+                DoomBuilder.General.Map.Map.EndAddRemove(); //mxd
 
                 // Recreate the blockmap since it shouldn't include the deleted sectors anymore
                 CreateBlockmap();
@@ -2050,8 +2051,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (selectedthings.Count > 0 || selectedsectors.Count > 0)
             {
                 // Update cache values
-                General.Map.IsChanged = true;
-                General.Map.Map.Update();
+                DoomBuilder.General.Map.IsChanged = true;
+                DoomBuilder.General.Map.Map.Update();
                 UpdateOverlaySurfaces(); //mxd
 
                 // Make text labels for sectors
@@ -2060,8 +2061,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                 // Redraw screen
                 UpdateSelectionInfo(); //mxd
-                General.Map.Renderer2D.UpdateExtraFloorFlag(); //mxd
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Map.Renderer2D.UpdateExtraFloorFlag(); //mxd
+                DoomBuilder.General.Interface.RedrawDisplay();
             }
         }
 
@@ -2077,16 +2078,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void JoinSectors()
         {
             // Worth our money?
-            ICollection<Sector> selected = General.Map.Map.GetSelectedSectors(true); //mxd
+            ICollection<Sector> selected = DoomBuilder.General.Map.Map.GetSelectedSectors(true); //mxd
             if (selected.Count > 1)
             {
                 // Make undo
-                General.Map.UndoRedo.CreateUndo("Join " + selected.Count + " sectors");
-                General.Interface.DisplayStatus(StatusType.Action, "Joined " + selected.Count + " sectors.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Join " + selected.Count + " sectors");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Joined " + selected.Count + " sectors.");
 
                 //mxd. Things may require updating
                 List<Thing> affectedthings = new List<Thing>();
-                foreach (Thing t in General.Map.Map.Things)
+                foreach (Thing t in DoomBuilder.General.Map.Map.Things)
                     if (t.Sector != null && selected.Contains(t.Sector)) affectedthings.Add(t);
 
                 // Merge
@@ -2096,10 +2097,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 foreach (Thing t in affectedthings) t.DetermineSector();
 
                 // Map was changed
-                General.Map.IsChanged = true;
+                DoomBuilder.General.Map.IsChanged = true;
 
                 //mxd. Clear selection info
-                General.Interface.DisplayStatus(StatusType.Selection, string.Empty);
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Selection, string.Empty);
 
                 // Recreate the blockmap
                 CreateBlockmap();
@@ -2110,10 +2111,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 //mxd. Update
                 UpdateOverlaySurfaces();
                 UpdateEffectLabels();
-                General.Map.Renderer2D.UpdateExtraFloorFlag();
+                DoomBuilder.General.Map.Renderer2D.UpdateExtraFloorFlag();
 
                 // Redraw display
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Interface.RedrawDisplay();
             }
         }
 
@@ -2122,16 +2123,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void MergeSectors()
         {
             // Worth our money?
-            ICollection<Sector> selected = General.Map.Map.GetSelectedSectors(true); //mxd
+            ICollection<Sector> selected = DoomBuilder.General.Map.Map.GetSelectedSectors(true); //mxd
             if (selected.Count > 1)
             {
                 // Make undo
-                General.Map.UndoRedo.CreateUndo("Merge " + selected.Count + " sectors");
-                General.Interface.DisplayStatus(StatusType.Action, "Merged " + selected.Count + " sectors.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Merge " + selected.Count + " sectors");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Merged " + selected.Count + " sectors.");
 
                 //mxd. Things may require updating
                 List<Thing> affectedthings = new List<Thing>();
-                foreach (Thing t in General.Map.Map.Things)
+                foreach (Thing t in DoomBuilder.General.Map.Map.Things)
                     if (t.Sector != null && selected.Contains(t.Sector)) affectedthings.Add(t);
 
                 // Merge
@@ -2141,10 +2142,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 foreach (Thing t in affectedthings) t.DetermineSector();
 
                 // Map was changed
-                General.Map.IsChanged = true;
+                DoomBuilder.General.Map.IsChanged = true;
 
                 //mxd. Clear selection info
-                General.Interface.DisplayStatus(StatusType.Selection, string.Empty);
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Selection, string.Empty);
 
                 if (highlighted != null && !highlighted.IsDisposed)
                     highlightasso.Set(highlighted);
@@ -2158,10 +2159,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 //mxd. Update
                 UpdateOverlaySurfaces();
                 UpdateEffectLabels();
-                General.Map.Renderer2D.UpdateExtraFloorFlag();
+                DoomBuilder.General.Map.Renderer2D.UpdateExtraFloorFlag();
 
                 // Redraw display
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Interface.RedrawDisplay();
             }
         }
 
@@ -2171,20 +2172,20 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             // Need at least 3 selected sectors
             // The first and last are not modified
-            ICollection<Sector> orderedselection = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> orderedselection = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
             if (orderedselection.Count > 2)
             {
-                General.Interface.DisplayStatus(StatusType.Action, "Created gradient brightness over selected sectors.");
-                General.Map.UndoRedo.CreateUndo("Gradient brightness");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Created gradient brightness over selected sectors.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Gradient brightness");
 
                 //mxd
-                Sector start = General.GetByIndex(orderedselection, 0);
-                Sector end = General.GetByIndex(orderedselection, orderedselection.Count - 1);
+                Sector start = DoomBuilder.General.GetByIndex(orderedselection, 0);
+                Sector end = DoomBuilder.General.GetByIndex(orderedselection, orderedselection.Count - 1);
 
                 //mxd. Use UDMF light?
                 string mode = (string)BuilderPlug.Me.MenusForm.GradientModeMenu.SelectedItem;
                 InterpolationTools.Mode interpolationmode = (InterpolationTools.Mode)BuilderPlug.Me.MenusForm.GradientInterpolationMenu.SelectedIndex;
-                if (General.Map.UDMF && mode != MenusForm.BrightnessGradientModes.Sectors)
+                if (DoomBuilder.General.Map.UDMF && mode != MenusForm.BrightnessGradientModes.Sectors)
                 {
                     if (mode == MenusForm.BrightnessGradientModes.Ceilings || mode == MenusForm.BrightnessGradientModes.Floors)
                     {
@@ -2267,14 +2268,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 // Update
-                General.Map.Map.Update();
-                General.Interface.RedrawDisplay();
-                General.Interface.RefreshInfo();
-                General.Map.IsChanged = true;
+                DoomBuilder.General.Map.Map.Update();
+                DoomBuilder.General.Interface.RedrawDisplay();
+                DoomBuilder.General.Interface.RefreshInfo();
+                DoomBuilder.General.Map.IsChanged = true;
             }
             else
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Select at least 3 sectors first!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Select at least 3 sectors first!");
             }
         }
 
@@ -2283,7 +2284,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             if (!start.Fields.ContainsKey(key) && !end.Fields.ContainsKey(key))
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "First or last selected sector must have the \"" + key + "\" property!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "First or last selected sector must have the \"" + key + "\" property!");
             }
             else
             {
@@ -2323,14 +2324,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             // Need at least 3 selected sectors
             // The first and last are not modified
-            ICollection<Sector> orderedselection = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> orderedselection = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
             if (orderedselection.Count > 2)
             {
-                General.Interface.DisplayStatus(StatusType.Action, "Created gradient floor heights over selected sectors.");
-                General.Map.UndoRedo.CreateUndo("Gradient floor heights");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Created gradient floor heights over selected sectors.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Gradient floor heights");
 
-                int startlevel = General.GetByIndex(orderedselection, 0).FloorHeight;
-                int endlevel = General.GetByIndex(orderedselection, orderedselection.Count - 1).FloorHeight;
+                int startlevel = DoomBuilder.General.GetByIndex(orderedselection, 0).FloorHeight;
+                int endlevel = DoomBuilder.General.GetByIndex(orderedselection, orderedselection.Count - 1).FloorHeight;
                 InterpolationTools.Mode interpolationmode = (InterpolationTools.Mode)BuilderPlug.Me.MenusForm.GradientInterpolationMenu.SelectedIndex; //mxd
 
                 // Go for all sectors in between first and last
@@ -2343,12 +2344,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 // Update
-                General.Interface.RefreshInfo();
-                General.Map.IsChanged = true;
+                DoomBuilder.General.Interface.RefreshInfo();
+                DoomBuilder.General.Map.IsChanged = true;
             }
             else
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Select at least 3 sectors first!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Select at least 3 sectors first!");
             }
         }
 
@@ -2358,14 +2359,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             // Need at least 3 selected sectors
             // The first and last are not modified
-            ICollection<Sector> orderedselection = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> orderedselection = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
             if (orderedselection.Count > 2)
             {
-                General.Interface.DisplayStatus(StatusType.Action, "Created gradient ceiling heights over selected sectors.");
-                General.Map.UndoRedo.CreateUndo("Gradient ceiling heights");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Created gradient ceiling heights over selected sectors.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Gradient ceiling heights");
 
-                int startlevel = General.GetByIndex(orderedselection, 0).CeilHeight;
-                int endlevel = General.GetByIndex(orderedselection, orderedselection.Count - 1).CeilHeight;
+                int startlevel = DoomBuilder.General.GetByIndex(orderedselection, 0).CeilHeight;
+                int endlevel = DoomBuilder.General.GetByIndex(orderedselection, orderedselection.Count - 1).CeilHeight;
                 InterpolationTools.Mode interpolationmode = (InterpolationTools.Mode)BuilderPlug.Me.MenusForm.GradientInterpolationMenu.SelectedIndex; //mxd
 
                 // Go for all sectors in between first and last
@@ -2378,12 +2379,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 // Update
-                General.Interface.RefreshInfo();
-                General.Map.IsChanged = true;
+                DoomBuilder.General.Interface.RefreshInfo();
+                DoomBuilder.General.Map.IsChanged = true;
             }
             else
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Select at least 3 sectors first!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Select at least 3 sectors first!");
             }
         }
 
@@ -2392,26 +2393,26 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void LowerFloors8()
         {
             // Get selection
-            ICollection<Sector> selected = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> selected = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
             if (selected.Count == 0 && highlighted != null && !highlighted.IsDisposed)
                 selected.Add(highlighted);
 
             if (selected.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
                 return;
             }
 
             // Make undo
-            General.Interface.DisplayStatus(StatusType.Action, "Lowered floor heights by 8mp.");
-            General.Map.UndoRedo.CreateUndo("Floor heights change", this, UndoGroup.FloorHeightChange, CreateSelectionCRC(selected));
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Lowered floor heights by 8mp.");
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Floor heights change", this, UndoGroup.FloorHeightChange, CreateSelectionCRC(selected));
 
             // Change heights
             foreach (Sector s in selected) s.FloorHeight -= 8;
 
             // Update
-            General.Interface.RefreshInfo();
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Interface.RefreshInfo();
+            DoomBuilder.General.Map.IsChanged = true;
         }
 
         // Change heights
@@ -2419,26 +2420,26 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void RaiseFloors8()
         {
             // Get selection
-            ICollection<Sector> selected = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> selected = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
             if (selected.Count == 0 && highlighted != null && !highlighted.IsDisposed)
                 selected.Add(highlighted);
 
             if (selected.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
                 return;
             }
 
             // Make undo
-            General.Interface.DisplayStatus(StatusType.Action, "Raised floor heights by 8mp.");
-            General.Map.UndoRedo.CreateUndo("Floor heights change", this, UndoGroup.FloorHeightChange, CreateSelectionCRC(selected));
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Raised floor heights by 8mp.");
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Floor heights change", this, UndoGroup.FloorHeightChange, CreateSelectionCRC(selected));
 
             // Change heights
             foreach (Sector s in selected) s.FloorHeight += 8;
 
             // Update
-            General.Interface.RefreshInfo();
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Interface.RefreshInfo();
+            DoomBuilder.General.Map.IsChanged = true;
         }
 
         // Change heights
@@ -2446,26 +2447,26 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void LowerCeilings8()
         {
             // Get selection
-            ICollection<Sector> selected = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> selected = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
             if ((selected.Count == 0) && (highlighted != null) && !highlighted.IsDisposed)
                 selected.Add(highlighted);
 
             if (selected.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
                 return;
             }
 
             // Make undo
-            General.Interface.DisplayStatus(StatusType.Action, "Lowered ceiling heights by 8mp.");
-            General.Map.UndoRedo.CreateUndo("Ceiling heights change", this, UndoGroup.CeilingHeightChange, CreateSelectionCRC(selected));
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Lowered ceiling heights by 8mp.");
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Ceiling heights change", this, UndoGroup.CeilingHeightChange, CreateSelectionCRC(selected));
 
             // Change heights
             foreach (Sector s in selected) s.CeilHeight -= 8;
 
             // Update
-            General.Interface.RefreshInfo();
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Interface.RefreshInfo();
+            DoomBuilder.General.Map.IsChanged = true;
         }
 
         // Change heights
@@ -2473,26 +2474,26 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void RaiseCeilings8()
         {
             // Get selection
-            ICollection<Sector> selected = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> selected = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
             if (selected.Count == 0 && highlighted != null && !highlighted.IsDisposed)
                 selected.Add(highlighted);
 
             if (selected.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
                 return;
             }
 
             // Make undo
-            General.Interface.DisplayStatus(StatusType.Action, "Raised ceiling heights by 8mp.");
-            General.Map.UndoRedo.CreateUndo("Ceiling heights change", this, UndoGroup.CeilingHeightChange, CreateSelectionCRC(selected));
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Raised ceiling heights by 8mp.");
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Ceiling heights change", this, UndoGroup.CeilingHeightChange, CreateSelectionCRC(selected));
 
             // Change heights
             foreach (Sector s in selected) s.CeilHeight += 8;
 
             // Update
-            General.Interface.RefreshInfo();
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Interface.RefreshInfo();
+            DoomBuilder.General.Map.IsChanged = true;
         }
 
         //mxd. Raise brightness
@@ -2500,36 +2501,36 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void RaiseBrightness8()
         {
             // Get selection
-            ICollection<Sector> selected = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> selected = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
             if ((selected.Count == 0) && (highlighted != null) && !highlighted.IsDisposed)
                 selected.Add(highlighted);
 
             if (selected.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
                 return;
             }
 
             // Make undo
-            Sector first = General.GetByIndex(selected, 0); //mxd
-            int diff = General.Map.Config.BrightnessLevels.GetNextHigher(first.Brightness) - first.Brightness; //mxd
-            General.Interface.DisplayStatus(StatusType.Action, "Raised sector brightness by " + diff + ".");
-            General.Map.UndoRedo.CreateUndo("Sector brightness change", this, UndoGroup.SectorBrightnessChange, CreateSelectionCRC(selected));
+            Sector first = DoomBuilder.General.GetByIndex(selected, 0); //mxd
+            int diff = DoomBuilder.General.Map.Config.BrightnessLevels.GetNextHigher(first.Brightness) - first.Brightness; //mxd
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Raised sector brightness by " + diff + ".");
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Sector brightness change", this, UndoGroup.SectorBrightnessChange, CreateSelectionCRC(selected));
 
             // Change heights
             foreach (Sector s in selected)
             {
-                s.Brightness = General.Map.Config.BrightnessLevels.GetNextHigher(s.Brightness);
+                s.Brightness = DoomBuilder.General.Map.Config.BrightnessLevels.GetNextHigher(s.Brightness);
                 s.UpdateNeeded = true;
                 s.UpdateCache();
             }
 
             // Update
-            General.Interface.RefreshInfo();
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Interface.RefreshInfo();
+            DoomBuilder.General.Map.IsChanged = true;
 
             // Redraw
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         //mxd. Lower brightness
@@ -2537,36 +2538,36 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void LowerBrightness8()
         {
             // Get selection
-            ICollection<Sector> selected = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> selected = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
             if (selected.Count == 0 && highlighted != null && !highlighted.IsDisposed)
                 selected.Add(highlighted);
 
             if (selected.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
                 return;
             }
 
             // Make undo
-            Sector first = General.GetByIndex(selected, 0); //mxd
-            int diff = first.Brightness - General.Map.Config.BrightnessLevels.GetNextLower(first.Brightness); //mxd
-            General.Interface.DisplayStatus(StatusType.Action, "Lowered sector brightness by " + diff + ".");
-            General.Map.UndoRedo.CreateUndo("Sector brightness change", this, UndoGroup.SectorBrightnessChange, CreateSelectionCRC(selected));
+            Sector first = DoomBuilder.General.GetByIndex(selected, 0); //mxd
+            int diff = first.Brightness - DoomBuilder.General.Map.Config.BrightnessLevels.GetNextLower(first.Brightness); //mxd
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Lowered sector brightness by " + diff + ".");
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Sector brightness change", this, UndoGroup.SectorBrightnessChange, CreateSelectionCRC(selected));
 
             // Change heights
             foreach (Sector s in selected)
             {
-                s.Brightness = General.Map.Config.BrightnessLevels.GetNextLower(s.Brightness);
+                s.Brightness = DoomBuilder.General.Map.Config.BrightnessLevels.GetNextLower(s.Brightness);
                 s.UpdateNeeded = true;
                 s.UpdateCache();
             }
 
             // Update
-            General.Interface.RefreshInfo();
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Interface.RefreshInfo();
+            DoomBuilder.General.Map.IsChanged = true;
 
             // Redraw
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         // This clears the selection
@@ -2574,10 +2575,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void ClearSelection()
         {
             // Clear selection
-            General.Map.Map.ClearAllSelected();
+            DoomBuilder.General.Map.Map.ClearAllSelected();
 
             //mxd. Clear selection info
-            General.Interface.DisplayStatus(StatusType.Selection, string.Empty);
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Selection, string.Empty);
 
             // Clear labels
             foreach (TextLabel[] labelarray in labels.Values)
@@ -2586,14 +2587,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
             UpdateEffectLabels(); //mxd
 
             // Redraw
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         [BeginAction("placethings")] //mxd
         public void PlaceThings()
         {
             // Make list of selected sectors
-            ICollection<Sector> sectors = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> sectors = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
             List<Vector2D> positions = new List<Vector2D>();
 
             if (sectors.Count == 0)
@@ -2604,7 +2605,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
                 else
                 {
-                    General.Interface.DisplayStatus(StatusType.Warning, "This action requires selection of some description!");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires selection of some description!");
                     return;
                 }
             }
@@ -2618,7 +2619,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             if (positions.Count < 1)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Unable to get vertex positions from selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Unable to get vertex positions from selection!");
                 return;
             }
 
@@ -2642,27 +2643,27 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd
         private void RotateTextures(float increment)
         {
-            if (!General.Map.UDMF)
+            if (!DoomBuilder.General.Map.UDMF)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action works only in UDMF map format!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action works only in UDMF map format!");
                 return;
             }
 
             // Make list of selected sectors
-            ICollection<Sector> sectors = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> sectors = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
 
             if (sectors.Count == 0 && highlighted != null && !highlighted.IsDisposed)
                 sectors.Add(highlighted);
 
             if (sectors.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
                 return;
             }
 
             string targets;
             string target;
-            switch (General.Map.Renderer2D.ViewMode)
+            switch (DoomBuilder.General.Map.Renderer2D.ViewMode)
             {
                 case ViewMode.FloorTextures:
                     target = " a floor";
@@ -2683,13 +2684,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Make undo
             if (sectors.Count > 1)
             {
-                General.Map.UndoRedo.CreateUndo("Rotate " + sectors.Count + targets, this, UndoGroup.TextureRotationChange, CreateSelectionCRC(sectors));
-                General.Interface.DisplayStatus(StatusType.Action, "Rotated " + sectors.Count + targets + ".");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Rotate " + sectors.Count + targets, this, UndoGroup.TextureRotationChange, CreateSelectionCRC(sectors));
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Rotated " + sectors.Count + targets + ".");
             }
             else
             {
-                General.Map.UndoRedo.CreateUndo("Rotate" + target, this, UndoGroup.TextureRotationChange, CreateSelectionCRC(sectors));
-                General.Interface.DisplayStatus(StatusType.Action, "Rotated" + target + ".");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Rotate" + target, this, UndoGroup.TextureRotationChange, CreateSelectionCRC(sectors));
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Rotated" + target + ".");
             }
 
             //rotate stuff
@@ -2698,40 +2699,40 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 s.Fields.BeforeFieldsChange();
 
                 //floor
-                if (General.Map.Renderer2D.ViewMode != ViewMode.CeilingTextures)
+                if (DoomBuilder.General.Map.Renderer2D.ViewMode != ViewMode.CeilingTextures)
                 {
-                    UniFields.SetFloat(s.Fields, "rotationfloor", General.ClampAngle(UniFields.GetFloat(s.Fields, "rotationfloor") + increment));
+                    UniFields.SetFloat(s.Fields, "rotationfloor", DoomBuilder.General.ClampAngle(UniFields.GetFloat(s.Fields, "rotationfloor") + increment));
                     s.UpdateNeeded = true;
                 }
 
                 //ceiling
-                if (General.Map.Renderer2D.ViewMode != ViewMode.FloorTextures)
+                if (DoomBuilder.General.Map.Renderer2D.ViewMode != ViewMode.FloorTextures)
                 {
-                    UniFields.SetFloat(s.Fields, "rotationceiling", General.ClampAngle(UniFields.GetFloat(s.Fields, "rotationceiling") + increment));
+                    UniFields.SetFloat(s.Fields, "rotationceiling", DoomBuilder.General.ClampAngle(UniFields.GetFloat(s.Fields, "rotationceiling") + increment));
                     s.UpdateNeeded = true;
                 }
             }
 
             // Redraw screen
-            General.Map.Map.Update();
-            General.Interface.RedrawDisplay();
-            General.Interface.RefreshInfo();
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RefreshInfo();
         }
 
         //mxd
         [BeginAction("selectsimilar")]
         public void SelectSimilar()
         {
-            ICollection<Sector> selection = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> selection = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
 
             if (selection.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
                 return;
             }
 
             var form = new SelectSimilarElementOptionsPanel();
-            if (form.Setup(this)) form.ShowDialog(General.Interface);
+            if (form.Setup(this)) form.ShowDialog(DoomBuilder.General.Interface);
         }
 
         //mxd
@@ -2739,27 +2740,27 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void FlipLinedefs()
         {
             // Get selection
-            ICollection<Sector> selected = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> selected = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
 
             if (selected.Count == 0 && highlighted != null && !highlighted.IsDisposed)
                 selected.Add(highlighted);
 
             if (selected.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
                 return;
             }
 
             // Make undo
             if (selected.Count > 1)
             {
-                General.Map.UndoRedo.CreateUndo("Flip linedefs of " + selected.Count + " sectors");
-                General.Interface.DisplayStatus(StatusType.Action, "Flipped linedefs of " + selected.Count + "sectors.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Flip linedefs of " + selected.Count + " sectors");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Flipped linedefs of " + selected.Count + "sectors.");
             }
             else
             {
-                General.Map.UndoRedo.CreateUndo("Flip sector linedefs");
-                General.Interface.DisplayStatus(StatusType.Action, "Flipped sector linedefs.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Flip sector linedefs");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Flipped sector linedefs.");
             }
 
             HashSet<Linedef> selectedlines = new HashSet<Linedef>();
@@ -2781,10 +2782,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Redraw
-            General.Map.Map.Update();
-            General.Map.IsChanged = true;
-            General.Interface.RefreshInfo();
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Map.IsChanged = true;
+            DoomBuilder.General.Interface.RefreshInfo();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         //mxd
@@ -2792,70 +2793,70 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void AlignLinedefs()
         {
             // Get selection
-            ICollection<Sector> selection = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> selection = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
 
             if (selection.Count == 0 && highlighted != null && !highlighted.IsDisposed)
                 selection.Add(highlighted);
 
             if (selection.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!");
                 return;
             }
 
             // Make undo
             if (selection.Count > 1)
             {
-                General.Map.UndoRedo.CreateUndo("Align linedefs of " + selection.Count + " sectors");
-                General.Interface.DisplayStatus(StatusType.Action, "Aligned linedefs of " + selection.Count + "sectors.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Align linedefs of " + selection.Count + " sectors");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Aligned linedefs of " + selection.Count + "sectors.");
             }
             else
             {
-                General.Map.UndoRedo.CreateUndo("Align sector linedefs");
-                General.Interface.DisplayStatus(StatusType.Action, "Aligned sector linedefs.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Align sector linedefs");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Aligned sector linedefs.");
             }
 
             // Flip lines
             Tools.FlipSectorLinedefs(selection, false);
 
             // Redraw
-            General.Map.Map.Update();
-            General.Map.IsChanged = true;
-            General.Interface.RefreshInfo();
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Map.IsChanged = true;
+            DoomBuilder.General.Interface.RefreshInfo();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         [BeginAction("smartgridtransform", BaseAction = true)]
         protected void SmartGridTransform()
         {
-            General.Map.Grid.SetGridRotation(0.0);
-            General.Map.Grid.SetGridOrigin(0, 0);
-            General.Map.GridVisibilityChanged();
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.Grid.SetGridRotation(0.0);
+            DoomBuilder.General.Map.Grid.SetGridOrigin(0, 0);
+            DoomBuilder.General.Map.GridVisibilityChanged();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         [BeginAction("changemapelementindex")]
         private void ChangeMapElementIndex()
         {
             // Make list of selected linedefs
-            List<Sector> selected = General.Map.Map.GetSelectedSectors(true).ToList();
+            List<Sector> selected = DoomBuilder.General.Map.Map.GetSelectedSectors(true).ToList();
             if ((selected.Count == 0) && (highlighted != null) && !highlighted.IsDisposed) selected.Add(highlighted);
             if (selected.Count != 1)
             {
-                General.ToastManager.ShowToast(ToastMessages.CHANGEMAPELEMENTINDEX, ToastType.WARNING, "Changing sector index failed", "You need to select or highlight exactly 1 sector.");
+                DoomBuilder.General.ToastManager.ShowToast(ToastMessages.CHANGEMAPELEMENTINDEX, ToastType.WARNING, "Changing sector index failed", "You need to select or highlight exactly 1 sector.");
                 return;
             }
 
-            ChangeMapElementIndexForm f = new ChangeMapElementIndexForm("sector", selected[0].Index, General.Map.Map.Sectors.Count - 1);
+            ChangeMapElementIndexForm f = new ChangeMapElementIndexForm("sector", selected[0].Index, DoomBuilder.General.Map.Map.Sectors.Count - 1);
             if (f.ShowDialog() == DialogResult.OK)
             {
                 int newindex = f.GetNewIndex();
                 int oldindex = selected[0].Index;
-                General.Map.UndoRedo.CreateUndo("Change sector index");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Change sector index");
 
                 selected[0].ChangeIndex(newindex);
 
-                General.ToastManager.ShowToast(ToastMessages.CHANGEMAPELEMENTINDEX, ToastType.INFO, "Successfully change sector index", $"Changed index of sector {oldindex} to {newindex}.");
+                DoomBuilder.General.ToastManager.ShowToast(ToastMessages.CHANGEMAPELEMENTINDEX, ToastType.INFO, "Successfully change sector index", $"Changed index of sector {oldindex} to {newindex}.");
             }
         }
     }

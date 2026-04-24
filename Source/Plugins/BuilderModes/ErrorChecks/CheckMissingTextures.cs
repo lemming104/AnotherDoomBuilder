@@ -15,7 +15,7 @@
 using CodeImp.DoomBuilder.Map;
 using System.Threading;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     [ErrorChecker("Check missing textures", true, 80)]
     public class CheckMissingTextures : BaseCheckTextures
@@ -37,7 +37,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             Build3DFloorCache();
 
             // Go for all the sidedefs
-            foreach (Sidedef sd in General.Map.Map.Sidedefs)
+            foreach (Sidedef sd in DoomBuilder.General.Map.Map.Sidedefs)
             {
                 // Check upper texture. Also make sure not to return a false
                 // positive if the sector on the other side has the ceiling

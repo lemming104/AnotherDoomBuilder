@@ -1,10 +1,9 @@
-﻿
-using CodeImp.DoomBuilder.Map;
+﻿using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultVertexOverlappingLine : ErrorResult
     {
@@ -53,7 +52,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Rendering
         public override void PlotSelection(IRenderer2D renderer)
         {
-            renderer.PlotLinedef(line, General.Colors.Selection);
+            renderer.PlotLinedef(line, DoomBuilder.General.Colors.Selection);
             renderer.PlotVertex(line.Start, ColorCollection.VERTICES);
             renderer.PlotVertex(line.End, ColorCollection.VERTICES);
 
@@ -63,7 +62,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Fix by splitting the line
         public override bool Button1Click(bool batchMode)
         {
-            if (!batchMode) General.Map.UndoRedo.CreateUndo("Split Linedef");
+            if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Split Linedef");
             line.Split(vertex);
 
             //check that we don't have duplicate lines
@@ -85,7 +84,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
             }
 
-            General.Map.Map.Update();
+            DoomBuilder.General.Map.Map.Update();
             return true;
         }
     }

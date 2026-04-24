@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     [FindReplace("Thing Tag", BrowseButton = false)]
     internal class FindThingTag : BaseFindThing
@@ -30,7 +30,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This is called to test if the item should be displayed
         public override bool DetermineVisiblity()
         {
-            return General.Map.FormatInterface.HasThingTag;
+            return DoomBuilder.General.Map.FormatInterface.HasThingTag;
         }
 
         // This is called to perform a search (and replace)
@@ -60,7 +60,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (int.TryParse(value, out tag))
             {
                 // Where to search?
-                ICollection<Thing> list = withinselection ? General.Map.Map.GetSelectedThings(true) : General.Map.Map.Things;
+                ICollection<Thing> list = withinselection ? DoomBuilder.General.Map.Map.GetSelectedThings(true) : DoomBuilder.General.Map.Map.Things;
 
                 // Go for all things
                 foreach (Thing t in list)
@@ -72,7 +72,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         if (replace) t.Tag = replacetag;
 
                         // Add to list
-                        ThingTypeInfo ti = General.Map.Data.GetThingInfo(t.Type);
+                        ThingTypeInfo ti = DoomBuilder.General.Map.Data.GetThingInfo(t.Type);
                         objs.Add(new FindReplaceObject(t, "Thing " + t.Index + " (" + ti.Title + ")"));
                     }
                 }

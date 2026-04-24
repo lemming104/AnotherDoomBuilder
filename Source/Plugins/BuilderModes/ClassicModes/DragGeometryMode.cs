@@ -12,6 +12,7 @@
  */
 
 
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -21,7 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
 {
     public abstract class DragGeometryMode : BaseClassicMode
     {
@@ -78,7 +79,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private bool snaptocardinaldirection; //mxd. ALT-SHIFT to enable
 
         // Just keep the base mode button checked
-        public override string EditModeButtonName { get { return General.Editing.PreviousStableMode.Name; } }
+        public override string EditModeButtonName { get { return DoomBuilder.General.Editing.PreviousStableMode.Name; } }
 
         // Disposer
         public override void Dispose()
@@ -105,11 +106,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             // We don't want to record this for undoing while we move the geometry around.
             // This will be set back to normal when we're done.
-            General.Map.UndoRedo.IgnorePropChanges = true;
+            DoomBuilder.General.Map.UndoRedo.IgnorePropChanges = true;
 
             // Make list of selected vertices and things
-            selectedverts = General.Map.Map.GetMarkedVertices(true);
-            selectedthings = General.Map.Map.GetSelectedThings(true); //mxd
+            selectedverts = DoomBuilder.General.Map.Map.GetMarkedVertices(true);
+            selectedthings = DoomBuilder.General.Map.Map.GetSelectedThings(true); //mxd
 
             // Only set the things to drag if they weren't set by the inherited modes
             if (thingstodrag == null)
@@ -117,18 +118,18 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             // Make list of non-selected vertices and things
             // Non-selected vertices will be used for snapping to nearest items
-            unselectedverts = General.Map.Map.GetMarkedVertices(false);
+            unselectedverts = DoomBuilder.General.Map.Map.GetMarkedVertices(false);
             unselectedthings = new List<Thing>(); //mxd
-            foreach (Thing t in General.Map.ThingsFilter.VisibleThings) if (!t.Selected) unselectedthings.Add(t);
+            foreach (Thing t in DoomBuilder.General.Map.ThingsFilter.VisibleThings) if (!t.Selected) unselectedthings.Add(t);
 
             // Get the nearest vertex for snapping
             dragitem = MapSet.NearestVertex(selectedverts, dragstartmappos);
 
             //mxd. Get drag offset
-            dragstartoffset = General.Map.Grid.SnappedToGrid(dragitem.Position) - dragitem.Position;
+            dragstartoffset = DoomBuilder.General.Map.Grid.SnappedToGrid(dragitem.Position) - dragitem.Position;
 
             // Lines to snap to
-            snaptolines = General.Map.Map.LinedefsFromMarkedVertices(true, false, false);
+            snaptolines = DoomBuilder.General.Map.Map.LinedefsFromMarkedVertices(true, false, false);
 
             // Make old positions list
             // We will use this as reference to move the vertices, or to move them back on cancel
@@ -152,9 +153,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
             unstablelines = MapSet.UnstableLinedefsFromVertices(selectedverts);
 
             //mxd. Collect selected sectors
-            if (General.Map.UDMF)
+            if (DoomBuilder.General.Map.UDMF)
             {
-                ICollection<Linedef> selectedLines = General.Map.Map.LinedefsFromMarkedVertices(false, true, false);
+                ICollection<Linedef> selectedLines = DoomBuilder.General.Map.Map.LinedefsFromMarkedVertices(false, true, false);
                 List<Sector> affectedSectors = new List<Sector>();
                 foreach (Linedef l in selectedLines)
                 {
@@ -197,7 +198,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             //mxd. If snap to cardinal directions is enabled, modify the offset
             if (snapcardinal)
             {
-                double angle = Angle2D.DegToRad(General.ClampAngle((int)Angle2D.RadToDeg(offset.GetAngle()) + 44) / 90 * 90);
+                double angle = Angle2D.DegToRad(DoomBuilder.General.ClampAngle((int)Angle2D.RadToDeg(offset.GetAngle()) + 44) / 90 * 90);
                 offset = new Vector2D(0, -offset.GetLength()).GetRotated(angle);
                 snapgridincrement = true; // We don't want to move the geometry away from the cardinal directions
             }
@@ -247,7 +248,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         {
                             // Get grid intersection coordinates
                             List<Vector2D> coords = nl.GetGridIntersections(snapgridincrement ? dragstartoffset : new Vector2D(),
-                                General.Map.Grid.GridRotate, General.Map.Grid.GridOriginX, General.Map.Grid.GridOriginY);
+                                DoomBuilder.General.Map.Grid.GridRotate, DoomBuilder.General.Map.Grid.GridOriginX, DoomBuilder.General.Map.Grid.GridOriginY);
 
                             // mxd. Do the rest only if we actually have some coordinates
                             if (coords.Count > 0)
@@ -298,7 +299,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // Snap item to grid increment
                 if (snapgridincrement) //mxd
                 {
-                    dragitem.Move(General.Map.Grid.SnappedToGrid(dragitem.Position) - dragstartoffset);
+                    dragitem.Move(DoomBuilder.General.Map.Grid.SnappedToGrid(dragitem.Position) - dragstartoffset);
                 }
                 else // Or to the grid itself
                 {
@@ -310,10 +311,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Make sure the offset is inside the map boundaries
-            if (offset.x + tl.x < General.Map.Config.LeftBoundary) offset.x = General.Map.Config.LeftBoundary - tl.x;
-            if (offset.x + br.x > General.Map.Config.RightBoundary) offset.x = General.Map.Config.RightBoundary - br.x;
-            if (offset.y + tl.y > General.Map.Config.TopBoundary) offset.y = General.Map.Config.TopBoundary - tl.y;
-            if (offset.y + br.y < General.Map.Config.BottomBoundary) offset.y = General.Map.Config.BottomBoundary - br.y;
+            if (offset.x + tl.x < DoomBuilder.General.Map.Config.LeftBoundary) offset.x = DoomBuilder.General.Map.Config.LeftBoundary - tl.x;
+            if (offset.x + br.x > DoomBuilder.General.Map.Config.RightBoundary) offset.x = DoomBuilder.General.Map.Config.RightBoundary - br.x;
+            if (offset.y + tl.y > DoomBuilder.General.Map.Config.TopBoundary) offset.y = DoomBuilder.General.Map.Config.TopBoundary - tl.y;
+            if (offset.y + br.y < DoomBuilder.General.Map.Config.BottomBoundary) offset.y = DoomBuilder.General.Map.Config.BottomBoundary - br.y;
 
             // Drag item moved?
             if ((!snapgrid && !snapgridincrement) || (dragitem.Position != oldpos))
@@ -354,19 +355,19 @@ namespace CodeImp.DoomBuilder.BuilderModes
             MoveGeometryRelative(new Vector2D(0f, 0f), false, false, false, false);
 
             // Resume normal undo/redo recording
-            General.Map.UndoRedo.IgnorePropChanges = false;
+            DoomBuilder.General.Map.UndoRedo.IgnorePropChanges = false;
 
             // If only a single vertex was selected, deselect it now
-            if (selectedverts.Count == 1) General.Map.Map.ClearSelectedVertices();
+            if (selectedverts.Count == 1) DoomBuilder.General.Map.Map.ClearSelectedVertices();
 
             // Update cached values
-            General.Map.Map.Update();
+            DoomBuilder.General.Map.Map.Update();
 
             // Cancel base class
             base.OnCancel();
 
             // Return to vertices mode
-            General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
+            DoomBuilder.General.Editing.ChangeMode(DoomBuilder.General.Editing.PreviousStableMode.Name);
         }
 
         // Mode engages
@@ -392,27 +393,27 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 MoveGeometryRelative(new Vector2D(0f, 0f), false, false, false, false);
 
                 // Resume normal undo/redo recording
-                General.Map.UndoRedo.IgnorePropChanges = false;
+                DoomBuilder.General.Map.UndoRedo.IgnorePropChanges = false;
 
                 // Make undo for the dragging
-                General.Map.UndoRedo.CreateUndo(undodescription);
+                DoomBuilder.General.Map.UndoRedo.CreateUndo(undodescription);
 
                 // Move selected geometry to final position
                 MoveGeometryRelative(mousemappos - dragstartmappos, snaptogrid, snaptogridincrement, snaptonearest, snaptocardinaldirection);
 
                 // Stitch geometry
-                if (snaptonearest) General.Map.Map.StitchGeometry(General.Settings.MergeGeometryMode);
+                if (snaptonearest) DoomBuilder.General.Map.Map.StitchGeometry(DoomBuilder.General.Settings.MergeGeometryMode);
 
                 // Snap to map format accuracy
-                General.Map.Map.SnapAllToAccuracy();
+                DoomBuilder.General.Map.Map.SnapAllToAccuracy();
 
                 //mxd. Update floor/ceiling texture offsets and slopes?
-                if (General.Map.UDMF)
+                if (DoomBuilder.General.Map.UDMF)
                 {
                     Vector2D offset = dragitem.Position - dragitemposition;
 
                     // Sectors may've been created/removed when applying dragging...
-                    HashSet<Sector> draggedsectors = new HashSet<Sector>(General.Map.Map.GetMarkedSectors(true));
+                    HashSet<Sector> draggedsectors = new HashSet<Sector>(DoomBuilder.General.Map.Map.GetMarkedSectors(true));
                     foreach (Sector ss in selectedsectors) if (!ss.IsDisposed) draggedsectors.Add(ss);
 
                     // Sectors that have to be updated. They contain the dragged sectors, but also 3D floor control sectors
@@ -423,7 +424,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                     // Check if the dragged sectors are referenced as 3D floors, and add the control sectors to the list of
                     // sectors that need updating
-                    foreach (Linedef ld in General.Map.Map.Linedefs)
+                    foreach (Linedef ld in DoomBuilder.General.Map.Map.Linedefs)
                     {
                         if (ld.Action != 160) // Action 160 defines a 3D floor
                             continue;
@@ -460,7 +461,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                             // Update ceiling offset
                             if (s.LongCeilTexture != MapSet.EmptyLongName)
                             {
-                                ImageData texture = General.Map.Data.GetFlatImage(s.CeilTexture);
+                                ImageData texture = DoomBuilder.General.Map.Data.GetFlatImage(s.CeilTexture);
 
                                 if (texture != null)
                                 {
@@ -488,7 +489,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                             // Update floor offset
                             if (s.LongFloorTexture != MapSet.EmptyLongName)
                             {
-                                ImageData texture = General.Map.Data.GetFlatImage(s.FloorTexture);
+                                ImageData texture = DoomBuilder.General.Map.Data.GetFlatImage(s.FloorTexture);
                                 if (texture != null)
                                 {
                                     double scalex = s.Fields.GetValue("xscalefloor", 1.0);
@@ -535,14 +536,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 // Update cached values
-                General.Map.Map.Update();
+                DoomBuilder.General.Map.Map.Update();
 
                 //mxd. Let the plugins know
-                General.Editing.AcceptMode();
+                DoomBuilder.General.Editing.AcceptMode();
 
                 // Done
                 Cursor.Current = Cursors.Default;
-                General.Map.IsChanged = true;
+                DoomBuilder.General.Map.IsChanged = true;
             }
         }
 
@@ -564,16 +565,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This updates the dragging
         private void Update()
         {
-            snaptocardinaldirection = General.Interface.ShiftState && General.Interface.AltState; //mxd
-            snaptogrid = snaptocardinaldirection || General.Interface.ShiftState ^ General.Interface.SnapToGrid;
-            snaptonearest = General.Interface.CtrlState ^ General.Interface.AutoMerge;
-            snaptogridincrement = !snaptocardinaldirection && General.Interface.AltState; //mxd
+            snaptocardinaldirection = DoomBuilder.General.Interface.ShiftState && DoomBuilder.General.Interface.AltState; //mxd
+            snaptogrid = snaptocardinaldirection || DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid;
+            snaptonearest = DoomBuilder.General.Interface.CtrlState ^ DoomBuilder.General.Interface.AutoMerge;
+            snaptogridincrement = !snaptocardinaldirection && DoomBuilder.General.Interface.AltState; //mxd
 
             // Move selected geometry
             if (MoveGeometryRelative(mousemappos - dragstartmappos, snaptogrid, snaptogridincrement, snaptonearest, snaptocardinaldirection))
             {
                 // Update cached values
-                General.Map.Map.Update(true, false);
+                DoomBuilder.General.Map.Map.Update(true, false);
 
                 // Redraw
                 UpdateRedraw();
@@ -588,7 +589,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         protected override void OnEditEnd()
         {
             // Just return to base mode, Disengage will be called automatically.
-            General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
+            DoomBuilder.General.Editing.ChangeMode(DoomBuilder.General.Editing.PreviousStableMode.Name);
 
             base.OnEditEnd();
         }
@@ -615,20 +616,20 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public override void OnKeyUp(KeyEventArgs e)
         {
             base.OnKeyUp(e);
-            if ((snaptogrid != (General.Interface.ShiftState ^ General.Interface.SnapToGrid)) ||
-               (snaptonearest != (General.Interface.CtrlState ^ General.Interface.AutoMerge)) ||
-               (snaptogridincrement != General.Interface.AltState) ||
-               (snaptocardinaldirection != (General.Interface.AltState && General.Interface.ShiftState))) Update();
+            if ((snaptogrid != (DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid)) ||
+               (snaptonearest != (DoomBuilder.General.Interface.CtrlState ^ DoomBuilder.General.Interface.AutoMerge)) ||
+               (snaptogridincrement != DoomBuilder.General.Interface.AltState) ||
+               (snaptocardinaldirection != (DoomBuilder.General.Interface.AltState && DoomBuilder.General.Interface.ShiftState))) Update();
         }
 
         // When a key is pressed
         public override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
-            if ((snaptogrid != (General.Interface.ShiftState ^ General.Interface.SnapToGrid)) ||
-               (snaptonearest != (General.Interface.CtrlState ^ General.Interface.AutoMerge)) ||
-               (snaptogridincrement != General.Interface.AltState) ||
-               (snaptocardinaldirection != (General.Interface.AltState && General.Interface.ShiftState))) Update();
+            if ((snaptogrid != (DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid)) ||
+               (snaptonearest != (DoomBuilder.General.Interface.CtrlState ^ DoomBuilder.General.Interface.AutoMerge)) ||
+               (snaptogridincrement != DoomBuilder.General.Interface.AltState) ||
+               (snaptocardinaldirection != (DoomBuilder.General.Interface.AltState && DoomBuilder.General.Interface.ShiftState))) Update();
         }
     }
 }

@@ -16,7 +16,7 @@ using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultLineNotSingleSided : ErrorResult
     {
@@ -56,7 +56,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Rendering
         public override void PlotSelection(IRenderer2D renderer)
         {
-            renderer.PlotLinedef(line, General.Colors.Selection);
+            renderer.PlotLinedef(line, DoomBuilder.General.Colors.Selection);
             renderer.PlotVertex(line.Start, ColorCollection.VERTICES);
             renderer.PlotVertex(line.End, ColorCollection.VERTICES);
         }
@@ -64,19 +64,19 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Fix by flipping linedefs
         public override bool Button1Click(bool batchMode)
         {
-            if (!batchMode) General.Map.UndoRedo.CreateUndo("Linedef flags change");
+            if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Linedef flags change");
             line.ApplySidedFlags();
-            General.Map.Map.Update();
+            DoomBuilder.General.Map.Map.Update();
             return true;
         }
 
         // Fix by creating a sidedef
         public override bool Button2Click(bool batchMode)
         {
-            if (!batchMode) General.Map.UndoRedo.CreateUndo("Remove back sidedef");
+            if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Remove back sidedef");
             line.Back.Dispose();
             line.ApplySidedFlags();
-            General.Map.Map.Update();
+            DoomBuilder.General.Map.Map.Update();
             return true;
         }
     }

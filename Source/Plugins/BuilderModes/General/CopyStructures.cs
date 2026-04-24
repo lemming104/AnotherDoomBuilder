@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.General
 {
     //mxd
     [AttributeUsage(AttributeTargets.Field)]
@@ -44,9 +44,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             get
             {
-                if (General.Map == null) return false;
-                if (!string.IsNullOrEmpty(fieldname1) || !string.IsNullOrEmpty(fieldname2)) return General.Map.UDMF;
-                return (General.Map.DOOM && doom) || (General.Map.HEXEN && hexen) || (General.Map.UDMF && udmf);
+                if (DoomBuilder.General.Map == null) return false;
+                if (!string.IsNullOrEmpty(fieldname1) || !string.IsNullOrEmpty(fieldname2)) return DoomBuilder.General.Map.UDMF;
+                return (DoomBuilder.General.Map.DOOM && doom) || (DoomBuilder.General.Map.HEXEN && hexen) || (DoomBuilder.General.Map.UDMF && udmf);
             }
         }
     }
@@ -79,7 +79,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         protected MapElementProperties(UniFields other, MapElementType type)
         {
             // Should we bother?
-            if (!General.Map.UDMF) return;
+            if (!DoomBuilder.General.Map.UDMF) return;
 
             // Copy source fields except the ones controlled by the UI
             fields = new UniFields();
@@ -87,7 +87,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             elementtype = type;
             foreach (KeyValuePair<string, UniValue> group in other)
             {
-                if (General.Map.FormatInterface.UIFields[elementtype].ContainsKey(group.Key))
+                if (DoomBuilder.General.Map.FormatInterface.UIFields[elementtype].ContainsKey(group.Key))
                     uifields.Add(group.Key, new UniValue(group.Value));
                 else
                     fields.Add(group.Key, new UniValue(group.Value));
@@ -135,7 +135,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             other.Keys.CopyTo(keys, 0);
             foreach (string key in keys)
             {
-                if (!General.Map.FormatInterface.UIFields[elementtype].ContainsKey(key)) other.Remove(key);
+                if (!DoomBuilder.General.Map.FormatInterface.UIFields[elementtype].ContainsKey(key)) other.Remove(key);
             }
 
             // Replace with stored custom fields
@@ -414,7 +414,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Should we bother?
-            if (!General.Map.UDMF) return;
+            if (!DoomBuilder.General.Map.UDMF) return;
 
             // Apply custom fields
             foreach (Sector s in sectors)
@@ -523,7 +523,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Should we bother?
-            if (!General.Map.UDMF) return;
+            if (!DoomBuilder.General.Map.UDMF) return;
 
             // Apply fields
             foreach (Sidedef s in sides)
@@ -635,7 +635,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Should we bother?
-            if (General.Map.UDMF)
+            if (DoomBuilder.General.Map.UDMF)
             {
                 // Apply fields
                 foreach (Linedef l in lines)
@@ -807,7 +807,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Should we bother?
-            if (!General.Map.UDMF) return;
+            if (!DoomBuilder.General.Map.UDMF) return;
 
             foreach (Thing t in things)
             {
@@ -841,7 +841,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
         public static bool PropertiesMatch(VertexPropertiesCopySettings flags, Vertex source, Vertex target)
         {
-            if (!General.Map.UDMF) return true;
+            if (!DoomBuilder.General.Map.UDMF) return true;
 
             // Built-in properties
             if (flags.ZCeiling && source.ZCeiling != target.ZCeiling) return false;
@@ -865,11 +865,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Generalized effects require more tender loving care...
             if (flags.Special && source.Effect != target.Effect)
             {
-                if (!General.Map.Config.GeneralizedEffects || source.Effect == 0 || target.Effect == 0) return false;
+                if (!DoomBuilder.General.Map.Config.GeneralizedEffects || source.Effect == 0 || target.Effect == 0) return false;
 
                 // Get effect bits...
-                SectorEffectData sourcedata = General.Map.Config.GetSectorEffectData(source.Effect);
-                SectorEffectData targetdata = General.Map.Config.GetSectorEffectData(target.Effect);
+                SectorEffectData sourcedata = DoomBuilder.General.Map.Config.GetSectorEffectData(source.Effect);
+                SectorEffectData targetdata = DoomBuilder.General.Map.Config.GetSectorEffectData(target.Effect);
 
                 // No bits match when at least one effect is not generalized, or when bits don't overlap 
                 if (sourcedata.Effect != targetdata.Effect
@@ -877,7 +877,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     || !sourcedata.GeneralizedBits.Overlaps(targetdata.GeneralizedBits)) return false;
             }
 
-            if (!General.Map.UDMF) return true;
+            if (!DoomBuilder.General.Map.UDMF) return true;
 
             // UI fields
             if (!UIFieldsMatch(flags, source, target)) return false;
@@ -899,7 +899,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     if (source.Args[i] != target.Args[i]) return false;
 
                 // String args
-                if (General.Map.UDMF)
+                if (DoomBuilder.General.Map.UDMF)
                 {
                     if (!UniFields.ValuesMatch("arg0str", source, target)) return false;
                     if (!UniFields.ValuesMatch("arg1str", source, target)) return false;
@@ -910,7 +910,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
             if (linedefflags.Flags && !FlagsMatch(source.GetEnabledFlags(), target.GetEnabledFlags())) return false;
 
-            if (General.Map.UDMF)
+            if (DoomBuilder.General.Map.UDMF)
             {
                 // UI fields
                 if (!UIFieldsMatch(linedefflags, source, target)) return false;
@@ -934,7 +934,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (flags.UpperTexture && source.HighTexture != target.HighTexture) return false;
             if (flags.MiddleTexture && source.MiddleTexture != target.MiddleTexture) return false;
             if (flags.LowerTexture && source.LowTexture != target.LowTexture) return false;
-            if (!General.Map.UDMF) return true;
+            if (!DoomBuilder.General.Map.UDMF) return true;
 
             // UDMF-specific properties
             if (flags.Flags && !FlagsMatch(source.GetEnabledFlags(), target.GetEnabledFlags())) return false;
@@ -959,7 +959,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     if (source.Args[i] != target.Args[i]) return false;
 
                 // String args
-                if (General.Map.UDMF)
+                if (DoomBuilder.General.Map.UDMF)
                 {
                     if (!UniFields.ValuesMatch("arg0str", source, target)) return false;
                     if (!UniFields.ValuesMatch("arg1str", source, target)) return false;
@@ -970,7 +970,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
             if (flags.Tag && source.Tag != target.Tag) return false;
             if (flags.Flags && !FlagsMatch(source.GetEnabledFlags(), target.GetEnabledFlags())) return false;
-            if (!General.Map.UDMF) return true;
+            if (!DoomBuilder.General.Map.UDMF) return true;
 
             // UDMF-specific properties
             if (flags.Pitch && source.Pitch != target.Pitch) return false;
@@ -998,7 +998,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         //mxd
         private static bool TagsMatch(List<int> tags1, List<int> tags2)
         {
-            if (!General.Map.UDMF) return tags1[0] == tags2[0];
+            if (!DoomBuilder.General.Map.UDMF) return tags1[0] == tags2[0];
 
             if (tags1.Count != tags2.Count) return false;
             Dictionary<int, int> count = new Dictionary<int, int>();

@@ -12,13 +12,15 @@
  */
 
 
+using CodeImp.DoomBuilder.BuilderModes.ErrorChecks;
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
 {
     [EditMode(DisplayName = "Map Analysis Mode",
               SwitchAction = "errorcheckmode",
@@ -34,7 +36,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
         public override void OnHelp()
         {
-            General.ShowHelp("e_mapanalysis.html");
+            DoomBuilder.General.ShowHelp("e_mapanalysis.html");
         }
 
         // Cancelled
@@ -44,7 +46,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnCancel();
 
             // Return to base mode
-            General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
+            DoomBuilder.General.Editing.ChangeMode(DoomBuilder.General.Editing.PreviousStableMode.Name);
         }
 
         // Mode engages
@@ -54,13 +56,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
             renderer.SetPresentation(Presentation.Standard);
 
             // Save selection as marks
-            General.Map.Map.ClearAllMarks(false);
-            General.Map.Map.MarkAllSelectedGeometry(true, false, false, false, false);
-            General.Map.Map.ClearAllSelected();
-            General.Map.Map.SelectionType = SelectionType.All;
+            DoomBuilder.General.Map.Map.ClearAllMarks(false);
+            DoomBuilder.General.Map.Map.MarkAllSelectedGeometry(true, false, false, false, false);
+            DoomBuilder.General.Map.Map.ClearAllSelected();
+            DoomBuilder.General.Map.Map.SelectionType = SelectionType.All;
 
             // Show toolbox window
-            BuilderPlug.Me.ErrorCheckForm.Show((Form)General.Interface);
+            BuilderPlug.Me.ErrorCheckForm.Show((Form)DoomBuilder.General.Interface);
         }
 
         // Disenagaging
@@ -69,11 +71,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnDisengage();
 
             // Hide object info
-            General.Interface.HideInfo();
+            DoomBuilder.General.Interface.HideInfo();
 
             // Restore selection
-            General.Map.Map.SelectMarkedGeometry(true, true);
-            General.Map.Map.ClearAllMarks(false);
+            DoomBuilder.General.Map.Map.SelectMarkedGeometry(true, true);
+            DoomBuilder.General.Map.Map.ClearAllMarks(false);
 
             // Hide toolbox window
             BuilderPlug.Me.ErrorCheckForm.CloseWindow();
@@ -83,14 +85,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public override void OnAccept()
         {
             // Snap to map format accuracy
-            General.Map.Map.SnapAllToAccuracy();
+            DoomBuilder.General.Map.Map.SnapAllToAccuracy();
 
             // Update caches
-            General.Map.Map.Update();
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Map.IsChanged = true;
 
             // Return to base mode
-            General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
+            DoomBuilder.General.Editing.ChangeMode(DoomBuilder.General.Editing.PreviousStableMode.Name);
         }
 
         // Redrawing display
@@ -104,8 +106,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Render lines
             if (renderer.StartPlotter(true))
             {
-                renderer.PlotLinedefSet(General.Map.Map.Linedefs);
-                renderer.PlotVerticesSet(General.Map.Map.Vertices);
+                renderer.PlotLinedefSet(DoomBuilder.General.Map.Map.Linedefs);
+                renderer.PlotVerticesSet(DoomBuilder.General.Map.Map.Vertices);
                 foreach (ErrorResult result in selection) result.PlotSelection(renderer); //mxd
                 renderer.Finish();
             }
@@ -113,7 +115,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Render things
             if (renderer.StartThings(true))
             {
-                renderer.RenderThingSet(General.Map.Map.Things, General.Settings.ActiveThingsAlpha);
+                renderer.RenderThingSet(DoomBuilder.General.Map.Map.Things, DoomBuilder.General.Settings.ActiveThingsAlpha);
                 //foreach(ErrorResult result in selection) result.RenderThingsSelection(renderer); //mxd
                 renderer.Finish();
             }

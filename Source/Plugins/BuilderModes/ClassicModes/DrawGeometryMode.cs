@@ -13,6 +13,7 @@
 
 
 using CodeImp.DoomBuilder.Actions;
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
@@ -24,7 +25,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
 {
     [EditMode(DisplayName = "Draw Lines Mode",
               SwitchAction = "drawlinesmode",
@@ -75,8 +76,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             labels = new List<LineLengthLabel>();
 
             // No selection in this mode
-            General.Map.Map.ClearAllSelected();
-            General.Map.Map.ClearAllMarks(false);
+            DoomBuilder.General.Map.Map.ClearAllSelected();
+            DoomBuilder.General.Map.Map.ClearAllMarks(false);
 
             //mxd
             SetupInterface();
@@ -118,12 +119,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This updates the dragging
         protected virtual void Update()
         {
-            PixelColor stitchcolor = General.Colors.Highlight;
-            PixelColor losecolor = General.Colors.Selection;
+            PixelColor stitchcolor = DoomBuilder.General.Colors.Highlight;
+            PixelColor losecolor = DoomBuilder.General.Colors.Selection;
 
-            snaptocardinaldirection = General.Interface.ShiftState && General.Interface.AltState; //mxd
-            snaptogrid = snaptocardinaldirection || General.Interface.ShiftState ^ General.Interface.SnapToGrid;
-            snaptonearest = General.Interface.CtrlState ^ General.Interface.AutoMerge;
+            snaptocardinaldirection = DoomBuilder.General.Interface.ShiftState && DoomBuilder.General.Interface.AltState; //mxd
+            snaptogrid = snaptocardinaldirection || DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid;
+            snaptonearest = DoomBuilder.General.Interface.CtrlState ^ DoomBuilder.General.Interface.AutoMerge;
 
             DrawnVertex curp = GetCurrentPosition();
             float vsize = (renderer.VertexSize + 1.0f) / renderer.Scale;
@@ -156,7 +157,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     {
                         Vector2D prevp = points[points.Count - 1].pos;
                         renderguidelabels = curp.pos.x != prevp.x && curp.pos.y != prevp.y;
-                        RenderGuidelines(prevp, curp.pos, General.Colors.Guideline.WithAlpha(80), -General.Map.Grid.GridRotate);
+                        RenderGuidelines(prevp, curp.pos, DoomBuilder.General.Colors.Guideline.WithAlpha(80), -DoomBuilder.General.Map.Grid.GridRotate);
                     }
 
                     // Render lines
@@ -229,10 +230,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                 // Create guidelines
                 Line3D[] lines = new Line3D[5];
-                lines[0] = new Line3D(new Vector2D(tr.x, General.Map.Config.TopBoundary).GetRotated(-angle), new Vector2D(tr.x, General.Map.Config.BottomBoundary).GetRotated(-angle), c, false);
-                lines[1] = new Line3D(new Vector2D(bl.x, General.Map.Config.TopBoundary).GetRotated(-angle), new Vector2D(bl.x, General.Map.Config.BottomBoundary).GetRotated(-angle), c, false);
-                lines[2] = new Line3D(new Vector2D(General.Map.Config.LeftBoundary, tr.y).GetRotated(-angle), new Vector2D(General.Map.Config.RightBoundary, tr.y).GetRotated(-angle), c, false);
-                lines[3] = new Line3D(new Vector2D(General.Map.Config.LeftBoundary, bl.y).GetRotated(-angle), new Vector2D(General.Map.Config.RightBoundary, bl.y).GetRotated(-angle), c, false);
+                lines[0] = new Line3D(new Vector2D(tr.x, DoomBuilder.General.Map.Config.TopBoundary).GetRotated(-angle), new Vector2D(tr.x, DoomBuilder.General.Map.Config.BottomBoundary).GetRotated(-angle), c, false);
+                lines[1] = new Line3D(new Vector2D(bl.x, DoomBuilder.General.Map.Config.TopBoundary).GetRotated(-angle), new Vector2D(bl.x, DoomBuilder.General.Map.Config.BottomBoundary).GetRotated(-angle), c, false);
+                lines[2] = new Line3D(new Vector2D(DoomBuilder.General.Map.Config.LeftBoundary, tr.y).GetRotated(-angle), new Vector2D(DoomBuilder.General.Map.Config.RightBoundary, tr.y).GetRotated(-angle), c, false);
+                lines[3] = new Line3D(new Vector2D(DoomBuilder.General.Map.Config.LeftBoundary, bl.y).GetRotated(-angle), new Vector2D(DoomBuilder.General.Map.Config.RightBoundary, bl.y).GetRotated(-angle), c, false);
 
                 // Create current line extent. Make sure v1 is to the left of v2
                 Line2D current = end.x < start.x ? new Line2D(end, start) : new Line2D(start, end);
@@ -242,24 +243,24 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 {
                     // Start point can hit left or bottom boundaries
                     extentstart = Line2D.GetIntersectionPoint(left, current, false);
-                    if (extentstart.y < General.Map.Config.BottomBoundary)
+                    if (extentstart.y < DoomBuilder.General.Map.Config.BottomBoundary)
                         extentstart = Line2D.GetIntersectionPoint(bottom, current, false);
 
                     // End point can hit right or top boundaries
                     extentend = Line2D.GetIntersectionPoint(right, current, false);
-                    if (extentend.y > General.Map.Config.TopBoundary)
+                    if (extentend.y > DoomBuilder.General.Map.Config.TopBoundary)
                         extentend = Line2D.GetIntersectionPoint(top, current, false);
                 }
                 else // Start is higher
                 {
                     // Start point can hit left or top boundaries
                     extentstart = Line2D.GetIntersectionPoint(left, current, false);
-                    if (extentstart.y > General.Map.Config.TopBoundary)
+                    if (extentstart.y > DoomBuilder.General.Map.Config.TopBoundary)
                         extentstart = Line2D.GetIntersectionPoint(top, current, false);
 
                     // End point can hit right or bottom boundaries
                     extentend = Line2D.GetIntersectionPoint(right, current, false);
-                    if (extentend.y < General.Map.Config.BottomBoundary)
+                    if (extentend.y < DoomBuilder.General.Map.Config.BottomBoundary)
                         extentend = Line2D.GetIntersectionPoint(bottom, current, false);
                 }
 
@@ -280,24 +281,24 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Render horizontal line + 2 vertical guidelines
             else if (end.x != start.x)
             {
-                Line3D l = new Line3D(new Vector2D(General.Map.Config.LeftBoundary, end.y).GetRotated(-angle), new Vector2D(General.Map.Config.RightBoundary, end.y).GetRotated(-angle), c, false);
-                Line3D gs = new Line3D(new Vector2D(start.x, General.Map.Config.TopBoundary).GetRotated(-angle), new Vector2D(start.x, General.Map.Config.BottomBoundary).GetRotated(-angle), c, false);
-                Line3D ge = new Line3D(new Vector2D(end.x, General.Map.Config.TopBoundary).GetRotated(-angle), new Vector2D(end.x, General.Map.Config.BottomBoundary).GetRotated(-angle), c, false);
+                Line3D l = new Line3D(new Vector2D(DoomBuilder.General.Map.Config.LeftBoundary, end.y).GetRotated(-angle), new Vector2D(DoomBuilder.General.Map.Config.RightBoundary, end.y).GetRotated(-angle), c, false);
+                Line3D gs = new Line3D(new Vector2D(start.x, DoomBuilder.General.Map.Config.TopBoundary).GetRotated(-angle), new Vector2D(start.x, DoomBuilder.General.Map.Config.BottomBoundary).GetRotated(-angle), c, false);
+                Line3D ge = new Line3D(new Vector2D(end.x, DoomBuilder.General.Map.Config.TopBoundary).GetRotated(-angle), new Vector2D(end.x, DoomBuilder.General.Map.Config.BottomBoundary).GetRotated(-angle), c, false);
                 renderer.RenderArrows(new List<Line3D> { l, gs, ge });
             }
             // Render vertical line + 2 horizontal guidelines
             else if (end.y != start.y)
             {
-                Line3D l = new Line3D(new Vector2D(end.x, General.Map.Config.TopBoundary).GetRotated(-angle), new Vector2D(end.x, General.Map.Config.BottomBoundary).GetRotated(-angle), c, false);
-                Line3D gs = new Line3D(new Vector2D(General.Map.Config.LeftBoundary, start.y).GetRotated(-angle), new Vector2D(General.Map.Config.RightBoundary, start.y).GetRotated(-angle), c, false);
-                Line3D ge = new Line3D(new Vector2D(General.Map.Config.LeftBoundary, end.y).GetRotated(-angle), new Vector2D(General.Map.Config.RightBoundary, end.y).GetRotated(-angle), c, false);
+                Line3D l = new Line3D(new Vector2D(end.x, DoomBuilder.General.Map.Config.TopBoundary).GetRotated(-angle), new Vector2D(end.x, DoomBuilder.General.Map.Config.BottomBoundary).GetRotated(-angle), c, false);
+                Line3D gs = new Line3D(new Vector2D(DoomBuilder.General.Map.Config.LeftBoundary, start.y).GetRotated(-angle), new Vector2D(DoomBuilder.General.Map.Config.RightBoundary, start.y).GetRotated(-angle), c, false);
+                Line3D ge = new Line3D(new Vector2D(DoomBuilder.General.Map.Config.LeftBoundary, end.y).GetRotated(-angle), new Vector2D(DoomBuilder.General.Map.Config.RightBoundary, end.y).GetRotated(-angle), c, false);
                 renderer.RenderArrows(new List<Line3D> { l, gs, ge });
             }
             // Start and end match. Render a cross
             else
             {
-                Line3D gs = new Line3D(new Vector2D(General.Map.Config.LeftBoundary, start.y).GetRotated(-angle), new Vector2D(General.Map.Config.RightBoundary, start.y).GetRotated(-angle), c, false);
-                Line3D ge = new Line3D(new Vector2D(start.x, General.Map.Config.TopBoundary).GetRotated(-angle), new Vector2D(start.x, General.Map.Config.BottomBoundary).GetRotated(-angle), c, false);
+                Line3D gs = new Line3D(new Vector2D(DoomBuilder.General.Map.Config.LeftBoundary, start.y).GetRotated(-angle), new Vector2D(DoomBuilder.General.Map.Config.RightBoundary, start.y).GetRotated(-angle), c, false);
+                Line3D ge = new Line3D(new Vector2D(start.x, DoomBuilder.General.Map.Config.TopBoundary).GetRotated(-angle), new Vector2D(start.x, DoomBuilder.General.Map.Config.BottomBoundary).GetRotated(-angle), c, false);
                 renderer.RenderArrows(new List<Line3D> { gs, ge });
             }
         }
@@ -333,16 +334,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                 double angle;
                 if (usefourcardinaldirections)
-                    angle = Angle2D.DegToRad((General.ClampAngle((int)Angle2D.RadToDeg(offset.GetAngle())) / 90 * 90) + 45);
+                    angle = Angle2D.DegToRad((DoomBuilder.General.ClampAngle((int)Angle2D.RadToDeg(offset.GetAngle())) / 90 * 90) + 45);
                 else
-                    angle = Angle2D.DegToRad(General.ClampAngle((int)Angle2D.RadToDeg(offset.GetAngle()) + 22) / 45 * 45);
+                    angle = Angle2D.DegToRad(DoomBuilder.General.ClampAngle((int)Angle2D.RadToDeg(offset.GetAngle()) + 22) / 45 * 45);
 
                 offset = new Vector2D(0, -offset.GetLength()).GetRotated(angle);
                 vm = points[points.Count - 1].pos + offset;
 
                 //mxd. We need to be snapped relative to initial position
                 Vector2D prev = points[points.Count - 1].pos;
-                gridoffset = prev - General.Map.Grid.SnappedToGrid(prev);
+                gridoffset = prev - DoomBuilder.General.Map.Grid.SnappedToGrid(prev);
             }
             else
             {
@@ -378,7 +379,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     nv = MapSet.NearestVertexSquareRange(vertices, vm, vrange);
                 }
                 else
-                    nv = General.Map.Map.NearestVertexSquareRange(vm, vrange);
+                    nv = DoomBuilder.General.Map.Map.NearestVertexSquareRange(vm, vrange);
 
                 // Try the nearest vertex
                 if (nv != null)
@@ -401,7 +402,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 // Try the nearest linedef. mxd. We'll need much bigger stitch distance when snapping to cardinal directions
-                Linedef nl = blockmap != null ? MapSet.NearestLinedefRange(blockmap, vm, BuilderPlug.Me.StitchRange / renderer.Scale) : General.Map.Map.NearestLinedefRange(vm, BuilderPlug.Me.StitchRange / renderer.Scale);
+                Linedef nl = blockmap != null ? MapSet.NearestLinedefRange(blockmap, vm, BuilderPlug.Me.StitchRange / renderer.Scale) : DoomBuilder.General.Map.Map.NearestLinedefRange(vm, BuilderPlug.Me.StitchRange / renderer.Scale);
                 if (nl != null)
                 {
                     //mxd. Line angle must stay the same
@@ -418,8 +419,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                             if (u < 0f || u > 1f) { }
                             else
                             {
-                                p.pos = new Vector2D(Math.Round(intersection.x, General.Map.FormatInterface.VertexDecimals),
-                                                     Math.Round(intersection.y, General.Map.FormatInterface.VertexDecimals));
+                                p.pos = new Vector2D(Math.Round(intersection.x, DoomBuilder.General.Map.FormatInterface.VertexDecimals),
+                                                     Math.Round(intersection.y, DoomBuilder.General.Map.FormatInterface.VertexDecimals));
                                 return p;
                             }
                         }
@@ -428,8 +429,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     else if (snaptogrid)
                     {
                         // Get grid intersection coordinates
-                        List<Vector2D> coords = nl.GetGridIntersections(General.Map.Grid.GridRotate,
-                            General.Map.Grid.GridOriginX, General.Map.Grid.GridOriginY);
+                        List<Vector2D> coords = nl.GetGridIntersections(DoomBuilder.General.Map.Grid.GridRotate,
+                            DoomBuilder.General.Map.Grid.GridOriginX, DoomBuilder.General.Map.Grid.GridOriginY);
 
                         // Find nearest grid intersection
                         bool found = false;
@@ -477,8 +478,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // if the mouse cursor is outside the map bondaries check if the line between the last set point and the
             // mouse cursor intersect any of the boundary lines. If it does, set the position to this intersection
             if (points.Count > 0 &&
-                (mousemappos.x < General.Map.Config.LeftBoundary || mousemappos.x > General.Map.Config.RightBoundary ||
-                mousemappos.y > General.Map.Config.TopBoundary || mousemappos.y < General.Map.Config.BottomBoundary))
+                (mousemappos.x < DoomBuilder.General.Map.Config.LeftBoundary || mousemappos.x > DoomBuilder.General.Map.Config.RightBoundary ||
+                mousemappos.y > DoomBuilder.General.Map.Config.TopBoundary || mousemappos.y < DoomBuilder.General.Map.Config.BottomBoundary))
             {
                 Line2D dline = new Line2D(mousemappos, points[points.Count - 1].pos);
                 bool foundintersection = false;
@@ -486,10 +487,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 List<Line2D> blines = new List<Line2D>();
 
                 // lines for left, top, right and bottom boundaries
-                blines.Add(new Line2D(General.Map.Config.LeftBoundary, General.Map.Config.BottomBoundary, General.Map.Config.LeftBoundary, General.Map.Config.TopBoundary));
-                blines.Add(new Line2D(General.Map.Config.LeftBoundary, General.Map.Config.TopBoundary, General.Map.Config.RightBoundary, General.Map.Config.TopBoundary));
-                blines.Add(new Line2D(General.Map.Config.RightBoundary, General.Map.Config.TopBoundary, General.Map.Config.RightBoundary, General.Map.Config.BottomBoundary));
-                blines.Add(new Line2D(General.Map.Config.RightBoundary, General.Map.Config.BottomBoundary, General.Map.Config.LeftBoundary, General.Map.Config.BottomBoundary));
+                blines.Add(new Line2D(DoomBuilder.General.Map.Config.LeftBoundary, DoomBuilder.General.Map.Config.BottomBoundary, DoomBuilder.General.Map.Config.LeftBoundary, DoomBuilder.General.Map.Config.TopBoundary));
+                blines.Add(new Line2D(DoomBuilder.General.Map.Config.LeftBoundary, DoomBuilder.General.Map.Config.TopBoundary, DoomBuilder.General.Map.Config.RightBoundary, DoomBuilder.General.Map.Config.TopBoundary));
+                blines.Add(new Line2D(DoomBuilder.General.Map.Config.RightBoundary, DoomBuilder.General.Map.Config.TopBoundary, DoomBuilder.General.Map.Config.RightBoundary, DoomBuilder.General.Map.Config.BottomBoundary));
+                blines.Add(new Line2D(DoomBuilder.General.Map.Config.RightBoundary, DoomBuilder.General.Map.Config.BottomBoundary, DoomBuilder.General.Map.Config.LeftBoundary, DoomBuilder.General.Map.Config.BottomBoundary));
 
                 // check for intersections with boundaries
                 for (int i = 0; i < blines.Count; i++)
@@ -516,11 +517,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (snaptogrid)
             {
                 // Aligned to grid
-                p.pos = General.Map.Grid.SnappedToGrid(vm - gridoffset) + gridoffset;
+                p.pos = DoomBuilder.General.Map.Grid.SnappedToGrid(vm - gridoffset) + gridoffset;
 
                 // special handling 
-                if (p.pos.x > General.Map.Config.RightBoundary) p.pos.x = General.Map.Config.RightBoundary;
-                if (p.pos.y < General.Map.Config.BottomBoundary) p.pos.y = General.Map.Config.BottomBoundary;
+                if (p.pos.x > DoomBuilder.General.Map.Config.RightBoundary) p.pos.x = DoomBuilder.General.Map.Config.RightBoundary;
+                if (p.pos.y < DoomBuilder.General.Map.Config.BottomBoundary) p.pos.y = DoomBuilder.General.Map.Config.BottomBoundary;
 
                 return p;
             }
@@ -549,8 +550,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This draws a point at a specific location
         public virtual bool DrawPointAt(Vector2D pos, bool stitch, bool stitchline)
         {
-            if (pos.x < General.Map.Config.LeftBoundary || pos.x > General.Map.Config.RightBoundary ||
-                pos.y > General.Map.Config.TopBoundary || pos.y < General.Map.Config.BottomBoundary)
+            if (pos.x < DoomBuilder.General.Map.Config.LeftBoundary || pos.x > DoomBuilder.General.Map.Config.RightBoundary ||
+                pos.y > DoomBuilder.General.Map.Config.TopBoundary || pos.y < DoomBuilder.General.Map.Config.BottomBoundary)
                 return false;
 
             //mxd. Avoid zero-length lines...
@@ -654,7 +655,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private static Linedef FindPotentialLine(Vector2D target, Vector2D center)
         {
             // Target position on top of existing vertex?
-            Vertex v = General.Map.Map.NearestVertex(target);
+            Vertex v = DoomBuilder.General.Map.Map.NearestVertex(target);
             if (v == null) return null;
 
             Linedef result = null;
@@ -682,7 +683,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             else
             {
                 // Result position will split a line?
-                result = General.Map.Map.NearestLinedef(target);
+                result = DoomBuilder.General.Map.Map.NearestLinedef(target);
                 if (result.SideOfLine(target) != 0) return null;
             }
 
@@ -698,22 +699,22 @@ namespace CodeImp.DoomBuilder.BuilderModes
             panel.OnShowGuidelinesChanged += OnShowGuidelinesChanged;
 
             // Needs to be set after adding the events...
-            panel.ContinuousDrawing = General.Settings.ReadPluginSetting("drawlinesmode.continuousdrawing", false);
-            panel.AutoCloseDrawing = General.Settings.ReadPluginSetting("drawlinesmode.autoclosedrawing", false);
-            panel.ShowGuidelines = General.Settings.ReadPluginSetting("drawlinesmode.showguidelines", false);
+            panel.ContinuousDrawing = DoomBuilder.General.Settings.ReadPluginSetting("drawlinesmode.continuousdrawing", false);
+            panel.AutoCloseDrawing = DoomBuilder.General.Settings.ReadPluginSetting("drawlinesmode.autoclosedrawing", false);
+            panel.ShowGuidelines = DoomBuilder.General.Settings.ReadPluginSetting("drawlinesmode.showguidelines", false);
 
             // Create guide labels
             guidelabels = new LineLengthLabel[4];
             for (int i = 0; i < guidelabels.Length; i++)
             {
-                guidelabels[i] = new LineLengthLabel { ShowAngle = false, Color = General.Colors.InfoLine };
+                guidelabels[i] = new LineLengthLabel { ShowAngle = false, Color = DoomBuilder.General.Colors.InfoLine };
             }
 
             // Create map boudary lines
-            Vector2D btl = new Vector2D(General.Map.Config.LeftBoundary, General.Map.Config.TopBoundary);
-            Vector2D btr = new Vector2D(General.Map.Config.RightBoundary, General.Map.Config.TopBoundary);
-            Vector2D bbl = new Vector2D(General.Map.Config.LeftBoundary, General.Map.Config.BottomBoundary);
-            Vector2D bbr = new Vector2D(General.Map.Config.RightBoundary, General.Map.Config.BottomBoundary);
+            Vector2D btl = new Vector2D(DoomBuilder.General.Map.Config.LeftBoundary, DoomBuilder.General.Map.Config.TopBoundary);
+            Vector2D btr = new Vector2D(DoomBuilder.General.Map.Config.RightBoundary, DoomBuilder.General.Map.Config.TopBoundary);
+            Vector2D bbl = new Vector2D(DoomBuilder.General.Map.Config.LeftBoundary, DoomBuilder.General.Map.Config.BottomBoundary);
+            Vector2D bbr = new Vector2D(DoomBuilder.General.Map.Config.RightBoundary, DoomBuilder.General.Map.Config.BottomBoundary);
             top = new Line2D(btl, btr);
             right = new Line2D(btr, bbr);
             bottom = new Line2D(bbl, bbr);
@@ -727,15 +728,15 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
         protected virtual void RemoveInterface()
         {
-            General.Settings.WritePluginSetting("drawlinesmode.continuousdrawing", panel.ContinuousDrawing);
-            General.Settings.WritePluginSetting("drawlinesmode.autoclosedrawing", panel.AutoCloseDrawing);
-            General.Settings.WritePluginSetting("drawlinesmode.showguidelines", panel.ShowGuidelines);
+            DoomBuilder.General.Settings.WritePluginSetting("drawlinesmode.continuousdrawing", panel.ContinuousDrawing);
+            DoomBuilder.General.Settings.WritePluginSetting("drawlinesmode.autoclosedrawing", panel.AutoCloseDrawing);
+            DoomBuilder.General.Settings.WritePluginSetting("drawlinesmode.showguidelines", panel.ShowGuidelines);
             panel.Unregister();
         }
 
         public override void OnHelp()
         {
-            General.ShowHelp("e_drawgeometry.html");
+            DoomBuilder.General.ShowHelp("e_drawgeometry.html");
         }
 
         // Engaging
@@ -747,7 +748,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             renderer.SetPresentation(Presentation.Standard);
 
             // Set cursor
-            General.Interface.SetCursor(Cursors.Cross);
+            DoomBuilder.General.Interface.SetCursor(Cursors.Cross);
         }
 
         // Disengaging
@@ -772,20 +773,20 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnCancel();
 
             // Return to original mode
-            General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
+            DoomBuilder.General.Editing.ChangeMode(DoomBuilder.General.Editing.PreviousStableMode.Name);
         }
 
         // Accepted
         public override void OnAccept()
         {
             Cursor.Current = Cursors.AppStarting;
-            General.Settings.FindDefaultDrawSettings();
+            DoomBuilder.General.Settings.FindDefaultDrawSettings();
 
             // When points have been drawn
             if (points.Count > 0)
             {
                 // Make undo for the draw
-                General.Map.UndoRedo.CreateUndo("Line draw");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Line draw");
 
                 // Make an analysis and show info
                 string[] adjectives = new[]
@@ -796,41 +797,41 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 string word = adjectives[points.Count % adjectives.Length];
                 word = (points.Count > adjectives.Length) ? "very " + word : word;
                 string a = ((word[0] == 'a') || (word[0] == 'e') || (word[0] == 'o') || (word[0] == 'u')) ? "an " : "a ";
-                General.Interface.DisplayStatus(StatusType.Action, "Created " + a + word + " drawing.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Created " + a + word + " drawing.");
 
                 // Make the drawing
                 if (Tools.DrawLines(points, true, BuilderPlug.Me.AutoAlignTextureOffsetsOnCreate)) //mxd
                 {
                     // Snap to map format accuracy
-                    General.Map.Map.SnapAllToAccuracy();
+                    DoomBuilder.General.Map.Map.SnapAllToAccuracy();
 
                     // Clear selection
-                    General.Map.Map.ClearAllSelected();
+                    DoomBuilder.General.Map.Map.ClearAllSelected();
 
                     // Update cached values
-                    General.Map.Map.Update();
+                    DoomBuilder.General.Map.Map.Update();
 
                     //mxd. Outer sectors may require some splittin...
-                    if (General.Settings.SplitJoinedSectors) Tools.SplitOuterSectors(General.Map.Map.GetMarkedLinedefs(true));
+                    if (DoomBuilder.General.Settings.SplitJoinedSectors) Tools.SplitOuterSectors(DoomBuilder.General.Map.Map.GetMarkedLinedefs(true));
 
                     // Edit new sectors?
-                    List<Sector> newsectors = General.Map.Map.GetMarkedSectors(true);
+                    List<Sector> newsectors = DoomBuilder.General.Map.Map.GetMarkedSectors(true);
                     if (BuilderPlug.Me.EditNewSector && (newsectors.Count > 0))
-                        General.Interface.ShowEditSectors(newsectors);
+                        DoomBuilder.General.Interface.ShowEditSectors(newsectors);
 
                     // Update the used textures
-                    General.Map.Data.UpdateUsedTextures();
+                    DoomBuilder.General.Map.Data.UpdateUsedTextures();
 
                     //mxd
-                    General.Map.Renderer2D.UpdateExtraFloorFlag();
+                    DoomBuilder.General.Map.Renderer2D.UpdateExtraFloorFlag();
 
                     // Map is changed
-                    General.Map.IsChanged = true;
+                    DoomBuilder.General.Map.IsChanged = true;
                 }
                 else
                 {
                     // Drawing failed
-                    General.Map.UndoRedo.WithdrawUndo();
+                    DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
                 }
             }
 
@@ -845,12 +846,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 drawingautoclosed = false;
 
                 //mxd. Redraw display
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Interface.RedrawDisplay();
             }
             else
             {
                 // Return to original mode
-                General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
+                DoomBuilder.General.Editing.ChangeMode(DoomBuilder.General.Editing.PreviousStableMode.Name);
             }
         }
 
@@ -862,15 +863,15 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Render lines
             if (renderer.StartPlotter(true))
             {
-                renderer.PlotLinedefSet(General.Map.Map.Linedefs);
-                renderer.PlotVerticesSet(General.Map.Map.Vertices);
+                renderer.PlotLinedefSet(DoomBuilder.General.Map.Map.Linedefs);
+                renderer.PlotVerticesSet(DoomBuilder.General.Map.Map.Vertices);
                 renderer.Finish();
             }
 
             // Render things
             if (renderer.StartThings(true))
             {
-                renderer.RenderThingSet(General.Map.Map.Things, General.Settings.ActiveThingsAlpha);
+                renderer.RenderThingSet(DoomBuilder.General.Map.Map.Things, DoomBuilder.General.Settings.ActiveThingsAlpha);
                 renderer.Finish();
             }
 
@@ -890,18 +891,18 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public override void OnKeyUp(KeyEventArgs e)
         {
             base.OnKeyUp(e);
-            if ((snaptogrid != (snaptocardinaldirection || (General.Interface.ShiftState ^ General.Interface.SnapToGrid))) ||
-               (snaptonearest != (General.Interface.CtrlState ^ General.Interface.AutoMerge)) ||
-               (snaptocardinaldirection != (General.Interface.AltState && General.Interface.ShiftState))) Update();
+            if ((snaptogrid != (snaptocardinaldirection || (DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid))) ||
+               (snaptonearest != (DoomBuilder.General.Interface.CtrlState ^ DoomBuilder.General.Interface.AutoMerge)) ||
+               (snaptocardinaldirection != (DoomBuilder.General.Interface.AltState && DoomBuilder.General.Interface.ShiftState))) Update();
         }
 
         // When a key is pressed
         public override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
-            if ((snaptogrid != (snaptocardinaldirection || (General.Interface.ShiftState ^ General.Interface.SnapToGrid))) ||
-               (snaptonearest != (General.Interface.CtrlState ^ General.Interface.AutoMerge)) ||
-               (snaptocardinaldirection != (General.Interface.AltState && General.Interface.ShiftState))) Update();
+            if ((snaptogrid != (snaptocardinaldirection || (DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid))) ||
+               (snaptonearest != (DoomBuilder.General.Interface.CtrlState ^ DoomBuilder.General.Interface.AutoMerge)) ||
+               (snaptocardinaldirection != (DoomBuilder.General.Interface.AltState && DoomBuilder.General.Interface.ShiftState))) Update();
         }
 
         //mxd
@@ -920,13 +921,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
         protected void OnShowGuidelinesChanged(object value, EventArgs e)
         {
             showguidelines = (bool)value;
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         protected void OnPlaceThingsAtVerticesChanged(object value, EventArgs e)
         {
             placethingsatvertices = (bool)value;
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         // Drawing a point
@@ -934,10 +935,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void DrawPoint()
         {
             // Mouse inside window?
-            if (General.Interface.MouseInDisplay)
+            if (DoomBuilder.General.Interface.MouseInDisplay)
             {
                 DrawnVertex newpoint = GetCurrentPosition();
-                if (!DrawPointAt(newpoint)) General.Interface.DisplayStatus(StatusType.Warning, "Failed to draw point: outside of map boundaries.");
+                if (!DrawPointAt(newpoint)) DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Failed to draw point: outside of map boundaries.");
             }
         }
 
@@ -967,7 +968,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void FinishDraw()
         {
             // Accept the changes
-            General.Editing.AcceptMode();
+            DoomBuilder.General.Editing.AcceptMode();
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿
-using CodeImp.DoomBuilder.Editing;
+﻿using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Windows;
@@ -9,7 +8,7 @@ using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderEffects
+namespace CodeImp.DoomBuilder.BuilderEffects.Modes
 {
     [EditMode(DisplayName = "Terrain Importer",
               SwitchAction = "importobjasterrain",

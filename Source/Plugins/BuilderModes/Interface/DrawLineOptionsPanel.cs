@@ -20,26 +20,26 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 
         public void Register()
         {
-            General.Interface.BeginToolbarUpdate();
+            DoomBuilder.General.Interface.BeginToolbarUpdate();
 
 #if MONO_WINFORMS
 			// Mono fix
 			toolStrip1.Items.Clear();
 #endif
 
-            General.Interface.AddButton(continuousdrawing);
-            General.Interface.AddButton(autoclosedrawing);
-            General.Interface.AddButton(showguidelines);
-            General.Interface.EndToolbarUpdate();
+            DoomBuilder.General.Interface.AddButton(continuousdrawing);
+            DoomBuilder.General.Interface.AddButton(autoclosedrawing);
+            DoomBuilder.General.Interface.AddButton(showguidelines);
+            DoomBuilder.General.Interface.EndToolbarUpdate();
         }
 
         public void Unregister()
         {
-            General.Interface.BeginToolbarUpdate();
-            General.Interface.RemoveButton(showguidelines);
-            General.Interface.RemoveButton(autoclosedrawing);
-            General.Interface.RemoveButton(continuousdrawing);
-            General.Interface.EndToolbarUpdate();
+            DoomBuilder.General.Interface.BeginToolbarUpdate();
+            DoomBuilder.General.Interface.RemoveButton(showguidelines);
+            DoomBuilder.General.Interface.RemoveButton(autoclosedrawing);
+            DoomBuilder.General.Interface.RemoveButton(continuousdrawing);
+            DoomBuilder.General.Interface.EndToolbarUpdate();
         }
 
         private void continuousdrawing_CheckedChanged(object sender, EventArgs e)

@@ -18,7 +18,7 @@ using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultLineMissingSides : ErrorResult
     {
@@ -128,7 +128,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Rendering
         public override void PlotSelection(IRenderer2D renderer)
         {
-            renderer.PlotLinedef(line, General.Colors.Selection);
+            renderer.PlotLinedef(line, DoomBuilder.General.Colors.Selection);
             renderer.PlotVertex(line.Start, ColorCollection.VERTICES);
             renderer.PlotVertex(line.End, ColorCollection.VERTICES);
         }
@@ -140,8 +140,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (copysidedeffront != null)
             {
                 // Front
-                if (!batchMode) General.Map.UndoRedo.CreateUndo("Create front sidedef");
-                Sidedef newside = General.Map.Map.CreateSidedef(line, true, copysidedeffront.Sector);
+                if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Create front sidedef");
+                Sidedef newside = DoomBuilder.General.Map.Map.CreateSidedef(line, true, copysidedeffront.Sector);
                 if (newside == null) return false;
                 copysidedeffront.CopyPropertiesTo(newside);
             }
@@ -150,35 +150,35 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // Back
                 // Because the line is single-sided, we make the sidedef on the front.
                 // We will then flip it to make sure to ends up in the right position.
-                if (!batchMode) General.Map.UndoRedo.CreateUndo("Create front sidedef");
-                Sidedef newside = General.Map.Map.CreateSidedef(line, true, copysidedefback.Sector);
+                if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Create front sidedef");
+                Sidedef newside = DoomBuilder.General.Map.Map.CreateSidedef(line, true, copysidedefback.Sector);
                 if (newside == null) return false;
                 copysidedefback.CopyPropertiesTo(newside);
                 line.FlipVertices();
             }
 
             line.ApplySidedFlags();
-            General.Map.Map.Update();
+            DoomBuilder.General.Map.Map.Update();
             return true;
         }
 
         // Fix both sides
         public override bool Button2Click(bool batchMode)
         {
-            if (!batchMode) General.Map.UndoRedo.CreateUndo("Create sidedefs");
+            if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Create sidedefs");
 
             // Front
-            Sidedef newside = General.Map.Map.CreateSidedef(line, true, copysidedeffront.Sector);
+            Sidedef newside = DoomBuilder.General.Map.Map.CreateSidedef(line, true, copysidedeffront.Sector);
             if (newside == null) return false;
             copysidedeffront.CopyPropertiesTo(newside);
 
             // Back
-            newside = General.Map.Map.CreateSidedef(line, false, copysidedefback.Sector);
+            newside = DoomBuilder.General.Map.Map.CreateSidedef(line, false, copysidedefback.Sector);
             if (newside == null) return false;
             copysidedefback.CopyPropertiesTo(newside);
 
             line.ApplySidedFlags();
-            General.Map.Map.Update();
+            DoomBuilder.General.Map.Map.Update();
             return true;
         }
     }

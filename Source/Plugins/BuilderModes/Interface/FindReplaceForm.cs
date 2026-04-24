@@ -12,6 +12,9 @@
  */
 
 
+using CodeImp.DoomBuilder.BuilderModes.ClassicModes;
+using CodeImp.DoomBuilder.BuilderModes.FindReplace;
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Windows;
 using System;
 using System.Collections.Generic;
@@ -62,15 +65,15 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                     catch (TargetInvocationException ex)
                     {
                         // Error!
-                        General.ErrorLogger.Add(ErrorType.Error, "Failed to create class instance \"" + t.Name + "\"");
-                        General.WriteLogLine(ex.InnerException.GetType().Name + ": " + ex.InnerException.Message);
+                        DoomBuilder.General.ErrorLogger.Add(ErrorType.Error, "Failed to create class instance \"" + t.Name + "\"");
+                        DoomBuilder.General.WriteLogLine(ex.InnerException.GetType().Name + ": " + ex.InnerException.Message);
                         throw;
                     }
                     catch (Exception ex)
                     {
                         // Error!
-                        General.ErrorLogger.Add(ErrorType.Error, "Failed to create class instance \"" + t.Name + "\"");
-                        General.WriteLogLine(ex.GetType().Name + ": " + ex.Message);
+                        DoomBuilder.General.ErrorLogger.Add(ErrorType.Error, "Failed to create class instance \"" + t.Name + "\"");
+                        DoomBuilder.General.WriteLogLine(ex.GetType().Name + ": " + ex.Message);
                         throw;
                     }
 
@@ -146,7 +149,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             resultslist.Items.Clear();
 
             // Hide object information
-            General.Interface.HideInfo();
+            DoomBuilder.General.Interface.HideInfo();
 
             // Keep the finder we used for the search
             finder = newfinder;
@@ -160,7 +163,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             // Perform the search / replace and show the results
             if (doreplace.Checked)
             {
-                General.Map.UndoRedo.CreateUndo("Replace " + searchtypes.SelectedItem);
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Replace " + searchtypes.SelectedItem);
 
                 resultslist.Items.AddRange(finder.Find(findinput.Text, withinselection.Checked, true, replaceinput.Text, false));
                 resultscount.Text = resultslist.Items.Count + " items found and replaced.";
@@ -169,7 +172,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                 if (resultslist.Items.Count < 1)
                 {
                     mode.Volatile = false; //mxd. Otherwice UndoManager.PerformUndo will cancel the mode...
-                    General.Map.UndoRedo.WithdrawUndo();
+                    DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
                     mode.Volatile = true; //mxd
                 }
             }
@@ -180,7 +183,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             }
 
             // Select all results
-            General.Map.Map.ClearAllSelected();
+            DoomBuilder.General.Map.Map.ClearAllSelected();
             for (int i = 0; i < resultslist.Items.Count; i++)
                 resultslist.SelectedIndices.Add(i);
 
@@ -199,10 +202,10 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             deletebutton.Enabled = resultslist.SelectedIndex > -1;
 
             // Set correct presentation mode
-            General.Map.Renderer2D.SetPresentation(finder.RenderPresentation);
+            DoomBuilder.General.Map.Renderer2D.SetPresentation(finder.RenderPresentation);
 
             // Redraw the screen, this will show the selection
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         // Found item selected
@@ -219,7 +222,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                 deletebutton.Enabled = resultslist.SelectedIndex > -1;
 
                 // Redraw the screen, this will show the selection
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Interface.RedrawDisplay();
             }
         }
 
@@ -263,8 +266,8 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             if (e.CloseReason == CloseReason.UserClosing)
             {
                 e.Cancel = true;
-                General.Interface.Focus();
-                General.Editing.CancelMode();
+                DoomBuilder.General.Interface.Focus();
+                DoomBuilder.General.Editing.CancelMode();
             }
 
             //mxd
@@ -274,8 +277,8 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         // Close button clicked
         private void closebutton_Click(object sender, EventArgs e)
         {
-            General.Interface.Focus();
-            General.Editing.CancelMode();
+            DoomBuilder.General.Interface.Focus();
+            DoomBuilder.General.Editing.CancelMode();
         }
 
         // Key pressed
@@ -315,7 +318,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                 resultslist_SelectedIndexChanged(sender, e);
 
                 // Redraw the screen, this will show the selection
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Interface.RedrawDisplay();
             }
         }
 
@@ -336,13 +339,13 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
                 resultslist_SelectedIndexChanged(sender, e);
 
                 // Redraw the screen, this will show the selection
-                General.Interface.RedrawDisplay();
+                DoomBuilder.General.Interface.RedrawDisplay();
             }
         }
 
         private void FindReplaceForm_HelpRequested(object sender, HelpEventArgs hlpevent)
         {
-            General.ShowHelp("e_findreplace.html");
+            DoomBuilder.General.ShowHelp("e_findreplace.html");
         }
 
         // This shows the window

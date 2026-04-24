@@ -1,4 +1,5 @@
 ﻿
+using CodeImp.DoomBuilder.BuilderEffects.Modes;
 using CodeImp.DoomBuilder.Windows;
 using System;
 using System.IO;

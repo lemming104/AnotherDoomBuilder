@@ -15,7 +15,7 @@ using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     internal class BaseFindMapElement : FindReplaceType
     {
@@ -28,22 +28,22 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 ZoomToSelection(selection);
 
                 if (selection[0].Object is Linedef)
-                    General.Interface.ShowLinedefInfo(selection[0].Linedef);
+                    DoomBuilder.General.Interface.ShowLinedefInfo(selection[0].Linedef);
                 else if (selection[0].Object is Sidedef)
-                    General.Interface.ShowLinedefInfo(selection[0].Sidedef.Line);
+                    DoomBuilder.General.Interface.ShowLinedefInfo(selection[0].Sidedef.Line);
                 else if (selection[0].Object is Sector)
-                    General.Interface.ShowSectorInfo(selection[0].Sector);
+                    DoomBuilder.General.Interface.ShowSectorInfo(selection[0].Sector);
                 else if (selection[0].Object is Thing)
-                    General.Interface.ShowThingInfo(selection[0].Thing);
+                    DoomBuilder.General.Interface.ShowThingInfo(selection[0].Thing);
                 else if (selection[0].Object is Vertex)
-                    General.Interface.ShowVertexInfo(selection[0].Vertex);
+                    DoomBuilder.General.Interface.ShowVertexInfo(selection[0].Vertex);
             }
             else
             {
-                General.Interface.HideInfo();
+                DoomBuilder.General.Interface.HideInfo();
             }
 
-            General.Map.Map.ClearAllSelected();
+            DoomBuilder.General.Map.Map.ClearAllSelected();
             foreach (FindReplaceObject obj in selection)
             {
                 // Sidedefs can not be selected, so we have to select its Linedef
@@ -60,16 +60,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
             foreach (FindReplaceObject o in selection)
             {
                 if (o.Object is Linedef)
-                    renderer.PlotLinedef(o.Linedef, General.Colors.Selection);
+                    renderer.PlotLinedef(o.Linedef, DoomBuilder.General.Colors.Selection);
                 else if (o.Object is Sidedef)
-                    renderer.PlotLinedef(o.Sidedef.Line, General.Colors.Selection);
+                    renderer.PlotLinedef(o.Sidedef.Line, DoomBuilder.General.Colors.Selection);
                 else if (o.Object is Sector)
                 {
                     foreach (Sidedef sd in o.Sector.Sidedefs)
-                        renderer.PlotLinedef(sd.Line, General.Colors.Selection);
+                        renderer.PlotLinedef(sd.Line, DoomBuilder.General.Colors.Selection);
                 }
                 else if (o.Object is Thing)
-                    renderer.RenderThing(o.Thing, General.Colors.Selection, General.Settings.ActiveThingsAlpha);
+                    renderer.RenderThing(o.Thing, DoomBuilder.General.Colors.Selection, DoomBuilder.General.Settings.ActiveThingsAlpha);
                 else if (o.Object is Vertex)
                     renderer.PlotVertex(o.Vertex, ColorCollection.SELECTION);
             }
@@ -106,16 +106,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             if (linedefs.Count > 0)
-                General.Interface.ShowEditLinedefs(linedefs);
+                DoomBuilder.General.Interface.ShowEditLinedefs(linedefs);
 
             if (sectors.Count > 0)
-                General.Interface.ShowEditSectors(sectors);
+                DoomBuilder.General.Interface.ShowEditSectors(sectors);
 
             if (things.Count > 0)
-                General.Interface.ShowEditThings(things);
+                DoomBuilder.General.Interface.ShowEditThings(things);
 
             if (vertices.Count > 0)
-                General.Interface.ShowEditVertices(vertices);
+                DoomBuilder.General.Interface.ShowEditVertices(vertices);
         }
     }
 }

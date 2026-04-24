@@ -1,5 +1,4 @@
-﻿
-using CodeImp.DoomBuilder.Geometry;
+﻿using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using CodeImp.DoomBuilder.VisualModes;
@@ -7,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     internal sealed class VisualFogBoundary : BaseVisualGeometrySidedef
     {
@@ -54,7 +53,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (!osd.Updated) osd.Update();
 
             // Set texture
-            base.Texture = General.Map.Data.BlackTexture;
+            base.Texture = DoomBuilder.General.Map.Data.BlackTexture;
 
             // Determine texture coordinates plane as they would be in normal circumstances.
             TexturePlane tp = new TexturePlane();

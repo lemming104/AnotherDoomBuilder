@@ -1,8 +1,7 @@
-﻿
-using CodeImp.DoomBuilder.Map;
+﻿using CodeImp.DoomBuilder.Map;
 using System.Threading;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     [ErrorChecker("Check missing flats", true, 40)]
     public class CheckMissingFlats : ErrorChecker
@@ -14,7 +13,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public CheckMissingFlats()
         {
             // Total progress is done when all sectors are checked
-            SetTotalProgress(General.Map.Map.Sectors.Count / PROGRESS_STEP);
+            SetTotalProgress(DoomBuilder.General.Map.Map.Sectors.Count / PROGRESS_STEP);
         }
 
         // This runs the check
@@ -24,7 +23,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             int stepprogress = 0;
 
             // Go for all the sectors
-            foreach (Sector s in General.Map.Map.Sectors)
+            foreach (Sector s in DoomBuilder.General.Map.Map.Sectors)
             {
                 // Check floor texture
                 if (s.LongFloorTexture == MapSet.EmptyLongName) SubmitResult(new ResultMissingFlat(s, false));

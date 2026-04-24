@@ -73,7 +73,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 
         private void MakeDoorForm_HelpRequested(object sender, HelpEventArgs hlpevent)
         {
-            General.ShowHelp("e_sectors.html");
+            DoomBuilder.General.ShowHelp("e_sectors.html");
         }
     }
 }

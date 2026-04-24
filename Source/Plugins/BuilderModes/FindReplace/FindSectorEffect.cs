@@ -12,6 +12,7 @@
  */
 
 
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using System;
@@ -19,7 +20,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     [FindReplace("Sector Effect", BrowseButton = true)]
     internal class FindSectorEffect : BaseFindSector
@@ -32,7 +33,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             int effect;
             int.TryParse(initialvalue, out effect);
-            return General.Interface.BrowseSectorEffect(BuilderPlug.Me.FindReplaceForm, effect, true).ToString();
+            return DoomBuilder.General.Interface.BrowseSectorEffect(BuilderPlug.Me.FindReplaceForm, effect, true).ToString();
         }
 
         //mxd. This is called when the browse replace button is pressed
@@ -40,7 +41,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             int effect;
             int.TryParse(initialvalue, out effect);
-            return General.Interface.BrowseSectorEffect(BuilderPlug.Me.FindReplaceForm, effect).ToString();
+            return DoomBuilder.General.Interface.BrowseSectorEffect(BuilderPlug.Me.FindReplaceForm, effect).ToString();
         }
 
         // This is called to perform a search (and replace)
@@ -70,10 +71,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (int.TryParse(value, out effect))
             {
                 //mxd
-                SectorEffectData sd = General.Map.Config.GetSectorEffectData(effect);
+                SectorEffectData sd = DoomBuilder.General.Map.Config.GetSectorEffectData(effect);
 
                 // Where to search?
-                ICollection<Sector> list = withinselection ? General.Map.Map.GetSelectedSectors(true) : General.Map.Map.Sectors;
+                ICollection<Sector> list = withinselection ? DoomBuilder.General.Map.Map.GetSelectedSectors(true) : DoomBuilder.General.Map.Map.Sectors;
 
                 // Go for all sectors
                 foreach (Sector s in list)
@@ -89,9 +90,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     {
                         match = true;
                     }
-                    else if (General.Map.Config.GeneralizedEffects && effect != 0 && s.Effect != 0)
+                    else if (DoomBuilder.General.Map.Config.GeneralizedEffects && effect != 0 && s.Effect != 0)
                     {
-                        SectorEffectData sdo = General.Map.Config.GetSectorEffectData(s.Effect);
+                        SectorEffectData sdo = DoomBuilder.General.Map.Config.GetSectorEffectData(s.Effect);
 
                         // It's a bit complicated, so use the following logic:
                         // Searching for normal effect + generalized effect -> sector has to have both (plus optionally other generalized effects)
@@ -110,7 +111,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         // Replace
                         if (replace) s.Effect = replaceeffect;
 
-                        SectorEffectInfo info = General.Map.Config.GetSectorEffectInfo(s.Effect);
+                        SectorEffectInfo info = DoomBuilder.General.Map.Config.GetSectorEffectInfo(s.Effect);
                         if (!info.IsNull)
                             objs.Add(new FindReplaceObject(s, "Sector " + s.Index + " (" + info.Title + ")"));
                         else

@@ -1,4 +1,4 @@
-﻿namespace CodeImp.DoomBuilder.BuilderModes
+﻿namespace CodeImp.DoomBuilder.BuilderModes.General
 {
     internal class SelectionLabel : LineLengthLabel
     {

@@ -34,40 +34,40 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             radius.ValueChanged += ValueChanged;
             subdivs.ValueChanged += ValueChanged;
 
-            General.Interface.BeginToolbarUpdate();
+            DoomBuilder.General.Interface.BeginToolbarUpdate();
 
 #if MONO_WINFORMS
 			// Mono fix
 			toolStrip1.Items.Clear();
 #endif
 
-            General.Interface.AddButton(continuousdrawing);
-            General.Interface.AddButton(showguidelines);
-            General.Interface.AddButton(radialdrawing);
-            General.Interface.AddButton(placethingsatvertices);
-            General.Interface.AddButton(toolStripSeparator1);
-            General.Interface.AddButton(radiuslabel);
-            General.Interface.AddButton(radius);
-            General.Interface.AddButton(subdivslabel);
-            General.Interface.AddButton(subdivs);
-            General.Interface.AddButton(reset);
-            General.Interface.EndToolbarUpdate();
+            DoomBuilder.General.Interface.AddButton(continuousdrawing);
+            DoomBuilder.General.Interface.AddButton(showguidelines);
+            DoomBuilder.General.Interface.AddButton(radialdrawing);
+            DoomBuilder.General.Interface.AddButton(placethingsatvertices);
+            DoomBuilder.General.Interface.AddButton(toolStripSeparator1);
+            DoomBuilder.General.Interface.AddButton(radiuslabel);
+            DoomBuilder.General.Interface.AddButton(radius);
+            DoomBuilder.General.Interface.AddButton(subdivslabel);
+            DoomBuilder.General.Interface.AddButton(subdivs);
+            DoomBuilder.General.Interface.AddButton(reset);
+            DoomBuilder.General.Interface.EndToolbarUpdate();
         }
 
         public void Unregister()
         {
-            General.Interface.BeginToolbarUpdate();
-            General.Interface.RemoveButton(reset);
-            General.Interface.RemoveButton(subdivs);
-            General.Interface.RemoveButton(subdivslabel);
-            General.Interface.RemoveButton(radius);
-            General.Interface.RemoveButton(radiuslabel);
-            General.Interface.RemoveButton(toolStripSeparator1);
-            General.Interface.RemoveButton(showguidelines);
-            General.Interface.RemoveButton(placethingsatvertices);
-            General.Interface.RemoveButton(continuousdrawing);
-            General.Interface.RemoveButton(radialdrawing);
-            General.Interface.EndToolbarUpdate();
+            DoomBuilder.General.Interface.BeginToolbarUpdate();
+            DoomBuilder.General.Interface.RemoveButton(reset);
+            DoomBuilder.General.Interface.RemoveButton(subdivs);
+            DoomBuilder.General.Interface.RemoveButton(subdivslabel);
+            DoomBuilder.General.Interface.RemoveButton(radius);
+            DoomBuilder.General.Interface.RemoveButton(radiuslabel);
+            DoomBuilder.General.Interface.RemoveButton(toolStripSeparator1);
+            DoomBuilder.General.Interface.RemoveButton(showguidelines);
+            DoomBuilder.General.Interface.RemoveButton(placethingsatvertices);
+            DoomBuilder.General.Interface.RemoveButton(continuousdrawing);
+            DoomBuilder.General.Interface.RemoveButton(radialdrawing);
+            DoomBuilder.General.Interface.EndToolbarUpdate();
         }
 
         private void ValueChanged(object sender, EventArgs e)

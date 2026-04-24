@@ -15,7 +15,7 @@
 using CodeImp.DoomBuilder.Map;
 using System.Threading;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     [ErrorChecker("Check line references", true, 50)]
     public class CheckLineReferences : ErrorChecker
@@ -27,7 +27,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public CheckLineReferences()
         {
             // Total progress is done when all lines are checked
-            SetTotalProgress(General.Map.Map.Linedefs.Count / PROGRESS_STEP);
+            SetTotalProgress(DoomBuilder.General.Map.Map.Linedefs.Count / PROGRESS_STEP);
         }
 
         // This runs the check
@@ -37,7 +37,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             int stepprogress = 0;
 
             // Go for all the liendefs
-            foreach (Linedef l in General.Map.Map.Linedefs)
+            foreach (Linedef l in DoomBuilder.General.Map.Map.Linedefs)
             {
                 // Line has a back side but no front side?
                 if ((l.Back != null) && (l.Front == null))
@@ -50,12 +50,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     SubmitResult(new ResultLineMissingSides(l));
                 }
                 // Line is marked double-sided, but has only one side?
-                else if (l.IsFlagSet(General.Map.Config.DoubleSidedFlag) && (l.Back == null))
+                else if (l.IsFlagSet(DoomBuilder.General.Map.Config.DoubleSidedFlag) && (l.Back == null))
                 {
                     SubmitResult(new ResultLineNotDoubleSided(l));
                 }
                 // Line is marked single-sided, and has two sides?
-                else if (!l.IsFlagSet(General.Map.Config.DoubleSidedFlag) && (l.Back != null))
+                else if (!l.IsFlagSet(DoomBuilder.General.Map.Config.DoubleSidedFlag) && (l.Back != null))
                 {
                     SubmitResult(new ResultLineNotSingleSided(l));
                 }

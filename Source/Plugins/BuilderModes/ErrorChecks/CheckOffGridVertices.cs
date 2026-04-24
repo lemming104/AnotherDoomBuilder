@@ -1,7 +1,7 @@
 using CodeImp.DoomBuilder.Map;
 using System.Threading;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     [ErrorChecker("Check off-grid vertices", true, 50)]
     public class CheckOffGridVertices : ErrorChecker
@@ -12,7 +12,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public CheckOffGridVertices()
         {
             // Total progress is done when all vertices are checked
-            SetTotalProgress(General.Map.Map.Vertices.Count / PROGRESS_STEP);
+            SetTotalProgress(DoomBuilder.General.Map.Map.Vertices.Count / PROGRESS_STEP);
         }
 
         // This runs the check
@@ -22,7 +22,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             int stepprogress = 0;
 
             // Go for all vertices
-            foreach (Vertex v in General.Map.Map.Vertices)
+            foreach (Vertex v in DoomBuilder.General.Map.Map.Vertices)
             {
                 if (v.Position.x != (int)v.Position.x || v.Position.y != (int)v.Position.y)
                 {

@@ -13,6 +13,7 @@
 
 
 using CodeImp.DoomBuilder.Actions;
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.BuilderModes.Interface;
 using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
@@ -29,7 +30,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.VisualModes
 {
     [EditMode(DisplayName = "Visual Mode",
               SwitchAction = "gzdbvisualmode", // Action name used to switch to this mode
@@ -267,7 +268,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private void PostAction()
         {
             if (!string.IsNullOrEmpty(actionresult.displaystatus))
-                General.Interface.DisplayStatus(StatusType.Action, actionresult.displaystatus);
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, actionresult.displaystatus);
 
             // Reset changed flags
             foreach (KeyValuePair<Sector, VisualSector> vs in allsectors)
@@ -311,8 +312,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 undocreated = true;
 
                 if (singleselection)
-                    return General.Map.UndoRedo.CreateUndo(description, this, group, grouptag);
-                return General.Map.UndoRedo.CreateUndo(description, this, UndoGroup.None, 0);
+                    return DoomBuilder.General.Map.UndoRedo.CreateUndo(description, this, group, grouptag);
+                return DoomBuilder.General.Map.UndoRedo.CreateUndo(description, this, UndoGroup.None, 0);
             }
 
             return 0;
@@ -377,7 +378,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             //mxd
-            if (General.Map.UDMF && General.Map.Config.VertexHeightSupport && General.Settings.GZShowVisualVertices)
+            if (DoomBuilder.General.Map.UDMF && DoomBuilder.General.Map.Config.VertexHeightSupport && DoomBuilder.General.Settings.GZShowVisualVertices)
             {
                 foreach (KeyValuePair<Vertex, VisualVertexPair> pair in vertices)
                 {
@@ -388,7 +389,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
             }
 
-            if (General.Map.UDMF)
+            if (DoomBuilder.General.Map.UDMF)
             {
                 foreach (KeyValuePair<Sector, List<VisualSlope>> kvp in allslopehandles)
                 {
@@ -489,9 +490,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private void PickTarget()
         {
             // Find the object we are aiming at
-            Vector3D start = General.Map.VisualCamera.Position;
-            Vector3D delta = General.Map.VisualCamera.Target - General.Map.VisualCamera.Position;
-            delta = delta.GetFixedLength(General.Settings.ViewDistance * PICK_RANGE);
+            Vector3D start = DoomBuilder.General.Map.VisualCamera.Position;
+            Vector3D delta = DoomBuilder.General.Map.VisualCamera.Target - DoomBuilder.General.Map.VisualCamera.Position;
+            delta = delta.GetFixedLength(DoomBuilder.General.Settings.ViewDistance * PICK_RANGE);
             VisualPickResult newtarget = PickObject(start, start + delta);
             VisualSlope pickedhandle = null;
 
@@ -565,36 +566,36 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     if (pickedgeo is BaseVisualGeometrySidedef)
                     {
                         BaseVisualGeometrySidedef pickedsidedef = (BaseVisualGeometrySidedef)pickedgeo;
-                        General.Interface.ShowLinedefInfo(pickedsidedef.GetControlLinedef(), pickedsidedef.Sidedef); //mxd
+                        DoomBuilder.General.Interface.ShowLinedefInfo(pickedsidedef.GetControlLinedef(), pickedsidedef.Sidedef); //mxd
                     }
                     // Sector?
                     else if (pickedgeo is BaseVisualGeometrySector)
                     {
                         BaseVisualGeometrySector pickedsector = (BaseVisualGeometrySector)pickedgeo;
                         bool isceiling = pickedsector is VisualCeiling; //mxd
-                        General.Interface.ShowSectorInfo(pickedsector.Level.sector, isceiling, !isceiling);
+                        DoomBuilder.General.Interface.ShowSectorInfo(pickedsector.Level.sector, isceiling, !isceiling);
                     }
                     else
                     {
-                        General.Interface.HideInfo();
+                        DoomBuilder.General.Interface.HideInfo();
                     }
                 }
                 // Thing picked?
                 else if (target.picked is VisualThing)
                 {
                     VisualThing pickedthing = (VisualThing)target.picked;
-                    General.Interface.ShowThingInfo(pickedthing.Thing);
+                    DoomBuilder.General.Interface.ShowThingInfo(pickedthing.Thing);
                 }
                 //mxd. Vertex picked?
                 else if (target.picked is VisualVertex)
                 {
                     VisualVertex pickedvert = (VisualVertex)target.picked;
-                    General.Interface.ShowVertexInfo(pickedvert.Vertex);
+                    DoomBuilder.General.Interface.ShowVertexInfo(pickedvert.Vertex);
                 }
             }
             else
             {
-                General.Interface.HideInfo();
+                DoomBuilder.General.Interface.HideInfo();
             }
         }
 
@@ -628,14 +629,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             //mxd
-            if (General.Map.UDMF && General.Map.Config.VertexHeightSupport)
+            if (DoomBuilder.General.Map.UDMF && DoomBuilder.General.Map.Config.VertexHeightSupport)
             {
                 foreach (KeyValuePair<Vertex, VisualVertexPair> pair in vertices)
                     pair.Value.Update();
             }
 
             //mxd. Update event lines (still better than updating them on every frame redraw)
-            renderer.SetEventLines(LinksCollector.GetHelperShapes(General.Map.ThingsFilter.VisibleThings, blockmap));
+            renderer.SetEventLines(LinksCollector.GetHelperShapes(DoomBuilder.General.Map.ThingsFilter.VisibleThings, blockmap));
         }
 
         //mxd
@@ -674,8 +675,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             //move things...
             if (!absolutePosition) //...relatively (that's easy)
             {
-                int camAngle = (int)Math.Round(Angle2D.RadToDeg(General.Map.VisualCamera.AngleXY));
-                int sector = General.ClampAngle(camAngle - 45) / 90;
+                int camAngle = (int)Math.Round(Angle2D.RadToDeg(DoomBuilder.General.Map.VisualCamera.AngleXY));
+                int sector = DoomBuilder.General.ClampAngle(camAngle - 45) / 90;
                 direction = direction.GetRotated(sector * Angle2D.PIHALF);
 
                 // When one of the values were zero before rotation the resulting value
@@ -764,7 +765,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 result += " selected.";
             }
 
-            General.Interface.DisplayStatus(StatusType.Selection, result);
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Selection, result);
         }
 
         //mxd
@@ -775,13 +776,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 case SelectionType.All:
                 case SelectionType.Linedefs:
                 case SelectionType.Sectors:
-                    General.Interface.OnEditFormValuesChanged += Interface_OnSectorEditFormValuesChanged;
+                    DoomBuilder.General.Interface.OnEditFormValuesChanged += Interface_OnSectorEditFormValuesChanged;
                     break;
                 case SelectionType.Things:
-                    General.Interface.OnEditFormValuesChanged += Interface_OnThingEditFormValuesChanged;
+                    DoomBuilder.General.Interface.OnEditFormValuesChanged += Interface_OnThingEditFormValuesChanged;
                     break;
                 default:
-                    General.Interface.OnEditFormValuesChanged += Interface_OnEditFormValuesChanged;
+                    DoomBuilder.General.Interface.OnEditFormValuesChanged += Interface_OnEditFormValuesChanged;
                     break;
             }
         }
@@ -794,13 +795,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 case SelectionType.All:
                 case SelectionType.Linedefs:
                 case SelectionType.Sectors:
-                    General.Interface.OnEditFormValuesChanged -= Interface_OnSectorEditFormValuesChanged;
+                    DoomBuilder.General.Interface.OnEditFormValuesChanged -= Interface_OnSectorEditFormValuesChanged;
                     break;
                 case SelectionType.Things:
-                    General.Interface.OnEditFormValuesChanged -= Interface_OnThingEditFormValuesChanged;
+                    DoomBuilder.General.Interface.OnEditFormValuesChanged -= Interface_OnThingEditFormValuesChanged;
                     break;
                 default:
-                    General.Interface.OnEditFormValuesChanged -= Interface_OnEditFormValuesChanged;
+                    DoomBuilder.General.Interface.OnEditFormValuesChanged -= Interface_OnEditFormValuesChanged;
                     break;
             }
         }
@@ -816,7 +817,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 VisualSidedefSlope handle = (VisualSidedefSlope)((VisualSidedefSlope)HighlightedTarget).GetSmartPivotHandle();
                 if (handle == null)
                 {
-                    General.Interface.DisplayStatus(StatusType.Warning, "Couldn't find a smart pivot handle.");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Couldn't find a smart pivot handle.");
                     return handles;
                 }
 
@@ -837,7 +838,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                     if (handle == null)
                     {
-                        General.Interface.DisplayStatus(StatusType.Warning, "Couldn't find a smart pivot handle.");
+                        DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Couldn't find a smart pivot handle.");
                         return handles;
                     }
 
@@ -851,13 +852,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Return if more than two handles are selected
             else if (handles.Count > 2)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Too many slope handles selected.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Too many slope handles selected.");
                 return handles;
             }
             // Everything else
             else if (handles.Count != 2)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "No slope handles selected or highlighted.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "No slope handles selected or highlighted.");
                 return handles;
             }
 
@@ -923,7 +924,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             List<Linedef>[] slopelinedefpass = new List<Linedef>[] { new List<Linedef>(), new List<Linedef>() };
             List<Thing>[] slopethingpass = new List<Thing>[] { new List<Thing>(), new List<Thing>() };
 
-            if (!General.Settings.EnhancedRenderingEffects) //mxd
+            if (!DoomBuilder.General.Settings.EnhancedRenderingEffects) //mxd
             {
                 // Store all sectors with effects
                 if (sectordata != null && sectordata.Count > 0)
@@ -945,8 +946,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             Dictionary<int, List<Sector>> sectortags = new Dictionary<int, List<Sector>>();
             Dictionary<int, List<Linedef>> linetags = new Dictionary<int, List<Linedef>>();
-            sectordata = new Dictionary<Sector, SectorData>(General.Map.Map.Sectors.Count);
-            thingdata = new Dictionary<Thing, ThingData>(General.Map.Map.Things.Count);
+            sectordata = new Dictionary<Sector, SectorData>(DoomBuilder.General.Map.Map.Sectors.Count);
+            thingdata = new Dictionary<Thing, ThingData>(DoomBuilder.General.Map.Map.Things.Count);
 
             //mxd. Rebuild all sectors with effects
             if (effectsectors != null)
@@ -961,16 +962,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
             }
 
-            if (General.Map.UDMF)
+            if (DoomBuilder.General.Map.UDMF)
             {
-                vertexdata = new Dictionary<Vertex, VertexData>(General.Map.Map.Vertices.Count); //mxd
+                vertexdata = new Dictionary<Vertex, VertexData>(DoomBuilder.General.Map.Map.Vertices.Count); //mxd
                 vertices.Clear();
             }
 
-            if (!General.Settings.EnhancedRenderingEffects) return; //mxd
+            if (!DoomBuilder.General.Settings.EnhancedRenderingEffects) return; //mxd
 
             // Find all sector who's tag is not 0 and hash them so that we can find them quickly
-            foreach (Sector s in General.Map.Map.Sectors)
+            foreach (Sector s in DoomBuilder.General.Map.Map.Sectors)
             {
                 foreach (int tag in s.Tags)
                 {
@@ -982,10 +983,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             // Find interesting linedefs (such as line slopes)
             // This also determines which slope lines belong to pass one and pass two. See https://zdoom.org/wiki/Slope
-            foreach (Linedef l in General.Map.Map.Linedefs)
+            foreach (Linedef l in DoomBuilder.General.Map.Map.Linedefs)
             {
                 // Builds a cache of linedef ids/tags. Used for slope things. Use linedef tags in UDMF
-                if (General.Map.UDMF)
+                if (DoomBuilder.General.Map.UDMF)
                 {
                     foreach (int tag in l.Tags)
                     {
@@ -995,9 +996,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 //mxd. Rewritten to use action ID instead of number
-                if (l.Action == 0 || !General.Map.Config.LinedefActions.ContainsKey(l.Action)) continue;
+                if (l.Action == 0 || !DoomBuilder.General.Map.Config.LinedefActions.ContainsKey(l.Action)) continue;
 
-                switch (General.Map.Config.LinedefActions[l.Action].Id.ToLowerInvariant())
+                switch (DoomBuilder.General.Map.Config.LinedefActions[l.Action].Id.ToLowerInvariant())
                 {
                     // ========== Line Set Identification (121) (see https://zdoom.org/wiki/Line_SetIdentification) ==========
                     // Builds a cache of linedef ids/tags. Used for slope things. Only used for Hexen format
@@ -1022,7 +1023,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         if (l.Front != null)
                         {
                             //mxd. Added hi-tag/line ID check 
-                            int sectortag = (General.Map.UDMF || (l.Args[1] & (int)Effect3DFloor.FloorTypes.HiTagIsLineID) != 0) ? l.Args[0] : l.Args[0] + (l.Args[4] << 8);
+                            int sectortag = (DoomBuilder.General.Map.UDMF || (l.Args[1] & (int)Effect3DFloor.FloorTypes.HiTagIsLineID) != 0) ? l.Args[0] : l.Args[0] + (l.Args[4] << 8);
                             if (sectortags.ContainsKey(sectortag))
                             {
                                 List<Sector> sectors = sectortags[sectortag];
@@ -1106,9 +1107,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
             foreach (Linedef l in slopelinedefpass[0])
             {
                 //mxd. Rewritten to use action ID instead of number
-                if (l.Action == 0 || !General.Map.Config.LinedefActions.ContainsKey(l.Action)) continue;
+                if (l.Action == 0 || !DoomBuilder.General.Map.Config.LinedefActions.ContainsKey(l.Action)) continue;
 
-                switch (General.Map.Config.LinedefActions[l.Action].Id.ToLowerInvariant())
+                switch (DoomBuilder.General.Map.Config.LinedefActions[l.Action].Id.ToLowerInvariant())
                 {
                     // ========== Plane Align (181) (see http://zdoom.org/wiki/Plane_Align) ==========
                     case "plane_align":
@@ -1128,12 +1129,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             // Find interesting things (such as sector slopes)
             // Pass one of slope things, and determine which one are for pass two
-            foreach (Thing t in General.Map.Map.Things)
+            foreach (Thing t in DoomBuilder.General.Map.Map.Things)
             {
-                if (!General.Map.Config.ThingTypes.ContainsKey(t.Type))
+                if (!DoomBuilder.General.Map.Config.ThingTypes.ContainsKey(t.Type))
                     continue;
 
-                switch (General.Map.Config.ThingTypes[t.Type].ClassName.ToLowerInvariant())
+                switch (DoomBuilder.General.Map.Config.ThingTypes[t.Type].ClassName.ToLowerInvariant())
                 {
                     // ========== Copy slope ==========
                     case "$copyfloorplane": // 9511
@@ -1184,10 +1185,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Pass two of slope things
             foreach (Thing t in slopethingpass[1])
             {
-                if (!General.Map.Config.ThingTypes.ContainsKey(t.Type))
+                if (!DoomBuilder.General.Map.Config.ThingTypes.ContainsKey(t.Type))
                     continue;
 
-                switch (General.Map.Config.ThingTypes[t.Type].ClassName.ToLowerInvariant())
+                switch (DoomBuilder.General.Map.Config.ThingTypes[t.Type].ClassName.ToLowerInvariant())
                 {
                     // ========== Copy slope ==========
                     case "$copyceilingplane": // 9511
@@ -1203,13 +1204,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Find sectors with 3 vertices, because they can be sloped
-            foreach (Sector s in General.Map.Map.Sectors)
+            foreach (Sector s in DoomBuilder.General.Map.Map.Sectors)
             {
                 // ========== Thing vertex slope, vertices with UDMF vertex offsets ==========
                 if (s.Sidedefs.Count == 3)
                 {
                     // Apply vertex heights
-                    if (General.Map.UDMF && General.Map.Config.VertexHeightSupport)
+                    if (DoomBuilder.General.Map.UDMF && DoomBuilder.General.Map.Config.VertexHeightSupport)
                         GetSectorData(s).AddEffectVertexOffset(); //mxd
 
                     // Check for vertex height things
@@ -1227,10 +1228,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
                             {
                                 if ((Vector2D)t.Position == v.Position)
                                 {
-                                    if (!General.Map.Config.ThingTypes.ContainsKey(t.Type))
+                                    if (!DoomBuilder.General.Map.Config.ThingTypes.ContainsKey(t.Type))
                                         continue;
 
-                                    switch (General.Map.Config.ThingTypes[t.Type].ClassName.ToLowerInvariant())
+                                    switch (DoomBuilder.General.Map.Config.ThingTypes[t.Type].ClassName.ToLowerInvariant())
                                     {
                                         case "$vertexfloorz": slopefloorthings.Add(t); break; // 1504
                                         case "$vertexceilingz": slopeceilingthings.Add(t); break; // 1505
@@ -1259,9 +1260,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Pass two for linedefs
             foreach (Linedef l in slopelinedefpass[1])
             {
-                if (l.Action == 0 || !General.Map.Config.LinedefActions.ContainsKey(l.Action)) continue;
+                if (l.Action == 0 || !DoomBuilder.General.Map.Config.LinedefActions.ContainsKey(l.Action)) continue;
 
-                switch (General.Map.Config.LinedefActions[l.Action].Id.ToLowerInvariant())
+                switch (DoomBuilder.General.Map.Config.LinedefActions[l.Action].Id.ToLowerInvariant())
                 {
                     // ========== Plane Copy (118) (mxd) (see http://zdoom.org/wiki/Plane_Copy) ==========
                     case "plane_copy":
@@ -1319,12 +1320,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
             sidedefslopehandles.Clear();
             vertexslopehandles.Clear();
 
-            BuildSlopeHandles(General.Map.Map.Sectors.ToList());
+            BuildSlopeHandles(DoomBuilder.General.Map.Map.Sectors.ToList());
         }
 
         private void BuildSlopeHandles(List<Sector> sectors)
         {
-            if (!General.Map.UDMF)
+            if (!DoomBuilder.General.Map.UDMF)
                 return;
 
             foreach (Sector s in sectors)
@@ -1361,7 +1362,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Create visual vertex slope handles
-            foreach (Vertex v in General.Map.Map.Vertices)
+            foreach (Vertex v in DoomBuilder.General.Map.Map.Vertices)
             {
                 if (v.IsDisposed || v.Linedefs.Count == 0)
                     continue;
@@ -1403,22 +1404,22 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Help!
         public override void OnHelp()
         {
-            General.ShowHelp("e_visual.html");
+            DoomBuilder.General.ShowHelp("e_visual.html");
         }
 
         // When entering this mode
         public override void OnEngage()
         {
             //mxd
-            useSelectionFromClassicMode = BuilderPlug.Me.SyncSelection ? !General.Interface.ShiftState : General.Interface.ShiftState;
+            useSelectionFromClassicMode = BuilderPlug.Me.SyncSelection ? !DoomBuilder.General.Interface.ShiftState : DoomBuilder.General.Interface.ShiftState;
             if (useSelectionFromClassicMode) UpdateSelectionInfo();
 
             // Read settings
-            cameraflooroffset = General.Map.Config.ReadSetting("cameraflooroffset", cameraflooroffset);
-            cameraceilingoffset = General.Map.Config.ReadSetting("cameraceilingoffset", cameraceilingoffset);
+            cameraflooroffset = DoomBuilder.General.Map.Config.ReadSetting("cameraflooroffset", cameraflooroffset);
+            cameraceilingoffset = DoomBuilder.General.Map.Config.ReadSetting("cameraceilingoffset", cameraceilingoffset);
 
             //mxd. Update fog color (otherwise FogBoundaries won't be setup correctly)
-            foreach (Sector s in General.Map.Map.Sectors)
+            foreach (Sector s in DoomBuilder.General.Map.Map.Sectors)
                 s.UpdateFogColor();
 
             // biwa. We need a blockmap for the slope things. Can't wait until it's built in base.OnEngage
@@ -1434,7 +1435,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // See https://github.com/jewalky/UltimateDoomBuilder/issues/938
             if (useSelectionFromClassicMode)
             {
-                foreach (Sector s in General.Map.Map.GetSelectedSectors(true))
+                foreach (Sector s in DoomBuilder.General.Map.Map.GetSelectedSectors(true))
                 {
                     BaseVisualSector bvs = CreateBaseVisualSector(s);
                     bvs.Ceiling.PerformAutoSelection();
@@ -1442,11 +1443,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 // Things are automatically selected on creation
-                foreach (Thing t in General.Map.Map.GetSelectedThings(true))
+                foreach (Thing t in DoomBuilder.General.Map.Map.GetSelectedThings(true))
                     allthings[t] = CreateVisualThing(t);
 
                 // For linedefs it's a bit more complicated...
-                foreach (Linedef ld in General.Map.Map.GetSelectedLinedefs(true))
+                foreach (Linedef ld in DoomBuilder.General.Map.Map.GetSelectedLinedefs(true))
                 {
                     foreach (Sidedef sd in new Sidedef[] { ld.Front, ld.Back })
                     {
@@ -1474,7 +1475,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             //mxd. Update event lines
-            renderer.SetEventLines(LinksCollector.GetHelperShapes(General.Map.ThingsFilter.VisibleThings, blockmap));
+            renderer.SetEventLines(LinksCollector.GetHelperShapes(DoomBuilder.General.Map.ThingsFilter.VisibleThings, blockmap));
 
             // [ZZ] this enables calling of this object from the outside world. Only after properly initialized pls.
             base.OnEngage();
@@ -1486,10 +1487,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
             base.OnDisengage();
 
             //mxd
-            if (BuilderPlug.Me.SyncSelection ? !General.Interface.ShiftState : General.Interface.ShiftState)
+            if (BuilderPlug.Me.SyncSelection ? !DoomBuilder.General.Interface.ShiftState : DoomBuilder.General.Interface.ShiftState)
             {
                 //clear previously selected stuff
-                General.Map.Map.ClearAllSelected();
+                DoomBuilder.General.Map.Map.ClearAllSelected();
 
                 //refill selection
                 List<int> selectedsectorindices = new List<int>();
@@ -1533,7 +1534,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
             }
 
-            General.Map.Map.Update();
+            DoomBuilder.General.Map.Map.Update();
         }
 
         // Processing
@@ -1546,57 +1547,57 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Setup the move multiplier depending on gravity
             Vector3D movemultiplier = new Vector3D(1.0, 1.0, 1.0);
             if (BuilderPlug.Me.UseGravity) movemultiplier.z = 0.0;
-            General.Map.VisualCamera.MoveMultiplier = movemultiplier;
+            DoomBuilder.General.Map.VisualCamera.MoveMultiplier = movemultiplier;
 
             // Apply gravity?
-            if (BuilderPlug.Me.UseGravity && (General.Map.VisualCamera.Sector != null))
+            if (BuilderPlug.Me.UseGravity && (DoomBuilder.General.Map.VisualCamera.Sector != null))
             {
-                SectorData sd = GetSectorData(General.Map.VisualCamera.Sector);
+                SectorData sd = GetSectorData(DoomBuilder.General.Map.VisualCamera.Sector);
                 if (!sd.Updated) sd.Update();
 
                 // Camera below floor level?
-                Vector3D feetposition = General.Map.VisualCamera.Position;
+                Vector3D feetposition = DoomBuilder.General.Map.VisualCamera.Position;
                 SectorLevel floorlevel = sd.GetFloorBelow(feetposition) ?? sd.Floor;
-                double floorheight = floorlevel.plane.GetZ(General.Map.VisualCamera.Position);
-                if (General.Map.VisualCamera.Position.z < (floorheight + cameraflooroffset + 0.1))
+                double floorheight = floorlevel.plane.GetZ(DoomBuilder.General.Map.VisualCamera.Position);
+                if (DoomBuilder.General.Map.VisualCamera.Position.z < (floorheight + cameraflooroffset + 0.1))
                 {
                     // Stay above floor
                     gravity = new Vector3D(0.0, 0.0, 0.0);
-                    General.Map.VisualCamera.Position = new Vector3D(General.Map.VisualCamera.Position.x,
-                                                                     General.Map.VisualCamera.Position.y,
+                    DoomBuilder.General.Map.VisualCamera.Position = new Vector3D(DoomBuilder.General.Map.VisualCamera.Position.x,
+                                                                     DoomBuilder.General.Map.VisualCamera.Position.y,
                                                                      floorheight + cameraflooroffset);
                 }
                 else
                 {
                     // Fall down
-                    gravity.z += GRAVITY * General.Map.VisualCamera.Gravity * deltatime;
+                    gravity.z += GRAVITY * DoomBuilder.General.Map.VisualCamera.Gravity * deltatime;
                     if (gravity.z > 3.0) gravity.z = 3.0;
 
                     // Test if we don't go through a floor
-                    if ((General.Map.VisualCamera.Position.z + gravity.z) < (floorheight + cameraflooroffset + 0.1))
+                    if ((DoomBuilder.General.Map.VisualCamera.Position.z + gravity.z) < (floorheight + cameraflooroffset + 0.1))
                     {
                         // Stay above floor
                         gravity = new Vector3D(0.0, 0.0, 0.0);
-                        General.Map.VisualCamera.Position = new Vector3D(General.Map.VisualCamera.Position.x,
-                                                                         General.Map.VisualCamera.Position.y,
+                        DoomBuilder.General.Map.VisualCamera.Position = new Vector3D(DoomBuilder.General.Map.VisualCamera.Position.x,
+                                                                         DoomBuilder.General.Map.VisualCamera.Position.y,
                                                                          floorheight + cameraflooroffset);
                     }
                     else
                     {
                         // Apply gravity vector
-                        General.Map.VisualCamera.Position += gravity;
+                        DoomBuilder.General.Map.VisualCamera.Position += gravity;
                     }
                 }
 
                 // Camera above ceiling?
-                feetposition = General.Map.VisualCamera.Position - new Vector3D(0, 0, cameraflooroffset - 7.0);
+                feetposition = DoomBuilder.General.Map.VisualCamera.Position - new Vector3D(0, 0, cameraflooroffset - 7.0);
                 SectorLevel ceillevel = sd.GetCeilingAbove(feetposition) ?? sd.Ceiling;
-                double ceilheight = ceillevel.plane.GetZ(General.Map.VisualCamera.Position);
-                if (General.Map.VisualCamera.Position.z > (ceilheight - cameraceilingoffset - 0.01))
+                double ceilheight = ceillevel.plane.GetZ(DoomBuilder.General.Map.VisualCamera.Position);
+                if (DoomBuilder.General.Map.VisualCamera.Position.z > (ceilheight - cameraceilingoffset - 0.01))
                 {
                     // Stay below ceiling
-                    General.Map.VisualCamera.Position = new Vector3D(General.Map.VisualCamera.Position.x,
-                                                                     General.Map.VisualCamera.Position.y,
+                    DoomBuilder.General.Map.VisualCamera.Position = new Vector3D(DoomBuilder.General.Map.VisualCamera.Position.x,
+                                                                     DoomBuilder.General.Map.VisualCamera.Position.y,
                                                                      ceilheight - cameraceilingoffset);
                 }
             }
@@ -1626,7 +1627,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // The mouse is always in motion
-            MouseEventArgs args = new MouseEventArgs(General.Interface.MouseButtons, 0, 0, 0, 0);
+            MouseEventArgs args = new MouseEventArgs(DoomBuilder.General.Interface.MouseButtons, 0, 0, 0, 0);
             OnMouseMove(args);
         }
 
@@ -1640,7 +1641,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This draws a frame
         public override void OnRedrawDisplay()
         {
-            renderer.SetClassicLightingColorMap(General.Map.Data.MainColorMap);
+            renderer.SetClassicLightingColorMap(DoomBuilder.General.Map.Data.MainColorMap);
 
             // Start drawing
             if (renderer.Start())
@@ -1649,9 +1650,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 renderer.SetFogMode(true);
 
                 // Set target for highlighting
-                renderer.ShowSelection = General.Settings.GZOldHighlightMode || General.Settings.UseHighlight; //mxd
+                renderer.ShowSelection = DoomBuilder.General.Settings.GZOldHighlightMode || DoomBuilder.General.Settings.UseHighlight; //mxd
 
-                if (General.Settings.UseHighlight)
+                if (DoomBuilder.General.Settings.UseHighlight)
                     renderer.SetHighlightedObject(target.picked);
 
                 // Begin with geometry
@@ -1672,7 +1673,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 //mxd
-                if (General.Map.UDMF && General.Map.Config.VertexHeightSupport && General.Settings.GZShowVisualVertices && vertices.Count > 0)
+                if (DoomBuilder.General.Map.UDMF && DoomBuilder.General.Map.Config.VertexHeightSupport && DoomBuilder.General.Settings.GZShowVisualVertices && vertices.Count > 0)
                 {
                     List<VisualVertex> verts = new List<VisualVertex>();
 
@@ -1711,10 +1712,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Let the core do this (it will just dispose the sectors that were changed)
             base.ResourcesReloadedPartial();
 
-            if (General.Map.UndoRedo.GeometryChanged)
+            if (DoomBuilder.General.Map.UndoRedo.GeometryChanged)
             {
                 // The base doesn't know anything about slobe handles, so we have to clear them up ourself
-                if (General.Map.UDMF)
+                if (DoomBuilder.General.Map.UDMF)
                 {
                     List<Sector> removedsectors = new List<Sector>();
 
@@ -1739,7 +1740,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     }
 
                     // Rebuild slope handles for the changed sectors
-                    BuildSlopeHandles(General.Map.Map.GetMarkedSectors(true));
+                    BuildSlopeHandles(DoomBuilder.General.Map.Map.GetMarkedSectors(true));
                 }
             }
             else
@@ -1747,7 +1748,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 bool sectorsmarked = false;
 
                 // Neighbour sectors must be updated as well
-                foreach (Sector s in General.Map.Map.Sectors)
+                foreach (Sector s in DoomBuilder.General.Map.Map.Sectors)
                 {
                     if (s.Marked)
                     {
@@ -1761,7 +1762,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 // Go for all sidedefs to update
-                foreach (Sidedef sd in General.Map.Map.Sidedefs)
+                foreach (Sidedef sd in DoomBuilder.General.Map.Map.Sidedefs)
                 {
                     if (sd.Marked && VisualSectorExists(sd.Sector))
                     {
@@ -1772,7 +1773,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 // Go for all sectors to update
-                foreach (Sector s in General.Map.Map.Sectors)
+                foreach (Sector s in DoomBuilder.General.Map.Map.Sectors)
                 {
                     if (s.Marked)
                     {
@@ -1840,7 +1841,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 visiblethings.Clear();
 
                 // Make new blockmap
-                if (sectorsmarked || General.Map.UndoRedo.PopulationChanged || General.Map.IsChanged)
+                if (sectorsmarked || DoomBuilder.General.Map.UndoRedo.PopulationChanged || DoomBuilder.General.Map.IsChanged)
                     FillBlockMap();
 
                 RebuildElementData();
@@ -1864,27 +1865,27 @@ namespace CodeImp.DoomBuilder.BuilderModes
             //mxd. Show hints!
             if (o.GetType() != lasthighlighttype)
             {
-                if (General.Interface.ActiveDockerTabName == "Help")
+                if (DoomBuilder.General.Interface.ActiveDockerTabName == "Help")
                 {
                     if (o is BaseVisualGeometrySidedef)
                     {
-                        General.Hints.ShowHints(this.GetType(), "sidedefs");
+                        DoomBuilder.General.Hints.ShowHints(this.GetType(), "sidedefs");
                     }
                     else if (o is BaseVisualGeometrySector)
                     {
-                        General.Hints.ShowHints(this.GetType(), "sectors");
+                        DoomBuilder.General.Hints.ShowHints(this.GetType(), "sectors");
                     }
                     else if (o is BaseVisualThing)
                     {
-                        General.Hints.ShowHints(this.GetType(), "things");
+                        DoomBuilder.General.Hints.ShowHints(this.GetType(), "things");
                     }
                     else if (o is BaseVisualVertex)
                     {
-                        General.Hints.ShowHints(this.GetType(), "vertices");
+                        DoomBuilder.General.Hints.ShowHints(this.GetType(), "vertices");
                     }
                     else
                     {
-                        General.Hints.ShowHints(this.GetType(), HintsManager.GENERAL);
+                        DoomBuilder.General.Hints.ShowHints(this.GetType(), HintsManager.GENERAL);
                     }
                 }
 
@@ -2035,7 +2036,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             //mxd. Because Upper/Middle/Lower textures offsets should be threated separately in UDMF
             //MaxW. But they're not for Eternity, so this needs its own config setting
-            if (General.Map.UDMF && General.Map.Config.UseLocalSidedefTextureOffsets)
+            if (DoomBuilder.General.Map.UDMF && DoomBuilder.General.Map.Config.UseLocalSidedefTextureOffsets)
             {
                 HashSet<BaseVisualGeometrySidedef> donesides = new HashSet<BaseVisualGeometrySidedef>();
                 foreach (IVisualEventReceiver i in objs)
@@ -2152,7 +2153,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             List<IVisualEventReceiver> objs;
 
-            if (General.Map.Config.MixTexturesFlats)
+            if (DoomBuilder.General.Map.Config.MixTexturesFlats)
             {
                 // Apply on all compatible types
                 objs = GetSelectedObjects(true, true, false, false, false);
@@ -2202,7 +2203,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             HashSet<Sidedef> processed = new HashSet<Sidedef>();
             List<IVisualEventReceiver> result = new List<IVisualEventReceiver>();
 
-            if (General.Map.UDMF)
+            if (DoomBuilder.General.Map.UDMF)
             {
                 // For UDMF maps, we only need to remove duplicate extrafloor sidedefs
                 foreach (IVisualEventReceiver i in objs)
@@ -2470,27 +2471,27 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This creates a new thing
         private static Thing CreateThing(Vector2D pos)
         {
-            if (pos.x < General.Map.Config.LeftBoundary || pos.x > General.Map.Config.RightBoundary ||
-                pos.y > General.Map.Config.TopBoundary || pos.y < General.Map.Config.BottomBoundary)
+            if (pos.x < DoomBuilder.General.Map.Config.LeftBoundary || pos.x > DoomBuilder.General.Map.Config.RightBoundary ||
+                pos.y > DoomBuilder.General.Map.Config.TopBoundary || pos.y < DoomBuilder.General.Map.Config.BottomBoundary)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Failed to insert thing: outside of map boundaries.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Failed to insert thing: outside of map boundaries.");
                 return null;
             }
 
             // Create thing
-            Thing t = General.Map.Map.CreateThing();
+            Thing t = DoomBuilder.General.Map.Map.CreateThing();
             if (t != null)
             {
-                General.Settings.ApplyDefaultThingSettings(t);
+                DoomBuilder.General.Settings.ApplyDefaultThingSettings(t);
                 t.Move(pos);
                 t.UpdateConfiguration();
-                General.Map.IsChanged = true;
+                DoomBuilder.General.Map.IsChanged = true;
 
                 // Update things filter so that it includes this thing
-                General.Map.ThingsFilter.Update();
+                DoomBuilder.General.Map.ThingsFilter.Update();
 
                 // Snap to grid enabled?
-                if (General.Interface.SnapToGrid)
+                if (DoomBuilder.General.Interface.SnapToGrid)
                 {
                     // Snap to grid
                     t.SnapToGrid();
@@ -2559,7 +2560,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             //mxd
             if (clearvertices)
             {
-                if (General.Map.UDMF)
+                if (DoomBuilder.General.Map.UDMF)
                 {
                     foreach (KeyValuePair<Vertex, VisualVertexPair> pair in vertices) pair.Value.Deselect();
                 }
@@ -2568,7 +2569,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // biwa
             if (clearslopehandles)
             {
-                if (General.Map.UDMF)
+                if (DoomBuilder.General.Map.UDMF)
                 {
                     VisualSlope oldsmartpivot = null;
 
@@ -2607,7 +2608,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             //mxd
             if (displaystatus)
             {
-                General.Interface.DisplayStatus(StatusType.Selection, string.Empty);
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Selection, string.Empty);
             }
         }
 
@@ -2633,11 +2634,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
             target.OnSelectEnd();
 
             //mxd
-            if ((General.Interface.ShiftState || General.Interface.CtrlState) && selectedobjects.Count > 0)
+            if ((DoomBuilder.General.Interface.ShiftState || DoomBuilder.General.Interface.CtrlState) && selectedobjects.Count > 0)
             {
-                if (General.Interface.AltState || !BuilderPlug.Me.UseBuggyFloodSelect)
+                if (DoomBuilder.General.Interface.AltState || !BuilderPlug.Me.UseBuggyFloodSelect)
                 {
-                    target.SelectNeighbours(target.Selected, General.Interface.ShiftState, General.Interface.CtrlState, General.Interface.AltState);
+                    target.SelectNeighbours(target.Selected, DoomBuilder.General.Interface.ShiftState, DoomBuilder.General.Interface.CtrlState, DoomBuilder.General.Interface.AltState);
                 }
                 else
                 {
@@ -2645,7 +2646,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     selectedobjects.CopyTo(selection);
 
                     foreach (IVisualEventReceiver obj in selection)
-                        obj.SelectNeighbours(target.Selected, General.Interface.ShiftState, General.Interface.CtrlState, false);
+                        obj.SelectNeighbours(target.Selected, DoomBuilder.General.Interface.ShiftState, DoomBuilder.General.Interface.CtrlState, false);
                 }
             }
 
@@ -2750,7 +2751,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             bool hasvisualslopehandles = objs.Any(o => o is VisualSlope);
             foreach (IVisualEventReceiver i in objs) // If slope handles are selected only apply the action to them
                 if (!hasvisualslopehandles || (hasvisualslopehandles && i is VisualSlope))
-                    i.OnChangeTargetHeight(General.Map.Grid.GridSize);
+                    i.OnChangeTargetHeight(DoomBuilder.General.Map.Grid.GridSize);
             PostAction();
         }
 
@@ -2762,7 +2763,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             bool hasvisualslopehandles = objs.Any(o => o is VisualSlope);
             foreach (IVisualEventReceiver i in objs) // If slope handles are selected only apply the action to them
                 if (!hasvisualslopehandles || (hasvisualslopehandles && i is VisualSlope))
-                    i.OnChangeTargetHeight(-General.Map.Grid.GridSize);
+                    i.OnChangeTargetHeight(-DoomBuilder.General.Map.Grid.GridSize);
             PostAction();
         }
 
@@ -2777,7 +2778,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 if (selectedhandles.Count > 1)
                 {
-                    General.Interface.DisplayStatus(StatusType.Warning, "Can only raise to nearest when one visual slope handle is selected");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Can only raise to nearest when one visual slope handle is selected");
                     return;
                 }
 
@@ -2806,7 +2807,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
                 else
                 {
-                    General.Interface.DisplayStatus(StatusType.Warning, "Can't raise: already at the highest level");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Can't raise: already at the highest level");
                 }
             }
             else
@@ -2814,7 +2815,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 Dictionary<Sector, VisualFloor> floors = new Dictionary<Sector, VisualFloor>();
                 Dictionary<Sector, VisualCeiling> ceilings = new Dictionary<Sector, VisualCeiling>();
                 List<BaseVisualThing> things = new List<BaseVisualThing>();
-                bool withinSelection = General.Interface.CtrlState;
+                bool withinSelection = DoomBuilder.General.Interface.CtrlState;
 
                 // Get selection
                 if (selectedobjects.Count == 0)
@@ -2856,9 +2857,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 // Check what we have
-                if (floors.Count + ceilings.Count == 0 && (things.Count == 0 || !General.Map.FormatInterface.HasThingHeight))
+                if (floors.Count + ceilings.Count == 0 && (things.Count == 0 || !DoomBuilder.General.Map.FormatInterface.HasThingHeight))
                 {
-                    General.Interface.DisplayStatus(StatusType.Warning, "No suitable objects found!");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "No suitable objects found!");
                     return;
                 }
 
@@ -2876,7 +2877,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                     if (!string.IsNullOrEmpty(s))
                     {
-                        General.Interface.DisplayStatus(StatusType.Warning, "Can't do: at least 2 selected " + s + " are required!");
+                        DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Can't do: at least 2 selected " + s + " are required!");
                         return;
                     }
                 }
@@ -2925,7 +2926,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     // Check heights
                     if (minSelectedCeilingHeight < maxSelectedHeight)
                     {
-                        General.Interface.DisplayStatus(StatusType.Warning, "Can't do: lowest ceiling is lower than highest floor!");
+                        DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Can't do: lowest ceiling is lower than highest floor!");
                         return;
                     }
                     targetFloorHeight = maxSelectedHeight;
@@ -2966,7 +2967,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                 if (!string.IsNullOrEmpty(alignFailDescription))
                 {
-                    General.Interface.DisplayStatus(StatusType.Warning, "Unable to align selected " + alignFailDescription + "!");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Unable to align selected " + alignFailDescription + "!");
                     return;
                 }
 
@@ -2994,7 +2995,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 // Change things heights. Align to higher 3d floor or actual ceiling.
-                if (General.Map.FormatInterface.HasThingHeight)
+                if (DoomBuilder.General.Map.FormatInterface.HasThingHeight)
                 {
                     foreach (BaseVisualThing vt in things)
                     {
@@ -3018,7 +3019,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             {
                 if (selectedhandles.Count > 1)
                 {
-                    General.Interface.DisplayStatus(StatusType.Warning, "Can only lower to nearest when one visual slope handle is selected");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Can only lower to nearest when one visual slope handle is selected");
                     return;
                 }
 
@@ -3047,7 +3048,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
                 else
                 {
-                    General.Interface.DisplayStatus(StatusType.Warning, "Can't lower: already at the lowest level");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Can't lower: already at the lowest level");
                 }
             }
             else
@@ -3055,7 +3056,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 Dictionary<Sector, VisualFloor> floors = new Dictionary<Sector, VisualFloor>();
                 Dictionary<Sector, VisualCeiling> ceilings = new Dictionary<Sector, VisualCeiling>();
                 List<BaseVisualThing> things = new List<BaseVisualThing>();
-                bool withinSelection = General.Interface.CtrlState;
+                bool withinSelection = DoomBuilder.General.Interface.CtrlState;
 
                 // Get selection
                 if (selectedobjects.Count == 0)
@@ -3097,9 +3098,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 // Check what we have
-                if (floors.Count + ceilings.Count == 0 && (things.Count == 0 || !General.Map.FormatInterface.HasThingHeight))
+                if (floors.Count + ceilings.Count == 0 && (things.Count == 0 || !DoomBuilder.General.Map.FormatInterface.HasThingHeight))
                 {
-                    General.Interface.DisplayStatus(StatusType.Warning, "No suitable objects found!");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "No suitable objects found!");
                     return;
                 }
 
@@ -3117,7 +3118,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                     if (!string.IsNullOrEmpty(s))
                     {
-                        General.Interface.DisplayStatus(StatusType.Warning, "Can't do: at least 2 selected " + s + " are required!");
+                        DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Can't do: at least 2 selected " + s + " are required!");
                         return;
                     }
                 }
@@ -3165,7 +3166,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 {
                     if (minSelectedHeight < maxSelectedFloorHeight)
                     {
-                        General.Interface.DisplayStatus(StatusType.Warning, "Can't do: lowest ceiling is lower than highest floor!");
+                        DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Can't do: lowest ceiling is lower than highest floor!");
                         return;
                     }
                     targetCeilingHeight = minSelectedHeight;
@@ -3204,7 +3205,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                 if (!string.IsNullOrEmpty(alignFailDescription))
                 {
-                    General.Interface.DisplayStatus(StatusType.Warning, "Unable to align selected " + alignFailDescription + "!");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Unable to align selected " + alignFailDescription + "!");
                     return;
                 }
 
@@ -3232,7 +3233,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 // Change things height. Drop to lower 3d floor or to actual sector's floor.
-                if (General.Map.FormatInterface.HasThingHeight)
+                if (DoomBuilder.General.Map.FormatInterface.HasThingHeight)
                 {
                     foreach (BaseVisualThing vt in things)
                     {
@@ -3251,15 +3252,15 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void MatchBrightness()
         {
             //check input
-            if (!General.Map.UDMF)
+            if (!DoomBuilder.General.Map.UDMF)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "'Match Brightness' action works only in UDMF map format!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "'Match Brightness' action works only in UDMF map format!");
                 return;
             }
 
             if (selectedobjects.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "'Match Brightness' action requires a selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "'Match Brightness' action requires a selection!");
                 return;
             }
 
@@ -3267,7 +3268,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             if (highlighted is BaseVisualThing)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Highlight a surface, to which you want to match the brightness.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Highlight a surface, to which you want to match the brightness.");
                 return;
             }
 
@@ -3306,7 +3307,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 Sidedef sd = v.GetControlLinedef().Front;
                 if (sd == null)
                 {
-                    General.Interface.DisplayStatus(StatusType.Warning, "Highlight a surface, to which you want to match the brightness.");
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Highlight a surface, to which you want to match the brightness.");
                     return;
                 }
                 targetbrightness = sd.Fields.GetValue("light", 0);
@@ -3318,13 +3319,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
             else
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Highlight a surface, to which you want to match the brightness.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Highlight a surface, to which you want to match the brightness.");
                 return;
             }
 
             //make undo
             CreateUndo("Match Brightness");
-            targetbrightness = General.Clamp(targetbrightness, 0, 255);
+            targetbrightness = DoomBuilder.General.Clamp(targetbrightness, 0, 255);
 
             //apply new brightness
             foreach (IVisualEventReceiver obj in selectedobjects)
@@ -3387,7 +3388,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             //Done
-            General.Interface.DisplayStatus(StatusType.Action, "Matched brightness for " + selectedobjects.Count + " surfaces.");
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Matched brightness for " + selectedobjects.Count + " surfaces.");
             Interface_OnSectorEditFormValuesChanged(this, EventArgs.Empty);
         }
 
@@ -3399,12 +3400,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             string shortmessage = "Thing visibility is now " + (BuilderPlug.Me.ShowVisualThings > 0 ? (BuilderPlug.Me.ShowVisualThings > 1 ? "ON" : "SPRITE ONLY") : "OFF") + ".";
             string message = shortmessage;
-            string key = Actions.Action.GetShortcutKeyDesc(General.Actions.Current.ShortcutKey);
+            string key = Actions.Action.GetShortcutKeyDesc(DoomBuilder.General.Actions.Current.ShortcutKey);
 
             if (!string.IsNullOrEmpty(key))
                 message += $" Press '{key}' to change.";
 
-            General.ToastManager.ShowToast("showvisualthings", ToastType.INFO, "Changed thing visibility", message, new StatusInfo(StatusType.Action, shortmessage));
+            DoomBuilder.General.ToastManager.ShowToast("showvisualthings", ToastType.INFO, "Changed thing visibility", message, new StatusInfo(StatusType.Action, shortmessage));
         }
 
         [BeginAction("raisebrightness8")]
@@ -3433,10 +3434,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
         [BeginAction("movetextureright8")] public void MoveTextureRight8() { MoveTextureByOffset(8, 0); }
         [BeginAction("movetextureup8")] public void MoveTextureUp8() { MoveTextureByOffset(0, -8); }
         [BeginAction("movetexturedown8")] public void MoveTextureDown8() { MoveTextureByOffset(0, 8); }
-        [BeginAction("movetextureleftgs")] public void MoveTextureLeftGrid() { MoveTextureByOffset(-General.Map.Grid.GridSize, 0); }  //mxd
-        [BeginAction("movetexturerightgs")] public void MoveTextureRightGrid() { MoveTextureByOffset(General.Map.Grid.GridSize, 0); }  //mxd
-        [BeginAction("movetextureupgs")] public void MoveTextureUpGrid() { MoveTextureByOffset(0, -General.Map.Grid.GridSize); } //mxd
-        [BeginAction("movetexturedowngs")] public void MoveTextureDownGrid() { MoveTextureByOffset(0, General.Map.Grid.GridSize); } //mxd
+        [BeginAction("movetextureleftgs")] public void MoveTextureLeftGrid() { MoveTextureByOffset(-DoomBuilder.General.Map.Grid.GridSize, 0); }  //mxd
+        [BeginAction("movetexturerightgs")] public void MoveTextureRightGrid() { MoveTextureByOffset(DoomBuilder.General.Map.Grid.GridSize, 0); }  //mxd
+        [BeginAction("movetextureupgs")] public void MoveTextureUpGrid() { MoveTextureByOffset(0, -DoomBuilder.General.Map.Grid.GridSize); } //mxd
+        [BeginAction("movetexturedowngs")] public void MoveTextureDownGrid() { MoveTextureByOffset(0, DoomBuilder.General.Map.Grid.GridSize); } //mxd
 
         //mxd
         private void MoveTextureByOffset(int ox, int oy)
@@ -3469,7 +3470,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             PreAction(UndoGroup.None);
             renderer.SetCrosshairBusy(true);
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
             GetTargetEventReceiver(false).OnSelectTexture();
             renderer.SetCrosshairBusy(false);
             PostAction();
@@ -3500,7 +3501,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             PreAction(UndoGroup.None);
             renderer.SetCrosshairBusy(true);
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
             GetTargetEventReceiver(false).OnTextureAlign(true, true);
             UpdateChangedObjects();
             renderer.SetCrosshairBusy(false);
@@ -3512,7 +3513,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             PreAction(UndoGroup.None);
             renderer.SetCrosshairBusy(true);
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
             GetTargetEventReceiver(false).OnTextureAlign(true, false);
             UpdateChangedObjects();
             renderer.SetCrosshairBusy(false);
@@ -3524,7 +3525,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             PreAction(UndoGroup.None);
             renderer.SetCrosshairBusy(true);
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
             GetTargetEventReceiver(false).OnTextureAlign(false, true);
             UpdateChangedObjects();
             renderer.SetCrosshairBusy(false);
@@ -3537,7 +3538,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             PreAction(UndoGroup.None);
             renderer.SetCrosshairBusy(true);
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
 
             AutoAlignTexturesToSelected(true, true);
 
@@ -3552,7 +3553,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             PreAction(UndoGroup.None);
             renderer.SetCrosshairBusy(true);
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
 
             AutoAlignTexturesToSelected(true, false);
 
@@ -3567,7 +3568,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             PreAction(UndoGroup.None);
             renderer.SetCrosshairBusy(true);
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Interface.RedrawDisplay();
 
             AutoAlignTexturesToSelected(false, true);
 
@@ -3588,7 +3589,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             SetActionResult("Auto-aligned textures to selected sidedefs " + rest + ".");
 
             // Clear all marks, this will align everything it can
-            General.Map.Map.ClearMarkedSidedefs(false);
+            DoomBuilder.General.Map.Map.ClearMarkedSidedefs(false);
 
             //get selection
             List<IVisualEventReceiver> objs = GetSelectedObjects(false, true, false, false, false);
@@ -3605,7 +3606,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 AutoAlignTextures(side, side.Texture, alignX, alignY, false, false);
 
                 // Get the changed sidedefs
-                List<Sidedef> changes = General.Map.Map.GetMarkedSidedefs(true);
+                List<Sidedef> changes = DoomBuilder.General.Map.Map.GetMarkedSidedefs(true);
 
                 foreach (Sidedef sd in changes)
                 {
@@ -3637,7 +3638,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             if (sides.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Fit Textures action requires selected sidedefs.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Fit Textures action requires selected sidedefs.");
                 return;
             }
 
@@ -3645,8 +3646,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             FitTexturesForm form = new FitTexturesForm();
 
             // Undo changes?
-            if (form.Setup(sides) && form.ShowDialog((Form)General.Interface) == DialogResult.Cancel)
-                General.Map.UndoRedo.WithdrawUndo();
+            if (form.Setup(sides) && form.ShowDialog((Form)DoomBuilder.General.Interface) == DialogResult.Cancel)
+                DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
 
             PostAction();
         }
@@ -3674,12 +3675,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             string shortmessage = "Gravity is now " + (BuilderPlug.Me.UseGravity ? "ON" : "OFF") + ".";
             string message = shortmessage;
-            string key = Actions.Action.GetShortcutKeyDesc(General.Actions.Current.ShortcutKey);
+            string key = Actions.Action.GetShortcutKeyDesc(DoomBuilder.General.Actions.Current.ShortcutKey);
 
             if (!string.IsNullOrEmpty(key))
                 message += $" Press '{key}' to toggle.";
 
-            General.ToastManager.ShowToast("togglegravity", ToastType.INFO, "Changed gravity", message, new StatusInfo(StatusType.Action, shortmessage));
+            DoomBuilder.General.ToastManager.ShowToast("togglegravity", ToastType.INFO, "Changed gravity", message, new StatusInfo(StatusType.Action, shortmessage));
         }
 
         [BeginAction("resettexture")]
@@ -3830,13 +3831,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Anything selected?
             if (selection.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires highlight or selection!");
                 return;
             }
 
             // Show the form
             PastePropertiesOptionsForm form = new PastePropertiesOptionsForm();
-            if (form.Setup(targettypes) && form.ShowDialog(General.Interface) == DialogResult.OK)
+            if (form.Setup(targettypes) && form.ShowDialog(DoomBuilder.General.Interface) == DialogResult.OK)
             {
                 // Paste properties
                 PreAction(UndoGroup.None);
@@ -3853,30 +3854,30 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             if (!hitpos.IsFinite())
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Cannot insert thing here!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Cannot insert thing here!");
                 return;
             }
 
             ClearSelection();
             PreActionNoChange();
-            General.Map.UndoRedo.ClearAllRedos();
-            General.Map.UndoRedo.CreateUndo("Insert thing");
+            DoomBuilder.General.Map.UndoRedo.ClearAllRedos();
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Insert thing");
 
             Thing t = CreateThing(new Vector2D(hitpos.x, hitpos.y));
 
             if (t == null)
             {
-                General.Map.UndoRedo.WithdrawUndo();
+                DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
                 return;
             }
 
             // Edit the thing?
-            if (BuilderPlug.Me.EditNewThing) General.Interface.ShowEditThings(new List<Thing> { t });
+            if (BuilderPlug.Me.EditNewThing) DoomBuilder.General.Interface.ShowEditThings(new List<Thing> { t });
 
             //add thing to blockmap
             blockmap.AddThing(t);
 
-            General.Interface.DisplayStatus(StatusType.Action, "Inserted a new thing.");
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Inserted a new thing.");
             PostAction();
         }
 
@@ -3915,7 +3916,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             string rest = copybuffer.Count + (copybuffer.Count > 1 ? " things." : " thing.");
-            General.Interface.DisplayStatus(StatusType.Info, "Copied " + rest);
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Info, "Copied " + rest);
         }
 
         //mxd
@@ -3927,7 +3928,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             //Create undo
             string rest = copybuffer.Count + (copybuffer.Count > 1 ? " things." : " thing.");
             CreateUndo("Cut " + rest);
-            General.Interface.DisplayStatus(StatusType.Info, "Cut " + rest);
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Info, "Cut " + rest);
 
             List<IVisualEventReceiver> objs = GetSelectedObjects(false, false, true, false, false);
             foreach (IVisualEventReceiver i in objs)
@@ -3939,14 +3940,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 thing.Dispose();
             }
 
-            General.Map.IsChanged = true;
-            General.Map.ThingsFilter.Update();
+            DoomBuilder.General.Map.IsChanged = true;
+            DoomBuilder.General.Map.ThingsFilter.Update();
 
             // [ZZ] Clear selected things.
             ClearSelection(false, false, true, false, false, false);
 
             // Update event lines
-            renderer.SetEventLines(LinksCollector.GetHelperShapes(General.Map.ThingsFilter.VisibleThings, blockmap));
+            renderer.SetEventLines(LinksCollector.GetHelperShapes(DoomBuilder.General.Map.ThingsFilter.VisibleThings, blockmap));
         }
 
         //mxd. We'll just use currently selected objects 
@@ -3963,7 +3964,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             if (!hitpos.IsFinite())
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Cannot paste here!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Cannot paste here!");
                 return;
             }
 
@@ -3971,8 +3972,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             hitpos.y = Math.Round(hitpos.y);
 
             string rest = copybuffer.Count + (copybuffer.Count > 1 ? " things." : " thing.");
-            General.Map.UndoRedo.CreateUndo("Paste " + rest);
-            General.Interface.DisplayStatus(StatusType.Info, "Pasted " + rest);
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Paste " + rest);
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Info, "Pasted " + rest);
 
             PreActionNoChange();
             ClearSelection();
@@ -3997,8 +3998,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
             }
 
-            General.Map.IsChanged = true;
-            General.Map.ThingsFilter.Update();
+            DoomBuilder.General.Map.IsChanged = true;
+            DoomBuilder.General.Map.ThingsFilter.Update();
 
             PostAction();
         }
@@ -4007,14 +4008,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
         [BeginAction("rotateclockwise")]
         public void RotateCW()
         {
-            RotateThingsAndTextures(General.Map.Config.DoomThingRotationAngles ? 45 : 5, 5);
+            RotateThingsAndTextures(DoomBuilder.General.Map.Config.DoomThingRotationAngles ? 45 : 5, 5);
         }
 
         //mxd. Rotate counterclockwise
         [BeginAction("rotatecounterclockwise")]
         public void RotateCCW()
         {
-            RotateThingsAndTextures(General.Map.Config.DoomThingRotationAngles ? -45 : -5, -5);
+            RotateThingsAndTextures(DoomBuilder.General.Map.Config.DoomThingRotationAngles ? -45 : -5, -5);
         }
 
         //mxd
@@ -4032,8 +4033,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     BaseVisualThing t = (BaseVisualThing)obj;
 
                     int newangle = t.Thing.AngleDoom + thingangleincrement;
-                    if (General.Map.Config.DoomThingRotationAngles) newangle = newangle / 45 * 45;
-                    t.SetAngle(General.ClampAngle(newangle));
+                    if (DoomBuilder.General.Map.Config.DoomThingRotationAngles) newangle = newangle / 45 * 45;
+                    t.SetAngle(DoomBuilder.General.ClampAngle(newangle));
 
                     // Visual sectors may be affected by this thing...
                     if (thingdata.ContainsKey(t.Thing))
@@ -4053,12 +4054,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 else if (obj is VisualFloor)
                 {
                     VisualFloor vf = (VisualFloor)obj;
-                    vf.OnChangeTextureRotation(General.ClampAngle(vf.GetControlSector().Fields.GetValue("rotationfloor", 0.0) + textureangleincrement));
+                    vf.OnChangeTextureRotation(DoomBuilder.General.ClampAngle(vf.GetControlSector().Fields.GetValue("rotationfloor", 0.0) + textureangleincrement));
                 }
                 else if (obj is VisualCeiling)
                 {
                     VisualCeiling vc = (VisualCeiling)obj;
-                    vc.OnChangeTextureRotation(General.ClampAngle(vc.GetControlSector().Fields.GetValue("rotationceiling", 0.0) + textureangleincrement));
+                    vc.OnChangeTextureRotation(DoomBuilder.General.ClampAngle(vc.GetControlSector().Fields.GetValue("rotationceiling", 0.0) + textureangleincrement));
                 }
             }
 
@@ -4090,7 +4091,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             foreach (IVisualEventReceiver obj in selection)
             {
                 BaseVisualThing t = (BaseVisualThing)obj;
-                if (t != null) t.SetPitch(General.ClampAngle(t.Thing.Pitch + increment));
+                if (t != null) t.SetPitch(DoomBuilder.General.ClampAngle(t.Thing.Pitch + increment));
             }
 
             PostAction();
@@ -4121,7 +4122,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             foreach (IVisualEventReceiver obj in selection)
             {
                 BaseVisualThing t = (BaseVisualThing)obj;
-                if (t != null) t.SetRoll(General.ClampAngle(t.Thing.Roll + increment));
+                if (t != null) t.SetRoll(DoomBuilder.General.ClampAngle(t.Thing.Roll + increment));
             }
 
             PostAction();
@@ -4144,7 +4145,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             if (visualThings.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires selected Things!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires selected Things!");
                 return;
             }
 
@@ -4156,13 +4157,13 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // Make undo
             if (things.Count > 1)
             {
-                General.Map.UndoRedo.CreateUndo("Align " + things.Count + " things");
-                General.Interface.DisplayStatus(StatusType.Action, "Aligned " + things.Count + " things.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Align " + things.Count + " things");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Aligned " + things.Count + " things.");
             }
             else
             {
-                General.Map.UndoRedo.CreateUndo("Align thing");
-                General.Interface.DisplayStatus(StatusType.Action, "Aligned a thing.");
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Align thing");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Aligned a thing.");
             }
 
             //align things
@@ -4173,17 +4174,17 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                 do
                 {
-                    Linedef l = General.Map.Map.NearestLinedef(t.Position, excludedLines);
+                    Linedef l = DoomBuilder.General.Map.Map.NearestLinedef(t.Position, excludedLines);
                     aligned = Tools.TryAlignThingToLine(t, l);
 
                     if (!aligned)
                     {
                         excludedLines.Add(l);
 
-                        if (excludedLines.Count == General.Map.Map.Linedefs.Count)
+                        if (excludedLines.Count == DoomBuilder.General.Map.Map.Linedefs.Count)
                         {
-                            ThingTypeInfo tti = General.Map.Data.GetThingInfo(t.Type);
-                            General.ErrorLogger.Add(ErrorType.Warning, "Unable to align " + tti.Title + " (index " + t.Index + ") to any linedef!");
+                            ThingTypeInfo tti = DoomBuilder.General.Map.Data.GetThingInfo(t.Type);
+                            DoomBuilder.General.ErrorLogger.Add(ErrorType.Warning, "Unable to align " + tti.Title + " (index " + t.Index + ") to any linedef!");
                             aligned = true;
                         }
                     }
@@ -4220,7 +4221,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             if (visualThings.Count != 1)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Look Through Selection action requires 1 selected Thing!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Look Through Selection action requires 1 selected Thing!");
                 return;
             }
 
@@ -4235,7 +4236,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     Thing ip = null;
 
                     //find interpolation point
-                    foreach (Thing tgt in General.Map.Map.Things)
+                    foreach (Thing tgt in DoomBuilder.General.Map.Map.Things)
                     {
                         if (tgt.Tag == ipTag && tgt.Type == 9070)
                         {
@@ -4258,23 +4259,23 @@ namespace CodeImp.DoomBuilder.BuilderModes
                             targetPos = vTarget.CenterV3D;
                         }
 
-                        General.Map.VisualCamera.Position = targetPos; //position at interpolation point
+                        DoomBuilder.General.Map.VisualCamera.Position = targetPos; //position at interpolation point
                     }
                     else
                     {
-                        General.Map.VisualCamera.Position = visualThings[0].CenterV3D; //position at camera
+                        DoomBuilder.General.Map.VisualCamera.Position = visualThings[0].CenterV3D; //position at camera
                     }
 
                 }
                 else
                 {
-                    General.Map.VisualCamera.Position = visualThings[0].CenterV3D; //position at camera
+                    DoomBuilder.General.Map.VisualCamera.Position = visualThings[0].CenterV3D; //position at camera
                 }
 
                 //angle
                 Thing target = null;
 
-                foreach (Thing tgt in General.Map.Map.Things)
+                foreach (Thing tgt in DoomBuilder.General.Map.Map.Things)
                 {
                     if (tgt.Tag == t.Args[3])
                     {
@@ -4285,9 +4286,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                 if (target == null)
                 {
-                    General.Interface.DisplayStatus(StatusType.Warning, "Camera target with Tag " + t.Args[3] + " does not exist!");
-                    General.Map.VisualCamera.AngleXY = t.Angle - Angle2D.PI;
-                    General.Map.VisualCamera.AngleZ = Angle2D.PI;
+                    DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Camera target with Tag " + t.Args[3] + " does not exist!");
+                    DoomBuilder.General.Map.VisualCamera.AngleXY = t.Angle - Angle2D.PI;
+                    DoomBuilder.General.Map.VisualCamera.AngleZ = Angle2D.PI;
                 }
                 else
                 {
@@ -4304,26 +4305,26 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     }
 
                     bool pitch = (t.Args[2] & 4) != 0;
-                    Vector3D delta = General.Map.VisualCamera.Position - targetPos;
-                    General.Map.VisualCamera.AngleXY = delta.GetAngleXY();
-                    General.Map.VisualCamera.AngleZ = pitch ? -delta.GetAngleZ() : Angle2D.PI;
+                    Vector3D delta = DoomBuilder.General.Map.VisualCamera.Position - targetPos;
+                    DoomBuilder.General.Map.VisualCamera.AngleXY = delta.GetAngleXY();
+                    DoomBuilder.General.Map.VisualCamera.AngleZ = pitch ? -delta.GetAngleZ() : Angle2D.PI;
                 }
             }
             else if ((t.Type == 9025 || t.Type == 9073 || t.Type == 9070) && t.Args[0] != 0) //InterpolationPoint, SecurityCamera or AimingCamera with pitch?
             {
-                General.Map.VisualCamera.Position = visualThings[0].CenterV3D; //position at camera
-                General.Map.VisualCamera.AngleXY = t.Angle - Angle2D.PI;
-                General.Map.VisualCamera.AngleZ = Angle2D.PI + Angle2D.DegToRad(t.Args[0]);
+                DoomBuilder.General.Map.VisualCamera.Position = visualThings[0].CenterV3D; //position at camera
+                DoomBuilder.General.Map.VisualCamera.AngleXY = t.Angle - Angle2D.PI;
+                DoomBuilder.General.Map.VisualCamera.AngleZ = Angle2D.PI + Angle2D.DegToRad(t.Args[0]);
             }
             else //nope, just a generic thing
             {
-                General.Map.VisualCamera.Position = visualThings[0].CenterV3D; //position at thing
-                General.Map.VisualCamera.AngleXY = t.Angle - Angle2D.PI;
+                DoomBuilder.General.Map.VisualCamera.Position = visualThings[0].CenterV3D; //position at thing
+                DoomBuilder.General.Map.VisualCamera.AngleXY = t.Angle - Angle2D.PI;
 
-                if (General.Map.UDMF)
-                    General.Map.VisualCamera.AngleZ = Angle2D.DegToRad(t.Pitch) + Angle2D.PI;
+                if (DoomBuilder.General.Map.UDMF)
+                    DoomBuilder.General.Map.VisualCamera.AngleZ = Angle2D.DegToRad(t.Pitch) + Angle2D.PI;
                 else
-                    General.Map.VisualCamera.AngleZ = Angle2D.PI;
+                    DoomBuilder.General.Map.VisualCamera.AngleZ = Angle2D.PI;
             }
         }
 
@@ -4335,12 +4336,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             if (selection.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Toggle Slope action requires selected surfaces!");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Toggle Slope action requires selected surfaces!");
                 return;
             }
 
             List<BaseVisualSector> toUpdate = new List<BaseVisualSector>();
-            General.Map.UndoRedo.CreateUndo("Toggle Slope");
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Toggle Slope");
 
             //check selection
             foreach (VisualGeometry vg in selection)
@@ -4462,7 +4463,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 ShowTargetInfo();
             }
 
-            General.Interface.DisplayStatus(StatusType.Action, "Toggled Slope for " + toUpdate.Count + (toUpdate.Count == 1 ? " surface." : " surfaces."));
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Toggled Slope for " + toUpdate.Count + (toUpdate.Count == 1 ? " surface." : " surfaces."));
         }
 
         //mxd
@@ -4470,7 +4471,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public void ToggleAlphaBasedTextureHighlighting()
         {
             BuilderPlug.Me.AlphaBasedTextureHighlighting = !BuilderPlug.Me.AlphaBasedTextureHighlighting;
-            General.Interface.DisplayStatus(StatusType.Info, "Alpha-based textures highlighting is " + (BuilderPlug.Me.AlphaBasedTextureHighlighting ? "ENABLED" : "DISABLED"));
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Info, "Alpha-based textures highlighting is " + (BuilderPlug.Me.AlphaBasedTextureHighlighting ? "ENABLED" : "DISABLED"));
         }
 
         // biwa
@@ -4493,14 +4494,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
         [BeginAction("togglevisualslopepicking")]
         public void ToggleVisualSidedefSlopePicking()
         {
-            if (!General.Map.UDMF)
+            if (!DoomBuilder.General.Map.UDMF)
             {
-                General.ToastManager.ShowToast(ToastMessages.VISUALSLOPING, ToastType.WARNING, "Visual sloping", "Visual sloping is supported in UDMF only.");
+                DoomBuilder.General.ToastManager.ShowToast(ToastMessages.VISUALSLOPING, ToastType.WARNING, "Visual sloping", "Visual sloping is supported in UDMF only.");
                 return;
             }
-            else if (!General.Map.Config.PlaneEquationSupport)
+            else if (!DoomBuilder.General.Map.Config.PlaneEquationSupport)
             {
-                General.ToastManager.ShowToast(ToastMessages.VISUALSLOPING, ToastType.WARNING, "Visual sloping", "Visual sloping is not supported in this game configuration.");
+                DoomBuilder.General.ToastManager.ShowToast(ToastMessages.VISUALSLOPING, ToastType.WARNING, "Visual sloping", "Visual sloping is not supported in this game configuration.");
                 return;
             }
 
@@ -4524,14 +4525,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
         [BeginAction("togglevisualvertexslopepicking")]
         public void ToggleVisualVertexSlopePicking()
         {
-            if (!General.Map.UDMF)
+            if (!DoomBuilder.General.Map.UDMF)
             {
-                General.ToastManager.ShowToast(ToastMessages.VISUALSLOPING, ToastType.WARNING, "Visual sloping", "Visual sloping is supported in UDMF only.");
+                DoomBuilder.General.ToastManager.ShowToast(ToastMessages.VISUALSLOPING, ToastType.WARNING, "Visual sloping", "Visual sloping is supported in UDMF only.");
                 return;
             }
-            else if (!General.Map.Config.PlaneEquationSupport)
+            else if (!DoomBuilder.General.Map.Config.PlaneEquationSupport)
             {
-                General.ToastManager.ShowToast(ToastMessages.VISUALSLOPING, ToastType.WARNING, "Visual sloping", "Visual sloping is not supported in this game configuration.");
+                DoomBuilder.General.ToastManager.ShowToast(ToastMessages.VISUALSLOPING, ToastType.WARNING, "Visual sloping", "Visual sloping is not supported in this game configuration.");
                 return;
             }
 
@@ -4555,20 +4556,20 @@ namespace CodeImp.DoomBuilder.BuilderModes
         [BeginAction("togglevisualvertexslopeadjacentselection")]
         public void ToggleVisualVertexSlopeAdjacentSelection()
         {
-            if (!General.Map.UDMF)
+            if (!DoomBuilder.General.Map.UDMF)
             {
-                General.ToastManager.ShowToast(ToastMessages.VISUALSLOPING, ToastType.WARNING, "Visual sloping", "Visual sloping is not supported in this game configuration.");
+                DoomBuilder.General.ToastManager.ShowToast(ToastMessages.VISUALSLOPING, ToastType.WARNING, "Visual sloping", "Visual sloping is not supported in this game configuration.");
                 return;
             }
-            else if (!General.Map.Config.PlaneEquationSupport)
+            else if (!DoomBuilder.General.Map.Config.PlaneEquationSupport)
             {
-                General.ToastManager.ShowToast(ToastMessages.VISUALSLOPING, ToastType.WARNING, "Visual sloping", "Visual sloping is not supported in this game configuration.");
+                DoomBuilder.General.ToastManager.ShowToast(ToastMessages.VISUALSLOPING, ToastType.WARNING, "Visual sloping", "Visual sloping is not supported in this game configuration.");
                 return;
             }
 
             BuilderPlug.Me.SelectAdjacentVisualVertexSlopeHandles = !BuilderPlug.Me.SelectAdjacentVisualVertexSlopeHandles;
 
-            General.Interface.DisplayStatus(StatusType.Action, "Adjacant selection of visual vertex slop handles is " + (BuilderPlug.Me.SelectAdjacentVisualVertexSlopeHandles ? "ENABLED" : "DISABLED"));
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Adjacant selection of visual vertex slop handles is " + (BuilderPlug.Me.SelectAdjacentVisualVertexSlopeHandles ? "ENABLED" : "DISABLED"));
         }
 
 
@@ -4578,11 +4579,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
             List<IVisualEventReceiver> selectedsectors = GetSelectedObjects(true, false, false, false, false);
             if (selectedsectors.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "You need to select at least one floor or ceiling to reset slope.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "You need to select at least one floor or ceiling to reset slope.");
                 return;
             }
 
-            General.Map.UndoRedo.CreateUndo("Reset plane slope");
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Reset plane slope");
 
             int numfloors = 0;
             int numceilings = 0;
@@ -4648,7 +4649,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             UpdateChangedObjects();
 
-            General.Interface.DisplayStatus(StatusType.Action, string.Format("{1} {0} slopes reset.", ptype, numfloors + numceilings));
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, string.Format("{1} {0} slopes reset.", ptype, numfloors + numceilings));
         }
 
         [BeginAction("slopebetweenhandles")]
@@ -4657,7 +4658,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             List<IVisualEventReceiver> selectedsectors = GetSelectedObjects(true, false, false, false, false);
             if (selectedsectors.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "You need to select floors or ceilings to slope between slope handles.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "You need to select floors or ceilings to slope between slope handles.");
                 return;
             }
 
@@ -4665,11 +4666,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             if (handles.Count != 2)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "You need to select exactly two slope handles.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "You need to select exactly two slope handles.");
                 return;
             }
 
-            General.Map.UndoRedo.CreateUndo("Slope between slope handles");
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Slope between slope handles");
 
             // Create the new plane
             Vector3D p1 = new Vector3D(handles[0].Sidedef.Line.Start.Position, handles[0].Level.plane.GetZ(handles[0].Sidedef.Line.Start.Position));
@@ -4686,7 +4687,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             UpdateChangedObjects();
 
-            General.Interface.DisplayStatus(StatusType.Action, "Sloped between slope handles.");
+            DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Sloped between slope handles.");
         }
 
         /// <summary>
@@ -4699,7 +4700,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             if (selectedsectors.Count < 2)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "You need to select at least two floors and ceilings to slope arch between slope handles.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "You need to select at least two floors and ceilings to slope arch between slope handles.");
                 return;
             }
 
@@ -4707,11 +4708,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             if (handles.Count != 2)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "You need to select exactly two slope handles.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "You need to select exactly two slope handles.");
                 return;
             }
 
-            General.Map.UndoRedo.CreateUndo("Arch between slope handles");
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Arch between slope handles");
 
             Vector3D p1 = handles[0].GetCenterPoint();
             Vector3D p2 = handles[1].GetCenterPoint();
@@ -4743,12 +4744,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
             saf.UpdateChangedObjects -= Interface_OnUpdateChangedObjects;
 
             if (result == DialogResult.Cancel)
-                General.Map.UndoRedo.WithdrawUndo();
+                DoomBuilder.General.Map.UndoRedo.WithdrawUndo();
             else
             {
                 UpdateChangedObjects();
 
-                General.Interface.DisplayStatus(StatusType.Action, "Arched between slope handles.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, "Arched between slope handles.");
             }
         }
 
@@ -4762,29 +4763,29 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             if (things.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Can't apply camera rotation to things: no things selected.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Can't apply camera rotation to things: no things selected.");
                 return;
             }
 
-            General.Map.UndoRedo.CreateUndo("Apply camera rotation to things");
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Apply camera rotation to things");
 
             foreach (Thing t in things)
             {
-                t.Rotate(General.Map.VisualCamera.AngleXY - Angle2D.PI);
+                t.Rotate(DoomBuilder.General.Map.VisualCamera.AngleXY - Angle2D.PI);
 
-                if (General.Map.UDMF)
-                    t.SetPitch((int)Angle2D.RadToDeg(General.Map.VisualCamera.AngleZ - Angle2D.PI));
+                if (DoomBuilder.General.Map.UDMF)
+                    t.SetPitch((int)Angle2D.RadToDeg(DoomBuilder.General.Map.VisualCamera.AngleZ - Angle2D.PI));
 
                 ((BaseVisualThing)allthings[t]).Rebuild();
 
-                General.Interface.DisplayStatus(StatusType.Action, $"Applied camera rotation and pitch to {things.Count} thing{(things.Count == 1 ? "" : "s")}.");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Action, $"Applied camera rotation and pitch to {things.Count} thing{(things.Count == 1 ? "" : "s")}.");
             }
         }
 
         //mxd. If checkSelectedSidedefParts is set to true, only selected linedef parts will be aligned (when a sidedef has both top and bottom parts, but only bottom is selected, top texture won't be aligned)
         internal void AutoAlignTextures(BaseVisualGeometrySidedef start, ImageData texture, bool alignx, bool aligny, bool resetsidemarks, bool checkSelectedSidedefParts)
         {
-            if (General.Map.UDMF && General.Map.Config.UseLocalSidedefTextureOffsets)
+            if (DoomBuilder.General.Map.UDMF && DoomBuilder.General.Map.Config.UseLocalSidedefTextureOffsets)
                 AutoAlignTexturesUDMF(start, texture, alignx, aligny, resetsidemarks, checkSelectedSidedefParts);
             else
                 AutoAlignTextures(start, texture, alignx, aligny, resetsidemarks);
@@ -4799,11 +4800,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
         private void AutoAlignTextures(BaseVisualGeometrySidedef start, ImageData texture, bool alignx, bool aligny, bool resetsidemarks)
         {
             Stack<SidedefAlignJob> todo = new Stack<SidedefAlignJob>(50);
-            double scalex = (General.Map.Config.ScaledTextureOffsets && !texture.WorldPanning) ? texture.Scale.x : 1.0f;
-            double scaley = (General.Map.Config.ScaledTextureOffsets && !texture.WorldPanning) ? texture.Scale.y : 1.0f;
+            double scalex = (DoomBuilder.General.Map.Config.ScaledTextureOffsets && !texture.WorldPanning) ? texture.Scale.x : 1.0f;
+            double scaley = (DoomBuilder.General.Map.Config.ScaledTextureOffsets && !texture.WorldPanning) ? texture.Scale.y : 1.0f;
 
             // Mark all sidedefs false (they will be marked true when the texture is aligned).
-            if (resetsidemarks) General.Map.Map.ClearMarkedSidedefs(false);
+            if (resetsidemarks) DoomBuilder.General.Map.Map.ClearMarkedSidedefs(false);
 
             // Begin with first sidedef
             SidedefAlignJob first = new SidedefAlignJob();
@@ -4922,14 +4923,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             HashSet<long> alignedsides = new HashSet<long>(100);
             // Mark all sidedefs false (they will be marked true when the texture is aligned)
-            if (resetsidemarks) General.Map.Map.ClearMarkedSidedefs(false);
+            if (resetsidemarks) DoomBuilder.General.Map.Map.ClearMarkedSidedefs(false);
             if (!texture.IsImageLoaded) return;
 
-            bool worldpanning = texture.WorldPanning || General.Map.Data.MapInfo.ForceWorldPanning;
+            bool worldpanning = texture.WorldPanning || DoomBuilder.General.Map.Data.MapInfo.ForceWorldPanning;
 
             Stack<SidedefAlignJob> todo = new Stack<SidedefAlignJob>(50);
-            double scalex = (General.Map.Config.ScaledTextureOffsets && !texture.WorldPanning) ? texture.Scale.x : 1.0f;
-            double scaley = (General.Map.Config.ScaledTextureOffsets && !texture.WorldPanning) ? texture.Scale.y : 1.0f;
+            double scalex = (DoomBuilder.General.Map.Config.ScaledTextureOffsets && !texture.WorldPanning) ? texture.Scale.x : 1.0f;
+            double scaley = (DoomBuilder.General.Map.Config.ScaledTextureOffsets && !texture.WorldPanning) ? texture.Scale.y : 1.0f;
 
             SidedefAlignJob first = new SidedefAlignJob { sidedef = start.Sidedef, offsetx = start.Sidedef.OffsetX };
             first.controlSide = start.GeometryType == VisualGeometryType.WALL_MIDDLE_3D ? start.GetControlLinedef().Front : start.Sidedef;
@@ -5122,15 +5123,15 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                         if (matchtop)
                         {
-                            ImageData tex = General.Map.Data.GetTextureImage(j.sidedef.LongHighTexture);
+                            ImageData tex = DoomBuilder.General.Map.Data.GetTextureImage(j.sidedef.LongHighTexture);
                             int texwidth = (tex != null && tex.IsImageLoaded) ? tex.Width : 1;
-                            j.sidedef.Fields["offsetx_top"] = new UniValue(UniversalType.Float, Math.Round(offset % vwidth, General.Map.FormatInterface.VertexDecimals));
+                            j.sidedef.Fields["offsetx_top"] = new UniValue(UniversalType.Float, Math.Round(offset % vwidth, DoomBuilder.General.Map.FormatInterface.VertexDecimals));
                         }
                         if (matchbottom)
                         {
-                            ImageData tex = General.Map.Data.GetTextureImage(j.sidedef.LongLowTexture);
+                            ImageData tex = DoomBuilder.General.Map.Data.GetTextureImage(j.sidedef.LongLowTexture);
                             int texwidth = (tex != null && tex.IsImageLoaded) ? tex.Width : 1;
-                            j.sidedef.Fields["offsetx_bottom"] = new UniValue(UniversalType.Float, Math.Round(offset % vwidth, General.Map.FormatInterface.VertexDecimals));
+                            j.sidedef.Fields["offsetx_bottom"] = new UniValue(UniversalType.Float, Math.Round(offset % vwidth, DoomBuilder.General.Map.FormatInterface.VertexDecimals));
                         }
                         if (matchmid)
                         {
@@ -5140,9 +5141,9 @@ namespace CodeImp.DoomBuilder.BuilderModes
                                 offset -= j.controlSide.Fields.GetValue("offsetx_mid", 0.0);
                             }
 
-                            ImageData tex = General.Map.Data.GetTextureImage(j.controlSide.LongMiddleTexture);
+                            ImageData tex = DoomBuilder.General.Map.Data.GetTextureImage(j.controlSide.LongMiddleTexture);
                             int texwidth = (tex != null && tex.IsImageLoaded) ? tex.Width : 1;
-                            j.sidedef.Fields["offsetx_mid"] = new UniValue(UniversalType.Float, Math.Round(offset % vwidth, General.Map.FormatInterface.VertexDecimals));
+                            j.sidedef.Fields["offsetx_mid"] = new UniValue(UniversalType.Float, Math.Round(offset % vwidth, DoomBuilder.General.Map.FormatInterface.VertexDecimals));
                         }
                     }
 
@@ -5150,29 +5151,29 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     {
                         double offset;
 
-                        if (!texture.WorldPanning && !General.Map.Data.MapInfo.ForceWorldPanning)
+                        if (!texture.WorldPanning && !DoomBuilder.General.Map.Data.MapInfo.ForceWorldPanning)
                             offset = ((start.Sidedef.Sector.CeilHeight - j.ceilingHeight) / scaley * Math.Abs(j.scaleY)) + ystartalign - j.sidedef.OffsetY; //mxd
                         else
                             offset = start.Sidedef.Sector.CeilHeight - j.ceilingHeight + ystartalign - j.sidedef.OffsetY;
 
                         if (matchtop)
                         {
-                            ImageData tex = General.Map.Data.GetTextureImage(j.sidedef.LongHighTexture);
+                            ImageData tex = DoomBuilder.General.Map.Data.GetTextureImage(j.sidedef.LongHighTexture);
                             int texheight = (tex != null && tex.IsImageLoaded) ? tex.Height : 1;
                             double scale = !worldpanning ? j.scaleY / scaley : 1.0f;
 
                             j.sidedef.Fields["offsety_top"] = new UniValue(UniversalType.Float,
-                                Math.Round(Tools.GetSidedefTopOffsetY(j.sidedef, offset, scale, true) % vheight, General.Map.FormatInterface.VertexDecimals)); //mxd
+                                Math.Round(Tools.GetSidedefTopOffsetY(j.sidedef, offset, scale, true) % vheight, DoomBuilder.General.Map.FormatInterface.VertexDecimals)); //mxd
 
                         }
                         if (matchbottom)
                         {
-                            ImageData tex = General.Map.Data.GetTextureImage(j.sidedef.LongLowTexture);
+                            ImageData tex = DoomBuilder.General.Map.Data.GetTextureImage(j.sidedef.LongLowTexture);
                             int texheight = (tex != null && tex.IsImageLoaded) ? tex.Height : 1;
                             double scale = !worldpanning ? j.scaleY / scaley : 1.0f;
 
                             j.sidedef.Fields["offsety_bottom"] = new UniValue(UniversalType.Float,
-                                Math.Round(Tools.GetSidedefBottomOffsetY(j.sidedef, offset, scale, true) % vheight, General.Map.FormatInterface.VertexDecimals)); //mxd
+                                Math.Round(Tools.GetSidedefBottomOffsetY(j.sidedef, offset, scale, true) % vheight, DoomBuilder.General.Map.FormatInterface.VertexDecimals)); //mxd
                         }
                         if (matchmid)
                         {
@@ -5182,14 +5183,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
                                 offset -= j.controlSide.OffsetY;
                                 offset -= j.controlSide.Fields.GetValue("offsety_mid", 0.0);
 
-                                ImageData tex = General.Map.Data.GetTextureImage(j.controlSide.LongMiddleTexture);
+                                ImageData tex = DoomBuilder.General.Map.Data.GetTextureImage(j.controlSide.LongMiddleTexture);
                                 int texheight = (tex != null && tex.IsImageLoaded) ? tex.Height : 1;
                                 j.sidedef.Fields["offsety_mid"] = new UniValue(UniversalType.Float,
-                                    Math.Round(offset % vheight, General.Map.FormatInterface.VertexDecimals));
+                                    Math.Round(offset % vheight, DoomBuilder.General.Map.FormatInterface.VertexDecimals));
                             }
                             else
                             {
-                                ImageData tex = General.Map.Data.GetTextureImage(j.sidedef.LongMiddleTexture);
+                                ImageData tex = DoomBuilder.General.Map.Data.GetTextureImage(j.sidedef.LongMiddleTexture);
                                 double scale = !worldpanning ? j.scaleY / scaley : 1.0f;
                                 offset = Tools.GetSidedefMiddleOffsetY(j.sidedef, offset, scale, true);
 
@@ -5208,7 +5209,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                                         offset += vheight * Math.Round((curoffset / vheight) - (0.5f * Math.Sign(j.scaleY)));
 
                                         // Make sure the surface stays between floor and ceiling
-                                        if (j.sidedef.Line.IsFlagSet(General.Map.Config.LowerUnpeggedFlag) || Math.Sign(j.scaleY) == -1)
+                                        if (j.sidedef.Line.IsFlagSet(DoomBuilder.General.Map.Config.LowerUnpeggedFlag) || Math.Sign(j.scaleY) == -1)
                                         {
                                             if (offset < -vheight)
                                                 offset += vheight;
@@ -5226,7 +5227,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                                 }
 
                                 j.sidedef.Fields["offsety_mid"] = new UniValue(UniversalType.Float,
-                                    Math.Round(offset, General.Map.FormatInterface.VertexDecimals)); //mxd
+                                    Math.Round(offset, DoomBuilder.General.Map.FormatInterface.VertexDecimals)); //mxd
                             }
                         }
                     }
@@ -5237,12 +5238,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     {
                         // If the texture gets replaced with a "hires" texture it adds more fuckery
                         if (texture is HiResImage)
-                            forwardoffset = j.offsetx + Math.Round(Math.Round(j.sidedef.Line.Length) / scalex % vwidth, General.Map.FormatInterface.VertexDecimals);
+                            forwardoffset = j.offsetx + Math.Round(Math.Round(j.sidedef.Line.Length) / scalex % vwidth, DoomBuilder.General.Map.FormatInterface.VertexDecimals);
                         else
-                            forwardoffset = j.offsetx + Math.Round(Math.Round(j.sidedef.Line.Length) / scalex * Math.Abs(first.scaleX) % vwidth, General.Map.FormatInterface.VertexDecimals);
+                            forwardoffset = j.offsetx + Math.Round(Math.Round(j.sidedef.Line.Length) / scalex * Math.Abs(first.scaleX) % vwidth, DoomBuilder.General.Map.FormatInterface.VertexDecimals);
                     }
                     else
-                        forwardoffset = Math.Round((j.offsetx + Math.Round(j.sidedef.Line.Length)) % vwidth, General.Map.FormatInterface.VertexDecimals);
+                        forwardoffset = Math.Round((j.offsetx + Math.Round(j.sidedef.Line.Length)) % vwidth, DoomBuilder.General.Map.FormatInterface.VertexDecimals);
 
                     // Done this sidedef
                     j.sidedef.Marked = true;
@@ -5267,26 +5268,26 @@ namespace CodeImp.DoomBuilder.BuilderModes
                         {
                             // If the texture gets replaced with a "hires" texture it adds more fuckery
                             if (texture is HiResImage)
-                                offset = Math.Round((j.offsetx - j.sidedef.OffsetX - (Math.Round(j.sidedef.Line.Length) / scalex)) % vwidth, General.Map.FormatInterface.VertexDecimals);
+                                offset = Math.Round((j.offsetx - j.sidedef.OffsetX - (Math.Round(j.sidedef.Line.Length) / scalex)) % vwidth, DoomBuilder.General.Map.FormatInterface.VertexDecimals);
                             else
-                                offset = Math.Round((j.offsetx - j.sidedef.OffsetX - (Math.Round(j.sidedef.Line.Length) / scalex * first.scaleX)) % vwidth, General.Map.FormatInterface.VertexDecimals);
+                                offset = Math.Round((j.offsetx - j.sidedef.OffsetX - (Math.Round(j.sidedef.Line.Length) / scalex * first.scaleX)) % vwidth, DoomBuilder.General.Map.FormatInterface.VertexDecimals);
                         }
                         else
-                            offset = Math.Round((j.offsetx - j.sidedef.OffsetX - Math.Round(j.sidedef.Line.Length)) % vwidth, General.Map.FormatInterface.VertexDecimals);
+                            offset = Math.Round((j.offsetx - j.sidedef.OffsetX - Math.Round(j.sidedef.Line.Length)) % vwidth, DoomBuilder.General.Map.FormatInterface.VertexDecimals);
 
                         if (matchtop)
                         {
-                            ImageData tex = General.Map.Data.GetTextureImage(j.sidedef.LongHighTexture);
+                            ImageData tex = DoomBuilder.General.Map.Data.GetTextureImage(j.sidedef.LongHighTexture);
                             int texwidth = (tex != null && tex.IsImageLoaded) ? tex.Width : 1;
                             j.sidedef.Fields["offsetx_top"] = new UniValue(UniversalType.Float,
-                                Math.Round(offset % vwidth, General.Map.FormatInterface.VertexDecimals));
+                                Math.Round(offset % vwidth, DoomBuilder.General.Map.FormatInterface.VertexDecimals));
                         }
                         if (matchbottom)
                         {
-                            ImageData tex = General.Map.Data.GetTextureImage(j.sidedef.LongLowTexture);
+                            ImageData tex = DoomBuilder.General.Map.Data.GetTextureImage(j.sidedef.LongLowTexture);
                             int texwidth = (tex != null && tex.IsImageLoaded) ? tex.Width : 1;
                             j.sidedef.Fields["offsetx_bottom"] = new UniValue(UniversalType.Float,
-                                Math.Round(offset % vwidth, General.Map.FormatInterface.VertexDecimals));
+                                Math.Round(offset % vwidth, DoomBuilder.General.Map.FormatInterface.VertexDecimals));
                         }
                         if (matchmid)
                         {
@@ -5296,10 +5297,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
                                 offset -= j.controlSide.Fields.GetValue("offsetx_mid", 0.0);
                             }
 
-                            ImageData tex = General.Map.Data.GetTextureImage(j.controlSide.LongMiddleTexture);
+                            ImageData tex = DoomBuilder.General.Map.Data.GetTextureImage(j.controlSide.LongMiddleTexture);
                             int texwidth = (tex != null && tex.IsImageLoaded) ? tex.Width : 1;
                             j.sidedef.Fields["offsetx_mid"] = new UniValue(UniversalType.Float,
-                                Math.Round(offset % vwidth, General.Map.FormatInterface.VertexDecimals));
+                                Math.Round(offset % vwidth, DoomBuilder.General.Map.FormatInterface.VertexDecimals));
                         }
                     }
 
@@ -5310,21 +5311,21 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                         if (matchtop)
                         {
-                            ImageData tex = General.Map.Data.GetTextureImage(j.sidedef.LongHighTexture);
+                            ImageData tex = DoomBuilder.General.Map.Data.GetTextureImage(j.sidedef.LongHighTexture);
                             int texheight = (tex != null && tex.IsImageLoaded) ? tex.Height : 1;
                             double scale = !worldpanning ? j.scaleY / scaley : 1.0f;
 
                             j.sidedef.Fields["offsety_top"] = new UniValue(UniversalType.Float,
-                                Math.Round(Tools.GetSidedefTopOffsetY(j.sidedef, offset, scale, true) % vheight, General.Map.FormatInterface.VertexDecimals)); //mxd
+                                Math.Round(Tools.GetSidedefTopOffsetY(j.sidedef, offset, scale, true) % vheight, DoomBuilder.General.Map.FormatInterface.VertexDecimals)); //mxd
                         }
                         if (matchbottom)
                         {
-                            ImageData tex = General.Map.Data.GetTextureImage(j.sidedef.LongLowTexture);
+                            ImageData tex = DoomBuilder.General.Map.Data.GetTextureImage(j.sidedef.LongLowTexture);
                             int texheight = (tex != null && tex.IsImageLoaded) ? tex.Height : 1;
                             double scale = !worldpanning ? j.scaleY / scaley : 1.0f;
 
                             j.sidedef.Fields["offsety_bottom"] = new UniValue(UniversalType.Float,
-                                Math.Round(Tools.GetSidedefBottomOffsetY(j.sidedef, offset, scale, true) % vheight, General.Map.FormatInterface.VertexDecimals)); //mxd
+                                Math.Round(Tools.GetSidedefBottomOffsetY(j.sidedef, offset, scale, true) % vheight, DoomBuilder.General.Map.FormatInterface.VertexDecimals)); //mxd
                         }
                         if (matchmid)
                         {
@@ -5334,14 +5335,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
                                 offset -= j.controlSide.OffsetY;
                                 offset -= j.controlSide.Fields.GetValue("offsety_mid", 0.0);
 
-                                ImageData tex = General.Map.Data.GetTextureImage(j.controlSide.LongMiddleTexture);
+                                ImageData tex = DoomBuilder.General.Map.Data.GetTextureImage(j.controlSide.LongMiddleTexture);
                                 int texheight = (tex != null && tex.IsImageLoaded) ? tex.Height : 1;
                                 j.sidedef.Fields["offsety_mid"] = new UniValue(UniversalType.Float,
-                                    Math.Round(offset % vheight, General.Map.FormatInterface.VertexDecimals)); //mxd
+                                    Math.Round(offset % vheight, DoomBuilder.General.Map.FormatInterface.VertexDecimals)); //mxd
                             }
                             else
                             {
-                                ImageData tex = General.Map.Data.GetTextureImage(j.sidedef.LongMiddleTexture);
+                                ImageData tex = DoomBuilder.General.Map.Data.GetTextureImage(j.sidedef.LongMiddleTexture);
                                 double scale = !worldpanning ? j.scaleY / scaley : 1.0;
                                 offset = Tools.GetSidedefMiddleOffsetY(j.sidedef, offset, scale, true);
 
@@ -5360,7 +5361,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                                         offset += tex.Height * Math.Round((curoffset / vheight) - (0.5f * Math.Sign(j.scaleY)));
 
                                         // Make sure the surface stays between floor and ceiling
-                                        if (j.sidedef.Line.IsFlagSet(General.Map.Config.LowerUnpeggedFlag) || Math.Sign(j.scaleY) == -1)
+                                        if (j.sidedef.Line.IsFlagSet(DoomBuilder.General.Map.Config.LowerUnpeggedFlag) || Math.Sign(j.scaleY) == -1)
                                         {
                                             if (offset < -vheight)
                                                 offset += vheight;
@@ -5378,7 +5379,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                                 }
 
                                 j.sidedef.Fields["offsety_mid"] = new UniValue(UniversalType.Float,
-                                    Math.Round(offset, General.Map.FormatInterface.VertexDecimals)); //mxd
+                                    Math.Round(offset, DoomBuilder.General.Map.FormatInterface.VertexDecimals)); //mxd
                             }
                         }
                     }
@@ -5389,12 +5390,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
                     {
                         // If the texture gets replaced with a "hires" texture it adds more fuckery
                         if (texture is HiResImage)
-                            backwardoffset = Math.Round((j.offsetx - (Math.Round(j.sidedef.Line.Length) / scalex)) % vwidth, General.Map.FormatInterface.VertexDecimals);
+                            backwardoffset = Math.Round((j.offsetx - (Math.Round(j.sidedef.Line.Length) / scalex)) % vwidth, DoomBuilder.General.Map.FormatInterface.VertexDecimals);
                         else
-                            backwardoffset = Math.Round((j.offsetx - (Math.Round(j.sidedef.Line.Length) / scalex * Math.Abs(first.scaleX))) % vwidth, General.Map.FormatInterface.VertexDecimals);
+                            backwardoffset = Math.Round((j.offsetx - (Math.Round(j.sidedef.Line.Length) / scalex * Math.Abs(first.scaleX))) % vwidth, DoomBuilder.General.Map.FormatInterface.VertexDecimals);
                     }
                     else
-                        backwardoffset = Math.Round((j.offsetx - Math.Round(j.sidedef.Line.Length)) % vwidth, General.Map.FormatInterface.VertexDecimals);
+                        backwardoffset = Math.Round((j.offsetx - Math.Round(j.sidedef.Line.Length)) % vwidth, DoomBuilder.General.Map.FormatInterface.VertexDecimals);
 
                     // Done this sidedef
                     j.sidedef.Marked = true;

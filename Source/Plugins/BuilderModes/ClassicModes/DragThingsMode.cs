@@ -12,6 +12,7 @@
  */
 
 
+using CodeImp.DoomBuilder.BuilderModes.General;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
@@ -21,7 +22,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ClassicModes
 {
     // No action or button for this mode, it is automatic.
     // The EditMode attribute does not have to be specified unless the
@@ -105,7 +106,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             Cursor.Current = Cursors.AppStarting;
 
             // Mark what we are dragging
-            General.Map.Map.ClearAllMarks(false);
+            DoomBuilder.General.Map.Map.ClearAllMarks(false);
             dragthings = new List<Thing>();
             foreach (Thing t in things)
             {
@@ -115,7 +116,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
             // Get things we're not dragging
             unmovingthings = new List<Thing>();
-            foreach (Thing t in General.Map.ThingsFilter.VisibleThings) if (!t.Marked) unmovingthings.Add(t);
+            foreach (Thing t in DoomBuilder.General.Map.ThingsFilter.VisibleThings) if (!t.Marked) unmovingthings.Add(t);
 
             // Get the nearest thing for snapping
             dragitem = MapSet.NearestThing(dragthings, dragstartmappos);
@@ -129,7 +130,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             dragitemposition = dragitem.Position;
 
             //mxd. Get drag offset
-            dragstartoffset = General.Map.Grid.SnappedToGrid(dragitem.Position) - dragitemposition;
+            dragstartoffset = DoomBuilder.General.Map.Grid.SnappedToGrid(dragitem.Position) - dragitemposition;
 
             // Keep view information
             lastoffsetx = renderer.OffsetX;
@@ -162,7 +163,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             //mxd. If snap to cardinal directions is enabled, modify the offset
             if (snapcardinal)
             {
-                double angle = Angle2D.DegToRad(General.ClampAngle((int)Angle2D.RadToDeg(offset.GetAngle()) + 44) / 90 * 90);
+                double angle = Angle2D.DegToRad(DoomBuilder.General.ClampAngle((int)Angle2D.RadToDeg(offset.GetAngle()) + 44) / 90 * 90);
                 offset = new Vector2D(0, -offset.GetLength()).GetRotated(angle);
                 snapgridincrement = true; // We don't want to move Things away from the cardinal directions
             }
@@ -211,7 +212,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // Snap item to grid increment (mxd)
                 if (snapgridincrement)
                 {
-                    dragitem.Move(General.Map.Grid.SnappedToGrid(dragitemposition + offset) - dragstartoffset);
+                    dragitem.Move(DoomBuilder.General.Map.Grid.SnappedToGrid(dragitemposition + offset) - dragstartoffset);
                 }
                 else // Or to the grid itself
                 {
@@ -223,10 +224,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
             }
 
             // Make sure the offset is inside the map boundaries
-            if (offset.x + tl.x < General.Map.Config.LeftBoundary) offset.x = General.Map.Config.LeftBoundary - tl.x;
-            if (offset.x + br.x > General.Map.Config.RightBoundary) offset.x = General.Map.Config.RightBoundary - br.x;
-            if (offset.y + tl.y > General.Map.Config.TopBoundary) offset.y = General.Map.Config.TopBoundary - tl.y;
-            if (offset.y + br.y < General.Map.Config.BottomBoundary) offset.y = General.Map.Config.BottomBoundary - br.y;
+            if (offset.x + tl.x < DoomBuilder.General.Map.Config.LeftBoundary) offset.x = DoomBuilder.General.Map.Config.LeftBoundary - tl.x;
+            if (offset.x + br.x > DoomBuilder.General.Map.Config.RightBoundary) offset.x = DoomBuilder.General.Map.Config.RightBoundary - br.x;
+            if (offset.y + tl.y > DoomBuilder.General.Map.Config.TopBoundary) offset.y = DoomBuilder.General.Map.Config.TopBoundary - tl.y;
+            if (offset.y + br.y < DoomBuilder.General.Map.Config.BottomBoundary) offset.y = DoomBuilder.General.Map.Config.BottomBoundary - br.y;
 
             // Drag item moved?
             if ((!snapgrid && !snapgridincrement) || ((Vector2D)dragitem.Position != oldpos))
@@ -264,8 +265,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // Render lines and vertices
                 if (renderer.StartPlotter(true))
                 {
-                    renderer.PlotLinedefSet(General.Map.Map.Linedefs);
-                    renderer.PlotVerticesSet(General.Map.Map.Vertices);
+                    renderer.PlotLinedefSet(DoomBuilder.General.Map.Map.Linedefs);
+                    renderer.PlotVerticesSet(DoomBuilder.General.Map.Map.Vertices);
                     renderer.Finish();
                 }
             }
@@ -283,8 +284,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (renderer.StartPlotter(true))
             {
                 // Render lines and vertices
-                renderer.PlotLinedefSet(General.Map.Map.Linedefs);
-                renderer.PlotVerticesSet(General.Map.Map.Vertices);
+                renderer.PlotLinedefSet(DoomBuilder.General.Map.Map.Linedefs);
+                renderer.PlotVerticesSet(DoomBuilder.General.Map.Map.Vertices);
 
                 // Done
                 renderer.Finish();
@@ -294,14 +295,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (renderer.StartThings(true))
             {
                 // Render things
-                renderer.RenderThingSet(General.Map.ThingsFilter.HiddenThings, General.Settings.HiddenThingsAlpha);
-                renderer.RenderThingSet(unmovingthings, General.Settings.ActiveThingsAlpha);
-                renderer.RenderThingSet(dragthings, General.Settings.ActiveThingsAlpha);
+                renderer.RenderThingSet(DoomBuilder.General.Map.ThingsFilter.HiddenThings, DoomBuilder.General.Settings.HiddenThingsAlpha);
+                renderer.RenderThingSet(unmovingthings, DoomBuilder.General.Settings.ActiveThingsAlpha);
+                renderer.RenderThingSet(dragthings, DoomBuilder.General.Settings.ActiveThingsAlpha);
 
                 // Draw the dragged item highlighted
                 // This is important to know, because this item is used
                 // for snapping to the grid and snapping to nearest items
-                renderer.RenderThing(dragitem, General.Colors.Highlight, General.Settings.ActiveThingsAlpha);
+                renderer.RenderThing(dragitem, DoomBuilder.General.Colors.Highlight, DoomBuilder.General.Settings.ActiveThingsAlpha);
 
                 // Done
                 renderer.Finish();
@@ -315,16 +316,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
             MoveThingsRelative(new Vector2D(0f, 0f), false, false, false, false);
 
             // If only a single vertex was selected, deselect it now
-            //if(dragthings.Count == 1) General.Map.Map.ClearSelectedThings();
+            //if(dragthings.Count == 1) DoomBuilder.General.Map.Map.ClearSelectedThings();
 
             // Update cached values
-            General.Map.Map.Update();
+            DoomBuilder.General.Map.Map.Update();
 
             // Cancel base class
             base.OnCancel();
 
             // Return to vertices mode
-            General.Editing.ChangeMode(basemode);
+            DoomBuilder.General.Editing.ChangeMode(basemode);
         }
 
         // Mode engages
@@ -357,7 +358,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
                 // Make undo for the dragging
                 if (makeundo) //mxd
-                    General.Map.UndoRedo.CreateUndo(dragthings.Count == 1 ? "Drag thing" : "Drag " + dragthings.Count + " things");
+                    DoomBuilder.General.Map.UndoRedo.CreateUndo(dragthings.Count == 1 ? "Drag thing" : "Drag " + dragthings.Count + " things");
 
                 // Move selected geometry to final position
                 if (aligndata != null && aligndata.Active) //mxd. Apply aligning
@@ -377,11 +378,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 foreach (Thing thing in dragthings) thing.SnapToAccuracy(true);
 
                 // Map is changed
-                General.Map.IsChanged = true;
+                DoomBuilder.General.Map.IsChanged = true;
             }
 
             // Hide highlight info
-            General.Interface.HideInfo();
+            DoomBuilder.General.Interface.HideInfo();
 
             // Done
             Cursor.Current = Cursors.Default;
@@ -405,17 +406,17 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // This updates the dragging
         private void Update()
         {
-            snaptocardinaldirection = General.Interface.ShiftState && General.Interface.AltState; //mxd
-            snaptogrid = snaptocardinaldirection || General.Interface.ShiftState ^ General.Interface.SnapToGrid;
-            snaptonearest = General.Interface.CtrlState;
-            snaptogridincrement = !snaptocardinaldirection && General.Interface.AltState; //mxd
+            snaptocardinaldirection = DoomBuilder.General.Interface.ShiftState && DoomBuilder.General.Interface.AltState; //mxd
+            snaptogrid = snaptocardinaldirection || DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid;
+            snaptonearest = DoomBuilder.General.Interface.CtrlState;
+            snaptogridincrement = !snaptocardinaldirection && DoomBuilder.General.Interface.AltState; //mxd
 
             //mxd. Snap to nearest linedef
             if (dragthings.Count == 1 && snaptonearest && !snaptocardinaldirection
                 && Thing.AlignableRenderModes.Contains(dragitem.RenderMode)
                 && MoveThingsRelative(mousemappos - dragstartmappos, snaptogrid, snaptogridincrement, false, false))
             {
-                Linedef l = General.Map.Map.NearestLinedefRange(oldpositions[0] + mousemappos - dragstartmappos, BuilderPlug.Me.StitchRange / renderer.Scale);
+                Linedef l = DoomBuilder.General.Map.Map.NearestLinedefRange(oldpositions[0] + mousemappos - dragstartmappos, BuilderPlug.Me.StitchRange / renderer.Scale);
                 bool restoresettings = false;
                 if (aligndata == null) aligndata = new AlignData(dragitem);
 
@@ -463,7 +464,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         protected override void OnEditEnd()
         {
             // Just return to vertices mode, geometry will be merged on disengage.
-            General.Editing.ChangeMode(basemode);
+            DoomBuilder.General.Editing.ChangeMode(basemode);
 
             base.OnEditEnd();
         }
@@ -479,20 +480,20 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public override void OnKeyUp(KeyEventArgs e)
         {
             base.OnKeyUp(e);
-            if (snaptogrid != General.Interface.ShiftState ^ General.Interface.SnapToGrid ||
-                snaptonearest != General.Interface.CtrlState ||
-                snaptogridincrement != General.Interface.AltState ||
-                snaptocardinaldirection != (General.Interface.AltState && General.Interface.ShiftState)) Update();
+            if (snaptogrid != DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid ||
+                snaptonearest != DoomBuilder.General.Interface.CtrlState ||
+                snaptogridincrement != DoomBuilder.General.Interface.AltState ||
+                snaptocardinaldirection != (DoomBuilder.General.Interface.AltState && DoomBuilder.General.Interface.ShiftState)) Update();
         }
 
         // When a key is pressed
         public override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
-            if (snaptogrid != General.Interface.ShiftState ^ General.Interface.SnapToGrid ||
-                snaptonearest != General.Interface.CtrlState ||
-                snaptogridincrement != General.Interface.AltState ||
-                snaptocardinaldirection != (General.Interface.AltState && General.Interface.ShiftState)) Update();
+            if (snaptogrid != DoomBuilder.General.Interface.ShiftState ^ DoomBuilder.General.Interface.SnapToGrid ||
+                snaptonearest != DoomBuilder.General.Interface.CtrlState ||
+                snaptogridincrement != DoomBuilder.General.Interface.AltState ||
+                snaptocardinaldirection != (DoomBuilder.General.Interface.AltState && DoomBuilder.General.Interface.ShiftState)) Update();
         }
     }
 }

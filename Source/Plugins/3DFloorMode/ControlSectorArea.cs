@@ -196,7 +196,7 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
                 {
                     d = Line2D.GetDistanceToLine(lines[h].v1, lines[h].v2, pos, true);
 
-                    if (d <= BuilderModes.BuilderPlug.Me.HighlightRange / scale && d < distance)
+                    if (d <= BuilderModes.General.BuilderPlug.Me.HighlightRange / scale && d < distance)
                     {
                         distance = d;
                         highlight = h;
@@ -213,7 +213,7 @@ namespace CodeImp.DoomBuilder.ThreeDFloorMode
                 {
                     d = Vector2D.Distance(pos, points[h]);
 
-                    if (d <= BuilderModes.BuilderPlug.Me.HighlightRange / scale && d < distance)
+                    if (d <= BuilderModes.General.BuilderPlug.Me.HighlightRange / scale && d < distance)
                     {
                         distance = d;
                         highlight = h;

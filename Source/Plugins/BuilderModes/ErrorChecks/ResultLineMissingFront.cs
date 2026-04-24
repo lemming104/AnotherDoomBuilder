@@ -18,7 +18,7 @@ using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     public class ResultLineMissingFront : ErrorResult
     {
@@ -96,7 +96,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         // Rendering
         public override void PlotSelection(IRenderer2D renderer)
         {
-            renderer.PlotLinedef(line, General.Colors.Selection);
+            renderer.PlotLinedef(line, DoomBuilder.General.Colors.Selection);
             renderer.PlotVertex(line.Start, ColorCollection.VERTICES);
             renderer.PlotVertex(line.End, ColorCollection.VERTICES);
         }
@@ -106,19 +106,19 @@ namespace CodeImp.DoomBuilder.BuilderModes
         {
             line.FlipVertices(); //mxd. Otherwise FlipSidedefs() will destroy the sector back side belongs to
             line.FlipSidedefs();
-            General.Map.Map.Update();
+            DoomBuilder.General.Map.Map.Update();
             return true;
         }
 
         // Fix by creating a sidedef
         public override bool Button2Click(bool batchMode)
         {
-            if (!batchMode) General.Map.UndoRedo.CreateUndo("Create front sidedef");
-            Sidedef newside = General.Map.Map.CreateSidedef(line, true, copysidedef.Sector);
+            if (!batchMode) DoomBuilder.General.Map.UndoRedo.CreateUndo("Create front sidedef");
+            Sidedef newside = DoomBuilder.General.Map.Map.CreateSidedef(line, true, copysidedef.Sector);
             if (newside == null) return false;
             copysidedef.CopyPropertiesTo(newside);
             line.ApplySidedFlags();
-            General.Map.Map.Update();
+            DoomBuilder.General.Map.Map.Update();
             return true;
         }
     }

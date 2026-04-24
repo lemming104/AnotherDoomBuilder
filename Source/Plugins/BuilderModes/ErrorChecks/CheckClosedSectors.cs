@@ -16,7 +16,7 @@ using CodeImp.DoomBuilder.Map;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     [ErrorChecker("Check invalid sectors", true, 300)]
     public class CheckClosedSectors : ErrorChecker
@@ -28,7 +28,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public CheckClosedSectors()
         {
             // Total progress is done when all sectors are checked
-            SetTotalProgress(General.Map.Map.Sectors.Count / PROGRESS_STEP);
+            SetTotalProgress(DoomBuilder.General.Map.Map.Sectors.Count / PROGRESS_STEP);
         }
 
         // This runs the check
@@ -60,7 +60,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             // then this falsely good vertex is added to the holes, too
 
             // Go for all the sectors
-            foreach (Sector s in General.Map.Map.Sectors)
+            foreach (Sector s in DoomBuilder.General.Map.Map.Sectors)
             {
                 List<Vertex> foundholes = new List<Vertex>();
                 Dictionary<Vertex, int> vertices = new Dictionary<Vertex, int>();

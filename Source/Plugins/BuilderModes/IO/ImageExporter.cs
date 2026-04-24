@@ -247,7 +247,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
                         if (asbrightmap)
                         {
                             // Create the brightmap based on the sector brightness
-                            int brightness = General.Clamp(s.Brightness, 0, 255);
+                            int brightness = DoomBuilder.General.Clamp(s.Brightness, 0, 255);
                             using (SolidBrush sbrush = new SolidBrush(Color.FromArgb(255, brightness, brightness, brightness)))
                                 gtexture.FillPath(sbrush, gpath);
                         }
@@ -261,7 +261,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
                             {
                                 // The image might have a color correction applied, but we need it without. So we use LocalGetBitmap, because it reloads the image,
                                 // but doesn't applie the color correction if we set UseColorCorrection to false first
-                                ImageData imagedata = General.Map.Data.GetFlatImage(s.FloorTexture);
+                                ImageData imagedata = DoomBuilder.General.Map.Data.GetFlatImage(s.FloorTexture);
                                 brushtexture = new Bitmap(imagedata.LocalGetBitmap(false));
 
                                 textureoffset.x = s.Fields.GetValue("xpanningfloor", 0.0) * scale;
@@ -278,7 +278,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
                             {
                                 // The image might have a color correction applied, but we need it without. So we use LocalGetBitmap, because it reloads the image,
                                 // but doesn't applie the color correction if we set UseColorCorrection to false first
-                                ImageData imagedata = General.Map.Data.GetFlatImage(s.CeilTexture);
+                                ImageData imagedata = DoomBuilder.General.Map.Data.GetFlatImage(s.CeilTexture);
                                 brushtexture = new Bitmap(imagedata.LocalGetBitmap(false));
 
                                 textureoffset.x = s.Fields.GetValue("xpanningceiling", 0.0) * scale;
@@ -317,7 +317,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.IO
 
                             if (!settings.Fullbright)
                             {
-                                int brightness = General.Clamp(s.Brightness, 0, 255);
+                                int brightness = DoomBuilder.General.Clamp(s.Brightness, 0, 255);
                                 AdjustBrightness(ref brushtexture, brightness > 0 ? brightness / 255.0f : 0.0f);
                             }
 

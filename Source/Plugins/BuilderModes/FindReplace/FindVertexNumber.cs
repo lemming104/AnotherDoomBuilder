@@ -16,7 +16,7 @@ using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.FindReplace
 {
     [FindReplace("Vertex Index", BrowseButton = false)]
     internal class FindVertexNumber : FindReplaceType
@@ -39,7 +39,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             int index;
             if (int.TryParse(value, out index))
             {
-                Vertex v = General.Map.Map.GetVertexByIndex(index);
+                Vertex v = DoomBuilder.General.Map.Map.GetVertexByIndex(index);
                 if (v != null) objs.Add(new FindReplaceObject(v, "Vertex " + index));
             }
 
@@ -52,12 +52,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
             if (selection.Length == 1)
             {
                 ZoomToSelection(selection);
-                General.Interface.ShowVertexInfo(selection[0].Vertex);
+                DoomBuilder.General.Interface.ShowVertexInfo(selection[0].Vertex);
             }
             else
-                General.Interface.HideInfo();
+                DoomBuilder.General.Interface.HideInfo();
 
-            General.Map.Map.ClearAllSelected();
+            DoomBuilder.General.Map.Map.ClearAllSelected();
             foreach (FindReplaceObject obj in selection) obj.Vertex.Selected = true;
         }
 
@@ -76,8 +76,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
             HashSet<Vertex> vertices = new HashSet<Vertex>();
             foreach (FindReplaceObject o in selection)
                 if (!vertices.Contains(o.Vertex)) vertices.Add(o.Vertex);
-            General.Interface.ShowEditVertices(vertices);
-            General.Map.Map.Update();
+            DoomBuilder.General.Interface.ShowEditVertices(vertices);
+            DoomBuilder.General.Map.Map.Update();
         }
     }
 }

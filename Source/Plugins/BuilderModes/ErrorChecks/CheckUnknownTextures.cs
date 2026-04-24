@@ -16,7 +16,7 @@ using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using System.Threading;
 
-namespace CodeImp.DoomBuilder.BuilderModes
+namespace CodeImp.DoomBuilder.BuilderModes.ErrorChecks
 {
     [ErrorChecker("Check unknown textures", true, 60)]
     public class CheckUnknownTextures : ErrorChecker
@@ -28,7 +28,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
         public CheckUnknownTextures()
         {
             // Total progress is done when all lines are checked
-            SetTotalProgress(General.Map.Map.Sidedefs.Count / PROGRESS_STEP);
+            SetTotalProgress(DoomBuilder.General.Map.Map.Sidedefs.Count / PROGRESS_STEP);
         }
 
         // This runs the check
@@ -38,7 +38,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
             int stepprogress = 0;
 
             // Go for all the sidedefs
-            foreach (Sidedef sd in General.Map.Map.Sidedefs)
+            foreach (Sidedef sd in DoomBuilder.General.Map.Map.Sidedefs)
             {
                 bool ignoreuppertexture = false;
                 bool ignoremiddletexture = false;
@@ -47,26 +47,26 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // Some actions, like transfer heights, use special non-existing texture names for effects. Allow those to be ignored
                 if (sd.Line.Action != 0)
                 {
-                    LinedefActionInfo info = General.Map.Config.GetLinedefActionInfo(sd.Line.Action);
+                    LinedefActionInfo info = DoomBuilder.General.Map.Config.GetLinedefActionInfo(sd.Line.Action);
                     ignoreuppertexture = info.ErrorCheckerExemptions.IgnoreUpperTexture;
                     ignoremiddletexture = info.ErrorCheckerExemptions.IgnoreMiddleTexture;
                     ignorelowertexture = info.ErrorCheckerExemptions.IgnoreLowerTexture;
                 }
 
                 // Check upper texture
-                if (!ignoreuppertexture && sd.LongHighTexture != MapSet.EmptyLongName && !General.Map.Data.GetTextureExists(sd.LongHighTexture))
+                if (!ignoreuppertexture && sd.LongHighTexture != MapSet.EmptyLongName && !DoomBuilder.General.Map.Data.GetTextureExists(sd.LongHighTexture))
                 {
                     SubmitResult(new ResultUnknownTexture(sd, SidedefPart.Upper));
                 }
 
                 // Check middle texture
-                if (!ignoremiddletexture && sd.LongMiddleTexture != MapSet.EmptyLongName && !General.Map.Data.GetTextureExists(sd.LongMiddleTexture))
+                if (!ignoremiddletexture && sd.LongMiddleTexture != MapSet.EmptyLongName && !DoomBuilder.General.Map.Data.GetTextureExists(sd.LongMiddleTexture))
                 {
                     SubmitResult(new ResultUnknownTexture(sd, SidedefPart.Middle));
                 }
 
                 // Check lower texture
-                if (!ignorelowertexture && sd.LongLowTexture != MapSet.EmptyLongName && !General.Map.Data.GetTextureExists(sd.LongLowTexture))
+                if (!ignorelowertexture && sd.LongLowTexture != MapSet.EmptyLongName && !DoomBuilder.General.Map.Data.GetTextureExists(sd.LongLowTexture))
                 {
                     SubmitResult(new ResultUnknownTexture(sd, SidedefPart.Lower));
                 }

@@ -17,24 +17,24 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 
         public void Setup()
         {
-            ceilHeight.Text = General.Map.Options.CustomCeilingHeight.ToString();
-            floorHeight.Text = General.Map.Options.CustomFloorHeight.ToString();
-            brightness.StepValues = General.Map.Config.BrightnessLevels;
-            brightness.Text = General.Map.Options.CustomBrightness.ToString();
-            ceiling.TextureName = General.Map.Options.DefaultCeilingTexture;
-            floor.TextureName = General.Map.Options.DefaultFloorTexture;
-            top.TextureName = General.Map.Options.DefaultTopTexture;
-            middle.TextureName = General.Map.Options.DefaultWallTexture;
-            bottom.TextureName = General.Map.Options.DefaultBottomTexture;
+            ceilHeight.Text = DoomBuilder.General.Map.Options.CustomCeilingHeight.ToString();
+            floorHeight.Text = DoomBuilder.General.Map.Options.CustomFloorHeight.ToString();
+            brightness.StepValues = DoomBuilder.General.Map.Config.BrightnessLevels;
+            brightness.Text = DoomBuilder.General.Map.Options.CustomBrightness.ToString();
+            ceiling.TextureName = DoomBuilder.General.Map.Options.DefaultCeilingTexture;
+            floor.TextureName = DoomBuilder.General.Map.Options.DefaultFloorTexture;
+            top.TextureName = DoomBuilder.General.Map.Options.DefaultTopTexture;
+            middle.TextureName = DoomBuilder.General.Map.Options.DefaultWallTexture;
+            bottom.TextureName = DoomBuilder.General.Map.Options.DefaultBottomTexture;
 
-            cbOverrideCeilingTexture.Checked = General.Map.Options.OverrideCeilingTexture;
-            cbOverrideFloorTexture.Checked = General.Map.Options.OverrideFloorTexture;
-            cbOverrideTopTexture.Checked = General.Map.Options.OverrideTopTexture;
-            cbOverrideMiddleTexture.Checked = General.Map.Options.OverrideMiddleTexture;
-            cbOverrideBottomTexture.Checked = General.Map.Options.OverrideBottomTexture;
-            cbCeilHeight.Checked = General.Map.Options.OverrideCeilingHeight;
-            cbFloorHeight.Checked = General.Map.Options.OverrideFloorHeight;
-            cbBrightness.Checked = General.Map.Options.OverrideBrightness;
+            cbOverrideCeilingTexture.Checked = DoomBuilder.General.Map.Options.OverrideCeilingTexture;
+            cbOverrideFloorTexture.Checked = DoomBuilder.General.Map.Options.OverrideFloorTexture;
+            cbOverrideTopTexture.Checked = DoomBuilder.General.Map.Options.OverrideTopTexture;
+            cbOverrideMiddleTexture.Checked = DoomBuilder.General.Map.Options.OverrideMiddleTexture;
+            cbOverrideBottomTexture.Checked = DoomBuilder.General.Map.Options.OverrideBottomTexture;
+            cbCeilHeight.Checked = DoomBuilder.General.Map.Options.OverrideCeilingHeight;
+            cbFloorHeight.Checked = DoomBuilder.General.Map.Options.OverrideFloorHeight;
+            cbBrightness.Checked = DoomBuilder.General.Map.Options.OverrideBrightness;
 
             getsectortexturesfromselection.Enabled = cbOverrideCeilingTexture.Checked || cbOverrideFloorTexture.Checked;
             getsidetexturesfromselection.Enabled = cbOverrideTopTexture.Checked || cbOverrideMiddleTexture.Checked || cbOverrideBottomTexture.Checked;
@@ -62,11 +62,11 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         private void cbOverrideCeilingTexture_CheckedChanged(object sender, EventArgs e)
         {
             ceiling.Enabled = cbOverrideCeilingTexture.Checked;
-            General.Map.Options.OverrideCeilingTexture = cbOverrideCeilingTexture.Checked;
+            DoomBuilder.General.Map.Options.OverrideCeilingTexture = cbOverrideCeilingTexture.Checked;
 
             // If we don't set the default texture here it'll not be set until a different texture is selected
             if (ceiling.Enabled)
-                General.Map.Options.DefaultCeilingTexture = ceiling.TextureName;
+                DoomBuilder.General.Map.Options.DefaultCeilingTexture = ceiling.TextureName;
 
             getsectortexturesfromselection.Enabled = cbOverrideCeilingTexture.Checked || cbOverrideFloorTexture.Checked;
         }
@@ -74,11 +74,11 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         private void cbOverrideFloorTexture_CheckedChanged(object sender, EventArgs e)
         {
             floor.Enabled = cbOverrideFloorTexture.Checked;
-            General.Map.Options.OverrideFloorTexture = cbOverrideFloorTexture.Checked;
+            DoomBuilder.General.Map.Options.OverrideFloorTexture = cbOverrideFloorTexture.Checked;
 
             // If we don't set the default texture here it'll not be set until a different texture is selected
             if (floor.Enabled)
-                General.Map.Options.DefaultFloorTexture = floor.TextureName;
+                DoomBuilder.General.Map.Options.DefaultFloorTexture = floor.TextureName;
 
             getsectortexturesfromselection.Enabled = cbOverrideCeilingTexture.Checked || cbOverrideFloorTexture.Checked;
         }
@@ -86,11 +86,11 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         private void cbOverrideTopTexture_CheckedChanged(object sender, EventArgs e)
         {
             top.Enabled = cbOverrideTopTexture.Checked;
-            General.Map.Options.OverrideTopTexture = cbOverrideTopTexture.Checked;
+            DoomBuilder.General.Map.Options.OverrideTopTexture = cbOverrideTopTexture.Checked;
 
             // If we don't set the default texture here it'll not be set until a different texture is selected
             if (top.Enabled)
-                General.Map.Options.DefaultTopTexture = top.TextureName;
+                DoomBuilder.General.Map.Options.DefaultTopTexture = top.TextureName;
 
             getsidetexturesfromselection.Enabled = cbOverrideTopTexture.Checked || cbOverrideMiddleTexture.Checked || cbOverrideBottomTexture.Checked;
         }
@@ -98,11 +98,11 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         private void cbOverrideMiddleTexture_CheckedChanged(object sender, EventArgs e)
         {
             middle.Enabled = cbOverrideMiddleTexture.Checked;
-            General.Map.Options.OverrideMiddleTexture = cbOverrideMiddleTexture.Checked;
+            DoomBuilder.General.Map.Options.OverrideMiddleTexture = cbOverrideMiddleTexture.Checked;
 
             // If we don't set the default texture here it'll not be set until a different texture is selected
             if (middle.Enabled)
-                General.Map.Options.DefaultWallTexture = middle.TextureName;
+                DoomBuilder.General.Map.Options.DefaultWallTexture = middle.TextureName;
 
             getsidetexturesfromselection.Enabled = cbOverrideTopTexture.Checked || cbOverrideMiddleTexture.Checked || cbOverrideBottomTexture.Checked;
         }
@@ -110,11 +110,11 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         private void cbOverrideBottomTexture_CheckedChanged(object sender, EventArgs e)
         {
             bottom.Enabled = cbOverrideBottomTexture.Checked;
-            General.Map.Options.OverrideBottomTexture = cbOverrideBottomTexture.Checked;
+            DoomBuilder.General.Map.Options.OverrideBottomTexture = cbOverrideBottomTexture.Checked;
 
             // If we don't set the default texture here it'll not be set until a different texture is selected
             if (bottom.Enabled)
-                General.Map.Options.DefaultBottomTexture = bottom.TextureName;
+                DoomBuilder.General.Map.Options.DefaultBottomTexture = bottom.TextureName;
 
             getsidetexturesfromselection.Enabled = cbOverrideTopTexture.Checked || cbOverrideMiddleTexture.Checked || cbOverrideBottomTexture.Checked;
         }
@@ -122,7 +122,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         private void cbCeilHeight_CheckedChanged(object sender, EventArgs e)
         {
             ceilHeight.Enabled = cbCeilHeight.Checked;
-            General.Map.Options.OverrideCeilingHeight = cbCeilHeight.Checked;
+            DoomBuilder.General.Map.Options.OverrideCeilingHeight = cbCeilHeight.Checked;
 
             getheightandbrightnessfromselection.Enabled = cbCeilHeight.Checked || cbFloorHeight.Checked || cbBrightness.Checked;
         }
@@ -130,7 +130,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         private void cbFloorHeight_CheckedChanged(object sender, EventArgs e)
         {
             floorHeight.Enabled = cbFloorHeight.Checked;
-            General.Map.Options.OverrideFloorHeight = cbFloorHeight.Checked;
+            DoomBuilder.General.Map.Options.OverrideFloorHeight = cbFloorHeight.Checked;
 
             getheightandbrightnessfromselection.Enabled = cbCeilHeight.Checked || cbFloorHeight.Checked || cbBrightness.Checked;
         }
@@ -138,97 +138,97 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
         private void cbBrightness_CheckedChanged(object sender, EventArgs e)
         {
             brightness.Enabled = cbBrightness.Checked;
-            General.Map.Options.OverrideBrightness = cbBrightness.Checked;
+            DoomBuilder.General.Map.Options.OverrideBrightness = cbBrightness.Checked;
 
             getheightandbrightnessfromselection.Enabled = cbCeilHeight.Checked || cbFloorHeight.Checked || cbBrightness.Checked;
         }
 
         private void ceilHeight_WhenTextChanged(object sender, EventArgs e)
         {
-            General.Map.Options.CustomCeilingHeight = ceilHeight.GetResult(General.Map.Options.CustomCeilingHeight);
+            DoomBuilder.General.Map.Options.CustomCeilingHeight = ceilHeight.GetResult(DoomBuilder.General.Map.Options.CustomCeilingHeight);
         }
 
         private void floorHeight_WhenTextChanged(object sender, EventArgs e)
         {
-            General.Map.Options.CustomFloorHeight = floorHeight.GetResult(General.Map.Options.CustomFloorHeight);
+            DoomBuilder.General.Map.Options.CustomFloorHeight = floorHeight.GetResult(DoomBuilder.General.Map.Options.CustomFloorHeight);
         }
 
         private void brightness_WhenTextChanged(object sender, EventArgs e)
         {
-            General.Map.Options.CustomBrightness = General.Clamp(brightness.GetResult(General.Map.Options.CustomBrightness), 0, 255);
+            DoomBuilder.General.Map.Options.CustomBrightness = DoomBuilder.General.Clamp(brightness.GetResult(DoomBuilder.General.Map.Options.CustomBrightness), 0, 255);
         }
 
         private void ceiling_OnValueChanged(object sender, EventArgs e)
         {
-            General.Map.Options.DefaultCeilingTexture = ceiling.TextureName;
+            DoomBuilder.General.Map.Options.DefaultCeilingTexture = ceiling.TextureName;
         }
 
         private void floor_OnValueChanged(object sender, EventArgs e)
         {
-            General.Map.Options.DefaultFloorTexture = floor.TextureName;
+            DoomBuilder.General.Map.Options.DefaultFloorTexture = floor.TextureName;
         }
 
         private void top_OnValueChanged(object sender, EventArgs e)
         {
-            General.Map.Options.DefaultTopTexture = top.TextureName;
+            DoomBuilder.General.Map.Options.DefaultTopTexture = top.TextureName;
         }
 
         private void middle_OnValueChanged(object sender, EventArgs e)
         {
-            General.Map.Options.DefaultWallTexture = middle.TextureName;
+            DoomBuilder.General.Map.Options.DefaultWallTexture = middle.TextureName;
         }
 
         private void bottom_OnValueChanged(object sender, EventArgs e)
         {
-            General.Map.Options.DefaultBottomTexture = bottom.TextureName;
+            DoomBuilder.General.Map.Options.DefaultBottomTexture = bottom.TextureName;
         }
 
         private void fillceiling_Click(object sender, EventArgs e)
         {
-            ICollection<Sector> sectors = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> sectors = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
             if (sectors.Count == 0) return;
 
             string undodesc = "sector";
             if (sectors.Count > 1) undodesc = sectors.Count + " sectors";
-            General.Map.UndoRedo.CreateUndo("Clear ceiling texture from " + undodesc);
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Clear ceiling texture from " + undodesc);
 
             foreach (Sector s in sectors) s.SetCeilTexture(ceiling.TextureName);
 
             // Update the used textures
-            General.Map.Data.UpdateUsedTextures();
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Map.Data.UpdateUsedTextures();
+            DoomBuilder.General.Map.IsChanged = true;
 
-            if (General.Map.Renderer2D.ViewMode == Rendering.ViewMode.CeilingTextures)
-                General.Interface.RedrawDisplay();
+            if (DoomBuilder.General.Map.Renderer2D.ViewMode == Rendering.ViewMode.CeilingTextures)
+                DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         private void fillfloor_Click(object sender, EventArgs e)
         {
-            ICollection<Sector> sectors = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> sectors = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
             if (sectors.Count == 0) return;
 
             string undodesc = "sector";
             if (sectors.Count > 1) undodesc = sectors.Count + " sectors";
-            General.Map.UndoRedo.CreateUndo("Clear ceiling texture from " + undodesc);
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Clear ceiling texture from " + undodesc);
 
             foreach (Sector s in sectors) s.SetFloorTexture(floor.TextureName);
 
             // Update the used textures
-            General.Map.Data.UpdateUsedTextures();
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Map.Data.UpdateUsedTextures();
+            DoomBuilder.General.Map.IsChanged = true;
 
-            if (General.Map.Renderer2D.ViewMode == Rendering.ViewMode.FloorTextures)
-                General.Interface.RedrawDisplay();
+            if (DoomBuilder.General.Map.Renderer2D.ViewMode == Rendering.ViewMode.FloorTextures)
+                DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         private void fillupper_Click(object sender, EventArgs e)
         {
-            ICollection<Linedef> lines = General.Map.Map.GetSelectedLinedefs(true);
+            ICollection<Linedef> lines = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
             if (lines.Count == 0) return;
 
             string undodesc = "linedef";
             if (lines.Count > 1) undodesc = lines.Count + " linedefs";
-            General.Map.UndoRedo.CreateUndo("Fill upper texture for " + undodesc);
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Fill upper texture for " + undodesc);
 
             foreach (Linedef l in lines)
             {
@@ -237,18 +237,18 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             }
 
             // Update the used textures
-            General.Map.Data.UpdateUsedTextures();
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Map.Data.UpdateUsedTextures();
+            DoomBuilder.General.Map.IsChanged = true;
         }
 
         private void fillmiddle_Click(object sender, EventArgs e)
         {
-            ICollection<Linedef> lines = General.Map.Map.GetSelectedLinedefs(true);
+            ICollection<Linedef> lines = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
             if (lines.Count == 0) return;
 
             string undodesc = "linedef";
             if (lines.Count > 1) undodesc = lines.Count + " linedefs";
-            General.Map.UndoRedo.CreateUndo("Fill middle texture for " + undodesc);
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Fill middle texture for " + undodesc);
 
             foreach (Linedef l in lines)
             {
@@ -257,18 +257,18 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             }
 
             // Update the used textures
-            General.Map.Data.UpdateUsedTextures();
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Map.Data.UpdateUsedTextures();
+            DoomBuilder.General.Map.IsChanged = true;
         }
 
         private void filllower_Click(object sender, EventArgs e)
         {
-            ICollection<Linedef> lines = General.Map.Map.GetSelectedLinedefs(true);
+            ICollection<Linedef> lines = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
             if (lines.Count == 0) return;
 
             string undodesc = "linedef";
             if (lines.Count > 1) undodesc = lines.Count + " linedefs";
-            General.Map.UndoRedo.CreateUndo("Fill lower texture for " + undodesc);
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Fill lower texture for " + undodesc);
 
             foreach (Linedef l in lines)
             {
@@ -277,19 +277,19 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             }
 
             // Update the used textures
-            General.Map.Data.UpdateUsedTextures();
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Map.Data.UpdateUsedTextures();
+            DoomBuilder.General.Map.IsChanged = true;
         }
 
         private void fillall_Click(object sender, EventArgs e)
         {
-            ICollection<Sector> sectors = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> sectors = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
 
             //if we have selected sectors - fill their textures
             if (sectors.Count > 0)
             {
                 //make undo
-                General.Map.UndoRedo.CreateUndo("Fill all textures for " + sectors.Count + (sectors.Count > 1 ? " sectors" : " sector"));
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Fill all textures for " + sectors.Count + (sectors.Count > 1 ? " sectors" : " sector"));
 
                 foreach (Sector s in sectors)
                 {
@@ -308,11 +308,11 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             }
             else //if we don't - fill linedef textures
             {
-                ICollection<Linedef> lines = General.Map.Map.GetSelectedLinedefs(true);
+                ICollection<Linedef> lines = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
                 if (lines.Count == 0) return;
 
                 //make undo
-                General.Map.UndoRedo.CreateUndo("Fill all textures for " + lines.Count + (lines.Count > 1 ? " linedefs" : " linedef"));
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Fill all textures for " + lines.Count + (lines.Count > 1 ? " linedefs" : " linedef"));
 
                 //fill textures
                 foreach (Linedef l in lines)
@@ -336,64 +336,64 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             }
 
             // Update the used textures
-            General.Map.Data.UpdateUsedTextures();
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Map.Data.UpdateUsedTextures();
+            DoomBuilder.General.Map.IsChanged = true;
 
             // Update entire display
-            General.Map.Map.Update();
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         private void clearceiling_Click(object sender, EventArgs e)
         {
-            ICollection<Sector> sectors = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> sectors = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
             if (sectors.Count == 0) return;
 
             string undodesc = "sector";
             if (sectors.Count > 1) undodesc = sectors.Count + " sectors";
-            General.Map.UndoRedo.CreateUndo("Clear ceiling texture from " + undodesc);
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Clear ceiling texture from " + undodesc);
 
             foreach (Sector s in sectors) s.SetCeilTexture("-");
 
             // Update the used textures
-            General.Map.Data.UpdateUsedTextures();
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Map.Data.UpdateUsedTextures();
+            DoomBuilder.General.Map.IsChanged = true;
 
             // Update entire display
-            General.Map.Map.Update();
-            if (General.Map.Renderer2D.ViewMode == Rendering.ViewMode.CeilingTextures)
-                General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.Map.Update();
+            if (DoomBuilder.General.Map.Renderer2D.ViewMode == Rendering.ViewMode.CeilingTextures)
+                DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         private void clearfloor_Click(object sender, EventArgs e)
         {
-            ICollection<Sector> sectors = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> sectors = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
             if (sectors.Count == 0) return;
 
             string undodesc = "sector";
             if (sectors.Count > 1) undodesc = sectors.Count + " sectors";
-            General.Map.UndoRedo.CreateUndo("Clear floor texture from " + undodesc);
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Clear floor texture from " + undodesc);
 
             foreach (Sector s in sectors) s.SetFloorTexture("-");
 
             // Update the used textures
-            General.Map.Data.UpdateUsedTextures();
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Map.Data.UpdateUsedTextures();
+            DoomBuilder.General.Map.IsChanged = true;
 
             // Update entire display
-            General.Map.Map.Update();
-            if (General.Map.Renderer2D.ViewMode == Rendering.ViewMode.FloorTextures)
-                General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.Map.Update();
+            if (DoomBuilder.General.Map.Renderer2D.ViewMode == Rendering.ViewMode.FloorTextures)
+                DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         private void clearupper_Click(object sender, EventArgs e)
         {
-            ICollection<Linedef> lines = General.Map.Map.GetSelectedLinedefs(true);
+            ICollection<Linedef> lines = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
             if (lines.Count == 0) return;
 
             string undodesc = "linedef";
             if (lines.Count > 1) undodesc = lines.Count + " linedefs";
-            General.Map.UndoRedo.CreateUndo("Clear upper texture from " + undodesc);
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Clear upper texture from " + undodesc);
 
             foreach (Linedef l in lines)
             {
@@ -402,18 +402,18 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             }
 
             // Update the used textures
-            General.Map.Data.UpdateUsedTextures();
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Map.Data.UpdateUsedTextures();
+            DoomBuilder.General.Map.IsChanged = true;
         }
 
         private void clearmiddle_Click(object sender, EventArgs e)
         {
-            ICollection<Linedef> lines = General.Map.Map.GetSelectedLinedefs(true);
+            ICollection<Linedef> lines = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
             if (lines.Count == 0) return;
 
             string undodesc = "linedef";
             if (lines.Count > 1) undodesc = lines.Count + " linedefs";
-            General.Map.UndoRedo.CreateUndo("Clear middle texture from " + undodesc);
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Clear middle texture from " + undodesc);
 
             foreach (Linedef l in lines)
             {
@@ -422,18 +422,18 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             }
 
             // Update the used textures
-            General.Map.Data.UpdateUsedTextures();
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Map.Data.UpdateUsedTextures();
+            DoomBuilder.General.Map.IsChanged = true;
         }
 
         private void clearlower_Click(object sender, EventArgs e)
         {
-            ICollection<Linedef> lines = General.Map.Map.GetSelectedLinedefs(true);
+            ICollection<Linedef> lines = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
             if (lines.Count == 0) return;
 
             string undodesc = "linedef";
             if (lines.Count > 1) undodesc = lines.Count + " linedefs";
-            General.Map.UndoRedo.CreateUndo("Clear lower texture from " + undodesc);
+            DoomBuilder.General.Map.UndoRedo.CreateUndo("Clear lower texture from " + undodesc);
 
             foreach (Linedef l in lines)
             {
@@ -442,20 +442,20 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             }
 
             // Update the used textures
-            General.Map.Data.UpdateUsedTextures();
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Map.Data.UpdateUsedTextures();
+            DoomBuilder.General.Map.IsChanged = true;
         }
 
         private void clearall_Click(object sender, EventArgs e)
         {
             //if we have selected sectors - clear their textures
-            ICollection<Sector> sectors = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> sectors = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
             if (sectors.Count > 0)
             {
                 //make undo
                 string undodesc = "sector";
                 if (sectors.Count > 1) undodesc = sectors.Count + " sectors";
-                General.Map.UndoRedo.CreateUndo("Clear all texture from " + undodesc);
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Clear all texture from " + undodesc);
 
                 foreach (Sector s in sectors)
                 {
@@ -475,13 +475,13 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             }
             else //if we don't - clear linedef textures
             {
-                ICollection<Linedef> lines = General.Map.Map.GetSelectedLinedefs(true);
+                ICollection<Linedef> lines = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
                 if (lines.Count == 0) return;
 
                 //make undo
                 string undodesc = "linedef";
                 if (lines.Count > 1) undodesc = lines.Count + " linedefs";
-                General.Map.UndoRedo.CreateUndo("Clear all texture from " + undodesc);
+                DoomBuilder.General.Map.UndoRedo.CreateUndo("Clear all texture from " + undodesc);
 
                 //clear textures
                 foreach (Linedef l in lines)
@@ -502,34 +502,34 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
             }
 
             // Update the used textures
-            General.Map.Data.UpdateUsedTextures();
-            General.Map.IsChanged = true;
+            DoomBuilder.General.Map.Data.UpdateUsedTextures();
+            DoomBuilder.General.Map.IsChanged = true;
 
             // Update entire display
-            General.Map.Map.Update();
-            General.Interface.RedrawDisplay();
+            DoomBuilder.General.Map.Map.Update();
+            DoomBuilder.General.Interface.RedrawDisplay();
         }
 
         private void getsectortexturesfromselection_Click(object sender, EventArgs e)
         {
-            ICollection<Sector> sectors = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> sectors = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
             if (sectors.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires selected sector");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires selected sector");
                 return;
             }
 
-            Sector s = General.GetByIndex(sectors, 0);
+            Sector s = DoomBuilder.General.GetByIndex(sectors, 0);
             if (cbOverrideCeilingTexture.Checked) ceiling.TextureName = s.CeilTexture;
             if (cbOverrideFloorTexture.Checked) floor.TextureName = s.FloorTexture;
         }
 
         private void getsidetexturesfromselection_Click(object sender, EventArgs e)
         {
-            ICollection<Linedef> lines = General.Map.Map.GetSelectedLinedefs(true);
+            ICollection<Linedef> lines = DoomBuilder.General.Map.Map.GetSelectedLinedefs(true);
             if (lines.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires selected linedef");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires selected linedef");
                 return;
             }
 
@@ -542,7 +542,7 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 
             if (s == null)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "Selection doesn't contain suitable sidedefs");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "Selection doesn't contain suitable sidedefs");
                 return;
             }
 
@@ -553,14 +553,14 @@ namespace CodeImp.DoomBuilder.BuilderModes.Interface
 
         private void getheightandbrightnessfromselection_Click(object sender, EventArgs e)
         {
-            ICollection<Sector> sectors = General.Map.Map.GetSelectedSectors(true);
+            ICollection<Sector> sectors = DoomBuilder.General.Map.Map.GetSelectedSectors(true);
             if (sectors.Count == 0)
             {
-                General.Interface.DisplayStatus(StatusType.Warning, "This action requires selected sector");
+                DoomBuilder.General.Interface.DisplayStatus(StatusType.Warning, "This action requires selected sector");
                 return;
             }
 
-            Sector s = General.GetByIndex(sectors, 0);
+            Sector s = DoomBuilder.General.GetByIndex(sectors, 0);
             if (cbCeilHeight.Checked) ceilHeight.Text = s.CeilHeight.ToString();
             if (cbFloorHeight.Checked) floorHeight.Text = s.FloorHeight.ToString();
             if (cbBrightness.Checked) brightness.Text = s.Brightness.ToString();
