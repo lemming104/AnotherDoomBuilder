@@ -1,15 +1,16 @@
 ﻿using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Controls;
 using CodeImp.DoomBuilder.Plugins;
+using CodeImp.DoomBuilder.TagExplorer.Controls;
 
-namespace CodeImp.DoomBuilder.TagExplorer
+namespace CodeImp.DoomBuilder
 {
     public sealed class BuilderPlug : Plug
     {
         private static BuilderPlug me;
 
         // Docker
-        private TagExplorer tagExplorer;
+        private TagExplorerControl tagExplorer;
         private Docker docker;
 
         // Static property to access the BuilderPlug
@@ -35,7 +36,7 @@ namespace CodeImp.DoomBuilder.TagExplorer
         {
             if (tagExplorer == null)
             {
-                tagExplorer = new TagExplorer();
+                tagExplorer = new TagExplorerControl();
                 docker = new Docker("tagexplorerdockerpanel", "Tag Explorer", tagExplorer);
                 General.Interface.AddDocker(docker);
                 tagExplorer.Setup();

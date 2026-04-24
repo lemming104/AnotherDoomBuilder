@@ -4,7 +4,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Update="Controls\TagExplorer.cs" SubType="UserControl" />
+    <Compile Update="Controls\TagExplorerControl.cs" SubType="UserControl" />
   </ItemGroup>
   
   <ItemGroup>

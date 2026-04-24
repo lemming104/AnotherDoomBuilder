@@ -1,6 +1,7 @@
 ﻿using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Types;
+using CodeImp.DoomBuilder.TagExplorer.Controls;
 using System;
 
 namespace CodeImp.DoomBuilder.TagExplorer
@@ -176,20 +177,20 @@ namespace CodeImp.DoomBuilder.TagExplorer
 
         private string GetThingName(Thing t, ref string comment, string sortmode)
         {
-            comment = (TagExplorer.UDMF && t.Fields.ContainsKey("comment")) ? t.Fields["comment"].Value.ToString() : string.Empty;
+            comment = (TagExplorerControl.UDMF && t.Fields.ContainsKey("comment")) ? t.Fields["comment"].Value.ToString() : string.Empty;
             return CombineName(comment, sortmode);
         }
 
         private string GetSectorName(Sector s, ref string comment, string sortmode)
         {
-            comment = (TagExplorer.UDMF && s.Fields.ContainsKey("comment")) ? s.Fields["comment"].Value.ToString() : string.Empty;
+            comment = (TagExplorerControl.UDMF && s.Fields.ContainsKey("comment")) ? s.Fields["comment"].Value.ToString() : string.Empty;
             return CombineName(comment, sortmode);
         }
 
         private string GetLinedefName(Linedef l, ref string comment, string sortmode)
         {
             if (polyobjnumber != int.MinValue) return CombineName(string.Empty, sortmode);
-            comment = (TagExplorer.UDMF && l.Fields.ContainsKey("comment")) ? l.Fields["comment"].Value.ToString() : string.Empty;
+            comment = (TagExplorerControl.UDMF && l.Fields.ContainsKey("comment")) ? l.Fields["comment"].Value.ToString() : string.Empty;
             return CombineName(comment, sortmode);
         }
 
