@@ -26,7 +26,7 @@ using CodeImp.DoomBuilder.IO;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Plugins;
 using CodeImp.DoomBuilder.Types;
-using CodeImp.DoomBuilder.UDBScript.Wrapper;
+using CodeImp.DoomBuilder.UDBScript.API;
 using CodeImp.DoomBuilder.Windows;
 using System;
 using System.Collections.Generic;

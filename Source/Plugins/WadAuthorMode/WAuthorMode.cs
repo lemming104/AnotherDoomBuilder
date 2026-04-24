@@ -12,13 +12,14 @@
  */
 
 
+using CodeImp.DoomBuilder.BuilderModes.Editing;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.BuilderModes.Editing
+namespace CodeImp.DoomBuilder.WadAuthorMode
 {
     [EditMode(DisplayName = "WadAuthor Mode",
               SwitchAction = "wadauthormode",

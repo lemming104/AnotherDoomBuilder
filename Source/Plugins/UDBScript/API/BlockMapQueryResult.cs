@@ -24,7 +24,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CodeImp.DoomBuilder.UDBScript.Wrapper
+namespace CodeImp.DoomBuilder.UDBScript.API
 {
     /// <summary>
     /// A `BlockMapQueryResult` is an object returned by the `getLineBlocks` and `getRectangleBlocks` methods of the `BlockMap` class. It has methods It has methods to retrieve the linedefs, things, sectors, and vertices that are in the queried blocks. The object is also iterable, returning each block, in cases where more fine-grained control is needed.

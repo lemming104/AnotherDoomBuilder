@@ -20,7 +20,7 @@
 
 
 using CodeImp.DoomBuilder.Map;
-using CodeImp.DoomBuilder.UDBScript.Wrapper;
+using CodeImp.DoomBuilder.UDBScript.API;
 using CodeImp.DoomBuilder.Windows;
 using Esprima;
 using Jint;

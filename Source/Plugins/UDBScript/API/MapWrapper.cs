@@ -27,7 +27,7 @@ using CodeImp.DoomBuilder.VisualModes;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CodeImp.DoomBuilder.UDBScript.Wrapper
+namespace CodeImp.DoomBuilder.UDBScript.API
 {
     internal class MapWrapper
     {

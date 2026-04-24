@@ -17,7 +17,7 @@ using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Plugins;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.StairSectorBuilderMode
+namespace CodeImp.DoomBuilder.StairSectorBuilder
 {
     //
     // MANDATORY: The plug!

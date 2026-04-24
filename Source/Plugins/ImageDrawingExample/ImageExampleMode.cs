@@ -18,7 +18,7 @@ using CodeImp.DoomBuilder.Rendering;
 using System;
 using System.Drawing;
 
-namespace CodeImp.DoomBuilder.Statistics
+namespace CodeImp.DoomBuilder.Plugins.ImageDrawingExample
 {
     //
     // This class defines an classic editing mode. You can also inherit from VisualMode for a

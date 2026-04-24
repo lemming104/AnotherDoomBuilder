@@ -1,4 +1,5 @@
-﻿using CodeImp.DoomBuilder.Windows;
+﻿using CodeImp.DoomBuilder.StairSectorBuilder;
+using CodeImp.DoomBuilder.Windows;
 using System;
 using System.Drawing;
 using System.Windows.Forms;

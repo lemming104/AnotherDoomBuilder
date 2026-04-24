@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
 
-namespace CodeImp.DoomBuilder.UDBScript.Wrapper
+namespace CodeImp.DoomBuilder.UDBScript.API
 {
     internal class ThingWrapper : MapElementWrapper, IEquatable<ThingWrapper>
     {

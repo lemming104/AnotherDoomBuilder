@@ -23,7 +23,7 @@ using CodeImp.DoomBuilder.Map;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.UDBScript.Wrapper
+namespace CodeImp.DoomBuilder.UDBScript.API
 {
     public sealed class MapElementArgumentsWrapper : IEnumerable<int>
     {

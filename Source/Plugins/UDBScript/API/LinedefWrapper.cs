@@ -27,7 +27,7 @@ using System.ComponentModel;
 using System.Dynamic;
 using System.Linq;
 
-namespace CodeImp.DoomBuilder.UDBScript.Wrapper
+namespace CodeImp.DoomBuilder.UDBScript.API
 {
     class LinedefWrapper : MapElementWrapper, IMoreTags, IEquatable<LinedefWrapper>
     {

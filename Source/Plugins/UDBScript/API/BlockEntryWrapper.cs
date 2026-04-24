@@ -21,7 +21,7 @@
 
 using CodeImp.DoomBuilder.Map;
 
-namespace CodeImp.DoomBuilder.UDBScript.Wrapper
+namespace CodeImp.DoomBuilder.UDBScript.API
 {
     /// <summary>
     /// A `BlockEntry` is a single block in a `BlockMap`. It has methods to retrieve the linedefs, things, sectors, and vertices that are in this block.

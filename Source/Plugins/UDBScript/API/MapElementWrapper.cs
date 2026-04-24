@@ -29,7 +29,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Numerics;
 
-namespace CodeImp.DoomBuilder.UDBScript.Wrapper
+namespace CodeImp.DoomBuilder.UDBScript.API
 {
     internal abstract class MapElementWrapper
     {

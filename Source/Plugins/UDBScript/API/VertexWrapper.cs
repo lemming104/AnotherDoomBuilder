@@ -24,7 +24,7 @@ using CodeImp.DoomBuilder.Map;
 using System;
 using System.Collections.Generic;
 
-namespace CodeImp.DoomBuilder.UDBScript.Wrapper
+namespace CodeImp.DoomBuilder.UDBScript.API
 {
     class VertexWrapper : MapElementWrapper, IEquatable<VertexWrapper>
     {

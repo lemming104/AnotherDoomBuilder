@@ -3,7 +3,7 @@ using CodeImp.DoomBuilder.Controls;
 using CodeImp.DoomBuilder.Plugins;
 using CodeImp.DoomBuilder.TagExplorer.Controls;
 
-namespace CodeImp.DoomBuilder
+namespace CodeImp.DoomBuilder.TagExplorer
 {
     public sealed class BuilderPlug : Plug
     {

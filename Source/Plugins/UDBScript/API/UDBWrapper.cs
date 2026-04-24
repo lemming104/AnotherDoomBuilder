@@ -25,7 +25,7 @@ using System;
 using System.Dynamic;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.UDBScript.Wrapper
+namespace CodeImp.DoomBuilder.UDBScript.API
 {
     internal class UDBWrapper
     {
@@ -227,7 +227,7 @@ namespace CodeImp.DoomBuilder.UDBScript.Wrapper
             data = new DataWrapper();
             line2d = TypeReference.CreateTypeReference(engine, typeof(Line2DWrapper));
             map = new MapWrapper();
-            univalue = TypeReference.CreateTypeReference(engine, typeof(CodeImp.DoomBuilder.Map.UniValue));
+            univalue = TypeReference.CreateTypeReference(engine, typeof(Map.UniValue));
             vector2d = TypeReference.CreateTypeReference(engine, typeof(Vector2DWrapper));
             vector3d = TypeReference.CreateTypeReference(engine, typeof(Vector3DWrapper));
 

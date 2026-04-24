@@ -25,7 +25,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Dynamic;
 
-namespace CodeImp.DoomBuilder.UDBScript.Wrapper
+namespace CodeImp.DoomBuilder.UDBScript.API
 {
     /// <summary>
     /// A blockmap is used to retrieve a collection of localized map elements (things, linedefs, sectors, vertices). It can help to significantly speed up costly computations that would otherwise be applied to a large portion of the map elements. The blockmap divides the map into rectangular blocks and computes which map elements are fully or partially in each block. Then you can query the blockmap about only some of those blocks, and perform any further actions only on the map elements that are in those blocks.

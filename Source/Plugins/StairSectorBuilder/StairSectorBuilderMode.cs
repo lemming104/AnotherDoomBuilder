@@ -16,6 +16,7 @@ using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Geometry;
 using CodeImp.DoomBuilder.Map;
 using CodeImp.DoomBuilder.Rendering;
+using CodeImp.DoomBuilder.StairSectorBuilderMode;
 using CodeImp.DoomBuilder.Windows;
 using System;
 using System.Collections;
@@ -24,7 +25,7 @@ using System.Collections.Specialized;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace CodeImp.DoomBuilder.StairSectorBuilderMode
+namespace CodeImp.DoomBuilder.StairSectorBuilder
 {
     //[EditMode(DisplayName = "Stair Sector Builder",
     //          Volatile = true)]
