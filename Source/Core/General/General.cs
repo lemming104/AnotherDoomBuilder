@@ -872,7 +872,7 @@ namespace CodeImp.DoomBuilder
                         if (identity != null)
                         {
                             WindowsPrincipal principal = new WindowsPrincipal(identity);
-                            DirectorySecurity security = Directory.GetAccessControl(apppath);
+                            DirectorySecurity security = new DirectoryInfo(apppath).GetAccessControl();
                             AuthorizationRuleCollection authrules = security.GetAccessRules(true, true, typeof(SecurityIdentifier));
 
                             foreach (FileSystemAccessRule accessrule in authrules)
