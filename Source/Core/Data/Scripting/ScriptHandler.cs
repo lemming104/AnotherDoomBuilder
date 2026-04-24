@@ -1,16 +1,15 @@
 ﻿
+using CodeImp.DoomBuilder.Compilers;
+using CodeImp.DoomBuilder.Config;
+using CodeImp.DoomBuilder.Controls;
+using CodeImp.DoomBuilder.IO;
+using ScintillaNET;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using CodeImp.DoomBuilder.Compilers;
-using CodeImp.DoomBuilder.Config;
-using CodeImp.DoomBuilder.Controls;
-using CodeImp.DoomBuilder.IO;
-
-using ScintillaNET;
 
 namespace CodeImp.DoomBuilder.Data.Scripting
 {

@@ -1,7 +1,7 @@
 ﻿using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Map;
-using CodeImp.DoomBuilder.Types;
 using CodeImp.DoomBuilder.TagExplorer.Controls;
+using CodeImp.DoomBuilder.Types;
 using System;
 
 namespace CodeImp.DoomBuilder.TagExplorer

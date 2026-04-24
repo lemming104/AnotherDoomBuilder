@@ -1,5 +1,5 @@
-﻿using CodeImp.DoomBuilder.ThreeDFloorMode.Windows;
-using CodeImp.DoomBuilder.Map;
+﻿using CodeImp.DoomBuilder.Map;
+using CodeImp.DoomBuilder.ThreeDFloorMode.Windows;
 using System;
 using System.Collections.Generic;
 using System.Data;
