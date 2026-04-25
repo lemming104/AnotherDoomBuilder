@@ -61,11 +61,31 @@ namespace CodeImp.DoomBuilder.Map
             if ((this.blocksize != blocksize) || (this.blocksize <= 1)) throw new ArgumentException("Block size must be a power of 2 greater than 1");
             rangelefttop = new Vector2D(range.Left, range.Top);
 
-            // Simply casting to int can result int the blockmap being too small (for example for off-grid vertices), so round the dimensions
-            int left = range.Left < 0 ? (int)Math.Floor(range.Left) : (int)Math.Ceiling(range.Left);
-            int right = range.Right < 0 ? (int)Math.Floor(range.Right) : (int)Math.Ceiling(range.Right);
-            int top = range.Top < 0 ? (int)Math.Floor(range.Top) : (int)Math.Ceiling(range.Top);
-            int bottom = range.Bottom < 0 ? (int)Math.Floor(range.Bottom) : (int)Math.Ceiling(range.Bottom);
+            int top = 0, bottom = 0, left = 0, right = 0;
+
+            // lemming104: Avoid arithmetic saturation behavior change in .NET 9.0+; this mainly shows up on new empty maps.
+            if (range.Width == float.NegativeInfinity || range.Height == float.PositiveInfinity)
+            {
+                top = bottom = int.MinValue;
+            }
+            else
+            {
+                // Simply casting to int can result int the blockmap being too small (for example for off-grid vertices), so round the dimensions
+                left = range.Left < 0 ? (int)Math.Floor(range.Left) : (int)Math.Ceiling(range.Left);
+                right = range.Right < 0 ? (int)Math.Floor(range.Right) : (int)Math.Ceiling(range.Right);
+            }
+
+
+            if (range.Height == float.NegativeInfinity || range.Height == float.PositiveInfinity)
+            {
+                right = left = int.MinValue;
+            }
+            else
+            {
+                // Simply casting to int can result int the blockmap being too small (for example for off-grid vertices), so round the dimensions
+                top = range.Top < 0 ? (int)Math.Floor(range.Top) : (int)Math.Ceiling(range.Top);
+                bottom = range.Bottom < 0 ? (int)Math.Floor(range.Bottom) : (int)Math.Ceiling(range.Bottom);
+            }
 
             Point lefttop = new Point(left >> blocksizeshift, top >> blocksizeshift);
             Point rightbottom = new Point(right >> blocksizeshift, bottom >> blocksizeshift);
