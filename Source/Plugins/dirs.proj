@@ -9,6 +9,7 @@
     <ProjectReference Include="CommentsPanel\CommentsPanel.csproj" />
     <ProjectReference Include="ImageDrawingExample\ImageDrawingExample.csproj" />
     <ProjectReference Include="NodesViewer\NodesViewer.csproj" />
+    <ProjectReference Include="RejectExplorer\RejectExplorer.csproj" />
     <ProjectReference Include="SoundPropagationMode\SoundPropagation.csproj" />
     <ProjectReference Include="StairSectorBuilder\StairSectorBuilder.csproj" />
     <ProjectReference Include="TagExplorer\TagExplorer.csproj" />

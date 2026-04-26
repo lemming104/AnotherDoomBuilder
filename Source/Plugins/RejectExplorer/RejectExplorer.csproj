@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>CodeImp.DoomBuilder.RejectExplorer</RootNamespace>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Hints.cfg" />
+    <EmbeddedResource Include="Resources\reject.png" />
+    <EmbeddedResource Include="Resources\ColorManagement.png" />
+  </ItemGroup>
+</Project>
