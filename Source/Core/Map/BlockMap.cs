@@ -61,17 +61,25 @@ namespace CodeImp.DoomBuilder.Map
             if ((this.blocksize != blocksize) || (this.blocksize <= 1)) throw new ArgumentException("Block size must be a power of 2 greater than 1");
             rangelefttop = new Vector2D(range.Left, range.Top);
 
-            // Simply casting to int can result int the blockmap being too small (for example for off-grid vertices), so round the dimensions
-            int left = range.Left < 0 ? (int)Math.Floor(range.Left) : (int)Math.Ceiling(range.Left);
-            int right = range.Right < 0 ? (int)Math.Floor(range.Right) : (int)Math.Ceiling(range.Right);
-            int top = range.Top < 0 ? (int)Math.Floor(range.Top) : (int)Math.Ceiling(range.Top);
-            int bottom = range.Bottom < 0 ? (int)Math.Floor(range.Bottom) : (int)Math.Ceiling(range.Bottom);
+            var left = BlockMapClamp(range.Left);
+            var right = BlockMapClamp(range.Right);
+            var top = BlockMapClamp(range.Top);
+            var bottom = BlockMapClamp(range.Bottom);
+
+            left = Math.Min(left, right);
+            top = Math.Min(top, bottom);
 
             Point lefttop = new Point(left >> blocksizeshift, top >> blocksizeshift);
             Point rightbottom = new Point(right >> blocksizeshift, bottom >> blocksizeshift);
             size = new Size(rightbottom.X - lefttop.X + 1, rightbottom.Y - lefttop.Y + 1);
             blockmap = new BE[size.Width, size.Height];
             Clear();
+        }
+
+        private static int BlockMapClamp(float value)
+        {
+            value = value < 0 ? (float)Math.Floor(value) : (float)Math.Ceiling(value);
+            return (int)Math.Max(Math.Min(short.MaxValue, value), short.MinValue);
         }
 
         // Disposer

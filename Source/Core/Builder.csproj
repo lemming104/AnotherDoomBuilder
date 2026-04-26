@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net10.0-windows</TargetFramework>
     <PlatformTarget>x64</PlatformTarget>
     <OutputType>WinExe</OutputType>
     <RootNamespace>CodeImp.DoomBuilder</RootNamespace>
@@ -16,6 +16,7 @@
     <OutputPath>$(MSBuildThisFileDirectory)bin</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <NoWarn>WFO1000</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -140,12 +141,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Management" Version="10.0.6" />
-    <PackageReference Include="System.Resources.Extensions" Version="10.0.6" />
     <PackageReference Include="Scintilla.NET" Version="5.3.2.9" />
     <PackageReference Include="SharpCompress" Version="0.47.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="System.Design" />
   </ItemGroup>
 </Project>
