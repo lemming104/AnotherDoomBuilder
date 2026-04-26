@@ -33,96 +33,96 @@ using CodeImp.DoomBuilder.Rendering;
 
 namespace CodeImp.DoomBuilder.RejectExplorer
 {
-	public struct ColorSettings
-	{
-		public int Default;
-		public int Highlight;
-		public int Bidirectional;
-		public int UnidirectionalFrom;
-		public int UnidirectionalTo;
-	}
+    public struct ColorSettings
+    {
+        public int Default;
+        public int Highlight;
+        public int Bidirectional;
+        public int UnidirectionalFrom;
+        public int UnidirectionalTo;
+    }
 
-	internal class ToastMessages
-	{
-		public static readonly string REJECTEXPLORER = "rejectexplorer";
-	}
+    internal class ToastMessages
+    {
+        public static readonly string REJECTEXPLORER = "rejectexplorer";
+    }
 
-	public class BuilderPlug : Plug
-	{
-		#region ================== Variables
+    public class BuilderPlug : Plug
+    {
+        #region ================== Variables
 
-		// Static instance. We can't use a real static class, because BuilderPlug must
-		// be instantiated by the core, so we keep a static reference. (this technique
-		// should be familiar to object-oriented programmers)
-		private static BuilderPlug me;
+        // Static instance. We can't use a real static class, because BuilderPlug must
+        // be instantiated by the core, so we keep a static reference. (this technique
+        // should be familiar to object-oriented programmers)
+        private static BuilderPlug me;
 
-		private MenusForm menusform;
+        private MenusForm menusform;
 
-		private ColorSettings defaultColorSettings;
-		private ColorSettings colorSettings;
+        private ColorSettings defaultColorSettings;
+        private ColorSettings colorSettings;
 
-		#endregion
+        #endregion
 
-		#region ================== Properties
+        #region ================== Properties
 
-		// This plugin relies on some functionality that wasn't there in older versions
-		public override int MinimumRevision { get { return 2651; } }
+        // This plugin relies on some functionality that wasn't there in older versions
+        public override int MinimumRevision { get { return 2651; } }
 
-		// Static property to access the BuilderPlug
-		public static BuilderPlug Me { get { return me; } }
+        // Static property to access the BuilderPlug
+        public static BuilderPlug Me { get { return me; } }
 
-		public MenusForm MenusForm { get { return menusform; } }
+        public MenusForm MenusForm { get { return menusform; } }
 
-		public ColorSettings ColorSettings { get { return colorSettings; } internal set { colorSettings = value; } }
-		public ColorSettings DefaultColorSettings { get { return defaultColorSettings; } }
+        public ColorSettings ColorSettings { get { return colorSettings; } internal set { colorSettings = value; } }
+        public ColorSettings DefaultColorSettings { get { return defaultColorSettings; } }
 
-		#endregion
+        #endregion
 
-		#region ================== Methods
+        #region ================== Methods
 
-		// This event is called when the plugin is initialized
-		public override void OnInitialize()
-		{
-			base.OnInitialize();
+        // This event is called when the plugin is initialized
+        public override void OnInitialize()
+        {
+            base.OnInitialize();
 
-			General.Actions.BindMethods(this);
+            General.Actions.BindMethods(this);
 
-			// Register toasts
-			General.ToastManager.RegisterToast(ToastMessages.REJECTEXPLORER, "Reject Explorer", "Toasts related to Reject Explorer mode");
+            // Register toasts
+            General.ToastManager.RegisterToast(ToastMessages.REJECTEXPLORER, "Reject Explorer", "Toasts related to Reject Explorer mode");
 
-			defaultColorSettings = new ColorSettings
-			{
-				Default = new PixelColor(255, 160, 160, 160).ToInt(), // Grey
-				Highlight = new PixelColor(255, 0, 192, 0).ToInt(), // Green
-				Bidirectional = new PixelColor(255, 0, 160, 0).ToInt(), // Darker green
-				UnidirectionalFrom = new PixelColor(255, 160, 160, 0).ToInt(), // Yellow
-				UnidirectionalTo = new PixelColor(255, 160, 0, 160).ToInt() // Purple
-			};
+            defaultColorSettings = new ColorSettings
+            {
+                Default = new PixelColor(255, 160, 160, 160).ToInt(), // Grey
+                Highlight = new PixelColor(255, 0, 192, 0).ToInt(), // Green
+                Bidirectional = new PixelColor(255, 0, 160, 0).ToInt(), // Darker green
+                UnidirectionalFrom = new PixelColor(255, 160, 160, 0).ToInt(), // Yellow
+                UnidirectionalTo = new PixelColor(255, 160, 0, 160).ToInt() // Purple
+            };
 
-			colorSettings = new ColorSettings
-			{
-				Default =General.Settings.ReadPluginSetting("colors.default", defaultColorSettings.Default),
-				Highlight = General.Settings.ReadPluginSetting("colors.highlight", defaultColorSettings.Highlight),
-				Bidirectional = General.Settings.ReadPluginSetting("colors.bidirectional", defaultColorSettings.Bidirectional),
-				UnidirectionalFrom = General.Settings.ReadPluginSetting("colors.unidirectionalfrom", defaultColorSettings.UnidirectionalFrom),
-				UnidirectionalTo = General.Settings.ReadPluginSetting("colors.unidirectionalto", defaultColorSettings.UnidirectionalTo)
-			};
+            colorSettings = new ColorSettings
+            {
+                Default = General.Settings.ReadPluginSetting("colors.default", defaultColorSettings.Default),
+                Highlight = General.Settings.ReadPluginSetting("colors.highlight", defaultColorSettings.Highlight),
+                Bidirectional = General.Settings.ReadPluginSetting("colors.bidirectional", defaultColorSettings.Bidirectional),
+                UnidirectionalFrom = General.Settings.ReadPluginSetting("colors.unidirectionalfrom", defaultColorSettings.UnidirectionalFrom),
+                UnidirectionalTo = General.Settings.ReadPluginSetting("colors.unidirectionalto", defaultColorSettings.UnidirectionalTo)
+            };
 
-			menusform = new MenusForm();
+            menusform = new MenusForm();
 
-			// Keep a static reference
-			me = this;
-		}
+            // Keep a static reference
+            me = this;
+        }
 
-		// This is called when the plugin is terminated
-		public override void Dispose()
-		{
-			base.Dispose();
+        // This is called when the plugin is terminated
+        public override void Dispose()
+        {
+            base.Dispose();
 
-			// This must be called to remove bound methods for actions.
-			General.Actions.UnbindMethods(this);
-		}
+            // This must be called to remove bound methods for actions.
+            General.Actions.UnbindMethods(this);
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
